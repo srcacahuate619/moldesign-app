@@ -1,18 +1,19 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "MolDesign",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "identifier": "ai.moldesign.app",
   "build": {
     "frontendDist": "../out",
     "devUrl": "http://localhost:3000",
     "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run check:runtime-arbol && npm run check:csp && npm run check:rescoring-manifest && npm run check:m5-manifest && npm run check:goldens && npm run check:pesos-stacking && npm run check:openbabel-fuente && npm run stage:desktop && npm run check:openbabel && npm run verify:desktop-runtime && npm run check:evaluation-runtime && npm run check:dossier-embebido && npm run build:desktop && npm run check:exported-api-url && npm run check:no-remote-assets"
+    "beforeBuildCommand": "npm run check:runtime-arbol && npm run check:csp && npm run check:rescoring-manifest && npm run check:m5-manifest && npm run check:goldens && npm run check:pesos-stacking && npm run check:openbabel-fuente && npm run check:molcy-motor && npm run stage:desktop && npm run check:openbabel && npm run verify:desktop-runtime && npm run check:evaluation-runtime && npm run check:dossier-embebido && npm run build:desktop && npm run check:exported-api-url && npm run check:no-remote-assets"
   },
   "app": {
     "withGlobalTauri": true,
     "windows": [
       {
+        "create": false,
         "title": "MolDesign",
         "width": 1400,
         "height": 900,
@@ -23,7 +24,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; connect-src http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* tauri://localhost https://tauri.localhost; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: blob:; font-src 'self' data:; frame-src 'self' blob:; worker-src 'self' blob:",
+      "csp": "default-src 'self'; connect-src 'self' ipc: http://ipc.localhost https://api.devnet.solana.com wss://api.devnet.solana.com http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* tauri://localhost http://tauri.localhost https://tauri.localhost data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' http://127.0.0.1:* http://localhost:*; frame-src 'self' blob:; worker-src 'self' blob:",
       "dangerousDisableAssetCspModification": [
         "style-src"
       ]

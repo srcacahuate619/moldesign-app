@@ -1,0 +1,69 @@
+{
+  "success": true,
+  "message": "Target personalizado USR_6B8776 curado e ingestado exitosamente.",
+  "target": {
+    "pdb_id": "USR_6B8776",
+    "name": "FEP09 cdk2__hueco_en_el_sitio__0",
+    "chain": "A",
+    "grid_center_x": 5.8663,
+    "grid_center_y": 43.854,
+    "grid_center_z": 50.4917,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0,
+    "requires_cns": false,
+    "is_prepared": true,
+    "prepared_file_path": "targets/USR_6B8776/prepared-7dbbb794474801a1a91c8a1c89b6ed0042e6d65100a675e13240687a198e1e8e.pdbqt",
+    "is_hot": false,
+    "is_private": true,
+    "is_community": false,
+    "is_anti_target": false,
+    "anti_target_risk": null,
+    "creator_id": "84ccdacb-749d-45e9-a9ab-26c5968511d5",
+    "creator_username": "Desktop User",
+    "preparation_parent_id": null,
+    "receptor_source_sha256": "e554795f44ed1fd0d827ccfabe2a907fb5e6d5543e7b18d87fa4cb5275ee0d79",
+    "prepared_receptor_sha256": "cdcd790e344ce580f07a4932fdfea97306f8effc5fc6278fe15812dc08ddb0f5",
+    "preparation_fingerprint": "59e4ff650a6e4a70b7b2c3308447228672490d3b273e265698a91b07761d2624",
+    "preparation_recipe": {
+      "schema_version": 1,
+      "mode": "respect_user_preparation",
+      "chain": "A",
+      "grid_center": [
+        5.8663,
+        43.854,
+        50.4917
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "protonation": "declared_by_user",
+      "waters": "kept_as_uploaded",
+      "altloc": "majority_or_default"
+    },
+    "preparation_toolchain": {
+      "moldesign_preparation_policy": "1",
+      "meeko": "0.7.1"
+    },
+    "hotspots": [],
+    "site_chains": [
+      "A"
+    ],
+    "site_chain_atoms": {
+      "A": 608
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": null,
+    "cofactors_whitelist": [],
+    "organism": null,
+    "resolution": 2.5,
+    "spearman_rho": null,
+    "id": "1ad2c9e6-6f9c-4602-9199-acc10a41a4a1",
+    "created_at": "2026-10-11T22:36:38",
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5
+  }
+}

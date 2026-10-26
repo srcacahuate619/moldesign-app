@@ -1,0 +1,53 @@
+{
+  "experimento": "CAL-D-01-R4-2-VMAT2-8T69",
+  "declarado_en": "2026-10-25T02:57:53+00:00",
+  "decide": false,
+  "decision_de_P1": "GO",
+  "advertencia_validacion_fisica_no_evaluada": {
+    "n": 1,
+    "padres": [
+      {
+        "padre": "4-67",
+        "stage_status": "not_evaluated",
+        "reason_code": "VALIDADOR_EXCEDIO_EL_PLAZO"
+      }
+    ]
+  },
+  "stage_status_del_panel": {
+    "passed": 46,
+    "review": 37,
+    "failed": 5,
+    "not_evaluated": 1
+  },
+  "sensibilidad_sin_advertidos": {
+    "n": 88,
+    "excluidos": [
+      "4-67"
+    ],
+    "rho": 0.39076061625500513,
+    "rho_peor": 0.32048945033796916,
+    "ic95_rho": [
+      0.21864194694932657,
+      0.5368413954571208
+    ],
+    "ic95_rho_peor": [
+      0.1385520172837316,
+      0.4730720193785577
+    ],
+    "bootstrap": {
+      "n_replicas": 10000,
+      "descartadas": 0,
+      "semilla": 20261021
+    }
+  },
+  "reproducibilidad_frente_a_R4": {
+    "padres_comunes": 88,
+    "misma_energia_top1": 88,
+    "tolerancia_kcal": 0.001,
+    "max_diferencia_kcal": 0.0,
+    "difieren": [],
+    "solo_en_R4_2": [
+      "4-67"
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+# target=USR_984DA6
+# receptor=D:\moldesign-build\.worktrees\met01\scripts\met01\tmp\c-p1-18dd990311d63ec4\tmp\vina-1eb98838-USR_984DA6-zlrr631j\receptor_snapshot.pdbqt
+# ligand=D:\moldesign-build\.worktrees\met01\scripts\met01\tmp\c-p1-18dd990311d63ec4\tmp\tmpkq3kp49j.pdbqt
+# exhaustiveness=8
+# num_modes=9
+# seed=44
+
+STDOUT:
+AutoDock Vina v1.2.7-trace
+
+#################################################################
+
+# If you used AutoDock Vina in your work, please cite:          #
+
+#                                                               #
+
+# J. Eberhardt, D. Santos-Martins, A. F. Tillack, and S. Forli  #
+
+# AutoDock Vina 1.2.0: New Docking Methods, Expanded Force      #
+
+# Field, and Python Bindings, J. Chem. Inf. Model. (2021)       #
+
+# DOI 10.1021/acs.jcim.1c00203                                  #
+
+#                                                               #
+
+# O. Trott, A. J. Olson,                                        #
+
+# AutoDock Vina: improving the speed and accuracy of docking    #
+
+# with a new scoring function, efficient optimization and       #
+
+# multithreading, J. Comp. Chem. (2010)                         #
+
+# DOI 10.1002/jcc.21334                                         #
+
+#                                                               #
+
+# Please see https://github.com/ccsb-scripps/AutoDock-Vina for  #
+
+# more information.                                             #
+
+#################################################################
+
+
+
+Scoring function : vina
+
+Rigid receptor: D:\moldesign-build\.worktrees\met01\scripts\met01\tmp\c-p1-18dd990311d63ec4\tmp\vina-1eb98838-USR_984DA6-zlrr631j\receptor_snapshot.pdbqt
+
+Ligand: D:\moldesign-build\.worktrees\met01\scripts\met01\tmp\c-p1-18dd990311d63ec4\tmp\tmpkq3kp49j.pdbqt
+
+Grid center: X -3.857 Y 5.196 Z 14.831
+
+Grid size  : X 22 Y 22 Z 22
+
+Grid space : 0.375
+
+Exhaustiveness: 8
+
+CPU: 4
+
+Verbosity: 1
+
+
+
+Computing Vina grid ... done.
+
+Performing docking (random seed: 44) ... 
+
+0%   10   20   30   40   50   60   70   80   90   100%
+
+|----|----|----|----|----|----|----|----|----|----|
+
+***************************************************
+
+
+
+mode |   affinity | dist from best mode
+
+     | (kcal/mol) | rmsd l.b.| rmsd u.b.
+
+-----+------------+----------+----------
+
+   1       -8.087          0          0
+
+   2       -7.526      3.239      5.338
+
+   3        -7.06      4.103      5.971
+
+   4       -6.943      4.257      6.042
+
+   5       -6.858      2.976      5.024
+
+   6       -6.767      4.462       6.46
+
+   7       -6.727       3.93      6.122
+
+   8       -6.718      3.345      6.428
+
+   9       -6.713      3.878      6.856
+
+
+
+STDERR:
+

@@ -283,7 +283,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
 
               {/* ── 2. Idioma / Language (Top-Level Rank) ──────────── */}
               <section className="border-t pt-5" style={{ borderColor: "var(--border)" }}>
-                <SectionLabel icon={Globe} label="Idioma / Language" />
+                <SectionLabel icon={Globe} label={t("op_language")} />
                 <div className="ml-6 mt-3">
                   <div className="relative w-full">
                     <select
@@ -345,10 +345,10 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                         border: "1px solid var(--border)",
                         color: "var(--text-muted)",
                       }}
-                      title="Restablecer ruta predeterminada"
+                      title={t("op_reset_default_path")}
                     >
                       <RefreshCw size={12} />
-                      Default
+                      {t("op_path_default")}
                     </button>
                   </div>
                   <p className="font-mono text-[10px] text-zinc-400">
@@ -407,14 +407,15 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                         color: state.activeProviderId ? "#22C55E" : "var(--text-muted)",
                       }}
                     >
-                      {state.activeProviderId ? "OK" : "N/A"}
+                      {state.activeProviderId ? t("op_provider_configured") : "N/A"}
                     </span>
                   </button>
 
                   <button
                     onClick={() => {
+                      // Abrir el chat no cambia de proveedor: antes forzaba «local»
+                      // sólo en pantalla y pisaba la elección de la cuenta.
                       dispatch({ type: "SET_PANEL_OPEN", open: !state.isPanelOpen });
-                      if (!state.isPanelOpen) dispatch({ type: "SET_ACTIVE_PROVIDER", id: "local" });
                       onClose();
                     }}
                     className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold uppercase tracking-wider transition-colors rounded-lg"
@@ -460,7 +461,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                           fontSize: "10px",
                           fontWeight: 700
                         }}>
-                          {status === "ready" ? "Listo" : status === "downloading" ? "Descargando" : status === "extracting" ? "Extrayendo" : status === "error" ? "Error" : t("c_pendiente")}
+                          {status === "ready" ? t("pn_prep_listo") : status === "downloading" ? t("op_download_downloading") : status === "extracting" ? t("op_download_extracting") : status === "error" ? t("error") : t("c_pendiente")}
                         </span>
                       </div>
                     );
@@ -521,7 +522,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                           className="px-3 py-1.5 font-mono text-xs font-bold uppercase tracking-wider rounded transition-colors"
                           style={{ backgroundColor: "#ef4444", color: "#fff", border: "none", cursor: "pointer" }}
                         >
-                          {resetLoading ? "Limpiando..." : t("auto_9340a078aa31")}
+                          {resetLoading ? t("op_data_clearing") : t("auto_9340a078aa31")}
                         </button>
                         <button
                           onClick={() => setResetConfirm(false)}

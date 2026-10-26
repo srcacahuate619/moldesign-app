@@ -18,6 +18,7 @@
   ],
   "_nota_categoria_vs_etiqueta": "Un registro tiene UNA categoria y N etiquetas. RS-14-R1 y MF-26 son correcciones propias, pero lo que importa de ellos es que REFUTAN: van a la columna de refutaciones con la etiqueta corrigendum, no escondidos en una capa lateral.",
   "overrides": {
+    "FEP-06-PRE": "hallazgo",
     "FND-01-SMOKE": "medicion",
     "CAMPANA-2-PLAN": "prerregistro",
     "D-MF-HARD": "medicion",
@@ -78,6 +79,7 @@
   },
   "_nota_reemplazos": "El mapa reemplazos declara, en forma legible por maquina, que las cifras selladas de un registro fueron reemplazadas por otro. Va aparte de las etiquetas porque no es una clasificacion editorial sino un dato del contrato: el constructor lo emite como reemplazado_por y la vista de Ciencia pinta el aviso en la tarjeta y en la ficha. Un lector que llega a MF-33-PB por un enlace directo tiene que ver que su 2.64% ya no vale, sin depender de que alguien escribiera un parrafo.",
   "reemplazos": {
+    "MF-02B": "MF-02B-R1",
     "MF-33-PB": "MF-33-H-COR",
     "MF-33-TOP1": "MF-33-H-COR"
   },

@@ -1,0 +1,277 @@
+{
+ "id": "CAL-D-01-R4B-VMAT2-8T69",
+ "meta": {
+  "titulo": "VMAT2 (8T69) sin el compuesto 4-67: el criterio se cumple, pero se enmendó tras ver los scores",
+  "entradilla": "Reanálisis de CAL-D-01-R4 sin el compuesto que el producto no calculó. Con 88 padres, ρ = 0,39 (IC 95 % 0,22–0,54) y ρ de peor caso = 0,32 (IC 95 % 0,14–0,47): el criterio enmendado se cumple, pero la enmienda se redactó después de ver los scores y no confirma nada."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE por construcción.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El criterio enmendado se cumple; eso no basta, porque se enmendó después de ver los datos. No acopla nada y no promociona 8T69.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué es",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "CAL-D-01-R4-VMAT2-8T69",
+     "m": "codigo"
+    },
+    {
+     "t": " terminó NO_GO formal porque su registro exigía cero fallos persistentes y el compuesto 4-67 (biciclo[1.1.1]pentano) no completó el pipeline del producto (1200 s, dos intentos). Los 88 scores, la puerta de pose (5 de 5) y los números ya existían cuando se escribió esta enmienda. R4B los reanaliza con ",
+     "m": null
+    },
+    {
+     "t": "una sola",
+     "m": "fuerte"
+    },
+    {
+     "t": " enmienda:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "cita",
+   "frag": [
+    {
+     "t": "Un fallo persistente ",
+     "m": null
+    },
+    {
+     "t": "del producto",
+     "m": "fuerte"
+    },
+    {
+     "t": " en un compuesto concreto, declarado con su identificador y su causa, no impide el criterio si quedan al menos 85 padres evaluados. El compuesto se publica como excluido.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Todo lo demás es el registro previo ",
+     "m": null
+    },
+    {
+     "t": "0a1a4aed…",
+     "m": "codigo"
+    },
+    {
+     "t": " sin cambios.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Resultado",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Valor",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Padres evaluados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "88 (excluido 4-67)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "ρ de Spearman",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,391, IC 95 % [0,219; 0,537]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "ρ de peor caso (lotes)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,320, IC 95 % [0,139; 0,473]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Concordancia de pares con cociente de Ki > F",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,637, IC 95 % [0,576; 0,694]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Criterio enmendado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "cumplido (los dos límites inferiores > 0)",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los números coinciden exactamente con los de R4: el reanálisis lo comprueba antes de escribirlos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué no es un GO",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Una regla que se cambia después de ver el resultado y luego lo cumple no demuestra nada que la regla original no hubiera mostrado. Esto es el quinto paso de la misma decisión (1IAS, 8WRE, 8T69, regla nueva R4, R4B), con un solo resultado computacional, y por eso la decisión registrada es INCONCLUSIVE aunque el criterio se cumpla. Cambiarla a GO no promocionaría nada: el catálogo exige un protocolo sellado antes de acoplar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué haría falta para promocionar 8T69",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Un protocolo confirmatorio nuevo, escrito antes de acoplar, que ya contemple los compuestos que el producto no calcula (4-67 y su biciclopentano); que el catálogo, el dossier y Preparación puedan llevar la ρ de peor caso y la condición de lote; y, idealmente, los Ki por compuesto con su lote o una prueba de comparabilidad.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo mismo que R4: no hay comparabilidad entre lotes, afinidad absoluta ni generalización, y se desconoce qué habría dado 4-67.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Datos y reproducción en ",
+     "m": null
+    },
+    {
+     "t": "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "scripts/cal_d01r4/reanalisis_r4b.py",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/CAL-D-01-R4B-VMAT2-8T69.md"
+}

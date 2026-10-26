@@ -129,48 +129,24 @@
       "m": "fuerte"
      },
      {
-      "t": ", con un límite de 0.1 Å. La",
+      "t": ", con un límite de 0.1 Å. La deduplicación no perdió ni una pose buena;",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "deduplicación no perdió ni una pose buena;",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
-      "t": "el intervalo de confianza por componentes, [−8.80, +4.00], y el test de McNemar",
+      "t": "el intervalo de confianza por componentes, [−8.80, +4.00], y el test de McNemar (p = 0.481) ",
+      "m": null
+     },
+     {
+      "t": "no establecen superioridad ni degradación",
+      "m": "fuerte"
+     },
+     {
+      "t": ".",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "(p = 0.481) ",
-     "m": null
-    },
-    {
-     "t": "no establecen superioridad ni degradación",
-     "m": "fuerte"
-    },
-    {
-     "t": ".",
-     "m": null
-    }
    ]
   },
   {

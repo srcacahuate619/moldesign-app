@@ -1,0 +1,1 @@
+{"rdkit_atomos": 51, "openff_atomos": 52, "atomos_con_H_implicito": [[7, "S", 1, 1, 0]], "atomo_extra": {"indice": 51, "elemento": "H", "unido_a": [[7, "S"]]}, "G0_sdf_iguales": 115, "n_filas": 115, "correspondencia_identica_sin_aromaticidad": 115}

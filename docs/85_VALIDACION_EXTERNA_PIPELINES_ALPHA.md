@@ -1,5 +1,7 @@
 # 85 — Validación externa de los pipelines M4, M5-Zn y Péptidos (alpha)
 
+> **Nota de reubicación (2026-10-11).** La copia `bundle-copy` se borró el 2026-10-11 (se regenera con `stage:desktop`). Los comandos que la citan se ejecutan tras regenerarla. Índice: [REUBICACIONES_2026-10-11.md](REUBICACIONES_2026-10-11.md).
+
 ## PILOT-0
 
 **Commit auditado:** `16d04521bfcac5a9ef8ad68da3c52376655368b6`
@@ -14,7 +16,7 @@ cualificante.
 
 > **NO EJECUTADO EN VM.** No hay hipervisor en este host (Hyper-V ausente, sin
 > VirtualBox, sin VMware, WSL sin distribuciones). Lo ejecutado fue una copia
-> íntegra del bundle fuera del árbol fuente (`D:\moldesign-audit\bundle-copy`,
+> íntegra del bundle fuera del árbol fuente (`D:\moldesign-audit\bundle-copy` (borrado el 2026-10-11; se regenera con stage:desktop),
 > 35 051 ficheros, 1,754 GB). El §2 dice qué prueba y qué no prueba ese sustituto.
 
 ---

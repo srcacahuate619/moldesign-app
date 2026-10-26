@@ -259,25 +259,10 @@
       "m": "fuerte"
      },
      {
-      "t": ", y Vina no tiene tipo de átomo para B. Es un límite del motor, no",
+      "t": ", y Vina no tiene tipo de átomo para B. Es un límite del motor, no del experimento.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "del experimento.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "6MWA",
@@ -300,19 +285,18 @@
       "m": "codigo"
      },
      {
-      "t": " (20 torsiones, 56 átomos) **agotaron el",
+      "t": " (20 torsiones, 56 átomos) ",
+      "m": null
+     },
+     {
+      "t": "agotaron el tiempo límite",
+      "m": "fuerte"
+     },
+     {
+      "t": " de 1800 s.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "tiempo límite** de 1800 s.",
-     "m": null
-    }
    ]
   },
   {
@@ -435,6 +419,49 @@
      "t": ", que había llegado a lo mismo desde el otro lado: la geometría del grid no es buen predictor de la calidad del docking, ni para condenar un grid ni para reemplazarlo.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-150. La contención completa del ligando de referencia en una caja es un descriptor geométrico, no una condición necesaria para obtener una pose dentro de la tolerancia RMSD del endpoint. Se retira el techo de éxito derivado de esa contención y la imposibilidad atribuida al resto de casos, también para la caja de catálogo. El umbral de reparación fijado antes del experimento permanece como decisión operativa elegida; no se justifica como fracción de un techo geométrico demostrado.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

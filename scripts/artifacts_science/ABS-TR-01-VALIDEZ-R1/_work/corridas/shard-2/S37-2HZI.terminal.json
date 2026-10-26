@@ -1,0 +1,16 @@
+{
+  "id_r2": "S37",
+  "pdb": "2HZI",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 23.6,
+      "crudo": "S37-2HZI-intento1.json.gz",
+      "crudo_sha256": "ab332ed6c439d105ea72df6a6b23d9d9ca3cd5f4c34398b82baf24a2c30e0ca8"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S37-2HZI-intento1.json.gz",
+  "crudo_sha256": "ab332ed6c439d105ea72df6a6b23d9d9ca3cd5f4c34398b82baf24a2c30e0ca8",
+  "registrado_en": "2026-10-25T01:35:16+00:00"
+}

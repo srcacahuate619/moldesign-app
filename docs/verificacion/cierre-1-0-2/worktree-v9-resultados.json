@@ -1,0 +1,7 @@
+{
+  "segundos": 116.05,
+  "commit": "873d23071ebb2979c5dc66e663e10267792d541f",
+  "registro": "worktree-v9-test.log",
+  "comando": "npm run test:run",
+  "salida": 1
+}

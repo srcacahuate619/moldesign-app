@@ -10,6 +10,8 @@ import { MoleculeViewer3D } from "../../MoleculeViewer3D";
 
 export interface PoseComparisonDialogProps {
   readonly moleculeId: string;
+  /** Identidad de la corrida inspeccionada; no caer a la última proyección. */
+  readonly taskId?: string | null;
   readonly leftRank: number;
   readonly rightRank: number;
   readonly onClose: () => void;
@@ -32,6 +34,7 @@ export function extractPoseFromSdf(sdf: string, rank: number): string | null {
 
 export function PoseComparisonDialog({
   moleculeId,
+  taskId = null,
   leftRank,
   rightRank,
   onClose,
@@ -67,7 +70,7 @@ export function PoseComparisonDialog({
   useEffect(() => {
     let disposed = false;
     setState({ kind: "loading" });
-    Promise.all([getPoseFile(moleculeId), getProteinFile(moleculeId)])
+    Promise.all([getPoseFile(moleculeId, taskId), getProteinFile(moleculeId, taskId)])
       .then(([sdf, protein]) => {
         if (disposed) return;
         if (!sdf || !protein) {
@@ -99,7 +102,7 @@ export function PoseComparisonDialog({
     return () => {
       disposed = true;
     };
-  }, [leftRank, moleculeId, rightRank]);
+  }, [leftRank, moleculeId, rightRank, taskId]);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -127,11 +130,11 @@ export function PoseComparisonDialog({
           <div className="min-w-0">
             <div className="flex items-center gap-2 text-purple-300">
               <ArrowLeftRight size={17} aria-hidden="true" />
-              <h2 id="pose-comparison-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em]">
-                Comparar poses en 3D
+              <h2 id="pose-comparison-title" className="font-sans text-base font-bold uppercase tracking-[0.14em]">
+                {t("pr_pose_comparison_3d")}
               </h2>
             </div>
-            <p className="mt-1.5 text-xs leading-5 text-zinc-500">
+            <p className="mt-1.5 text-base leading-6 text-zinc-300 font-sans">
               {t("auto_ed5c43cd041b")}{leftRank} y #{rightRank}.
             </p>
           </div>
@@ -152,14 +155,14 @@ export function PoseComparisonDialog({
         {state.kind === "loading" && (
           <div className="flex min-h-72 flex-col items-center justify-center gap-3 px-5 text-zinc-400" role="status">
             <Loader2 className="h-6 w-6 animate-spin text-purple-300" aria-hidden="true" />
-            <p className="text-xs">{t("pn_recuperando_poses")}</p>
+            <p className="text-base font-sans leading-6">{t("pn_recuperando_poses")}</p>
           </div>
         )}
 
         {state.kind === "error" && (
           <div className="m-5 flex items-start gap-3 rounded-xl border border-amber-500/25 bg-amber-500/[0.05] p-4 text-amber-100" role="alert">
             <AlertTriangle size={18} className="mt-0.5 shrink-0 text-amber-300" aria-hidden="true" />
-            <p className="text-xs leading-5">{state.message}</p>
+            <p className="text-base leading-6 font-sans">{state.message}</p>
           </div>
         )}
 
@@ -176,11 +179,12 @@ export function PoseComparisonDialog({
 }
 
 function PoseViewport({ rank, poseData, proteinData }: { rank: number; poseData: string; proteinData: string }) {
+  const { t } = useLanguage();
   return (
     <article className="overflow-hidden rounded-xl border border-surface-800 bg-black">
       <header className="flex items-center justify-between border-b border-surface-800 px-3 py-2">
-        <h3 className="font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-200">Pose #{rank}</h3>
-        <span className="font-mono text-[10px] text-zinc-500">coordenadas registradas</span>
+        <h3 className="font-sans text-base font-bold uppercase tracking-wider text-zinc-200">{t("ev_mmgbsa_pose_numero", { rank })}</h3>
+        <span className="font-mono text-sm text-zinc-400">{t("pr_pose_coordinates_recorded")}</span>
       </header>
       <MoleculeViewer3D poseData={poseData} proteinData={proteinData} height={360} hideLegend />
     </article>

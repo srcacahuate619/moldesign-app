@@ -1,0 +1,27 @@
+{
+  "pdb": "5E92",
+  "semilla": 13,
+  "inicio": "2026-10-23T06:12:17+00:00",
+  "resultado": "auditada",
+  "task_id": "7ef19bfb-eeb9-481b-8ccc-c62c6e1f3533",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: MG A:602 (2.05 Å), MG A:603 (1.94 Å). En contacto con el ligando del cristal: MG A:602 (O2A–MG 2.05 Å), MG A:603 (O1G–MG 1.94 Å).",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal ANP A:601",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "27e3b85c7e988790cf1bdf5b4dc4830976ec0ab3cce1a1f0e3b11af44aca5dfe",
+  "afinidad_top1": -8.304,
+  "microestado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+  "microestado_coincide": true,
+  "semilla_declarada": 13,
+  "vina": "1.2.7",
+  "receptor_sha256": "a9dd7de0ce8ba346084171ceaaadf7014c7cbe6df49dd1b9e0a38dcbd93b93fd",
+  "segundos": 38.8,
+  "fin": "2026-10-23T06:12:56+00:00",
+  "brazo": "r1",
+  "commit": "f7c46736"
+}

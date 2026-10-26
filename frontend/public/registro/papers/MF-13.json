@@ -1,0 +1,485 @@
+{
+ "id": "MF-13",
+ "meta": {
+  "titulo": "INCONCLUSIVE: la referencia local no separa las causas de los fallos",
+  "entradilla": "La referencia relajada gana en 23 de 33 casos de COLOCACION: 0,6970, por debajo de 0,70; MF-13 conserva MIXTO e INCONCLUSIVE. MF-13-DIAG quedó NO_GO para su hipótesis y MF-13-ESCALA quedó GO descriptivo. Ninguno identifica una partición causal exhaustiva."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE en MF-13; NO_GO en MF-13-DIAG; GO de comprobación en MF-13-ESCALA.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Se mantienen las decisiones históricas. No se declara óptimo global, no se cierra toda búsqueda alternativa ni se cambia el producto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se hizo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La ausencia de una pose nativa entre candidatos conservados no responde si la función la preferiría al recibirla. MF-13 puntuó la referencia cristalográfica y una relajación local, comparándolas con el mejor candidato archivado. Era una prueba de preferencia entre referencias observadas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sobre 116 complejos de train se usaron score_only, local_only y repuntuación de la salida local, con PDBQT rígido, receptor/caja del conjunto v2, lado de 25 Å y semilla 42. El runner declara Vina 1.2.7 y Meeko 0.7.1; el manifiesto no fija sus ejecutables ni las versiones de todos los paquetes.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla de lectura conserva 0,70 como corte superior y 0,30 como inferior para la fracción de COLOCACION donde la referencia relajada tiene menor score. Entre ambos queda MIXTO. Los nombres originales de las ramas no demuestran mecanismos exhaustivos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MF-13, mismo protocolo de referencia rígida y comparación con el candidato conservado de cada complejo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Miembros",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Gana referencia relajada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Fracción",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "COLOCACION",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "33",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,6970",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CONTROL",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,5333",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "RESTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "68",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "45",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,6618",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El resultado primario queda en MIXTO. La referencia es una relajación local observada: que gane o pierda no determina dónde está el óptimo global ni qué produciría otro buscador.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "MF-13-DIAG: NO_GO de la hipótesis del sitio competidor",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El diagnóstico geométrico se restringió a 48 miembros de COLOCACION y CONTROL. Entre los 17 casos donde gana el decoy, 2 superan el corte de 8 Å entre centroides; la mediana de distancia es 1,951 Å y el delta mediano de enterramiento, 0,000.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Estos resultados no sostienen que un bolsillo distinto y más enterrado explique en general ese grupo observado. No convierten el fracaso de esa explicación en una prueba de que toda alternativa de preparación o búsqueda sea inútil. Las antiguas exclusiones narrativas sobre aguas y cofactores tampoco constituyen un descarte exhaustivo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "MF-13-ESCALA: GO del conteo conservado, no de una magnitud causal",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La relectura archivada conserva 116 filas. Su top-1 procede de molflex en 102, de flexible_redock en 12 y de ruta_a en 2. La primera fuente se clasifica como rígida; las otras, flexibles.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Conteo G2 de COLOCACION",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Gana referencia",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Denominador",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Fracción",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Todas las fuentes conservadas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "33",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,6970",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Sólo fuentes rígidas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "33",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,6970",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La igualdad del conteo conservado no corrige la magnitud de la ventaja en los casos con escalas diferentes. Tampoco valida el relato causal de MF-13. Las poses v2 de entrada no están aquí y el productor original podía omitir unidades sin poses; no se afirma reproducción completa del join desde sus entradas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se conserva la comparación de scores y la regla MIXTO de esta cohorte. No se interpreta como porcentajes de fallos causados exclusivamente por búsqueda o puntuación. No compara afinidades experimentales ni autoriza a usar el cristal como candidato de entrenamiento o selección.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vigentes al 2026-10-22.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-163:",
+      "m": "fuerte"
+     },
+     {
+      "t": " se retiran optimalidad global, la partición causal exhaustiva y «ninguna búsqueda ayuda». La preferencia entre una referencia local y un conjunto conservado tiene un alcance más estrecho.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-080:",
+      "m": "fuerte"
+     },
+     {
+      "t": " el join de ESCALA usa continue cuando faltan poses v2. El productor no garantiza el denominador completo ni detecta por sí solo toda ausencia o duplicación. Se conservan los agregados archivados, sin atribuirle una guarda posterior.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-081:",
+      "m": "fuerte"
+     },
+     {
+      "t": " ESCALA sí lee MF-13 y sí produce resultados por unidad, también dentro de sus métricas. La descripción correcta es relectura sin modificar MF-13, no ausencia de relectura.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-082:",
+      "m": "fuerte"
+     },
+     {
+      "t": " el sello de MF-13-PRE fija el runner, pero no el texto exacto de PREREGISTRO.md. El documento existe; su contenido no queda hash-vinculado por ese sello. El GO del PRE no es un resultado experimental.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-153:",
+      "m": "fuerte"
+     },
+     {
+      "t": " los ejemplos narrativos de score atribuidos a 1fkh y 1ew8 no correspondían a sus filas. La corrección de REC-09 compara los valores por identificador; no se reutilizan aquí los ejemplos erróneos ni se infiere un fallo de reproducción de los archivos.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Detalle: ",
+     "m": null
+    },
+    {
+     "t": "docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": ". No comprobado por mí: reconstrucción de puntuaciones o geometrías desde entradas moleculares y poses v2 originales. No se ejecutaron esos cálculos ni se fijó retrospectivamente una procedencia faltante.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-13.md"
+}

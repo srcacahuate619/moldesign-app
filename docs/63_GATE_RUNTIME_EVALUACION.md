@@ -6,7 +6,7 @@
 ## Resultado ejecutado
 
 - Script reproducible: `scripts/accept_evaluation_runtime.py`.
-- Evidencia local: `tmp/evaluation-runtime-20260830T180225Z/`.
+- Evidencia local: `tmp/evaluation-runtime-20260830T180225Z/` (no localizado en D: ni en F:).
 - Corrida: `22728caa-621d-4e90-a809-e7159fd88ad1`.
 - Molécula: aspirina; receptor `7E2Y`, cadena `R`; AutoDock Vina `1.2.7`.
 - Resultado persistido: `molecule_id=f3301985-e208-479e-b414-e2018f98fdd4`,

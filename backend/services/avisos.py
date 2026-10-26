@@ -63,12 +63,20 @@ from typing import Any
 #: aquí o si uno de aquí ya no se emite.
 CODIGOS_DE_AVISO = frozenset({
     "AFINIDAD_DEBIL",
+    # CLAVE-09: la enumeración de microestados llegó al tope de dimorphite.
+    "MICROESTADOS_RECORTADOS",
+    # El receptor acoplado trae aguas en la caja (camino B o C): no se retiraron.
+    "AGUAS_DEL_SITIO_CONSERVADAS",
     "BIGUANIDA_ESTADO_EN_REVISION",
     "CADENAS_LATERALES_TRUNCADAS",
     "CAJA_BUSQUEDA_AMPLIA",
     "COFACTORES_SIN_PLANTILLA_FUERA_DEL_SITIO",
+    # Avisos de la subida de un receptor propio (`entrada_receptor`, `conversion_mmcif`, `pdbqt_propio`): se
+    # registran en `entrada.avisos` del perfil y en el informe de preparación, con su mensaje en castellano.
+    "DECODIFICADO_LATIN1",
     "ESPECIE_ACOPLADA_DISTINTA",
     "ESTEREOQUIMICA_NO_DECLARADA",
+    "ESTEREOQUIMICA_PERDIDA_AL_NORMALIZAR",
     "HOTSPOTS_ERROR",
     "LIGANDO_EXCEDE_CAJA",
     "METALES_SIN_MOTOR_ADECUADO",
@@ -76,12 +84,19 @@ CODIGOS_DE_AVISO = frozenset({
     "MICROESTADO_PKA_NO_VERIFICADO",
     "MICROESTADO_SIN_CRITERIO_QUIMICO",
     "ML_FUERA_DE_DOMINIO",
+    "MMCIF_CADENAS_RENOMBRADAS",
+    "MMCIF_RESIDUOS_RENOMBRADOS",
+    "MMCIF_SERIE_RENUMERADA",
+    "MMCIF_VARIOS_MODELOS",
     "MMGBSA_FAILED",
     "MMGBSA_TIMEOUT",
     "MOLECULA_FLEXIBLE",
     "MOLECULA_GRANDE",
     "MOTOR_AD4_XTB",
     "MOTOR_SUSTITUIDO",
+    "PDBQT_CADENA_EN_BLANCO",
+    "PDBQT_POCOS_ATOMOS",
+    "PDBQT_SIN_HIDROGENOS_POLARES",
     "PEPTIDE_REFINEMENT_NO_VALIDADO",
     "PEPTIDO_LINEAL_DETECTADO",
     "PEPTIDO_PLEGADO_Y_ACOPLADO",

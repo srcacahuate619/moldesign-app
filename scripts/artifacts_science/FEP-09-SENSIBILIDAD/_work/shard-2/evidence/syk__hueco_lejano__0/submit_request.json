@@ -1,0 +1,40 @@
+{
+  "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+  "target_pdb_id": "USR_0F8E67",
+  "chain": "A",
+  "molecule_name": "syk__hueco_lejano__0",
+  "grid_center": [
+    -1.166,
+    2.265,
+    13.222
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:13ea63ee0341af56e609df08f8ded4330a620c67c3d2bf87e92d8b9ffe1ddb4b"
+}

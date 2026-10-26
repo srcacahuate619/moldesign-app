@@ -1,0 +1,1210 @@
+{
+ "id": "FEP-09-R1",
+ "meta": {
+  "titulo": "Con el origen reconocido, Preparación detecta los huecos del sitio y la estereoquímica sin asignar",
+  "entradilla": "FEP-09 repetido sobre el producto con P01 arreglado: las 163 auditorías miden desde el ligando y no desde la caja. Los huecos del sitio siguen en 15 de 15, la estereoquímica sube a 21 de 21 y la falsa alarma baja a cero. El agua puente y la protonación del sitio siguen siendo límites de alcance, no efectos de P01."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE, como estaba previsto.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El gate global exige que pasen todas las categorías declaradas, y «tautómero minoritario» y «especie del ligando» siguen con n=0: no hay poblaciones ni pKa independientes con que sembrarlas. De las que sí se pueden medir, las dos declaradas pasan el gate: ",
+     "m": null
+    },
+    {
+     "t": "huecos en el sitio, 15 de 15",
+     "m": "fuerte"
+    },
+    {
+     "t": ", y ",
+     "m": null
+    },
+    {
+     "t": "estereoquímica sin asignar, 21 de 21",
+     "m": "fuerte"
+    },
+    {
+     "t": ". Se completaron 163 auditorías, sin rechazos antes de Preparación y sin fallos de infraestructura.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se repitió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-09",
+     "m": "enlace",
+     "href": "FEP-09-SENSIBILIDAD.md"
+    },
+    {
+     "t": " midió la pestaña Preparación con un defecto dentro, P01: la comprobación del origen no reconocía la receta de los receptores propios. Por eso sus 127 auditorías del camino B se midieron desde la caja. P01 se arregló en ",
+     "m": null
+    },
+    {
+     "t": "f0e64086",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El mismo día se arregló en la pestaña Evaluación un error de la misma familia (aguas, interacciones y archivos del visor). Ese arreglo no toca Preparación. R1 repite FEP-09 sobre el producto con los dos arreglos, ",
+     "m": null
+    },
+    {
+     "t": "ee2d6c78",
+     "m": "codigo"
+    },
+    {
+     "t": ", y amplía la estereoquímica, que se había quedado con n=3.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Lo mismo que FEP-09:",
+      "m": "fuerte"
+     },
+     {
+      "t": " camino B (",
+      "m": null
+     },
+     {
+      "t": "respetar",
+      "m": "codigo"
+     },
+     {
+      "t": "), Vina 1.2.7, exhaustividad 8, 9 poses, semilla 42, pH 7,4, un confórmero. Las mismas 15 dianas del benchmark de OpenFF (commit ",
+      "m": null
+     },
+     {
+      "t": "fd88824f",
+      "m": "codigo"
+     },
+     {
+      "t": ") y los mismos 127 casos, idénticos byte a byte.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Arnés:",
+      "m": "fuerte"
+     },
+     {
+      "t": " el de Sol sin cambios (",
+      "m": null
+     },
+     {
+      "t": "fep09_inputs",
+      "m": "codigo"
+     },
+     {
+      "t": ", ",
+      "m": null
+     },
+     {
+      "t": "fep09_run",
+      "m": "codigo"
+     },
+     {
+      "t": ", ",
+      "m": null
+     },
+     {
+      "t": "fep09_analyze",
+      "m": "codigo"
+     },
+     {
+      "t": "), envuelto por ",
+      "m": null
+     },
+     {
+      "t": "scripts/fep09r1_*.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Modo tautomérico:",
+      "m": "fuerte"
+     },
+     {
+      "t": " no se forzó. El efectivo fue «entrada» en las 163, como declara esta vez el prerregistro.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Estereoquímica:",
+      "m": "fuerte"
+     },
+     {
+      "t": " 36 casos nuevos. Por diana, hasta tres ligandos con algún estereocentro asignado, en el orden del SDF; cada uno con su línea base y una variante que borra la asignación del primer centro. Eso da n=21 en 7 dianas.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ejecución:",
+      "m": "fuerte"
+     },
+     {
+      "t": " tres cápsulas de QA con Vina limitado a 4 núcleos y árbol limpio, en 43 min. En paralelo corría otro experimento (MET-01) en una cuarta cápsula.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El ",
+     "m": null
+    },
+    {
+     "t": "prerregistro",
+     "m": "enlace",
+     "href": "../auditorias/FEP-09-R1-prerregistro.md"
+    },
+    {
+     "t": " se fijó en ",
+     "m": null
+    },
+    {
+     "t": "68d36882",
+     "m": "codigo"
+    },
+    {
+     "t": ", antes de la primera corrida, con el gate, seis predicciones y la potencia. No hubo desviaciones.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Categoría",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "n",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "FEP-09",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "R1",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "IC 95 % (R1)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Decisión / alcance",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "hueco_en_el_sitio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "[0,782; 1,000]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "GO",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "estereo_sin_asignar",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "21 (FEP-09: 3)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "21",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "[0,839; 1,000]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "GO",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "tautomero_minoritario",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "no estimable",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "INCONCLUSIVE",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "especie_del_ligando",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "no estimable",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "INCONCLUSIVE",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "agua_puente_retirada",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,336]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "protonacion_del_sitio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 (5 saturadas)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,522]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "cadena_del_sitio_ausente",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 (saturada)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,975]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "metal_o_cofactor_retirado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,975]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "tautomero_alternativo_proxy",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,753; 1,000]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "proxy",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "especie_opuesta_proxy",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "7",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,004; 0,579]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "proxy",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 15 huecos se detectan ahora midiendo desde el ligando, no desde la caja. En cdk2, por ejemplo, el corte LEU 78 → PHE 82 queda a 3,11 Å del ligando, y Preparación se abstiene.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En la estereoquímica, las 7 dianas dan 3 de 3. El IC trata los 21 casos como independientes, pero son tres ligandos por diana. El requisito lee el ligando y no el receptor, así que el agrupamiento pesa poco, aunque existe.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Control",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "FEP-09",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "R1",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "entorno.referencia",
+       "m": "codigo"
+      },
+      {
+       "t": " REGISTRADO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 127",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "163 de 163",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Falsa alarma (renumeración inocua)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4 de 555 (0,72 %)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 585",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Acuerdo entre líneas base repetidas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "99,55 % (5 cambios en ",
+       "m": null
+      },
+      {
+       "t": "procedencia.commit",
+       "m": "codigo"
+      },
+      {
+       "t": ")",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "100 %",
+       "m": "fuerte"
+      },
+      {
+       "t": " (1170 comparaciones)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cambios no previstos en los cortes lejanos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2 de 370",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 390",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mismo ",
+       "m": null
+      },
+      {
+       "t": "receptor_sha256",
+       "m": "codigo"
+      },
+      {
+       "t": " en las tres bases de cada diana",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15 de 15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15 de 15",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La falsa alarma y el ruido de FEP-09 venían de ",
+     "m": null
+    },
+    {
+     "t": "procedencia.commit",
+     "m": "codigo"
+    },
+    {
+     "t": ", que pasaba de REGISTRADO a NO_DISPONIBLE porque el arnés se editaba durante la medición. R1 corrió desde un worktree congelado, así que ese factor desaparece. Es el mismo factor de confusión que FEP-09 declaró, no una mejora del producto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Predicciones, antes y después",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "#",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Predicción preregistrada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "P1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "entorno.referencia",
+       "m": "codigo"
+      },
+      {
+       "t": " REGISTRADO en todas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "163 de 163 ✔",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "P2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Huecos: GO otra vez (≥ 12 de 15)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15 de 15 ✔",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "P3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Agua puente: 0 de 9, límite de alcance",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 9 ✔",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "P4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Protonación del sitio: 0 de 5, rutinaria por diseño",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 5 ✔ (las 5 saturadas)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "P5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Estereoquímica: GO (≥ 16 de 21)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "21 de 21 ✔",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "P6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Falsa alarma ≤ 0,10",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 ✔",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "P3 y P4 corrigen lo que escribí al revisar FEP-09.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Dije que P01 confundía esos dos límites; no era así. El resultado no cambia caso por caso entre los dos experimentos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Agua puente:",
+      "m": "fuerte"
+     },
+     {
+      "t": " se borra antes de subir el archivo. La auditoría sólo ve una cifra distinta, «1 conservada» en la base frente a «0» en la variante de cdk2, y no tiene manera de saber que faltaba un agua.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Protonación:",
+      "m": "fuerte"
+     },
+     {
+      "t": " en el camino B es la del usuario. Preparación la pide revisar en toda corrida, así que la línea base ya está en REVISAR y una His cambiada no puede subir el riesgo.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo que P01 sí podía cambiar era la referencia de los huecos, y el resultado se mantiene midiendo desde el ligando.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los únicos cambios colaterales son ecos del propio defecto. Las variantes de estereoquímica añaden ",
+     "m": null
+    },
+    {
+     "t": "LIGANDO_REVISION_QUIMICA",
+     "m": "codigo"
+    },
+    {
+     "t": " en la comprobación previa (21 casos), y algunas variantes cambian la regla de selección de la pose.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "No mide la fracción de problemas reales de preparación que MolDesign detecta: los defectos los sembramos nosotros sobre un benchmark preparado por expertos.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No demuestra transferencia a FEP, compatibilidad con FEP+ ni energía libre.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No valida poblaciones tautoméricas, pKa individuales ni la protonación del receptor.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No audita la interfaz, WebView2, el runtime empaquetado ni el instalador.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No atribuye errores a los autores del benchmark; los estados químicos proxy están fuera del gate.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Reproducción",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Manifiesto, inventario, condiciones registradas, resultados por caso, métricas y la evidencia de cada corrida están en ",
+     "m": null
+    },
+    {
+     "t": "scripts/artifacts_science/FEP-09-R1/",
+     "m": "codigo"
+    },
+    {
+     "t": ". Para repetirlo:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": true,
+   "items": [
+    [
+     {
+      "t": "una cápsula de QA desde el commit del prerregistro;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "python scripts/fep09r1_run.py --capsule DIR --shard N",
+      "m": "codigo"
+     },
+     {
+      "t": ", con N = 0, 1 y 2;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "python scripts/fep09r1_analyze.py --merge",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Datos CC BY 4.0 de OpenFF, atribuidos a ",
+     "m": null
+    },
+    {
+     "t": "Hahn et al., LiveCoMS 2022",
+     "m": "enlace",
+     "href": "https://doi.org/10.33011/livecoms.4.1.1497"
+    },
+    {
+     "t": "; las estructuras no se copian al repositorio.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-09-R1.md"
+}

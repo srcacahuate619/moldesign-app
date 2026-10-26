@@ -67,3 +67,10 @@ produce ningún hallazgo sobre docking. Lo que produce es el derecho a creerse u
 
 La mayoría de los resultados negativos publicados en este campo no tienen su equivalente, y
 por eso no se distinguen de un montaje que no funcionaba.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-010. Los 0,401 Å son la **deriva nativa** del cristal minimizado bajo este protocolo, no un «suelo» de resolución del instrumento.
+- SCI-B-009. El PASS de C3 no demuestra que el minimizador convergiera en MF-10.

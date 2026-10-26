@@ -1,5 +1,26 @@
 import { describe, it, expect } from "vitest";
-import { describirEtapa, etapasAusentes, tieneSalidaUms, SIN_SERIALIZAR, SIN_DESCRIPCION } from "../procedenciaDeSenales";
+import { describirEtapa, etapasAusentes, pesosRegistrados, tieneSalidaUms, SIN_SERIALIZAR, SIN_DESCRIPCION } from "../procedenciaDeSenales";
+
+describe("pesos persistidos de la corrida", () => {
+  it("prioriza el registro efectivo y conserva ceros sin mezclar pesos individuales", () => {
+    expect(pesosRegistrados({
+      stacking_effective_weights: { vina: 0, xgb: 1 },
+      stacking_vina_weight: 0.8, stacking_xgb_weight: 0.2, stacking_clgnn_weight: 0.6,
+    })).toEqual({ source: "effective", values: { vina: 0, xgb: 1 } });
+  });
+  it("usa los campos individuales históricos sin llamarlos efectivos", () => {
+    expect(pesosRegistrados({ stacking_vina_weight: 1, stacking_clgnn_weight: 0 }))
+      .toEqual({ source: "individual", values: { vina: 1, clgnn: 0 } });
+  });
+  it("declara la ausencia sin rellenar el diseño de una familia", () => {
+    expect(pesosRegistrados({})).toEqual({ source: "missing", values: {} });
+  });
+  it("no presenta NaN, infinito o pesos negativos como registros utilizables", () => {
+    expect(pesosRegistrados({
+      stacking_effective_weights: { vina: NaN, xgb: Infinity, clgnn: -1 },
+    })).toEqual({ source: "missing", values: {} });
+  });
+});
 
 // Doc 71, defectos A3 y A7. El informe de la VM los listó por separado y son el
 // mismo renglón: el pie caía a «sin salida serializada» aunque el valor viniera

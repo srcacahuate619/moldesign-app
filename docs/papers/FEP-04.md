@@ -80,3 +80,16 @@ honesta debería incorporar repeticiones, y esta no lo hace.
 
 Porque es el único resultado del programa que se traduce directamente en algo que un
 usuario nota. No hace al motor mejor. Hace que el motor deje de mentir sobre lo que sabe.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra cambia.
+
+- SCI-B-045. El sello de este experimento acredita el productor y deja recalcular los agregados
+  desde los `per_complex` guardados, pero no fija con hash los insumos de la extracción
+  molecular (las poses `conf*.out.pdbqt`, `index_map.json`, el SDF cristalográfico ni las
+  versiones de los paquetes). Lo que se reproduce son los agregados a partir de las filas por
+  complejo, no las filas desde las fuentes crudas. Desde el 2026-10-23, los experimentos nuevos
+  se sellan con `scripts/sellar_experimento.py`, que exige entradas, salidas y versiones; este
+  sello no se rehace.

@@ -1,0 +1,16 @@
+{
+  "id_r2": "S07",
+  "pdb": "1C3S",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 29.2,
+      "crudo": "S07-1C3S-intento1.json.gz",
+      "crudo_sha256": "b889c1989c5f354317392f58a9006b37003d96cecc809a0a4b81052c3b0193e6"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S07-1C3S-intento1.json.gz",
+  "crudo_sha256": "b889c1989c5f354317392f58a9006b37003d96cecc809a0a4b81052c3b0193e6",
+  "registrado_en": "2026-10-25T01:27:26+00:00"
+}

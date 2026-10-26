@@ -1,0 +1,49 @@
+{
+  "experimento": "CAL-D-01-R4B-VMAT2-8T69",
+  "reanaliza": "CAL-D-01-R4-VMAT2-8T69",
+  "no_acopla": true,
+  "analizado_en": "2026-10-22T13:28:40+00:00",
+  "protocolo_sha256": "bbc9b8ea0ce883bf2af04399d0e7cbb34cf2f90a5871d1005a4b0affbcb6cd29",
+  "n_evaluados": 88,
+  "excluidos": [
+    {
+      "padre": "4-67",
+      "causa": "el pipeline del producto no completa el compuesto (biciclo[1.1.1]pentano): 'Timeout: evaluación excedió 1200s' en los dos intentos"
+    }
+  ],
+  "rho_Q_pKi": 0.39076061625500513,
+  "rho_peor": 0.32048945033796916,
+  "ic95_rho": [
+    0.21864194694932657,
+    0.5368413954571208
+  ],
+  "ic95_rho_peor": [
+    0.1385520172837316,
+    0.4730720193785577
+  ],
+  "bootstrap": {
+    "n_replicas": 10000,
+    "descartadas": 0,
+    "semilla": 20261021
+  },
+  "p2": {
+    "concordancia": 0.6369472182596291,
+    "pares_comparables": 3505,
+    "ic95": [
+      0.5760531922406893,
+      0.6943265773313813
+    ]
+  },
+  "coincide_con_r4": {
+    "rho": true,
+    "rho_peor": true,
+    "ic95_rho": true,
+    "ic95_rho_peor": true,
+    "concordancia": true
+  },
+  "puerta_pose": "GO",
+  "criterio_enmendado_cumplido": true,
+  "confirmatorio": false,
+  "decision": "INCONCLUSIVE",
+  "razon": "criterio enmendado cumplido pero enmendado tras ver los scores: no confirmatorio, no promociona"
+}

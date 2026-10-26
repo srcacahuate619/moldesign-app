@@ -145,3 +145,36 @@ def test_pdbqt_se_convierte_con_elemento_y_sin_heteroatomos():
     assert "ATOM" in pdb and "ALA" in pdb
     assert "HOH" not in pdb
     assert Chem.MolFromPDBBlock(pdb, sanitize=False) is not None
+
+
+@pytest.mark.asyncio
+async def test_mapa_exige_corrida_explicita_tras_autorizar(monkeypatch):
+    _preparar(monkeypatch, _sdf_tres_poses())
+    with pytest.raises(HTTPException) as err:
+        await ruta.get_interactions(str(uuid4()), pose_rank=1, include_map=True, db=object(), current_user=None)
+    assert err.value.status_code == 409
+
+
+@pytest.mark.asyncio
+async def test_mapa_utiliza_la_pose_y_la_corrida_solicitadas(monkeypatch):
+    import hashlib
+    from pathlib import Path
+    from services.interactions.analyzer import Interaction
+    evaluation = _preparar(monkeypatch, _sdf_tres_poses())
+    evaluation.task_id = "corrida-verificable"
+    async def selected(_repository, _molecule, task_id, **kwargs):
+        assert task_id == evaluation.task_id
+        return evaluation
+    monkeypatch.setattr(ruta, "result_for_task", selected)
+    def analyze_complex(*, ligand_sdf_path, **kwargs):
+        return InteractionReport(kwargs["molecule_id"], kwargs["target_pdb_id"], kwargs["pose_rank"],
+            interactions=[Interaction("polar_contact", "SER", 1, "A", "O2", "OG", 2.9, ligand_atom_indices=(2,))],
+            ligand_source_sha256=hashlib.sha256(Path(ligand_sdf_path).read_bytes()).hexdigest())
+    import services.interactions.analyzer as analyzer
+    monkeypatch.setattr(analyzer, "analyze_complex", analyze_complex)
+    response = await ruta.get_interactions(str(uuid4()), pose_rank=3, task_id=evaluation.task_id,
+                                         include_map=True, db=object(), current_user=None)
+    assert response["pose_rank"] == 3
+    assert response["task_id"] == evaluation.task_id
+    assert response["contact_map"]["highlighted_atom_indices"] == [2]
+    assert response["analysis_ligand_sha256"] == response["contact_map"]["analysis_ligand_sha256"]

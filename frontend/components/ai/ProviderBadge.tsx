@@ -57,8 +57,10 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
       statusText = "No configurado";
       statusColor = "#EF4444";
     } else {
+      // Ollama es local y también llega aquí: antes leía «llama.cpp no
+      // detectado». El motivo exacto lo da el backend (`estado`), en el title.
       statusIcon = <AlertTriangle size={12} color="#F59E0B" />;
-      statusText = "llama.cpp no detectado";
+      statusText = provider.id === "ollama" ? t("ia_badge_ollama_no_disponible") : "llama.cpp no detectado";
       statusColor = "#F59E0B";
     }
   } else if (isCloud) {
@@ -98,12 +100,17 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
           }
           statusColor = "#F59E0B";
         } else if (gpu_name && gpu_vram_total_gb > 0 && !using_gpu) {
+          // «Sin cargar», no «descargado»: el modelo está en disco y aún no en
+          // memoria. Junto a «Modelo LLM no descargado» se leía lo contrario.
           statusIcon = <Zap size={12} color="var(--text-dim)" />;
-          statusText = `GPU ${gpu_name} · descargada`;
+          statusText = t("ia_badge_gpu_sin_cargar", { gpu: gpu_name });
           statusColor = "var(--text-dim)";
         } else {
           statusIcon = <Cpu size={12} color="var(--text-dim)" />;
-          statusText = `RAM ${ram_free_gb?.toFixed(1)}G / ${ram_total_gb?.toFixed(0) ?? t("auto_5bab61eb5317")}G · descargado`;
+          statusText = t("ia_badge_ram_sin_cargar", {
+            libre: ram_free_gb?.toFixed(1) ?? "?",
+            total: ram_total_gb?.toFixed(0) ?? "?",
+          });
           statusColor = "var(--text-dim)";
         }
         break;
@@ -117,6 +124,7 @@ export function ProviderBadge({ provider, isStreaming, resourceStatus, destino =
   return (
     <div
       onClick={onClick}
+      title={provider.estado || undefined}
       style={{
         display: "flex",
         alignItems: "center",
@@ -176,7 +184,7 @@ function DestinoLinea({ destino }: { destino: DestinoInfo | null }) {
       }}
     >
       {destino.consentido ? <Wifi size={10} /> : <ShieldAlert size={10} />}
-      Sale a {destino.host}
+      {t("ia_provider_destination", { host: destino.host })}
       {destino.consentido ? "" : t("auto_73e38ad50e54")}
     </div>
   );

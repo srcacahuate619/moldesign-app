@@ -12,6 +12,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   leerSello,
+  leerSelloDelResultado,
   marcaDeOrden,
   porEvaluacionReciente,
   porScore,
@@ -23,6 +24,8 @@ import {
 /** Payload tal y como lo emite `backend/api/moldex.py`. */
 const FICHA: MoldexMolecule = {
   id: "6f1c4b6e-0000-4000-8000-000000000001",
+  entry_id: "6f1c4b6e-0000-4000-8000-000000000001:run-1",
+  saved_name: null,
   name: "Ligando de prueba",
   smiles: "CCO",
   smiles_hash: "b".repeat(64),
@@ -169,6 +172,31 @@ describe("lectura del sello de certificación", () => {
 
     expect(heredado).toBe("indeterminado");
     expect(heredado).not.toBe("vigente");
+  });
+});
+
+// B-1 en Evaluación: el botón decía «Integridad registrada» con cualquier
+// `blockchain_tx_id`, también tras reevaluar la molécula.
+describe("lectura del sello en el resultado de Evaluación", () => {
+  it("sin firma no hay sello", () => {
+    expect(leerSelloDelResultado({ blockchain_tx_id: null })).toBe("sin-sello");
+    expect(leerSelloDelResultado(null)).toBe("sin-sello");
+  });
+
+  it("sólo es vigente si el backend dice que describe esta corrida", () => {
+    expect(leerSelloDelResultado({ blockchain_tx_id: "sig", seal_matches_current_run: true }))
+      .toBe("vigente");
+  });
+
+  it("una firma de otra corrida no se presenta como vigente", () => {
+    expect(leerSelloDelResultado({ blockchain_tx_id: "sig", seal_matches_current_run: false }))
+      .toBe("corrida-anterior");
+  });
+
+  it("sin el dato del backend es indeterminado, nunca vigente", () => {
+    expect(leerSelloDelResultado({ blockchain_tx_id: "sig" })).toBe("indeterminado");
+    expect(leerSelloDelResultado({ blockchain_tx_id: "sig", seal_matches_current_run: null }))
+      .toBe("indeterminado");
   });
 });
 

@@ -7,6 +7,8 @@ para que ``pdf_generator`` se concentre en la composición del documento.
 
 import io
 
+from core.i18n import translate_text
+
 from rdkit import Chem
 from rdkit.Chem import Draw
 from reportlab.lib.units import inch
@@ -51,7 +53,7 @@ def generate_energy_profile_plot(poses: list[dict], width=4.5 * inch, height=2.0
         ax.spines["bottom"].set_color("#cbd5e1")
         ax.tick_params(axis="both", colors="#475569", labelsize=8)
 
-        ax.set_ylabel("Afinidad (kcal/mol)", fontsize=8, color="#475569")
+        ax.set_ylabel(translate_text("Afinidad (kcal/mol)"), fontsize=8, color="#475569")
         ax.set_xlabel("Pose (Rank)", fontsize=8, color="#475569")
         ax.set_xticks(ranks)
         ax.grid(True, linestyle=":", alpha=0.6, color="#cbd5e1")
@@ -96,7 +98,7 @@ def generate_shap_image(shap_values: dict, width=6.8 * inch, height=2.8 * inch):
         ax.spines["bottom"].set_color("#cbd5e1")
         ax.tick_params(axis="both", colors="#475569", labelsize=8)
 
-        ax.set_xlabel("Contribución a Afinidad (SHAP Value)", fontsize=8, color="#475569")
+        ax.set_xlabel(translate_text("Contribución a Afinidad (SHAP Value)"), fontsize=8, color="#475569")
 
         plt.tight_layout()
         buf = io.BytesIO()
@@ -137,35 +139,59 @@ def generate_gnn_attention_image(smiles: str, attention: list[float], width=6.8 
         return None
 
 
-def generate_2d_interaction_diagram(smiles: str, contacts: list[dict], width=2.4 * inch, height=2.4 * inch) -> Image:
-    """Renderiza contactos recibidos; no los calcula ni los reclasifica."""
-    mol = Chem.MolFromSmiles(smiles)
+def primera_pose(ligand_sdf: str | None):
+    """La primera pose del SDF, leída como la lee el mapa de contactos.
+
+    Los índices de átomo que llevan los contactos (`ligand_atoms`) son los de
+    esta molécula; por eso el mapa y el diagrama la leen con la MISMA llamada.
+    """
+    if not ligand_sdf:
+        return None
+    suppl = Chem.SDMolSupplier()
+    suppl.SetData(ligand_sdf)
+    return next((m for m in suppl if m is not None), None)
+
+
+def notas_de_contacto(contacts: list[dict], num_atoms: int) -> dict[int, str]:
+    """Átomo → rótulo, sólo para los átomos que cada contacto nombra.
+
+    SCI-A-057: antes se rotulaba con el primer puente de hidrógeno CUALQUIER N, O,
+    F o S del ligando, lo formara o no. Un contacto sin `ligand_atoms` no se
+    localiza en ningún átomo: la tabla lo da por residuo.
+    """
+    notas: dict[int, list[str]] = {}
+    for contact in contacts:
+        if "H-Bond" not in contact["type"] and "Salt Bridge" not in contact["type"]:
+            continue
+        rotulo = f"{contact['residue'].split()[0]} ({contact['distance']})"
+        for i in contact.get("ligand_atoms") or ():
+            if isinstance(i, int) and 0 <= i < num_atoms and rotulo not in notas.setdefault(i, []):
+                notas[i].append(rotulo)
+    return {i: ", ".join(r) for i, r in notas.items()}
+
+
+def generate_2d_interaction_diagram(smiles: str, contacts: list[dict], width=2.4 * inch, height=2.4 * inch,
+                                    pose_sdf: str | None = None) -> Image:
+    """Renderiza contactos recibidos; no los calcula ni los reclasifica.
+
+    Los contactos se localizan en átomos sólo si se dibuja la pose de la que salen
+    sus índices (`pose_sdf`). Desde el SMILES los índices no corresponden, así que
+    se dibuja el ligando sin localizar ninguno.
+    """
+    pose = primera_pose(pose_sdf)
+    mol = Chem.Mol(pose) if pose is not None else Chem.MolFromSmiles(smiles)
     if not mol:
         return None
     try:
         from rdkit.Chem import rdDepictor
         from rdkit.Chem.Draw import rdMolDraw2D
 
+        mol.RemoveAllConformers()
         rdDepictor.Compute2DCoords(mol)
 
-        highlight_atoms = []
-        highlight_colors = {}
-        atom_notes = {}
-
-        for i, atom in enumerate(mol.GetAtoms()):
-            symbol = atom.GetSymbol().upper()
-            for contact in contacts:
-                res_label = contact["residue"].split()[0]
-                dist = contact["distance"]
-                contact_type = contact["type"]
-
-                if "H-Bond" in contact_type or "Salt Bridge" in contact_type:
-                    if symbol in ("N", "O", "F", "S"):
-                        if i not in highlight_atoms:
-                            highlight_atoms.append(i)
-                            highlight_colors[i] = (0.2, 0.8, 0.2)
-                            atom_notes[i] = f"{res_label} ({dist})"
-                            break
+        atom_notes = notas_de_contacto(contacts, mol.GetNumAtoms()) if pose is not None else {}
+        highlight_atoms = list(atom_notes)
+        highlight_colors = {i: (0.2, 0.8, 0.2) for i in atom_notes}
 
         d = rdMolDraw2D.MolDraw2DCairo(400, 400)
         opts = d.drawOptions()

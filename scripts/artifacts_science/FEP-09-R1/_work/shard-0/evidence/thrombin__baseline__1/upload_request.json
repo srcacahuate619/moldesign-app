@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 thrombin__baseline__1",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "H",
+    "grid_center_x": 16.441,
+    "grid_center_y": -12.5175,
+    "grid_center_z": 22.6462,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "6eaf85bb77617904996d02aee17ec4532d4398b7b693652f8bbeb0e2c454fe78",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\r1-6\\tmp\\inputs\\thrombin__baseline__1.pdb"
+}

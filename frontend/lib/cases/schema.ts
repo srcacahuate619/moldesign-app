@@ -155,10 +155,20 @@ const RESERVED_WINDOWS_NAMES = new Set([
   "lpt1", "lpt2", "lpt3", "lpt4", "lpt5", "lpt6", "lpt7", "lpt8", "lpt9",
 ]);
 
+/**
+ * Largo máximo del nombre de carpeta, en BYTES de UTF-8. Rust
+ * (`validate_folder_name`) mide `trimmed.len()`, que en un `&str` son bytes: con
+ * una `á` de dos bytes, 64 caracteres no caben. Medir aquí en caracteres dejaba
+ * pasar nombres que Rust rechazaba después con `UNSAFE_NAME`.
+ */
 export const MAX_FOLDER_NAME_LENGTH = 64;
 
+const utf8Bytes = (value: string): number => new TextEncoder().encode(value).length;
+
 export function sanitizeFolderName(rawName: string): string {
-  const trimmed = rawName.trim();
+  // NFC: un acento escrito como letra + marca combinada (teclados, IME y pegados
+  // desde macOS) pasa a la letra compuesta, que es lo que se espera ver en disco.
+  const trimmed = rawName.normalize("NFC").trim();
   if (trimmed.length === 0) {
     throw new CaseError("UNSAFE_NAME", "El nombre del caso no puede estar vacío.");
   }
@@ -168,7 +178,11 @@ export function sanitizeFolderName(rawName: string): string {
   let safe = "";
   for (const char of trimmed) {
     const code = char.codePointAt(0) ?? 0;
-    const isAlnum = /[a-zA-Z0-9]/.test(char);
+    // Letras y números de CUALQUIER alfabeto (más sus marcas): «Inhibición» y
+    // «piñón» son nombres de carpeta válidos en Windows. La lista blanca era sólo
+    // ASCII y convertía «Prueba de cápsula» en «Prueba de c-psula» (QA1-001). Lo
+    // que Windows no admite (`<>:"|?*`, controles) es puntuación y sigue fuera.
+    const isAlnum = /^[\p{L}\p{N}\p{M}]$/u.test(char);
     const isAllowedPunct = char === "-" || char === "_" || char === " ";
     if (code < 32 || code === 127) safe += "-";
     else if (isAlnum || isAllowedPunct) safe += char;
@@ -183,8 +197,13 @@ export function sanitizeFolderName(rawName: string): string {
   const trimEdges = (value: string) => value.replace(/^[-. ]+/, "").replace(/[-. ]+$/, "");
   safe = trimEdges(safe);
 
-  if (safe.length > MAX_FOLDER_NAME_LENGTH) {
-    safe = trimEdges(safe.slice(0, MAX_FOLDER_NAME_LENGTH));
+  if (utf8Bytes(safe) > MAX_FOLDER_NAME_LENGTH) {
+    let cut = "";
+    for (const char of safe) {
+      if (utf8Bytes(cut + char) > MAX_FOLDER_NAME_LENGTH) break;
+      cut += char;
+    }
+    safe = trimEdges(cut);
   }
 
   if (safe.length === 0) {
@@ -854,6 +873,25 @@ function parseDisposition(value: unknown, where: string): CaseDisposition | unde
   };
 }
 
+/**
+ * Historial durable de disposiciones (AMP-01). Cada entrada valida igual
+ * que la vigente: un historial corrupto no se recorta en silencio, se
+ * declara.
+ */
+function parseDispositions(value: unknown, where: string): readonly CaseDisposition[] | undefined {
+  if (value === undefined || value === null) return undefined;
+  if (!Array.isArray(value)) {
+    throw new CaseError("INVALID_MANIFEST", "El historial de disposiciones está corrupto.", `${where}.dispositions debe ser una lista.`);
+  }
+  const dispositions = value.map(
+    (entry, index) => parseDisposition(entry, `${where}.dispositions[${index}]`),
+  );
+  if (dispositions.some((entry) => entry === undefined)) {
+    throw new CaseError("INVALID_MANIFEST", "El historial de disposiciones está corrupto.", `${where}.dispositions contiene entradas vacías.`);
+  }
+  return dispositions.length > 0 ? (dispositions as CaseDisposition[]) : undefined;
+}
+
 // ── Migracion ────────────────────────────────────────────────────────
 
 /**
@@ -995,6 +1033,7 @@ export function parseCaseManifest(input: unknown, where = "case.json"): CaseReco
   const structuralSystem = parseStructuralSystem(migrated.structuralSystem, where);
   const decisions = parseDecisions(migrated.decisions, where);
   const disposition = parseDisposition(migrated.disposition, where);
+  const dispositions = parseDispositions(migrated.dispositions, where);
   return {
     schemaVersion: CASE_SCHEMA_VERSION,
     id: requireString(migrated, "id", where),
@@ -1019,6 +1058,7 @@ export function parseCaseManifest(input: unknown, where = "case.json"): CaseReco
     ...(structuralSystem ? { structuralSystem } : {}),
     ...(decisions ? { decisions } : {}),
     ...(disposition ? { disposition } : {}),
+    ...(dispositions ? { dispositions } : {}),
   };
 }
 
@@ -1055,6 +1095,11 @@ export function serializeCaseManifest(record: CaseRecord): string {
       ? { decisions: record.decisions }
       : {}),
     ...(record.disposition ? { disposition: record.disposition } : {}),
+    // AMP-01: el historial de disposiciones es durable. Se omite vacío por
+    // la misma regla que todo lo demás: ausencia y vacío no se distinguen.
+    ...(record.dispositions && record.dispositions.length > 0
+      ? { dispositions: record.dispositions }
+      : {}),
   };
   return `${JSON.stringify(ordered, null, 2)}\n`;
 }

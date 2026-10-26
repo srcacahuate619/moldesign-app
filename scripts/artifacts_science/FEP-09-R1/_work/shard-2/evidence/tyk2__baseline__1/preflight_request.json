@@ -1,0 +1,42 @@
+{
+  "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+  "target_pdb_id": "USR_6C45A8",
+  "chain": "A",
+  "grid_center": [
+    -7.9711,
+    -8.6804,
+    -16.9549
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "docking_engine": "vina",
+  "exhaustiveness": 8,
+  "num_poses": 9,
+  "conformers": 1,
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  }
+}

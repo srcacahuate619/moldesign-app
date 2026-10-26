@@ -348,3 +348,69 @@ async def test_get_certifier_returns_same_instance():
     c1 = await get_certifier()
     c2 = await get_certifier()
     assert c1 is c2
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# SCI-A-058: el verificador sólo acepta los esquemas emitidos y no inventa fechas
+# ═════════════════════════════════════════════════════════════════════════════
+
+_H = "a" * 64
+
+
+@pytest.mark.parametrize("memo", [
+    f"MolDesign-v9|CC0|{_H}|85.50|7E2Y|2026-07-28T00:00:00+00:00",
+    f"MolDesignX|CC0|{_H}|85.50|7E2Y|2026-07-28T00:00:00+00:00",
+    f"MolDesign-v1|CC-BY|{_H}|85.50|7E2Y|2026-07-28T00:00:00+00:00",
+    f"MolDesign-v1|{_H}|85.50|7E2Y|2026-07-28T00:00:00+00:00|x",
+    f"MolDesign-v1|CC0|{_H}|85.50|7E2Y|ayer por la tarde",
+    f"MolDesign-v1|CC0|{_H}|85.50|7E2Y|28/07/2026",
+    f"MolDesign-v1|CC0|{_H}|85.50|7E2Y|2026-07-28T00:00:00+00:00|w|sobra",
+])
+def test_memo_fuera_de_esquema_no_se_verifica(memo):
+    from services.blockchain.certifier import SolanaCertifier
+    assert SolanaCertifier()._parse_memo(memo) is None
+
+
+def test_fecha_sin_zona_de_los_memos_antiguos_se_lee_como_utc():
+    from services.blockchain.certifier import SolanaCertifier
+    from datetime import timezone
+    record = SolanaCertifier()._parse_memo(f"MolDesign-v1|CC0|{_H}|85.50|7E2Y|2026-07-28T10:00:00")
+    assert record is not None and record.timestamp.tzinfo == timezone.utc
+    assert record.timestamp.hour == 10
+
+
+@pytest.mark.asyncio
+async def test_verify_distingue_fecha_declarada_y_fecha_de_la_cadena():
+    from datetime import datetime, timezone
+    from services.blockchain.certifier import SolanaCertifier
+
+    c = SolanaCertifier("https://api.devnet.solana.com")
+    memo = f"MolDesign-v1|CC0|{_H}|85.50|7E2Y|2020-01-01T00:00:00+00:00"
+    bloque = int(datetime(2026, 10, 20, 12, 0, tzinfo=timezone.utc).timestamp())
+    c._rpc = AsyncMock(return_value={
+        "meta": {"err": None}, "blockTime": bloque,
+        "transaction": {"message": {"accountKeys": [], "instructions": [
+            {"programId": c.MEMO_PROGRAM_ID_STR, "parsed": memo}]}},
+    })
+    record = await c.verify("1" * 64)
+    assert record is not None
+    assert record.timestamp.year == 2020          # lo que declaró quien firmó
+    assert record.block_time == datetime(2026, 10, 20, 12, 0, tzinfo=timezone.utc)
+
+
+@pytest.mark.asyncio
+async def test_endpoint_verify_no_se_presenta_como_aval(monkeypatch):
+    from datetime import datetime, timezone
+    from api.routers import blockchain
+    from core.models import BlockchainRecord
+
+    async def verificar(_firma):
+        return BlockchainRecord(smiles_hash=_H, total_score=85.5, target_pdb_id="7E2Y",
+                                user_wallet="", timestamp=datetime(2020, 1, 1, tzinfo=timezone.utc))
+
+    monkeypatch.setattr(blockchain, "verify_certification_onchain", verificar)
+    respuesta = await blockchain.verify_certification("1" * 64, current_user=None)
+    assert respuesta["status"] == "memo_verified"
+    assert respuesta["block_time"] is None
+    assert respuesta["declared_timestamp"].startswith("2020-01-01")
+    assert "not a scientific or institutional endorsement" in respuesta["message"]

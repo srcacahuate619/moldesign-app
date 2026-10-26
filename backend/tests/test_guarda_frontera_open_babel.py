@@ -384,18 +384,213 @@ def test_g3_marca_una_resolucion_por_path_en_produccion(monkeypatch, tmp_path):
     assert any("G3" in f for f in roto.fallos)
 
 
-def test_g1_no_marca_las_pruebas_ni_el_adaptador(monkeypatch, tmp_path):
-    """El adaptador nombra Open Babel por definición, y `tests/` no es producción."""
+def test_g1_no_marca_el_adaptador_pero_si_las_pruebas(monkeypatch, tmp_path):
+    """El adaptador nombra Open Babel por definición; `tests/` ya NO está exento.
+
+    Antes `tests/` quedaba fuera del recorrido («no es producción») y un
+    `from openbabel import ...` ahí dentro pasaba sin que nadie lo viera. La regla
+    de AGENTS.md vale para todo `backend/` y `rescoring/` (LUNA-01).
+    """
     falso = tmp_path / "arbol"
     adaptador = falso / "backend" / "services" / "external_tools"
     adaptador.mkdir(parents=True)
     (adaptador / "open_babel.py").write_text(
         'import subprocess\nEXE = "obabel.exe"\n', encoding="utf-8"
     )
-    pruebas = falso / "backend" / "tests"
-    pruebas.mkdir(parents=True)
-    (pruebas / "test_x.py").write_text("from openbabel import openbabel\n", encoding="utf-8")
     monkeypatch.setattr(guarda, "RAIZ", falso)
     sano = _resultado()
     guarda.g1_g3_codigo(falso, "muestra", sano)
     assert sano.ok, sano.fallos
+
+    pruebas = falso / "backend" / "tests"
+    pruebas.mkdir(parents=True)
+    (pruebas / "test_x.py").write_text("from openbabel import openbabel\n", encoding="utf-8")
+    roto = _resultado()
+    guarda.g1_g3_codigo(falso, "muestra", roto)
+    assert not roto.ok
+    assert any("backend/tests/test_x.py" in f for f in roto.fallos)
+
+
+# ── LUNA-01: G1 es un AST sobre TODO backend/ y rescoring/ ──────────────
+
+IMPORTA = "from openbabel import openbabel\n"
+
+
+def _arbol_con(tmp_path, rutas: dict[str, str]):
+    falso = tmp_path / "arbol"
+    for relativa, fuente in rutas.items():
+        destino = falso / relativa
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        destino.write_text(fuente, encoding="utf-8")
+    return falso
+
+
+@pytest.mark.parametrize(
+    "ruta",
+    [
+        "rescoring/scripts/preparar.py",       # `scripts` era «no producción»
+        "backend/tests/test_algo.py",           # `tests` también
+        "rescoring/data/ayudante.py",           # y `data`
+        "rescoring/artifacts/herramienta.py",   # y `artifacts`
+        "backend/deprecated/viejo.py",          # y `deprecated`
+    ],
+)
+def test_g1_ve_los_directorios_que_antes_no_miraba(monkeypatch, tmp_path, ruta):
+    falso = _arbol_con(tmp_path, {ruta: IMPORTA})
+    monkeypatch.setattr(guarda, "RAIZ", falso)
+    roto = _resultado()
+    guarda.g1_g3_codigo(falso, "muestra", roto)
+    assert not roto.ok, f"G1 no vio el import en {ruta}"
+    assert any(ruta in f for f in roto.fallos)
+
+
+def test_g1_cita_el_archivo_y_la_linea(monkeypatch, tmp_path):
+    falso = _arbol_con(tmp_path, {"rescoring/scripts/x.py": "import os\n\n\n" + IMPORTA})
+    monkeypatch.setattr(guarda, "RAIZ", falso)
+    roto = _resultado()
+    guarda.g1_g3_codigo(falso, "muestra", roto)
+    assert any("rescoring/scripts/x.py:4" in f for f in roto.fallos), roto.fallos
+
+
+@pytest.mark.parametrize(
+    "fuente",
+    [
+        '__import__("openbabel")\n',
+        'import importlib\nm = importlib.import_module("openbabel.openbabel")\n',
+        'from importlib import import_module\nimport_module("pybel")\n',
+        'def f():\n    try:\n        import _openbabel\n    except ImportError:\n        pass\n',
+    ],
+)
+def test_el_detector_ve_imports_dinamicos_y_anidados(fuente):
+    assert guarda.importa_prohibido(fuente), fuente
+
+
+@pytest.mark.parametrize(
+    "fuente",
+    [
+        "from .openbabel import algo\n",                          # módulo local, no los bindings
+        "import importlib\nimportlib.import_module(nombre)\n",    # no es una constante
+        '__import__("rdkit")\n',
+        'ruta = "openbabel/pybel"\n',
+        "# import openbabel\n",
+    ],
+)
+def test_el_detector_no_marca_vecinos(fuente):
+    assert not guarda.importa_prohibido(fuente), fuente
+
+
+def test_un_archivo_que_no_se_puede_leer_no_se_da_por_limpio(monkeypatch, tmp_path):
+    """El detector devolvía `[]` ante un SyntaxError: «limpio» sobre algo que no
+    miró. La auditoría que originó esto lo escaneó con `except: continue`."""
+    hallazgos, error = guarda.analizar_imports("def roto(:\n")
+    assert hallazgos == [] and error and "SyntaxError" in error
+
+    falso = _arbol_con(tmp_path, {"backend/services/roto.py": "def roto(:\n"})
+    monkeypatch.setattr(guarda, "RAIZ", falso)
+    roto = _resultado()
+    guarda.g1_g3_codigo(falso, "muestra", roto)
+    assert not roto.ok
+    assert any("no se pudo analizar" in f and "roto.py" in f for f in roto.fallos), roto.fallos
+
+
+def test_g1_admite_solo_las_excepciones_declaradas_y_las_lista(monkeypatch, tmp_path):
+    falso = _arbol_con(tmp_path, {
+        "rescoring/scripts/declarado.py": IMPORTA,
+        "rescoring/scripts/nuevo.py": IMPORTA,
+    })
+    monkeypatch.setattr(guarda, "RAIZ", falso)
+    roto = _resultado()
+    guarda.g1_g3_codigo(
+        falso, "muestra", roto,
+        excepciones={"rescoring/scripts/declarado.py": "motivo escrito"},
+    )
+    assert not roto.ok
+    mensaje = "\n".join(roto.fallos)
+    assert "nuevo.py" in mensaje and "declarado.py" not in mensaje
+    assert any("declarado.py" in v for v in roto.verificado), (
+        "una excepción declarada se ve en el informe, no se calla"
+    )
+
+
+def test_el_bundle_no_admite_ninguna_excepcion(tmp_path):
+    """Lo que no debe distribuirse, no está: ni siquiera lo declarado dev-only."""
+    falso = _arbol_con(tmp_path, {"rescoring/scripts/redock_pdbbind.py": IMPORTA})
+    roto = _resultado()
+    guarda.g1_g3_codigo(falso, "bundle", roto)  # base != RAIZ → sin excepciones
+    assert not roto.ok
+    assert any("redock_pdbbind.py" in f for f in roto.fallos)
+
+
+def test_g2_marca_cualquier_excepcion_declarada_que_viaje(monkeypatch, tmp_path):
+    """Las cuatro, no sólo las dos que excluye el empaquetado por nombre."""
+    falso = tmp_path / "resources"
+    (falso / "python" / "Lib" / "site-packages").mkdir(parents=True)
+    for relativa in guarda.EXCEPCIONES_DEV_ONLY:
+        destino = falso / relativa
+        destino.parent.mkdir(parents=True, exist_ok=True)
+        destino.write_text("", encoding="utf-8")
+    monkeypatch.setattr(guarda, "RESOURCES", falso)
+    roto = _resultado()
+    guarda.g2_bindings_en_el_bundle(roto)
+    assert not roto.ok
+    mensaje = "\n".join(roto.fallos)
+    for relativa in guarda.EXCEPCIONES_DEV_ONLY:
+        assert relativa in mensaje, relativa
+
+
+# ── La lista de excepciones, contra el árbol real ───────────────────────
+
+
+def test_el_recorrido_del_arbol_real_encuentra_exactamente_las_excepciones():
+    """La verdad de fondo: lo que el AST encuentra SIN exenciones es la lista.
+
+    Ni un import más (una violación nueva) ni uno menos (una excepción que ya no
+    hace falta y que, de quedarse, autorizaría el próximo import en ese archivo).
+    """
+    encontrados, ilegibles = guarda.imports_prohibidos_en(guarda.RAIZ)
+    assert ilegibles == []
+    assert set(encontrados) == set(guarda.EXCEPCIONES_DEV_ONLY)
+
+
+def test_g1_pasa_sobre_el_arbol_real_y_lista_las_cuatro_excepciones():
+    sano = _resultado()
+    guarda.g1_g3_codigo(guarda.RAIZ, "repositorio", sano)
+    assert sano.ok, sano.fallos
+    listadas = [v for v in sano.verificado if "excepci" in v.lower()]
+    assert listadas and all(r in listadas[0] for r in guarda.EXCEPCIONES_DEV_ONLY)
+
+
+def test_las_excepciones_estan_excluidas_del_empaquetado_y_existen():
+    sano = _resultado()
+    guarda.g1b_excepciones_coherentes(sano)
+    assert sano.ok, sano.fallos
+
+
+def test_una_excepcion_huerfana_o_que_viajaria_se_marca(monkeypatch, tmp_path):
+    falso = _arbol_con(tmp_path, {
+        "rescoring/model_manager.py": "x = 1\n",     # existe, pero SÍ viaja
+    })
+    monkeypatch.setattr(guarda, "RAIZ", falso)
+    monkeypatch.setattr(guarda, "EXCEPCIONES_DEV_ONLY", {
+        "rescoring/model_manager.py": "viaja en el instalador",
+        "rescoring/scripts/borrado.py": "ya no existe",
+        "backend/services/algo.py": "no hay regla de exclusión para backend",
+    })
+    roto = _resultado()
+    guarda.g1b_excepciones_coherentes(roto)
+    assert not roto.ok
+    mensaje = "\n".join(roto.fallos)
+    assert "model_manager.py" in mensaje        # no está excluido del empaquetado
+    assert "borrado.py" in mensaje              # huérfana
+    assert "backend/services/algo.py" in mensaje
+
+
+def test_cada_excepcion_lleva_su_motivo_y_agents_md_las_nombra():
+    agents = (RAIZ / "AGENTS.md").read_text(encoding="utf-8")
+    for relativa, motivo in guarda.EXCEPCIONES_DEV_ONLY.items():
+        assert len(motivo.strip()) > 60, f"{relativa}: el motivo tiene que estar escrito"
+        assert relativa in agents, f"AGENTS.md no nombra la excepción {relativa}"
+
+
+def test_el_autotest_del_recorrido_pasa():
+    guarda.autotest_recorrido()

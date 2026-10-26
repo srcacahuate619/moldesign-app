@@ -1,0 +1,10 @@
+{
+  "pdb": "5I3T",
+  "semilla": 42,
+  "inicio": "2026-10-23T05:20:52+00:00",
+  "resultado": "corrida_fallida",
+  "motivo": "{'task_id': 'a1d062c6-3ed0-4a66-b7bb-8c99c9dfbc24', 'status': 'FAILURE', 'progress': 0, 'error': \"ProteinPreparationError: Error preparando proteína '5I3T' en el paso 'mk_prepare_receptor'\", 'started_at': '2026-10-23T05:20:52.950515Z', 'finished_at': '2026-10-23T05:20:57.387935Z'}",
+  "segundos": 6.4,
+  "brazo": "r1",
+  "commit": "f7c46736"
+}

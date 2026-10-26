@@ -19,6 +19,13 @@ módulo:
    persistencia y procedencia;
 2. va en segundo plano: el turno declara que la lanzó y da su `task_id`, no
    bloquea la conversación ni finge que ya terminó;
+
+LUNA-05 añadió un paso ANTES del 1: `run_docking` ya no lanza, **propone**. La
+petición se interpretó de un texto, y una corrida de Vina consume recursos y deja
+procedencia; lo que se va a ejecutar se muestra —receptor, motor, protocolo
+efectivo, coste aproximado— y sólo se encola cuando el investigador lo aprueba con
+su sesión, por otra puerta (`services/ai/propuestas_de_docking.py`). El criterio 1
+sigue valiendo: la aprobación entra por `registrar_corrida`.
 3. todo número se cita a su corrida persistida. Si la corrida no ha terminado,
    falló, o no es de esta cuenta, la herramienta lo dice y se abstiene — nunca
    entrega una estimación en lugar del resultado.
@@ -74,11 +81,14 @@ async def run_docking(
     target_pdb: str = "7E2Y",
     user_id: str | None = None,
 ) -> str:
-    """Lanzar una evaluación real en segundo plano y devolver su `task_id`.
+    """PROPONER una evaluación; NO la lanza ni la encola.
 
-    No espera el resultado: una corrida de Vina tarda minutos y el turno del
-    chat no puede quedarse colgado de ella. Devuelve el identificador con el
-    que `check_docking_status` recupera después el número, ya citado.
+    LUNA-05. Antes esta función registraba y encolaba la corrida en el mismo turno
+    en que se interpretó la petición. Ahora corre el preflight real, guarda una
+    propuesta y devuelve su presentación —receptor, motor, protocolo efectivo, coste
+    aproximado, advertencias—. La corrida sólo existe cuando el investigador la
+    aprueba por otra puerta (`POST /ai/proposals/{id}/approve`). Hasta entonces no
+    hay `task_id` ni número que citar.
     """
     cuenta = _cuenta(user_id)
     if cuenta is None:
@@ -96,7 +106,8 @@ async def run_docking(
             EvaluationSubmitRequest,
             PipelineConfigRequest,
         )
-        from services import evaluation_submission
+        from services.ai import propuestas_de_docking
+        from services.ai.contexto_de_turno import conversacion_del_turno
 
         try:
             peticion = EvaluationSubmitRequest(
@@ -130,21 +141,18 @@ async def run_docking(
                 ),
             )
         except Exception as exc:  # petición malformada: SMILES vacío, PDB corto
-            return f"No puedo lanzar la evaluación: {str(exc)[:150]}"
+            return f"No puedo proponer la evaluación: {str(exc)[:150]}"
 
         try:
-            corrida = await evaluation_submission.registrar_corrida(
-                data=peticion,
+            return await propuestas_de_docking.proponer(
+                peticion=peticion,
+                usuario=usuario,
                 db=db,
-                current_user=usuario,
-                client_ip=None,
-                # MolChat no tiene la pantalla donde el investigador acepta el
-                # preflight, así que lo comprueba el servidor antes de encolar.
-                exigir_preflight=True,
+                conversacion_id=conversacion_del_turno.get(),
             )
         except HTTPException as exc:
             return (
-                "No lancé la evaluación: "
+                "No propongo la evaluación: "
                 f"{str(exc.detail)[:200]} "
                 "(no la sustituyo por una estimación)."
             )
@@ -154,17 +162,7 @@ async def run_docking(
             motivo = (
                 exc.message if isinstance(exc, MolDesignError) else str(exc)
             )
-            return f"No lancé la evaluación: {motivo[:200]}"
-
-    return (
-        f"Evaluación lanzada en segundo plano contra {corrida.target_pdb_id}.\n"
-        f"  task_id={corrida.task_id}\n"
-        f"  molécula={corrida.canonical_smiles}\n"
-        f"{corrida.aviso_de_calibracion}"
-        "Todavía no hay afinidad ni score: la corrida acaba de empezar y no los "
-        "estimo. Consultá el estado con check_docking_status | "
-        f"task_id={corrida.task_id}, y citá cualquier número por ese task_id."
-    )
+            return f"No propongo la evaluación: {motivo[:200]}"
 
 
 async def check_docking_status(
@@ -324,12 +322,14 @@ def register_docking_tools():
     registry.register(ToolDef(
         name="run_docking",
         clase="dato_persistido",
-        procedencia="corrida registrada en evaluation_runs de esta cuenta",
+        procedencia="propuesta pendiente de aprobación; la corrida sólo existe tras aprobarla (evaluation_runs de esta cuenta)",
         description=(
-            "Lanza una evaluación real (docking Vina) contra un target PDB. "
-            "Corre en segundo plano y devuelve un task_id: NO trae el número "
-            "todavía. Nunca inventes una afinidad; usá check_docking_status "
-            "con ese task_id para leer el resultado cuando exista."
+            "PROPONE una evaluación real (docking Vina) contra un target PDB: "
+            "corre el preflight y presenta receptor, motor, protocolo y coste, pero "
+            "NO la lanza ni la encola. El investigador la aprueba con un botón; "
+            "una vez aprobada corre en segundo plano y tiene un task_id. Hasta "
+            "entonces no hay task_id ni número: nunca inventes una afinidad; usá "
+            "check_docking_status con el task_id cuando exista."
         ),
         parameters={
             "smiles": {"type": "string", "required": True},

@@ -1,0 +1,18 @@
+{
+  "catalog_version": "referencias-del-sitio-2026-10-11",
+  "based_on_commit": "bc988534",
+  "supersedes": {
+    "curated_targets_json_sha256": "23bdd466bca135b6085bd765f6d52de8bf6718202ba5b1fd66da7fc5958d7e06",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "active": {
+    "curated_targets_json_sha256": "1f1a7096e41b47cd558a3ae09a418f6bdc3f7652458e8492c6ad50bb7e919538",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "cambio": "Trece entradas declaraban como ligando del sitio el cofactor del complejo y tenían la caja centrada en él: el hemo en diez COX-1/COX-2 y en CYP2D6 (5TFT), el NADP en 3SRW y el FMN en 5TBO. Se recentran en la instancia del inhibidor (centroide de sus átomos pesados, mismo lado de caja, ligando a 9 Å o más de cada cara), con el sitio medido por anotar_sitio y los hotspots por contacto (box_ligand_contacts). El cofactor se conserva en la preparación. Cambian sólo grid_center, site_ligand, site_chain_atoms, hotspots y hotspots_source de esas trece; ninguna cadena del sitio cambia. 3N8Y conserva el hemo como referencia a propósito (serina acetilada, preparación covalente sin resolver). No equivale a validación del receptor ni readiness FEP: 5TBO sigue con su hueco y 3KK6 sin poder prepararse.",
+  "corregidas": ["1CX2", "1Q4G", "2OYE", "2OYU", "3KK6", "3N8W", "3N8X", "3N8Z", "3SRW", "5TBO", "5TFT", "5U6X", "5WBE"],
+  "pendientes": {"3N8Y": "COX-1 acetilada por la aspirina (OAS) con diclofenaco: preparación covalente sin resolver."},
+  "herramienta": "scripts/corregir_referencias_cofactor.py",
+  "evidencia": "docs/auditorias/referencias_del_sitio_2026-10-11.json",
+  "fuente_de_la_decision": "codex/receptores-curacion-20261008-wip (affbc92e): docs/auditorias/receptores-continuacion-20261008/decisiones_referencia.json"
+}

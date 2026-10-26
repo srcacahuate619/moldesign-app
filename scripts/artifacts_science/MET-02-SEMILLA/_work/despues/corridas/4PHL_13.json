@@ -1,0 +1,27 @@
+{
+  "pdb": "4PHL",
+  "semilla": 13,
+  "inicio": "2026-10-23T03:45:43+00:00",
+  "resultado": "auditada",
+  "task_id": "4afdc49f-dab0-4e0b-8e70-b6ce4b96c080",
+  "estado_global": "REVISION",
+  "metales": {
+    "estado": "REVISAR",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:1001 (5.51 Å), MG A:1002 (4.36 Å). El ligando del cristal no toca ninguno (ni un N, O o S a 2,8 Å de un metal ni un átomo a 4 Å de un cofactor).",
+    "razon": "El receptor no contiene especies que estaban cerca del sitio, pero el ligando del cristal no las toca. Si sólo ocupan la segunda esfera, retirarlas puede ser aceptable; decide y justifícalo antes de un cálculo posterior.",
+    "accion_recomendada": "Si la especie es estructural o catalítica para este ligando, vuelve a evaluar con ella en la lista de cofactores del receptor; si no, registra por qué se retira."
+  },
+  "referencia": "Pose top-1 y ligando del cristal PIL A:1003",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "b985da5495012fcd4b822a06e215f10befc1862456da82c618c0488616cefd35",
+  "afinidad_top1": -8.399,
+  "microestado": "COc1ccc(C(=O)Nc2c(Cl)cncc2Cl)cc1OC1CCCC1",
+  "microestado_coincide": true,
+  "semilla_declarada": 13,
+  "vina": "1.2.7",
+  "receptor_sha256": "28a48718f664603f54b5a5cf5f868df39a4a21a11dfe91d444e6dcd26340ced7",
+  "segundos": 21.2,
+  "fin": "2026-10-23T03:46:05+00:00",
+  "brazo": "despues",
+  "commit": "878c215b"
+}

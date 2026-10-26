@@ -18,9 +18,12 @@
 
 ## 1. El dilema
 
-La GNN de propagación tiene Spearman r=0.73 en test (p<0.001). Esto significa
-que el 73% de la varianza en el score real es explicable por la posición de
-la molécula en MolGraph. El 27% restante es riesgo de falsos negativos.
+La GNN de propagación tuvo una correlación de rangos de Spearman r = 0.73 en su
+test histórico (p < 0.001). Una ρ de Spearman mide concordancia de orden: **no** es
+una fracción de varianza explicada (decía «el 73 % de la varianza») ni una tasa de
+falsos negativos (decía «el 27 % restante es riesgo de falsos negativos»), y no está
+calibrada para decidir descartes. Corrección del 2026-10-20 (SCI-A-072); la cifra es
+histórica y su fuente es `metricas_experimentales.md` §11, también no verificada.
 
 Para lograr 0% falsos negativos necesitamos un **threshold ultra-conservador**
 que solo descarte moléculas cuando estemos SEGUROS de que son malas.

@@ -1,0 +1,222 @@
+{
+ "id": "SUP-02-TOTAL-SCORE",
+ "meta": {
+  "titulo": "El índice de 0 a 100 no sabe más que Vina: ordena igual en una serie y peor en otra",
+  "entradilla": "MolDesign enseña un total_score de 0 a 100 como índice de calidad, construido con constantes que nadie había medido. Contra 146 afinidades experimentales de dos dianas, no ordena mejor que el score de Vina del que sale."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "NO_GO.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El ",
+     "m": null
+    },
+    {
+     "t": "total_score",
+     "m": "codigo"
+    },
+    {
+     "t": " no demuestra ningún valor sobre el score de Vina sin transformar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El ",
+     "m": null
+    },
+    {
+     "t": "total_score",
+     "m": "codigo"
+    },
+    {
+     "t": " se ve en la tabla SAR, en Comunidad y como score certificado de Moldex. Sale de una curva de eficiencia de ligando, una penalización por potencia y otra por tamaño, con constantes elegidas a mano. El inventario SUPUESTOS-01 lo marcó por las dos vías independientes: la de Claude y la de Sol.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se comparó, con el criterio escrito antes de calcular, con qué fuerza ordena cada número las afinidades medidas. Hay dos series con datos: VMAT2 (8T69, 89 Ki de una patente) y NET (8HFI, 57 Ki de ChEMBL). No se corrió nada nuevo: los dos números ya estaban en las corridas guardadas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Serie",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Correlación del total_score",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Correlación de Vina",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Diferencia (IC 95 %)",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "VMAT2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,40",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,39",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "+0,005 (−0,06; +0,06)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "NET",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,03",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−0,10 (−0,33; +0,13)",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "En VMAT2 es casi el mismo número que Vina",
+      "m": "fuerte"
+     },
+     {
+      "t": " (correlación 0,97 entre los dos), así que no añade nada.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "En NET se aparta de Vina y no hacia el orden experimental.",
+      "m": "fuerte"
+     },
+     {
+      "t": " La causa no se midió.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No demuestra daño:",
+      "m": "fuerte"
+     },
+     {
+      "t": " ningún intervalo excluye el cero por debajo.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No prueba que nunca ayude",
+      "m": "fuerte"
+     },
+     {
+      "t": " entre familias químicas distintas. Prueba que no está demostrado donde hay datos.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La consecuencia la decide el propietario:",
+      "m": "fuerte"
+     },
+     {
+      "t": " dejar de presentarlo como índice de calidad, o rotularlo en todas partes como «índice heredado», igual que ya hace el PDF.",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/SUP-02-TOTAL-SCORE.md"
+}

@@ -1,0 +1,2045 @@
+{
+  "id": "3f388afe-d509-4c15-b77d-02b914164d2a",
+  "molecule_id": "47ad0ae0-c9d5-4c75-895d-083690b4f4da",
+  "affinity_kcal": -7.766,
+  "affinity_score": 87.6,
+  "docking_poses": [
+    {
+      "rank": 1,
+      "affinity": -7.766,
+      "rmsd_lb": 0.0,
+      "rmsd_ub": 0.0,
+      "pdbqt_block": "MODEL 1\nREMARK VINA RESULT:    -7.766      0.000      0.000\nREMARK INTER + INTRA:         -10.098\nREMARK INTER:                  -9.581\nREMARK INTRA:                  -0.516\nREMARK UNBOUND:                -0.516\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      28.317  21.736  17.172  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      26.927  21.704  17.001  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      26.303  22.539  16.072  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      27.053  23.425  15.285  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      28.444  23.450  15.452  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      29.069  22.615  16.384  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      28.989  20.830  18.172  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      29.012  21.322  19.634  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      30.328  22.003  20.013  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      28.672  20.219  20.638  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      26.387  24.359  14.288  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      26.651  23.906  12.853  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.806  25.829  14.515  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      26.390  26.342  15.597  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      27.484  26.372  13.594  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 1,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/1CX2/0d5cf158da1b1c3f25043a4cbf9972433431b92ac9b2016bb203ed9a1c7fec95/321df4665d3442bc811c742682404f1e/poses.sdf",
+        "poses_file_sha256": "e6cdc2f03de3f4651459342c5bd2194be8faf29904745c6b2572598434802ae1",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/conformer.sdf",
+          "conformer_sha256": "11d342804dc87428c2fbb35e6fad72039abe49fa8757c7b8381e7a1e4fdcebf9",
+          "semilla_conformacional": 453
+        }
+      },
+      "conformer_index": 3
+    },
+    {
+      "rank": 2,
+      "affinity": -7.73,
+      "rmsd_lb": 0.0,
+      "rmsd_ub": 0.0,
+      "pdbqt_block": "MODEL 1\nREMARK VINA RESULT:    -7.730      0.000      0.000\nREMARK INTER + INTRA:         -10.078\nREMARK INTER:                  -9.538\nREMARK INTRA:                  -0.540\nREMARK UNBOUND:                -0.540\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      28.347  21.733  17.181  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      29.122  22.608  16.411  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      28.519  23.468  15.490  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      27.128  23.477  15.318  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      26.355  22.602  16.093  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      26.956  21.739  17.013  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      28.997  20.805  18.177  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      28.934  21.311  19.631  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      30.222  22.063  19.974  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      28.724  20.168  20.627  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      26.460  24.388  14.300  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      26.759  23.928  12.874  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.842  25.868  14.522  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      27.505  26.424  13.598  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      26.415  26.375  15.603  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 1,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/1CX2/fac107eae5625e6b35fd88781e6af06a99681b01477b6afbf69b0074d68d465c/7ffe8eeae20d488c80af3b31818641c3/poses.sdf",
+        "poses_file_sha256": "ca5621c3ad24512cdc8ef0199e44f72825d1ce24578df9e497ba2a23342dd4ca",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/conformer.sdf",
+          "conformer_sha256": "9b3cca0cda3067ba73842f37ef22be55e4ac4472879e4c8f07fa9a767e2b8eaf",
+          "semilla_conformacional": 316
+        }
+      },
+      "conformer_index": 2
+    },
+    {
+      "rank": 3,
+      "affinity": -7.727,
+      "rmsd_lb": 0.0,
+      "rmsd_ub": 0.0,
+      "pdbqt_block": "MODEL 1\nREMARK VINA RESULT:    -7.727      0.000      0.000\nREMARK INTER + INTRA:         -10.075\nREMARK INTER:                  -9.533\nREMARK INTRA:                  -0.541\nREMARK UNBOUND:                -0.541\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      28.315  21.730  17.182  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      26.925  21.744  17.013  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      26.329  22.610  16.093  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      27.107  23.482  15.320  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      28.498  23.465  15.491  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      29.096  22.600  16.413  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      28.957  20.806  18.187  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      28.952  21.351  19.629  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      28.609  20.225  20.606  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      30.296  21.975  20.011  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      26.446  24.400  14.304  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      26.749  23.947  12.876  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.829  25.878  14.536  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      26.385  26.384  15.608  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      27.513  26.432  13.625  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 1,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/1CX2/f2ae856a911d8cc40ca737c5edba2d8d11c9e5e4d788a5f75c885ff87ebcf515/5b0f875142c94f3ea7db6fbe359647e7/poses.sdf",
+        "poses_file_sha256": "55cb6a06012693cdb81fe7f13985c0a355e34bc2ce18ff57d6bf9dde7251baf4",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/conformer.sdf",
+          "conformer_sha256": "90b736916b5fbb72d6d5fd83f5d1d7591fac750d5ea9a82627746068c1e6f7f4",
+          "semilla_conformacional": 590
+        }
+      },
+      "conformer_index": 4
+    },
+    {
+      "rank": 4,
+      "affinity": -7.726,
+      "rmsd_lb": 0.0,
+      "rmsd_ub": 0.0,
+      "pdbqt_block": "MODEL 1\nREMARK VINA RESULT:    -7.726      0.000      0.000\nREMARK INTER + INTRA:         -10.072\nREMARK INTER:                  -9.533\nREMARK INTRA:                  -0.539\nREMARK UNBOUND:                -0.539\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      28.338  21.731  17.182  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      26.949  21.726  17.004  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      26.346  22.593  16.088  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      27.117  23.485  15.329  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      28.507  23.486  15.511  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      29.111  22.620  16.427  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      28.987  20.806  18.181  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      28.973  21.342  19.627  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      28.613  20.211  20.594  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      30.319  21.952  20.026  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      26.449  24.403  14.318  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      26.743  23.951  12.889  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.835  25.881  14.548  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      26.392  26.388  15.622  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      27.516  26.434  13.636  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 1,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd/1CX2/6c3408910beca6788022c63b71254f47689d1d0e791546f2c36b17649395c431/4b6b790f81aa49218162a437f3da4106/poses.sdf",
+        "poses_file_sha256": "36de3cf3e4ad3b645ce385bbc9776147c2fd4299600c28c003a793c34be8dcf9",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd/conformer.sdf",
+          "conformer_sha256": "f42718947190eefed9518083bfd7376e95102b1fe155a4a83356255996cd8cb9",
+          "semilla_conformacional": 42
+        }
+      },
+      "conformer_index": 0
+    },
+    {
+      "rank": 5,
+      "affinity": -7.719,
+      "rmsd_lb": 0.0,
+      "rmsd_ub": 0.0,
+      "pdbqt_block": "MODEL 1\nREMARK VINA RESULT:    -7.719      0.000      0.000\nREMARK INTER + INTRA:         -10.061\nREMARK INTER:                  -9.525\nREMARK INTRA:                  -0.536\nREMARK UNBOUND:                -0.536\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      28.361  21.768  17.182  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      26.971  21.752  17.015  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      26.355  22.602  16.092  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      27.114  23.490  15.317  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      28.506  23.504  15.489  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      29.123  22.655  16.411  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      29.026  20.853  18.178  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      28.970  21.367  19.630  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      30.301  22.030  19.997  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      28.662  20.245  20.625  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      26.432  24.389  14.298  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      26.684  23.892  12.875  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.844  25.867  14.476  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      26.412  26.419  15.531  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      27.532  26.377  13.543  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 1,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c01/1CX2/ea9d41e7580a172ae131f1c3200ebf0fecfd9456c6aa00b23bed60499a581cce/f664d4d3d47a4d5bab72fffba303a7fb/poses.sdf",
+        "poses_file_sha256": "4a0b4a9905aaa24cd1310cbcd8076e1fcb317afb72d1f7592050a29ccf6dc03e",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c01/conformer.sdf",
+          "conformer_sha256": "9f907255da619c38f93dd23b377221c0c54fdd51d9382d80de97e684cde81a28",
+          "semilla_conformacional": 179
+        }
+      },
+      "conformer_index": 1
+    },
+    {
+      "rank": 6,
+      "affinity": -7.311,
+      "rmsd_lb": 1.804,
+      "rmsd_ub": 2.207,
+      "pdbqt_block": "MODEL 2\nREMARK VINA RESULT:    -7.311      1.804      2.207\nREMARK INTER + INTRA:          -9.561\nREMARK INTER:                  -9.253\nREMARK INTRA:                  -0.308\nREMARK UNBOUND:                -0.541\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      28.377  21.519  17.345  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      27.076  21.000  17.355  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      26.110  21.490  16.473  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      26.419  22.508  15.562  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      27.721  23.025  15.556  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      28.690  22.536  16.437  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      29.417  21.000  18.308  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      29.259  21.533  19.745  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      28.751  20.416  20.659  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      30.570  22.095  20.297  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      25.362  23.012  14.592  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      24.046  22.257  14.773  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      25.859  22.965  13.131  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      26.576  23.948  12.777  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      25.477  21.977  12.437  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 2,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/1CX2/f2ae856a911d8cc40ca737c5edba2d8d11c9e5e4d788a5f75c885ff87ebcf515/5b0f875142c94f3ea7db6fbe359647e7/poses.sdf",
+        "poses_file_sha256": "55cb6a06012693cdb81fe7f13985c0a355e34bc2ce18ff57d6bf9dde7251baf4",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/conformer.sdf",
+          "conformer_sha256": "90b736916b5fbb72d6d5fd83f5d1d7591fac750d5ea9a82627746068c1e6f7f4",
+          "semilla_conformacional": 590
+        }
+      },
+      "conformer_index": 4
+    },
+    {
+      "rank": 7,
+      "affinity": -7.069,
+      "rmsd_lb": 3.038,
+      "rmsd_ub": 6.349,
+      "pdbqt_block": "MODEL 3\nREMARK VINA RESULT:    -7.069      3.038      6.349\nREMARK INTER + INTRA:          -9.263\nREMARK INTER:                  -8.990\nREMARK INTRA:                  -0.273\nREMARK UNBOUND:                -0.541\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      26.141  23.687  14.109  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      25.401  22.647  14.686  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      25.888  21.963  15.803  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      27.124  22.300  16.369  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      27.862  23.341  15.789  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      27.377  24.026  14.671  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      25.622  24.416  12.894  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      25.461  23.520  11.650  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      23.986  23.160  11.459  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      25.996  24.194  10.385  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      27.628  21.563  17.599  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      29.001  20.942  17.343  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.605  20.518  18.097  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      25.685  20.979  18.834  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      26.810  19.318  17.748  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 3,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/1CX2/f2ae856a911d8cc40ca737c5edba2d8d11c9e5e4d788a5f75c885ff87ebcf515/5b0f875142c94f3ea7db6fbe359647e7/poses.sdf",
+        "poses_file_sha256": "55cb6a06012693cdb81fe7f13985c0a355e34bc2ce18ff57d6bf9dde7251baf4",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/conformer.sdf",
+          "conformer_sha256": "90b736916b5fbb72d6d5fd83f5d1d7591fac750d5ea9a82627746068c1e6f7f4",
+          "semilla_conformacional": 590
+        }
+      },
+      "conformer_index": 4
+    },
+    {
+      "rank": 8,
+      "affinity": -7.058,
+      "rmsd_lb": 3.045,
+      "rmsd_ub": 6.491,
+      "pdbqt_block": "MODEL 2\nREMARK VINA RESULT:    -7.058      3.045      6.491\nREMARK INTER + INTRA:          -9.248\nREMARK INTER:                  -9.029\nREMARK INTRA:                  -0.220\nREMARK UNBOUND:                -0.540\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      26.175  23.691  14.012  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      25.441  22.605  14.505  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      25.863  21.926  15.651  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      27.023  22.316  16.333  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      27.752  23.405  15.839  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      27.334  24.085  14.691  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      25.720  24.426  12.776  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      25.355  23.500  11.599  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      25.802  24.137  10.281  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      23.855  23.204  11.546  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      27.508  21.569  17.565  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      28.901  20.984  17.339  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.495  20.493  18.016  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      26.773  19.296  17.712  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      25.505  20.932  18.674  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 2,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/1CX2/fac107eae5625e6b35fd88781e6af06a99681b01477b6afbf69b0074d68d465c/7ffe8eeae20d488c80af3b31818641c3/poses.sdf",
+        "poses_file_sha256": "ca5621c3ad24512cdc8ef0199e44f72825d1ce24578df9e497ba2a23342dd4ca",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/conformer.sdf",
+          "conformer_sha256": "9b3cca0cda3067ba73842f37ef22be55e4ac4472879e4c8f07fa9a767e2b8eaf",
+          "semilla_conformacional": 316
+        }
+      },
+      "conformer_index": 2
+    },
+    {
+      "rank": 9,
+      "affinity": -6.89,
+      "rmsd_lb": 1.601,
+      "rmsd_ub": 2.517,
+      "pdbqt_block": "MODEL 2\nREMARK VINA RESULT:    -6.890      1.601      2.517\nREMARK INTER + INTRA:          -9.018\nREMARK INTER:                  -8.700\nREMARK INTRA:                  -0.318\nREMARK UNBOUND:                -0.516\nREMARK SMILES CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1\nREMARK SMILES IDX 5 1 6 2 7 3 8 4 14 5 15 6 4 7 2 8 1 9 3 10 9 11 10 12 11 13\nREMARK SMILES IDX 12 14 13 15\nREMARK H PARENT\nROOT\nATOM      1  C   UNL     1      26.305  21.680  16.400  1.00  0.00    -0.048 A \nATOM      2  C   UNL     1      27.005  22.835  16.029  1.00  0.00     0.004 A \nATOM      3  C   UNL     1      26.644  23.553  14.887  1.00  0.00     0.004 A \nATOM      4  C   UNL     1      25.570  23.137  14.088  1.00  0.00    -0.040 A \nATOM      5  C   UNL     1      24.865  21.986  14.464  1.00  0.00     0.004 A \nATOM      6  C   UNL     1      25.228  21.267  15.607  1.00  0.00     0.004 A \nENDROOT\nBRANCH   1   7\nATOM      7  C   UNL     1      26.693  20.910  17.636  1.00  0.00     0.038 C \nBRANCH   7   8\nATOM      8  C   UNL     1      27.960  21.392  18.373  1.00  0.00    -0.013 C \nATOM      9  C   UNL     1      29.243  20.773  17.818  1.00  0.00     0.008 C \nATOM     10  C   UNL     1      27.880  21.191  19.888  1.00  0.00     0.008 C \nENDBRANCH   7   8\nENDBRANCH   1   7\nBRANCH   4  11\nATOM     11  C   UNL     1      25.180  23.892  12.827  1.00  0.00     0.062 C \nATOM     12  C   UNL     1      24.788  22.926  11.710  1.00  0.00     0.019 C \nBRANCH  11  13\nATOM     13  C   UNL     1      26.291  24.870  12.381  1.00  0.00     0.049 C \nATOM     14  O   UNL     1      26.205  26.035  12.872  1.00  0.00    -0.550 OA\nATOM     15  O   UNL     1      27.141  24.421  11.557  1.00  0.00    -0.550 OA\nENDBRANCH  11  13\nENDBRANCH   4  11\nTORSDOF 4\n\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\nENDMDL",
+      "source_provenance": {
+        "rank": 2,
+        "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/1CX2/0d5cf158da1b1c3f25043a4cbf9972433431b92ac9b2016bb203ed9a1c7fec95/321df4665d3442bc811c742682404f1e/poses.sdf",
+        "poses_file_sha256": "e6cdc2f03de3f4651459342c5bd2194be8faf29904745c6b2572598434802ae1",
+        "parsing_source": "sdf",
+        "conversor_estructural": null,
+        "ligand_input": {
+          "conformer_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/conformer.sdf",
+          "conformer_sha256": "11d342804dc87428c2fbb35e6fad72039abe49fa8757c7b8381e7a1e4fdcebf9",
+          "semilla_conformacional": 453
+        }
+      },
+      "conformer_index": 3
+    }
+  ],
+  "poses_file_path": null,
+  "receptor_path": "runs/receptors/e9e2a024c4432a9fef3171f2cd2a5f3df3bd4213ffc2742a51bf53cbe54e9946.pdbqt",
+  "receptor_sha256": "e9e2a024c4432a9fef3171f2cd2a5f3df3bd4213ffc2742a51bf53cbe54e9946",
+  "parsing_source": "sdf",
+  "vina_version": "1.2.7",
+  "vina_random_seed": 42,
+  "scientific_warnings": [
+    {
+      "codigo": "RECEPTOR_PROTONACION_DECLARADA",
+      "severidad": "precaucion",
+      "mensaje": "Plantillas de histidina asignadas por Meeko: A:133=HIP, A:204=HIP, A:207=HIP, A:214=HIP, A:226=HIP, A:232=HIP, A:242=HIP, A:278=HIP, A:309=HIP, A:320=HIP, A:351=HIP, A:356=HIP, A:386=HIP, A:388=HID, A:417=HIP, A:90=HIP, A:95=HIP. La asignación procede de plantillas y no valida el microestado experimental ni un pH concreto. (Aviso idéntico en las 5 conformaciones que acoplaron.)"
+    },
+    {
+      "codigo": "CAJA_BUSQUEDA_AMPLIA",
+      "severidad": "precaucion",
+      "mensaje": "La caja ocupa 30080 Å³ (> 27000 Å³). Exhaustividad efectiva: 4. El umbral y el escalón automático son una política conservadora; no garantizan convergencia de poses. (Aviso idéntico en las 5 conformaciones que acoplaron.)"
+    },
+    {
+      "codigo": "SITIO_DESOLVATADO",
+      "severidad": "info",
+      "mensaje": "Preparación en condición desolvatada: la estructura depositada no tenía aguas cristalográficas dentro de la caja de acoplamiento, así que el sitio no perdió ninguna al prepararlo. (Aviso idéntico en las 5 conformaciones que acoplaron.)"
+    },
+    "Ensemble conformacional: 5 de 5 conformaciones acoplaron; 45 poses candidatas reordenadas por afinidad, 9 entregadas desde 5 conformación(es). El ensemble amplía la cobertura geométrica; no mejora, por sí solo, la elección de la pose top-1.",
+    "Eficiencia de ligando LE=0.52. A 15 átomos pesados, el umbral de 0.45 se cruza con cualquier afinidad mejor que -6.8 kcal/mol, así que superarlo no distingue una unión buena de una mediocre. En este rango de masa (< 300 Da, Rule of Three) la eficiencia por átomo es alta por construcción: sirve para comparar entre moléculas del mismo tamaño, no como veredicto.",
+    {
+      "codigo": "ESPECIE_ACOPLADA_DISTINTA",
+      "severidad": "precaucion",
+      "mensaje": "La especie acoplada no es la entrada: CC(C)Cc1ccc([C@H](C)C(=O)O)cc1 → CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1. Las alternativas no evaluadas siguen siendo incertidumbre química."
+    }
+  ],
+  "structural_evidence": {
+    "version_schema": 1,
+    "stage_status": "passed",
+    "reason_code": null,
+    "detail": null,
+    "pose_strategy": "vina_top1",
+    "primary_pose_rank": 1,
+    "poses_produced": 9,
+    "poses_evaluated": 9,
+    "coverage": 1.0,
+    "receptor_sha256": "e9e2a024c4432a9fef3171f2cd2a5f3df3bd4213ffc2742a51bf53cbe54e9946",
+    "receptor_source": "cohort_runs.receptor_prepared_bytes",
+    "validation_engine": "posebusters:0.6.5:dock",
+    "evaluated_at": "2026-10-23T20:39:04.979929+00:00",
+    "poses": [
+      {
+        "rank": 1,
+        "observed_vina_affinity_kcal_mol": -7.766,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 2,
+        "observed_vina_affinity_kcal_mol": -7.73,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 3,
+        "observed_vina_affinity_kcal_mol": -7.727,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 4,
+        "observed_vina_affinity_kcal_mol": -7.726,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 5,
+        "observed_vina_affinity_kcal_mol": -7.719,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 6,
+        "observed_vina_affinity_kcal_mol": -7.311,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 7,
+        "observed_vina_affinity_kcal_mol": -7.069,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 8,
+        "observed_vina_affinity_kcal_mol": -7.058,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      },
+      {
+        "rank": 9,
+        "observed_vina_affinity_kcal_mol": -6.89,
+        "status": "passed",
+        "label": "CONTROLES SUPERADOS",
+        "engine": "posebusters:0.6.5:dock",
+        "checks": [
+          {
+            "check": "mol_pred_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "mol_cond_loaded",
+            "estado": "PASA"
+          },
+          {
+            "check": "sanitization",
+            "estado": "PASA"
+          },
+          {
+            "check": "inchi_convertible",
+            "estado": "PASA"
+          },
+          {
+            "check": "all_atoms_connected",
+            "estado": "PASA"
+          },
+          {
+            "check": "no_radicals",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_lengths",
+            "estado": "PASA"
+          },
+          {
+            "check": "bond_angles",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_steric_clash",
+            "estado": "PASA"
+          },
+          {
+            "check": "aromatic_ring_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "non-aromatic_ring_non-flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "double_bond_flatness",
+            "estado": "PASA"
+          },
+          {
+            "check": "internal_energy",
+            "estado": "PASA"
+          },
+          {
+            "check": "protein-ligand_maximum_distance",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "minimum_distance_to_waters",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_protein",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_organic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_inorganic_cofactors",
+            "estado": "PASA"
+          },
+          {
+            "check": "volume_overlap_with_waters",
+            "estado": "PASA"
+          }
+        ],
+        "checks_que_fallan": [],
+        "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+        "reason_code": null,
+        "canonicalization_invariants": {
+          "mapa_biyectivo": true,
+          "carga_formal_identica": true,
+          "n_enlaces_pesados_identico": true,
+          "n_atomos_pesados_identico": true,
+          "smiles_isomerico_identico": true,
+          "n_coordenadas_aplicadas": 15,
+          "h_sin_coordenada_eliminados": 0,
+          "n_atomos_en_pdbqt": 15,
+          "h_polares_declarados_descartados": 0,
+          "desplazamiento_pesado_max_A": 0.0,
+          "pesados_invariantes": true,
+          "n_h_heredados": 0,
+          "n_h_canonicos": 17
+        },
+        "provenance": {
+          "pose_pdbqt": "docking_poses[].pdbqt_block",
+          "template": "meeko_remark_smiles_idx",
+          "index_map": "meeko_remark_smiles_idx",
+          "receptor": "cohort_runs.receptor_prepared_bytes",
+          "reader_route": "mapa_atomico_canonico"
+        }
+      }
+    ]
+  },
+  "pose_selection": {
+    "version_schema": 1,
+    "contract": "pose_selection/v1",
+    "status": "abstained",
+    "strategy": "vina_top1",
+    "strategy_is_fallback": true,
+    "vina_top1_rank": 1,
+    "selected_pose_rank": null,
+    "confidence": 0.05750507116317749,
+    "abstained": true,
+    "abstention_reason": "MARGEN_BAJO_UMBRAL",
+    "detail": "El margen entre la primera y la segunda (0.057505) no llega al umbral de abstención (0.097663). El selector no recomienda.",
+    "pose_scores": [
+      {
+        "rank": 1,
+        "score": 0.20728638768196106
+      },
+      {
+        "rank": 2,
+        "score": 0.14978131651878357
+      },
+      {
+        "rank": 3,
+        "score": 0.12119901925325394
+      },
+      {
+        "rank": 4,
+        "score": 0.12119901925325394
+      },
+      {
+        "rank": 5,
+        "score": 0.07849374413490295
+      },
+      {
+        "rank": 6,
+        "score": -0.20994259417057037
+      },
+      {
+        "rank": 7,
+        "score": -0.2690815329551697
+      },
+      {
+        "rank": 8,
+        "score": -0.2468271255493164
+      },
+      {
+        "rank": 9,
+        "score": -0.1575678139925003
+      }
+    ],
+    "model": {
+      "name": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)",
+      "version": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)",
+      "model_path": "pose_selector_v06.xgb",
+      "model_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "meta_sha256": "9ac4e379f9c54aef24acc72fe7e61ffff751a70bf80b751f610bf93f34e4fc96",
+      "abstention_threshold": 0.097663
+    },
+    "inputs": {
+      "n_poses": 9,
+      "pose_ranks": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "vina_affinities": [
+        -7.766,
+        -7.73,
+        -7.727,
+        -7.726,
+        -7.719,
+        -7.311,
+        -7.069,
+        -7.058,
+        -6.89
+      ],
+      "pose_pdbqt_source": "docking_poses[].pdbqt_block",
+      "receptor_source": "rec_pb_q2fyjwde.pdb",
+      "structural_evidence_contract": 1
+    },
+    "warnings": [],
+    "suggested_pose_physical_status": "passed",
+    "physical_review": null,
+    "physically_valid_alternatives": [
+      {
+        "rank": 1,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 2,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 3,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 4,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 5,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 6,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 7,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 8,
+        "physical_status": "passed"
+      },
+      {
+        "rank": 9,
+        "physical_status": "passed"
+      }
+    ],
+    "evaluated_at": "2026-10-23T20:39:05.301613+00:00",
+    "would_have_suggested_rank": 1
+  },
+  "docking_protocol": {
+    "contract": "docking_protocol/v2",
+    "conformers_requested": 5,
+    "conformers_generated": 5,
+    "conformer_warnings": [],
+    "engine": "vina",
+    "exhaustiveness": 4,
+    "num_poses": 9,
+    "seed": 42,
+    "execution_provenance": {
+      "box_center": [
+        24.664,
+        21.747,
+        16.451
+      ],
+      "box_size": [
+        31.1,
+        31.1,
+        31.1
+      ],
+      "receptor_sha256": "e9e2a024c4432a9fef3171f2cd2a5f3df3bd4213ffc2742a51bf53cbe54e9946",
+      "receta_receptor": 7,
+      "receptor_prep": {
+        "source": "meeko_report",
+        "recipe_hash": "0c9783f880ddc561b44206a0fcf696f775a6f944f6f34f77ba720ac6424835da",
+        "species_diff": {
+          "near_site": {
+            "margin_A": 6.0,
+            "preserved": [
+              {
+                "category": "organic_cofactor",
+                "chain": "A",
+                "distance_to_box_A": 0.0,
+                "insertion_code": "",
+                "name": "HEM",
+                "residue_number": "682"
+              }
+            ],
+            "protein_residues_removed": {
+              "B": 6,
+              "D": 15
+            },
+            "removed": [
+              {
+                "category": "site_ligand",
+                "chain": "A",
+                "distance_to_box_A": 0.0,
+                "insertion_code": "",
+                "name": "S58",
+                "residue_number": "701"
+              }
+            ]
+          },
+          "preserved": {
+            "atom_records": 5439,
+            "metals": 0,
+            "organic_cofactors": 43,
+            "waters": 0
+          },
+          "reason": "La fuente incluye 4 cadena(s); el receptor de la corrida sólo conserva 'A'.",
+          "removed": {
+            "metals": 0,
+            "organic_cofactors": 129,
+            "other_hetatm": 448,
+            "waters": 0
+          },
+          "removed_species": [
+            {
+              "atom_count": 129,
+              "category": "organic_cofactor",
+              "residue_code": "HEM"
+            },
+            {
+              "atom_count": 336,
+              "category": "other_heteroatom",
+              "residue_code": "NAG"
+            },
+            {
+              "atom_count": 112,
+              "category": "other_heteroatom",
+              "residue_code": "S58"
+            }
+          ],
+          "route_input": {
+            "atom_records": 5439,
+            "chains": [
+              "A"
+            ],
+            "hetatm_records": 43,
+            "metals": 0,
+            "organic_cofactors": 43,
+            "other_hetatm": 0,
+            "waters": 0
+          },
+          "site_ligand": "S58",
+          "source": {
+            "atom_records": 21756,
+            "chains": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ],
+            "hetatm_records": 620,
+            "metals": 0,
+            "organic_cofactors": 172,
+            "other_hetatm": 448,
+            "waters": 0
+          },
+          "state": "evaluado"
+        },
+        "meeko_parameterized_json_sha256": "b23c2c786e2067541438722ac573d84780231b2a7dbb69ac4b66d41cf1e75962",
+        "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+        "removed_residues": [],
+        "cofactors_outside_site": [],
+        "truncated_sidechains": [],
+        "backbone_gaps": [],
+        "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+        "chain": "A",
+        "prepared_chains": [
+          "A"
+        ],
+        "site_chains": [
+          "A"
+        ],
+        "cofactors_whitelist": []
+      },
+      "toolchain": {
+        "vina": "1.2.7",
+        "meeko": "0.7.1",
+        "rdkit": "2025.9.6",
+        "dimorphite_dl": "2.0.2"
+      },
+      "cpu": 4,
+      "app_version": "1.0.4",
+      "git_commit": null,
+      "por_conformacion": [
+        {
+          "indice": 0,
+          "ligand_input_sha256": "f42718947190eefed9518083bfd7376e95102b1fe155a4a83356255996cd8cb9",
+          "ligand_input_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd/conformer.sdf",
+          "ligand_pdbqt_sha256": "cdc514131f36dd3c8bed89af8e29c64c608defe9ebd3f34512b4fe9df3e80bdb",
+          "ligand_pdbqt_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd/vina_input.pdbqt",
+          "log_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd/1CX2/6c3408910beca6788022c63b71254f47689d1d0e791546f2c36b17649395c431/4b6b790f81aa49218162a437f3da4106/vina.log",
+          "log_sha256": "4cc1a05b1c25e335a3c277a93e3e0bf526b77d2b9cb58bca668e9757b93ff9f1",
+          "poses_sha256": "36de3cf3e4ad3b645ce385bbc9776147c2fd4299600c28c003a793c34be8dcf9",
+          "semilla_conformacional": 42,
+          "minimizacion": "MMFF94",
+          "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd/1CX2/6c3408910beca6788022c63b71254f47689d1d0e791546f2c36b17649395c431/4b6b790f81aa49218162a437f3da4106/poses.sdf",
+          "num_poses": 9,
+          "mejor_afinidad_kcal_mol": -7.726
+        },
+        {
+          "indice": 1,
+          "ligand_input_sha256": "9f907255da619c38f93dd23b377221c0c54fdd51d9382d80de97e684cde81a28",
+          "ligand_input_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c01/conformer.sdf",
+          "ligand_pdbqt_sha256": "ee08709d1124c72a7a9f5d6e7cb9873a56c3ab919d66b236734caae7cfbfd597",
+          "ligand_pdbqt_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c01/vina_input.pdbqt",
+          "log_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c01/1CX2/ea9d41e7580a172ae131f1c3200ebf0fecfd9456c6aa00b23bed60499a581cce/f664d4d3d47a4d5bab72fffba303a7fb/vina.log",
+          "log_sha256": "c664f1d015e89a41bf74f2d91e911478af1b5377ff4810b3ee4f9dcdb0704107",
+          "poses_sha256": "4a0b4a9905aaa24cd1310cbcd8076e1fcb317afb72d1f7592050a29ccf6dc03e",
+          "semilla_conformacional": 179,
+          "energia_mmff": 59.77966356357166,
+          "minimizacion": "MMFF94",
+          "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c01/1CX2/ea9d41e7580a172ae131f1c3200ebf0fecfd9456c6aa00b23bed60499a581cce/f664d4d3d47a4d5bab72fffba303a7fb/poses.sdf",
+          "num_poses": 9,
+          "mejor_afinidad_kcal_mol": -7.719
+        },
+        {
+          "indice": 2,
+          "ligand_input_sha256": "9b3cca0cda3067ba73842f37ef22be55e4ac4472879e4c8f07fa9a767e2b8eaf",
+          "ligand_input_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/conformer.sdf",
+          "ligand_pdbqt_sha256": "8fead2e8c1d0672e612b6fb63472b32d06272df6d06630e96dcf78ef5cdacec6",
+          "ligand_pdbqt_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/vina_input.pdbqt",
+          "log_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/1CX2/fac107eae5625e6b35fd88781e6af06a99681b01477b6afbf69b0074d68d465c/7ffe8eeae20d488c80af3b31818641c3/vina.log",
+          "log_sha256": "2db2da6538ebb299d56dffcf6921c9371a489983767f8b9cda98bd1b4d7568fd",
+          "poses_sha256": "ca5621c3ad24512cdc8ef0199e44f72825d1ce24578df9e497ba2a23342dd4ca",
+          "semilla_conformacional": 316,
+          "energia_mmff": 59.77966359191551,
+          "minimizacion": "MMFF94",
+          "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c02/1CX2/fac107eae5625e6b35fd88781e6af06a99681b01477b6afbf69b0074d68d465c/7ffe8eeae20d488c80af3b31818641c3/poses.sdf",
+          "num_poses": 9,
+          "mejor_afinidad_kcal_mol": -7.73
+        },
+        {
+          "indice": 3,
+          "ligand_input_sha256": "11d342804dc87428c2fbb35e6fad72039abe49fa8757c7b8381e7a1e4fdcebf9",
+          "ligand_input_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/conformer.sdf",
+          "ligand_pdbqt_sha256": "066417d207e634e70ec1bddd5d9ac8477fe618624b9e6aaf0ea86067c5f38234",
+          "ligand_pdbqt_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/vina_input.pdbqt",
+          "log_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/1CX2/0d5cf158da1b1c3f25043a4cbf9972433431b92ac9b2016bb203ed9a1c7fec95/321df4665d3442bc811c742682404f1e/vina.log",
+          "log_sha256": "0379d503063ad35d89682a946f8b347d47b6c8d4497f6732cace3ee54ac13ca5",
+          "poses_sha256": "e6cdc2f03de3f4651459342c5bd2194be8faf29904745c6b2572598434802ae1",
+          "semilla_conformacional": 453,
+          "energia_mmff": 60.32539314892204,
+          "minimizacion": "MMFF94",
+          "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c03/1CX2/0d5cf158da1b1c3f25043a4cbf9972433431b92ac9b2016bb203ed9a1c7fec95/321df4665d3442bc811c742682404f1e/poses.sdf",
+          "num_poses": 9,
+          "mejor_afinidad_kcal_mol": -7.766
+        },
+        {
+          "indice": 4,
+          "ligand_input_sha256": "90b736916b5fbb72d6d5fd83f5d1d7591fac750d5ea9a82627746068c1e6f7f4",
+          "ligand_input_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/conformer.sdf",
+          "ligand_pdbqt_sha256": "070c4508d36bc2c080d4041d6b84aaee94273f396e1045512f13bce7fedbd426",
+          "ligand_pdbqt_path": "ligands/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/vina_input.pdbqt",
+          "log_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/1CX2/f2ae856a911d8cc40ca737c5edba2d8d11c9e5e4d788a5f75c885ff87ebcf515/5b0f875142c94f3ea7db6fbe359647e7/vina.log",
+          "log_sha256": "83a8af69cc59532314c6275ea30c3ee0f0d59066eb722dead9b7ff9b9e97af8d",
+          "poses_sha256": "55cb6a06012693cdb81fe7f13985c0a355e34bc2ce18ff57d6bf9dde7251baf4",
+          "semilla_conformacional": 590,
+          "energia_mmff": 59.775333505750694,
+          "minimizacion": "MMFF94",
+          "poses_file_path": "runs/docking/373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd__c04/1CX2/f2ae856a911d8cc40ca737c5edba2d8d11c9e5e4d788a5f75c885ff87ebcf515/5b0f875142c94f3ea7db6fbe359647e7/poses.sdf",
+          "num_poses": 9,
+          "mejor_afinidad_kcal_mol": -7.727
+        }
+      ]
+    },
+    "reference_residues": {
+      "source": "selected",
+      "residues": [
+        "A:ALA516",
+        "A:ALA527",
+        "A:ARG120",
+        "A:ARG513",
+        "A:GLN192",
+        "A:GLY526",
+        "A:HIS90",
+        "A:LEU352",
+        "A:LEU359",
+        "A:PHE518",
+        "A:SER353",
+        "A:TYR355",
+        "A:TYR385",
+        "A:VAL349",
+        "A:VAL523"
+      ],
+      "count": 15,
+      "catalog_count": 15,
+      "catalog_source": "box_ligand_contacts"
+    }
+  },
+  "task_id": "66e26595-6f90-492e-8eeb-ec6a9d057fb1",
+  "celery_task_id": "66e26595-6f90-492e-8eeb-ec6a9d057fb1",
+  "molecular_weight": 206.28,
+  "log_p": 3.07,
+  "tpsa": 37.3,
+  "hbd": 1,
+  "hba": 2,
+  "rotatable_bonds": 4,
+  "heavy_atom_count": 15,
+  "ring_count": 1,
+  "lipinski_pass": true,
+  "veber_pass": true,
+  "ghose_pass": false,
+  "egan_pass": true,
+  "muegge_pass": true,
+  "muegge_score": 9,
+  "muegge_violations": [],
+  "fsp3": 0.462,
+  "is_pains": false,
+  "pains_matches": [],
+  "qed": 0.8216,
+  "sa_score": 2.19,
+  "sa_reasons": [],
+  "adme_score": 100.0,
+  "druglikeness_score": 82.16,
+  "total_score": 66.99,
+  "gnn_score": null,
+  "ml_pki": 4.6275,
+  "ml_pki_aplicada": true,
+  "xgb_score": 0.0529,
+  "clgnn_score": null,
+  "quantum_score": null,
+  "ums_score": null,
+  "mmgbsa_score": null,
+  "stacking_vina_weight": 1.0,
+  "stacking_xgb_weight": 0.0,
+  "stacking_gnn_weight": 0.0,
+  "stacking_clgnn_weight": 0.0,
+  "stacking_effective_weights": {
+    "vina": 1.0,
+    "xgb": 0.0,
+    "gnn": 0.0,
+    "clgnn": 0.0
+  },
+  "stacking_degraded": false,
+  "stacking_missing_components": [],
+  "weights_calibration_id": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
+  "m5_protocol_id": null,
+  "m5_score": null,
+  "m5_scientific_status": null,
+  "m5_missing_components": null,
+  "ums_warhead": null,
+  "target_family": "oxidoreductase",
+  "engine_used": null,
+  "fallback_reason": "Familia 'oxidoreductase' sin modelo entrenado disponible — modelo universal usado.",
+  "in_applicability_domain": true,
+  "model_used": "universal",
+  "specificity_score": 100.0,
+  "hotspots_hit": [
+    "A:ARG120",
+    "A:VAL349",
+    "A:LEU352",
+    "A:TYR355",
+    "A:LEU359",
+    "A:TYR385",
+    "A:GLY526",
+    "A:ALA527"
+  ],
+  "target_hotspots": [
+    {
+      "name": "A:ARG513",
+      "importance": 0.68
+    },
+    {
+      "name": "A:HIS90",
+      "importance": 0.51
+    },
+    {
+      "name": "A:ARG120",
+      "importance": 0.42
+    },
+    {
+      "name": "A:TYR355",
+      "importance": 0.36
+    },
+    {
+      "name": "A:PHE518",
+      "importance": 0.25
+    },
+    {
+      "name": "A:VAL523",
+      "importance": 0.25
+    },
+    {
+      "name": "A:LEU352",
+      "importance": 0.25
+    },
+    {
+      "name": "A:TYR385",
+      "importance": 0.23
+    },
+    {
+      "name": "A:VAL349",
+      "importance": 0.2
+    },
+    {
+      "name": "A:LEU359",
+      "importance": 0.17
+    },
+    {
+      "name": "A:ALA527",
+      "importance": 0.16
+    },
+    {
+      "name": "A:GLN192",
+      "importance": 0.16
+    },
+    {
+      "name": "A:ALA516",
+      "importance": 0.14
+    },
+    {
+      "name": "A:SER353",
+      "importance": 0.13
+    },
+    {
+      "name": "A:GLY526",
+      "importance": 0.13
+    }
+  ],
+  "affinity_threshold": -7.5,
+  "affinity_multiplier": 1.0,
+  "specificity_multiplier": 1.0,
+  "target_name": "CYCLOOXYGENASE-2 (PROSTAGLANDIN SYNTHASE-2) COMPLEXED WITH A SELECTIVE",
+  "target_spearman_rho": null,
+  "target_calibracion": {
+    "nivel": "curado_estructural",
+    "spearman_rho": null,
+    "structural_family": "oxidoreductase",
+    "tiene_pipeline_de_familia": false,
+    "resumen": "Curado estructuralmente; sin calibrar y sin pipeline de familia",
+    "advertencia": "Este receptor no tiene Spearman ρ medido y su familia estructural no tiene stacking calibrado: se ejecuta con el contrato alpha conservador común. No hay evidencia de que el ranking correlacione con afinidad real aquí. Trata el resultado como una hipótesis a comprobar, no como una medida.",
+    "motivo": "faltan Spearman ρ del receptor y stacking calibrado para su familia",
+    "requiere_advertencia": true,
+    "respaldo": null,
+    "rho_registrada_sin_respaldo": null
+  },
+  "blood_viability_score": null,
+  "blood_solubility_logs": null,
+  "blood_ppb_category": null,
+  "blood_bbb_permeable": null,
+  "blood_bbb_motivo": null,
+  "blood_cns_mpo": null,
+  "blood_hia_permeable": null,
+  "blood_systemic_reactivity": [],
+  "blood_tabpfn_estado": null,
+  "shap_values": {
+    "vina_best_score": 0.2828207015991211,
+    "shell_O_N_4_8": -0.25594019889831543,
+    "qed": -0.22159118950366974,
+    "tpsa": -0.16594251990318298,
+    "ecif_C_aro_N": -0.15873068571090698,
+    "shell_O_C_8_12": -0.12319745868444443,
+    "mw": -0.12109029293060303,
+    "shell_N_O_0_4": -0.11943460255861282,
+    "shell_C_O_4_8": 0.09884973615407944,
+    "contacts_per_ha_4A": -0.09106960892677307
+  },
+  "shap_output": "delta_pKi",
+  "shap_model_id": "d2041777857586065aa29dcc8b876a9c1e89394dacbf517e9c071e5cba27f0b2",
+  "gnn_attention": null,
+  "gnn_attention_svg": null,
+  "gnn_pharmacophores": null,
+  "selectivity_ratio": null,
+  "selectivity_delta_delta_g": null,
+  "ligand_state": {
+    "smiles_entrada": "CC(C)Cc1ccc([C@H](C)C(=O)O)cc1",
+    "identidad_entrada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "CC(C)Cc1ccc([C@H](C)C(=O)O)cc1",
+      "sha256": "872ecad5d9aad76c245795c245744883709aa107517dc9260ce570fce3c0e376"
+    },
+    "tautomeria": {
+      "aplicada": false,
+      "motor": null,
+      "alternativas": null,
+      "motivo": "se respeta el tautómero de la entrada (tautomero=entrada)",
+      "modo": "entrada",
+      "aviso_de_modo": null,
+      "declaracion_entrada": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "CC(C)Cc1ccc([C@H](C)C(=O)O)cc1",
+        "smiles_canonico": "CC(C)Cc1ccc([C@H](C)C(=O)O)cc1",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "CC(=C(O)O)c1ccc(CC(C)C)cc1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "CC(C)Cc1ccc([C@H](C)C(=O)O)cc1",
+            "es_canonico": true,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 2,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          8,
+          11,
+          12
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "2 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante.",
+        "tautomero_acoplado": "entrada"
+      },
+      "declaracion": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1",
+        "smiles_canonico": "CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "CC(=C([O-])O)c1ccc(CC(C)C)cc1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1",
+            "es_canonico": true,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 2,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          8,
+          11
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "2 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante."
+      }
+    },
+    "protonacion": {
+      "aplicada": true,
+      "motor": "dimorphite-dl",
+      "ph": 7.4,
+      "ph_solicitado": null,
+      "aviso_de_ph": null,
+      "alternativas": 1,
+      "seleccion": {
+        "criterio": "cargas_esperadas_ph_7.4",
+        "ph": 7.4,
+        "cationes_esperados": 0,
+        "aniones_esperados": 1,
+        "desajuste": 0,
+        "clases_sin_pka": [],
+        "quimica_resuelta": true,
+        "revision_biguanida": false,
+        "empatados": 1,
+        "motivo": "Se comparan los recuentos de carga formal de cada microestado con los centros que Henderson-Hasselbalch predice ionizados a pH 7.4, usando los pKa por clase de este módulo. Los empates se rompen por orden alfabético del SMILES, no por el orden de dimorphite-dl, que no es reproducible entre corridas."
+      },
+      "motivo": null,
+      "version_motor": "2.0.2",
+      "parametros": {
+        "ph_min": 7.4,
+        "ph_max": 7.4,
+        "precision": 1.0,
+        "max_variants": 128
+      },
+      "candidatos_sha256": "373298ad3ed95eddbcba6d05644401c7623079f2cdea06b4c8d03bafb5b8dfbd",
+      "recortado": false
+    },
+    "smiles_acoplado": "CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1",
+    "identidad_acoplada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1",
+      "sha256": "3bec653954a38f973b0de7beee180fb6c57ecbc2a6ec4b2ae8257dd3db74955c"
+    },
+    "cambio_respecto_a_la_entrada": true,
+    "carga_formal_neta": -1,
+    "formula_acoplada": "C13H17O2-",
+    "conformero": {
+      "rdkit_version": "2025.09.6",
+      "semilla": 42,
+      "estrategia_embebido": "ETKDGv3",
+      "intentos_etkdg": 1,
+      "mitigaciones": [],
+      "campo_fuerza_final": "MMFF94",
+      "optimizacion_convergida": true,
+      "sdf_sha256": "f42718947190eefed9518083bfd7376e95102b1fe155a4a83356255996cd8cb9"
+    },
+    "estereoquimica": {
+      "centros_sin_asignar": 0,
+      "dobles_sin_asignar": 0,
+      "declarada_por_el_usuario": true,
+      "smiles_3d_efectivo": "CC(C)Cc1ccc([C@H](C)C(=O)[O-])cc1",
+      "dobles_sin_clasificar_3d": 0,
+      "motor": "RDKit AssignStereochemistryFrom3D 2025.09.6",
+      "semilla": 42,
+      "perdida_en_la_especie_acoplada": {
+        "centros": 0,
+        "dobles": 0
+      }
+    }
+  },
+  "selectivity_verdict": null,
+  "anti_target_results": null,
+  "selectivity_ran": false,
+  "is_control": false,
+  "ai_report": null,
+  "blockchain_tx_id": null,
+  "certified_task_id": null,
+  "certified_total_score": null,
+  "error_message": null,
+  "evaluated_at": "2026-10-23T20:39:05.311633Z",
+  "protocolo": {
+    "vigente": true,
+    "diferencias": [],
+    "receta_receptor": 7,
+    "receta_vigente": 7,
+    "calibracion_ranking": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2",
+    "calibracion_vigente": "M4_VINA_ONLY_PENDING_DOCKED_VALIDATION_V2"
+  },
+  "ligand_efficiency": 0.518,
+  "ligand_lipophilicity_efficiency": 2.624,
+  "sile_vina": 3.4464,
+  "fq_vina_proxy": 0.6535,
+  "seal_matches_current_run": null
+}

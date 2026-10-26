@@ -1,5 +1,14 @@
 # Métricas Experimentales — MolDesign Scoring Engine
 
+> **Histórico, no verificado (corrección del 2026-10-20, SCI-A-069).** Los dos programas
+> que este documento da como productores (`scripts/run_5ht1a_benchmark.py` y
+> `scripts/calibrate_stacking_weights.py`) no están en el repositorio, y las fuentes de
+> afinidad no se identifican, así que sus correlaciones, pesos y calibraciones por
+> familia **no se pueden reproducir**. No son evidencia de la calibración vigente: el
+> contrato M4 actual ordena sólo con Vina (`backend/artifacts/sci_config_registry.json`).
+> Antes de reutilizar cualquier cifra de aquí hay que adjuntar el conjunto de datos, la
+> partición, el productor y los resultados.
+
 > **Propósito**: Este documento describe la calibración y validación experimental de los pesos de stacking, curvas de normalización, y parámetros del motor de scoring compuesto. Todo científico que use MolDesign para virtual screening DEBE poder reproducir estos resultados.
 
 ---

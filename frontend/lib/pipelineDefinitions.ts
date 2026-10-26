@@ -144,3 +144,40 @@ export const FAMILY_LABELS: Record<string, string> = {
   metaloenzyme: "Metaloenzima",
   default: "Default",
 };
+
+/** Translate only fixed labels and notes owned by this pipeline definition. */
+export function localizePipelineText(
+  value: string,
+  translate: (key: string) => string,
+): string {
+  const keys: Record<string, string> = {
+    "de esta corrida": "pr_pipeline_sub_this_run",
+    "Pipeline por defecto · target no curado": "pr_pipeline_label_default",
+    "M4 Proteasa · pesos por defecto": "pr_pipeline_label_protease",
+    "M4 Kinasa · pesos por defecto": "pr_pipeline_label_kinase",
+    "M4 Nuclear Receptor · pesos por defecto": "pr_pipeline_label_nuclear_receptor",
+    "M4 Soluble Enzyme · pesos por defecto": "pr_pipeline_label_soluble_enzyme",
+    "M4 Metaloenzima · pesos por defecto": "pr_pipeline_label_metalloenzyme",
+    "Target sin curación científica: familia estructural desconocida, Spearman ρ no calibrado. XGBoost se muestra sin peso de release. Interpreta los scores con precaución — no aplica family-gating validado.": "pr_pipeline_note_default",
+    "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.": "pr_pipeline_note_provisional",
+    "M4 usa el contrato provisional Vina solo. M5-Zn se ejecuta y persiste aparte con sus estados de abstencion o revision; UMS y MolChamb siguen como senales informativas.": "pr_pipeline_note_m4_m5",
+    "target sin familia curada — CL-GNN no validado": "pr_pipeline_node_uncurated_clgnn",
+    "sin peso en los pesos por defecto": "pr_pipeline_node_no_default_weight",
+    "el artefacto vigente no le asigna peso en GPCR": "pr_pipeline_node_gpcr_zero_weight",
+    "deprecada; no participa en el contrato de release": "pr_pipeline_node_deprecated",
+    "no entra en el ranking: el ADR 75 retiró el empujón aditivo de 0.06": "pr_pipeline_node_ums_excluded",
+    "participa dentro del UMS histórico, no en el stacking": "pr_pipeline_node_molchamb_historical",
+    "v3.1 - senal experimental - w=0": "pr_pipeline_sub_clgnn",
+    "RTMScore, deprecada": "pr_pipeline_sub_legacy_gnn",
+    "No disponible": "pr_pipeline_value_unavailable",
+    "Motor legacy invalidado": "pr_pipeline_sub_invalidated_legacy",
+    "señal informativa": "pr_pipeline_sub_informative",
+    Proteasa: "pr_pipeline_family_protease",
+    Kinasa: "pr_pipeline_family_kinase",
+    Metaloenzima: "pr_pipeline_family_metalloenzyme",
+    "no disponible": "pr_pipeline_value_unavailable",
+    "motor legacy invalidado": "pr_pipeline_sub_invalidated_legacy",
+  };
+  const key = keys[value];
+  return key ? translate(key) : value;
+}

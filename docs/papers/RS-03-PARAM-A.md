@@ -66,3 +66,27 @@ había validado.
 
 Sin este paso, cualquier experimento posterior de rescoring físico habría tenido una
 variable de confusión imposible de separar del efecto que quisiera medir.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-155. RS-03-PARAM-A registró creación de sistemas y sus tamaños, pero no una energía
+  evaluada ni serialización/deserialización. El campo serialization_time_s mide creación del
+  sistema y no demuestra serialización. G9 no acredita esas propiedades. RS-03-PARAM-B registra
+  energías finitas posteriormente para 115 miembros con el mismo hash de SDF; eso no certifica
+  los sistemas originales de A ni cubre 1nw5. Se retira la aceptación global de energía finita y
+  serialización basada en G9. Productor: `scripts/analisis_fase1b_limites.py`.
+- SCI-B-156. atom_order_hash fija una secuencia de elementos y cargas formales del ligando de
+  origen. No registra una biyección comprobada hacia los átomos de OpenFF y no excluye
+  permutaciones entre elementos iguales. G5 verifica la presencia de la clave y no demuestra
+  correspondencia atómica. Las comprobaciones posteriores de B no convierten ese control de A en
+  una prueba completa del mapa que usó A. Productor: `scripts/analisis_fase1b_limites.py`.
+- RS-03-PARAM-A-R1 (2026-10-22, NO_GO preregistrado) midió lo que este experimento declaró sin
+  calcular. **1nw5 no tiene correspondencia uno a uno**: el SDF tiene 51 átomos, el tiol del
+  azufre 7 lleva un H implícito y OpenFF lo añade como átomo 51; el `System` tiene 52 partículas
+  (este mismo sello lo registra: 51 átomos, 52 cargas). En los otros 115, energía finita,
+  serialización exacta (ΔE = 0) y elementos, cargas y conectividad idénticos índice a índice.
+  «Energía finita + serializable 100 %» y «mapeo biyectivo» valen para 115 de 116 (SCI-B-155 y
+  SCI-B-156).

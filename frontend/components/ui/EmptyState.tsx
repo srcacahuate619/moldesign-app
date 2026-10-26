@@ -95,21 +95,14 @@ export function EmptyState({
         }}
       />
 
-      {/* ── Stars decorativas oben, animadas con framer-motion ── */}
+      {/* ── Estrellas decorativas: animación CSS (se detiene sola con la pestaña oculta y con «reducir movimiento») ── */}
       <div className="absolute inset-x-0 top-0 h-1/3 pointer-events-none">
         {Array.from({ length: 8 }).map((_, i) => (
-          <motion.span
+          <span
             key={i}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0, 0.5, 0] }}
-            transition={{
-              duration: 3 + (i % 3),
-              repeat: Infinity,
-              delay: i * 0.6,
-              ease: "easeInOut",
-            }}
-            className="absolute h-px w-px bg-purple-300 rotate-45 shadow-[0_0_6px_rgba(216,180,254,0.7)]"
-            style={{ left: `${15 + i * 9}%`, top: `${8 + (i % 4) * 6}%` }}
+            data-testid="estrella-decorativa"
+            className="absolute h-px w-px bg-purple-300 rotate-45 opacity-0 shadow-[0_0_6px_rgba(216,180,254,0.7)] motion-safe:animate-destello"
+            style={{ left: `${15 + i * 9}%`, top: `${8 + (i % 4) * 6}%`, animationDuration: `${3 + (i % 3)}s`, animationDelay: `${i * 0.6}s` }}
           />
         ))}
       </div>
@@ -125,13 +118,9 @@ export function EmptyState({
         <motion.div variants={itemVariants} className="flex flex-col items-center gap-6">
           <ThinkingOrb state={orbState} size="lg" />
           {subline && (
-            <motion.p
-              animate={{ opacity: [0.4, 0.75, 0.4] }}
-              transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-              className="font-mono text-xs uppercase tracking-[0.4em] text-dim dark:text-white/60"
-            >
+            <p className="font-mono text-xs uppercase tracking-[0.4em] text-dim opacity-60 dark:text-white/60 motion-safe:animate-latido">
               {subline}
-            </motion.p>
+            </p>
           )}
         </motion.div>
 

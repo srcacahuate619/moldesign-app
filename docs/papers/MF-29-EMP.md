@@ -50,7 +50,8 @@ cinco— para mover tres complejos menos de un tercio de kcal/mol.
 
 Y la condición que valida la lectura: la desviación estándar entre semillas baja de **0.013
 a 0.009** medianos. El brazo masivo está **saturado**. Si no lo estuviera, «no mejora» sólo
-significaría «no busqué bastante»; saturado, significa que ahí no hay nada más.
+significaría «no busqué bastante»; saturado, significa que con ese presupuesto no aparece nada más. No
+demuestra que no exista un óptimo mejor.
 
 ## La enmienda: un instrumento se retiró, no un umbral
 
@@ -121,3 +122,38 @@ El artefacto se creó **retroactivamente** al cerrar la corrida: el experimento 
 servidor sin manifest, y `created_at` es del sellado y no del lanzamiento — el mismo caso que
 `MF-14` y `MF-19`. El prerregistro real es el docstring del script, sellado por hash en
 `assets_hashes`, y es anterior a la corrida.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-116. MF-29-EMP obtuvo lectura en 48 de los 50 planificados y mejoró en 3: 3/48 = 0,0625
+  entre casos completos. Sin suponer el desenlace de 1mmr y 1nm6, la fracción sobre los 50 está
+  entre 0,06 y 0,10; el extremo superior sería MIXTO con la regla escrita. La extensión
+  posterior recupera ambos y mide 4/50 = 0,08. Ese resultado completa la cohorte posteriormente
+  y no elimina la limitación del análisis original de casos completos. Productor:
+  `scripts/analisis_fase1b_cohortes.py`.
+- SCI-B-117. El sello fija el runner, la cohorte y registros de referencia de MF-29-EMP; no
+  fija por hash los receptores, ligandos y conformeros preparados, centros, correspondencias,
+  helper y binario Vina realmente ejecutados. La comparación observada no constituye una
+  reproducción desde un paquete completo ni una certificación del mínimo global. La exigencia de
+  sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este
+  registro retroactivamente. Productor: `scripts/analisis_fase1b_procedencia.py`.
+- SCI-B-123. La lista conservada contiene 50 complejos con TORSDOF ≤ 6; 48 cumplen también el
+  corte de torsiones RDKit. 1mmr y 1nm6 sólo entran por TORSDOF y son los dos que expiraron. El
+  48 de la prosa PRE no coincide con el tamaño de la lista utilizada: se obtiene con un criterio
+  alternativo, sin demostrar por ello qué originó aquella redacción. La misma lista ya figura en
+  Git antes del cierre, lo que no acredita por sí solo un compromiso anterior al inicio. Se
+  describen 50 planificados y 48 con lectura, sin inferir selección posterior al desenlace.
+  Productor: `scripts/analisis_fase1b_cohortes.py`.
+
+**2026-10-22.** «Ahí no hay nada más» convertía una dispersión pequeña entre semillas en un cierre de la búsqueda; ahora se limita al presupuesto medido (hallazgo L2-SOL-003 de la revisión de papers de Sol).
+
+## MF-29-EMP-EXT: el rescate añade presupuesto declarado y una comprobación posterior de completitud
+
+**GO de extensión.** Añade receta y guardas del rescate ya resumido arriba, sin volver a sellar el análisis original de casos completos.
+
+El plazo por corrida del brazo masivo pasa a 72000 s y las semillas son 42, 7 y 13. El brazo de producción se reutiliza. **SCI-B-121** verifica posteriormente ambos recuperados, todas sus semillas exitosas y scores finitos antes de leer la unión. El productor original podía emitir una lectura incompleta; no se le atribuye esa guarda retroactivamente.
+
+**SCI-B-122** conserva para el rescate el límite de procedencia de SCI-B-117 ya descrito en este paper. No se repiten la unión ni las limitaciones de SCI-B-116 y SCI-B-123, que siguen rigiendo resultado original y planificación. No comprobado por mí: repetir las corridas desde entradas físicas. Fuentes: `MF-29-EMP-EXT` y `docs/102_FASE_1B_CORRECCIONES.md`.

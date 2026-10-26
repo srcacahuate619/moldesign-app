@@ -92,7 +92,7 @@ de instalar, para no leer una abstención como un fallo.
 
 | Protocolo | Qué hace hoy |
 |---|---|
-| **M4** — molécula pequeña | **Funciona de extremo a extremo.** Vina produce y puntúa poses; XGBoost reordena. Es el camino que sostiene el producto. |
+| **M4** — molécula pequeña | **Funciona de extremo a extremo.** Vina produce, puntúa y ordena las poses. XGBoost y CL-GNN se ejecutan y se conservan como señales experimentales **sin peso en el ranking**, y el selector de pose sólo recomienda: la pose principal sigue siendo la top-1 de Vina. Es el camino que sostiene el producto. |
 | **M5-Zn** — metaloenzimas | **Ningún perfil produce `VALIDATED`.** Existe para tres estructuras (3DC3, 1GKC, 1O86). MMP9 y ACE están en cuarentena desde el corrigendum del 2026-09-04: sus benchmarks no acoplaron en el sitio del zinc catalítico. CA2/3DC3 exige la señal GNN-D, que **no tiene productor en producción**, así que devuelve `NOT_EVALUATED_MISSING_COMPONENT` nombrando el componente que falta. |
 | **Péptidos** | **Se abstiene sin los pesos de ESMFold** (8,4 GB, descarga bajo demanda) y lo declara pidiendo la descarga. Con el sidecar disponible corre, pero su ciencia **no está validada**: está probado que carga y sirve poses, no que las poses sean buenas. |
 
@@ -123,7 +123,8 @@ La receta de release y el checksum del artefacto validado están en
 
 > **Auditar o reproducir desde un fork:** [CONTRIBUTING.md](CONTRIBUTING.md) §2-§4 reúne los
 > comandos exactos de la CI, el aprovisionamiento del runtime, el build y la
-> verificación de los 167 experimentos sellados (`python scripts/validar_sellos.py --check`).
+> verificación de los experimentos sellados (171 al 2026-10-20; `python scripts/validar_sellos.py --check`
+> da la cifra vigente).
 
 ### Un clon no basta: hay que aprovisionar el árbol
 
@@ -182,11 +183,13 @@ Instalador autocontenido, con el árbol ya aprovisionado:
     cd frontend
     npm run tauri:build
 
-`beforeBuildCommand` de `src-tauri/tauri.conf.json` encadena quince puertas
+`beforeBuildCommand` de `src-tauri/tauri.conf.json` encadena dieciséis puertas
 (la lista completa está en `AGENTS.md`, «Construir») y Tauri las ejecuta solo. Las que gobiernan el orden:
 
     check:openbabel-fuente   `tools/openbabel/` coincide con su manifiesto y
                              convierte una molécula de verdad
+    check:molcy-motor        `tools/molcy/` (motor de vídeo, GPL-3.0-or-later) es
+                             íntegro y no lleva rutas de ninguna máquina
     stage:desktop            copia backend, Python, rescoring y herramientas a
                              src-tauri/resources/ (artefacto de build: se borra
                              y se regenera entero en cada pasada)
@@ -217,7 +220,7 @@ aborta **sin** borrar el staging anterior.
 
 - [Mapa de alineación del producto](docs/53_MAPA_ALINEACION_PRODUCTO.md).
 - [Roadmap científico/producto](docs/50_ROADMAP.md).
-- [Limitaciones científicas](docs/19_LIMITATIONS.md).
+- [Limitaciones científicas](docs/19_LIMITATIONS.md): postmortem de julio de 2026; su nota de vigencia dice qué ya no describe el código.
 - [Arquitectura desktop](docs/ARCHITECTURE_DESKTOP.md).
 - [Release, instalación y evidencia del MVP](docs/55_MVP_DESKTOP_RELEASE.md).
 

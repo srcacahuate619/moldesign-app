@@ -1,0 +1,377 @@
+{
+ "id": "REC-07-R1",
+ "meta": {
+  "titulo": "Con la cisteína catalítica en su sitio, el grid recomendado para 5TUN no lleva al inhibidor a ella",
+  "entradilla": "REC-07 había validado un grid de 5TUN con contacto 5 de 5 a la Cys25. Su receptor no tenía la Cys25. Repetido con ella dentro, el grid recomendado deja el E64c a 13 Å en las cinco semillas: NO_GO."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "NO_GO.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La recomendación de REC-07 (",
+     "m": null
+    },
+    {
+     "t": "G_ADAPT",
+     "m": "codigo"
+    },
+    {
+     "t": ") queda refutada. El catálogo no cambia: REC-07 tampoco lo había cambiado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se repitió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "REC-07 comparó tres cajas para la catepsina K (5TUN, sin ligando en el cristal) y validó la elegida con un control de docking: el inhibidor E64c debía quedar a 5 Å o menos del azufre de la Cys25, el nucleófilo catalítico. Salió 5 de 5 en las tres cajas, con distancias de 0,4 a 1,2 Å.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Esas distancias eran imposibles, y la auditoría científica encontró por qué (SCI-B-022). En 5TUN la Cys25 tiene la cadena lateral en dos conformaciones (A y B) y la cadena principal sin alternativa. El filtro de REC-07 elegía por residuo la variante más frecuente ",
+     "m": null
+    },
+    {
+     "t": "contando los átomos sin alternativa",
+     "m": "fuerte"
+    },
+    {
+     "t": ": ganó el vacío, se quedaron N, C y O, y Meeko descartó el residuo incompleto. ",
+     "m": null
+    },
+    {
+     "t": "El receptor acoplado en REC-07 no tenía la Cys25.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El ligando se acomodaba en el hueco que dejaba, justo donde se medía la distancia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El preparador del producto no tiene este defecto: conserva siempre los átomos sin alternativa. Era un error del experimento, no de lo que ve el usuario.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué cambió, y qué no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "La regla de alternativas es la del producto: los átomos comunes siempre y, de cada residuo, la variante de mayor ocupación (A en caso de empate).",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Un control nuevo, G0, comprueba antes de acoplar que la Cys25 SG, la His162 NE2 y la Asn182 ND2 están en el receptor, donde las pone el cristal. Pasó con desviación 0,0 Å.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Todo lo demás se importó del código sellado de REC-07: las tres cajas, las cinco semillas, ",
+      "m": null
+     },
+     {
+      "t": "exhaustiveness = 32",
+      "m": "codigo"
+     },
+     {
+      "t": ", el umbral de 5 Å y ",
+      "m": null
+     },
+     {
+      "t": "el mismo fichero de ligando",
+      "m": "fuerte"
+     },
+     {
+      "t": " (mismo SHA-256). El preregistro se escribió y se versionó antes de la primera corrida.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Caja",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Contacto top-1 (≤ 5 Å)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Distancia top-1 a Cys25 SG",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Score top-1 (mediana)",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "G_DB",
+       "m": "codigo"
+      },
+      {
+       "t": " (la del catálogo)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4 de 5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2,46–5,89 Å, mediana 3,09",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−2,64",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "G_MP",
+       "m": "codigo"
+      },
+      {
+       "t": " (propuesta del doc. 35)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12,91–13,06 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "−5,30",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "**",
+       "m": null
+      },
+      {
+       "t": "G_ADAPT",
+       "m": "codigo"
+      },
+      {
+       "t": " (la recomendada)**",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 5",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "12,95–13,06 Å",
+       "m": "fuerte"
+      }
+     ],
+     [
+      {
+       "t": "−5,30",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las cajas grandes encuentran, en las cinco semillas, el mismo sitio a 13 Å de la cisteína, con mejor score que cualquier pose cerca de ella. La caja del catálogo, más pequeña, no contiene ese sitio y deja al ligando cerca de la Cys25, pero con scores muy débiles, de −0,9 a −3,2 kcal/mol, y menos de nueve modos. Dos de sus distancias bajan de 3 Å, lo que el preregistro ya advertía que puede ser un choque más que un contacto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla congelada recomienda ",
+     "m": null
+    },
+    {
+     "t": "G_ADAPT",
+     "m": "codigo"
+    },
+    {
+     "t": " por geometría (contiene los 15 puntos calientes y la tríada), y esa caja falla el control: G4 (0 de 5) y G5 (peor que la del catálogo). Las demás comprobaciones pasan, incluida la repetición de la semilla 42 en las tres cajas, que da el mismo resultado byte a byte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué significa",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "La validación funcional del grid de 5TUN que daba REC-07 ",
+      "m": null
+     },
+     {
+      "t": "no existe",
+      "m": "fuerte"
+     },
+     {
+      "t": ". Contener los puntos calientes no basta: con la cisteína presente, Vina prefiere otro sitio.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La caja del catálogo es la única que acerca el inhibidor al nucleófilo, y lo hace con scores que no indican una unión. Tampoco queda validada.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "E64c es un inhibidor covalente y Vina hace docking no covalente. El control mide si la caja lleva al ligando al sitio catalítico, no si reproduce el aducto. 5TUN no tiene pose de referencia.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "No dice que el sitio a 13 Å sea un sitio real de unión de E64c.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No generaliza a otros receptores sin ligando en el cristal.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No cambia el catálogo ni recomienda una caja nueva.",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/REC-07-R1.md"
+}

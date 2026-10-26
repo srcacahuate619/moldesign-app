@@ -185,7 +185,7 @@ DOMINIO_MEDIDO_ZN = ("CA2", "MMP9", "ACE")
 # `metaloenzyme` con la política genérica `clgnn=1.0`, y el catálogo escribe
 # `metalloenzyme`. Los tres receptores de esa familia caían a `default` por la
 # discrepancia. Corregir sólo el nombre habría activado esa política genérica,
-# que no reproduce ninguno de los tres perfiles validados. Por eso el ADR exige
+# que no reproduce ninguno de los tres perfiles de M5-Zn. Por eso el ADR exige
 # desplegar la normalización y los pesos nuevos EN EL MISMO CAMBIO, y por eso
 # la entrada genérica se retira en este mismo commit.
 #

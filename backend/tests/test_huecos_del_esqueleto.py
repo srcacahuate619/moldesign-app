@@ -96,12 +96,63 @@ def test_un_esqueleto_continuo_es_registrado():
     assert _con_huecos([])["estado"] == "REGISTRADO"
 
 
-def test_un_hueco_junto_al_sitio_se_nombra_y_pide_revision():
+def test_un_hueco_junto_al_sitio_bloquea_y_se_nombra():
     huecos = huecos_del_esqueleto(CONTENIDO, FUENTE, (8.0, 0.0, 0.0), (10.0, 10.0, 10.0))
     requisito = _con_huecos(huecos)
-    assert requisito["estado"] == "REVISAR"
+    assert requisito["estado"] == "ABSTENCION"
     assert "1 junto al sitio" in requisito["valor"]
     assert "A: GLY 2 → LEU 6" in requisito["valor"]
     assert "3 ausente(s) en REMARK 465" in requisito["valor"]
     assert "cavidad" in requisito["razon"]
-    assert requisito["imprescindible"] is False
+    assert requisito["imprescindible"] is True
+
+# ── Orden del polímero: el del archivo (2026-10-11) ───────────────────────────────────────────────────────────
+#
+# El detector ordenaba los residuos por (número, inserción). Medido sobre las 381 entradas del catálogo, 28
+# perdían cortes inventados con el orden del archivo y las que tenían algún hueco junto al sitio pasaban de 137 a
+# 126: numeración de quimotripsina con la inserción antes del número base (1KLI, 4JYV, 5L2Y…), numeración que
+# no crece (1M6D) y GPCR con una proteína de fusión numerada 1001+ en mitad de la cadena (4NC3, 5WIU…). El único
+# hueco que aparece es real: 6CM4 TYR 1161 → SER 364, C–N 4,56 Å, que el orden numérico no veía.
+
+
+def _serie(residuos, rupturas=()):
+    """Residuos (número, inserción) en el orden dado, enlazados salvo antes de los índices de `rupturas`."""
+    lineas, x = [], 0.0
+    for indice, (numero, insercion) in enumerate(residuos):
+        if indice in rupturas:
+            x += 10.0
+        lineas.extend(linea[:26] + insercion + linea[27:]
+                      for linea in _residuo("ATOM", "ALA", "H", numero, x, 1 + indice * 3))
+        x += 3.8
+    return "\n".join(lineas)
+
+
+def test_insercion_depositada_antes_del_numero_base_no_inventa_huecos():
+    """1KLI deposita 184A antes de 184: ordenarlos alfabéticamente inventaba cortes."""
+    fuente = _serie(((183, " "), (184, "A"), (184, " "), (185, " ")))
+    assert huecos_del_esqueleto(fuente, fuente, (8.0, 0.0, 0.0), (30.0,) * 3) == []
+
+
+def test_insercion_inversa_sigue_detectando_una_ruptura_fisica_real():
+    fuente = _serie(((183, " "), (184, "A"), (184, " "), (185, " ")), rupturas=(2,))
+    huecos = huecos_del_esqueleto(fuente, fuente, (8.0, 0.0, 0.0), (30.0,) * 3)
+    assert [(h["after"], h["before"], h["c_n_distance_A"], h["site_critical"]) for h in huecos] == [
+        ("ALA 184A", "ALA 184", 11.3, True),
+    ]
+
+
+def test_una_numeracion_que_no_crece_en_el_archivo_no_es_un_hueco():
+    """1M6D (catepsina F): 152, 153, 154A, 155A, 156A, 152B, 153A, 154… con C–N de 1,33 Å en todo el tramo."""
+    fuente = _serie(((152, " "), (153, " "), (154, "A"), (155, "A"), (156, "A"), (152, "B"), (153, "A"),
+                     (154, " "), (155, " "), (156, " ")))
+    assert huecos_del_esqueleto(fuente, fuente, (8.0, 0.0, 0.0), (60.0,) * 3) == []
+
+
+def test_una_proteina_de_fusion_en_mitad_de_la_cadena_no_inventa_cortes_y_su_union_rota_se_ve():
+    """GPCR con lisozima o BRIL numerada 1001+ entre dos hélices; la unión C-terminal está rota."""
+    residuos = ((229, " "), (230, " "), (1001, " "), (1002, " "), (1003, " "), (240, " "), (241, " "))
+    continuo = _serie(residuos)
+    assert huecos_del_esqueleto(continuo, continuo, (8.0, 0.0, 0.0), (60.0,) * 3) == []
+    roto = _serie(residuos, rupturas=(5,))
+    huecos = huecos_del_esqueleto(roto, roto, (8.0, 0.0, 0.0), (60.0,) * 3)
+    assert [(h["after"], h["before"]) for h in huecos] == [("ALA 1003", "ALA 240")]

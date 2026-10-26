@@ -1,0 +1,19 @@
+{
+  "name": "dossier-es-light-1024",
+  "url": "http://localhost:13013/evaluation",
+  "time": "2026-10-10T03:14:12.100Z",
+  "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+  "export": "d8cd90e5404fc69065fdea94c84520c6bae21804acfb7c5d9b0c4282bd9eaa2d",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "locale": "es",
+  "theme": "light",
+  "text": "OPCIONES\nPREPARACIÓN\nMOLCYBETA\nBATCH\nEVALUACIÓN\nMOLDEX\nHISTORIAL\n3\nSALIR\nCASOS\nNuevo caso\nBuscar casos\nCASOS ACTIVOS\n1\nQA cierre 8HFI\nEN REVISIÓN · EVALUADA HACE 2 H\n\nCorrida registrada\n27c62c96-a890-47f6-b0c1-095dc6801edb\n· completada\n\nQA cierre 8HFI\nEN REVISIÓN\nAlmacenamiento\nD:\\moldesign-build\\.worktrees\\.sandbox\\agente3\\casos\\QA cierre 8HFI\nActualizado:\n9/10/2026, 21:14:03\nEVALUACIÓN\nINFORME\nDetalles del caso\n\n7 detalles pendientes\n\nDisposición científica\n\nDecide qué puede afirmarse de esta corrida. La justificación queda guardada junto a la huella de inputs.\n\nAceptar evidencia\nAceptar con límites\nAbstenerse\nJustificación (obligatoria)\nGuardar disposición\nInforme del caso\nVolver a Evaluación\nDOSSIER DE LA CORRIDA\n\nEl documento lo redacta el motor con lo que este caso declaró y con lo que la corrida produjo de verdad. Lo que quedó sin responder aparece dentro como «NO DEFINIDO»: no se rellena por su cuenta.\n\nCorrida 27c62c96-a89… · molécula e5655ee8-fa0b-4c1a-aebe-995548b0281b\n\ndossier_QA-cierre-8HFI.pdf\nActualizar dossier\nDescargar PDF\nExportar paquete ZIP",
+  "overflow": {
+    "width": 1024,
+    "document": 1024
+  },
+  "errors": []
+}

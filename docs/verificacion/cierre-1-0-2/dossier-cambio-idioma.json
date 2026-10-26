@@ -1,0 +1,12 @@
+{
+  "before": "blob:http://localhost:13013/ad0660bc-efd8-4c4e-8e70-0b445b56092a#toolbar=0",
+  "after": "blob:http://localhost:13013/ad0660bc-efd8-4c4e-8e70-0b445b56092a#toolbar=0",
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18013/evaluation/dossier/e5655ee8-fa0b-4c1a-aebe-995548b0281b/preview",
+      "lang": "en",
+      "time": "2026-10-10T01:25:29.218Z"
+    }
+  ],
+  "documentLang": "es"
+}

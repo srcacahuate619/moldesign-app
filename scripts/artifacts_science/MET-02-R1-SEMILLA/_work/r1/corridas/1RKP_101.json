@@ -1,0 +1,27 @@
+{
+  "pdb": "1RKP",
+  "semilla": 101,
+  "inicio": "2026-10-23T05:32:11+00:00",
+  "resultado": "auditada",
+  "task_id": "fd8bc704-18a6-4d8c-8883-21c9a685edf2",
+  "estado_global": "REVISION",
+  "metales": {
+    "estado": "REGISTRADO",
+    "valor": "Ninguno retirado a 6 Å o menos del ligando; más lejos: ZN A:501 (6.52 Å), MG A:502 (6.87 Å)",
+    "razon": null,
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal IBM A:201",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "0afb65b5f8795b5b160e05b21a979d4beac589c29b725d386b7ad2e85923c414",
+  "afinidad_top1": -6.68,
+  "microestado": "CC(C)Cn1c(=O)n(C)c(=O)c2nc[nH]c21",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "82f4debaed25b584c08cba42b855fe90d53bdd7bf80d3a964ccafdf03c916a48",
+  "segundos": 19.3,
+  "fin": "2026-10-23T05:32:31+00:00",
+  "brazo": "r1",
+  "commit": "f7c46736"
+}

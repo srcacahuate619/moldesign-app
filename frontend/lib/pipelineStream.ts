@@ -1,4 +1,4 @@
-import { getApiUrl } from "./config";
+import { fetchBackend } from "./backendFetch";
 import { getAuthHeaders } from "./api";
 
 export interface PipelineEvent {
@@ -124,7 +124,7 @@ export async function subscribeToPipelineEvents(
   // 403 al comparar el propietario de la tarea. Consumimos SSE sobre fetch para
   // reutilizar exactamente la misma cabecera Bearer que el resto de la API.
   const controller = new AbortController();
-  const url = `${await getApiUrl()}/evaluation/stream/${encodeURIComponent(taskId)}`;
+  const url = `/evaluation/stream/${encodeURIComponent(taskId)}`;
   let closeNotified = false;
   const notifyClose = () => {
     if (closeNotified) return;
@@ -134,7 +134,7 @@ export async function subscribeToPipelineEvents(
 
   void (async () => {
     try {
-      const response = await fetch(url, {
+      const response = await fetchBackend(url, {
         headers: { Accept: "text/event-stream", ...getAuthHeaders() },
         cache: "no-store",
         signal: controller.signal,

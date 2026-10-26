@@ -110,7 +110,7 @@ export function LocalDocViewer({ doc, onClose }: Props) {
           className="flex min-h-8 items-center gap-1 rounded-md border border-white/[0.12] px-2 text-[11px] font-semibold text-white/75 hover:border-purple-500/40 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
         >
           <ArrowLeft size={12} aria-hidden="true" />
-          Volver
+          {t("lg_back_to_licenses")}
         </button>
         <h3 className="flex items-center gap-1.5 text-[11px] font-bold text-white/85">
           <FileText size={12} aria-hidden="true" />

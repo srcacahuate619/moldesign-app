@@ -94,6 +94,19 @@ def _inline(texto: str) -> List[Dict[str, Any]]:
     return piezas
 
 
+_INICIOS_DE_BLOQUE = ("#", ">", "|", "```")
+
+
+def _interrumpe_parrafo(s: str) -> bool:
+    """¿Esta línea abre una lista a mitad de un párrafo?
+
+    Una viñeta, sí. Un número, sólo si es «1.»: un párrafo cuyo salto de línea cae
+    delante de «169. Queda prohibido…» no es una lista que empieza en 169 (la regla
+    de CommonMark). Antes lo era, y el párrafo se partía en dos.
+    """
+    return bool(re.match(r"^[-*]\s+", s) or re.match(r"^1[.)]\s+", s))
+
+
 def _fila_tabla(linea: str) -> List[str]:
     partes = linea.strip().strip("|").split("|")
     return [p.strip() for p in partes]
@@ -160,22 +173,29 @@ def markdown_a_bloques(texto: str) -> List[Dict[str, Any]]:
 
         if re.match(r"^[-*]\s+", s) or re.match(r"^\d+[.)]\s+", s):
             ordenada = bool(re.match(r"^\d+[.)]\s+", s))
-            items = []
+            items: List[List[str]] = []
             while i < len(lineas):
                 t = lineas[i].strip()
                 mm = re.match(r"^(?:[-*]|\d+[.)])\s+(.*)$", t)
-                if not mm:
+                if mm:
+                    items.append([mm.group(1)])
+                elif t and not t.startswith(_INICIOS_DE_BLOQUE):
+                    # Un elemento que sigue en la línea siguiente es el MISMO elemento.
+                    # Antes se cortaba ahí y la continuación salía como un párrafo suelto
+                    # debajo de la lista: 98 líneas en 26 papers.
+                    items[-1].append(t)
+                else:
                     break
-                items.append(_inline(mm.group(1)))
                 i += 1
-            bloques.append({"tipo": "lista", "ordenada": ordenada, "items": items})
+            bloques.append({"tipo": "lista", "ordenada": ordenada,
+                            "items": [_inline(" ".join(it)) for it in items]})
             continue
 
         inicio = i
         parrafo = []
         while i < len(lineas) and lineas[i].strip() and \
-                not lineas[i].strip().startswith(("#", ">", "|", "```")) and \
-                not re.match(r"^(?:[-*]|\d+[.)])\s+", lineas[i].strip()):
+                not lineas[i].strip().startswith(_INICIOS_DE_BLOQUE) and \
+                not _interrumpe_parrafo(lineas[i].strip()):
             parrafo.append(lineas[i].strip())
             i += 1
         if i == inicio:
@@ -404,6 +424,19 @@ def main() -> int:
             print("[registro] DESACTUALIZADO: corre build_registro_cientifico.py",
                   file=sys.stderr)
             return 1
+        # Los papers también: el índice no cambia cuando cambia la prosa o el modo de
+        # leerla, y la web pública (`scripts/build_sitio_publico.py`) los publica tal cual.
+        en_disco = {q.stem for q in (SALIDA / "papers").glob("*.json")}
+        distintos = sorted(
+            i for i, paper in papers.items()
+            if i not in en_disco or json.loads(
+                (SALIDA / "papers" / f"{i}.json").read_text(encoding="utf-8")) != paper)
+        sobrantes = sorted(en_disco - set(papers))
+        if distintos or sobrantes:
+            print(f"[registro] PAPERS DESACTUALIZADOS: {', '.join(distintos) or '-'}; "
+                  f"sobrantes: {', '.join(sobrantes) or '-'}. Corre "
+                  "build_registro_cientifico.py", file=sys.stderr)
+            return 1
         print(f"[registro] al dia: {indice['total']} registros, "
               f"{indice['con_paper']} con paper")
         return 0
@@ -414,6 +447,9 @@ def main() -> int:
     for i, p in papers.items():
         (SALIDA / "papers" / f"{i}.json").write_text(
             json.dumps(p, ensure_ascii=False, indent=1), encoding="utf-8", newline="\n")
+    for q in (SALIDA / "papers").glob("*.json"):
+        if q.stem not in papers:
+            q.unlink()  # un paper retirado no puede seguir publicándose
 
     c = indice["conteo"]
     print(f"[registro] {indice['total']} registros sellados -> {SALIDA}")

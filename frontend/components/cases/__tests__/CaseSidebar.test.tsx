@@ -3,7 +3,16 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { sortCaseEntries } from "../../../lib/cases/repository";
 import type { CaseIndexEntry } from "../../../lib/cases/types";
-import { CaseSidebar } from "../CaseSidebar";
+import { casos } from "../../../context/traducciones/casos";
+import { CaseSidebar, formatEvaluationActivity } from "../CaseSidebar";
+
+const translateEnglish = (key: string, values: Record<string, string | number> = {}) => {
+  let text = casos.en[key] ?? key;
+  for (const [name, value] of Object.entries(values)) {
+    text = text.replaceAll(`{${name}}`, String(value));
+  }
+  return text;
+};
 
 afterEach(() => {
   cleanup();
@@ -43,6 +52,21 @@ function props(cases: readonly CaseIndexEntry[]) {
 }
 
 describe("CaseSidebar", () => {
+  it("localiza el estado y la fecha relativa de una evaluación", () => {
+    const evaluated = caseEntry("saved-case", "2026-08-01T10:00:00.000Z", {
+      activeRun: {
+        taskId: "run-1",
+        executionState: "completed",
+        startedAt: "2026-08-26T10:00:00.000Z",
+      },
+    });
+    const now = Date.parse("2026-08-26T12:00:00.000Z");
+
+    expect(formatEvaluationActivity(evaluated, now, translateEnglish, "en-US")).toBe("evaluated 2 hr ago");
+    expect(formatEvaluationActivity(caseEntry("empty", "2026-08-01T10:00:00.000Z"), now, translateEnglish, "en-US"))
+      .toBe("no evaluations");
+  });
+
   it("muestra tiempo desde la última evaluación, no desde la última apertura", () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-08-26T12:00:00.000Z"));

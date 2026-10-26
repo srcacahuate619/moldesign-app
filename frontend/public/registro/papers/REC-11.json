@@ -1,0 +1,413 @@
+{
+ "id": "REC-11",
+ "meta": {
+  "titulo": "INCONCLUSIVE: quitar todas las aguas no demuestra una diferencia en el oráculo",
+  "entradilla": "CON cubre 94 y SIN 96 de 116 complejos; McNemar bilateral p = 0,814529. La intervención conserva INCONCLUSIVE. REC-11-CRUCES queda GO descriptivo post-hoc y no cambia esa salida."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE en REC-11. GO descriptivo post-hoc en REC-11-CRUCES.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La intervención no confirma equivalencia ni una política óptima. El cruce no habilita un cambio de producto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se hizo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "REC-09 puntúa una pose conocida. Para docking de novo no se conoce esa pose y no puede usarse para decidir qué agua estorba. Aquí se comparó conservar todas las aguas con retirarlas todas, manteniendo fijo el ligando de entrada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se usó ",
+     "m": null
+    },
+    {
+     "t": "conf0.flex.pdbqt",
+     "m": "codigo"
+    },
+    {
+     "t": " en ambos brazos, caja de 25 Å, exhaustividad 8, hasta 9 modos por corrida y semillas [42, 1, 2, 3, 4]. CON conserva el receptor experimental; SIN retira los registros de agua. El primario es cobertura del oráculo entre las poses de esas corridas, con RMSD de bolsillo sin alinear ≤ 2 Å. No es la cobertura alcanzable con todos los confórmeros.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla compara discordancias por McNemar exacto bilateral. Una p ≥ 0,05 conduce a SIN_DIFERENCIA_DETECTABLE. El manifiesto no fija las versiones del helper y los paquetes del contenedor ni el binario; no se atribuye a ellos el entorno actual.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Todos los conteos siguientes corresponden a la intervención sobre los 116 complejos evaluados:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Cantidad",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Cobertura CON, oráculo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "94; fracción 0,8103",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cobertura SIN, oráculo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "96; fracción 0,8276",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "SIN cubre y CON no",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "10",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CON cubre y SIN no",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "McNemar exacto bilateral, primario",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,814529",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Discordancia observada",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,1552",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MDE calculado con esa discordancia",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9,92 puntos porcentuales",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El MDE es planificación bajo supuestos de significación y potencia del productor. No es una resolución absoluta ni un intervalo del efecto observado. El agregado conservado no ofrece un intervalo del efecto pareado; aquí no se calcula uno nuevo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El secundario top-1 elige la pose de mejor score entre las semillas: cubre 59 con aguas y 50 sin ellas, con p archivada 0,162756. Es descriptivo y no rescata ni cambia el primario.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "REC-11-CRUCES: GO descriptivo, después de ver la tabla",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La tabla se inspeccionó antes de escribir el registro. Este cruce reutiliza las mismas mediciones y no es una réplica independiente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Grupo del criterio de REC-09",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Gana SIN en REC-11",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Miembros",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Con algún registro bloqueante",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Sin registros bloqueantes",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "90",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Entre los 10 casos que gana SIN, 5 no tenían bloqueantes según el criterio cristalográfico. Esto acota el alcance de ese criterio en las unidades observadas y motiva otra hipótesis. No demuestra cuál es la política correcta. Los p-valores del cruce no se usan aquí como argumento confirmatorio, tal como prohíbe su registro.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La intervención no detecta una diferencia con esta configuración y este tamaño. No demuestra equivalencia, ausencia de efecto ni que conservar todas sea correcto. Retirar todas tampoco es la única alternativa: no se evaluaron políticas intermedias. Se mantiene la decisión operativa histórica, sin confundirla con las rutas actuales del producto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vigentes al 2026-10-22.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-154:",
+      "m": "fuerte"
+     },
+     {
+      "t": " se retiran «no resoluble» y «límite de resolución medido». Un efecto menor que el MDE puede dar un resultado significativo sin alcanzar la potencia objetivo. El valor archivado no convierte este INCONCLUSIVE en equivalencia.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Detalle: ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "; estado en ",
+     "m": null
+    },
+    {
+     "t": "docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md",
+     "m": "codigo"
+    },
+    {
+     "t": ". No comprobado por mí: reconstrucción física de los brazos ni recálculo de McNemar, MDE o Fisher. Se leyeron las tablas conservadas y sus productores, sin ejecutar los experimentos.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/REC-11.md"
+}

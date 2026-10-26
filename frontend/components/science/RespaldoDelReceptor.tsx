@@ -37,13 +37,29 @@ export type Calibracion = {
   advertencia: string;
   motivo: string;
   requiere_advertencia: boolean;
+  /** La medida que respalda un «calibrado» (SCI-D-001). Un backend anterior no la envía. */
+  respaldo?: { rho: number; ic95: [number, number]; n: number; panel: string } | null;
 };
+
+/** Un «calibrado» sólo cuenta con su medida: n entero e IC finito. */
+function respaldoCompleto(calibracion: Calibracion): boolean {
+  const r = calibracion.respaldo;
+  return !!r && Number.isFinite(r.rho) && Array.isArray(r.ic95) && r.ic95.length === 2
+    && r.ic95.every(Number.isFinite) && Number.isInteger(r.n) && r.n > 0;
+}
 
 const ETIQUETA: Record<NivelDeCalibracion, string> = {
   calibrado: "Calibrado",
   pipeline_de_familia: "Pipeline de familia",
   curado_estructural: "Curado estructuralmente",
   sin_curar: "Sin curar",
+};
+
+const ETIQUETA_EN: Record<NivelDeCalibracion, string> = {
+  calibrado: "Calibrated",
+  pipeline_de_familia: "Family pipeline",
+  curado_estructural: "Structurally curated",
+  sin_curar: "Uncurated",
 };
 
 const COLOR: Record<NivelDeCalibracion, string> = {
@@ -54,15 +70,28 @@ const COLOR: Record<NivelDeCalibracion, string> = {
 };
 
 const SIN_COMPROBAR = "Respaldo sin comprobar";
+const SUPPORT_NOT_ASSESSED = "Support not assessed";
 
-export function nivelLegible(nivel: NivelDeCalibracion | null | undefined): string {
-  if (!nivel || !(nivel in ETIQUETA)) return SIN_COMPROBAR;
-  return ETIQUETA[nivel];
+export function nivelLegible(
+  nivel: NivelDeCalibracion | null | undefined,
+  idioma: "es" | "en" = "es",
+): string {
+  const etiquetas = idioma === "en" ? ETIQUETA_EN : ETIQUETA;
+  if (!nivel || !(nivel in etiquetas)) {
+    return idioma === "en" ? SUPPORT_NOT_ASSESSED : SIN_COMPROBAR;
+  }
+  return etiquetas[nivel];
+}
+
+export function rhoSinMedir(idioma: "es" | "en" = "es"): string {
+  return idioma === "en" ? "ρ not measured" : "ρ no medido";
 }
 
 /** Sin dato del backend se advierte igual: el ausente no es un aprobado. */
 export function necesitaAdvertencia(calibracion: Calibracion | null | undefined): boolean {
   if (!calibracion) return true;
+  // SCI-D-001: un «calibrado» que no trae su medida tampoco suprime la reserva.
+  if (calibracion.nivel === "calibrado" && !respaldoCompleto(calibracion)) return true;
   return calibracion.requiere_advertencia !== false;
 }
 
@@ -83,19 +112,22 @@ export function RespaldoDelReceptor({
   mostrarAdvertencia = false,
   compacto = false,
 }: Props) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
+  const idioma = locale === "en" ? "en" : "es";
   const color = colorDe(calibracion);
-  const etiqueta = nivelLegible(calibracion?.nivel);
+  const etiqueta = nivelLegible(calibracion?.nivel, idioma);
   const advierte = necesitaAdvertencia(calibracion);
 
   const detalle = calibracion
     ? calibracion.resumen
-    : "El backend no informó el respaldo de este receptor.";
+    : idioma === "en"
+      ? "The backend did not report this receptor's evidence status."
+      : "El backend no informó el respaldo de este receptor.";
 
   const rho =
-    calibracion && calibracion.spearman_rho !== null
-      ? `ρ = ${calibracion.spearman_rho}`
-      : "ρ no medido";
+    calibracion && respaldoCompleto(calibracion) && calibracion.respaldo
+      ? `ρ = ${calibracion.respaldo.rho.toFixed(2)} · ${idioma === "en" ? "95% CI" : "IC 95 %"} [${calibracion.respaldo.ic95[0].toFixed(2)}; ${calibracion.respaldo.ic95[1].toFixed(2)}] · n = ${calibracion.respaldo.n}`
+      : rhoSinMedir(idioma);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>

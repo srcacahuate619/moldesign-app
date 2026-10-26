@@ -90,3 +90,15 @@ docs/36_POR_ARREGLAR_Y_VALIDAR.md
 
 # legal
 docs/86_AUDITORIA_LEGAL_RELEASE_PUBLICO_Y_STORE.md
+
+# fep06_ciego (2026-10-25): la clave de las trampas, los generadores de paquetes, las actas y los
+# papers de FEP-06-PRE y FEP-06-PRE-2. Se retienen mientras la ronda con revisores humanos pueda
+# reutilizar esos diez paquetes; se publican al cerrarla (decisión del propietario).
+scripts/artifacts_science/FEP-06-PRE
+scripts/artifacts_science/FEP-06-PRE-2
+scripts/fep06pre
+scripts/fep06pre2
+docs/papers/FEP-06-PRE.md
+docs/papers/FEP-06-PRE-2.md
+frontend/public/registro/papers/FEP-06-PRE.json
+frontend/public/registro/papers/FEP-06-PRE-2.json

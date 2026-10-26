@@ -6,6 +6,7 @@ import { CertificationModal } from "../CertificationModal";
 
 const mocks = vi.hoisted(() => ({
   checkBlockchainHealth: vi.fn(),
+  authorizeNetworkDestination: vi.fn(),
   prepareCertification: vi.fn(),
   linkCertification: vi.fn(),
   sendAndConfirmTransaction: vi.fn(),
@@ -15,6 +16,7 @@ const mocks = vi.hoisted(() => ({
 
 vi.mock("../../lib/api", () => ({
   checkBlockchainHealth: (...args: unknown[]) => mocks.checkBlockchainHealth(...args),
+  authorizeNetworkDestination: (...args: unknown[]) => mocks.authorizeNetworkDestination(...args),
   linkCertification: (...args: unknown[]) => mocks.linkCertification(...args),
   prepareCertification: (...args: unknown[]) => mocks.prepareCertification(...args),
 }));
@@ -76,16 +78,31 @@ describe("CertificationModal", () => {
     expect(mocks.prepareCertification).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByRole("button", { name: /Ejecutar prueba devnet/i }));
-    expect(await screen.findByRole("button", { name: /Ejecutar POC/i })).toBeEnabled();
+    expect(await screen.findByRole("button", { name: /Ejecutar prueba de concepto/i })).toBeEnabled();
     expect(mocks.requestAirdrop).not.toHaveBeenCalled();
 
-    fireEvent.click(screen.getByRole("button", { name: /Ejecutar POC/i }));
+    fireEvent.click(screen.getByRole("button", { name: /Ejecutar prueba de concepto/i }));
 
     await waitFor(() => expect(mocks.requestAirdrop).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(mocks.sendAndConfirmTransaction).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(mocks.linkCertification).toHaveBeenCalledWith("mol-1", "tx-test-123"));
+    // Sin corrida pedida: el backend certifica la evaluación vigente de la molécula.
+    await waitFor(() => expect(mocks.linkCertification).toHaveBeenCalledWith("mol-1", "tx-test-123", undefined));
     expect(onSuccess).toHaveBeenCalledWith({ signature: "tx-test-123", signer: "experimental" });
     expect(await screen.findByText(/Comprobante de integridad creado/i)).toBeInTheDocument();
+  });
+
+  it("certifica la corrida de la ficha abierta: memo y enlace llevan su task_id", async () => {
+    // Una molécula se evalúa varias veces y Moldex guarda cada evaluación: el sello
+    // atestigua el score de UNA corrida, y debe ser la que el investigador abrió.
+    render(
+      <CertificationModal moleculeId="mol-1" taskId="run-A" onClose={vi.fn()} onSuccess={vi.fn()} />,
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: /Ejecutar prueba devnet/i }));
+    fireEvent.click(await screen.findByRole("button", { name: /Ejecutar prueba de concepto/i }));
+
+    await waitFor(() => expect(mocks.linkCertification).toHaveBeenCalledWith("mol-1", "tx-test-123", "run-A"));
+    expect(mocks.prepareCertification).toHaveBeenCalledWith("mol-1", expect.any(String), "run-A");
   });
 
   it("bloquea la wallet en escritorio pero mantiene disponible el POC efímero", async () => {
@@ -103,6 +120,29 @@ describe("CertificationModal", () => {
     expect(screen.getByRole("link", { name: /Explorar wallets de Solana/i })).toHaveAttribute(
       "href",
       "https://solana.com/wallets",
+    );
+  });
+
+  it("pide el permiso de la cuenta para devnet y, al darlo, habilita la prueba", async () => {
+    mocks.checkBlockchainHealth
+      .mockResolvedValueOnce({
+        available: false,
+        network: "devnet",
+        reason_code: "consent_required",
+        reason: "sin permiso",
+        destino: { servicio: "solana-devnet", host: "api.devnet.solana.com" },
+      })
+      .mockResolvedValue({ available: true, network: "devnet" });
+    mocks.authorizeNetworkDestination.mockResolvedValue(undefined);
+    render(<CertificationModal moleculeId="mol-1" onClose={vi.fn()} onSuccess={vi.fn()} />);
+
+    fireEvent.click(await screen.findByRole("button", { name: /Autorizar y comprobar devnet/i }));
+
+    await waitFor(() =>
+      expect(mocks.authorizeNetworkDestination).toHaveBeenCalledWith("solana-devnet", "api.devnet.solana.com"),
+    );
+    await waitFor(() =>
+      expect(screen.queryByRole("button", { name: /Autorizar y comprobar devnet/i })).not.toBeInTheDocument(),
     );
   });
 });

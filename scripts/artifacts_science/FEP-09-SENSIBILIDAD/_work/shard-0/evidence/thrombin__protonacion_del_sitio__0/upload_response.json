@@ -1,0 +1,69 @@
+{
+  "success": true,
+  "message": "Target personalizado USR_D871C3 curado e ingestado exitosamente.",
+  "target": {
+    "pdb_id": "USR_D871C3",
+    "name": "FEP09 thrombin__protonacion_del_sitio__0",
+    "chain": "H",
+    "grid_center_x": 16.441,
+    "grid_center_y": -12.5175,
+    "grid_center_z": 22.6462,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0,
+    "requires_cns": false,
+    "is_prepared": true,
+    "prepared_file_path": "targets/USR_D871C3/prepared-1fba1639f50984441d91ff00700a155e2dfe341c7cb21adb7d8736b9b796d438.pdbqt",
+    "is_hot": false,
+    "is_private": true,
+    "is_community": false,
+    "is_anti_target": false,
+    "anti_target_risk": null,
+    "creator_id": "6db49128-91d6-4da2-993c-4dc8ffcd2142",
+    "creator_username": "Desktop User",
+    "preparation_parent_id": null,
+    "receptor_source_sha256": "dbcd98743517c946df9ea93823625b438583efbe652683e558478663c307198f",
+    "prepared_receptor_sha256": "7629b87cce1de9e5e9419918cc52d68ada44742c609f4abb1571a8360428a26e",
+    "preparation_fingerprint": "d500afbfc99128f5c9d985163ff10ab0c462474dbccbba9e78e20ab1d1cad715",
+    "preparation_recipe": {
+      "schema_version": 1,
+      "mode": "respect_user_preparation",
+      "chain": "H",
+      "grid_center": [
+        16.441,
+        -12.5175,
+        22.6462
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "protonation": "declared_by_user",
+      "waters": "kept_as_uploaded",
+      "altloc": "majority_or_default"
+    },
+    "preparation_toolchain": {
+      "moldesign_preparation_policy": "1",
+      "meeko": "0.7.1"
+    },
+    "hotspots": [],
+    "site_chains": [
+      "H"
+    ],
+    "site_chain_atoms": {
+      "H": 567
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": null,
+    "cofactors_whitelist": [],
+    "organism": null,
+    "resolution": 1.47,
+    "spearman_rho": null,
+    "id": "4c4bbaa7-68e7-49b6-b301-de53745a9430",
+    "created_at": "2026-10-11T20:30:45",
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5
+  }
+}

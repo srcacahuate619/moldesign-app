@@ -1,0 +1,42 @@
+{
+  "smiles": "OCc1cccc(N=c2[nH]c3ncnc-3c(OCC3CCCCC3)[nH]2)c1",
+  "target_pdb_id": "USR_374A66",
+  "chain": "A",
+  "grid_center": [
+    5.8663,
+    43.854,
+    50.4917
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "docking_engine": "vina",
+  "exhaustiveness": 8,
+  "num_poses": 9,
+  "conformers": 1,
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  }
+}

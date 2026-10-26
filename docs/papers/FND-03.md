@@ -75,3 +75,14 @@ encontró que su resultado más básico —«el baseline es estable»— nunca s
 
 Es la diferencia entre un programa que se audita a sí mismo y uno que confía en que sus
 cimientos están bien porque nadie ha mirado.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-055. El productor guarda, por semilla, la **mejor** RMSD de las nueve poses (el
+  oráculo). Lo que se mide estable es el oráculo best-of-9 frente al cristal, no la pose top-1
+  ni el selector: en COLOCACION ningún complejo cambia de veredicto (0 de 33), pero en el
+  control **cambia 1 de 15**, así que «ningún complejo cambia» no es exacto. La estabilidad del
+  top-1 queda sin medir.

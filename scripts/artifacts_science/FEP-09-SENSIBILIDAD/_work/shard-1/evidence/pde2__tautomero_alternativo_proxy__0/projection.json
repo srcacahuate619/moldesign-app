@@ -1,0 +1,81 @@
+{
+  "projection_version": 1,
+  "case_id": "pde2__tautomero_alternativo_proxy__0",
+  "name": "pde2__tautomero_alternativo_proxy__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_CDD658",
+      "chain": "D",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "C=C1Nc2ccc(CN3CCOCC3)cc2-n2c1nnc2-c1cc(OCCCC)ccc1Cl",
+      "canonical_smiles": "C=C1Nc2ccc(CN3CCOCC3)cc2-n2c1nnc2-c1cc(OCCCC)ccc1Cl"
+    },
+    "config": {
+      "grid_center": [
+        27.78,
+        -11.181,
+        23.345
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:4dd29fbd8c2de72b18196cc8b0740f657e33584e713da6a7f5dd0efefe405ed2",
+    "generated_at": "2026-10-11T20:13:04.335141+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "8d49ecec-92f5-4528-b41b-31f8dc0b02db",
+    "input_fingerprint": "sha256:4dd29fbd8c2de72b18196cc8b0740f657e33584e713da6a7f5dd0efefe405ed2",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

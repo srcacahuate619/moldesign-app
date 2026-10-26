@@ -1,0 +1,737 @@
+{
+  "id": "4CVL-CON-s46",
+  "entry": "4CVL",
+  "arm": "CON",
+  "seed": 46,
+  "outcome": "SUCCESS",
+  "cofactors_whitelist": [
+    "MG"
+  ],
+  "receptor_sha256": "50cab4595d7e87ae6ed7a624f0686ba6c16f7e03f950a17cbcd6f8cfa52378f7",
+  "recipe": 7,
+  "receptor_prep": {
+    "source": "meeko_report",
+    "recipe_hash": "1efa383974c5e233521787109718112a8eb523c96a9fcc11372a8f6fb7a2b386",
+    "species_diff": {
+      "near_site": {
+        "margin_A": 6.0,
+        "preserved": [
+          {
+            "category": "metal",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "MG",
+            "residue_number": "1453"
+          },
+          {
+            "category": "metal",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "MG",
+            "residue_number": "1454"
+          }
+        ],
+        "protein_residues_removed": {},
+        "removed": [
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "ACP",
+            "residue_number": "1452"
+          }
+        ]
+      },
+      "preserved": {
+        "atom_records": 3031,
+        "metals": 2,
+        "organic_cofactors": 0,
+        "waters": 0
+      },
+      "reason": "La fuente incluye 1 cadena(s); el receptor de la corrida sólo conserva 'A'.",
+      "removed": {
+        "metals": 0,
+        "organic_cofactors": 0,
+        "other_hetatm": 31,
+        "waters": 0
+      },
+      "removed_species": [
+        {
+          "atom_count": 31,
+          "category": "other_heteroatom",
+          "residue_code": "ACP"
+        }
+      ],
+      "route_input": {
+        "atom_records": 3031,
+        "chains": [
+          "A"
+        ],
+        "hetatm_records": 2,
+        "metals": 2,
+        "organic_cofactors": 0,
+        "other_hetatm": 0,
+        "waters": 0
+      },
+      "site_ligand": null,
+      "source": {
+        "atom_records": 3035,
+        "chains": [
+          "A"
+        ],
+        "hetatm_records": 33,
+        "metals": 2,
+        "organic_cofactors": 0,
+        "other_hetatm": 31,
+        "waters": 0
+      },
+      "state": "evaluado"
+    },
+    "meeko_parameterized_json_sha256": "aea328c1af2aba9cf3f6afdf379cd3a028e3874ed16c2499a40966181ced8008",
+    "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+    "removed_residues": [],
+    "cofactors_outside_site": [],
+    "truncated_sidechains": [
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "CZ",
+          "NE",
+          "NH1",
+          "NH2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 0.0,
+        "insertion_code": "",
+        "name": "ARG",
+        "residue_number": "138",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CE",
+          "CG",
+          "NZ"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 2.571,
+        "insertion_code": "",
+        "name": "LYS",
+        "residue_number": "203",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "OE1",
+          "OE2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 2.788,
+        "insertion_code": "",
+        "name": "GLU",
+        "residue_number": "206",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "NE2",
+          "OE1"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 0.086,
+        "insertion_code": "",
+        "name": "GLN",
+        "residue_number": "260",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "CZ",
+          "NE",
+          "NH1",
+          "NH2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 3.931,
+        "insertion_code": "",
+        "name": "ARG",
+        "residue_number": "270",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CE",
+          "NZ"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 0.0,
+        "insertion_code": "",
+        "name": "LYS",
+        "residue_number": "321",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "CZ",
+          "NE",
+          "NH1",
+          "NH2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 10.695,
+        "insertion_code": "",
+        "name": "ARG",
+        "residue_number": "33",
+        "site_critical": false
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "OE1",
+          "OE2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 5.916,
+        "insertion_code": "",
+        "name": "GLU",
+        "residue_number": "376",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CZ",
+          "NE",
+          "NH1",
+          "NH2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 7.9,
+        "insertion_code": "",
+        "name": "ARG",
+        "residue_number": "412",
+        "site_critical": false
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CG",
+          "OD1",
+          "OD2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 9.225,
+        "insertion_code": "",
+        "name": "ASP",
+        "residue_number": "428",
+        "site_critical": false
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "CZ",
+          "NE",
+          "NH1",
+          "NH2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 0.794,
+        "insertion_code": "",
+        "name": "ARG",
+        "residue_number": "439",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CE",
+          "NZ"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 6.802,
+        "insertion_code": "",
+        "name": "LYS",
+        "residue_number": "445",
+        "site_critical": false
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CZ",
+          "NE",
+          "NH1",
+          "NH2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 9.572,
+        "insertion_code": "",
+        "name": "ARG",
+        "residue_number": "83",
+        "site_critical": false
+      }
+    ],
+    "backbone_gaps": [
+      {
+        "after": "SER 45",
+        "before": "ASP 50",
+        "c_n_distance_A": 4.81,
+        "chain": "A",
+        "distance_to_box_A": 8.934,
+        "missing_declared": 4,
+        "site_critical": false
+      },
+      {
+        "after": "GLU 71",
+        "before": "ALA 75",
+        "c_n_distance_A": 7.5,
+        "chain": "A",
+        "distance_to_box_A": 17.731,
+        "missing_declared": 3,
+        "site_critical": false
+      },
+      {
+        "after": "ALA 190",
+        "before": "GLY 200",
+        "c_n_distance_A": 11.46,
+        "chain": "A",
+        "distance_to_box_A": 0.0,
+        "missing_declared": 9,
+        "site_critical": true
+      },
+      {
+        "after": "SER 339",
+        "before": "PRO 344",
+        "c_n_distance_A": 10.79,
+        "chain": "A",
+        "distance_to_box_A": 0.0,
+        "missing_declared": 4,
+        "site_critical": true
+      },
+      {
+        "after": "GLY 369",
+        "before": "ALA 375",
+        "c_n_distance_A": 11.08,
+        "chain": "A",
+        "distance_to_box_A": 3.014,
+        "missing_declared": 5,
+        "site_critical": true
+      }
+    ],
+    "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+    "chain": "A",
+    "prepared_chains": [
+      "A"
+    ],
+    "site_chains": [
+      "A"
+    ],
+    "cofactors_whitelist": [
+      "MG"
+    ],
+    "modo_de_preparacion": "automatico",
+    "entrada": {
+      "archivo": "4CVL.pdb",
+      "bytes": 296055,
+      "bytes_descomprimidos": 296055,
+      "comprimido": false,
+      "formato": "pdb",
+      "sha256": "31f7babd4ba9d030fca614bb8165d4747bde2e2712eb8c58e666f73f022b7546",
+      "sha256_contenido": "31f7babd4ba9d030fca614bb8165d4747bde2e2712eb8c58e666f73f022b7546"
+    },
+    "prediccion": {
+      "convencion": null,
+      "es_predicha": false,
+      "evidencia": [],
+      "fuente": null,
+      "metodo_declarado": "X-RAY DIFFRACTION",
+      "no_disponible": null,
+      "plddt": null
+    }
+  },
+  "microstate_smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+  "microstate_sha256": "926cc00631149e83a87351e1834a8ad79bc98d439e484f1e10adf52906cb9ed4",
+  "ligand_state": {
+    "smiles_entrada": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+    "identidad_entrada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+      "sha256": "ede566929ab8008d82e8f0266dca8bc5f47bfe6bad2941e248a9483f7417eff6"
+    },
+    "tautomeria": {
+      "aplicada": false,
+      "motor": null,
+      "alternativas": null,
+      "motivo": "se respeta el tautómero de la entrada (tautomero=entrada)",
+      "modo": "entrada",
+      "aviso_de_modo": null,
+      "declaracion_entrada": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+        "smiles_canonico": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "N=c1[nH]cnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "N=c1nc[nH]c2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T2",
+            "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+            "es_canonico": true,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 3,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          0,
+          2,
+          4
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "3 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante.",
+        "tautomero_acoplado": "entrada"
+      },
+      "declaracion": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+        "smiles_canonico": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "N=c1[nH]cnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "N=c1nc[nH]c2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T2",
+            "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+            "es_canonico": true,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 3,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          0,
+          2,
+          4
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "3 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante."
+      }
+    },
+    "protonacion": {
+      "aplicada": true,
+      "motor": "dimorphite-dl",
+      "ph": 7.4,
+      "ph_solicitado": null,
+      "aviso_de_ph": null,
+      "alternativas": 2,
+      "seleccion": {
+        "criterio": "cargas_esperadas_ph_7.4",
+        "ph": 7.4,
+        "cationes_esperados": 0,
+        "aniones_esperados": 3,
+        "desajuste": 1,
+        "clases_sin_pka": [],
+        "quimica_resuelta": false,
+        "revision_biguanida": false,
+        "empatados": 1,
+        "motivo": "Se comparan los recuentos de carga formal de cada microestado con los centros que Henderson-Hasselbalch predice ionizados a pH 7.4, usando los pKa por clase de este módulo. Los empates se rompen por orden alfabético del SMILES, no por el orden de dimorphite-dl, que no es reproducible entre corridas."
+      },
+      "motivo": null,
+      "version_motor": "2.0.2",
+      "parametros": {
+        "ph_min": 7.4,
+        "ph_max": 7.4,
+        "precision": 1.0,
+        "max_variants": 128
+      },
+      "candidatos_sha256": "08c0263e864e6a5abd5229d3ffe3455a53cc44f070ef7442dd1da5df6c0377c6",
+      "recortado": false
+    },
+    "smiles_acoplado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+    "identidad_acoplada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+      "sha256": "c91eeea30338fedae0ab0abf4e8cca54f2d89a0b0e0b2268b84aa4d362b1d97a"
+    },
+    "cambio_respecto_a_la_entrada": true,
+    "carga_formal_neta": -2,
+    "formula_acoplada": "C11H16N5O12P3-2",
+    "conformero": {
+      "rdkit_version": "2025.09.6",
+      "semilla": 42,
+      "estrategia_embebido": "ETKDGv3",
+      "intentos_etkdg": 1,
+      "mitigaciones": [],
+      "campo_fuerza_final": "MMFF94",
+      "optimizacion_convergida": true,
+      "sdf_sha256": "9c8c551d4f83213bb679d56ed93280369f8c50c1736c2f3a88efb36b7b1a7648"
+    },
+    "estereoquimica": {
+      "centros_sin_asignar": 0,
+      "dobles_sin_asignar": 0,
+      "declarada_por_el_usuario": true,
+      "smiles_3d_efectivo": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+      "dobles_sin_clasificar_3d": 0,
+      "motor": "RDKit AssignStereochemistryFrom3D 2025.09.6",
+      "semilla": 42,
+      "perdida_en_la_especie_acoplada": {
+        "centros": 0,
+        "dobles": 0
+      }
+    }
+  },
+  "task_id": "1deac4e6-d858-4ded-8f13-4d92b47604f5",
+  "molecule_id": "96607220-72cd-45f5-9a11-50626805b6c9",
+  "rmsd_top1_A": 10.893185367541163,
+  "rmsd_poses_A": [
+    10.893185367541163,
+    7.921576315518311,
+    6.300007506395938,
+    7.624075154911703,
+    7.718462560013009,
+    10.574224647851294,
+    7.357287056973491,
+    7.444938709425134,
+    8.220481476755326
+  ],
+  "best_of_returned_poses_A": 6.300007506395938,
+  "returned_poses": 9,
+  "physical_status": "passed",
+  "physical_evidence": {
+    "rank": 1,
+    "observed_vina_affinity_kcal_mol": -7.466,
+    "status": "passed",
+    "label": "CONTROLES SUPERADOS",
+    "engine": "posebusters:0.6.5:dock",
+    "checks": [
+      {
+        "check": "mol_pred_loaded",
+        "estado": "PASA"
+      },
+      {
+        "check": "mol_cond_loaded",
+        "estado": "PASA"
+      },
+      {
+        "check": "sanitization",
+        "estado": "PASA"
+      },
+      {
+        "check": "inchi_convertible",
+        "estado": "PASA"
+      },
+      {
+        "check": "all_atoms_connected",
+        "estado": "PASA"
+      },
+      {
+        "check": "no_radicals",
+        "estado": "PASA"
+      },
+      {
+        "check": "bond_lengths",
+        "estado": "PASA"
+      },
+      {
+        "check": "bond_angles",
+        "estado": "PASA"
+      },
+      {
+        "check": "internal_steric_clash",
+        "estado": "PASA"
+      },
+      {
+        "check": "aromatic_ring_flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "non-aromatic_ring_non-flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "double_bond_flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "internal_energy",
+        "estado": "PASA"
+      },
+      {
+        "check": "protein-ligand_maximum_distance",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_protein",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_organic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_inorganic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_waters",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_protein",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_organic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_inorganic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_waters",
+        "estado": "PASA"
+      }
+    ],
+    "checks_que_fallan": [],
+    "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+    "reason_code": null,
+    "canonicalization_invariants": {
+      "mapa_biyectivo": true,
+      "carga_formal_identica": true,
+      "n_enlaces_pesados_identico": true,
+      "n_atomos_pesados_identico": true,
+      "smiles_isomerico_identico": true,
+      "n_coordenadas_aplicadas": 31,
+      "h_sin_coordenada_eliminados": 0,
+      "n_atomos_en_pdbqt": 37,
+      "h_polares_declarados_descartados": 6,
+      "desplazamiento_pesado_max_A": 0.0,
+      "pesados_invariantes": true,
+      "n_h_heredados": 0,
+      "n_h_canonicos": 16
+    },
+    "provenance": {
+      "pose_pdbqt": "docking_poses[].pdbqt_block",
+      "template": "meeko_remark_smiles_idx_sin_h_polares",
+      "index_map": "meeko_remark_smiles_idx",
+      "receptor": "cohort_runs.receptor_prepared_bytes",
+      "reader_route": "mapa_atomico_canonico"
+    }
+  },
+  "failed_checks": [],
+  "ion_distances": [
+    {
+      "metal": "MG",
+      "metal_id": "A:1453",
+      "top1_donor_A": 2.3694248247201264,
+      "crystal_donor_A": 1.9027385527181624,
+      "within_2_8_A": true
+    },
+    {
+      "metal": "MG",
+      "metal_id": "A:1454",
+      "top1_donor_A": 2.298207344866864,
+      "crystal_donor_A": 2.193626449512314,
+      "within_2_8_A": true
+    }
+  ],
+  "vina_energy_kcal": -7.466,
+  "preparation_requirements": [
+    {
+      "clave": "receptor.protonacion",
+      "etiqueta": "Protonación del receptor",
+      "valor": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+      "estado": "REVISAR",
+      "razon": "Asignación por plantilla, sin pH experimental: el estado de histidinas, ácidos y bases del sitio no está validado. His a 8 Å o menos del ligando: A:288 HIE (4.09 Å).",
+      "valor_es_clasificacion": true,
+      "fuente": "receptor_prep.protonation_method",
+      "imprescindible": false,
+      "rutinaria": {
+        "motivo": "La pide toda corrida protonada por plantilla, y ninguna histidina tiene un nitrógeno del anillo a 3.5 Å o menos del ligando."
+      }
+    },
+    {
+      "clave": "entorno.metales_cofactores",
+      "etiqueta": "Metales y cofactores junto al sitio",
+      "valor": "Ninguno retirado a 6 Å o menos del ligando; conservados: MG A:1453 (2.37 Å), MG A:1454 (2.3 Å)",
+      "estado": "REGISTRADO",
+      "razon": null,
+      "valor_es_clasificacion": false,
+      "fuente": "receptor_prep.species_diff.near_site",
+      "imprescindible": true
+    },
+    {
+      "clave": "entorno.referencia",
+      "etiqueta": "Referencia de las distancias",
+      "valor": "Pose top-1",
+      "estado": "REGISTRADO",
+      "razon": "Metales, cofactores y otras especies cuentan a 6 Å o menos del ligando; aguas, a 4 Å; huecos y residuos, a 8 Å.",
+      "valor_es_clasificacion": false,
+      "fuente": "pose top-1 · estructura de origen comprobada por la receta del receptor",
+      "imprescindible": false
+    }
+  ],
+  "histidine_warning": false,
+  "product_commit": "9ce8b10490fcdd1c21b5dc0cf1efa8f3eae76d70",
+  "seconds": 53.2,
+  "raw": "_work/confirmatory/shard-3/4CVL-CON-s46-attempt1.json.gz",
+  "raw_sha256": "8df2a90a9f179a90a9a8f2f16bdc8805e446672fd566d83e239d502cda9e3ad5",
+  "attempts": 1,
+  "microstate_expected": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+  "phase": "confirmatory",
+  "total_seconds": 53.86000000000058
+}

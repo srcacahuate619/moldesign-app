@@ -1,0 +1,27 @@
+{
+  "pdb": "2X90",
+  "semilla": 101,
+  "inicio": "2026-10-23T04:05:41+00:00",
+  "resultado": "auditada",
+  "task_id": "be270590-6068-4c48-93b1-e7f724277fc2",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:1618 (2 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal EAL A:1617",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "d118d39cd5100ae2bea73552fa64de68848b862189f9cf59c4a9e15755c752ce",
+  "afinidad_top1": -7.953,
+  "microestado": "C[C@H](N[C@@H](CCc1ccccc1)C(=O)[O-])C(=O)[NH+]1CCC[C@H]1C(=O)[O-]",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "d2125c2474c989aa5c2843223d4841e90b2d52258f9298fe723cb501c6bb8bc0",
+  "segundos": 31.9,
+  "fin": "2026-10-23T04:06:13+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

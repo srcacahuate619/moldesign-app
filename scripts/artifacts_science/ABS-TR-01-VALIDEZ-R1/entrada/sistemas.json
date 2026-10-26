@@ -1,0 +1,649 @@
+[
+  {
+    "id_r2": "S01",
+    "id_r1": "S04",
+    "pdb": "1RKP",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "IBM",
+    "ligando_de_referencia": {
+      "codigo": "IBM",
+      "cadena": "A",
+      "residuo": "201",
+      "atomos_pesados": 16
+    },
+    "deposito_sha256": "825db3ad915f4557872ce878f18d9d904c889b66a7ee0eb03a9808bae6c53424",
+    "smiles": "CC(C)Cn1c(=O)n(C)c(=O)c2nc[nH]c21",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)Cn1c(=O)n(C)c(=O)c2nc[nH]c21",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S02",
+    "id_r1": "S23",
+    "pdb": "4NJT",
+    "cadena": "A",
+    "site_chains": [
+      "B",
+      "A"
+    ],
+    "site_ligand": "017",
+    "ligando_de_referencia": {
+      "codigo": "017",
+      "cadena": "B",
+      "residuo": "101",
+      "atomos_pesados": 38
+    },
+    "deposito_sha256": "99a1f5119375b792486f21858e2fbf981e8fc0e5371647d16d0326214d5f9a2f",
+    "smiles": "CC(C)CN(C[C@@H](O)[C@H](Cc1ccccc1)NC(=O)O[C@H]1CO[C@H]2OCC[C@H]21)S(=O)(=O)c1ccc(N)cc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)CN(C[C@@H](O)[C@H](Cc1ccccc1)NC(=O)O[C@H]1CO[C@H]2OCC[C@H]21)S(=O)(=O)c1ccc(N)cc1",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S04",
+    "id_r1": "S06",
+    "pdb": "6HL1",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "JN3",
+    "ligando_de_referencia": {
+      "codigo": "JN3",
+      "cadena": "A",
+      "residuo": "501",
+      "atomos_pesados": 28
+    },
+    "deposito_sha256": "57f28767ad8d2bffb2a56a926b5a9f67c8d6cbc9638ee5c5b6c22ea168a7ec87",
+    "smiles": "C[C@H](CCC(=O)O)[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3CC[C@]12C",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "C[C@H](CCC(=O)[O-])[C@H]1CC[C@H]2[C@@H]3[C@H](O)C[C@@H]4C[C@H](O)CC[C@]4(C)[C@H]3CC[C@]12C",
+    "carga_esperada": -1
+  },
+  {
+    "id_r2": "S06",
+    "id_r1": "S26",
+    "pdb": "2AW1",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "COX",
+    "ligando_de_referencia": {
+      "codigo": "COX",
+      "cadena": "A",
+      "residuo": "264",
+      "atomos_pesados": 22
+    },
+    "deposito_sha256": "4f6c99c720b1b698c90387de37b08c68f9b905d09c505cd1d04fe9989572bc6c",
+    "smiles": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S07",
+    "id_r1": "S19",
+    "pdb": "1C3S",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "SHH",
+    "ligando_de_referencia": {
+      "codigo": "SHH",
+      "cadena": "A",
+      "residuo": "952",
+      "atomos_pesados": 19
+    },
+    "deposito_sha256": "a12a80ef10cc5debbf9b4f15fa792b8c88f5777cc93774da2c1c0762e4a2f9ee",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S08",
+    "id_r1": "S33",
+    "pdb": "4JVB",
+    "cadena": "B",
+    "site_chains": [
+      "B"
+    ],
+    "site_ligand": "1M0",
+    "ligando_de_referencia": {
+      "codigo": "1M0",
+      "cadena": "B",
+      "residuo": "201",
+      "atomos_pesados": 43
+    },
+    "deposito_sha256": "bc8709537e188373a6a3722b84e8a35e2fd9dc0a328606b29c6d33b49069f499",
+    "smiles": "C=CC[C@H](COc1ccc(-c2nc3ccccc3n2Cc2ccccc2)cc1)n1c(-c2ccccc2)nc2ccccc21",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "C=CC[C@H](COc1ccc(-c2nc3ccccc3n2Cc2ccccc2)cc1)n1c(-c2ccccc2)nc2ccccc21",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S10",
+    "id_r1": "S37",
+    "pdb": "6HW5",
+    "cadena": "H",
+    "site_chains": [
+      "H",
+      "I"
+    ],
+    "site_ligand": "GRT",
+    "ligando_de_referencia": {
+      "codigo": "GRT",
+      "cadena": "H",
+      "residuo": "301",
+      "atomos_pesados": 42
+    },
+    "deposito_sha256": "a38b9da436fa9e0edfc602364cb5885e3b5c56efc04d7d7d084b725fd29a504a",
+    "smiles": "CC(C)C[C@H](NC(=O)[C@H](Cc1ccccc1)N=[N+]=[N-])C(=O)NCC(=O)N[C@H](CCS(C)(=O)=O)Cc1ccc(CN)cc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)C[C@H](NC(=O)[C@H](Cc1ccccc1)N=[N+]=[N-])C(=O)NCC(=O)N[C@H](CCS(C)(=O)=O)Cc1ccc(CN)cc1",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S11",
+    "id_r1": "S31",
+    "pdb": "6KE5",
+    "cadena": "C",
+    "site_chains": [
+      "C",
+      "D"
+    ],
+    "site_ligand": "D6C",
+    "ligando_de_referencia": {
+      "codigo": "D6C",
+      "cadena": "C",
+      "residuo": "1302",
+      "atomos_pesados": 29
+    },
+    "deposito_sha256": "49f59597debddb154ee3e90156c23d0e10158fcb7cec892e675a8d87bba6f865",
+    "smiles": "COc1ccc([C@@H]2Sc3ccccc3N(CCN(C)C)C(=O)[C@H]2OC(C)=O)cc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "COc1ccc([C@@H]2Sc3ccccc3N(CC[NH+](C)C)C(=O)[C@H]2OC(C)=O)cc1",
+    "carga_esperada": 1
+  },
+  {
+    "id_r2": "S12",
+    "id_r1": "S29",
+    "pdb": "3S43",
+    "cadena": "A",
+    "site_chains": [
+      "A",
+      "B"
+    ],
+    "site_ligand": "478",
+    "ligando_de_referencia": {
+      "codigo": "478",
+      "cadena": "A",
+      "residuo": "401",
+      "atomos_pesados": 35
+    },
+    "deposito_sha256": "6a2ae0e2058657841a5d8e87e004db82ea958610cbb79747b9ad3b7dbcd2c81a",
+    "smiles": "CC(C)CN(C[C@@H](O)[C@H](Cc1ccccc1)NC(=O)O[C@H]1CCOC1)S(=O)(=O)c1ccc(N)cc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)CN(C[C@@H](O)[C@H](Cc1ccccc1)NC(=O)O[C@H]1CCOC1)S(=O)(=O)c1ccc(N)cc1",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S14",
+    "id_r1": "S08",
+    "pdb": "8X3K",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "SRO",
+    "ligando_de_referencia": {
+      "codigo": "SRO",
+      "cadena": "A",
+      "residuo": "601",
+      "atomos_pesados": 13
+    },
+    "deposito_sha256": "3156ce9c750efabe3f38c198b2430e16b3af8af631ca60ead7878496b432a98f",
+    "smiles": "NCCc1c[nH]c2ccc(O)cc12",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "[NH3+]CCc1c[nH]c2ccc(O)cc12",
+    "carga_esperada": 1
+  },
+  {
+    "id_r2": "S15",
+    "id_r1": "S25",
+    "pdb": "6GUE",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "FB8",
+    "ligando_de_referencia": {
+      "codigo": "FB8",
+      "cadena": "A",
+      "residuo": "301",
+      "atomos_pesados": 26
+    },
+    "deposito_sha256": "0ceb48b7ba8e661f611a0f8f58c6c8fe78037b84710fd73dd0ad3c3d603e5705",
+    "smiles": "Cc1ncc(-c2ccnc(Nc3ccc(S(C)(=O)=O)cc3)n2)n1C(C)C",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "Cc1ncc(-c2ccnc(Nc3ccc(S(C)(=O)=O)cc3)n2)n1C(C)C",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S16",
+    "id_r1": "S28",
+    "pdb": "6PU8",
+    "cadena": "A",
+    "site_chains": [
+      "B",
+      "A"
+    ],
+    "site_ligand": "P3V",
+    "ligando_de_referencia": {
+      "codigo": "P3V",
+      "cadena": "B",
+      "residuo": "201",
+      "atomos_pesados": 39
+    },
+    "deposito_sha256": "5bba42c655fa0931d9154abd59efce21209b64960049f1161bde5ddcf8a376ff",
+    "smiles": "CC(C)CN(CC(O)(O)[C@H](Cc1ccccc1)NC(=O)O[C@H]1CO[C@H]2OCC[C@H]21)S(=O)(=O)c1ccc(N)cc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)CN(CC(O)(O)[C@H](Cc1ccccc1)NC(=O)O[C@H]1CO[C@H]2OCC[C@H]21)S(=O)(=O)c1ccc(N)cc1",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S17",
+    "id_r1": "S01",
+    "pdb": "4NY4",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "2QH",
+    "ligando_de_referencia": {
+      "codigo": "2QH",
+      "cadena": "A",
+      "residuo": "602",
+      "atomos_pesados": 34
+    },
+    "deposito_sha256": "01e94364a9828fe393f58cd6b2fbf5cad88dd85a3af1224449efa93698a06bc2",
+    "smiles": "COc1ccc([C@]2(c3ccc(F)c(-c4cccnc4)c3)N=C(N)N3CC(F)(F)CN=C32)cc1C",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "COc1ccc([C@]2(c3ccc(F)c(-c4cccnc4)c3)[NH+]=C(N)N3CC(F)(F)C[NH+]=C32)cc1C",
+    "carga_esperada": 2
+  },
+  {
+    "id_r2": "S18",
+    "id_r1": "S22",
+    "pdb": "8WTW",
+    "cadena": "A",
+    "site_chains": [
+      "A",
+      "B"
+    ],
+    "site_ligand": "0A1",
+    "ligando_de_referencia": {
+      "codigo": "0A1",
+      "cadena": "B",
+      "residuo": "8",
+      "atomos_pesados": 13
+    },
+    "deposito_sha256": "aa1b3ef825047a9a4d01638f6abeda8ae51167b06ceeb49486e8b46579a6220c",
+    "smiles": "COc1ccc(C[C@H](N)C(=O)O)cc1",
+    "ligando_completo_en_el_deposito": false,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "COc1ccc(C[C@H]([NH3+])C(=O)[O-])cc1",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S20",
+    "id_r1": "S21",
+    "pdb": "4EU2",
+    "cadena": "H",
+    "site_chains": [
+      "H",
+      "N"
+    ],
+    "site_ligand": "WPI",
+    "ligando_de_referencia": {
+      "codigo": "WPI",
+      "cadena": "H",
+      "residuo": "300",
+      "atomos_pesados": 41
+    },
+    "deposito_sha256": "39b1e80d96e66a86d22989520eb10fb346d10eb657a32d22d6a00b44d61281b9",
+    "smiles": "COc1cc(C=CCCCN2CCCN(CCC/C=C/c3cc(OC)c(OC)c(OC)c3)CC2)cc(OC)c1OC",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "COc1cc(C=CCCC[NH+]2CCC[NH+](CCC/C=C/c3cc(OC)c(OC)c(OC)c3)CC2)cc(OC)c1OC",
+    "carga_esperada": 2
+  },
+  {
+    "id_r2": "S21",
+    "id_r1": "S24",
+    "pdb": "5HYK",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "65W",
+    "ligando_de_referencia": {
+      "codigo": "65W",
+      "cadena": "A",
+      "residuo": "501",
+      "atomos_pesados": 23
+    },
+    "deposito_sha256": "9c835c3eb99cb9611a92bb0b86c7026fbd72c76f22b07c30539ddddc7972395f",
+    "smiles": "CC(C)(Oc1ccc(-c2cccc3ccccc23)cc1)C(=O)O",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)(Oc1ccc(-c2cccc3ccccc23)cc1)C(=O)[O-]",
+    "carga_esperada": -1
+  },
+  {
+    "id_r2": "S23",
+    "id_r1": "S34",
+    "pdb": "1DIY",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "COH",
+    "ligando_de_referencia": {
+      "codigo": "COH",
+      "cadena": "A",
+      "residuo": "601",
+      "atomos_pesados": 43
+    },
+    "deposito_sha256": "e1be057b54fbbadfdc7b8e729bb8b132fa324edad83db54e69fd2b31b3b10776",
+    "smiles": "C=CC1=C(C)C2=[N]3->[Co]45<-[N]6=C(C=c7c(C)c(C=C)c([n]74)=C2)C(C)=C(CCC(=O)O)C6=Cc2c(CCC(=O)O)c(C)c([n]25)C=C13",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": "InvalidSMILES: SMILES inválido: 'C=CC1=C(C)C2=[N]3->[Co]45<-[N]6=C(C=c7c(C)c(C=C)c([n]74)=C2)C(C)=C(CCC(=O)O)C6=Cc2c(CCC(=O)O)c(C)c([n]25)C=C13' — La molécula contiene ['Co'] — AutoDock Vina no tiene parámetros confiables para estos elementos.",
+    "smiles_acoplado_esperado": null,
+    "carga_esperada": null
+  },
+  {
+    "id_r2": "S25",
+    "id_r1": "S30",
+    "pdb": "3RUU",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "37G",
+    "ligando_de_referencia": {
+      "codigo": "37G",
+      "cadena": "A",
+      "residuo": "1",
+      "atomos_pesados": 36
+    },
+    "deposito_sha256": "c334b84db5898fad6f5f5168f73cf93f5a9e5f34e854032f909233d2c8543f3e",
+    "smiles": "CC(C)c1onc(-c2c(Cl)cccc2Cl)c1COc1ccc(-c2ccc3c(C(=O)O)c[nH]c3c2)cc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)c1onc(-c2c(Cl)cccc2Cl)c1COc1ccc(-c2ccc3c(C(=O)[O-])c[nH]c3c2)cc1",
+    "carga_esperada": -1
+  },
+  {
+    "id_r2": "S26",
+    "id_r1": "S07",
+    "pdb": "5ZBH",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "9AF",
+    "ligando_de_referencia": {
+      "codigo": "9AF",
+      "cadena": "A",
+      "residuo": "1201",
+      "atomos_pesados": 43
+    },
+    "deposito_sha256": "22ee9a0930abb64c7ab909e9bc5432105caed1561ea7bb5333251406049eaef6",
+    "smiles": "COC(=O)C1=C(C)NC(C)=C(C(=O)OC)C1c1cccc(NC(=O)NCCCN2CCC(c3cccc(OC)c3)CC2)c1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "COC(=O)C1=C(C)[NH2+]C(C)=C(C(=O)OC)C1c1cccc(NC(=O)NCCC[NH+]2CCC(c3cccc(OC)c3)CC2)c1",
+    "carga_esperada": 2
+  },
+  {
+    "id_r2": "S27",
+    "id_r1": "S35",
+    "pdb": "2X8Z",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "X8Z",
+    "ligando_de_referencia": {
+      "codigo": "X8Z",
+      "cadena": "A",
+      "residuo": "1615",
+      "atomos_pesados": 14
+    },
+    "deposito_sha256": "7a902cd1765e0920cace1268519467d0e1fc371098812ddbf84a529d546fd94e",
+    "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+    "carga_esperada": -1
+  },
+  {
+    "id_r2": "S29",
+    "id_r1": "S11",
+    "pdb": "6SXC",
+    "cadena": "A",
+    "site_chains": [
+      "C",
+      "A"
+    ],
+    "site_ligand": "OHT",
+    "ligando_de_referencia": {
+      "codigo": "OHT",
+      "cadena": "A",
+      "residuo": "305",
+      "atomos_pesados": 29
+    },
+    "deposito_sha256": "aa59a517f270b28f31885d798e9a9536649b5e806542dc0e47501ebed61938f8",
+    "smiles": "CC/C(=C(\\c1ccc(O)cc1)c1ccc(OCCN(C)C)cc1)c1ccccc1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC/C(=C(\\c1ccc(O)cc1)c1ccc(OCC[NH+](C)C)cc1)c1ccccc1",
+    "carga_esperada": 1
+  },
+  {
+    "id_r2": "S30",
+    "id_r1": "S14",
+    "pdb": "1M17",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "AQ4",
+    "ligando_de_referencia": {
+      "codigo": "AQ4",
+      "cadena": "A",
+      "residuo": "999",
+      "atomos_pesados": 29
+    },
+    "deposito_sha256": "4227a5fbf0ab291041720ed211836b9e51b4d523701804fcb13d9ae179d84ef2",
+    "smiles": "C#Cc1cccc(Nc2ncnc3cc(OCCOC)c(OCCOC)cc23)c1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "C#Cc1cccc(Nc2ncnc3cc(OCCOC)c(OCCOC)cc23)c1",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S31",
+    "id_r1": "S02",
+    "pdb": "8HFF",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "LNR",
+    "ligando_de_referencia": {
+      "codigo": "LNR",
+      "cadena": "A",
+      "residuo": "701",
+      "atomos_pesados": 12
+    },
+    "deposito_sha256": "2917a0fc6f1f8e052071b7db48d48e9be08192e67aeac259849a26915fc9de89",
+    "smiles": "NC[C@H](O)c1ccc(O)c(O)c1",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "[NH3+]C[C@H](O)c1ccc(O)c(O)c1",
+    "carga_esperada": 1
+  },
+  {
+    "id_r2": "S32",
+    "id_r1": "S09",
+    "pdb": "1HSG",
+    "cadena": "A",
+    "site_chains": [
+      "B",
+      "A"
+    ],
+    "site_ligand": "MK1",
+    "ligando_de_referencia": {
+      "codigo": "MK1",
+      "cadena": "B",
+      "residuo": "902",
+      "atomos_pesados": 45
+    },
+    "deposito_sha256": "dca564de639edb8c11e8aea08dff2c10bb2ef79a4c8d33b8ac5ba29a96f64a48",
+    "smiles": "CC(C)(C)NC(=O)[C@@H]1CN(Cc2cccnc2)CCN1C[C@@H](O)C[C@@H](Cc1ccccc1)C(=O)N[C@H]1c2ccccc2C[C@H]1O",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC(C)(C)NC(=O)[C@@H]1C[NH+](Cc2cccnc2)CC[NH+]1C[C@@H](O)C[C@@H](Cc1ccccc1)C(=O)N[C@H]1c2ccccc2C[C@H]1O",
+    "carga_esperada": 2
+  },
+  {
+    "id_r2": "S33",
+    "id_r1": "S20",
+    "pdb": "4FK3",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "325",
+    "ligando_de_referencia": {
+      "codigo": "325",
+      "cadena": "A",
+      "residuo": "801",
+      "atomos_pesados": 31
+    },
+    "deposito_sha256": "28f0f0316434a84cd071a75798e656796413c4d62528c6e4601bba35b842e6e4",
+    "smiles": "CCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4cccnc4)cc23)c1F",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CCS(=O)(=O)Nc1ccc(F)c(C(=O)c2c[nH]c3ncc(-c4cccnc4)cc23)c1F",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S37",
+    "id_r1": "S10",
+    "pdb": "2HZI",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "JIN",
+    "ligando_de_referencia": {
+      "codigo": "JIN",
+      "cadena": "A",
+      "residuo": "600",
+      "atomos_pesados": 29
+    },
+    "deposito_sha256": "07aaefa8de3969addeb63642fc30dd825840d17c861d473bd08bc7eef074bfbc",
+    "smiles": "Cc1cc(Nc2ncc3cc(-c4c(Cl)cccc4Cl)c(=O)n(C)c3n2)ccc1F",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "Cc1cc(Nc2ncc3cc(-c4c(Cl)cccc4Cl)c(=O)n(C)c3n2)ccc1F",
+    "carga_esperada": 0
+  },
+  {
+    "id_r2": "S38",
+    "id_r1": "S12",
+    "pdb": "4WUD",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "ANP",
+    "ligando_de_referencia": {
+      "codigo": "ANP",
+      "cadena": "A",
+      "residuo": "401",
+      "atomos_pesados": 31
+    },
+    "deposito_sha256": "7239322c707b2d23368a9ed5b6ff944a54272a58af8d8a615a285f064abe812a",
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)(O)O)[C@@H](O)[C@H]1O",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+    "carga_esperada": -2
+  },
+  {
+    "id_r2": "S39",
+    "id_r1": "S17",
+    "pdb": "5WIU",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "AQD",
+    "ligando_de_referencia": {
+      "codigo": "AQD",
+      "cadena": "A",
+      "residuo": "1201",
+      "atomos_pesados": 27
+    },
+    "deposito_sha256": "93943d324d8343cdf315062f7835d972b7c5f546f5d5c435dea98aca3e0dd5e6",
+    "smiles": "CNc1cc(OC)c(C(=O)N[C@@H]2CCN(Cc3ccccc3)[C@@H]2C)cc1Cl",
+    "ligando_completo_en_el_deposito": true,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CNc1cc(OC)c(C(=O)N[C@@H]2CC[NH+](Cc3ccccc3)[C@@H]2C)cc1Cl",
+    "carga_esperada": 1
+  },
+  {
+    "id_r2": "S41",
+    "id_r1": "S32",
+    "pdb": "3G0E",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "B49",
+    "ligando_de_referencia": {
+      "codigo": "B49",
+      "cadena": "A",
+      "residuo": "9000",
+      "atomos_pesados": 22
+    },
+    "deposito_sha256": "777b3e25073d115b560013205e182ccf4bf5462ea4317f655d7c60507a2f7389",
+    "smiles": "CCN(CC)CCNC(=O)c1c(C)[nH]c(/C=C2\\C(=O)Nc3ccc(F)cc32)c1C",
+    "ligando_completo_en_el_deposito": false,
+    "rechazo_del_validador": null,
+    "smiles_acoplado_esperado": "CC[NH+](CC)CCNC(=O)c1c(C)[nH]c(/C=C2\\C(=O)Nc3ccc(F)cc32)c1C",
+    "carga_esperada": 1
+  }
+]

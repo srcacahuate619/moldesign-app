@@ -1,0 +1,40 @@
+{
+  "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+  "target_pdb_id": "USR_3B5266",
+  "chain": "A",
+  "molecule_name": "tyk2__agua_puente_retirada__0",
+  "grid_center": [
+    -7.971,
+    -8.68,
+    -16.955
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:9c28df455c3ac3a1c3c318cc26bfd0fd0553f6e8261db7895f503fd3830160b5"
+}

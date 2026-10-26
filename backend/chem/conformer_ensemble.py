@@ -161,10 +161,19 @@ def _embeber_conformacion(molblock: str, semilla: int) -> dict[str, Any] | None:
     }
 
 
+def minimizacion_del_conformero_base(base: dict) -> str | None:
+    """«MMFF94», «UFF», «sin_optimizacion» o ``None`` si el conformador no lo registró."""
+    estado = base.get("estado_del_ligando") if isinstance(base, dict) else None
+    conformero = estado.get("conformero") if isinstance(estado, dict) else None
+    campo = conformero.get("campo_fuerza_final") if isinstance(conformero, dict) else None
+    return str(campo) if campo else None
+
+
 async def generate_conformer_ensemble(
     smiles: str,
     k: Any = CONFORMEROS_POR_DEFECTO,
     ph: float | None = None,
+    tautomero: str | None = None,
 ) -> dict:
     """
     Genera K conformaciones y devuelve sus rutas, en orden.
@@ -188,7 +197,10 @@ async def generate_conformer_ensemble(
     # ── K = 1: el camino de siempre, sin desviarse ───────────────────
     # El mismo pH que el resto de la corrida: el ensemble varia la
     # CONFORMACION, no la especie protonada.
-    base = await generate_conformer(smiles, ph)
+    from services.docking.protocolo import resolver_modo_tautomero
+    mode = resolver_modo_tautomero({"tautomero": tautomero})
+    kwargs = {"tautomero": mode}   # siempre explícito: el defecto ya no es «canonico»
+    base = await generate_conformer(smiles, ph, **kwargs)
     if k == 1:
         return {
             **base,
@@ -216,6 +228,9 @@ async def generate_conformer_ensemble(
         "smiles_hash": base["smiles_hash"],
         "conformer_path": base["conformer_path"],
         "energia": None,
+        # SCI-A-025: lo que registró `generate_conformer` (MMFF94, UFF o sin
+        # optimizar), no un MMFF supuesto.
+        "minimizacion": minimizacion_del_conformero_base(base),
         "semilla": SEMILLA_BASE,
         "conformer_sha256": hashlib.sha256(
             (base.get("sdf_content") or "").encode("utf-8")
@@ -289,6 +304,7 @@ async def generate_conformer_ensemble(
                 "smiles_hash": hash_de_conformero(smiles_hash, indice),
                 "conformer_path": ruta,
                 "energia": embebida["energia"],
+                "minimizacion": "sin_minimizar" if embebida["sin_minimizar"] else "MMFF94",
                 "semilla": semilla,
                 # La identidad de la geometría que se acaba de escribir. Es lo
                 # que permite comprobar después que la corrida de Vina de esta

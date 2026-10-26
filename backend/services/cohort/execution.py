@@ -54,7 +54,9 @@ from datetime import datetime, timezone
 from typing import Any
 
 from core.config import get_settings
+from services.cohort.schemas import TAUTOMERO_SIN_DECLARAR, modo_tautomero_de
 from utils.logger import get_logger
+from utils.procesos import BANDERAS_SIN_VENTANA
 
 log = get_logger(__name__)
 
@@ -220,6 +222,9 @@ class EffectiveConfig:
     exhaustiveness: int
     num_poses: int
     seed: int
+    seed_origin: str | None = None
+    #: «entrada» o «canonico»; ver `schemas.modo_tautomero_de`.
+    tautomero: str = TAUTOMERO_SIN_DECLARAR
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -231,6 +236,8 @@ class EffectiveConfig:
             "exhaustiveness": self.exhaustiveness,
             "num_poses": self.num_poses,
             "seed": self.seed,
+            **({"seed_origin": self.seed_origin} if self.seed_origin else {}),
+            "tautomero": self.tautomero,
         }
 
 
@@ -277,7 +284,8 @@ def _engine_version(engine: str) -> str | None:
         import subprocess
 
         salida = subprocess.run(
-            [ejecutable, "--version"], capture_output=True, text=True, timeout=10
+            [ejecutable, "--version"], capture_output=True, text=True, timeout=10,
+            creationflags=BANDERAS_SIN_VENTANA,
         )
         primera = (salida.stdout or salida.stderr or "").strip().splitlines()
         return primera[0][:120] if primera else None
@@ -345,7 +353,9 @@ def resolve_receptor(
     )
 
 
-def resolve_effective_config(study: dict[str, Any], target: Any | None) -> EffectiveConfig:
+def resolve_effective_config(
+    study: dict[str, Any], target: Any | None, *, seed_resolution: dict[str, Any] | None = None,
+) -> EffectiveConfig:
     """
     Caja efectiva y parámetros comunes.
 
@@ -372,6 +382,9 @@ def resolve_effective_config(study: dict[str, Any], target: Any | None) -> Effec
         tamano = tamano or [target.grid_size_x, target.grid_size_y, target.grid_size_z]
         origen = "catalogo"
 
+    if config.get("seed") == 0:
+        # Una cohorte antigua no se vuelve a firmar ni se repara al ejecutarla.
+        raise ExecutionBlocked("SEMILLA_NO_RECONSTRUIBLE", 'La semilla de esta cohorte histórica no se puede reconstruir. Crea y comprueba una nueva cohorte con semilla positiva.')
     motor = config.get("docking_engine", "vina")
     return EffectiveConfig(
         grid_center=tuple(float(v) for v in centro),  # type: ignore[arg-type]
@@ -385,6 +398,8 @@ def resolve_effective_config(study: dict[str, Any], target: Any | None) -> Effec
         # devolvía ese None y `int(None)` tumbaba TODA cohorte sin semilla con un
         # 500, mientras el preflight prometía congelar la predeterminada (QA-015).
         seed=int(config["seed"] if config.get("seed") is not None else get_settings().vina_seed),
+        seed_origin=(seed_resolution or {}).get("origin"),
+        tautomero=modo_tautomero_de(config),
     )
 
 
@@ -521,6 +536,8 @@ async def _evaluate_one(
     """
     from services.pipeline.runner import run_pipeline
 
+    if config.seed is None or config.seed <= 0:
+        raise ExecutionBlocked("SEMILLA_NO_RECONSTRUIBLE", 'La semilla de esta cohorte histórica no se puede reconstruir. Crea y comprueba una nueva cohorte con semilla positiva.')
     return await run_pipeline(
         task_id=str(uuid.uuid4()),
         smiles=canonical_smiles,
@@ -532,6 +549,9 @@ async def _evaluate_one(
         # pipeline expone, sin tocar el registro de etapas.
         stage_params={
             "properties": {"run_admet_ai": False},
+            # El modo va SIEMPRE explícito: omitido, el conformador usaría el
+            # defecto del producto, que no es el de la cohorte.
+            "conformer": {"conformers": 1, "tautomero": config.tautomero},
             "docking": {
                 "exhaustiveness": config.exhaustiveness,
                 "num_poses": config.num_poses,
@@ -548,6 +568,7 @@ async def _evaluate_one(
             "enabled_stages": list(COHORT_RUN_STAGES),
             "docking_engine": config.docking_engine,
             "stage_params": {
+                "conformer": {"conformers": 1, "tautomero": config.tautomero},
                 "docking": {
                     "exhaustiveness": config.exhaustiveness,
                     "num_poses": config.num_poses,

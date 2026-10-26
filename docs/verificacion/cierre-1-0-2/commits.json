@@ -1,0 +1,232 @@
+[
+  {
+    "hash": "5fd2e401b5cf45ffd64687034446460cabec013f",
+    "subject": "Inventaría los cambios visibles de 1.0.2 antes de la QA",
+    "files": [
+      "docs/verificacion/cierre-1-0-2/inventario.md",
+      "docs/versions/1.0.2_cambios.md"
+    ]
+  },
+  {
+    "hash": "645bc1f2b10ff33c03ce8e78c5ea380e0f109206",
+    "subject": "Comprueba el sello de la fila antes de afirmar su alcance",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/evaluation/BatchRowResult.tsx",
+      "frontend/components/science/InsigniaDelCatalogo.tsx",
+      "frontend/components/science/__tests__/BatchRowChecking.test.tsx",
+      "frontend/components/science/__tests__/ListasDelCatalogo.test.tsx",
+      "frontend/context/traducciones/catalogo.ts"
+    ]
+  },
+  {
+    "hash": "5799b3f790386a28b0a390cd5fc35b8376cf1516",
+    "subject": "Traduce los tipos de estudio y la validación de carpeta",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/cases/CaseContextPanel.tsx",
+      "frontend/components/cases/CreateCaseDialog.tsx",
+      "frontend/components/cases/__tests__/CreateCaseTranslations.test.tsx",
+      "frontend/context/traducciones/casos.ts",
+      "frontend/lib/cases/types.ts"
+    ]
+  },
+  {
+    "hash": "2f8b60c17ced8e164c23892680d1fdd91f622500",
+    "subject": "Completa los textos ingleses encontrados en la evaluación",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/interfaces/pro/AntiDianasSelector.tsx",
+      "frontend/components/interfaces/pro/ProEvaluation.tsx",
+      "frontend/components/interfaces/pro/ProOptionsModal.tsx",
+      "frontend/components/interfaces/pro/__tests__/AntiDianasSelector.catalogo.test.tsx",
+      "frontend/context/traducciones/catalogo.ts",
+      "frontend/context/traducciones/opciones.ts",
+      "frontend/context/traducciones/pro.ts",
+      "frontend/context/traducciones/remate.ts",
+      "frontend/lib/__tests__/pipelineLocalization.test.ts",
+      "frontend/lib/pipelineDefinitions.ts"
+    ]
+  },
+  {
+    "hash": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "subject": "Documenta alcance y rangos de los avisos npm restantes",
+    "files": [
+      "docs/verificacion/cierre-1-0-2/audit-original.json",
+      "docs/verificacion/cierre-1-0-2/audit-report.cjs",
+      "docs/verificacion/cierre-1-0-2/auditoria-npm.md",
+      "docs/verificacion/cierre-1-0-2/bundle-modules.json",
+      "docs/verificacion/cierre-1-0-2/explain-all.json",
+      "docs/verificacion/cierre-1-0-2/inspect-bundle.cjs",
+      "docs/verificacion/cierre-1-0-2/npm-evidence.json",
+      "docs/versions/1.0.2_cambios.md"
+    ]
+  },
+  {
+    "hash": "412f19c198d31bf96bdbed4d10d25bce160b5853",
+    "subject": "Renueva el catálogo cuando caduca en una vista montada",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/hooks/__tests__/useCatalogoDeReceptores.test.tsx",
+      "frontend/hooks/useCatalogoDeReceptores.ts"
+    ]
+  },
+  {
+    "hash": "ccf0d5e5f6138b4d5969d40f133ae9e12c9c91d0",
+    "subject": "Traduce las etiquetas y fechas de Ciencia",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/registro/RegistroCientifico.tsx",
+      "frontend/components/registro/__tests__/RegistroIdiomas.test.tsx",
+      "frontend/context/traducciones/registro.ts",
+      "frontend/lib/registro.ts"
+    ]
+  },
+  {
+    "hash": "99c77889efdc8d90cc44d04ab5cacd945b20e133",
+    "subject": "Declara el contacto de cada hotspot mediante texto",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/interfaces/pro/ProDockingTab.tsx",
+      "frontend/components/interfaces/pro/__tests__/ProDockingTab.test.tsx",
+      "frontend/context/traducciones/paneles.ts"
+    ]
+  },
+  {
+    "hash": "f5eb7ffd2a800073ec805abd290686ac5dfd15c5",
+    "subject": "Regenera el PDF abierto al cambiar de idioma",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/PDFReportViewer.tsx",
+      "frontend/components/cases/CaseDossierViewer.tsx",
+      "frontend/components/cases/__tests__/DossierCambioDeIdioma.test.tsx"
+    ]
+  },
+  {
+    "hash": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "subject": "Corrige el texto inglés de guardar disposición",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/context/traducciones/remate.ts"
+    ]
+  },
+  {
+    "hash": "7ac9902140ba111d39e657aa541ef60074d2a47e",
+    "subject": "fix(frontend): ajustar el PDF incrustado al ancho del visor",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/PDFReportViewer.tsx",
+      "frontend/components/cases/CaseDossierViewer.tsx",
+      "frontend/components/cases/__tests__/CaseDossierViewer.test.tsx",
+      "frontend/components/cases/__tests__/DossierCambioDeIdioma.test.tsx"
+    ]
+  },
+  {
+    "hash": "7740184fb0fe10236ca1dc421b44597ba9140499",
+    "subject": "fix(frontend): recuperar cohortes tras renovar la sesión local",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/lib/__tests__/cohortesAuthRecovery.test.ts",
+      "frontend/lib/api.ts",
+      "frontend/lib/cohorts.ts"
+    ]
+  },
+  {
+    "hash": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "subject": "fix(frontend): regenerar el informe del lote al cambiar de idioma",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/app/evaluation/batch/__tests__/cohortes.test.tsx",
+      "frontend/app/evaluation/batch/page.tsx"
+    ]
+  },
+  {
+    "hash": "9628aa1c5e954718ea1681d987019282e5b646b6",
+    "subject": "fix(frontend): mantener legibles catálogo y parámetros en tema claro",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/interfaces/pro/ProOptionsModal.tsx",
+      "frontend/components/interfaces/pro/TargetSelectorModal.tsx"
+    ]
+  },
+  {
+    "hash": "8c4e973457e66b7d35aeba75c957f12ad1003fde",
+    "subject": "test(molcy): await video URL and preview release",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/app/molcy/__tests__/page.test.tsx"
+    ]
+  },
+  {
+    "hash": "873d23071ebb2979c5dc66e663e10267792d541f",
+    "subject": "fix(molchat): keep header controls inside the panel",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/ai/ChatPanel.tsx"
+    ]
+  },
+  {
+    "hash": "b2b58703538a34fefcb28c81e956713efc7b4958",
+    "subject": "fix(cases): translate context questions and hints",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/cases/CaseContextPanel.tsx",
+      "frontend/components/cases/__tests__/CaseContextIdiomas.test.tsx",
+      "frontend/context/traducciones/casos.ts"
+    ]
+  },
+  {
+    "hash": "e87223e5c7d89fcb3b984a896d71c8149336cc5a",
+    "subject": "fix(frontend): make scientific warnings legible in light theme",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/cases/CaseContextPanel.tsx",
+      "frontend/components/interfaces/pro/EvaluationEvidencePanel.tsx",
+      "frontend/components/interfaces/pro/ProEvaluation.tsx",
+      "frontend/components/interfaces/pro/ProOptionsModal.tsx"
+    ]
+  },
+  {
+    "hash": "c79e4370799c523fc0276c17d7ba3c40149c225c",
+    "subject": "fix(evaluation): wrap actions within the case width",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/interfaces/pro/ProEvaluation.tsx"
+    ]
+  },
+  {
+    "hash": "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+    "subject": "test(cases): unmount previous workspace before recovery restart",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/cases/__tests__/CaseWorkspace.test.tsx"
+    ]
+  },
+  {
+    "hash": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "subject": "fix(cohorts): serialize selection and ignore stale startup recovery",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/app/evaluation/batch/__tests__/cohortes.test.tsx",
+      "frontend/app/evaluation/batch/page.tsx"
+    ]
+  },
+  {
+    "hash": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "subject": "fix(i18n): translate downloadable model cards without changing manifest",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/DownloadCard.tsx",
+      "frontend/components/__tests__/DownloadCardIdiomas.test.tsx",
+      "frontend/context/traducciones/opciones.ts"
+    ]
+  },
+  {
+    "hash": "44c3a97e715e7dfd4a6a2dacd9c461bae06120ac",
+    "subject": "fix(theme): make anti-target scientific warnings readable in light theme",
+    "files": [
+      "docs/versions/1.0.2_cambios.md",
+      "frontend/components/interfaces/pro/AntiDianasSelector.tsx"
+    ]
+  }
+]

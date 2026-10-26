@@ -1,0 +1,49 @@
+Cápsula del agente 3  (D:\moldesign-build\.worktrees\.sandbox\agente3)
+  apagando la instancia anterior…
+  - backend detenido (pid 25480)
+  - frontend detenido (pid 28420)
+Preparando el worktree…
+Export estático…
+  construyendo el export (npm run build:desktop; unos minutos). Log: D:\moldesign-build\.worktrees\.sandbox\agente3\logs\build_20261010_012029.log
+
+ERROR: el build terminó con código 1. Últimas líneas de D:\moldesign-build\.worktrees\.sandbox\agente3\logs\build_20261010_012029.log:
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\@tailwindcss\node\dist\index.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\@tailwindcss\postcss\dist\index.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack\config\blocks\css\plugins.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack\config\blocks\css\index.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack\config\index.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack-config.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack-build\impl.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack-build\index.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\index.js
+- D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\cli\next-build.js
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1564:15)
+    at D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\server\require-hook.js:68:36
+    at wrapResolveFilename (node:internal/modules/cjs/loader:1118:27)
+    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1142:10)
+    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1169:12)
+    at Module._load (node:internal/modules/cjs/loader:1341:5)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)
+    at Module.<anonymous> (node:internal/modules/cjs/loader:1674:12)
+    at mod.require (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\server\require-hook.js:79:28)
+    at require (node:internal/modules/helpers:157:16)
+    at Object.<anonymous> (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[15].oneOf[10].use[2]!D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[15].oneOf[10].use[3]!D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\app\globals.css:1:7)
+    at D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:29:962868
+    at Hook.eval [as call] (eval at create (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:14:9000), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:14:6270)
+    at D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:29:131581
+    at tryRunOrWebpackError (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:29:316107)
+    at __webpack_require_module__ (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:29:131548)
+    at __nested_webpack_require_161494__ (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:29:130983)
+    at D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:29:131840
+    at symbolIterator (D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\compiled\neo-async\async.js:1:14444)
+
+Generated code for D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[15].oneOf[10].use[2]!D:\moldesign-ci\sol-1-0-2\frontend\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[15].oneOf[10].use[3]!D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\app\globals.css
+1 | throw new Error("Module build failed (from ../../../../moldesign-ci/sol-1-0-2/frontend/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js):\nError: Cannot find module 'enhanced-resolve'\nRequire stack:\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\@tailwindcss\\node\\dist\\index.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\@tailwindcss\\postcss\\dist\\index.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\build\\webpack\\config\\blocks\\css\\plugins.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\build\\webpack\\config\\blocks\\css\\index.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\build\\webpack\\config\\index.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\build\\webpack-config.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\build\\webpack-build\\impl.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\build\\webpack-build\\index.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\build\\index.js\n- D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\cli\\next-build.js\n    at Module.<anonymous> (node:internal/modules/cjs/loader:1564:15)\n    at D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\server\\require-hook.js:68:36\n    at wrapResolveFilename (node:internal/modules/cjs/loader:1118:27)\n    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1142:10)\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1169:12)\n    at Module._load (node:internal/modules/cjs/loader:1341:5)\n    at wrapModuleLoad (node:internal/modules/cjs/loader:261:19)\n    at Module.<anonymous> (node:internal/modules/cjs/loader:1674:12)\n    at mod.require (D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules\\next\\dist\\server\\require-hook.js:79:28)\n    at require (node:internal/modules/helpers:157:16)");
+
+Import trace for requested module:
+./app/globals.css
+
+
+> Build failed because of webpack errors
+

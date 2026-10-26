@@ -1,0 +1,16 @@
+{
+  "id_r2": "S17",
+  "pdb": "4NY4",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 38.7,
+      "crudo": "S17-4NY4-intento1.json.gz",
+      "crudo_sha256": "f2040f59130bf76d3e5cad830bb37de1771cdf1f4282cd97aa664c10df8dddab"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S17-4NY4-intento1.json.gz",
+  "crudo_sha256": "f2040f59130bf76d3e5cad830bb37de1771cdf1f4282cd97aa664c10df8dddab",
+  "registrado_en": "2026-10-22T16:46:05+00:00"
+}

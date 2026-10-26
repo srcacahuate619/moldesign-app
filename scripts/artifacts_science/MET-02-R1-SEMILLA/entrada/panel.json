@@ -1,0 +1,432 @@
+[
+  {
+    "pdb": "1BN1",
+    "cadena": "A",
+    "smiles": "Cc1ccc(CNS(=O)(=O)c2ccc(S(N)(=O)=O)s2)cc1",
+    "microestado_esperado": "Cc1ccc(CNS(=O)(=O)c2ccc(S(N)(=O)=O)s2)cc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "76c8f37f02ebd3941523b6921725d78ea7ad3c73babf3a8e24f2fd186c805528"
+  },
+  {
+    "pdb": "1C3R",
+    "cadena": "A",
+    "smiles": "CC(/C=C/C(=O)NO)=C\\[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+    "microestado_esperado": "CC(/C=C/C(=O)NO)=C\\[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "e3a28ef49e81804b018960e42369c6b9710225b1e52057704a3056b551edd4d0"
+  },
+  {
+    "pdb": "1C3S",
+    "cadena": "A",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "microestado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "a12a80ef10cc5debbf9b4f15fa792b8c88f5777cc93774da2c1c0762e4a2f9ee"
+  },
+  {
+    "pdb": "1J36",
+    "cadena": "A",
+    "smiles": "NCCCC[C@H](N[C@@H](CCc1ccccc1)C(=O)O)C(=O)N1CCC[C@H]1C(=O)O",
+    "microestado_esperado": "NCCCC[C@H]([NH2+][C@@H](CCc1ccccc1)C(=O)[O-])C(=O)[NH+]1CCC[C@H]1C(=O)[O-]",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "f00aa3b11109495fa3681ad9e40893dcb2e9d90e2fdacb0fb314fad33558148f"
+  },
+  {
+    "pdb": "1J37",
+    "cadena": "A",
+    "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+    "microestado_esperado": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "d7ac83e3e8af5b0190e91f4feea0ab59113e6e294924667a2bbc66d3ab55aa6f"
+  },
+  {
+    "pdb": "1T69",
+    "cadena": "A",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "microestado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "46af3eebda827765ae381f1755a48142b51766c1794689c6c527903e5aa6b334"
+  },
+  {
+    "pdb": "1VKG",
+    "cadena": "A",
+    "smiles": "Cc1ccc(C(=O)Nc2cc(C(=O)N(C)C)cc(-c3ccc(C(=O)NO)cc3)c2)cc1",
+    "microestado_esperado": "Cc1ccc(C(=O)Nc2cc(C(=O)N(C)C)cc(-c3ccc(C(=O)NO)cc3)c2)cc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "d33cc5f5beda0fc859c631a627f9af7661dd9ef0cda42287eaf4e136c73c8199"
+  },
+  {
+    "pdb": "1W22",
+    "cadena": "A",
+    "smiles": "CN(c1ccc(C(=O)NO)cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+    "microestado_esperado": "CN(c1ccc(C(=O)NO)cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "2d738d9eb8304ac5310db71a9418b88acb0f091c3e592911cda4f336e386a82b"
+  },
+  {
+    "pdb": "1ZZ1",
+    "cadena": "A",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "microestado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "336e60c0bf0edcd918b1aa3bd2293a6a4e1e441ea42c12a97796c24e1ea1eb4e"
+  },
+  {
+    "pdb": "2A3W",
+    "cadena": "A",
+    "smiles": "CC1(C(=O)O)OCC(OC(=O)NCCNC(=O)OC2COC(C)(C(=O)O)OC2)CO1",
+    "microestado_esperado": "CC1(C(=O)[O-])OCC(OC(=O)NCCNC(=O)OC2COC(C)(C(=O)[O-])OC2)CO1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 4,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "f02fffa348917c88436b9e3dd51470295ff3a984d92ccc77a13dcd315095b918"
+  },
+  {
+    "pdb": "2AW1",
+    "cadena": "A",
+    "smiles": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1",
+    "microestado_esperado": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "4f6c99c720b1b698c90387de37b08c68f9b905d09c505cd1d04fe9989572bc6c"
+  },
+  {
+    "pdb": "2GH6",
+    "cadena": "A",
+    "smiles": "O=C(CCCCCCC(=O)C(F)(F)F)Nc1ccccc1",
+    "microestado_esperado": "O=C(CCCCCCC(=O)C(F)(F)F)Nc1ccccc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "422ccdd3e242fe44bfb4b732357b63453ed6b1acbcd20aec81e53c1cf7e67222"
+  },
+  {
+    "pdb": "2JDI",
+    "cadena": "A",
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)(O)O)[C@@H](O)[C@H]1O",
+    "microestado_esperado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "26e4d0486a0965cfa6c15660af29ee9c6885bea313ca8cce61296cc3f02e7a5e"
+  },
+  {
+    "pdb": "2X8Z",
+    "cadena": "A",
+    "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+    "microestado_esperado": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "7a902cd1765e0920cace1268519467d0e1fc371098812ddbf84a529d546fd94e"
+  },
+  {
+    "pdb": "2X90",
+    "cadena": "A",
+    "smiles": "C[C@H](N[C@@H](CCc1ccccc1)C(=O)O)C(=O)N1CCC[C@H]1C(=O)O",
+    "microestado_esperado": "C[C@H](N[C@@H](CCc1ccccc1)C(=O)[O-])C(=O)[NH+]1CCC[C@H]1C(=O)[O-]",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "db1046bfca560b2300afe23b059f74adc330e9805479da648535b35e41497460"
+  },
+  {
+    "pdb": "3QXX",
+    "cadena": "A",
+    "smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+    "microestado_esperado": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 2,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "508c54344b241dc902eb3489dd5359888c5879c113ed22cf30224074a5db13ae"
+  },
+  {
+    "pdb": "4CA7",
+    "cadena": "A",
+    "smiles": "O=C(N[C@@H](Cc1ccccc1)P(=O)(O)C[C@@H](Cc1cc(-c2ccccc2)no1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)O)OCc1ccccc1",
+    "microestado_esperado": "O=C(N[C@@H](Cc1ccccc1)P(=O)([O-])C[C@@H](Cc1cc(-c2ccccc2)no1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)[O-])OCc1ccccc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "8b109bb013f02fe6f282891e1deb2780128d8f9cc84980611472cda029eff13d"
+  },
+  {
+    "pdb": "4CA8",
+    "cadena": "A",
+    "smiles": "O=C(N[C@@H](Cc1ccccc1)[P@@](=O)(O)C[C@H](Cc1cc(-c2ccccc2)no1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)O)OCc1ccccc1",
+    "microestado_esperado": "O=C(N[C@@H](Cc1ccccc1)[P@@](=O)([O-])C[C@H](Cc1cc(-c2ccccc2)no1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)[O-])OCc1ccccc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "0a8237427ec8ae0f23db33ab628b3e87e90f514674bd91c4e40e9798bab1c865"
+  },
+  {
+    "pdb": "4CVL",
+    "cadena": "A",
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O",
+    "microestado_esperado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 2,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "4e18202a13becaab08cd6eaa4994f4cb49ff440c782c3cad7f9682617557faf4"
+  },
+  {
+    "pdb": "4PHL",
+    "cadena": "A",
+    "smiles": "COc1ccc(C(=O)Nc2c(Cl)cncc2Cl)cc1OC1CCCC1",
+    "microestado_esperado": "COc1ccc(C(=O)Nc2c(Cl)cncc2Cl)cc1OC1CCCC1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 2,
+    "coordinado_en_el_inventario": false,
+    "deposito_sha256": "8ba1f564e0db0f725b7bf026b17a22f11c1f78811c3a6d7931b08e0fa615adab"
+  },
+  {
+    "pdb": "4QA0",
+    "cadena": "A",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "microestado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "e93674d8df0f54c56533f521d422e9dc3416cf56fb7121b3aa74e8bd8bc95491"
+  },
+  {
+    "pdb": "4QGE",
+    "cadena": "A",
+    "smiles": "COc1ccc(NC(=O)[C@@H](C)Nc2nc(=O)c3cnn(C4CCCC4)c3[nH]2)cc1",
+    "microestado_esperado": "COc1ccc(NC(=O)[C@@H](C)Nc2nc(=O)c3cnn(C4CCCC4)c3[nH]2)cc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 2,
+    "coordinado_en_el_inventario": false,
+    "deposito_sha256": "e699e92b8ee7878641f27f269e896017623c8cafa5f897bc16307bcf4ced5d27"
+  },
+  {
+    "pdb": "4WUD",
+    "cadena": "A",
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)(O)O)[C@@H](O)[C@H]1O",
+    "microestado_esperado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "7239322c707b2d23368a9ed5b6ff944a54272a58af8d8a615a285f064abe812a"
+  },
+  {
+    "pdb": "5A2R",
+    "cadena": "A",
+    "smiles": "O=C(O)C[C@@H](O)C(=O)O",
+    "microestado_esperado": "O=C([O-])C[C@@H](O)C(=O)[O-]",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": false,
+    "deposito_sha256": "c1ea72e60d5a70d3062979feea6c2b3828f10c43b396ce7aa80de52163ec7564"
+  },
+  {
+    "pdb": "5E92",
+    "cadena": "A",
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)(O)O)[C@@H](O)[C@H]1O",
+    "microestado_esperado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 2,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "893379f0414dcfdb016b907890c733a3efab8176d48242027433a2f7f935b8ad"
+  },
+  {
+    "pdb": "5I3T",
+    "cadena": "A",
+    "smiles": "C[C@H](O)CCO",
+    "microestado_esperado": "C[C@H](O)CCO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": false,
+    "deposito_sha256": "b1b6286662e1a097d03f25f86481773a9ef9bc9af30eb74025b7bc58644760c4"
+  },
+  {
+    "pdb": "5TY1",
+    "cadena": "A",
+    "smiles": "COc1ccc([C@H]2OC(=O)NC2=O)c(OC)c1",
+    "microestado_esperado": "COc1ccc([C@H]2OC(=O)NC2=O)c(OC)c1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "861d51c1322add44e1345bfbd931fa046b3a44a3765686f646d75ff25d24fe4a"
+  },
+  {
+    "pdb": "5Z2R",
+    "cadena": "A",
+    "smiles": "Cc1ncc(C[n+]2c([C@@H](O)CCC(=O)O)sc(CCOP(=O)(O)OP(=O)(O)O)c2C)c(N)n1",
+    "microestado_esperado": "Cc1ncc(C[n+]2c([C@@H](O)CCC(=O)[O-])sc(CCOP(=O)([O-])OP(=O)([O-])O)c2C)c(N)n1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "7f2a588c0a715d95f918289a8156e7d13a812dbae24cb807608cd7ccb5f149ad"
+  },
+  {
+    "pdb": "6E53",
+    "cadena": "A",
+    "smiles": "COC(=O)c1ccc2c(ccn2[C@@H]2C[C@H](O)[C@@H](COP(=O)(O)OP(=O)(O)OP(=O)(O)O)O2)c1",
+    "microestado_esperado": "COC(=O)c1ccc2c(ccn2[C@@H]2C[C@H](O)[C@@H](COP(=O)([O-])OP(=O)([O-])OP(=O)([O-])O)O2)c1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 2,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "bfdea992e674ea75ef5a7b0806681dd0a457e47a898805e3bad305e7033c9091"
+  },
+  {
+    "pdb": "6HSK",
+    "cadena": "A",
+    "smiles": "Cn1cc(CNCC2CCN(c3ncc(C(=O)NO)cn3)CC2)c2ccccc21",
+    "microestado_esperado": "Cn1cc(C[NH2+]CC2CCN(c3ncc(C(=O)NO)cn3)CC2)c2ccccc21",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "bfc267c90f26b03a3fe3d7b046f6acda35379796c876888cf21b131e65c97a7f"
+  },
+  {
+    "pdb": "6KE5",
+    "cadena": "C",
+    "smiles": "COc1ccc([C@@H]2Sc3ccccc3N(CCN(C)C)C(=O)[C@H]2OC(C)=O)cc1",
+    "microestado_esperado": "COc1ccc([C@@H]2Sc3ccccc3N(CC[NH+](C)C)C(=O)[C@H]2OC(C)=O)cc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": false,
+    "deposito_sha256": "49f59597debddb154ee3e90156c23d0e10158fcb7cec892e675a8d87bba6f865"
+  },
+  {
+    "pdb": "6S1Y",
+    "cadena": "A",
+    "smiles": "N[C@@H](CCC(=O)N[C@@H](CCC(=O)O)C(=O)O)C(=O)O",
+    "microestado_esperado": "[NH3+][C@@H](CCC(=O)N[C@@H](CCC(=O)[O-])C(=O)[O-])C(=O)[O-]",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "f6428782356aada4642153b182dd6725f848d14b786fd4e782b3de40ae1a5a93"
+  },
+  {
+    "pdb": "6S1Z",
+    "cadena": "A",
+    "smiles": "O=C(O)[C@@H]1C[C@@H](C2CCCCC2)CN1C(=O)CP(=O)(O)CCCCc1ccccc1",
+    "microestado_esperado": "O=C([O-])[C@@H]1C[C@@H](C2CCCCC2)CN1C(=O)CP(=O)(O)CCCCc1ccccc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "37e8398e3f650f063db31c3ecd648966c5885e7978eba210d8f18e0b05e71b82"
+  },
+  {
+    "pdb": "6USR",
+    "cadena": "A",
+    "smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@@](=O)(O)C[P@@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+    "microestado_esperado": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@@](=O)([O-])C[P@@](=O)(O)OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[n-]1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 3,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "d9be1add1f54554815e85f4cb50ecee0e2acb962236b6603a0aae9da67d119ee"
+  },
+  {
+    "pdb": "7JVU",
+    "cadena": "A",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "microestado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "2b492256708d71079788db91ed942efab1b3b8a0346e7241092782c6aace3df8"
+  },
+  {
+    "pdb": "7JVW",
+    "cadena": "A",
+    "smiles": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1",
+    "microestado_esperado": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "e860e0256638489f5c66a04a65e3fe1eaa5f0ad38f98e8adabaf1438a9441032"
+  },
+  {
+    "pdb": "7SGG",
+    "cadena": "A",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "microestado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "d226899ba31a7bebba483137bab5044f635a7aa489c18ad4b63e6943e4f09391"
+  },
+  {
+    "pdb": "8UBR",
+    "cadena": "A",
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]1O",
+    "microestado_esperado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)([O-])O[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]1O",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "0cc1ecf3c030e3ddabfd3269535ddfddc6777b5d6f9e0298033f0773826f8d54"
+  },
+  {
+    "pdb": "8WGR",
+    "cadena": "A",
+    "smiles": "CNCCCN1c2ccccc2CCc2ccccc21",
+    "microestado_esperado": "C[NH2+]CCCN1c2ccccc2CCc2ccccc21",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": false,
+    "deposito_sha256": "dfc77f438161e28dfc5e591fec979e4c22d137b5c21d0804d9b6dcbf77c04610"
+  },
+  {
+    "pdb": "9GKV",
+    "cadena": "B",
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "microestado_esperado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "dbbcb52df60ec6d92c668d43fad83e9ab96452dd776bb566d6f07060e1419230"
+  },
+  {
+    "pdb": "9RJE",
+    "cadena": "A",
+    "smiles": "CCCCCC(=O)O",
+    "microestado_esperado": "CCCCCC(=O)[O-]",
+    "origen": "inventario de metales",
+    "iones_a_6_A": 1,
+    "coordinado_en_el_inventario": true,
+    "deposito_sha256": "5cff4dd091d8b78601ba8ad2e8ddb070d3143c3bf7e81fb11e74afd0c937df29"
+  },
+  {
+    "pdb": "1RKP",
+    "cadena": "A",
+    "smiles": "CC(C)Cn1c(=O)n(C)c(=O)c2nc[nH]c21",
+    "microestado_esperado": "CC(C)Cn1c(=O)n(C)c(=O)c2nc[nH]c21",
+    "origen": "ABS-TR-01-VALIDEZ",
+    "iones_a_6_A": null,
+    "coordinado_en_el_inventario": null,
+    "deposito_sha256": "825db3ad915f4557872ce878f18d9d904c889b66a7ee0eb03a9808bae6c53424"
+  },
+  {
+    "pdb": "4NY4",
+    "cadena": "A",
+    "smiles": "COc1ccc([C@]2(c3ccc(F)c(-c4cccnc4)c3)N=C(N)N3CC(F)(F)CN=C32)cc1C",
+    "microestado_esperado": "COc1ccc([C@]2(c3ccc(F)c(-c4cccnc4)c3)[NH+]=C(N)N3CC(F)(F)C[NH+]=C32)cc1C",
+    "origen": "ABS-TR-01-VALIDEZ",
+    "iones_a_6_A": null,
+    "coordinado_en_el_inventario": null,
+    "deposito_sha256": "01e94364a9828fe393f58cd6b2fbf5cad88dd85a3af1224449efa93698a06bc2"
+  }
+]

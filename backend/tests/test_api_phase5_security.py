@@ -144,12 +144,18 @@ def test_limites_de_pipeline_y_geometria_rechazan_costos_anomalos():
     ):
         with pytest.raises(ValidationError):
             PipelineConfigRequest(stage_params=params)
+    # `target_id` no es un campo del modelo (es `target_pdb_id`): estas pruebas lo
+    # pasaban creyendo ejercitar la geometría, el modelo lo ignoraba en silencio y
+    # seguían verdes. Con el modelo cerrado (LUNA-04) habrían seguido en verde por
+    # la razón equivocada: el 422 de «campo desconocido», no el de la caja.
     for size in ((4, 20, 20), (81, 20, 20), (float("inf"), 20, 20)):
-        with pytest.raises(ValidationError):
-            EvaluationSubmitRequest(smiles="CCO", target_id=uuid.uuid4(), grid_size=size)
-    with pytest.raises(ValidationError):
-        EvaluationSubmitRequest(smiles="CCO", target_id=uuid.uuid4(),
+        with pytest.raises(ValidationError) as salida:
+            EvaluationSubmitRequest(smiles="CCO", target_pdb_id="7E2Y", grid_size=size)
+        assert "grid_size" in {str(e["loc"][-1]) for e in salida.value.errors()}
+    with pytest.raises(ValidationError) as salida:
+        EvaluationSubmitRequest(smiles="CCO", target_pdb_id="7E2Y",
                                 custom_hotspots=["A" * 33])
+    assert "custom_hotspots" in {str(e["loc"][-1]) for e in salida.value.errors()}
 
 
 @pytest.mark.asyncio

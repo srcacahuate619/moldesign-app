@@ -1,7 +1,7 @@
 {
  "id": "RS-09",
  "meta": {
-  "titulo": "Invariante a rotaciones, frágil ante una centésima de ángstrom",
+  "titulo": "Invariante a rotaciones, frágil ante una décima de ángstrom",
   "entradilla": "El selector es exactamente invariante a rotación y traslación —diferencia máxima 0.0— y al orden de las poses. Con un temblor de 0.1 Å cambia de opinión en 9 complejos."
  },
  "bloques": [
@@ -220,7 +220,7 @@
      "m": "fuerte"
     },
     {
-     "t": " Perturbando las coordenadas atómicas con un ruido de 0.1 Å —una centésima de lo que separa un acierto de un fallo— el selector cambia de acierto a error en ",
+     "t": " Perturbando las coordenadas atómicas con un ruido de 0.1 Å —una décima de ángstrom— el selector cambia de acierto a error en ",
      "m": null
     },
     {
@@ -388,6 +388,76 @@
      "t": "Los receptores que sí entraron se verificaron por coincidencia atómica dentro de 0.001 Å contra su fuente, para descartar que un respaldo hubiera introducido una estructura distinta sin avisar.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-25",
+     "m": "fuerte"
+    },
+    {
+     "t": " (inventario SUPUESTOS-01, C-301). El título hablaba de «una centésima de ángstrom» y el texto de «una centésima de lo que separa un acierto de un fallo». El experimento perturba con 0,1 Å, una décima de ángstrom; la proporción con el umbral de acierto no estaba escrita. Ninguna cifra cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-157. El sello fija el checkpoint declarado y una comprobación inicial de su hash; el camino de puntuación carga otra ruta sin cotejar su identidad. Tampoco hay comprobación final del estado del checkpoint, dataset y caché. Se conserva el resultado bajo el camino documentado, con atribución al checkpoint e aislamiento de la ejecución no verificados. La igualdad eventual de archivos actuales no certificaría su identidad en aquella sesión. La exigencia de sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_procedencia.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-158. G5 observó estabilidad de la identidad Top-1 bajo la reextracción limpia. No comparó vector a vector las features ni las puntuaciones y no demuestra igualdad de ambas extracciones o determinismo numérico del extractor. Se retira «reextracción idéntica» y la exclusión de todo drift; se conserva únicamente la estabilidad de selección observada.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

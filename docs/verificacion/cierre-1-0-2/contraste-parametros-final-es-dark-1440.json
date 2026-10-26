@@ -1,0 +1,133 @@
+{
+  "label": "parametros-final-es-dark-1440",
+  "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+  "export": "1759c30d4b8804213e7f538b55e5ed74358d6c75e9a7e0192c93b4bebe39d998",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "es",
+  "theme": "dark",
+  "readings": [
+    {
+      "tag": "H2",
+      "id": "pro-options-title",
+      "text": "Parámetros de la evaluación",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        17,
+        17,
+        21
+      ],
+      "ratio": 18.837,
+      "passes": true
+    },
+    {
+      "tag": "SELECT",
+      "id": "_r_n_",
+      "text": "8",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "SELECT",
+      "id": "_r_o_",
+      "text": "9",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "_r_p_",
+      "text": "4",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "_r_q_",
+      "text": "2",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "_r_r_",
+      "text": "7.4",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "SELECT",
+      "id": "tautomer-mode",
+      "text": "canonico",
+      "foreground": [
+        244,
+        244,
+        245
+      ],
+      "background": [
+        24,
+        24,
+        27
+      ],
+      "ratio": 16.118,
+      "passes": true
+    }
+  ],
+  "passes": true
+}

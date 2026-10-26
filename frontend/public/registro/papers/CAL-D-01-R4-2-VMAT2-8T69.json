@@ -1,0 +1,468 @@
+{
+ "id": "CAL-D-01-R4-2-VMAT2-8T69",
+ "meta": {
+  "titulo": "GO: con el producto de 1.0.4, Vina ordena los 89 Ki de VMAT2 (8T69), 4-67 incluido",
+  "entradilla": "Repetición de CAL-D-01-R4 con la regla original sin cambios. El producto completa ahora los 89 padres, también el biciclopentano 4-67 que R4 no terminó: ρ = 0,39 (IC 95 % 0,22–0,54) y ρ de peor caso = 0,32 (IC 95 % 0,14–0,47), sin fallos persistentes. No es ciego: los otros 88 scores ya se conocían, y se repiten exactos."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Es la regla de R4, firmada el 2026-10-21 antes de cualquier score, aplicada al producto de 1.0.4. R4 sigue sellado NO_GO, porque aquel producto no completaba 4-67; R4B sigue INCONCLUSIVE.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo mismo que R4, con la entrada sellada copiada byte a byte. El receptor es 8T69, cadena A, con la caja del catálogo y el receptor preparado ",
+     "m": null
+    },
+    {
+     "t": "8fc027ca…",
+     "m": "codigo"
+    },
+    {
+     "t": ". Vina 1.2.7, exhaustividad 8, 9 poses, 4 CPU y Q = −E del top-1. El panel son los 89 Ki puntuales de la patente US11718618B2 (plaquetas humanas, [3H]DTBZ). El arnés de R4 se importa sin editarlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lo único que cambió en el producto es la validación física: desde ",
+     "m": null
+    },
+    {
+     "t": "48b22820",
+     "m": "codigo"
+    },
+    {
+     "t": " corre en un proceso hijo con un plazo de 300 s. En R4, el ",
+     "m": null
+    },
+    {
+     "t": "energy_ratio",
+     "m": "codigo"
+    },
+    {
+     "t": " de PoseBusters no terminaba con el biciclo[1.1.1]pentano de 4-67, y el pipeline se cortaba a los 1200 s.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Antes de medir, y sin ver el score de 4-67, se declaró cómo cuenta una validación que no termina en su plazo. Una evaluación con score y la validación física «no evaluada» ",
+     "m": null
+    },
+    {
+     "t": "cuenta como evaluada",
+     "m": "fuerte"
+    },
+    {
+     "t": ". En R4, PoseBusters sólo decidía en la puerta de pose del cristal; contarla como fallo habría endurecido la regla después de ver el caso. Esa validación se publica como advertencia, con su sensibilidad, y no decide.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Medida",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "R4",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "R4-2",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Puerta de pose (semillas a RMSD ≤ 2 Å, válidas en PoseBusters)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5 de 5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5 de 5 (0,67–0,71 Å)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Padres evaluados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "88 de 89",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "89 de 89",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Fallos persistentes",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1 (4-67)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "ρ de Spearman (Q frente a pKi), IC 95 %",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,39 (0,22–0,54), sin 4-67",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,39 (0,22–0,54)",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "ρ de peor caso (F = 1015/703), IC 95 %",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,32 (0,14–0,47), sin 4-67",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,32 (0,14–0,47)",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Concordancia de pares con cociente de Ki > F (P2)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,64 (0,58–0,70)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Decisión",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "NO_GO formal",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "GO",
+       "m": "fuerte"
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "4-67 completa en 335 s",
+      "m": "fuerte"
+     },
+     {
+      "t": ", en el primer intento, con la validación física ",
+      "m": null
+     },
+     {
+      "t": "not_evaluated",
+      "m": "codigo"
+     },
+     {
+      "t": " (",
+      "m": null
+     },
+     {
+      "t": "VALIDADOR_EXCEDIO_EL_PLAZO",
+      "m": "codigo"
+     },
+     {
+      "t": "). Es el único padre con esa advertencia. Sin él, ρ = 0,39 (0,22–0,54) y ρ_peor = 0,32 (0,14–0,47): no arrastra el resultado.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Los 88 padres comunes con R4 dan la misma energía top-1",
+      "m": "fuerte"
+     },
+     {
+      "t": ", con una diferencia máxima de 0,000 kcal/mol. Con la misma semilla, el mismo receptor y las mismas CPU, Vina es determinista aquí, y el cambio de producto no movió ningún score.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Validación física del top-1 en el panel: 46 ",
+      "m": null
+     },
+     {
+      "t": "passed",
+      "m": "codigo"
+     },
+     {
+      "t": ", 37 ",
+      "m": null
+     },
+     {
+      "t": "review",
+      "m": "codigo"
+     },
+     {
+      "t": ", 5 ",
+      "m": null
+     },
+     {
+      "t": "failed",
+      "m": "codigo"
+     },
+     {
+      "t": " y 1 ",
+      "m": null
+     },
+     {
+      "t": "not_evaluated",
+      "m": "codigo"
+     },
+     {
+      "t": ". Como en R4, no entra en la decisión, que sólo usa el score.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Las sensibilidades de 4-31 y 4-118 (la misma molécula con dos Ki) dan ρ entre 0,37 y 0,39. Ninguna desviación, ningún reintento y ninguna deriva; 3,7 CPU-core-h.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué significa y qué no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con este receptor, esta caja y esta configuración, el score de Vina ordena esta serie de análogos de tetrabenazina mejor que el azar, también con la asignación de lotes más desfavorable. Es una correlación moderada (ρ ≈ 0,4): ordena la serie, no predice el Ki de una molécula.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No es una confirmación ciega.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Los 88 scores de R4 eran públicos y se esperaba que se repitieran. Lo que R4-2 añade es que el producto completa el panel entero y que, con 4-67 dentro, la regla original se cumple. Tampoco dice nada de otras series, otros sitios ni otros receptores.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "8T69 queda como candidato a «Verificados», no promocionado.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La promoción a ",
+     "m": null
+    },
+    {
+     "t": "receptores_verificados.json",
+     "m": "codigo"
+    },
+    {
+     "t": " es decisión del propietario y va en un commit aparte, con ",
+     "m": null
+    },
+    {
+     "t": "supera_el_protocolo",
+     "m": "codigo"
+    },
+    {
+     "t": ". Mientras tanto, 8T69 sigue en Demostración.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sello: ",
+     "m": null
+    },
+    {
+     "t": "scripts/artifacts_science/CAL-D-01-R4-2-VMAT2-8T69/",
+     "m": "codigo"
+    },
+    {
+     "t": ". Arnés: ",
+     "m": null
+    },
+    {
+     "t": "scripts/cal_d01r4_2/",
+     "m": "codigo"
+    },
+    {
+     "t": ", que importa sin editar ",
+     "m": null
+    },
+    {
+     "t": "scripts/cal_d01r4/",
+     "m": "codigo"
+    },
+    {
+     "t": ". Registro previo: ",
+     "m": null
+    },
+    {
+     "t": "entrada/REGISTRO_PREVIO_R4_2.md",
+     "m": "codigo"
+    },
+    {
+     "t": " (SHA-256 ",
+     "m": null
+    },
+    {
+     "t": "aa84631f…",
+     "m": "codigo"
+    },
+    {
+     "t": ").",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/CAL-D-01-R4-2-VMAT2-8T69.md"
+}

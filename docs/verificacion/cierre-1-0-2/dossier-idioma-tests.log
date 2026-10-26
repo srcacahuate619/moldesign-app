@@ -1,0 +1,13 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run components/cases/__tests__/DossierCambioDeIdioma.test.tsx components/cases/__tests__/CaseDossierViewer.test.tsx lib/__tests__/idiomasCompletos.test.ts lib/__tests__/textoJsxSinEscapes.test.ts
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  4 passed (4)
+      Tests  30 passed (30)
+   Start at  19:27:35
+   Duration  6.68s (environment 43%, import 28%, setup 15%, tests 8%, transform 6%)
+

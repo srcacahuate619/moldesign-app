@@ -56,6 +56,7 @@ from api.routers.ai import router as ai_router  # v1.4: MolChat chatbot
 # steam / diffdock / colabfold NO se importan aquí: ver el bloque
 # «Integraciones dormidas» más abajo, junto a los include_router.
 from api.routers.protein_surgery import router as protein_surgery_router  # v1.7: Protein Surgery
+from api.routers.molcy import router as molcy_router
 from chem.router import router as chem_router
 from core.config import get_settings
 from core.database import (
@@ -298,6 +299,7 @@ app.include_router(chem_router)
 app.include_router(evaluation_router)
 app.include_router(history_router)
 app.include_router(moldex_router)
+app.include_router(molcy_router)
 app.include_router(targets_router)
 app.include_router(suggestions_router)
 app.include_router(batch_router)
@@ -426,7 +428,8 @@ async def root() -> dict[str, Any]:
 
 @app.get("/hardware", tags=["Meta"], summary="Hardware detection and recommendations")
 async def hardware_info() -> dict[str, Any]:
-    hw = detect_hardware()
+    # En un hilo: importa torch/openmm y mide 0,3 s; en el bucle de eventos congelaba el backend (2026-10-10).
+    hw = await asyncio.to_thread(detect_hardware)
     return {
         "cpu": {
             "model": hw.cpu_model,
@@ -484,7 +487,8 @@ async def estimate_time(
     anti_targets: int = 0,
     mmgbsa: bool = False,
 ) -> dict[str, Any]:
-    hw = detect_hardware()
+    # En un hilo: importa torch/openmm y mide 0,3 s; en el bucle de eventos congelaba el backend (2026-10-10).
+    hw = await asyncio.to_thread(detect_hardware)
     return estimate_evaluation_time(
         hw,
         mode=mode,
@@ -521,7 +525,8 @@ async def estimar_esta_corrida(
     from services.docking.search_policy import VINA_PROCESS_LIMIT
     from services.estimacion import estimar_corrida
 
-    hw = detect_hardware()
+    # En un hilo: importa torch/openmm y mide 0,3 s; en el bucle de eventos congelaba el backend (2026-10-10).
+    hw = await asyncio.to_thread(detect_hardware)
 
     receptor_preparado = True
     if target_pdb_id:

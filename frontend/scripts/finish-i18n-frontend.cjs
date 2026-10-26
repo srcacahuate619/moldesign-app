@@ -121,18 +121,21 @@ const HAS_WORDS = /[A-Za-z\u00c0-\u00ff]{2}/;
 // cabecera de un CSV. Anclado: «Evaluación #123» o «Ver https://…» sí son
 // texto y antes se daban por técnicos porque el patrón casaba en cualquier
 // posición.
-const NO_ES_TEXTO = /^(?:text|bg|border)-|^rgba?\(|^var\(--[\w-]+\)$|^#[0-9a-f]{3,8}$|^https?:\/\/\S+$|^(?:\/|~\/|\.\.?\/)|!important|^smiles,name,|^_/i;
+const NO_ES_TEXTO = /^(?:text|bg|border)-|^h-\d+\s+rounded-[a-z]+$|^rgba?\(|^var\(--[\w-]+\)$|^#[0-9a-f]{3,8}$|^https?:\/\/\S+$|^(?:\/|~\/|\.\.?\/)|!important|^smiles,name,|^_/i;
 // Entidades HTML, identificadores camelCase, nombres de archivo, ids de
 // repositorio («Qwen/Qwen2.5-1.5B-Instruct-GGUF») y prefijos de parámetro
 // («imp=»). Sin /i: «Guardar» no es camelCase.
-const NO_ES_TEXTO_EXACTO = /^&[A-Za-z]+;$|^[a-z]+[A-Z][A-Za-z0-9]*$|^[\w.-]+\.(?:json|gguf|pdb|pdbqt|sdf|csv|cpp|txt|zip)$|^[\w.-]+\/[\w.-]+$|^\w+=$/;
+// «2-digit» es un enum de Intl.DateTimeFormat, no texto de interfaz.
+// Campos y enums exactos del importador de cohortes; traducirlos rompe el formato CSV/SDF.
+const NO_ES_TEXTO_EXACTO = /^&[A-Za-z]+;$|^[a-z]+[A-Z][A-Za-z0-9]*$|^\d+-digit$|^(?:canonical_smiles|control_role|name|negative|none|positive|reference|smiles|structure)$|^python scripts\/build_registro_cientifico\.py$|^[\w.-]+\.(?:json|gguf|pdb|pdbqt|sdf|csv|cpp|txt|zip)$|^[\w.-]+\/[\w.-]+$|^\w+=$/;
 const EMAIL = /^[A-Za-z0-9_.+-]+@[A-Za-z0-9_.-]+$/;
 
 // Nombres de más de una palabra o con signos: se quitan enteros antes de
 // mirar las palabras sueltas, para que «Open Babel» no autorice «Open».
 const NOMBRES_PROPIOS = [
-  "AutoDock Vina", "Open Babel", "ESMFold Pro", "MolDesign AI", "PolyForm Noncommercial",
-  "ADMET-AI", "Mol*", "kcal/mol", "log mol/L", "QED Score", "SA Score", "\u0394Score",
+  "AutoDock Vina", "Open Babel", "ESMFold Pro", "MolDesign AI", "PolyForm Noncommercial", "ROC-AUC", "Google",
+  "ADMET-AI", ".pdbqt", ".pdb", "OpenMM", "MM-GBSA", "CL-GNN", "RTMScore", "MolChamb", "3D ETKDG",
+  "Mol*", "kcal/mol", "log mol/L", "QED Score", "SA Score", "\u0394Score",
 ];
 
 // Siglas, unidades y nombres de producto que se escriben igual en los dos
@@ -143,7 +146,7 @@ const NOMBRES_PROPIOS = [
 const SIGLAS = new Set([
   "\u00c5", "Da", "pH", "Ki", "IC50", "min", "SMILES", "PDB", "PDBQT", "SDF", "JSON", "CSV",
   "PDF", "ZIP", "XLSX", "TXT", "GPU", "CPU", "RAM", "GB", "MB", "SAR", "LogP", "BBB", "QED",
-  "ID", "AI", "ADMET", "sha256", "Vina", "MolDesign", "MolChat", "Moldex", "Molcy", "RDKit", "Meeko",
+  "ID", "AI", "ADMET", "sha256", "RMSD", "XYZ", "Vina", "MolDesign", "MolChat", "Moldex", "Molcy", "RDKit", "Meeko",
   "ESMFold", "ColabFold", "DiffDock", "RFdiffusion", "TabPFN", "Solana", "Web3D", "MolStar",
   "Lovering", "SHA", "pKi", "Qwen", "Tanimoto", "GGUF", "Lipinski", "Veber", "XGBoost", "GNN",
 ]);
@@ -181,10 +184,12 @@ const DEBE_MARCAR = [
 const NO_DEBE_MARCAR = [
   "SMILES", "PDB ID", "AutoDock Vina", "kcal/mol", "IC50", "Open Babel", "PDBQT",
   "MolDesign AI \u00b7 PolyForm Noncommercial", "ADMET-AI & TabPFN", "(Lovering 2009)",
-  "bg-zinc-900", "https://ejemplo.org/ruta", "#a1b2c3", "12.5 \u00c5", "sha256",
+  "bg-zinc-900", "h-4 rounded-md", "https://ejemplo.org/ruta", "#a1b2c3", "12.5 \u00c5", "sha256",
   "contacto@amezcua-dev.com", "~5 min", "&Delta;", "enableADMET", "case.json",
-  "Qwen/Qwen2.5-1.5B-Instruct-GGUF", "imp=", "SHA-256", "pKi", "Lipinski", "Veber",
+  "Qwen/Qwen2.5-1.5B-Instruct-GGUF", "imp=", "SHA-256", "pKi", "Lipinski", "Veber", "2-digit", "RMSD", "ROC-AUC", "Google", "XYZ",
+  "canonical_smiles", "control_role", "name", "negative", "none", "positive", "reference", "smiles", "structure",
   "Vina + XGBoost + GNN", "var(--categoria-hallazgo)", "Molcy /",
+  "python scripts/build_registro_cientifico.py",
 ];
 
 function autotest() {

@@ -1,0 +1,35 @@
+{
+  "generado_con": {
+    "openmm": "8.5.2",
+    "pdbfixer": "1.12.0",
+    "python": "3.14.3"
+  },
+  "comando": "PDBFixer.addMissingAtoms(); addMissingHydrogens(7.0) sobre la cadena A de 8HFI (data/targets/8HFI.pdb.gz)",
+  "histidinas": {
+    "HID": 10,
+    "HIE": 2,
+    "HIP": 0
+  },
+  "nota": "No es una salida de PDB2PQR/PROPKA: los nombres HID/HIE/HIP se derivaron de los hidrógenos que PDBFixer colocó.",
+  "fixture": "8hfi_protonado.pdb",
+  "contenido": "residuos 60-105, 176-180 y 218-230 de la cadena A de 8HFI protonados con PDBFixer a pH 7,0; 8 aguas del cristal con H1/H2 añadidos (geometría de 0,9572 Å) y el cloruro 702",
+  "histidinas_en_el_recorte": [
+    [
+      "178",
+      "HID"
+    ],
+    [
+      "220",
+      "HID"
+    ],
+    [
+      "222",
+      "HID"
+    ],
+    [
+      "228",
+      "HID"
+    ]
+  ],
+  "sha256": "2aba1bf9d18e071d872827c0942579cb5235460425ec308b3d6b678d34c4c984"
+}

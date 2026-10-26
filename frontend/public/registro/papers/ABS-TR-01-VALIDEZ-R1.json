@@ -1,0 +1,280 @@
+{
+ "id": "ABS-TR-01-VALIDEZ-R1",
+ "meta": {
+  "titulo": "INCONCLUSIVE: con la regla de metales en dos niveles, Preparación bloquea por error 1 de 18 sistemas, antes 3",
+  "entradilla": "Frente al mismo panel ciego de revisores LLM, Preparación sigue sin autorizar ningún sistema que el panel detiene, y los falsos bloqueos bajan de 3 a 1 (4JVB). Los dos que desaparecen son los que MET-02-R1 predijo. Con 18 negativos no hay potencia para concluir."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Repite ",
+     "m": null
+    },
+    {
+     "t": "ABS-TR-01-VALIDEZ",
+     "m": "codigo"
+    },
+    {
+     "t": " con el producto de 1.0.4, que mide los metales desde el ligando del cristal y en dos niveles (",
+     "m": null
+    },
+    {
+     "t": "14fd5e4d",
+     "m": "codigo"
+    },
+    {
+     "t": "). No es una medida ciega: MET-02-R1 ya había predicho qué cambiaría.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los mismos 29 depósitos reales de ABS-TR-01, evaluados por la API como un usuario con un receptor del catálogo (ligando del cristal, Vina 1.2.7, exhaustividad 8, 9 poses, semilla 42, 4 CPU) y después auditados por Preparación. La decisión de Preparación (detenerse, avisar, seguir) se compara con la del panel de cinco revisores LLM, que ",
+     "m": null
+    },
+    {
+     "t": "no se relanzó",
+     "m": "fuerte"
+    },
+    {
+     "t": ": los revisores juzgaron los depósitos, no la salida del producto, y su referencia se copió byte a byte de la sellada. La regla de decisión es la misma: GO exige un límite superior unilateral 95 % del falso bloqueo ≤ 10 % y ninguna falsa autorización.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Medida (mayoría de 5)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "VALIDEZ",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "VALIDEZ-R1",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Falsas autorizaciones (el panel detiene, Preparación dice seguir)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 10",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 10",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Falsos bloqueos (el panel no detiene, Preparación se detiene)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3 de 18",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1 de 18",
+       "m": "fuerte"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Límite superior unilateral 95 % del falso bloqueo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "37,7 %",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23,8 %",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Pasan con aviso aunque el panel los detiene",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "1RKP y 6KE5",
+      "m": "fuerte"
+     },
+     {
+      "t": " dejan de abstenerse y pasan a revisión: su ion retirado está a 6 Å o menos, pero el ligando del cristal no lo coordina. Es el cambio que predijo MET-02-R1; no apareció ningún otro.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "4JVB",
+      "m": "fuerte"
+     },
+     {
+      "t": " sigue bloqueado por un hueco del esqueleto a 6,09 Å: no lo toca la regla de metales.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "4NY4, 6SXC, 6HW5 y 3G0E",
+      "m": "fuerte"
+     },
+     {
+      "t": " siguen pasando con aviso aunque el panel los detiene. 4NY4 pide ahora revisión también por la protonación del receptor y por metales y cofactores (la Cys y el ligando junto al Fe del hemo); sigue siendo revisión, no abstención.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "8WTW no se prepara (Meeko) y 1DIY se detiene en la comprobación previa, como antes. Las conclusiones con la mayoría unánime y con la ronda 2 sin Opus son las mismas: un solo falso bloqueo, ninguna falsa autorización.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué significa y qué no",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla nueva quita dos bloqueos sin motivo y no abre ninguna autorización falsa. Pero con 18 negativos el límite superior no puede bajar del 15,3 % ni con cero errores, así que ",
+     "m": null
+    },
+    {
+     "t": "este diseño no puede dar GO",
+     "m": "fuerte"
+    },
+    {
+     "t": ": hacen falta más sistemas que el panel considere aptos. Los revisores son LLM, no expertos, y dos son de la misma familia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sello ",
+     "m": null
+    },
+    {
+     "t": "scripts/artifacts_science/ABS-TR-01-VALIDEZ-R1/",
+     "m": "codigo"
+    },
+    {
+     "t": "; arnés ",
+     "m": null
+    },
+    {
+     "t": "scripts/abs_tr_01_r1/",
+     "m": "codigo"
+    },
+    {
+     "t": ", que importa sin editar el de VALIDEZ.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/ABS-TR-01-VALIDEZ-R1.md"
+}

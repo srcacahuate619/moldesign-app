@@ -1,0 +1,17 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run
+
+
+ RUN  v5.0.0 D:/moldesign-ci/sol-1-0-2/frontend
+
+
+ Test Files  193 passed (193)
+      Tests  1812 passed (1812)
+   Start at  21:04:00
+   Duration  135.83s (environment 43%, import 31%, setup 14%, tests 11%, transform 2%)
+
+Environment  jsdom was created 193 times · 600.88s total, 43% of tracked time
+             create it once per worker with pool: 'vmThreads' (keeps per-file isolation) or isolate: false (shares it across files)
+             learn more: https://vitest.dev/guide/improving-performance#test-environments
+

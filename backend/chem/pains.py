@@ -55,6 +55,16 @@ def check_pains(smiles: str) -> dict[str, Any]:
     if mol is None:
         return {"is_pains": False, "matches": [], "total_matches": 0, "error": "Invalid SMILES"}
 
+    matches = pains_en_mol(mol)
+    return {
+        "is_pains": len(matches) > 0,
+        "matches": matches,
+        "total_matches": len(matches),
+    }
+
+
+def pains_en_mol(mol) -> list[dict[str, Any]]:
+    """Las coincidencias PAINS de `mol`, con los índices de sus átomos (los de `mol`)."""
     catalog = _get_pains_catalog()
     entries = catalog.GetMatches(mol)
 
@@ -69,14 +79,9 @@ def check_pains(smiles: str) -> dict[str, Any]:
         matches.append({
             "name": matcher,
             "description": _pains_descriptions.get(matcher, "PAINS substructure match"),
-            "atom_indices": list(set(atom_indices)),
+            "atom_indices": sorted(set(atom_indices)),
         })
-
-    return {
-        "is_pains": len(matches) > 0,
-        "matches": matches,
-        "total_matches": len(matches),
-    }
+    return matches
 
 
 def is_pains(smiles: str) -> bool:

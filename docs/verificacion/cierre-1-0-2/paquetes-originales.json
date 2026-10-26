@@ -1,0 +1,27 @@
+[
+  {
+    "origen": "D:\\moldesign-build\\.worktrees\\.sandbox\\agente3\\data\\runs\\vina-search\\c0e48a1c882f986a6ef3eaf607db0b25cce2fccf6cc7423f17374ed9b138a234.zip",
+    "archivo": "paquetes-originales/c0e48a1c882f-c0e48a1c882f986a6ef3eaf607db0b25cce2fccf6cc7423f17374ed9b138a234.zip",
+    "bytes": 257824,
+    "sha256": "c0e48a1c882f986a6ef3eaf607db0b25cce2fccf6cc7423f17374ed9b138a234"
+  },
+  {
+    "origen": "D:\\moldesign-build\\.worktrees\\.sandbox\\agente3\\data\\runs\\vina-search\\dcd6fb892e2e6fafca3a1b60100afff0b51fbf049814ee9f10acf31fdd95667c.zip",
+    "archivo": "paquetes-originales/dcd6fb892e2e-dcd6fb892e2e6fafca3a1b60100afff0b51fbf049814ee9f10acf31fdd95667c.zip",
+    "bytes": 238489,
+    "sha256": "dcd6fb892e2e6fafca3a1b60100afff0b51fbf049814ee9f10acf31fdd95667c"
+  },
+  {
+    "origen": "D:\\moldesign-build\\.worktrees\\.sandbox\\agente3\\data\\runs\\vina-search\\f496a88a88c65bb119cb0c63babc92ff4f80dbdafc9cdbac28f27af7ea34874c.zip",
+    "archivo": "paquetes-originales/f496a88a88c6-f496a88a88c65bb119cb0c63babc92ff4f80dbdafc9cdbac28f27af7ea34874c.zip",
+    "bytes": 280891,
+    "sha256": "f496a88a88c65bb119cb0c63babc92ff4f80dbdafc9cdbac28f27af7ea34874c"
+  },
+  {
+    "origen": "D:\\moldesign-build\\.worktrees\\catalogo-demostracion\\docs\\verificacion\\cierre-1-0-2\\moldesign_case_350e8d04-4273-41f5-b818-72ab44f3c95e_run_27c62c96-a89.zip",
+    "archivo": "moldesign_case_350e8d04-4273-41f5-b818-72ab44f3c95e_run_27c62c96-a89.zip",
+    "bytes": 238022,
+    "sha256": "f35f43dc2fcdb22fc5e7f4cc5be41c10452ed2f6a64a2d9e0465fac2ff128629",
+    "rol": "ZIP del dossier descargado mediante la interfaz real"
+  }
+]

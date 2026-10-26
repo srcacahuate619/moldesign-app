@@ -345,7 +345,7 @@ def estimar_corrida(
         )
     if tandas > 1 and cpu < exhaustiveness:
         avisos.append(
-            f"Tu equipo tiene {cpu} núcleo{'s' if cpu != 1 else ''} y la exhaustiveness "
+            f"Tu equipo tiene {cpu} núcleo{'s' if cpu != 1 else ''} y la exhaustividad "
             f"es {exhaustiveness}: las búsquedas van en {tandas} tandas. Bajarla a {cpu} "
             "haría la corrida más rápida sin cambiar el receptor ni la caja."
         )

@@ -1,0 +1,54 @@
+{
+  "experimento": "MET-02-SEMILLA",
+  "creado": "2026-10-23T02:31:51+00:00",
+  "semillas": [
+    42,
+    7,
+    13,
+    101,
+    2026
+  ],
+  "configuracion": "un caso: exhaustividad 8, 9 poses, 1 conformero, Vina 1.2.7, 4 CPU por proceso, cápsula de API aislada",
+  "brazos": {
+    "antes": {
+      "commit": "861f6a0e",
+      "regla": "mínimo pose/cristal, un nivel"
+    },
+    "despues": {
+      "commit": "878c215b",
+      "regla": "desde el cristal, coordinado→abstención, sólo cerca→revisión"
+    }
+  },
+  "ruta": "catálogo, POST /evaluation/preflight → submit → result → POST /evaluation/dossier/{id}/preparacion",
+  "medida": "estado de entorno.metales_cofactores por (entrada, semilla, brazo); estado global; hash de la pose top-1",
+  "evaluable": "entrada con las 5 semillas completadas en los dos brazos",
+  "primario": "entradas evaluables cuya auditoría declara el ligando del cristal en entorno.referencia",
+  "hipotesis": {
+    "H1": "Con la regla de antes, alguna entrada evaluable cambia de estado de metales sólo por la semilla (descriptivo).",
+    "H2": "Con la regla de después, ninguna entrada primaria cambia de estado por la semilla.",
+    "H3": "Con la regla de después, en las 41 del inventario el estado es ABSTENCION si el inventario dice que el ligando coordina algún ion y REVISAR si no (salvo REGISTRADO por otra especie ya declarada)."
+  },
+  "decision": {
+    "GO": "H2 sin ninguna excepción, H3 en todas las primarias del inventario (las discrepancias se explican una a una antes de decidir y cuentan como fallo si no se explican por una diferencia declarada del criterio), ≥ 30 entradas primarias evaluables, y la pose top-1 idéntica entre brazos en ≥ 95 % de los pares.",
+    "NO_GO": "alguna entrada primaria cambia de estado por la semilla con la regla de después.",
+    "INCONCLUSIVE": "en cualquier otro caso."
+  },
+  "intervalos": "Clopper–Pearson exactos al 95 %",
+  "no_dice": "si abstenerse o revisar es la decisión correcta para cada metal (no hay etiquetas); ni nada de la calidad del docking.",
+  "entradas": {
+    "inventario": {
+      "ruta": "docs/auditorias/metales_junto_al_sitio_2026-10-11.json",
+      "sha256": "06975d223683b81c45bb6401ff2c3b816d8a6547f7b7f56bbda8a34078e4b971"
+    },
+    "ligandos": {
+      "ruta": "scripts/met01r1/ligandos.json",
+      "sha256": "0dec191b76de09bd84f63513be996e90200799725d0e04a66ac3114a50a40dbf"
+    },
+    "sistemas_abs": {
+      "ruta": "scripts/artifacts_science/ABS-TR-01-VALIDEZ/entrada/sistemas.json",
+      "sha256": "c46fbc66980c4053a6df33eb8efae144418febf6bd4cde880edc44501d89000f"
+    },
+    "panel.json": "90c50885b747136b5eb06ece1b3d638fb86f7b28c97a8acf825c73b740bcd014",
+    "vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  }
+}

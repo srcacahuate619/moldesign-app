@@ -271,4 +271,140 @@ describe("inputs persistentes del caso", () => {
       expect(result.current.activeCase?.decisions?.[0]?.note).toBe("revisado");
     });
   });
+
+  // ── AMP-01: la disposición no se pierde al editar los inputs ────────
+  //
+  // La auditoría ampliada lo midió en vivo: guardar «Aceptar con límites»
+  // con su justificación, exportar, editar el SMILES y restaurar el
+  // original — y la disposición dejaba de existir en el caso persistido.
+  // «La justificación queda guardada junto a la huella de inputs» no se
+  // cumplía como historial durable: el PDF ya exportado la conservaba, el
+  // caso no permitía reconstruirla.
+  //
+  // La regla: al invalidar, la disposición VIGENTE se retira (describiría
+  // otra hipótesis y el caso pasa a review), pero la decisión con su
+  // justificación y su huella queda en el HISTORIAL del caso — en disco,
+  // no sólo en memoria.
+
+  describe("AMP-01: la disposición no se pierde al editar los inputs", () => {
+    beforeEach(() => window.localStorage.clear());
+
+    async function casoConDisposicion(repository: CaseRepository) {
+      const { result } = renderHook(() => useCases(), {
+        wrapper: wrapper(repository),
+      });
+      await waitFor(() => expect(result.current.loading).toBe(false));
+      const id = await newCase(result, "Con disposición");
+      act(() => {
+        result.current.setInputs({
+          receptor: { pdbId: "7E2Y", chain: "A", origin: "curado" },
+          ligand: { inputSmiles: "CCO" },
+        });
+      });
+      act(() => result.current.setPreflight(PREFLIGHT));
+      act(() =>
+        result.current.setActiveRun({
+          taskId: "task-1",
+          executionState: "completed",
+          startedAt: "2026-08-24T09:00:00.000Z",
+          inputFingerprint: "sha256:huella-uno",
+        }),
+      );
+      await waitFor(() =>
+        expect(result.current.activeCase?.activeRun).toBeDefined(),
+      );
+      await act(async () => {
+        expect(
+          await result.current.setDisposition(
+            "limit",
+            "Acepto con límites: el receptor no está calibrado.",
+          ),
+        ).toBe(true);
+      });
+      await waitFor(() => expect(result.current.saveState).toBe("saved"));
+      return { result, id };
+    }
+
+    it("editar el ligando retira la vigente y conserva decisión y justificación en el historial", async () => {
+      const repository = createBrowserCaseRepository("test-owner");
+      const { result, id } = await casoConDisposicion(repository);
+      expect(result.current.activeCase?.disposition?.rationale).toContain(
+        "no está calibrado",
+      );
+
+      // La reproducción de la auditoría: editar el SMILES (aunque se
+      // restaure después) borraba la decisión del caso por completo.
+      act(() => {
+        result.current.setInputs({ ligand: { inputSmiles: "CCN" } });
+      });
+      await waitFor(() => expect(result.current.saveState).toBe("saved"));
+
+      // La VIGENTE se retira: describiría otra hipótesis, y el caso a review.
+      expect(result.current.activeCase?.disposition).toBeUndefined();
+      expect(result.current.activeCase?.status).toBe("review");
+      // La decisión con su justificación NO desaparece: queda en el historial.
+      const historial = result.current.activeCase?.dispositions ?? [];
+      expect(historial).toHaveLength(1);
+      expect(historial[0].kind).toBe("limit");
+      expect(historial[0].fingerprint).toBe("sha256:huella-uno");
+      expect(historial[0].rationale).toContain("no está calibrado");
+      // Y en disco, no sólo en memoria: el caso permite reconstruirla.
+      const stored = await repository.readCase(id);
+      expect(stored.dispositions?.[0]?.rationale).toContain("no está calibrado");
+    });
+
+    it("re-decidir añade al historial, no lo sobrescribe", async () => {
+      const repository = createBrowserCaseRepository("test-owner");
+      const { result } = await casoConDisposicion(repository);
+      act(() => {
+        result.current.setInputs({ ligand: { inputSmiles: "CCN" } });
+      });
+      await waitFor(() =>
+        expect(result.current.activeCase?.disposition).toBeUndefined(),
+      );
+
+      // Con la evidencia desalineada de los inputs, sólo la abstención es
+      // honesta — la propia guardia del contexto lo exige.
+      await act(async () => {
+        expect(
+          await result.current.setDisposition(
+            "abstain",
+            "La evidencia actual no sostiene una conclusión.",
+          ),
+        ).toBe(true);
+      });
+      await waitFor(() => expect(result.current.saveState).toBe("saved"));
+
+      const historial = result.current.activeCase?.dispositions ?? [];
+      expect(historial).toHaveLength(2);
+      expect(historial[0].rationale).toContain("no está calibrado");
+      expect(historial[1].rationale).toContain("no sostiene una conclusión");
+      // La vigente es la nueva.
+      expect(result.current.activeCase?.disposition?.kind).toBe("abstain");
+    });
+
+    it("el historial sobrevive a cerrar y reabrir el caso", async () => {
+      const repository = createBrowserCaseRepository("test-owner");
+      const { result, id } = await casoConDisposicion(repository);
+      act(() => {
+        result.current.setInputs({ ligand: { inputSmiles: "CCN" } });
+      });
+      await waitFor(() => expect(result.current.saveState).toBe("saved"));
+
+      await act(async () => {
+        await result.current.closeCase();
+      });
+      await act(async () => {
+        await result.current.selectCase(id);
+      });
+
+      expect(result.current.activeCase?.dispositions).toHaveLength(1);
+      expect(result.current.activeCase?.dispositions?.[0]?.fingerprint).toBe(
+        "sha256:huella-uno",
+      );
+      // El caso reabrido recuerda qué se decidió y sobre qué huella, aunque
+      // la decisión ya no esté vigente.
+      expect(result.current.activeCase?.disposition).toBeUndefined();
+    });
+  });
 });

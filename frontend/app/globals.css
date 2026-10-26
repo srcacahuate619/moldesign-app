@@ -49,6 +49,71 @@
   --animate-slide-in-from-bottom-4: slide-in-from-bottom 0.4s ease-out;
   --animate-slide-in-from-top: slide-in-from-top 0.3s ease-out;
   --animate-shake: shake 0.4s ease-out;
+  /* Decoración en bucle: CSS y no framer-motion. Una animación CSS dentro de una pestaña oculta (display:none) no corre;
+     las de framer-motion sí, y con Historial oculto costaban ~35 ms de CPU por segundo (medido el 2026-10-10). */
+  --animate-destello: destello 3s ease-in-out infinite;
+  --animate-latido: latido 2.4s ease-in-out infinite;
+  /* La flecha del tutorial señala unas veces y para: un rebote eterno distrae y gasta. */
+  --animate-senala: senala 1s ease-in-out 4;
+  /* Orbes de la evaluación (2026-10-10): anillos de puntos fijos que GIRAN enteros. Una sola transformación por anillo,
+     resuelta por el compositor; antes se escribía la posición de cada punto en cada fotograma desde JavaScript. */
+  --animate-giro: giro 1.6s linear infinite;
+  --animate-giro-inverso: giro 3.2s linear infinite reverse;
+  --animate-respira: respira 2.4s ease-in-out infinite;
+  --animate-barrido: barrido 2.4s ease-in-out infinite alternate;
+  /* Avisos (2026-10-10): la campana se mece UNA vez por aviso nuevo y el aviso entra desde ella. Nada se
+     repite: un aviso que se queda no se anima. La cuenta atrás es la barra de debajo del aviso. */
+  --animate-campana: campana 0.8s ease-in-out 1;
+  --animate-aviso-entra: aviso-entra 180ms ease-out 1;
+  --animate-aviso-tiempo: aviso-tiempo var(--aviso-duracion, 6s) linear 1 forwards;
+}
+
+@keyframes campana {
+  0%, 100% { transform: rotate(0); }
+  15% { transform: rotate(14deg); }
+  30% { transform: rotate(-12deg); }
+  45% { transform: rotate(8deg); }
+  60% { transform: rotate(-5deg); }
+  75% { transform: rotate(2deg); }
+}
+
+@keyframes aviso-entra {
+  from { opacity: 0; transform: translateY(-6px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes aviso-tiempo {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(0); }
+}
+
+@keyframes giro {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes respira {
+  0%, 100% { transform: scale(0.82); opacity: 0.75; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes barrido {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(400%); }
+}
+
+@keyframes destello {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes latido {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.75; }
+}
+
+@keyframes senala {
+  0%, 100% { transform: translateY(0); animation-timing-function: cubic-bezier(0.8, 0, 1, 1); }
+  50% { transform: translateY(-25%); animation-timing-function: cubic-bezier(0, 0, 0.2, 1); }
 }
 
 /* ── Animation Keyframes ───────────────────────────────────────── */
@@ -157,6 +222,17 @@
 .light .bg-\[0a0a0a\], .light .bg-\[\#0a0a0a\], .light .bg-\[\#0A0A0A\] { background-color: var(--bg) !important; }
 .light .border-zinc-700:not([class*="dark:"]), .light .border-zinc-700\/50:not([class*="dark:"]), .light .border-zinc-800:not([class*="dark:"]), .light .border-zinc-900:not([class*="dark:"]) { border-color: var(--border) !important; }
 
+/* Evaluación es un workspace de altura fija: su contenido usa el scroll interno del caso. */
+html:has([data-keep-alive="/evaluation"][aria-hidden="false"]) {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+html:has([data-keep-alive="/evaluation"][aria-hidden="false"]) body {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
 /* ── Base Styles ────────────────────────────────────────────────── */
 
 @layer base {

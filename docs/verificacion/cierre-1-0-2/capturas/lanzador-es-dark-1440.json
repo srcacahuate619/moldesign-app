@@ -1,0 +1,19 @@
+{
+  "name": "lanzador-es-dark-1440",
+  "url": "http://localhost:13013/launcher",
+  "time": "2026-10-10T03:15:15.070Z",
+  "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+  "export": "d8cd90e5404fc69065fdea94c84520c6bae21804acfb7c5d9b0c4282bd9eaa2d",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "es",
+  "theme": "dark",
+  "text": "OPCIONES\nPREPARACIÓN\nMOLCYBETA\nBATCH\nEVALUACIÓN\nMOLDEX\nHISTORIAL\n3\nDESKTOP USER\nSALIR\n\nCOMPONENTES LOCALES\n\nModelos y motores\n\nInstala sólo lo que necesites. Cada archivo se verifica mediante SHA-256 antes de quedar disponible para MolDesign.\n\nQwen 2.5 1.5B Instruct (Q4_K_M)\n\nLLM local para MolChat\n\nTamaño: 1.12 GB\nLicencia: Apache-2.0\nVer origen\nVer licencia\nNO INSTALADO\nDESCARGAR Y VERIFICAR\nESMFold v1 — pesos del modelo\n\nPlegamiento de péptidos con ESMFold (Meta AI); el acoplamiento lo hace después AutoDock Vina. Con GPU tarda minutos; en CPU, bastante más. El tokenizer ya viene en el instalador: esto es sólo el checkpoint.\n\nTamaño: 8.44 GB\nLicencia: MIT\nVer origen\nVer licencia\nNO INSTALADO\nDESCARGAR Y VERIFICAR\nAbrir sin módulos opcionales\nVerificar instalación\nLas descargas pesadas se obtienen bajo demanda desde Hugging Face. Revisa el origen y la licencia de cada módulo antes de instalarlo.\nMolDesign v1.0.1",
+  "overflow": {
+    "width": 1440,
+    "document": 1440
+  },
+  "errors": []
+}

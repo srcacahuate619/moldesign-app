@@ -1,0 +1,22 @@
+{
+  "head": "02ef09d404097e6c6cecf26ec3e7e22ab2953991",
+  "started": "2026-10-11T22:07:49+00:00",
+  "protocol_sha256": "5383ba76b97b34425ac0970cd074b845945452f191ac60ce6e4eff8a041682e5",
+  "product_commit": "f0e6408668fa8ecbecb417cf39621928fdfee886",
+  "capsule": {
+    "pid": 22892,
+    "ports": {
+      "back": 18011,
+      "front": 13011,
+      "llama": 18111
+    },
+    "source_commit": "02ef09d404097e6c6cecf26ec3e7e22ab2953991",
+    "started": "2026-10-11T22:07:45.337Z",
+    "api_only": true,
+    "frontend": false,
+    "bytecode_disabled": true,
+    "vina_cpu": 4,
+    "qa_environment": "scripts/qa_sandbox/lib.mjs::entornoBackend",
+    "profile_isolated": true
+  }
+}

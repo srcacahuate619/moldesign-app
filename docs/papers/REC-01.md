@@ -76,3 +76,23 @@ convertido la auditoría en una profecía.
 ## Alcance
 
 Sin docking, sin red, y cero escrituras fuera del directorio del experimento.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-148. El productor histórico no agrega correctamente las tres rutas E6/E7 de PDB ausente
+  o no parseable: sus retornos omiten es_excepcion y el agregador lo exige. Las 387 filas
+  selladas sí conservan ese campo y no contienen E6/E7; la limitación del instrumento no cambia
+  sus recuentos publicados. Un adaptador externo deriva el campo de la lista explícita de
+  excepciones y reproduce esos agregados. Las pruebas de ausencia y parser son abstractas; no se
+  han reauditado estructuras ni modificado el productor sellado. Productor:
+  `scripts/analisis_fase1b_rec01_agregacion.py`.
+- SCI-B-149. G5 comparó los hashes anteriores y posteriores de curated_targets.json y
+  curated_targets.csv y esos dos pares coinciden. El registro fija esa comprobación del
+  catálogo; no fija una comparación anterior/posterior de la base de datos y rescoring que el
+  PRE también exigía. Se limita el PASS al perímetro efectivamente medido, sin certificar
+  aislamiento completo. La exigencia de sellado de SCI-B-045 se aplica a experimentos nuevos
+  desde el 2026-10-23; no sanea este registro retroactivamente. Productor:
+  `scripts/analisis_fase1b_procedencia.py`.

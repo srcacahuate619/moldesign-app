@@ -1,0 +1,16 @@
+{
+  "id_r2": "S02",
+  "pdb": "4NJT",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 181.7,
+      "crudo": "S02-4NJT-intento1.json.gz",
+      "crudo_sha256": "f9d9152873c77264acc25edddf43fe1f5d02bbc5ed5721b0556768132e2ccdf9"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S02-4NJT-intento1.json.gz",
+  "crudo_sha256": "f9d9152873c77264acc25edddf43fe1f5d02bbc5ed5721b0556768132e2ccdf9",
+  "registrado_en": "2026-10-25T01:26:01+00:00"
+}

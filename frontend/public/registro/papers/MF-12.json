@@ -352,25 +352,10 @@
       "m": "fuerte"
      },
      {
-      "t": " — se predijo que haría falta el enterramiento del sitio. No hizo falta: L",
+      "t": " — se predijo que haría falta el enterramiento del sitio. No hizo falta: L funciona sin él.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "funciona sin él.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "Falló",
@@ -387,27 +372,18 @@
       "m": "fuerte"
      },
      {
-      "t": " — se predijo que el conteo de torsiones aportaría poco.",
+      "t": " — se predijo que el conteo de torsiones aportaría poco. Aporta ",
+      "m": null
+     },
+     {
+      "t": "+0.0165",
+      "m": "fuerte"
+     },
+     {
+      "t": ", esencialmente cero.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "Aporta ",
-     "m": null
-    },
-    {
-     "t": "+0.0165",
-     "m": "fuerte"
-    },
-    {
-     "t": ", esencialmente cero.",
-     "m": null
-    }
    ]
   },
   {
@@ -464,50 +440,20 @@
       "m": "fuerte"
      },
      {
-      "t": " Es evidencia de que la señal existe, no",
+      "t": " Es evidencia de que la señal existe, no un componente listo para enrutar trabajo.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "un componente listo para enrutar trabajo.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "No se midió el coste de enrutar mal.",
       "m": "fuerte"
      },
      {
-      "t": " Un falso negativo tira cómputo; un falso",
+      "t": " Un falso negativo tira cómputo; un falso positivo niega una respuesta que sí se habría obtenido. Sus costes no son simétricos y aquí no se pesaron.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "positivo niega una respuesta que sí se habría obtenido. Sus costes no son simétricos y aquí no se pesaron.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "Un solo modelo y un solo split.",
@@ -545,6 +491,171 @@
      "t": ": apretar la caja no mejora proporcionalmente a cuánto se aprieta. Eso no invalida este resultado. Predecir no requiere causalidad, y un marcador sirve perfectamente para triage. Pero conviene tenerlo presente antes de intentar convertir este clasificador en una intervención.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": ").",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-076. La «diferencia pareada» (+0.218) y su «CI95 BCa» [0.081, 0.322] de la tabla son de la ",
+      "m": null
+     },
+     {
+      "t": "exactitud",
+      "m": "fuerte"
+     },
+     {
+      "t": ", no de la precisión balanceada que el gate G2 prerregistró: el runner pasó al bootstrap la diferencia de aciertos por complejo. Recalculado con el estimando prerregistrado, sobre las mismas 87 predicciones de val+test (recuperadas del ",
+      "m": null
+     },
+     {
+      "t": "per_complex.jsonl",
+      "m": "codigo"
+     },
+     {
+      "t": " sellado, que reproduce coeficientes, precisiones y el intervalo de exactitud publicados) y el mismo bootstrap (10 000 réplicas, semilla 42): ",
+      "m": null
+     },
+     {
+      "t": "diferencia de precisión balanceada +0.154, IC 95 % BCa [0.049, 0.245]",
+      "m": "fuerte"
+     },
+     {
+      "t": ". Sigue excluyendo el cero, así que ",
+      "m": null
+     },
+     {
+      "t": "el GO se sostiene",
+      "m": "fuerte"
+     },
+     {
+      "t": ", con un efecto menor y un intervalo más estrecho que los publicados. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_mf12_ci_balanceada.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La frase «el efecto observado supera el MDE» comparaba la diferencia de exactitud con un MDE calculado para n = 203; la evaluación pareada tiene 87 casos. Es SCI-B-077, cerrado más abajo.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-077, cerrado. Con los 87 casos de la evaluación pareada (y la discordancia 0.5 del preregistro), el MDE al 80 % es ",
+      "m": null
+     },
+     {
+      "t": "0.203",
+      "m": "fuerte"
+     },
+     {
+      "t": ", no 0.136. La diferencia de exactitud (+0.218) queda apenas por encima; la de precisión balanceada, que es el estimando primario (+0.154), queda ",
+      "m": null
+     },
+     {
+      "t": "por debajo",
+      "m": "fuerte"
+     },
+     {
+      "t": ". El diseño tenía menos potencia de la declarada para el efecto que encontró; el intervalo, que excluye el cero, no cambia. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fnd04_potencia_dominio.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-078 y SCI-B-079. El sello de ",
+      "m": null
+     },
+     {
+      "t": "MF-12",
+      "m": "codigo"
+     },
+     {
+      "t": " fija el runner, no ",
+      "m": null
+     },
+     {
+      "t": "metrics.json",
+      "m": "codigo"
+     },
+     {
+      "t": " ni los datos de entrada; el de ",
+      "m": null
+     },
+     {
+      "t": "MF-12-PRE",
+      "m": "codigo"
+     },
+     {
+      "t": " tampoco fija el preregistro. Y el GO de ",
+      "m": null
+     },
+     {
+      "t": "MF-12-PRE",
+      "m": "codigo"
+     },
+     {
+      "t": " aprueba el protocolo: no es un gate experimental superado (no hay métrica de G2 en esa carpeta). La procedencia de entradas y salidas se exige a los sellos nuevos desde el 2026-10-23 (",
+      "m": null
+     },
+     {
+      "t": "scripts/sellar_experimento.py",
+      "m": "codigo"
+     },
+     {
+      "t": ", SCI-B-045); los sellados antes no se tocan.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

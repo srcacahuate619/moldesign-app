@@ -1,0 +1,42 @@
+{
+  "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+  "target_pdb_id": "USR_0F8E67",
+  "chain": "A",
+  "grid_center": [
+    -1.1664,
+    2.2652,
+    13.2216
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "docking_engine": "vina",
+  "exhaustiveness": 8,
+  "num_poses": 9,
+  "conformers": 1,
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  }
+}

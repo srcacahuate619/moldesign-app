@@ -1,0 +1,11 @@
+{
+  "before": "blob:http://localhost:13013/39b32362-8750-4a32-be41-33a4db1195fb#toolbar=0&view=FitH",
+  "after": "blob:http://localhost:13013/21112754-9788-46a2-96e8-7040419c9fcf#toolbar=0&view=FitH",
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18013/evaluation/cohort-runs/dac3ecc8-fdbf-49e6-8f99-1c3affee9873/dossier/preview",
+      "lang": "es",
+      "time": "2026-10-10T02:49:14.639Z"
+    }
+  ]
+}

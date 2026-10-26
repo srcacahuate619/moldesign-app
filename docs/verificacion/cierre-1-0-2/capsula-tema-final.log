@@ -1,0 +1,20 @@
+Cápsula del agente 3  (D:\moldesign-build\.worktrees\.sandbox\agente3)
+Preparando el worktree…
+Export estático…
+  construyendo el export (npm run build:desktop; unos minutos). Log: D:\moldesign-build\.worktrees\.sandbox\agente3\logs\build_20261010_023033.log
+Backend en 127.0.0.1:18013…  (log: D:\moldesign-build\.worktrees\.sandbox\agente3\logs\backend_20261010_023103.log)
+  backend listo en 3 s
+Servidor del export en localhost:13013…
+
+========================================================================
+CÁPSULA 3 LISTA
+  App:        http://localhost:13013      (abre SIEMPRE esta dirección, no 127.0.0.1)
+  Backend:    http://127.0.0.1:18013
+  Commit:     9628aa1c5e  (sol/cierre-qa)  árbol limpio: false
+  Export:     construido en 28 s  · check de puerto horneado: ok
+  Datos:      D:\moldesign-build\.worktrees\.sandbox\agente3\data
+  Logs:       D:\moldesign-build\.worktrees\.sandbox\agente3\logs
+  Manifiesto: D:\moldesign-build\.worktrees\.sandbox\agente3\manifest.json
+  Autoverificación: {"desktop_login":200,"cors_origen_propio":true,"cors_origen_ajeno_bloqueado":true,"health":"healthy"}
+  Comandos de Tauri sin emular: en el navegador, `window.__SANDBOX_NO_SIMULADO__`.
+========================================================================

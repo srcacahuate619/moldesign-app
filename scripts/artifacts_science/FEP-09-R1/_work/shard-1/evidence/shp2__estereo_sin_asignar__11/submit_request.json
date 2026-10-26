@@ -1,0 +1,40 @@
+{
+  "smiles": "CC1CN(c2ncc(-c3cccc(Cl)c3Cl)c(N)n2)C[C@@H](C)[NH2+]1",
+  "target_pdb_id": "USR_A3BEA3",
+  "chain": "A",
+  "molecule_name": "shp2__estereo_sin_asignar__11",
+  "grid_center": [
+    22.625,
+    41.267,
+    4.664
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:8c1a160fa04199631c7dba202328fa0e924687ce9afde607463d501de5a77bbf"
+}

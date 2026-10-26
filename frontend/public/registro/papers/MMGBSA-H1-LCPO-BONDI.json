@@ -248,6 +248,153 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "MMGBSA-PARTICIONES-BRI-V1: la asignación del material precede al ensayo de áreas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de asignación de material.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Documenta la población de partida; no cambia los casos medidos de H1 ni valida parámetros físicos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se separaron grupos de scaffold; para acíclicos se usó InChIKey. Se ordenó por hash de semilla y grupo y se asignó por déficit relativo de partición, distinguiendo Br e I. La semilla fue 20260923, bajo RDKit 2025.09.6.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Partición de material",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Ligandos",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Grupos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Entrenamiento",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "72",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "46",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Validación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "24",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "18",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Prueba",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "19",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La lista marca ",
+     "m": null
+    },
+    {
+     "t": "5mlj",
+     "m": "codigo"
+    },
+    {
+     "t": " por geometría imposible: asignación y universo finalmente medido por H1 no son el mismo denominador. Tampoco es la cohorte de paridad de H5. La reproducibilidad declarada del reparto no mide calidad de LCPO ni independencia química más allá de la agrupación usada. No comprobado por mí: reproducir curación o asignación desde SDF originales. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "MMGBSA-PARTICIONES-BRI-V1",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
   }
  ],
  "fuente": "docs/papers/MMGBSA-H1-LCPO-BONDI.md"

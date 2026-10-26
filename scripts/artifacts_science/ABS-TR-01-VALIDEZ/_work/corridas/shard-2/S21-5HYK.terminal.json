@@ -1,0 +1,16 @@
+{
+  "id_r2": "S21",
+  "pdb": "5HYK",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 22.9,
+      "crudo": "S21-5HYK-intento1.json.gz",
+      "crudo_sha256": "cf437a61a5611d799556299678e3ec6a527f24d6724eaefaf8f7b7f82f93a30a"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S21-5HYK-intento1.json.gz",
+  "crudo_sha256": "cf437a61a5611d799556299678e3ec6a527f24d6724eaefaf8f7b7f82f93a30a",
+  "registrado_en": "2026-10-22T16:47:10+00:00"
+}

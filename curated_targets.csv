@@ -19,7 +19,7 @@ pdb_id,name,chain,family,area,grid_cx,grid_cy,grid_cz,grid_sx,grid_sy,grid_sz,ho
 3WZE,BTK Bruton Tyrosine Kinase,A,kinase,Oncology,22.876,24.550,36.824,37.0,37.0,37.0,15,22.876,24.550,36.824
 3G0E,JAK2 Kinase,A,kinase,Oncology,34.165,-3.628,-78.308,27.8,27.8,27.8,15,34.165,-3.628,-78.308
 4E4N,ALK Anaplastic Lymphoma Kinase,A,kinase,Oncology,5.970,55.550,1.090,22.0,22.0,22.0,15,5.970,55.550,1.090
-2HZI,ABL1 Kinase Imatinib,A,kinase,Oncology,16.200,14.590,3.940,22.0,22.0,22.0,15,16.200,14.590,3.940
+2HZI,ABL1 Kinase PD180970,A,kinase,Oncology,16.200,14.590,3.940,22.0,22.0,22.0,15,16.200,14.590,3.940
 5Z2R,CDK6 Cyclin D3,F,kinase,Oncology,-16.270,-18.460,22.070,22.0,22.0,22.0,15,-16.270,-18.460,22.070
 4BCF,PI3K-delta Catalytic,A,kinase,Oncology,54.296,-18.216,-11.557,29.7,29.7,29.7,15,54.296,-18.216,-11.557
 3GEN,VEGFR2 Kinase,A,kinase,Oncology,-17.360,6.472,-14.948,30.9,30.9,30.9,15,-17.360,6.472,-14.948
@@ -78,3 +78,4 @@ pdb_id,name,chain,family,area,grid_cx,grid_cy,grid_cz,grid_sx,grid_sy,grid_sz,ho
 4ZUD,MAO-B Monoamine Oxidase B,A,oxidoreductase,CNS,-40.873,63.309,28.224,29.2,29.2,29.2,15,-40.873,63.309,28.224
 3L54,Cholinesterase AChE,A,hydrolase,CNS,23.750,14.281,22.084,27.5,27.5,27.5,15,23.750,14.281,22.084
 5WIU,SOD1 Superoxide Dismutase,A,oxidoreductase,CNS,-17.420,15.260,-16.670,22.0,22.0,22.0,15,-17.420,15.260,-16.670
+7SRQ,"5-HT2B (HTR2B), LSD-bound cryo-EM receptor",R,gpcr,CNS,152.587,158.245,155.595,18.0,18.0,18.0,15,152.587,158.245,155.595

@@ -1,0 +1,7 @@
+{
+  "incidente": "acoplamiento sin terminar en el proceso 1",
+  "id": "panel-4-67",
+  "sintomas": "docking completado (8 poses) y análisis posterior con CPU ~2 núcleos durante ~28 min sin escribir log; /health 200; task PENDING; el proceso 2 pasó de ~35 s a ~100 s por compuesto mientras tanto",
+  "accion": "se detuvo el arnés y el backend de la cápsula del proceso 1 y se reanuda; el intento interrumpido no dejó registro terminal ni crudo (reintento técnico idéntico)",
+  "registrado_en": "2026-10-22T04:13:46+00:00"
+}

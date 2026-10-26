@@ -1,0 +1,457 @@
+{
+  "schema": "preparacion/v1",
+  "alcance": "Auditor de readiness para FEP en desarrollo",
+  "transferencia_fep_demostrada": false,
+  "estado": "REVISION",
+  "razon": "Hay decisiones científicas abiertas que el cálculo siguiente heredaría.",
+  "bloqueantes": [],
+  "en_revision": [
+    "receptor.protonacion",
+    "receptor.campo_de_fuerzas",
+    "ligando.especie",
+    "ligando.tautomero",
+    "entorno.referencia",
+    "entorno.membrana",
+    "procedencia.commit",
+    "procedencia.previa_advertencias",
+    "procedencia.previa_sin_evaluar"
+  ],
+  "en_revision_rutinaria": [
+    "receptor.protonacion",
+    "procedencia.commit",
+    "procedencia.previa_advertencias"
+  ],
+  "solo_rutinaria": false,
+  "decididos": [],
+  "huella_de_decision": "tarea:ef3bbbd6-7de4-47a6-b9d1-e5873743d3f9",
+  "decisiones_de_otras_corridas": 0,
+  "bloques": [
+    {
+      "id": "receptor",
+      "estado": "REVISION",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "receptor.identidad",
+          "etiqueta": "Receptor preparado",
+          "valor": "SHA-256 7629b87cce1de9e5e9419918cc52d68ada44742c609f4abb1571a8360428a26e · receta 1fba1639f50984441d91ff00700a155e2dfe341c7cb21adb7d8736b9b796d438",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.receptor_sha256 · receptor_prep.recipe_hash",
+          "imprescindible": true
+        },
+        {
+          "clave": "receptor.cadenas",
+          "etiqueta": "Cadenas del receptor",
+          "valor": "cadena H",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.chain · receptor_prep.site_chains",
+          "imprescindible": true
+        },
+        {
+          "clave": "receptor.caja",
+          "etiqueta": "Caja de búsqueda",
+          "valor": "centro (16.441, -12.518, 22.646) · tamaño (20, 20, 20) Å",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.box_center · box_size",
+          "imprescindible": true
+        },
+        {
+          "clave": "receptor.cadenas_excluidas",
+          "etiqueta": "Cadenas excluidas junto al sitio",
+          "valor": "Ninguna: toda la proteína a 6 Å o menos de la caja está en el receptor.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.species_diff.near_site.protein_residues_removed",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.residuos_retirados",
+          "etiqueta": "Residuos retirados por la preparación",
+          "valor": "Meeko no retiró residuos y no hubo cofactores sin plantilla fuera del sitio.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.removed_residues · cofactors_outside_site",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.cadenas_truncadas",
+          "etiqueta": "Cadenas laterales truncadas",
+          "valor": "Ninguna: el cristal resolvía todas las cadenas laterales del receptor.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.truncated_sidechains",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.huecos",
+          "etiqueta": "Huecos del esqueleto",
+          "valor": "Ninguno: el esqueleto de las cadenas del receptor es continuo (C–N ≤ 2 Å entre residuos consecutivos).",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.backbone_gaps",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.protonacion",
+          "etiqueta": "Protonación del receptor",
+          "valor": "Declarada por el usuario (origen: usuario)",
+          "estado": "REVISAR",
+          "razon": "MolDesign conservó la protonación del archivo y comprobó, residuo a residuo, que Meeko aplicó las plantillas declaradas. No fija un pH ni decide si es la adecuada para el sitio: la responsabilidad de esa decisión es de quien preparó el receptor.",
+          "valor_es_clasificacion": true,
+          "fuente": "receptor_prep.protonation_method",
+          "imprescindible": false,
+          "rutinaria": {
+            "motivo": "La pide toda corrida con un receptor que ya trae su protonación: la decisión es de quien lo preparó."
+          }
+        },
+        {
+          "clave": "receptor.campo_de_fuerzas",
+          "etiqueta": "Cobertura del campo de fuerzas del receptor",
+          "valor": "No estándar: ACE ×1 (residuo no estándar: necesita parámetros propios), HOH ×3 (residuo no estándar: necesita parámetros propios), NME ×1 (residuo no estándar: necesita parámetros propios).",
+          "estado": "REVISAR",
+          "razon": "Un campo de proteína estándar no los cubre: el cálculo siguiente tiene que parametrizarlos aparte y declararlo.",
+          "valor_es_clasificacion": true,
+          "fuente": "PDBQT del receptor (por su SHA-256)",
+          "imprescindible": false,
+          "accion_recomendada": "Declara con qué parámetros se describe cada uno, o retíralo si no forma parte de la hipótesis."
+        },
+        {
+          "clave": "receptor.entrada",
+          "etiqueta": "Archivo del receptor",
+          "valor": "pdb · modo: estructura preparada por el usuario, respetada tal como venía · SHA-256 dbcd98743517c946df9ea93823625b438583efbe652683e558478663c307198f",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.entrada · receptor_prep.modo_de_preparacion",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.confianza_estructural",
+          "etiqueta": "Confianza de la estructura (pLDDT)",
+          "valor": null,
+          "estado": "NO_APLICA",
+          "razon": "Sin indicios de estructura predicha en el archivo (método declarado: X-RAY DIFFRACTION).",
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.prediccion",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.seccion_catalogo",
+          "etiqueta": "Sección del catálogo",
+          "valor": "Receptor del usuario: fuera del catálogo incluido; MolDesign no lo ha verificado ni calibrado.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "catálogo · services/targets/seccion_catalogo.py",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "ligando",
+      "estado": "REVISION",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "ligando.identidad",
+          "etiqueta": "Ligando acoplado",
+          "valor": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H](N)Cc2ccccc2)cc1 · SHA-256 del SDF dd546da3533f158ecfa7855d1dc3a85e413d3dc1bd2fc4fb7ab866ff6cc2fe05",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.smiles_acoplado · execution_provenance.ligand_input_sha256",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.ph",
+          "etiqueta": "pH de protonación del ligando",
+          "valor": "7.4",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.protonacion",
+          "imprescindible": false
+        },
+        {
+          "clave": "ligando.especie",
+          "etiqueta": "Especie acoplada",
+          "valor": null,
+          "estado": "REVISAR",
+          "razon": "Primer SMILES canónico por orden alfabético: la tabla no reconoció centros ionizables y no estimó poblaciones; 4 candidatos. La selección es reproducible, pero la población del microestado no quedó establecida por una constante química verificada.",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.protonacion.seleccion",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.tautomero",
+          "etiqueta": "Tautómero del ligando",
+          "valor": null,
+          "estado": "REVISAR",
+          "razon": "Se acopló el tautómero del usuario; la protonación sigue el pH declarado. 12 tautómeros candidatos, ninguno descartado con evidencia; la especie acoplada se declaró, pero su población no se predijo",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.tautomeria.declaracion",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.estereoquimica",
+          "etiqueta": "Estereoquímica del ligando",
+          "valor": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H](N)Cc2ccccc2)cc1",
+          "estado": "REGISTRADO",
+          "razon": "SMILES isomérico derivado del conformero 3D guardado.",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.estereoquimica",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.covalente",
+          "etiqueta": "Unión covalente",
+          "valor": "Ninguna ojiva covalente conocida",
+          "estado": "REGISTRADO",
+          "razon": "Se buscaron 18 tipos de ojiva; la lista no es exhaustiva. No se consultaron los enlaces del depósito.",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.smiles_acoplado · LINK del depósito",
+          "imprescindible": false
+        },
+        {
+          "clave": "ligando.campo_de_fuerzas",
+          "etiqueta": "Cobertura del campo de fuerzas del ligando",
+          "valor": "H, C, N, O",
+          "estado": "REGISTRADO",
+          "razon": "Todos sus elementos están en OpenFF 2 (Sage) y en GAFF2 (H, C, N, O, F, P, S, Cl, Br, I). Es cobertura por elemento: tipos de átomo y cargas se asignan al parametrizar.",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.smiles_acoplado",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "pose",
+      "estado": "REGISTRADO",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "pose.origen",
+          "etiqueta": "Poses de la corrida",
+          "valor": "SDF SHA-256 3f2cca7478bc995186d39878c1460c18e64c1c7a7756d94de768a68d89ea9098",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "eval_result.poses_file_path · execution_provenance.poses_sha256",
+          "imprescindible": true
+        },
+        {
+          "clave": "pose.validez_fisica",
+          "etiqueta": "Validez física de la pose principal",
+          "valor": "#1: passed",
+          "estado": "PASA",
+          "razon": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+          "valor_es_clasificacion": true,
+          "fuente": "structural_evidence (PoseBusters con hidrógenos reconstruidos desde el SMILES; condición MF-33-H-COR)",
+          "imprescindible": true
+        },
+        {
+          "clave": "pose.regla_de_seleccion",
+          "etiqueta": "Regla de selección de la pose",
+          "valor": "Pose principal: top-1 de Vina (#1) · el selector coincide",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "pose_selection",
+          "imprescindible": false
+        },
+        {
+          "clave": "pose.correspondencia_serie",
+          "etiqueta": "Correspondencia atómica de la serie",
+          "valor": null,
+          "estado": "NO_APLICA",
+          "razon": "Requiere una serie de ligandos; esta auditoría cubre una corrida.",
+          "valor_es_clasificacion": false,
+          "fuente": "no aplica a una corrida",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "entorno",
+      "estado": "REVISION",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "entorno.metales_cofactores",
+          "etiqueta": "Metales y cofactores junto al sitio",
+          "valor": "Ninguno retirado a 6 Å o menos",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.species_diff.near_site",
+          "imprescindible": true
+        },
+        {
+          "clave": "entorno.aguas",
+          "etiqueta": "Aguas junto al sitio",
+          "valor": "Ninguna retirada a 6 Å o menos; 3 conservada(s)",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.species_diff.near_site",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.otras_especies",
+          "etiqueta": "Otras especies junto al sitio",
+          "valor": "Ninguna retirada aparte del ligando del cristal",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.species_diff.near_site",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.politica",
+          "etiqueta": "Política de heteroátomos",
+          "valor": "docking_vina",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "preflight.execution_route",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.referencia",
+          "etiqueta": "Referencia de las distancias",
+          "valor": null,
+          "estado": "NO_EVALUADO",
+          "razon": "El archivo de origen no es el que preparó el receptor de esta corrida (la receta no coincide): las distancias se miden desde la caja.",
+          "valor_es_clasificacion": false,
+          "fuente": "pose top-1 · estructura de origen comprobada por la receta del receptor",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.membrana",
+          "etiqueta": "Proteína de membrana",
+          "valor": null,
+          "estado": "NO_EVALUADO",
+          "razon": "Sin el archivo depositado, comprobado por la receta del receptor, no se mide su secuencia.",
+          "valor_es_clasificacion": false,
+          "fuente": "secuencia del receptor · HEADER del depósito",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "procedencia",
+      "estado": "REVISION",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "procedencia.hashes",
+          "etiqueta": "Hashes de entrada y salida",
+          "valor": "5/5 registrados",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.versiones",
+          "etiqueta": "Versiones de la corrida",
+          "valor": "MolDesign 1.0.2 · dimorphite_dl 2.0.2 · meeko 0.7.1 · rdkit 2025.9.6 · vina 1.2.7",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.app_version · toolchain",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.semilla",
+          "etiqueta": "Semilla y parámetros",
+          "valor": "semilla 42 · exhaustiveness 8",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "docking_protocol.seed",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.commit",
+          "etiqueta": "Commit de código",
+          "valor": null,
+          "estado": "NO_DISPONIBLE",
+          "razon": "La corrida no declaró un commit verificable (bundle o árbol modificado).",
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.git_commit",
+          "imprescindible": false,
+          "rutinaria": {
+            "motivo": "La pide toda corrida del instalador o de un árbol con cambios sin commitear, que no declaran commit. La versión de la aplicación queda en «Versiones de la corrida»."
+          }
+        },
+        {
+          "clave": "procedencia.relacion",
+          "etiqueta": "Relación con los inputs del caso",
+          "valor": "La corrida se ejecutó con los inputs actuales del caso.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "huellas de la corrida y del preflight",
+          "imprescindible": false
+        },
+        {
+          "clave": "procedencia.previa_bloqueantes",
+          "etiqueta": "Bloqueantes de la comprobación previa",
+          "valor": "Ninguno registrado",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "preflight.blockers",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.previa_advertencias",
+          "etiqueta": "Advertencias de la comprobación previa",
+          "valor": "ESPECIES_DEL_SITIO_RETIRADAS, RECEPTOR_PROTONACION_DECLARADA, CALIBRACION_RECEPTOR",
+          "estado": "REVISAR",
+          "razon": "Advertencias registradas antes de ejecutar.",
+          "valor_es_clasificacion": true,
+          "fuente": "preflight.warnings",
+          "imprescindible": false,
+          "rutinaria": {
+            "motivo": "Son advertencias de la ruta o que esta auditoría vuelve a medir junto al ligando: receptor sin calibrar, especies retiradas de la estructura y protonación del receptor."
+          }
+        },
+        {
+          "clave": "procedencia.previa_sin_evaluar",
+          "etiqueta": "Controles previos sin evaluar",
+          "valor": "HOTSPOTS_EFECTIVOS, LIGANDO_PROTONACION_TAUTOMERO, ASSEMBLY_BIOLOGICA, HUECOS_CERCA_DEL_SITIO",
+          "estado": "NO_EVALUADO",
+          "razon": "No se evaluaron: eso no equivale a que los pasaran.",
+          "valor_es_clasificacion": true,
+          "fuente": "preflight.not_evaluated",
+          "imprescindible": false
+        }
+      ]
+    }
+  ],
+  "corrida": {
+    "case_id": "thrombin__protonacion_del_sitio__0",
+    "molecule_id": "e86e36b9-5767-4bcb-a7ee-d3a263bbe3e6",
+    "task_id": "ef3bbbd6-7de4-47a6-b9d1-e5873743d3f9",
+    "target": "USR_D871C3 · FEP09 thrombin__protonacion_del_sitio__0",
+    "pdb_id": "USR_D871C3"
+  },
+  "generated_at": "2026-10-11T20:31:16+00:00",
+  "paquete": {
+    "rotulo": "Paquete de la corrida",
+    "aviso": "Es el paquete reproducible del dossier de esta corrida. No es un paquete FEP."
+  }
+}

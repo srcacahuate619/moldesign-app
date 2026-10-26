@@ -1,0 +1,27 @@
+{
+  "pdb": "2GH6",
+  "semilla": 2026,
+  "inicio": "2026-10-23T04:31:35+00:00",
+  "resultado": "auditada",
+  "task_id": "c506caaa-96f2-4fcb-bd33-ae32e81217b8",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:9451 (1.77 Å); más lejos: K A:9450 (7.37 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal CF3 A:9452",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "f1c03ecb75b832022fd06f83b2f09ea3a6da0ae22d6f3ce57a844f8f1fe52cbe",
+  "afinidad_top1": -6.514,
+  "microestado": "O=C(CCCCCCC(=O)C(F)(F)F)Nc1ccccc1",
+  "microestado_coincide": true,
+  "semilla_declarada": 2026,
+  "vina": "1.2.7",
+  "receptor_sha256": "f5809480e6a34f34c7c7de5dfdb5a140f00afc4705a3da0bc418863f9125f7d3",
+  "segundos": 21.1,
+  "fin": "2026-10-23T04:31:56+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

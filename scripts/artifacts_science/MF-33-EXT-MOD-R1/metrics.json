@@ -1,0 +1,85 @@
+{
+ "experiment_id": "MF-33-EXT-MOD-R1",
+ "n_fuera": 68,
+ "n_completos": 65,
+ "gates": {
+  "G0_reproduccion_48": true,
+  "G1_completitud": true
+ },
+ "fallos_reproduccion": [],
+ "bloque3": {
+  "torsdof": {
+   "n": 68,
+   "rho": 0.4089,
+   "p": 0.000536,
+   "significativo_tras_FDR": true
+  },
+  "rot_bonds": {
+   "n": 68,
+   "rho": 0.4278,
+   "p": 0.000273,
+   "significativo_tras_FDR": true
+  },
+  "n_conformeros": {
+   "n": 68,
+   "rho": 0.538,
+   "p": 2e-06,
+   "significativo_tras_FDR": true
+  },
+  "diversidad": {
+   "n": 65,
+   "rho": 0.3341,
+   "p": 0.00653,
+   "significativo_tras_FDR": true
+  },
+  "n_heavy": {
+   "n": 68,
+   "rho": 0.3979,
+   "p": 0.00078,
+   "significativo_tras_FDR": true
+  }
+ },
+ "rho_detectable_80": 0.3342,
+ "supervivientes_cuatro": [
+  "torsdof",
+  "rot_bonds",
+  "diversidad",
+  "n_heavy"
+ ],
+ "n_conformeros_sobrevive": true,
+ "control_barajado": {
+  "torsdof": {
+   "n": 68,
+   "rho": -0.0731,
+   "p": 0.553541,
+   "significativo_tras_FDR": false
+  },
+  "rot_bonds": {
+   "n": 68,
+   "rho": -0.0626,
+   "p": 0.612017,
+   "significativo_tras_FDR": false
+  },
+  "n_conformeros": {
+   "n": 68,
+   "rho": -0.1079,
+   "p": 0.38111,
+   "significativo_tras_FDR": false
+  },
+  "diversidad": {
+   "n": 65,
+   "rho": -0.1363,
+   "p": 0.278972,
+   "significativo_tras_FDR": false
+  },
+  "n_heavy": {
+   "n": 68,
+   "rho": -0.0748,
+   "p": 0.544375,
+   "significativo_tras_FDR": false
+  }
+ },
+ "control_supervivientes": [],
+ "decision": "GO",
+ "duration_seconds": 20.2
+}

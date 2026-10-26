@@ -33,6 +33,33 @@ from services.targets.calibracion import (
 )
 
 
+@pytest.fixture
+def verificado(monkeypatch, tmp_path):
+    """Una entrada de Verificados que supera el protocolo, para `pdb_id`."""
+    import json
+    from services.docking.preparer import RECEPTOR_RECIPE_VERSION
+    from services.targets import seccion_catalogo as sc
+
+    def poner(pdb_id="7E2Y", rho=0.62):
+        entrada = {
+            "receta_receptor": RECEPTOR_RECIPE_VERSION,
+            "receptor_sha256": "0" * 64,
+            "pose": {"semillas": 5, "semillas_rmsd_ok": 4, "posebusters_valida": True},
+            "calibracion": {"rho": rho, "ic95": [0.31, 0.80], "n": 48, "endpoint": "Ki",
+                            "panel": "CHEMBL0"},
+            "protocolo": {"exhaustiveness": 8, "num_poses": 9, "semilla": 42},
+            "condiciones": [],
+        }
+        ruta = tmp_path / "verificados.json"
+        ruta.write_text(json.dumps({"verificados": {pdb_id: entrada}}), encoding="utf-8")
+        monkeypatch.setattr(sc, "RUTA_VERIFICADOS", ruta)
+        sc._leer.cache_clear()
+        return entrada
+
+    yield poner
+    sc._leer.cache_clear()
+
+
 def _receptor(**campos):
     base = {
         "pdb_id": "7E2Y",
@@ -63,11 +90,38 @@ class TestElValorDeRho:
 
 
 class TestLosCuatroNiveles:
-    def test_con_rho_medido_es_calibrado(self):
+    def test_una_rho_suelta_en_la_fila_no_es_calibrado(self):
+        """SCI-D-001: sin n, IC ni protocolo, un número no suprime la reserva."""
         estado = estado_de_calibracion(_receptor(spearman_rho=0.62))
+
+        assert estado.nivel is not NivelDeCalibracion.CALIBRADO
+        assert estado.requiere_advertencia is True
+        assert estado.spearman_rho is None
+        assert estado.respaldo is None
+        assert estado.rho_registrada_sin_respaldo == 0.62, "se conserva, aparte"
+
+    @pytest.mark.parametrize("rho", [-0.8, 0.9])
+    def test_una_rho_suelta_de_cualquier_signo_tampoco(self, rho):
+        estado = estado_de_calibracion(_receptor(spearman_rho=rho))
+        assert estado.nivel is not NivelDeCalibracion.CALIBRADO
+
+    def test_con_la_medida_de_verificados_es_calibrado(self, verificado):
+        verificado()
+        estado = estado_de_calibracion(_receptor(spearman_rho=None))
 
         assert estado.nivel is NivelDeCalibracion.CALIBRADO
         assert estado.spearman_rho == 0.62
+        assert estado.respaldo["n"] == 48 and estado.respaldo["ic95"] == [0.31, 0.80]
+        assert estado.respaldo["protocolo"]["semilla"] == 42
+
+    def test_la_medida_de_otro_receptor_no_cuenta(self, verificado):
+        verificado(pdb_id="8HFI")
+        assert estado_de_calibracion(_receptor()).nivel is not NivelDeCalibracion.CALIBRADO
+
+    def test_un_receptor_propio_no_hereda_la_medida_del_catalogo(self, verificado):
+        verificado()
+        estado = estado_de_calibracion(_receptor(is_private=True))
+        assert estado.nivel is not NivelDeCalibracion.CALIBRADO
 
     def test_sin_rho_en_familia_conocida_sigue_siendo_curado_estructural(self):
         estado = estado_de_calibracion(_receptor(structural_family="kinase"))
@@ -107,8 +161,9 @@ class TestLaAdvertencia:
             assert estado.advertencia, f"{familia} tiene que advertir"
             assert estado.requiere_advertencia is True
 
-    def test_un_receptor_calibrado_no_advierte(self):
-        estado = estado_de_calibracion(_receptor(spearman_rho=0.62))
+    def test_un_receptor_calibrado_no_advierte(self, verificado):
+        verificado()
+        estado = estado_de_calibracion(_receptor())
 
         assert estado.requiere_advertencia is False
         assert estado.advertencia == ""
@@ -164,3 +219,33 @@ class TestSerializacion:
 
         assert estado.nivel is NivelDeCalibracion.SIN_CURAR
         assert estado.requiere_advertencia is True
+
+
+class TestElControlDeLaComprobacionPrevia:
+    """SCI-D-001: el control sólo pasa con la medida, y la nombra."""
+
+    def _control(self, calibracion):
+        from services.docking.preflight import _calibration_controls
+        return _calibration_controls(calibracion)[0]
+
+    def test_calibrado_sin_respaldo_no_pasa(self):
+        control = self._control({"nivel": "calibrado", "requiere_advertencia": False,
+                                 "spearman_rho": 0.62, "resumen": "Calibrado"})
+        assert control.state == "advertencia"
+        assert "no está respaldado" in control.reason
+
+    def test_calibrado_con_respaldo_pasa_y_dice_n_ic_y_protocolo(self, verificado):
+        verificado()
+        control = self._control(estado_de_calibracion(_receptor()).to_dict())
+        assert control.state == "pasa"
+        assert "n = 48" in control.observation and "[0.31; 0.80]" in control.observation
+        assert "semilla 42" in control.reason
+
+    def test_las_dos_frases_tienen_ingles(self, verificado):
+        from core.i18n_plantillas import traducir
+        verificado()
+        control = self._control(estado_de_calibracion(_receptor()).to_dict())
+        for texto in (control.observation, control.reason):
+            assert traducir(texto, "en") != texto
+        sin = self._control({"nivel": "calibrado", "requiere_advertencia": False})
+        assert traducir(sin.reason, "en") != sin.reason

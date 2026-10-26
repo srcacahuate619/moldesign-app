@@ -1,0 +1,19 @@
+{
+  "name": "moldex-final-es-dark-1024",
+  "url": "http://localhost:13013/moldex",
+  "time": "2026-10-10T02:59:24.616Z",
+  "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+  "export": "1759c30d4b8804213e7f538b55e5ed74358d6c75e9a7e0192c93b4bebe39d998",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "locale": "es",
+  "theme": "dark",
+  "text": "OPCIONES\nPREPARACIÓN\nMOLCYBETA\nBATCH\nEVALUACIÓN\nMOLDEX\nHISTORIAL\n3\nSALIR\n\nBIOTECA\n\nMoldex\n\nMOLÉCULA\n\nLigando 350245c3\n\n1/1 MOLÉCULA CARGADA\nBolsillo\nSuperficie\nTipos de residuo\nProximidad polar\nHotspots\nHOTSPOT CON PROXIMIDAD POLAR\nHOTSPOT ALCANZADO\nOTRO HOTSPOT\n\n01 / MOLDEX\n\nBioteca\n1/1\nTODOS\n8HFI\nORDENAR\n🕒 RECIENTES\nMDX-8HFI-3502\n8HFI\n\nFC(F)(F)CNCc1ccccc1\n\nDemostración\n\n10-oct, 12:52 a.m. · #27c62c\n\nÍNDICE COMPUESTO HISTÓRICO\n64.5\nCOMPARAR\n¿Dónde se guarda esto?\nSITIO DEL RECEPTOR\nLigando 350245c3\n\nFC(F)(F)CNCc1ccccc1\n\nAFINIDAD CALCULADA (VINA)\n\n-7.0 kcal/mol\n\nÍNDICE COMPUESTO HISTÓRICO\n\n64.5\n\n02 / MOLÉCULA\n\nLigando 350245c3\n\n8HFI\n\nDemostración\nResultado obtenido con un receptor de demostración. Un intento publicado no le concede el sello de verificación.\nSe intentó verificar este receptor y no superó la calibración (ρ = 0.13; IC 95 %: -0.16–0.41).\nCONTEXTO DEL TARGET\n\nPROTEÍNA RECEPTORA\n\nCRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE\n\nCORRELACIÓN DEL BENCHMARK\n\nSpearman ρ = —\n\nAUDITORÍA CIENTÍFICA\nPlantillas de histidina asignadas por Meeko: A:178=HIE, A:220=HIE, A:222=HIE, A:228=HIE, A:280=HIE, A:296=HIE, A:370=HIE, A:372=HIE, A:441=HIE, A:598=HIE, A:599=HIE, A:613=HIE. La asignación procede de plantillas y no valida el microestado experimental ni un pH concreto.\nPreparación en condición desolvatada: se retiraron 23 aguas cristalográficas de la caja de acoplamiento, 10 de ellas con 3 o más contactos a menos de 3.5 Å con el receptor (la mejor coordinada, 6). Si alguna de esas aguas forma parte del reconocimiento en esta diana —la catalítica de la proteasa del VIH-1, la red de la bisagra en varias quinasas—, los contactos de esta corrida no la incluyen.\nEficiencia de ligando LE=0.53. A 13 átomos pesados, el umbral de 0.45 se cruza con cualquier afinidad mejor que -5.9 kcal/mol, así que superarlo no distingue una unión buena de una mediocre. En este rango de masa (< 300 Da, Rule of Three) la eficiencia por átomo es alta por construcción: sirve para comparar entre moléculas del mismo tamaño, no como veredicto.\nLa especie acoplada no es la entrada: FC(F)(F)CNCc1ccccc1 → FC(F)(F)C[NH2+]Cc1ccccc1. Las alternativas no evaluadas siguen siendo incertidumbre química.\nDESCRIPTORES Y REGLAS\nLipinski\nVeber\n\nLIPOFILIA\n\n2.34 LogP\n\nMASA\n\n189 Da\n\nPOLARIDAD\n\n12.0 Å²\n\nHOTSPOTS\n\n11/15 tocados\n\nSEÑAL CL-GNN (EXPERIMENTAL)\n\n0.76 no pesa en el ranking\n\nLIPINSKI\n\nCumple regla\n\nREGISTRO DE INTEGRIDAD\n\nEl registro acredita integridad y fecha de la revisión publicada. No demuestra que la pose sea válida, ni que la conclusión científica sea correcta, ni sustituye evidencia experimental.\n\nSin registro en cadena · sólo local\nREGISTRAR EN SOLANA\nVER REPORTE\nDescargar recibo PDF\nDescargar complejo 3D (PDB)",
+  "overflow": {
+    "width": 1024,
+    "document": 1024
+  },
+  "errors": []
+}

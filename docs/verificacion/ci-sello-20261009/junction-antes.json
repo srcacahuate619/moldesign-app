@@ -1,0 +1,8 @@
+{
+  "fecha_utc": "2026-10-10T00:18:09.6749876Z",
+  "enlace": "D:\\moldesign-build\\.worktrees\\catalogo-demostracion\\frontend\\node_modules",
+  "tipo": "Junction",
+  "destino": "D:\\moldesign-ci\\sol-1-0-2\\frontend\\node_modules",
+  "comando_retirada": "cmd.exe /d /c rmdir D:\\moldesign-build\\.worktrees\\catalogo-demostracion\\frontend\\node_modules",
+  "validacion": "Ruta literal del worktree y destino exacto comprobados antes de retirar sólo el enlace."
+}

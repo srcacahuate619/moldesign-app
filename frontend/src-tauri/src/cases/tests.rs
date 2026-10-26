@@ -1634,3 +1634,85 @@ fn atomic_sibling_replaces_existing_file_without_residue() {
     assert_eq!(names, vec![target.file_name().unwrap()]);
     let _ = fs::remove_dir_all(home);
 }
+
+// ── Carpeta por defecto de los casos nuevos ──────────────────────────
+//
+// Decisión del propietario (2026-10-04): `Documentos\MolDesign\Casos`. Lo que hay que demostrar
+// no es sólo que se crea, sino que el frontend no puede pedir autorización sobre otra ruta y que
+// una carpeta que ya tiene casos no se toca.
+
+#[test]
+fn default_parent_is_documents_moldesign_casos() {
+    let docs = temp_dir("docs");
+    let dir = core_ensure_default_parent(&docs).unwrap();
+    assert_eq!(dir, docs.join("MolDesign").join("Casos"));
+    assert!(dir.is_dir());
+}
+
+#[test]
+fn default_parent_is_idempotent_and_leaves_existing_cases_alone() {
+    let docs = temp_dir("docs-idem");
+    let dir = core_ensure_default_parent(&docs).unwrap();
+    let existing = dir.join("Mi caso");
+    fs::create_dir_all(&existing).unwrap();
+    fs::write(existing.join("case.json"), b"{}").unwrap();
+
+    let again = core_ensure_default_parent(&docs).unwrap();
+
+    assert_eq!(again, dir);
+    assert_eq!(fs::read(existing.join("case.json")).unwrap(), b"{}");
+}
+
+#[test]
+fn default_parent_fails_clearly_when_documents_is_a_file() {
+    // Control negativo: no se dice «creada» si no lo está.
+    let base = temp_dir("docs-file");
+    let not_a_folder = base.join("Documentos");
+    fs::write(&not_a_folder, b"no soy una carpeta").unwrap();
+
+    let err = core_ensure_default_parent(&not_a_folder).unwrap_err();
+
+    assert!(err.starts_with("IO_ERROR"), "{err}");
+}
+
+#[test]
+fn granting_the_default_parent_resolves_to_exactly_that_folder() {
+    let docs = temp_dir("docs-grant");
+    let registry = CaseRegistry::load_from(Some(docs.join("registro.json")));
+    let dir = core_ensure_default_parent(&docs).unwrap();
+
+    let picked = grant_folder(&registry, &dir).unwrap();
+
+    let authorized = registry.resolve_grant(&picked.token).unwrap();
+    assert_eq!(authorized, fs::canonicalize(&dir).unwrap());
+    assert!(!picked.has_manifest);
+    // El token concede ESA carpeta y no la de Documentos ni una hermana.
+    assert_ne!(authorized, fs::canonicalize(&docs).unwrap());
+    assert!(is_contained(&fs::canonicalize(&docs).unwrap(), &authorized));
+}
+
+#[test]
+fn a_case_can_be_created_under_the_default_parent_and_cannot_escape_it() {
+    let docs = temp_dir("docs-create");
+    let registry = CaseRegistry::load_from(Some(docs.join("registro.json")));
+    let dir = core_ensure_default_parent(&docs).unwrap();
+    let picked = grant_folder(&registry, &dir).unwrap();
+    let parent = registry.resolve_grant(&picked.token).unwrap();
+
+    let (_, canonical, _) = core_create_owned(
+        &parent,
+        "Caso por defecto",
+        "Caso por defecto",
+        "explore-hypothesis",
+        NOW,
+        "owner",
+    )
+    .unwrap();
+    assert!(is_contained(&parent, &canonical));
+    assert!(canonical.join("case.json").is_file());
+
+    // Y el nombre de carpeta sigue sin poder escapar de la carpeta concedida.
+    assert!(
+        core_create_owned(&parent, "../fuera", "x", "explore-hypothesis", NOW, "owner").is_err()
+    );
+}

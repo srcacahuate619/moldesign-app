@@ -1,0 +1,16 @@
+{
+  "id_r2": "S33",
+  "pdb": "4FK3",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 33.2,
+      "crudo": "S33-4FK3-intento1.json.gz",
+      "crudo_sha256": "8688b6b428d29da51e188d5bf0f39074d5d2967c460bbdab322d92e6de5e4d99"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S33-4FK3-intento1.json.gz",
+  "crudo_sha256": "8688b6b428d29da51e188d5bf0f39074d5d2967c460bbdab322d92e6de5e4d99",
+  "registrado_en": "2026-10-22T16:52:39+00:00"
+}

@@ -1,0 +1,16 @@
+{
+  "id_r2": "S25",
+  "pdb": "3RUU",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 47.2,
+      "crudo": "S25-3RUU-intento1.json.gz",
+      "crudo_sha256": "703680b845c12a17b8db912d6ceecf4c6e997d2b4e12ac76988822a5c4cb868a"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S25-3RUU-intento1.json.gz",
+  "crudo_sha256": "703680b845c12a17b8db912d6ceecf4c6e997d2b4e12ac76988822a5c4cb868a",
+  "registrado_en": "2026-10-22T16:47:58+00:00"
+}

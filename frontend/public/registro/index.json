@@ -1,5 +1,5 @@
 {
- "generado_en": "2026-09-25T04:48:26.810456+00:00",
+ "generado_en": "2026-10-26T03:04:16.262088+00:00",
  "generador": "scripts/build_registro_cientifico.py",
  "advertencia": "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
  "categorias": {
@@ -11,15 +11,15 @@
   "inconcluso": "Ejecutado y declarado sin conclusion. No se reclasifica a posteriori."
  },
  "conteo": {
-  "hallazgo": 27,
-  "refutacion": 26,
+  "hallazgo": 30,
+  "refutacion": 33,
   "medicion": 47,
   "prerregistro": 42,
-  "corrigendum": 12,
-  "inconcluso": 13
+  "corrigendum": 13,
+  "inconcluso": 20
  },
- "total": 167,
- "con_paper": 73,
+ "total": 185,
+ "con_paper": 98,
  "destacados": {
   "hallazgo": [
    "FEP-04",
@@ -37,6 +37,94 @@
   ]
  },
  "experimentos": [
+  {
+   "id": "ABS-TR-01-VALIDEZ",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "La decision de Preparacion (detenerse, avisar, seguir) sobre los 29 sistemas reales de ABS-TR-01 coincide con la del panel ciego de revisores: falso bloqueo con limite superior unilateral 95 % <= 10 % y ninguna falsa autorizacion",
+   "protocolo": "scripts/artifacts_science/ABS-TR-01-VALIDEZ/entrada/REGISTRO_PREVIO.md",
+   "gate": "NO_GO si falsa autorizacion en un sistema que detienen los cinco revisores o limite inferior 95 % del falso bloqueo > 10 %; GO si limite superior <= 10 % y ninguna falsa autorizacion; si no, INCONCLUSIVE",
+   "razonamiento": "Sin falsa autorizacion (0/10; Preparacion nunca dice seguir), pero falso bloqueo 3/18 = 16,7 % (limite unilateral 95 % 4,7-37,7 %): por encima del objetivo del 10 % en la estimacion puntual y sin potencia para concluir con 18 negativos. 4 de 10 sistemas que el panel detiene pasan con aviso (4NY4, 6SXC, 6HW5, 3G0E). 8WTW sin auditoria: el producto falla al preparar el receptor.",
+   "sellado_en": "2026-10-22T16:56:54.198948+00:00",
+   "creado_en": "2026-10-22T16:38:20.802644+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/abs-tr-01-validez",
+    "commit": "be59c74a1d",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 125,
+   "n_complejos": 0,
+   "n_fallos": 1,
+   "metricas": {
+    "experimento": "ABS-TR-01-VALIDEZ",
+    "analizado_en": "2026-10-22T16:54:05+00:00",
+    "protocolo_sha256": "91d83522fc9215b5b8f4a186c2ca41047fabd5e220f5b7c449e3d38865f9a2f7",
+    "producto": "d6f9fb99e4fd429f9c437d9469b7e66de670af62",
+    "n_sistemas": 29,
+    "n_auditados": 28,
+    "cpu_core_h": 1.66,
+    "decision": "INCONCLUSIVE",
+    "razon": "falso bloqueo 3/18 (límite superior 95 % 0.377): por encima del objetivo en la estimación puntual, sin potencia para concluir con 18 negativos"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "ABS-TR-01-VALIDEZ",
+   "entradilla": null
+  },
+  {
+   "id": "ABS-TR-01-VALIDEZ-R1",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Con la regla de metales en dos niveles, la decision de Preparacion sobre los 29 sistemas reales de ABS-TR-01 coincide con la del panel ciego congelado de ABS-TR-01-VALIDEZ: falso bloqueo con limite superior unilateral 95 % <= 10 % y ninguna falsa autorizacion",
+   "protocolo": "scripts/artifacts_science/ABS-TR-01-VALIDEZ-R1/entrada/REGISTRO_PREVIO_R1.md",
+   "gate": "NO_GO si falsa autorizacion en un sistema que detienen los cinco revisores o limite inferior 95 % del falso bloqueo > 10 %; GO si limite superior <= 10 % y ninguna falsa autorizacion; si no, INCONCLUSIVE",
+   "razonamiento": "Sin falsa autorizacion (0/10). Falso bloqueo 1/18 (4JVB, hueco a 6,09 A; limite superior unilateral 95 % 23,8 %), antes 3/18: 1RKP y 6KE5 pasan a avisar con la regla en dos niveles, como predijo MET-02-R1. Sin potencia para concluir con 18 negativos. Siguen pasando con aviso 4NY4, 6SXC, 6HW5 y 3G0E, que el panel detiene.",
+   "sellado_en": "2026-10-25T01:39:14.224409+00:00",
+   "creado_en": "2026-10-25T01:21:36.603623+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "efdf4438ba",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 125,
+   "n_complejos": 0,
+   "n_fallos": 1,
+   "metricas": {
+    "experimento": "ABS-TR-01-VALIDEZ-R1",
+    "analizado_en": "2026-10-25T01:38:38+00:00",
+    "protocolo_sha256": "91d83522fc9215b5b8f4a186c2ca41047fabd5e220f5b7c449e3d38865f9a2f7",
+    "producto": "d6f9fb99e4fd429f9c437d9469b7e66de670af62",
+    "n_sistemas": 29,
+    "n_auditados": 28,
+    "cpu_core_h": 1.66,
+    "decision": "INCONCLUSIVE",
+    "razon": "falso bloqueo 1/18 (límite superior 95 % 0.238): dentro del objetivo en la estimación puntual, sin potencia para concluir con 18 negativos"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "INCONCLUSIVE: con la regla de metales en dos niveles, Preparación bloquea por error 1 de 18 sistemas, antes 3",
+   "entradilla": "Frente al mismo panel ciego de revisores LLM, Preparación sigue sin autorizar ningún sistema que el panel detiene, y los falsos bloqueos bajan de 3 a 1 (4JVB). Los dos que desaparecen son los que MET-02-R1 predijo. Con 18 negativos no hay potencia para concluir."
+  },
   {
    "id": "AF-01",
    "categoria": "hallazgo",
@@ -74,7 +162,7 @@
    "reemplazado_por": null,
    "tiene_paper": true,
    "titulo": "Reproduce exactamente, y con eso descubre que no significa lo que decía",
-   "entradilla": "Spearman 0.6094, delta 0.0 respecto a la cifra original. Al estratificar por relación con el receptor, cae a 0.3626 en las proteínas no relacionadas. La cifra reproduce; el alcance era otro."
+   "entradilla": "Spearman 0.6094, delta 0.0 respecto a la cifra original. Al estratificar por relación con el receptor, cae a 0.3626 en el estrato de receptor casi idéntico (estratos rehechos después en AF-01-R1). La cifra reproduce; el alcance era otro."
   },
   {
    "id": "AF-01-R1",
@@ -118,6 +206,190 @@
    "tiene_paper": false,
    "titulo": "AF-01-R1",
    "entradilla": null
+  },
+  {
+   "id": "CAL-8HFI-01",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Con la receta 7 y la configuracion por defecto de un caso (exhaustividad 8, 9 poses, semilla 42), 8HFI reproduce la pose cristalografica de la desipramina (RMSD <= 2 A sin alinear en >= 3 de 5 semillas, top-1 valido en PoseBusters) y el top-1 de Vina ordena el panel CHEMBL853189 (57 padres, Ki) con rho de Spearman cuyo IC 95 % bootstrap tiene limite inferior > 0.",
+   "protocolo": "scripts/artifacts_science/CAL-8HFI-01/entrada/protocolo.json; scripts/calibracion_receptor.py; decisiones del propietario 2026-10-09",
+   "gate": "GO si verificacion de pose (>= 3/5 semillas con RMSD <= 2 A y top-1 valido) Y calibracion (limite inferior del IC 95 % de rho(Q, pKi) > 0, cero fallos tras un reintento) Y un unico receptor_sha256; si no, NO_GO y 8HFI sigue en Demostracion con su resultado publicado.",
+   "razonamiento": "Verificacion de pose GO en el limite: 3 de 5 semillas reproducen la desipramina (RMSD 0,52/0,56/0,64 A; 3,68 y 4,12 A fallan) y los cinco top-1 son validos. Calibracion NO_GO: rho(-E, pKi) = 0,13, IC 95 % bootstrap [-0,16; 0,41], Fisher [-0,14; 0,38], n = 57, cero fallos, un solo receptor_sha256, parametros 8/9/42 y microestados congelados sin desviacion. El top-1 de Vina no ordena esta serie congenerica en 8HFI. 8HFI sigue en Demostracion con este resultado publicado; no se cambia el panel.",
+   "sellado_en": "2026-10-09T13:19:31.142411+00:00",
+   "creado_en": "2026-10-09T12:54:41.284857+00:00",
+   "duracion_s": 2700.0,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/cal-8hfi",
+    "commit": "36405e1854",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 72,
+   "n_complejos": 62,
+   "n_fallos": 0,
+   "metricas": {
+    "experimento": "CAL-8HFI-01",
+    "analizado_en": "2026-10-09T13:18:55+00:00",
+    "decision": "NO_GO"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "8HFI reproduce la pose; el orden de su serie no supera el protocolo",
+   "entradilla": "El primer intento de verificar un receptor del catálogo: el transportador de noradrenalina reproduce la desipramina del cristal en 3 de 5 semillas, pero no se demostró que Vina ordene las 57 moléculas del panel mejor que el azar (ρ = 0,13; IC 95 % de −0,16 a 0,41). 8HFI sigue en Demostración, con el resultado publicado en la aplicación."
+  },
+  {
+   "id": "CAL-D-01-R4-2-VMAT2-8T69",
+   "categoria": "hallazgo",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Con el producto de 1.0.4 y el protocolo congelado de R4 (8T69, receta 7, Vina 1.2.7, Q = -E(top-1)), el producto completa los 89 padres de US11718618B2, 4-67 incluido, y rho y rho_peor (F = 1015/703) tienen limite inferior del IC95 % > 0",
+   "protocolo": "scripts/artifacts_science/CAL-D-01-R4-2-VMAT2-8T69/entrada/REGISTRO_PREVIO_R4_2.md",
+   "gate": "La de R4 sin cambios: puerta de pose >= 3/5 semillas a RMSD <= 2 A y PoseBusters passed; GO si el IC95 % inferior de rho y de rho_peor (bootstrap pareado por padre, 10000, semilla 20261021) > 0, sin fallos persistentes (sin score tras el reintento) ni desviaciones; < 85 padres = EXPLORATORIO. Una validacion fisica not_evaluated con score cuenta como evaluada y se declara aparte sin decidir.",
+   "razonamiento": "Puerta de pose 5/5 (RMSD 0,67-0,71 A, PoseBusters passed); 89/89 padres evaluados, 4-67 incluido, sin fallos persistentes ni desviaciones; rho 0,39 (IC95 0,22-0,54) y rho_peor 0,32 (IC95 0,14-0,47). Declarado sin decidir: 4-67 con validacion fisica not_evaluated; sin el, rho 0,39 (0,22-0,54). Los 88 comunes con R4 reproducen su energia.",
+   "sellado_en": "2026-10-25T02:58:57.030671+00:00",
+   "creado_en": "2026-10-25T02:18:21.916825+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "18eb7e13e7",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 208,
+   "n_complejos": 89,
+   "n_fallos": 0,
+   "metricas": {
+    "experimento": "CAL-D-01-R4-2-VMAT2-8T69",
+    "analizado_en": "2026-10-25T02:55:22+00:00",
+    "protocolo_sha256": "b8312d7ddb676bdd48561016993b6fbe09b01e9580ee818d52f0d9800bd4451b",
+    "n_evaluados": 89,
+    "fallos_persistentes": 0,
+    "rho_Q_pKi": 0.3918159063684028,
+    "rho_E_pKi": -0.3918159063684028,
+    "rho_peor": 0.3215375646664398,
+    "rho_peor_asignacion_verifica": 0.3215375646664398,
+    "n_con_b1_en_la_peor_asignacion": 47,
+    "decision": "GO",
+    "razon": "límite inferior del IC95 % de rho y de rho_peor > 0, sin fallos ni desviaciones",
+    "cpu_core_h": 3.73,
+    "puerta_pose": "GO"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "GO: con el producto de 1.0.4, Vina ordena los 89 Ki de VMAT2 (8T69), 4-67 incluido",
+   "entradilla": "Repetición de CAL-D-01-R4 con la regla original sin cambios. El producto completa ahora los 89 padres, también el biciclopentano 4-67 que R4 no terminó: ρ = 0,39 (IC 95 % 0,22–0,54) y ρ de peor caso = 0,32 (IC 95 % 0,14–0,47), sin fallos persistentes. No es ciego: los otros 88 scores ya se conocían, y se repiten exactos."
+  },
+  {
+   "id": "CAL-D-01-R4-VMAT2-8T69",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Con 8T69 (VMAT2, cadena A, caja del catálogo), receta 7, Vina 1.2.7 y Q = -E(top-1), el producto reproduce la pose de la tetrabenazina (YHL) y ordena los 89 Ki publicados de US11718618B2 (Example 11, plaquetas humanas, [3H]DTBZ): rho de Spearman y rho de peor caso sobre asignaciones binarias de lote (F = 1015/703) con límite inferior del IC95 % > 0.",
+   "protocolo": "scripts/artifacts_science/CAL-D-01-R4-VMAT2-8T69/entrada/protocolo.json",
+   "gate": "P1 del registro previo R4 (SHA-256 0a1a4aed): puerta de pose >= 3/5 semillas a RMSD <= 2 A y PoseBusters válido; GO sólo si el IC95 % inferior de rho y de rho_peor (bootstrap pareado por padre, 10000, semilla 20261021) es > 0, sin fallos persistentes ni desviaciones; < 85 padres evaluados = EXPLORATORIO; tope 168 CPU-core-h.",
+   "razonamiento": "Registro previo R4 (0a1a4aed). Puerta de pose superada: 5 de 5 semillas, RMSD 0,67-0,71 A, PoseBusters valido. Panel: 88 de 89 padres acoplados; 4-67 (biciclo[1.1.1]pentano) es un fallo persistente: el pipeline del producto lo corta a los 1200 s en los dos intentos. Medida: rho(Q,pKi) = 0,391, IC95 bootstrap [0,219; 0,537]; rho de peor caso sobre las asignaciones binarias de lote = 0,320, IC95 [0,139; 0,473]; ambos limites inferiores > 0. P2 (pares con cociente de Ki > F): concordancia 0,637 [0,576; 0,694]. La regla registrada exige cero fallos persistentes para GO, asi que la decision formal es NO_GO por ese fallo, no por la señal. Sin reglas cambiadas despues de ver scores; ver DESVIACIONES.md. Cualquier re-analisis sin 4-67 seria otro registro y otro intento.",
+   "sellado_en": "2026-10-22T05:18:21.139953+00:00",
+   "creado_en": "2026-10-22T03:21:03.209370+00:00",
+   "duracion_s": 9000.0,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/cal-d-01-r4",
+    "commit": "6f3ff1b5de",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 208,
+   "n_complejos": 88,
+   "n_fallos": 1,
+   "metricas": {
+    "experimento": "CAL-D-01-R4-VMAT2-8T69",
+    "analizado_en": "2026-10-22T05:15:57+00:00",
+    "protocolo_sha256": "b8312d7ddb676bdd48561016993b6fbe09b01e9580ee818d52f0d9800bd4451b",
+    "n_evaluados": 88,
+    "fallos_persistentes": 1,
+    "rho_Q_pKi": 0.39076061625500513,
+    "rho_E_pKi": -0.39076061625500513,
+    "rho_peor": 0.32048945033796916,
+    "rho_peor_asignacion_verifica": 0.32048945033796916,
+    "n_con_b1_en_la_peor_asignacion": 46,
+    "decision": "NO_GO",
+    "razon": "IC95 inferior de rho 0.2186 y de rho_peor 0.1386; fallos 1, desviaciones 0",
+    "cpu_core_h": 6.7,
+    "puerta_pose": "GO"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "VMAT2 (8T69): Vina ordena los Ki publicados, pero el intento es NO_GO por un compuesto que el producto no calculó",
+   "entradilla": "Con 8T69, la pose de la tetrabenazina se reproduce en 5 de 5 semillas y el top-1 de Vina correlaciona con 88 Ki publicados de una patente (ρ = 0,39, IC 95 % 0,22–0,54), también en la peor asignación de lotes (ρ = 0,32, IC 95 % 0,14–0,47). La regla registrada exigía los 89 compuestos y uno, con un biciclopentano, no terminó: NO_GO formal."
+  },
+  {
+   "id": "CAL-D-01-R4B-VMAT2-8T69",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Reanálisis enmendado de CAL-D-01-R4 sin el compuesto 4-67 (fallo persistente del producto): con los 88 scores ya medidos, el límite inferior del IC95 % de rho y el de rho de peor caso son > 0. No es confirmatorio: la enmienda se redactó después de ver los scores.",
+   "protocolo": "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/entrada/protocolo.json",
+   "gate": "R4 con una sola enmienda: un fallo persistente del producto en un compuesto, declarado con su nombre, no impide el criterio si quedan >= 85 padres evaluados; el criterio P1 (IC95 inferior de rho y de rho_peor > 0, puerta de pose superada) no cambia. Decisión INCONCLUSIVE por construcción: criterio enmendado tras ver los datos; no promociona.",
+   "razonamiento": "Reanalisis de R4 sin el compuesto 4-67 (fallo persistente del producto: Timeout de 1200 s en los dos intentos). 88 padres; puerta de pose superada (5 de 5). rho = 0,391 IC95 [0,219; 0,537]; rho de peor caso = 0,320 IC95 [0,139; 0,473]; ambos limites inferiores > 0, asi que el criterio enmendado se cumple. La enmienda (un fallo persistente del producto, declarado, no impide el criterio si quedan >= 85 padres) se redacto despues de ver los scores: no es confirmatorio y no promociona a Verificados. Decision INCONCLUSIVE por construccion. No se acoplo nada; los numeros coinciden exactamente con R4.",
+   "sellado_en": "2026-10-22T13:28:49.328912+00:00",
+   "creado_en": "2026-10-22T13:25:40.640646+00:00",
+   "duracion_s": 600.0,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/cal-d-01-r4",
+    "commit": "764846d596",
+    "sucio": false
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 7,
+   "n_complejos": 88,
+   "n_fallos": 1,
+   "metricas": {
+    "experimento": "CAL-D-01-R4B-VMAT2-8T69",
+    "reanaliza": "CAL-D-01-R4-VMAT2-8T69",
+    "no_acopla": true,
+    "analizado_en": "2026-10-22T13:28:40+00:00",
+    "protocolo_sha256": "bbc9b8ea0ce883bf2af04399d0e7cbb34cf2f90a5871d1005a4b0affbcb6cd29",
+    "n_evaluados": 88,
+    "rho_Q_pKi": 0.39076061625500513,
+    "rho_peor": 0.32048945033796916,
+    "puerta_pose": "GO",
+    "criterio_enmendado_cumplido": true,
+    "confirmatorio": false,
+    "decision": "INCONCLUSIVE",
+    "razon": "criterio enmendado cumplido pero enmendado tras ver los scores: no confirmatorio, no promociona"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "VMAT2 (8T69) sin el compuesto 4-67: el criterio se cumple, pero se enmendó tras ver los scores",
+   "entradilla": "Reanálisis de CAL-D-01-R4 sin el compuesto que el producto no calculó. Con 88 padres, ρ = 0,39 (IC 95 % 0,22–0,54) y ρ de peor caso = 0,32 (IC 95 % 0,14–0,47): el criterio enmendado se cumple, pero la enmienda se redactó después de ver los scores y no confirma nada."
   },
   {
    "id": "CAMPANA-2-PLAN",
@@ -599,8 +871,8 @@
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
    "tiene_paper": true,
-   "titulo": "Los nueve que fallaron tienen huecos de cadena, nueve de nueve",
-   "entradilla": "41% de los receptores quedarían documentados. Y de paso la auditoría verificó un diagnóstico que llevaba meses siendo una conjetura razonable: p ≈ 0.0004."
+   "titulo": "Los nueve que fallaron tienen saltos de numeración, nueve de nueve",
+   "entradilla": "El 41 % de los receptores pasa los dos criterios de cribado del código, que no es estar listo para FEP. Y los nueve que fallaron tienen saltos de numeración, nueve de nueve: compatible con cortes de cadena, no una confirmación."
   },
   {
    "id": "FEP-02-EXT",
@@ -892,7 +1164,7 @@
    "reemplazado_por": null,
    "tiene_paper": true,
    "titulo": "Setenta y cinco, o diecinueve, y la diferencia no son defectos",
-   "entradilla": "Cinco auditorías contaban piezas sueltas. Cruzarlas cuesta once milisegundos y da el número que ninguna tenía: cuántos cálculos de energía libre se pueden correr hoy."
+   "entradilla": "Cinco auditorías contaban piezas sueltas. Cruzarlas cuesta once milisegundos y da el número que ninguna tenía: cuántas parejas pasan a la vez los filtros de cribado. Es una cota, no cuántos cálculos de energía libre se pueden correr."
   },
   {
    "id": "FEP-07-PDBBIND",
@@ -974,6 +1246,87 @@
    "tiene_paper": true,
    "titulo": "El auditor distingue una preparación experta, y contar tautómeros no la mide",
    "entradilla": "Sobre un benchmark preparado por expertos para FEP relativo, el auditor documenta el doble de receptores que en PDBBind. Pero el número de tautómeros sale igual: depende de la molécula. Y en uno de cada seis ligandos, los curadores eligieron un tautómero distinto del que acoplaría MolDesign."
+  },
+  {
+   "id": "FEP-09-R1",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Con P01 arreglado, Preparación mide desde el ligando en el camino B: los huecos del sitio siguen detectándose, la estereoquímica sin asignar se detecta con n>=8, y agua puente y protonación del sitio siguen siendo límites de alcance, no efectos de P01.",
+   "protocolo": "docs/auditorias/FEP-09-R1-prerregistro.md; inventory.json (127 casos de FEP-09 sin cambios y 36 de estereoquímica); producto ee2d6c78; camino B respetar; Vina 8/9/42; pH 7.4",
+   "gate": "Idéntico a FEP-09: por categoría declarada n>=8, CP95 inferior>=0.5 y falsa alarma<=0.10. NO_GO si alguna falla, GO sólo si todas pasan, de otro modo INCONCLUSIVE (global INCONCLUSIVE por construcción: tautómero minoritario y especie con n=0). Parar si infraestructura>30%.",
+   "razonamiento": "163 auditorías confirmatorias, producto ee2d6c78 (P01 arreglado), camino B respetar, Vina 8/9/42, pH 7.4, modo tautomérico efectivo entrada en las 163; prerregistro 68d36882; 0 fallos. entorno.referencia REGISTRADO 163/163 (FEP-09: 0/127). Huecos en el sitio 15/15, CP95 [0.7819806391, 1.0], GO, ahora midiendo desde el ligando. Estereoquímica sin asignar 21/21 en 7 dianas (3 por diana), CP95 [0.8389023848, 1.0], GO. Falsa alarma 0/585 (FEP-09: 4/555, por procedencia.commit con el arnés editado); acuerdo de bases 1170/1170. Agua puente 0/9 y protonación del sitio 0/5 (saturadas) iguales caso a caso que en FEP-09: límites de alcance, no efectos de P01. Tautómero minoritario y especie con n=0: INCONCLUSIVE global por construcción, como se preregistró. Las seis predicciones se cumplen. Duración: del primer inicio al último término de la fase confirmatoria, tres cápsulas en paralelo.",
+   "sellado_en": "2026-10-11T23:21:59.633568+00:00",
+   "creado_en": "2026-10-11T22:30:41.261948+00:00",
+   "duracion_s": 2592.399275,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/integracion-fep09-evaluacion",
+    "commit": "ee2d6c7846",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 1725,
+   "n_complejos": 163,
+   "n_fallos": 0,
+   "metricas": {
+    "decision": "INCONCLUSIVE",
+    "experiment": "FEP-09-R1",
+    "n_planned": 163,
+    "n_terminal": 163,
+    "product_commit": "ee2d6c78"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Con el origen reconocido, Preparación detecta los huecos del sitio y la estereoquímica sin asignar",
+   "entradilla": "FEP-09 repetido sobre el producto con P01 arreglado: las 163 auditorías miden desde el ligando y no desde la caja. Los huecos del sitio siguen en 15 de 15, la estereoquímica sube a 21 de 21 y la falsa alarma baja a cero. El agua puente y la protonación del sitio siguen siendo límites de alcance, no efectos de P01."
+  },
+  {
+   "id": "FEP-09-SENSIBILIDAD",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Preparacion por API cambia los requisitos de riesgo ante defectos dentro de su cobertura declarada; variantes pareadas de PLB, no sensibilidad a problemas reales.",
+   "protocolo": "docs/auditorias/FEP-09-prerregistro.md; inventory.json; producto f183e0af; camino B respetar; Vina 8/9/42; pH 7.4",
+   "gate": "Por categoria declarada n>=8, CP95 inferior>=0.5 y falsa alarma<=0.10. NO_GO si alguna falla, GO solo si todas pasan, de otro modo INCONCLUSIVE. Parar si infraestructura>30%.",
+   "razonamiento": "127 corridas confirmatorias, producto f183e0af, B/respetar, Vina 8/9/42. Huecos: 15/15, CP95 [0.7819806391, 1.0], gate GO; falsa alarma 0.007207207207207207. Estereo n=3, tautómero minoritario y especie con pKa independientes n=0: no permiten GO global. Proxies, límites y brazo C fuera del gate estricto. Modo tautomérico efectivo entrada; descripción preregistrada canónica incorrecta, publicada sin modificar protocolo ni reintentar corridas. Duración: reloj de fase confirmatoria entre primer inicio y último término, cápsulas paralelas.",
+   "sellado_en": "2026-10-11T20:40:13.324102+00:00",
+   "creado_en": "2026-10-11T19:48:18.736933+00:00",
+   "duracion_s": 2154.098978,
+   "semillas": 42,
+   "git": {
+    "rama": "sol/fep-09-sensibilidad",
+    "commit": "45d4490ee6",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 1422,
+   "n_complejos": 127,
+   "n_fallos": 0,
+   "metricas": {
+    "decision": "INCONCLUSIVE",
+    "experiment": "FEP-09-SENSIBILIDAD",
+    "n_planned": 127,
+    "n_terminal": 127,
+    "preregistration_commit": "9cdd0eab826bbbbe10d9b2469c52fbd0a0cf1638",
+    "product_commit": "f183e0af"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Preparación detecta cortes del sitio; la sensibilidad completa queda abierta",
+   "entradilla": "Un ensayo pareado por la API, con 15 dianas de OpenFF, defectos sembrados y controles independientes. Resultado INCONCLUSIVE: la tabla conserva las detecciones, los límites y una comprobación de origen que no reconoce la receta de receptores ya preparados."
   },
   {
    "id": "FND-01-SMOKE",
@@ -1142,7 +1495,7 @@
    "reemplazado_por": null,
    "tiene_paper": true,
    "titulo": "Los intervalos de confianza, verificados con código que no los escribió",
-   "entradilla": "Cinco experimentos calculaban su propia estadística. Una implementación independiente los recomputó: coinciden al cuarto decimal. Y reveló que uno de ellos nunca pudo detectar lo que buscaba."
+   "entradilla": "Cinco experimentos calculaban su propia estadística. Una implementación independiente los recomputó: coinciden al cuarto decimal. Y reveló que uno de ellos tenía muy poca potencia para lo que buscaba."
   },
   {
    "id": "FND-05",
@@ -1281,6 +1634,172 @@
    "tiene_paper": true,
    "titulo": "Le pedimos al registro que se sostuviera solo, y en diez sitios no lo hacía",
    "entradilla": "Auditoría de solo lectura sobre los 94 artefactos sellados. Fallan tres de los cuatro criterios, y el hallazgo principal no era ninguno de ellos: diez artefactos guardan sus datos bajo un nombre que el contrato no declara."
+  },
+  {
+   "id": "MET-01-ION-DEL-SITIO",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Conservar los iones del sitio con el Vina del producto mejora la reproducción pareada top-1 del cristal frente a retirarlos, bajo microestados y receptores congelados.",
+   "protocolo": "scripts/artifacts_science/MET-01-ION-DEL-SITIO/entrada/protocolo.json",
+   "gate": "Signos exactos bilaterales alfa 0.05; GO significativo a favor de CON y sin daño en todos los controles evaluables, mínimo cuatro; n principal mínimo 25 y exclusiones no mayores de 30 por ciento; si no, NO_GO o INCONCLUSIVE según protocolo preregistrado.",
+   "razonamiento": "Piloto CON invalidado: variante con Zn, ejecución sin Zn y hash idéntico a SIN por descarte de list[str] en _coerce_hotspots del producto f0e64086. Guardián detuvo 3/8 terminales (37,5 %); fase confirmatoria no iniciada, cero pares válidos. No estima el efecto del ion. Se preservan once crudos y se mantiene el gate preregistrado.",
+   "sellado_en": "2026-10-11T22:22:49.160437+00:00",
+   "creado_en": "2026-10-11T21:58:28.298244+00:00",
+   "duracion_s": 626.0,
+   "semillas": 42,
+   "git": {
+    "rama": "sol/met-01-metales",
+    "commit": "1be6e56de1",
+    "sucio": false
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 267,
+   "n_complejos": 0,
+   "n_fallos": 0,
+   "metricas": {
+    "experiment": "MET-01-ION-DEL-SITIO",
+    "product_commit": "f0e6408668fa8ecbecb417cf39621928fdfee886",
+    "decision": "INCONCLUSIVE",
+    "failures_n": 0,
+    "product_rejections_n": 0,
+    "total_runs": 0,
+    "per_element_condition": "Membership is nonexclusive for entries containing more than one element; seed observations are correlated, not independent sample units."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "MET-01 no puede comparar el ion: la evaluación pierde la whitelist",
+   "entradilla": "INCONCLUSIVE. La variante CON conserva Zn, pero las seis tentativas CON del piloto 1BN1 usaron el receptor SIN. No se inició la fase confirmatoria ni se estimó el efecto del ion."
+  },
+  {
+   "id": "MET-01-R1-ION-DEL-SITIO",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Conservar los iones del sitio con el Vina del producto mejora la reproducción pareada top-1 del cristal frente a retirarlos, bajo microestados y receptores congelados. Repetición de MET-01 sobre un producto que sí conserva la whitelist.",
+   "protocolo": "scripts/artifacts_science/MET-01-R1-ION-DEL-SITIO/entrada/protocolo.json",
+   "gate": "El de MET-01: signos exactos bilaterales alfa 0.05; GO significativo a favor de CON y sin daño en todos los controles evaluables, mínimo cuatro; n principal mínimo 25 y exclusiones no mayores de 30 por ciento; si no, NO_GO o INCONCLUSIVE según protocolo preregistrado.",
+   "razonamiento": "Gate preregistrado de MET-01: signos exactos bilaterales, alfa 0,05. 28 de 35 entradas principales pareadas (7 excluidas, 20 %, dentro del 30 %); discordancias CON:SIN = 0:3, p = 0,25. No hay mejora a favor de conservar el ion; la diferencia observada va en contra de CON (-10,7 puntos; semillas con exito conjunto SIN 43/160, CON 34/160) y no es significativa, asi que tampoco prueba dano ni equivalencia. Controles: 4 de 6 evaluables, ninguna perdida. Se mantiene la retirada del ion y la abstencion de Preparacion; CON queda como linea base para un modelo de coordinacion (M5). PoseBusters no mira los iones escritos como ATOM: sus PASA inorganicos son vacuos. Duracion declarada: union de los tramos de medicion (piloto y confirmatoria), 5900 s; la confirmatoria se corto a las 09:33 UTC y se reanudo a las 15:45 sobre el mismo commit congelado.",
+   "sellado_en": "2026-10-21T16:46:24.644975+00:00",
+   "creado_en": "2026-10-21T08:27:59.427250+00:00",
+   "duracion_s": 5900.0,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/met-01-r1",
+    "commit": "dfdc9a2693",
+    "sucio": false
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 1026,
+   "n_complejos": 380,
+   "n_fallos": 0,
+   "metricas": {
+    "experiment": "MET-01-R1-ION-DEL-SITIO",
+    "product_commit": "9ce8b10490fcdd1c21b5dc0cf1efa8f3eae76d70",
+    "decision": "NO_GO",
+    "failures_n": 0,
+    "product_rejections_n": 0,
+    "total_runs": 380,
+    "per_element_condition": "Membership is nonexclusive for entries containing more than one element; seed observations are correlated, not independent sample units."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Metales del sitio con Vina: NO_GO en el redocking pareado",
+   "entradilla": "MET-01-R1 repite MET-01 sobre un producto que sí conserva la whitelist y compara conservar y retirar el ion en 28 de 35 entradas coordinadas evaluables, con cinco semillas por brazo. Discordancias: 0 a favor de CON y 3 a favor de SIN; p bilateral = 0.25."
+  },
+  {
+   "id": "MET-02-R1-SEMILLA",
+   "categoria": "hallazgo",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Con el lector de coordenadas arreglado (f7c46736), la regla de metales en dos niveles da en las 41 entradas evaluables de MET-02 un estado que no cambia con la semilla y que coincide con el inventario de metales (ABSTENCION si el ligando del cristal coordina algún ion, REVISAR si no), con la misma pose top-1 que el brazo de antes de MET-02.",
+   "protocolo": "scripts/artifacts_science/MET-02-R1-SEMILLA/entrada/protocolo.json",
+   "gate": "GO: H2 sin excepciones, H3 sin discrepancias no explicadas por una diferencia declarada del criterio, H4 >= 95 % y >= 30 primarias evaluables; NO_GO: alguna primaria cambia con la semilla o una discrepancia de H3 sin explicar; INCONCLUSIVE en otro caso.",
+   "razonamiento": "Con el lector de coordenadas arreglado (f7c46736), la regla de metales en dos niveles: ninguna de las 41 entradas primarias evaluables cambia de estado con la semilla (0/41, IC95 0-0,086); el estado coincide con el inventario de metales en 39/39; la pose top-1 es idéntica a la del brazo antes de MET-02 en 205/205. Cambian respecto de la regla de antes 4PHL, 4QGE, 5A2R, 6KE5 y 8WGR (ABSTENCION a REVISAR, ligando sin coordinar), 1RKP (a REGISTRADO) y 4NY4 (a REVISAR por el Fe del hemo coordinado). 1VKG y 5I3T no evaluables (Meeko).",
+   "sellado_en": "2026-10-23T06:22:00.702771+00:00",
+   "creado_en": "2026-10-23T04:59:52.885532+00:00",
+   "duracion_s": 7200.0,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "01cfdbcaf3",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 220,
+   "n_complejos": 43,
+   "n_fallos": 2,
+   "metricas": {
+    "entradas": 43,
+    "evaluables": 41,
+    "primarias": 41,
+    "commit": "f7c46736 (rama claude/metales-dos-niveles)",
+    "comparador": "brazo antes de MET-02-SEMILLA (861f6a0e)",
+    "lectura": "H2 0/41, H3 39/39 sin discrepancias, H4 205/205 y 41 primarias evaluables: GO. Respecto de la regla de antes cambian 7 entradas: las 5 evaluables del inventario cuyo ligando no coordina ningún ion pasan de ABSTENCION a REVISAR, 1RKP pasa a REGISTRADO (Zn a 6,52 Å del cristal) y 4NY4 a REVISAR (el ligando coordina el Fe del hemo conservado).",
+    "decision": "GO"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "GO: con el lector arreglado, la regla de metales en dos niveles es estable con la semilla y coincide con el inventario",
+   "entradilla": "En 41 entradas con un metal junto al sitio y 5 semillas, ninguna cambia de estado con la semilla y las 39 del inventario dan el estado que predice la geometría del cristal. Cambian 7 decisiones respecto de la regla de antes: cinco iones que el ligando no coordina pasan a revisión, 1RKP deja de abstenerse y 4NY4 pide revisión por el Fe del hemo."
+  },
+  {
+   "id": "MET-02-SEMILLA",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Con la regla de metales en dos niveles medida desde el ligando del cristal (878c215b), ninguna entrada primaria cambia de estado de metales y cofactores sólo por la semilla de Vina; con la de antes (861f6a0e, mínimo pose/cristal) se cuenta cuántas cambian. Panel: 41 entradas del inventario de metales + 1RKP y 4NY4, semillas 42, 7, 13, 101 y 2026, configuración de un caso.",
+   "protocolo": "scripts/artifacts_science/MET-02-SEMILLA/entrada/protocolo.json",
+   "gate": "GO: H2 sin excepciones, H3 en todas las primarias del inventario salvo diferencias declaradas del criterio, >= 30 primarias evaluables y pose top-1 idéntica entre brazos en >= 95 % de los pares; NO_GO: alguna primaria cambia con la semilla con la regla de después; INCONCLUSIVE en otro caso.",
+   "razonamiento": "H2 se cumple: con la regla en dos niveles ninguna de las 41 entradas evaluables cambia de estado con la semilla (0/41, IC95 0-0,086), y la pose top-1 es idéntica entre brazos en 205/205 pares. H3 falla, 37/39: en 5E92 y 9GKV el ligando del cristal coordina el metal (1,94 y 2,15 Å) y la regla nueva da REVISAR porque el lector de coordenadas toma el elemento de las columnas 77-79, que incluyen la carga (MG2, ZN0). Es un defecto de implementación, no una diferencia declarada del criterio, así que cuenta como fallo. Con la regla de antes tampoco cambia ninguna entrada con la semilla en este panel (0/41). 1VKG y 5I3T no son evaluables (Meeko).",
+   "sellado_en": "2026-10-23T04:56:13.326059+00:00",
+   "creado_en": "2026-10-23T02:32:14.141834+00:00",
+   "duracion_s": 13300.0,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "a3c3e9c0e7",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 434,
+   "n_complejos": 43,
+   "n_fallos": 2,
+   "metricas": {
+    "entradas": 43,
+    "evaluables": 41,
+    "primarias": 41,
+    "lectura": "H2 se cumple (0/41). H3 falla 37/39 por un defecto de implementación del lector de coordenadas, no por una diferencia declarada del criterio: por el registro previo cuenta como fallo. La pose top-1 es idéntica entre brazos en 205/205. H1: con la regla de antes tampoco cambia ninguna entrada con la semilla en este panel (0/41).",
+    "decision": "INCONCLUSIVE"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "INCONCLUSIVE: la decisión sobre metales no depende de la semilla, pero la regla nueva no reconoce dos metales",
+   "entradilla": "En 41 entradas con un metal junto al sitio y 5 semillas, ninguna cambia de estado con la semilla, ni con la regla de antes ni con la de dos niveles. La regla nueva coincide con el inventario en 37 de 39: en 5E92 y 9GKV el lector de coordenadas tomaba la carga como parte del elemento y no veía el metal."
   },
   {
    "id": "MF-01",
@@ -1511,7 +2030,7 @@
     "decision": "GO"
    },
    "mantenimiento_sello": 0,
-   "reemplazado_por": null,
+   "reemplazado_por": "MF-02B-R1",
    "tiene_paper": false,
    "titulo": "MF-02B",
    "entradilla": null
@@ -1935,7 +2454,7 @@
    "reemplazado_por": null,
    "tiene_paper": true,
    "titulo": "En 30 de 33 complejos, la pose correcta no está entre las 751 candidatas",
-   "entradilla": "Es muestreo, no puntuación. Ningún selector puede elegir algo que no existe. Y en el control ocurre lo contrario: la pose buena está y el score no la pone primera en 8 de 15."
+   "entradilla": "En esos 30 es muestreo: ningún selector puede elegir algo que no existe. En los otros 3 la pose buena está y la puntuación falla, como en el control: allí el score no la pone primera en 8 de 15."
   },
   {
    "id": "MF-09-SYM",
@@ -2351,9 +2870,9 @@
    },
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "MF-13",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "INCONCLUSIVE: la referencia local no separa las causas de los fallos",
+   "entradilla": "La referencia relajada gana en 23 de 33 casos de COLOCACION: 0,6970, por debajo de 0,70; MF-13 conserva MIXTO e INCONCLUSIVE. MF-13-DIAG quedó NO_GO para su hipótesis y MF-13-ESCALA quedó GO descriptivo. Ninguno identifica una partición causal exhaustiva."
   },
   {
    "id": "MF-13-DIAG",
@@ -2863,9 +3382,9 @@
    },
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "MF-24",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "GO de medición: las asociaciones con colocación no validan un predictor previo al docking",
+   "entradilla": "El registro conserva GO descriptivo sobre 116 complejos de train y 87 de val+test. Parte de las variables necesita la pose cristalográfica y no se midió su contribución independiente; estas correlaciones no habilitan una regla de producto."
   },
   {
    "id": "MF-25",
@@ -2985,9 +3504,9 @@
    "metricas": null,
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "MF-27",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "GO histórico: no se conserva la medición del subgrupo de alta flexibilidad",
+   "entradilla": "MF-27 quedó sellado GO como medición sin gate. Sus métricas están vacías, su tabla no tiene filas y el productor sellado corresponde al análisis global de otro registro; las cifras narradas no quedan verificadas."
   },
   {
    "id": "MF-28",
@@ -3318,9 +3837,9 @@
    },
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "MF-30-ALCANCE",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "GO de alcance: el comparador de cobertura cambió, sin evaluar un modelo generativo",
+   "entradilla": "El GO de alcance mantiene MF-30 como benchmark externo opcional. El registro contrapone 3 y 26 casos cubiertos sobre 33 bajo protocolos distintos; no midió rendimiento, compatibilidad ni necesidad de GPU de un candidato generativo."
   },
   {
    "id": "MF-31",
@@ -3555,7 +4074,7 @@
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
    "tiene_paper": true,
-   "titulo": "Veintinueve veces más poses desde el mismo confórmero no mueven un solo complejo",
+   "titulo": "Veintinueve veces más poses desde el mismo confórmero dejan el mismo saldo: 19 contra 19",
    "entradilla": "A3 igualó corridas, poses (261) y CPU —gastó un 20% más que B— y perdió 26 a 19. La explicación alternativa que suspendía la magnitud de MF-33 está medida y no aporta nada."
   },
   {
@@ -3991,6 +4510,47 @@
    "reemplazado_por": null,
    "tiene_paper": false,
    "titulo": "MF-33-EXT-MOD-PRE",
+   "entradilla": null
+  },
+  {
+   "id": "MF-33-EXT-MOD-R1",
+   "categoria": "corrigendum",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "El BLOQUE 3 de MF-33-EXT-MOD (regla de decision) no se ejecuto: cuatro de cinco predictores quedaron vacios en los 68 externos. Calculados con el productor de MF-33-DOSIS, decide si algun descriptor estatico sobrevive BH q=0.05 (SCI-B-131)",
+   "protocolo": "MF-33-EXT-MOD-R1/PREREGISTRO.md (01395459); scripts/run_mf33extmod_r1.py importa sin modificar los productores sellados de MF-33-DOSIS y MF-33-EXT-MOD; CPU local, sin docking",
+   "gate": "G0 reproduccion exacta de MF-33-DOSIS en los 48; G1 completitud >=65/68; GO si alguno de torsdof/rot_bonds/diversidad/n_heavy sobrevive BH, NO_GO si ninguno",
+   "razonamiento": "GO preregistrado: reproduccion exacta de MF-33-DOSIS en los 48, completitud 65/68, y torsdof, rot_bonds, diversidad y n_heavy sobreviven BH en los 68 externos (rho 0.33-0.43); control barajado sin supervivientes. Diagnostico posterior declarado: controlando n_conformeros (K, confundido con la dosis) ninguno conserva asociacion (rho parcial -0.17 a -0.09): candidatos segun el PRE, sin senal propia mas alla de K.",
+   "sellado_en": "2026-10-22T20:47:57.022507+00:00",
+   "creado_en": "2026-10-22T20:46:58.417342+00:00",
+   "duracion_s": 20.2,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/fase-1b",
+    "commit": "013954592e",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 6,
+   "n_complejos": 68,
+   "n_fallos": 0,
+   "metricas": {
+    "n_fuera": 68,
+    "n_completos": 65,
+    "rho_detectable_80": 0.3342,
+    "n_conformeros_sobrevive": true,
+    "decision": "GO",
+    "duration_seconds": 20.2
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "MF-33-EXT-MOD-R1",
    "entradilla": null
   },
   {
@@ -4750,9 +5310,9 @@
    },
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "MMGBSA-H5-R1",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "GO: la paridad de implementación pasa con el filtro geométrico y la excepción de azufre",
+   "entradilla": "Pasan 23 topologías Br/I evaluables y 1 queda indeterminada por geometría. La revisión conserva GO al conjugar ese resultado con las comparaciones Windows/Linux y la ausencia de fallos de ejecución. No demuestra calidad física de los parámetros."
   },
   {
    "id": "MMGBSA-PARTICIONES-BRI-V1",
@@ -4833,9 +5393,9 @@
    },
    "mantenimiento_sello": 2,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "PREP-01",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "GO de medición: las políticas retienen inventarios distintos, sin medir su calidad",
+   "entradilla": "PREP-01 compara tres rutas sobre 116 estructuras y conserva GO descriptivo. Sus conteos de sitio son proxies por especie; no identifican qué copia local desapareció ni validan una política de preparación."
   },
   {
    "id": "PROD-PV-H-01",
@@ -5248,9 +5808,9 @@
    "metricas": null,
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "REC-04",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "GO de auditoría: hay candidatos a revisar la protonación, no errores confirmados",
+   "entradilla": "Sobre 116 complejos, la heurística marca 64 ligandos neutros con grupos ionizables. El GO es descriptivo: no estima pKa, no valida protonación y los recuentos del sitio no son exhaustivos."
   },
   {
    "id": "REC-05",
@@ -5360,6 +5920,44 @@
    "tiene_paper": true,
    "titulo": "El grid roto no estaba roto donde importa",
    "entradilla": "Un grid con 3 de 15 hotspots recortados y un margen de −5.147 Å debería arruinar el docking. Coloca el inhibidor en contacto con la cisteína catalítica en 5 de 5 semillas, mediana 0.773 Å."
+  },
+  {
+   "id": "REC-07-R1",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Con la Cys25 dentro del receptor acoplado (altloc coherente), el control de docking de REC-07 sigue colocando E64c a <= 5 A de Cys25 SG en el grid recomendado: el resultado de REC-07 no dependia de la ausencia de la cisteina",
+   "protocolo": "scripts/artifacts_science/REC-07-R1/PREREGISTRO.md (repeticion de REC-07 con altloc coherente y aborto sin ancla; SCI-B-022)",
+   "gate": "G0 ancla en el receptor + G1-G7 de REC-07 sin cambios; GO = los ocho pasan",
+   "razonamiento": "Con la Cys25 dentro del receptor (G0 PASS: SG, NE2 y ND2 a 0,0 A del PDB), el grid recomendado G_ADAPT no coloca E64c en contacto con Cys25 SG en ninguna de 5 semillas (top-1 a 12,95-13,06 A, score mediano -5,30); G_MP igual (12,91-13,06 A). Fallan G4 (0 de 5) y G5 (G_DB 4 de 5). Solo la caja actual del catalogo G_DB llega a <=5 A (2,46-5,89 A, mediana 3,09) con scores pobres (-0,94 a -3,17) y 7-8 modos; dos de sus distancias bajan de 3 A, lo que el preregistro advertia como posible choque. G0, G1, G2, G3, G6 (3 repeticiones identicas) y G7 pasan. El contacto 5/5 de REC-07 era el ligando en el hueco de la Cys25 ausente: su recomendacion de G_ADAPT queda refutada, y la geometria de cajas (G1, G2) no cambia. Corrige SCI-B-022.",
+   "sellado_en": "2026-10-22T17:53:05.526344+00:00",
+   "creado_en": "2026-10-22T17:38:35.213916+00:00",
+   "duracion_s": 778.12,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/fase-1b",
+    "commit": "422b89316a",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 9,
+   "n_complejos": 15,
+   "n_fallos": 0,
+   "metricas": {
+    "corrige": "REC-07 (SCI-B-022): su receptor no contenia la Cys25",
+    "recomendado": "G_ADAPT",
+    "target": "5TUN"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Con la cisteína catalítica en su sitio, el grid recomendado para 5TUN no lleva al inhibidor a ella",
+   "entradilla": "REC-07 había validado un grid de 5TUN con contacto 5 de 5 a la Cys25. Su receptor no tenía la Cys25. Repetido con ella dentro, el grid recomendado deja el E64c a 13 Å en las cinco semillas: NO_GO."
   },
   {
    "id": "REC-08",
@@ -5479,9 +6077,9 @@
    },
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "REC-09",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "INCONCLUSIVE: retirar las aguas que chocan deja una lectura mixta",
+   "entradilla": "En 116 complejos, se normalizan 2 de 6 referencias con score clasificado como absurdo: fracción 0,3333. La salida es MIXTO e INCONCLUSIVE; el contraste de scoring no decide la política de aguas del docking."
   },
   {
    "id": "REC-09-PRE",
@@ -5552,9 +6150,9 @@
    },
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
-   "tiene_paper": false,
-   "titulo": "REC-11",
-   "entradilla": null
+   "tiene_paper": true,
+   "titulo": "INCONCLUSIVE: quitar todas las aguas no demuestra una diferencia en el oráculo",
+   "entradilla": "CON cubre 94 y SIN 96 de 116 complejos; McNemar bilateral p = 0,814529. La intervención conserva INCONCLUSIVE. REC-11-CRUCES queda GO descriptivo post-hoc y no cambia esa salida."
   },
   {
    "id": "REC-11-CRUCES",
@@ -6020,6 +6618,50 @@
    "entradilla": null
   },
   {
+   "id": "RS-03-PARAM-A-R1",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "RS-03-PARAM-A declaro energia finita, serializable y mapeo biyectivo sin calcularlos: medidos sobre los 116 ligandos reconstruidos en el mismo contenedor (SCI-B-155, SCI-B-156)",
+   "protocolo": "RS-03-PARAM-A-R1/PREREGISTRO.md (7dccb5dd); scripts/run_rs03_param_a_r1.py en moldesign-science (openff-toolkit 0.18.0, openmm 8.5.2, NAGL 1.0.0 sha 7981e7f5), 4 trabajadores, sin docking",
+   "gate": "G0 entradas, G1 cargas <=1e-5, G2 energia finita 116/116, G3 serializacion <=1e-6 kJ/mol, G4 correspondencia indice a indice y particulas=atomos, G5 controles negativos detectados",
+   "razonamiento": "NO_GO preregistrado: 1nw5 (tiol con H implicito) da 52 particulas para 51 atomos del SDF, asi que el mapeo biyectivo declarado por RS-03-PARAM-A no existe ahi. En los otros 115: entradas iguales, cargas a 5e-7 e, energia finita y serializacion exacta (dE=0), y elementos, cargas y conectividad identicos indice a indice; 31 fallan el criterio preregistrado solo por la etiqueta aromatica del enlace (diagnostico posterior declarado). Controles 229/229.",
+   "sellado_en": "2026-10-22T20:40:43.814809+00:00",
+   "creado_en": "2026-10-22T20:40:19.077690+00:00",
+   "duracion_s": 110.3,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/fase-1b",
+    "commit": "7dccb5ddb4",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 3,
+   "n_complejos": 115,
+   "n_fallos": 1,
+   "metricas": {
+    "n_total": 116,
+    "n_medidos": 115,
+    "n_fallos": 1,
+    "max_dif_carga_sellada_e": 4.999775825575981e-07,
+    "max_dif_serializacion_kj_mol": 0.0,
+    "controles_ejecutados": 229,
+    "controles_detectados": 229,
+    "decision": "NO_GO",
+    "duration_seconds": 110.3
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "La parametrización de RS-03-PARAM-A no era biyectiva en todos los ligandos: 1nw5 tiene una partícula de más",
+   "entradilla": "RS-03-PARAM-A declaró energía finita, serialización al 100 % y mapeo biyectivo, pero no calculó la energía y su hash de símbolos no probaba la correspondencia. Medido: se sostiene en 115 de 116; en 1nw5 OpenFF añade un hidrógeno implícito y el sistema tiene 52 partículas para 51 átomos. NO_GO."
+  },
+  {
    "id": "RS-03-PARAM-B",
    "categoria": "hallazgo",
    "etiquetas": [],
@@ -6330,7 +6972,7 @@
    "mantenimiento_sello": 0,
    "reemplazado_por": null,
    "tiene_paper": true,
-   "titulo": "Invariante a rotaciones, frágil ante una centésima de ángstrom",
+   "titulo": "Invariante a rotaciones, frágil ante una décima de ángstrom",
    "entradilla": "El selector es exactamente invariante a rotación y traslación —diferencia máxima 0.0— y al orden de las poses. Con un temblor de 0.1 Å cambia de opinión en 9 complejos."
   },
   {
@@ -6515,6 +7157,119 @@
    "tiene_paper": false,
    "titulo": "RS-14-R1-PRE",
    "entradilla": null
+  },
+  {
+   "id": "SUP-02-TOTAL-SCORE",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "El total_score 0-100 que el producto muestra como indice de calidad (SAR, Comunidad, score certificado de Moldex) ordena las afinidades experimentales mejor que el score de Vina sin transformar",
+   "protocolo": "scripts/artifacts_science/SUP-02-TOTAL-SCORE/entrada/REGISTRO_PREVIO.md",
+   "gate": "Dif. de Spearman total_score menos Vina con IC95 bootstrap pareado: GO si el IC excluye el cero por encima en las dos series; DANO si lo excluye por debajo en alguna; si no, NO_GO (no demuestra valor anadido)",
+   "razonamiento": "El total_score 0-100 no ordena mejor que Vina sin transformar: 8T69 rho 0,397 frente a 0,392 (dif. +0,005, IC95 -0,058 a +0,061; rho total_score~Vina 0,97); 8HFI rho 0,029 frente a 0,129 (dif. -0,101, IC95 -0,334 a +0,134). Sin dano demostrado; no demuestra valor anadido.",
+   "sellado_en": "2026-10-25T18:40:30.452362+00:00",
+   "creado_en": "2026-10-25T18:34:51.700590+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "52cfa45238",
+    "sucio": false
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 5,
+   "n_complejos": 146,
+   "n_fallos": 0,
+   "metricas": {
+    "dano": false,
+    "decision": "NO_GO"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "El índice de 0 a 100 no sabe más que Vina: ordena igual en una serie y peor en otra",
+   "entradilla": "MolDesign enseña un total_score de 0 a 100 como índice de calidad, construido con constantes que nadie había medido. Contra 146 afinidades experimentales de dos dianas, no ordena mejor que el score de Vina del que sale."
+  },
+  {
+   "id": "SUP-03-VALIDADOR-LIGANDO",
+   "categoria": "hallazgo",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Las cuatro reglas bloqueantes del validador del ligando (carga neta y atomica mayor que 2 en valor absoluto, radicales, varios fragmentos tras quitar sales) no rechazan moleculas con actividad medida",
+   "protocolo": "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/entrada/REGISTRO_PREVIO.md",
+   "gate": "Por regla: GO si rechaza 0 moleculas con actividad medida; si rechaza alguna, NO_GO (la regla bloquea quimica real y, por la preferencia del propietario, deberia avisar y no bloquear salvo que el pipeline no pueda ejecutarla)",
+   "razonamiento": "Las cuatro reglas bloqueantes del validador (carga neta y atomica >2 en valor absoluto, radicales, varios fragmentos tras SaltRemover) rechazan 0 de 640 moleculas con actividad medida (VMAT2 89, NET 57, 5-HT1A 494). En los descriptivos, R4 rechaza 6 solvatos; 19 con boro y 49 peptidos > 1000 Da caen por otras reglas.",
+   "sellado_en": "2026-10-25T18:40:31.840497+00:00",
+   "creado_en": "2026-10-25T18:34:52.111737+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "52cfa45238",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 7,
+   "n_complejos": 74,
+   "n_fallos": 0,
+   "metricas": {
+    "con_actividad_medida": 640,
+    "otras_con_actividad": 0,
+    "decision": "GO"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Las reglas que rechazan un ligando no rechazan ninguna molécula con actividad medida",
+   "entradilla": "Antes de acoplar, MolDesign rechaza las moléculas con mucha carga, con radicales o con varios fragmentos. Nadie había medido si esas reglas se llevaban por delante química real. En 640 moléculas activas de tres dianas, no rechazan ninguna."
+  },
+  {
+   "id": "VISION-MOLECULAR-01",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "Alguna de seis alternativas para la elevacion 2D a 3D de ligandos grandes (E1 dibujo ajustado al 3D, E2 dE con xTB, E3 plegado restringido al dibujo, E4 ventana de energia, E5 enderezar cadenas y girar colas, E6 animacion por torsiones) mejora el producto 26df919c segun el criterio de su registro previo",
+   "protocolo": "docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO.md (E1-E3, fcbb9d1e), REGISTRO_PREVIO_E4.md (4517768f), REGISTRO_PREVIO_E5.md (aa22435e), REGISTRO_PREVIO_E6.md (74b2d17f)",
+   "gate": "Cada experimento con el criterio de su registro previo, commiteado antes de su resultado; el conjunto es GO si alguna alternativa cumple y entra en el producto",
+   "razonamiento": "Seis alternativas para la elevacion 2D a 3D de ligandos grandes, cada una con registro previo commiteado antes de su resultado: E1 dibujo ajustado NO_GO (rescata 10 de 25, hacia falta 75 %), E2 dE con xTB parcial (ALPB = 0,69 MMFF), E3 plegado restringido NO_GO (5 de 37, hacia falta <= 4), E4 ventana de 5 kcal/mol NO_GO (abstencion 8 -> 23 en G37), E5 cadenas y colas NO_GO (8 -> 7, hacia falta <= 4), E6 torsiones NO_GO (2 cruces con linea recta, hacian falta >= 4). Ninguna entra en el producto (26df919c).",
+   "sellado_en": "2026-10-25T16:40:27.374706+00:00",
+   "creado_en": "2026-10-25T16:39:42.626696+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "b468858de7",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 23,
+   "n_complejos": 6,
+   "n_fallos": 0,
+   "metricas": {
+    "producto_de_referencia": "26df919c",
+    "decision": "NO_GO",
+    "nota": "Ninguna alternativa entra en el producto. E2 (parcial) sólo mide la cifra: MMFF en fase gas exagera el ΔE cerca de un tercio (xTB-ALPB = 0,69 · MMFF) sin invertir el problema; el producto conserva el ΔE declarado."
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "Levantar el dibujo a 3D en moléculas grandes: seis alternativas medidas, ninguna mejora lo que ya hace el producto",
+   "entradilla": "Cuando una molécula grande y flexible se dibuja en 2D, ninguna geometría 3D se le parece del todo, y el producto se abstiene en 8 de 37. Se midieron seis formas de arreglarlo, cada una con su criterio escrito antes. Ninguna lo consigue sin pagar en otra cosa."
   }
  ]
 }

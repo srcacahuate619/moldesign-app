@@ -1,0 +1,19 @@
+{
+  "name": "dossier-en-light-1024",
+  "url": "http://localhost:13013/evaluation",
+  "time": "2026-10-10T03:14:57.833Z",
+  "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+  "export": "d8cd90e5404fc69065fdea94c84520c6bae21804acfb7c5d9b0c4282bd9eaa2d",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "locale": "en",
+  "theme": "light",
+  "text": "OPTIONS\nPREPARATION\nMOLCYBETA\nBATCH\nEVALUATION\nMOLDEX\nHISTORY\n3\nSIGN OUT\nCASES\nNew case\nSearch cases\nACTIVE CASES\n1\nQA cierre 8HFI\nREVIEW · EVALUATED 2 HR AGO\n\nRun registered\n27c62c96-a890-47f6-b0c1-095dc6801edb\n· completed\n\nQA cierre 8HFI\nREVIEW\nStorage\nD:\\moldesign-build\\.worktrees\\.sandbox\\agente3\\casos\\QA cierre 8HFI\nUpdated:\n10/9/2026, 9:14:47 PM\nEVALUATION\nREPORT\nCase details\n\n7 pending details\n\nScientific disposition\n\nDecide what can be stated from this run. The rationale is stored alongside the input fingerprint.\n\nAccept the evidence\nAccept with limits\nAbstain\nRationale (required)\nSave disposition\nCase report\nBack to Evaluation\nRUN DOSSIER\n\nThe document is written by the engine from what this case declared and from what the run actually produced. Whatever was left unanswered appears inside as «NOT DEFINED»: it is not filled in on its own.\n\nRun 27c62c96-a89... · molecule e5655ee8-fa0b-4c1a-aebe-995548b0281b\n\ndossier_QA-cierre-8HFI.pdf\nRefresh dossier\nDownload PDF\nExport ZIP package",
+  "overflow": {
+    "width": 1024,
+    "document": 1024
+  },
+  "errors": []
+}

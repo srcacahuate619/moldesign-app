@@ -1,0 +1,40 @@
+{
+  "smiles": "Oc1nc(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+  "target_pdb_id": "USR_3A408D",
+  "chain": "A",
+  "molecule_name": "tnks2__tautomero_alternativo_proxy__0",
+  "grid_center": [
+    -39.007,
+    -12.037,
+    10.985
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:8a0b41f8b8e43115036ad9b00c05ff7242c16bf49792b0e3484aee987492e840"
+}

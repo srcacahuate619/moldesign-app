@@ -23,6 +23,8 @@ export type Evidencia = {
   clase: string;
   fuente: string;
   herramienta: string;
+  /** De qué molécula es el resultado («aspirina», «A=aspirina | B=ibuprofeno»), si el backend lo dice. */
+  etiqueta?: string;
   texto: string;
   verificada: boolean;
 };
@@ -30,62 +32,101 @@ export type Evidencia = {
 /** Cabecera que el backend antepone al bloque de resultados. */
 const CABECERA = /^\[Sistema: resultados de herramientas ejecutadas/;
 
-/** `[clase · fuente] herramienta: texto` — la fuente puede llevar paréntesis. */
-const CON_CLASE = /^\[([^·\]]+)·([^\]]+)\]\s*([A-Za-z_][\w]*):\s*([\s\S]*)$/;
+/**
+ * Cierre del bloque (`FIN_DE_EVIDENCIA` en `backend/services/ai/tool_registry.py`). Lo
+ * que sigue es la respuesta. Sin él, la respuesta determinista o la del modelo quedaban
+ * dentro del bloque y, si su primera línea no casaba, se perdían: MolChat contestaba en
+ * blanco a «calcula las propiedades de la aspirina».
+ */
+const FIN = /^<!--__FIN_DE_EVIDENCIA__-->$/;
 
-/** `[sin clasificar — …] herramienta: texto` */
-const SIN_CLASE = /^\[sin clasificar[^\]]*\]\s*([A-Za-z_][\w]*):\s*([\s\S]*)$/;
+/**
+ * `[clase · fuente] herramienta (etiqueta): texto` — la fuente puede llevar paréntesis
+ * y la etiqueta es opcional; puede llevarlos también (un SMILES sin nombre conocido).
+ */
+const CON_CLASE = /^\[([^·\]]+)·([^\]]+)\]\s*([A-Za-z_][\w]*)(?:\s*\((.*?)\))?:\s*([\s\S]*)$/;
 
+/** `[sin clasificar — …] herramienta (etiqueta): texto` */
+const SIN_CLASE = /^\[sin clasificar[^\]]*\]\s*([A-Za-z_][\w]*)(?:\s*\((.*?)\))?:\s*([\s\S]*)$/;
+
+/**
+ * Separa la prosa de la evidencia. Un turno puede traer varios bloques; cada uno abre
+ * con la cabecera y cierra con `FIN`, y lo que hay fuera de ellos es prosa. Un bloque
+ * sin cierre (el de un mensaje anterior al marcador, o uno que aún se está escribiendo)
+ * llega hasta el final.
+ *
+ * Ninguna línea se descarta: dentro de un bloque, lo que no se reconoce como resultado
+ * ni como continuación se muestra como evidencia sin clasificar.
+ */
 export function separarEvidencia(contenido: string): {
   prosa: string;
   evidencias: Evidencia[];
 } {
-  const lineas = contenido.split("\n");
-  const inicio = lineas.findIndex((l) => CABECERA.test(l.trim()));
-  if (inicio === -1) {
-    return { prosa: contenido.trim(), evidencias: [] };
-  }
-
-  const prosa = lineas.slice(0, inicio).join("\n").trim();
+  const prosa: string[] = [];
   const evidencias: Evidencia[] = [];
+  let enBloque = false;
+  let ultima: Evidencia | null = null;
 
-  for (const cruda of lineas.slice(inicio + 1)) {
+  for (const cruda of contenido.split("\n")) {
     const linea = cruda.trim();
+
+    if (CABECERA.test(linea)) {
+      enBloque = true;
+      ultima = null;
+      continue;
+    }
+    if (FIN.test(linea)) {
+      enBloque = false;
+      ultima = null;
+      continue;
+    }
+    if (!enBloque) {
+      prosa.push(cruda);
+      continue;
+    }
     if (!linea) continue;
 
     const conClase = linea.match(CON_CLASE);
     if (conClase) {
-      evidencias.push({
+      ultima = {
         clase: conClase[1].trim(),
         fuente: conClase[2].trim(),
         herramienta: conClase[3].trim(),
-        texto: conClase[4].trim(),
+        etiqueta: conClase[4]?.trim() || undefined,
+        texto: conClase[5].trim(),
         verificada: true,
-      });
+      };
+      evidencias.push(ultima);
       continue;
     }
 
     const sinClase = linea.match(SIN_CLASE);
     if (sinClase) {
-      evidencias.push({
+      ultima = {
         clase: "sin clasificar",
         fuente: "",
         herramienta: sinClase[1].trim(),
-        texto: sinClase[2].trim(),
+        etiqueta: sinClase[2]?.trim() || undefined,
+        texto: sinClase[3].trim(),
         verificada: false,
-      });
+      };
+      evidencias.push(ultima);
       continue;
     }
 
     // Continuación de la línea anterior (una herramienta puede devolver varias
     // líneas). No se descarta: descartarla perdería parte del dato.
-    if (evidencias.length > 0) {
-      const ultima = evidencias[evidencias.length - 1];
+    if (ultima) {
       ultima.texto = `${ultima.texto}\n${linea}`;
+      continue;
     }
+
+    // Una línea que no declara qué es: se enseña, como no verificada.
+    ultima = { clase: "sin clasificar", fuente: "", herramienta: "", texto: linea, verificada: false };
+    evidencias.push(ultima);
   }
 
-  return { prosa, evidencias };
+  return { prosa: prosa.join("\n").trim(), evidencias };
 }
 
 /** Color por clase. La inferencia se distingue a propósito del cálculo. */
@@ -131,9 +172,11 @@ export function BloqueDeEvidencia({ evidencias }: { evidencias: Evidencia[] }) {
               ? `${e.clase} · ${e.fuente}`
               : t("auto_280145ccad5c")}
           </div>
-          <div style={{ color: "var(--text-secondary)", marginBottom: 2 }}>
-            {e.herramienta}
-          </div>
+          {e.herramienta && (
+            <div style={{ color: "var(--text-secondary)", marginBottom: 2 }}>
+              {e.etiqueta ? `${e.herramienta} (${e.etiqueta})` : e.herramienta}
+            </div>
+          )}
           <pre
             style={{
               margin: 0,

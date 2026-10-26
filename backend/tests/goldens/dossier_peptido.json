@@ -11,6 +11,13 @@
         "valor_es_clasificacion": false
       },
       {
+        "estado": "REVISAR",
+        "etiqueta": "Validación del método peptídico",
+        "razon": "MolDesign ha comprobado que ESMFold carga y sirve estructuras, no que sean buenas. El acoplamiento lo hace después Vina sobre esa estructura predicha: su afinidad no hereda validez de la predicción.",
+        "valor": "EXPERIMENTAL: la estructura la predice ESMFold y su calidad no está validada en MolDesign",
+        "valor_es_clasificacion": true
+      },
+      {
         "estado": "NO_EVALUADO",
         "etiqueta": "Estado del acoplamiento",
         "razon": "El modelo de plegamiento produjo una estructura, y la conversión de esa estructura a un ligando acoplable no se completó, así que Vina no llegó a ejecutarse y NO hay afinidad. No se sustituye por un valor derivado de la confianza del plegado: la confianza describe la estructura, no la unión. Ver docs/76_DECISION_TRANSFERENCIA_ESMFOLD_A_LIGANDO_V1.md.",

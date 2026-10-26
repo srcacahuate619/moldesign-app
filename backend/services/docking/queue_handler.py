@@ -28,9 +28,9 @@ from chem.properties import calculate_properties
 from core.config import get_settings
 from core import config as core_config
 from core.database import commit_with_retry, get_db_session
-from core.models import JobStatus, MoleculeStatus, _coerce_hotspots
+from core.models import JobStatus, MoleculeStatus, _coerce_cofactores, _coerce_hotspots
 from db.repository import Repository
-from services.docking.protocolo import construir_protocolo, validar_motor_solicitado
+from services.docking.protocolo import construir_protocolo, declarar_residuos_de_referencia, validar_motor_solicitado
 from scoring.engine import calculate_score_breakdown
 from services.docking.desktop_job_status import get_desktop_job_status
 from services.docking.desktop_process_registry import (
@@ -99,6 +99,14 @@ def cancel_active_selectivity(task_id: str) -> int:
     killed = cancel_processes(task_id, "selectivity")
     if killed:
         log.info("selectivity_procs_cancelados", task_id=task_id, count=killed)
+    return killed
+
+
+def cancel_active_structural_evidence(task_id: str) -> int:
+    """Mata el proceso de validación estructural de ``task_id`` (al cancelar o al vencer el plazo de la evaluación)."""
+    killed = cancel_processes(task_id, "structural_evidence")
+    if killed:
+        log.info("structural_evidence_procs_cancelados", task_id=task_id, count=killed)
     return killed
 
 
@@ -269,6 +277,10 @@ async def _run_full_evaluation_async(
     )
     if "engine" in ((pipeline_config or {}).get("stage_params") or {}).get("docking", {}):
         raise ValueError("El motor se declara en docking_engine, no en stage_params.docking.engine")
+    from services.docking.protocolo import resolver_modo_tautomero
+    mode = resolver_modo_tautomero(((pipeline_config or {}).get("stage_params") or {}).get("conformer"))
+    # Siempre explícito: el valor por defecto del conformador ya no es «canonico».
+    tautomer_kwargs = {"tautomero": mode}
     # ── Pipeline resource signal ────────────────────────────────────
     try:
         from services.ai.resource_manager import get_resource_manager
@@ -385,7 +397,7 @@ async def _run_full_evaluation_async(
             target_grid_size_z=target.grid_size_z,
             target_hotspots_base=_coerce_hotspots(target.hotspots) or [],
             target_hotspots_source=getattr(target, "hotspots_source", None),
-            target_cofactors_whitelist=_coerce_hotspots(target.cofactors_whitelist) or [],
+            target_cofactors_whitelist=_coerce_cofactores(target.cofactors_whitelist),
             affinity_threshold=target.affinity_threshold,
             specificity_floor=target.specificity_floor if target.specificity_floor is not None else 0.5,
             target_spearman_rho=target.spearman_rho,
@@ -504,8 +516,7 @@ async def _run_full_evaluation_async(
                             f"rotables) — el docking será lento (búsqueda conformacional extensa). "
                             f"Si el tiempo es un límite, revisa el tamaño de la caja y la "
                             f"exhaustividad de Vina; reducirlos limita la búsqueda y puede "
-                            f"cambiar las poses. La ruta ESMFold para péptidos es exploratoria "
-                            f"y no tiene un benchmark de precisión de poses.",
+                            f"cambiar las poses.",
                         ))
                     elif _n_rot_b > 8 or _n_heavy_b > 25:
                         scientific_warnings.append(aviso(
@@ -543,7 +554,7 @@ async def _run_full_evaluation_async(
             if is_peptide:
                 # Elegir el microestado antes de bifurcar: ESMFold y el respaldo
                 # Vina reciben el mismo grafo, con su estado y hash persistidos.
-                conformer_prepared = await generate_conformer(smiles, ph)
+                conformer_prepared = await generate_conformer(smiles, ph, **tautomer_kwargs)
                 _estado_del_ligando_persistible = conformer_prepared.get("estado_del_ligando")
                 peptide_smiles = conformer_prepared["canonical_smiles"]
                 effective_smiles_hash = conformer_prepared["smiles_hash"]
@@ -595,8 +606,6 @@ async def _run_full_evaluation_async(
                 _peptide_transfer_manifest = getattr(ml_res, "transfer_manifest", None) if ml_res else None
                 if ml_res and ml_res.success and ml_res.poses:
                     log.info("Predicción de Nivel 3 completada con éxito")
-                    from rdkit import Chem
-                    from chem.conformer import _mol_to_sdf_string
                     from core.config import get_settings
 
                     settings = get_settings()
@@ -607,48 +616,28 @@ async def _run_full_evaluation_async(
                             "OpenMM/Amber no está validada. Se conserva la pose "
                             "original de Vina sin marcarla como refinada.",
                         ))
-                    sdf_parts = []
-                    for p in ml_res.poses:
-                        # El sidecar puede entregar un SDF con el grafo original
-                        # y las coordenadas de Vina. Es la fuente primaria; el
-                        # PDB sólo se usa para servicios legacy sin transferencia.
-                        peptide_sdf = getattr(p, "ligand_sdf", None)
-                        peptide_pdb = getattr(p, "ligand_pdb", None) or getattr(p, "complex_pdb", "")
-                        if peptide_sdf:
-                            mol_pep = Chem.MolFromMolBlock(peptide_sdf, sanitize=False, removeHs=False)
-                        else:
-                            mol_pep = Chem.MolFromPDBBlock(peptide_pdb, sanitize=False)
-                        if mol_pep:
-                            try:
-                                Chem.SanitizeMol(mol_pep)
-                            except Exception:
-                                pass
-                            mol_pep.SetProp("SMILES", peptide_smiles)
-                            mol_pep.SetProp("_Name", f"Pose_{p.rank}")
-                            sdf_parts.append(_mol_to_sdf_string(mol_pep, peptide_smiles))
-
-                    sdf_content = "".join(sdf_parts)
-                    from services.docking.peptide_docking import peptide_poses_run_path
+                    # SCI-A-034: el SDF lleva las poses acopladas y sólo ellas, en
+                    # el orden del resultado (`poses_acopladas_y_sdf`).
+                    from services.docking.peptide_docking import (
+                        peptide_poses_run_path, poses_acopladas_y_sdf,
+                    )
+                    _aceptadas, sdf_content, _cuentas = poses_acopladas_y_sdf(
+                        ml_res.poses, peptide_smiles)
                     poses_path = peptide_poses_run_path(
                         effective_smiles_hash, pipeline_params.target_pdb_id, task_id,
                     )
-                    await write_text(poses_path, sdf_content)
+                    if _aceptadas:
+                        await write_text(poses_path, sdf_content)
                     from core.models import DockingPose, DockingResult
 
                     poses = []
-                    _sin_afinidad = 0
-                    _solo_plegado = 0
-                    for _p in ml_res.poses:
-                        _aff = getattr(_p, "vina_affinity_kcal_mol", None)
-                        if getattr(_p, "origen", "") == "folded_structure_only":
-                            _solo_plegado += 1
-                        if _aff is None:
-                            _sin_afinidad += 1
-                            continue
+                    _sin_afinidad = _cuentas["sin_afinidad"] + _cuentas["sin_geometria"]
+                    _solo_plegado = _cuentas["solo_plegado"]
+                    for _p in _aceptadas:
                         _rmsd = getattr(_p, "rmsd", None)
                         poses.append(DockingPose(
                             rank=_p.rank,
-                            affinity=float(_aff),
+                            affinity=float(_p.vina_affinity_kcal_mol),
                             rmsd_lb=_rmsd,
                             rmsd_ub=_rmsd,
                         ))
@@ -719,14 +708,8 @@ async def _run_full_evaluation_async(
                     # respondió, o respondió con estructura y sin ninguna pose
                     # acoplada. El aviso ya dijo cuál; el mensaje no puede
                     # afirmar el primero cuando fue el segundo.
-                    if ml_res is None and any(
-                        getattr(a, "codigo", None) == "PEPTIDO_SIN_ACOPLAMIENTO"
-                        for a in scientific_warnings
-                    ):
-                        msg = ("el modelo plegó la estructura pero ninguna pose "
-                               "pasó por acoplamiento")
-                    else:
-                        msg = ml_res.error if ml_res else "Sin respuesta del servicio"
+                    from services.docking.peptide_docking import motivo_de_la_sustitucion
+                    msg, _respondio = motivo_de_la_sustitucion(ml_res, scientific_warnings)
                     log.warning("Fallo en Nivel 3, cayendo a Vina estándar", error=msg)
                     scientific_warnings.append(aviso(
                         "MOTOR_SUSTITUIDO", Severidad.CRITICA,
@@ -757,7 +740,7 @@ async def _run_full_evaluation_async(
             # Si no se ejecutó Nivel 3, corremos Vina de forma estándar
             if docking is None:
                 await cache.set_job_progress(task_id, 20, "conformer")
-                conformer = conformer_prepared or await generate_conformer(smiles, ph)
+                conformer = conformer_prepared or await generate_conformer(smiles, ph, **tautomer_kwargs)
                 log.info({
                     "event": "conformer listo para docking",
                     "conformer_path": conformer["conformer_path"]
@@ -882,12 +865,12 @@ async def _run_full_evaluation_async(
             gnn_pharmacophores_dict: dict | None = None
             _target_pdb_path: str | None = None
             try:
-                from services.docking.preparer import get_target_pdb_path
-                _target_pdb_path = str(get_target_pdb_path(pipeline_params.target_pdb_id))
+                from services.docking.preparer import pdb_para_rescoring
+                _target_pdb_path = str(pdb_para_rescoring(pipeline_params.target_pdb_id))
                 target_family = pipeline_params.target_structural_family
                 ml_result = await get_ml_rescore(
                     smiles=smiles,
-                    target_pdb_path=get_target_pdb_path(pipeline_params.target_pdb_id),
+                    target_pdb_path=pdb_para_rescoring(pipeline_params.target_pdb_id),
                     poses=[p.model_dump() for p in docking.poses],
                     properties=properties,
                     grid_center=list(box_center),
@@ -1000,7 +983,9 @@ async def _run_full_evaluation_async(
                 # siempre. Ver el docstring de `predict_clgnn`.
                 _mejor_pose = docking.poses[0] if docking.poses else None
                 if _target_pdb_path and _mejor_pose is not None:
-                    clgnn_prob_value = predict_clgnn(
+                    # En un hilo, como en `services/pipeline/runner.py` (2026-10-10).
+                    clgnn_prob_value = await asyncio.to_thread(
+                        predict_clgnn,
                         pipeline_params.molecule_smiles,
                         _target_pdb_path,
                         pose_sdf_path=docking.poses_file_path,
@@ -1085,7 +1070,7 @@ async def _run_full_evaluation_async(
                     _wrapper = _os.path.join(
                         _os.path.dirname(__file__), "mmgbsa_subprocess.py"
                     )
-                    _target_pdb = str(get_target_pdb_path(pipeline_params.target_pdb_id))
+                    _target_pdb = str(pdb_para_rescoring(pipeline_params.target_pdb_id))
 
                     async def _launch_mmgbsa_background(mol_id, tgt_pdb, smiles_str, poses_sdf=None):
                         """Corre MM-GBSA en subprocess y persiste el resultado.
@@ -1261,11 +1246,20 @@ async def _run_full_evaluation_async(
             # Este camino no genera ensemble: `generate_conformer` devuelve uno.
             # Se declara así en vez de omitirlo, que es lo que hace legible la
             # diferencia con una corrida PRO de treinta.
+            from utils.structural import normalize_hotspots as _normalizar_hotspots
+
             docking_protocol = construir_protocolo(
                 docking=docking,
                 peptide_engine=peptide_docking_engine,
                 docking_engine=docking_engine,
                 conformer_ctx={"conformers_requested": 1, "conformers_generated": 1},
+                # Los residuos que ENTRARON en el análisis de contactos, no los del catálogo.
+                residuos_de_referencia=declarar_residuos_de_referencia(
+                    activos=active_hotspots,
+                    elegidos=pipeline_params.custom_hotspots,
+                    catalogo=_normalizar_hotspots(pipeline_params.target_hotspots_base),
+                    fuente_del_catalogo=pipeline_params.target_hotspots_source,
+                ),
             )
 
             # ── M5-Zn: el protocolo de metaloenzimas de zinc ─────────────
@@ -1590,6 +1584,7 @@ def _submit_evaluation_desktop(
             await _record_job_terminal(task_id, "FAILURE", reason)
             cancel_active_mmgbsa(task_id)
             cancel_active_selectivity(task_id)
+            cancel_active_structural_evidence(task_id)
             await _persist_molecule_failed(
                 molecule_id, reason, task_id=task_id, overwrite_terminal_status=True
             )

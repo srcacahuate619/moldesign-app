@@ -1,0 +1,69 @@
+{
+ "n_total": 116,
+ "n_medidos": 115,
+ "n_fallos": 1,
+ "max_dif_carga_sellada_e": 4.999775825575981e-07,
+ "max_dif_serializacion_kj_mol": 0.0,
+ "energia_kj_mol_rango": [
+  -3665.288616496552,
+  7325.090996652243
+ ],
+ "no_finitas": [],
+ "correspondencia_con_fallos": [
+  "1a4w",
+  "1add",
+  "1afk",
+  "1afl",
+  "1amw",
+  "1b38",
+  "1bn1",
+  "1bn3",
+  "1bn4",
+  "1bnu",
+  "1bxr",
+  "1c4u",
+  "1d3p",
+  "1d9i",
+  "1dgm",
+  "1f0r",
+  "1f0t",
+  "1flr",
+  "1gpn",
+  "1h22",
+  "1hlk",
+  "1jn4",
+  "1jvu",
+  "1k9s",
+  "1mmq",
+  "1mmr",
+  "1mu8",
+  "1n0s",
+  "1nje",
+  "1njs",
+  "1nm6"
+ ],
+ "controles_ejecutados": 229,
+ "controles_detectados": 229,
+ "sin_par_mismo_elemento": [
+  "1bcd"
+ ],
+ "gates": {
+  "G0_entradas": false,
+  "G1_cargas": false,
+  "G2_energia_finita": false,
+  "G3_serializacion": false,
+  "G4_correspondencia": false,
+  "G5_controles": true
+ },
+ "decision": "NO_GO",
+ "experiment_id": "RS-03-PARAM-A-R1",
+ "duration_seconds": 110.3,
+ "entorno": {
+  "openff_toolkit": "0.18.0",
+  "openmm": "8.5.2",
+  "nagl_model": "openff-gnn-am1bcc-1.0.0.pt",
+  "nagl_sha256": "7981e7f5b0b1e424c9e10a40d9e7606d96dcd3dd2b095cb4eeff6829f92238ee",
+  "sage": "openff-2.2.1.offxml",
+  "trabajadores": 4
+ }
+}

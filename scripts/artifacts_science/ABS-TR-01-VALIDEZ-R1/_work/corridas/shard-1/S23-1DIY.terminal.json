@@ -1,0 +1,16 @@
+{
+  "id_r2": "S23",
+  "pdb": "1DIY",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 0.2,
+      "crudo": "S23-1DIY-intento1.json.gz",
+      "crudo_sha256": "1699b1411d184e7d6cc7f72bab21d5ec09d156c3ff8006a04e7c5d72e74cd049"
+    }
+  ],
+  "estado": "DETENIDO_EN_PREFLIGHT",
+  "crudo": "S23-1DIY-intento1.json.gz",
+  "crudo_sha256": "1699b1411d184e7d6cc7f72bab21d5ec09d156c3ff8006a04e7c5d72e74cd049",
+  "registrado_en": "2026-10-25T01:34:19+00:00"
+}

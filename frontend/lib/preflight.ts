@@ -22,7 +22,8 @@
 // (ver `inputsAffectRun` y `CaseContext.setInputs`). Un preflight presente
 // corresponde a los inputs actuales por construcción.
 
-import { getApiUrl } from "./config";
+import { fetchBackend } from "./backendFetch";
+import { getAuthHeaders } from "./api";
 import type { CaseInputs, CasePipelineConfig, PreflightSummary } from "./cases/types";
 
 export type PreflightControlState = "pasa" | "advertencia" | "bloquea" | "no_evaluado";
@@ -172,10 +173,14 @@ export async function requestPreflight(
   request: PreflightRequest,
   signal?: AbortSignal,
 ): Promise<PreflightReport> {
-  const base = await getApiUrl();
-  const response = await fetch(`${base}/evaluation/preflight`, {
+  const response = await fetchBackend("/evaluation/preflight", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    // SOL-01: la comprobación de un receptor PRIVADO requiere la sesión del
+    // propietario — sin ella, el backend oculta el target con el mismo 404
+    // que a un anónimo y «Comprobar preparación» le fallaba al dueño de la
+    // variante. Los targets públicos no cambian: `getAuthHeaders()` viene
+    // vacío sin sesión.
+    headers: { "Content-Type": "application/json", ...getAuthHeaders() },
     cache: "no-store",
     signal,
     body: JSON.stringify({
@@ -229,6 +234,19 @@ function receptorLabelOf(receptor: PreflightReport["receptor"]): string {
   return sitio.length > 1
     ? `${receptor.pdb_id} · cadenas ${sitio.join("+")}`
     : `${receptor.pdb_id} · cadena ${receptor.chain}`;
+}
+
+/** Traduce sólo los dos formatos completos que genera `receptorLabelOf`. */
+export function localizeReceptorLabel(
+  label: string,
+  t: (key: string, values?: Readonly<Record<string, string | number>>) => string,
+): string {
+  if (label === "No definido") return t("c_no_definido");
+  const multiple = /^(.+?) · cadenas (.+)$/.exec(label);
+  if (multiple) return t("ca_receptor_label_multiple", { pdbId: multiple[1], chains: multiple[2] });
+  const single = /^(.+?) · cadena (.+)$/.exec(label);
+  if (single) return t("ca_receptor_label_single", { pdbId: single[1], chain: single[2] });
+  return label;
 }
 
 export function summarizePreflight(report: PreflightReport): PreflightSummary {
@@ -342,31 +360,37 @@ export function inputsAreComplete(inputs: CaseInputs | undefined): boolean {
  *
  * Un botón deshabilitado sin explicación es un callejón sin salida. Cada rama
  * devuelve la frase que el usuario necesita para desbloquearse.
+ *
+ * LA COMPROBACIÓN PREVIA YA NO ES UN PASO DEL USUARIO. «Evaluar» la hace sola
+ * antes de ejecutar y la repite cuando lo que se iba a ejecutar cambió (ver
+ * `handleSubmit` en `CaseEvaluationRunner`), así que no haber comprobado todavía
+ * no bloquea nada. La garantía no se movió: nada se ejecuta sin que el backend
+ * haya inspeccionado exactamente esos inputs y firmado su huella. Lo único que
+ * bloquea es una comprobación que ya encontró bloqueantes técnicos —la corrida
+ * fallaría igual, más tarde— y se desbloquea cambiando lo que los causó. Antes,
+ * quien abría un caso nuevo se encontraba con un botón «Evaluar» deshabilitado
+ * por un paso previo que nadie le había explicado.
  */
 export function describeRunBlock(
   inputs: CaseInputs | undefined,
   preflight: PreflightSummary | undefined,
+  translate?: (key: string, values?: Record<string, string | number>) => string,
 ): string | null {
-  if (!inputs?.receptor?.pdbId) return "Elige un receptor antes de ejecutar.";
-  if (!inputs?.ligand?.inputSmiles?.trim()) return "Introduce o dibuja un ligando antes de ejecutar.";
-  if (!preflight) {
-    return (
-      "Ejecuta «Comprobar preparación» antes de lanzar la corrida: sin eso no se puede " +
-      "afirmar que lo que se ejecuta es lo que se muestra."
-    );
-  }
+  if (!inputs?.receptor?.pdbId) return translate?.("ev_elige_receptor_ejecutar") ?? "Elige un receptor antes de ejecutar.";
+  if (!inputs?.ligand?.inputSmiles?.trim()) return translate?.("ev_elige_ligando_ejecutar") ?? "Introduce o dibuja un ligando antes de ejecutar.";
+  if (!preflight) return null;
   if (preflight.blockers.length > 0) {
-    return (
+    const key = preflight.blockers.length === 1 ? "ev_bloqueante_tecnico" : "ev_bloqueantes_tecnicos";
+    return translate?.(key, {
+      count: preflight.blockers.length,
+      items: preflight.blockers.join(", "),
+    }) ?? (
       `La comprobación previa encontró ${preflight.blockers.length} ` +
       `${preflight.blockers.length === 1 ? "bloqueante técnico" : "bloqueantes técnicos"}: ` +
       `${preflight.blockers.join(", ")}. La corrida fallaría igual, más tarde.`
     );
   }
-  if (!preflight.executionConfig) {
-    return (
-      "Esta comprobación pertenece a una versión anterior y no conserva la configuración " +
-      "efectiva de ejecución. Vuelve a comprobar antes de ejecutar."
-    );
-  }
+  // Un resumen guardado por una versión anterior no conserva la configuración efectiva de ejecución: no
+  // se puede ejecutar con él, pero tampoco es un bloqueo del usuario. «Evaluar» lo reemplaza comprobando de nuevo.
   return null;
 }

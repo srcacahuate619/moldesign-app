@@ -90,6 +90,10 @@ class Ensamblaje:
     cadenas_finales: tuple[str, ...]
     #: `True` si hubo algo que generar. `False` deja la entrada intacta.
     generado: bool
+    #: (cadena generada, cadena de origen, número del operador en `BIOMOLECULE: 1`), en el orden en que se
+    #: generaron. Vacío si no se generó nada. Lo exporta el paquete: sin esto un tercero ve una cadena que no está
+    #: en el depósito y tiene que reimplementar el generador para saber de dónde sale (FEP-06-PRE, P09).
+    generadas: tuple[tuple[str, str, int], ...] = ()
 
 
 def _es_identidad(m: Matriz, tol: float = 1e-6) -> bool:
@@ -176,11 +180,14 @@ def generar_unidad_biologica(pdb_text: str, *, pdb_id: str = "") -> Ensamblaje:
     salida = list(lineas)
     siguiente = 0
     finales = list(originales)
+    generadas: list[tuple[str, str, int]] = []
     for matriz in a_aplicar:
+        operador = matrices.index(matriz) + 1
         renombre = {}
         for c in originales:
             renombre[c] = libres[siguiente]
             finales.append(libres[siguiente])
+            generadas.append((libres[siguiente], c, operador))
             siguiente += 1
         for l in lineas:
             if not l.startswith(("ATOM", "HETATM")) or len(l) < 54:
@@ -210,5 +217,5 @@ def generar_unidad_biologica(pdb_text: str, *, pdb_id: str = "") -> Ensamblaje:
     return Ensamblaje(
         pdb="\n".join(salida) + "\n", operadores=len(matrices),
         cadenas_originales=tuple(originales), cadenas_finales=tuple(finales),
-        generado=True,
+        generado=True, generadas=tuple(generadas),
     )

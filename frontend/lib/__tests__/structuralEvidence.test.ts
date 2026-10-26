@@ -480,3 +480,23 @@ describe("lo que la vista NO produce", () => {
     expect(plano).not.toContain("adme");
   });
 });
+
+
+describe("conformaciones del protocolo ejecutado", () => {
+  it("conserva generadas y solicitadas sin inventar restarts", () => {
+    const view = deriveStructuralEvidence(resultado(null, null, {
+      docking_protocol: { conformers_generated: 3, conformers_requested: 5 },
+    }));
+    expect(view.generation.conformers).toBe(3);
+    expect(view.generation.conformersRequested).toBe(5);
+    expect(view.generation.restarts).toBeNull();
+  });
+
+  it("conserva cero generado y rechaza conteos malformados", () => {
+    const view = deriveStructuralEvidence(resultado(null, null, {
+      docking_protocol: { conformers_generated: 0, conformers_requested: -1 },
+    }));
+    expect(view.generation.conformers).toBe(0);
+    expect(view.generation.conformersRequested).toBeNull();
+  });
+});

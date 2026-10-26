@@ -34,6 +34,7 @@ import {
   requestDossierPreview,
   sanitizeFilenamePart,
   saveBlobAs,
+  verificarLimitesDelContexto,
 } from "../dossier";
 import { resetApiUrl, setApiUrlFromPort } from "../config";
 import { mockFetch } from "../../vitest.setup";
@@ -469,13 +470,88 @@ describe("transporte del dossier", () => {
   });
 });
 
+// AMP-06. La interfaz guardaba 4 366 caracteres en la pregunta del caso y el
+// backend rechazaba el export con un 422 técnico en inglés. El límite se
+// comprueba antes de salir, en español y nombrando el campo.
+describe("límite de texto del contexto (AMP-06)", () => {
+  beforeEach(() => {
+    resetApiUrl();
+    setApiUrlFromPort(8017);
+  });
+
+  afterEach(() => {
+    resetApiUrl();
+  });
+
+  const largo = (n: number) => "a".repeat(n);
+
+  it("un texto de 4 366 caracteres NO sale: se rechaza en español, con el campo y el exceso", async () => {
+    const caso = minimalCase({ context: { question: largo(4366) } });
+    const projection = buildCaseProjection(caso, REPORTABLE, "corresponde");
+
+    const falla = await requestDossierPreview(REPORTABLE.moleculeId, projection).catch((e) => e);
+
+    expect(mockFetch).not.toHaveBeenCalled();
+    expect(falla).toBeInstanceOf(DossierError);
+    expect(falla.status).toBe(422);
+    expect(falla.message).toContain("¿Qué intenta responder este caso?");
+    expect(falla.message).toContain("4366 caracteres");
+    expect(falla.message).toContain("366 de más");
+    expect(falla.message).toContain("hasta 4000");
+    // El texto del caso no se toca.
+    expect(caso.context.question).toHaveLength(4366);
+  });
+
+  it("el paquete se rechaza igual, porque pasa por el mismo envío", async () => {
+    const projection = buildCaseProjection(
+      minimalCase({ context: { systemRationale: largo(4001) } }),
+      REPORTABLE,
+      "corresponde",
+    );
+    await expect(requestDossierPackage(REPORTABLE.moleculeId, projection)).rejects.toThrow(/elección del sistema/);
+    expect(mockFetch).not.toHaveBeenCalled();
+  });
+
+  it("todos los campos excedidos se nombran, no sólo el primero", () => {
+    expect(() =>
+      verificarLimitesDelContexto({ question: largo(4100), notes: largo(5000), decision: "corto" }),
+    ).toThrow(/Notas.*1000 de más|1000 de más/);
+    try {
+      verificarLimitesDelContexto({ question: largo(4100), notes: largo(5000) });
+    } catch (e) {
+      expect((e as Error).message).toContain("¿Qué intenta responder este caso?");
+      expect((e as Error).message).toContain("Notas");
+    }
+  });
+
+  it("exactamente 4000 caracteres es válido: el límite es inclusivo, como el del backend", async () => {
+    mockFetch.mockResolvedValueOnce(pdfResponse());
+    const projection = buildCaseProjection(
+      minimalCase({ context: { question: largo(4000) } }),
+      REPORTABLE,
+      "corresponde",
+    );
+    await expect(requestDossierPreview(REPORTABLE.moleculeId, projection)).resolves.toBeDefined();
+    expect(mockFetch).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("nombres de archivo", () => {
   it("saneado con la misma lista blanca que el backend", () => {
     expect(sanitizeFilenamePart("Serie de anilinas")).toBe("Serie-de-anilinas");
     expect(sanitizeFilenamePart("../escape")).toBe("escape");
     expect(sanitizeFilenamePart("   ")).toBe("sin-nombre");
-    // Igual que el backend: los guiones de los extremos se recortan.
-    expect(sanitizeFilenamePart("añil/β", 40)).toBe("a-il");
+    // Igual que el backend: los guiones de los extremos se recortan. La ñ pierde su marca
+    // (antes «a-il»); la β no tiene equivalente ASCII y sigue siendo un separador.
+    expect(sanitizeFilenamePart("añil/β", 40)).toBe("anil");
+  });
+
+  it("las letras con tilde pierden la marca en vez de volverse un guion (QA1-001)", () => {
+    // Los MISMOS pares que `backend/tests/test_nombres_de_archivo_sin_tilde.py`: paridad.
+    expect(sanitizeFilenamePart("Inhibición de ACE — cribado inicial")).toBe("Inhibicion-de-ACE-cribado-inicial");
+    expect(sanitizeFilenamePart("Verificación de cápsula — ñandú")).toBe("Verificacion-de-capsula-nandu");
+    expect(sanitizeFilenamePart("Ünïcödé")).toBe("Unicode");
+    expect(dossierPdfFilename("Inhibición de ACE — cribado inicial")).toBe("dossier_Inhibicion-de-ACE-cribado-inicial.pdf");
   });
 
   it("los nombres se derivan del caso y de la corrida", () => {

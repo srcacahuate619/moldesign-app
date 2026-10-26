@@ -33,6 +33,7 @@ import type { Target } from "../../../lib/api";
 const getJobStatus = vi.fn();
 const getTargets = vi.fn<() => Promise<Target[]>>(async () => []);
 const submitEvaluation = vi.fn();
+const cancelEvaluation = vi.fn();
 
 vi.mock("../../../lib/auth", () => ({
   // `LanguageProvider` monta dentro del árbol de sesión para recordar el
@@ -52,7 +53,7 @@ vi.mock("../../../lib/api", () => ({
   getTargets: () => getTargets(),
   submitEvaluation: (...args: unknown[]) => submitEvaluation(...args),
   validateSmiles: vi.fn(),
-  cancelEvaluation: vi.fn(),
+  cancelEvaluation: (...args: unknown[]) => cancelEvaluation(...args),
   certifyMolecule: vi.fn(),
   downloadCertificate: vi.fn(),
   getComplexFile: vi.fn(),
@@ -74,7 +75,7 @@ let latestProProps: Record<string, any> = {};
 vi.mock("../../interfaces/pro/ProEvaluation", () => ({
   default: (props: Record<string, any>) => {
     latestProProps = props;
-    const { handleSubmit, runBlockedReason, preparationSlot, setTarget } = props;
+    const { handleSubmit, runBlockedReason, preparationSlot, setTarget, error } = props;
     return (
       <div>
       <button
@@ -97,6 +98,7 @@ vi.mock("../../interfaces/pro/ProEvaluation", () => ({
         Otro receptor
       </button>
       <p data-testid="blocked">{runBlockedReason ?? ""}</p>
+      <p data-testid="error">{error ?? ""}</p>
       {preparationSlot}
       </div>
     );
@@ -134,6 +136,64 @@ const PREFLIGHT: PreflightSummary = {
   },
 };
 
+// Lo que el backend devuelve al comprobar: la caja (1,2,3)/20 y la huella «nueva-huella».
+const REPORTE = {
+  schema_version: 1,
+  generated_at: "2026-08-24T10:00:00.000Z",
+  execution_route: "docking_vina",
+  input_fingerprint: "sha256:nueva-huella",
+  input_document: "{}",
+  receptor: {
+    reference: null,
+    pdb_id: "7E2Y",
+    chain: "A",
+    origin: "curado",
+    source_available: true,
+    source_sha256: "sha256:f",
+    prepared_available: false,
+    prepared_sha256: null,
+    prepared_compatible: null,
+    prepared_chains: [],
+  },
+  ligand: {
+    input_smiles: "O=C(C)Oc1ccccc1C(=O)O",
+    canonical_smiles: "CC(=O)Oc1ccccc1C(=O)O",
+    smiles_hash: "h",
+    molecular_formula: "C9H8O4",
+    heavy_atom_count: 13,
+    error: null,
+    vina_atom_compatibility: { evaluated: true, supported: true, unsupported_elements: [] },
+  },
+  effective_config: {
+    grid_center: [1, 2, 3],
+    grid_size: [20, 20, 20],
+    grid_center_origin: "override_usuario",
+    grid_size_origin: "override_usuario",
+    derived_box: null,
+    hotspots: [],
+    hotspots_origin: "ninguno",
+    docking_engine: "vina",
+    exhaustiveness: 8,
+    num_poses: 9,
+    seed: 42,
+    heteroatom_policy: {
+      route: "docking_vina",
+      waters: "eliminadas",
+      metals: "eliminados",
+      organic_cofactors: "conservados_lista_producto",
+      organic_cofactors_kept: ["NAD"],
+      cofactors_whitelist_declared: [],
+      cofactors_whitelist_applied: false,
+      source: "preparer",
+    },
+  },
+  preparation_diff: { state: "no_evaluado", reason: "sin fuente", source: null, route_input: null, removed: null, preserved: null },
+  controls: [],
+  technical_blockers: [] as string[],
+  warnings: [],
+  not_evaluated: [],
+};
+
 describe("puerta de ejecución", () => {
   beforeEach(() => {
     vi.spyOn(window.navigator, "language", "get").mockReturnValue("es-ES");
@@ -143,17 +203,97 @@ describe("puerta de ejecución", () => {
     getTargets.mockReset();
     getTargets.mockResolvedValue([]);
     submitEvaluation.mockReset();
+    cancelEvaluation.mockReset();
     requestPreflight.mockReset();
     latestProProps = {};
     submitEvaluation.mockResolvedValue({ task_id: "task-nueva" });
   });
 
-  it("sin preflight no se ejecuta, y se explica por qué", async () => {
+  it("sin comprobación previa, «Evaluar» NO está bloqueado: comprueba sola antes de ejecutar", async () => {
+    // Antes este botón quedaba deshabilitado con «Ejecuta Comprobar preparación…»,
+    // un paso que nadie explicaba y que obligaba a un clic más en cada caso nuevo.
     montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS} />);
 
-    await waitFor(() => expect(screen.getByTestId("run")).toBeDisabled());
-    expect(screen.getByTestId("blocked")).toHaveTextContent(/comprobar preparación/i);
+    await waitFor(() => expect(screen.getByTestId("run")).toBeEnabled());
+    expect(screen.getByTestId("blocked")).toHaveTextContent("");
+    expect(requestPreflight).not.toHaveBeenCalled();
     expect(submitEvaluation).not.toHaveBeenCalled();
+  });
+
+  it("«Evaluar» sin comprobación previa: comprueba y ejecuta CON LO QUE ACABA DE INSPECCIONAR", async () => {
+    requestPreflight.mockResolvedValue(REPORTE);
+    const onPreflightChange = vi.fn();
+    montar(
+      <CaseEvaluationRunner caseId="c1" inputs={INPUTS} onPreflightChange={onPreflightChange} />,
+    );
+    await waitFor(() => expect(screen.getByTestId("run")).toBeEnabled());
+
+    fireEvent.click(screen.getByTestId("run"));
+
+    await waitFor(() => expect(submitEvaluation).toHaveBeenCalled());
+    // Primero se comprobó, con los inputs del caso...
+    expect(requestPreflight).toHaveBeenCalledTimes(1);
+    expect(requestPreflight.mock.calls[0][0]).toMatchObject({
+      smiles: "CC(=O)Oc1ccccc1C(=O)O",
+      targetPdbId: "7E2Y",
+      gridCenter: [1, 2, 3],
+    });
+    expect((onPreflightChange.mock.calls[0] as unknown as unknown[])[0]).toMatchObject({
+      fingerprint: "sha256:nueva-huella",
+    });
+    // ...y se ejecutó con la huella y la caja del resumen RECIÉN firmado, no con el estado del
+    // caso (que todavía no se había enterado) ni con lo que traía la pantalla.
+    const llamada = submitEvaluation.mock.calls[0] as unknown as unknown[];
+    expect(llamada[8]).toBe("sha256:nueva-huella");
+    expect(llamada[3]).toEqual([1, 2, 3]);
+    expect(llamada[4]).toEqual([20, 20, 20]);
+    expect(requestPreflight.mock.invocationCallOrder[0]).toBeLessThan(
+      submitEvaluation.mock.invocationCallOrder[0],
+    );
+  });
+
+  it("si la comprobación encuentra bloqueantes no se ejecuta nada y se dicen cuáles", async () => {
+    requestPreflight.mockResolvedValue({ ...REPORTE, technical_blockers: ["RECEPTOR_CADENA_PRESENTE"] });
+    montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS} />);
+    await waitFor(() => expect(screen.getByTestId("run")).toBeEnabled());
+
+    fireEvent.click(screen.getByTestId("run"));
+
+    await waitFor(() => expect(requestPreflight).toHaveBeenCalled());
+    await waitFor(() => expect(screen.getByTestId("error")).toHaveTextContent("RECEPTOR_CADENA_PRESENTE"));
+    expect(submitEvaluation).not.toHaveBeenCalled();
+  });
+
+  it("la molécula de ejemplo del editor cuenta como ligando al pulsar «Evaluar» (sin editarla antes)", async () => {
+    requestPreflight.mockResolvedValue(REPORTE);
+    const onInputsChange = vi.fn();
+    // Un caso nuevo: receptor elegido y NINGÚN ligando guardado; el editor trae la aspirina de muestra.
+    montar(
+      <CaseEvaluationRunner
+        caseId="c1"
+        inputs={{ receptor: INPUTS.receptor, grid: INPUTS.grid }}
+        onInputsChange={onInputsChange}
+      />,
+    );
+    await waitFor(() => expect(screen.getByTestId("run")).toBeEnabled());
+    expect(latestProProps.ejemploEnEditor).toBe(true);
+    // Hasta pulsar, el ejemplo NO se guarda como hipótesis del usuario.
+    expect(onInputsChange).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByTestId("run"));
+
+    await waitFor(() => expect(submitEvaluation).toHaveBeenCalled());
+    expect(onInputsChange).toHaveBeenCalledWith({ ligand: { inputSmiles: "CC(=O)Oc1ccccc1C(=O)O" } });
+    expect(requestPreflight.mock.calls[0][0]).toMatchObject({ smiles: "CC(=O)Oc1ccccc1C(=O)O" });
+    expect((submitEvaluation.mock.calls[0] as unknown as unknown[])[0]).toBe("CC(=O)Oc1ccccc1C(=O)O");
+  });
+
+  it("sin receptor sigue sin poder evaluarse, y lo dice", async () => {
+    montar(<CaseEvaluationRunner caseId="c1" inputs={{ ligand: INPUTS.ligand }} />);
+
+    await waitFor(() => expect(screen.getByTestId("run")).toBeDisabled());
+    expect(screen.getByTestId("blocked")).toHaveTextContent(/receptor/i);
+    expect(requestPreflight).not.toHaveBeenCalled();
   });
 
   it("una advertencia científica NO bloquea", async () => {
@@ -171,7 +311,9 @@ describe("puerta de ejecución", () => {
     // de traducción y jsdom resuelve `en-US`.
     const { pro } = await import("../../../context/traducciones/pro");
     expect(screen.getByText(pro.es.pr_resumen_guardado)).toBeInTheDocument();
-    expect(screen.getByText(/vina · ex 8 · 9 poses/i)).toBeInTheDocument();
+    // SOL-15: el rótulo del protocolo del resumen persistido se parafraseó
+    // de «exh 8» a «Exhaustividad 8»; asertar el texto nuevo.
+    expect(screen.getByText(/vina · Exhaustividad 8 · 9 poses/i)).toBeInTheDocument();
   });
 
   it("al reabrir restaura en los controles la configuración efectiva, no el sentinel crudo", async () => {
@@ -231,9 +373,14 @@ describe("puerta de ejecución", () => {
       expect.objectContaining({
         receptor: expect.objectContaining({ pdbId: "2XYZ", chain: "B" }),
         grid: { center: [11, 12, 13], size: [24, 25, 26] },
-        customHotspots: [],
+        // «No arrastra hotspots del anterior» se cumple BORRANDO la selección
+        // (`undefined`), no fijando `[]`: `[]` es la decisión «ninguno» y dejaba toda
+        // corrida por defecto sin residuos de referencia (QA1-007).
+        customHotspots: undefined,
       }),
     );
+    expect(onInputsChange.mock.calls[0][0].customHotspots).not.toEqual([]);
+    expect(onInputsChange.mock.calls[0][0].customHotspots ?? []).not.toContain("A:OLD1");
   });
 
   it("un bloqueante técnico sí bloquea y nombra la causa", async () => {
@@ -325,72 +472,15 @@ describe("puerta de ejecución", () => {
     expect(last.inputFingerprint).toBe("sha256:huella-de-la-corrida");
   });
 
-  it("el panel pide lo que falta en vez de ofrecer un botón inerte", async () => {
+  it("no hay botón de «Comprobar preparación»: ni siquiera con inputs incompletos", async () => {
     montar(<CaseEvaluationRunner caseId="c1" inputs={{ ligand: { inputSmiles: "CCO" } }} />);
 
-    expect(
-      await screen.findByRole("button", { name: /comprobar preparación/i }),
-    ).toBeDisabled();
-    expect(screen.getByText(/elige un receptor para poder comprobar/i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByTestId("run")).toBeDisabled());
+    expect(screen.queryByRole("button", { name: /comprobar|check preparation|volver a comprobar/i })).not.toBeInTheDocument();
   });
 
-  it("comprobar la preparación guarda el resumen y el canónico", async () => {
-    requestPreflight.mockResolvedValue({
-      schema_version: 1,
-      generated_at: "2026-08-24T10:00:00.000Z",
-      execution_route: "docking_vina",
-      input_fingerprint: "sha256:nueva-huella",
-      input_document: "{}",
-      receptor: {
-        reference: null,
-        pdb_id: "7E2Y",
-        chain: "A",
-        origin: "curado",
-        source_available: true,
-        source_sha256: "sha256:f",
-        prepared_available: false,
-        prepared_sha256: null,
-        prepared_compatible: null,
-        prepared_chains: [],
-      },
-      ligand: {
-        input_smiles: "O=C(C)Oc1ccccc1C(=O)O",
-        canonical_smiles: "CC(=O)Oc1ccccc1C(=O)O",
-        smiles_hash: "h",
-        molecular_formula: "C9H8O4",
-        heavy_atom_count: 13,
-        error: null,
-        vina_atom_compatibility: { evaluated: true, supported: true, unsupported_elements: [] },
-      },
-      effective_config: {
-        grid_center: [1, 2, 3],
-        grid_size: [20, 20, 20],
-        grid_center_origin: "override_usuario",
-        grid_size_origin: "override_usuario",
-        derived_box: null,
-        hotspots: [],
-        hotspots_origin: "ninguno",
-        docking_engine: "vina",
-        exhaustiveness: 8,
-        num_poses: 9,
-        seed: 42,
-        heteroatom_policy: {
-          route: "docking_vina",
-          waters: "eliminadas",
-          metals: "eliminados",
-          organic_cofactors: "conservados_lista_producto",
-          organic_cofactors_kept: ["NAD"],
-          cofactors_whitelist_declared: [],
-          cofactors_whitelist_applied: false,
-          source: "preparer",
-        },
-      },
-      preparation_diff: { state: "no_evaluado", reason: "sin fuente", source: null, route_input: null, removed: null, preserved: null },
-      controls: [],
-      technical_blockers: [],
-      warnings: [],
-      not_evaluated: [],
-    });
+  it("evaluar guarda el resumen y el canónico", async () => {
+    requestPreflight.mockResolvedValue(REPORTE);
     const onPreflightChange = vi.fn();
     const onInputsChange = vi.fn();
 
@@ -403,7 +493,7 @@ describe("puerta de ejecución", () => {
       />,
     );
 
-    fireEvent.click(await screen.findByRole("button", { name: /comprobar preparación/i }));
+    fireEvent.click(await screen.findByTestId("run"));
 
     await waitFor(() => expect(onPreflightChange).toHaveBeenCalled());
     expect((onPreflightChange.mock.calls[0] as unknown as unknown[])[0]).toMatchObject({
@@ -415,15 +505,115 @@ describe("puerta de ejecución", () => {
         inputSmiles: "CC(=O)Oc1ccccc1C(=O)O",
         canonicalSmiles: "CC(=O)Oc1ccccc1C(=O)O",
       },
-    });
+    }, { caseId: "c1", ownerUserId: "test-user" });
   });
 
   it("un fallo del motor no se confunde con un problema del ligando", async () => {
     requestPreflight.mockRejectedValue(new Error("La comprobación previa no se pudo completar (HTTP 503)."));
 
     montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS} />);
-    fireEvent.click(await screen.findByRole("button", { name: /comprobar preparación/i }));
+    fireEvent.click(await screen.findByTestId("run"));
 
-    expect(await screen.findByText(/no se pudo completar/i)).toBeInTheDocument();
+    // Se enseña (en el panel Y junto al botón) y NO se ejecuta nada.
+    expect((await screen.findAllByText(/no se pudo completar/i)).length).toBeGreaterThanOrEqual(1);
+    expect(submitEvaluation).not.toHaveBeenCalled();
+  });
+});
+
+
+function pendingResponse<T>() {
+  let resolve!: (value: T) => void;
+  const promise = new Promise<T>((done) => { resolve = done; });
+  return { promise, resolve };
+}
+
+describe("intención anterior a task_id", () => {
+  beforeEach(() => {
+    submitEvaluation.mockReset();
+    cancelEvaluation.mockReset();
+    requestPreflight.mockReset();
+    getJobStatus.mockReset();
+    latestProProps = {};
+  });
+
+  it("cancelar preflight retira la intención aunque la respuesta llegue después", async () => {
+    const pending = pendingResponse<typeof REPORTE>();
+    requestPreflight.mockReturnValue(pending.promise);
+    const onLiveWorkChange = vi.fn();
+    const onPreflightChange = vi.fn();
+    montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS}
+      onLiveWorkChange={onLiveWorkChange} onPreflightChange={onPreflightChange} />);
+    await screen.findByTestId("run");
+    let submission!: Promise<void>;
+    act(() => { submission = latestProProps.handleSubmit(); });
+    await waitFor(() => expect(requestPreflight).toHaveBeenCalledOnce());
+    expect(onLiveWorkChange).toHaveBeenCalledWith(expect.objectContaining({ evaluation: true }));
+    const signal = requestPreflight.mock.calls[0][1] as AbortSignal;
+    await act(async () => { await latestProProps.handleCancel(); });
+    expect(signal.aborted).toBe(true);
+    await act(async () => { pending.resolve(REPORTE); await submission; });
+    expect(submitEvaluation).not.toHaveBeenCalled();
+    expect(cancelEvaluation).not.toHaveBeenCalled();
+    expect(onPreflightChange).not.toHaveBeenCalled();
+    expect(latestProProps.busy).toBe(false);
+  });
+
+  it("cancelar el preflight nuevo nunca apunta a la corrida terminal anterior", async () => {
+    const pending = pendingResponse<typeof REPORTE>();
+    requestPreflight.mockReturnValue(pending.promise);
+    getJobStatus.mockResolvedValue({ task_id: "task-anterior", status: "FAILURE", progress: 100,
+      result: null, error: "Fallo anterior", started_at: null, finished_at: null });
+    montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS} activeRun={{ taskId: "task-anterior",
+      executionState: "failed", startedAt: "2026-10-23T19:00:00.000Z" }} />);
+    await screen.findByTestId("run");
+    await waitFor(() => expect(latestProProps.status?.status).toBe("FAILURE"));
+    let submission!: Promise<void>;
+    act(() => { submission = latestProProps.handleSubmit(); });
+    await waitFor(() => expect(requestPreflight).toHaveBeenCalledOnce());
+    await act(async () => { await latestProProps.handleCancel(); });
+    await act(async () => { pending.resolve(REPORTE); await submission; });
+    expect(cancelEvaluation).not.toHaveBeenCalled();
+    expect(submitEvaluation).not.toHaveBeenCalled();
+    expect(latestProProps.taskId).toBe("task-anterior");
+  });
+
+  it("retiene una tarea aceptada y cancela su ID exacto si Cancelar llegó durante submit", async () => {
+    const pending = pendingResponse<{ task_id: string }>();
+    submitEvaluation.mockReturnValue(pending.promise);
+    cancelEvaluation.mockResolvedValue({ cancelled: true, mmgbsa_killed: 0 });
+    const onRunRegistered = vi.fn(async () => true);
+    const onLiveWorkChange = vi.fn();
+    montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS} preflight={PREFLIGHT}
+      onRunRegistered={onRunRegistered} onLiveWorkChange={onLiveWorkChange} />);
+    await screen.findByTestId("run");
+    let submission!: Promise<void>;
+    act(() => { submission = latestProProps.handleSubmit(); });
+    await waitFor(() => expect(submitEvaluation).toHaveBeenCalledOnce());
+    await act(async () => { await latestProProps.handleCancel(); });
+    expect(cancelEvaluation).not.toHaveBeenCalled();
+    expect(onLiveWorkChange).toHaveBeenLastCalledWith(expect.objectContaining({ evaluation: true }));
+    await act(async () => { pending.resolve({ task_id: "task-aceptada" }); await submission; });
+    expect(onRunRegistered).toHaveBeenCalledWith(expect.objectContaining({ taskId: "task-aceptada" }),
+      { caseId: "c1", ownerUserId: "test-user" });
+    expect(cancelEvaluation).toHaveBeenCalledWith("task-aceptada");
+    expect(latestProProps.cancelled).toBe(true);
+  });
+
+  it("desmontar durante preflight descarta callbacks y submit de la instancia antigua", async () => {
+    const pending = pendingResponse<typeof REPORTE>();
+    requestPreflight.mockReturnValue(pending.promise);
+    const onPreflightChange = vi.fn();
+    const onInputsChange = vi.fn();
+    const view = montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS}
+      onPreflightChange={onPreflightChange} onInputsChange={onInputsChange} />);
+    await screen.findByTestId("run");
+    let submission!: Promise<void>;
+    act(() => { submission = latestProProps.handleSubmit(); });
+    await waitFor(() => expect(requestPreflight).toHaveBeenCalledOnce());
+    view.unmount();
+    await act(async () => { pending.resolve(REPORTE); await submission; });
+    expect(onPreflightChange).not.toHaveBeenCalled();
+    expect(onInputsChange).not.toHaveBeenCalled();
+    expect(submitEvaluation).not.toHaveBeenCalled();
   });
 });

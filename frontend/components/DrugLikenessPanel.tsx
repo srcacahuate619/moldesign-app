@@ -70,7 +70,7 @@ export function DrugLikenessPanel({
           <div className="flex items-start gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20">
             <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 shrink-0" />
             <div>
-              <p className="text-xs font-semibold text-red-400">Alerta PAINS</p>
+              <p className="text-xs font-semibold text-red-400">{t("pn_pains_alerta")}</p>
               <p className="text-xs text-red-300/80">
                 {t("pn_pains_detectado")}
               </p>
@@ -87,11 +87,11 @@ export function DrugLikenessPanel({
       <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400">{t("auto_b328f2a763d4")}</h4>
 
       <div className="flex flex-wrap gap-2">
-        <RuleBadge pass={lipinski} label="Lipinski Ro5" detail="MW<=500, LogP<=5, HBD<=5, HBA<=10" />
-        <RuleBadge pass={veber} label="Veber" detail="RotB<=10, TPSA<=140" />
-        {ghose !== null && ghose !== undefined && <RuleBadge pass={ghose} label="Ghose" detail="MW 160-480, LogP -0.4/5.6, atoms 20-70" />}
-        {egan !== null && egan !== undefined && <RuleBadge pass={egan} label="Egan" detail="TPSA<=132, LogP -1/5.88" />}
-        {muegge !== null && muegge !== undefined && <RuleBadge pass={muegge} label="Muegge" detail={`Score ${mueggeScore}/9`} />}
+        <RuleBadge pass={lipinski} label={t("pn_lipinski_ro5")} detail="MW<=500, LogP<=5, HBD<=5, HBA<=10" />
+        <RuleBadge pass={veber} label={t("pr_param_filtro_veber")} detail="RotB<=10, TPSA<=140" />
+        {ghose !== null && ghose !== undefined && <RuleBadge pass={ghose} label={t("pr_param_filtro_ghose")} detail="MW 160-480, LogP -0.4/5.6, atoms 20-70" />}
+        {egan !== null && egan !== undefined && <RuleBadge pass={egan} label={t("pr_param_filtro_egan")} detail="TPSA<=132, LogP -1/5.88" />}
+        {muegge !== null && muegge !== undefined && <RuleBadge pass={muegge} label={t("pr_param_filtro_muegge")} detail={`Score ${mueggeScore}/9`} />}
       </div>
 
       {/* Fsp3 gauge */}
@@ -122,7 +122,7 @@ export function DrugLikenessPanel({
       {qed !== null && qed !== undefined && (
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <span className="text-zinc-400">QED (drug-likeness cuantitativo)</span>
+            <span className="text-zinc-400">{t("pn_qed_cuantitativo")}</span>
             <span className="font-mono text-zinc-300">{qed.toFixed(3)}</span>
           </div>
           <div className="h-2 rounded-full bg-zinc-700 overflow-hidden">
@@ -135,7 +135,7 @@ export function DrugLikenessPanel({
       {saScore !== null && saScore !== undefined && (
         <div className="space-y-1">
           <div className="flex justify-between text-xs">
-            <span className="text-zinc-400">SA Score (accesibilidad sintetica)</span>
+            <span className="text-zinc-400">{t("pn_sa_score_accesibilidad")}</span>
             <span className="font-mono text-zinc-300">{(saScore ?? 0).toFixed(1)}/10</span>
           </div>
           <div className="h-2 rounded-full bg-zinc-700 overflow-hidden">
@@ -155,7 +155,7 @@ export function DrugLikenessPanel({
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-red-400" />
             <span className="text-xs font-semibold text-red-400">
-              {t("auto_0f9586a7aac1")} {painsMatches?.length || 0} patrones detectados
+              {t("auto_0f9586a7aac1")} {painsMatches?.length || 0} {t("pn_patrones_detectados")}
             </span>
           </div>
           {painsMatches && painsMatches.length > 0 && (

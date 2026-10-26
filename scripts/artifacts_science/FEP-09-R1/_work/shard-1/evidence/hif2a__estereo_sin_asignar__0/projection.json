@@ -1,0 +1,83 @@
+{
+  "projection_version": 1,
+  "case_id": "hif2a__estereo_sin_asignar__0",
+  "name": "hif2a__estereo_sin_asignar__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_D8B1FE",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1C(O)[C@H](F)C2",
+      "canonical_smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1C(O)[C@H](F)C2"
+    },
+    "config": {
+      "grid_center": [
+        23.779,
+        -0.257,
+        -10.489
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:83d9781abc21c47bd17d3c1e1ce00a447c4f77ec94612a72da5a87c0f038392d",
+    "generated_at": "2026-10-11T22:41:45.916567+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "LIGANDO_REVISION_QUIMICA",
+      "ESPECIES_DEL_SITIO_RETIRADAS",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "efa3aecb-27d9-4ec8-8136-9c666bf10a9f",
+    "input_fingerprint": "sha256:83d9781abc21c47bd17d3c1e1ce00a447c4f77ec94612a72da5a87c0f038392d",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

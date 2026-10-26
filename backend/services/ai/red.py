@@ -120,8 +120,12 @@ DESTINOS: tuple[Destino, ...] = (
     Destino(
         servicio="solana-devnet",
         host="api.devnet.solana.com",
-        finalidad="verificar un memo de certificación en devnet",
-        que_sale="la firma pública de la transacción",
+        finalidad="registrar y verificar un memo de certificación en Solana devnet (prueba de concepto)",
+        que_sale=(
+            "los campos del memo (hash del SMILES, score redondeado, PDB, fecha y wallet), la "
+            "clave pública efímera o de tu wallet y la firma de la transacción; ningún archivo "
+            "científico ni ningún hash del informe"
+        ),
     ),
     Destino(
         servicio="uniprot",

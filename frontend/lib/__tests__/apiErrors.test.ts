@@ -9,7 +9,14 @@ vi.mock("../config", () => ({
   resetApiUrl: () => {},
 }));
 
-import { ApiError, createTargetVariant, getEvaluationResult, getJobStatus, submitEvaluation } from "../api";
+import {
+  ApiError,
+  createTargetVariant,
+  getEvaluationResult,
+  getJobStatus,
+  mensajeDelError,
+  submitEvaluation,
+} from "../api";
 
 describe("contrato de errores HTTP", () => {
   beforeEach(() => window.localStorage.clear());
@@ -118,5 +125,21 @@ describe("contrato de errores HTTP", () => {
       chain_id: "A",
       cofactors_whitelist: ["ZN"],
     });
+  });
+});
+
+// QA-037: la interfaz enseñaba `HTTP 409: {"detail":"…"}` en crudo.
+describe("mensajeDelError", () => {
+  it("de un ApiError con detail enseña el detail", () => {
+    expect(mensajeDelError(new ApiError(409, '{"detail":"Vuelve a comprobar."}'))).toBe(
+      "Vuelve a comprobar.",
+    );
+  });
+
+  it("sin detail legible conserva el mensaje", () => {
+    expect(mensajeDelError(new ApiError(500, "Internal Server Error"))).toBe(
+      "HTTP 500: Internal Server Error",
+    );
+    expect(mensajeDelError(new Error("sin red"))).toBe("sin red");
   });
 });

@@ -6,11 +6,11 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 
 ## Catálogo de receptores
 
-- Entradas en `curated_targets.json`: **380**
-- PDB IDs únicos: **380**
-- IDs con estructura distribuida en el repositorio (`.pdb.gz` de nombre exacto): **380 / 380**
-- Archivos `.pdb.gz` versionados (incluye variantes de cadena y duplicados): **445**
-- SHA-256 del catálogo: `47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac`
+- Entradas en `curated_targets.json`: **381**
+- PDB IDs únicos: **381**
+- IDs con estructura distribuida en el repositorio (`.pdb.gz` de nombre exacto): **381 / 381**
+- Archivos `.pdb.gz` versionados (incluye variantes de cadena y duplicados): **446**
+- SHA-256 del catálogo: `f66cd263f2a20ac548bf2ee5492e17a28ba04a898c7b6f124bba86c4f24e4593`
 
 ### Familias estructurales
 
@@ -18,18 +18,18 @@ No contiene una afirmación nueva de validez científica. Las métricas se trans
 |---|---:|
 | `atp_synthase` | 1 |
 | `chaperone` | 1 |
-| `cytochrome_p450` | 4 |
-| `gpcr` | 30 |
+| `cytochrome_p450` | 5 |
+| `gpcr` | 31 |
 | `growth_factor` | 9 |
 | `hydrolase` | 26 |
 | `ion_channel` | 30 |
 | `isomerase` | 1 |
-| `kinase` | 29 |
+| `kinase` | 26 |
 | `ligase` | 2 |
 | `lyase` | 1 |
 | `metalloenzyme` | 3 |
 | `methyltransferase` | 2 |
-| `nuclear_receptor` | 29 |
+| `nuclear_receptor` | 31 |
 | `nuclease` | 10 |
 | `oxidoreductase` | 20 |
 | `phosphodiesterase` | 18 |

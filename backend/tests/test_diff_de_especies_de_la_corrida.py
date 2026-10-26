@@ -186,9 +186,13 @@ async def test_prepare_target_guarda_el_diff_con_el_zinc_del_sitio(tmp_path, mon
 
 
 # ── Lo que dice el dossier ───────────────────────────────────────────
+#
+# Desde el 2026-10-22 las filas de especies del sitio del PDF son las de la auditoría de Preparación
+# (`preparacion.campos_del_entorno_para_el_dossier`): ver `test_dossier_dice_lo_mismo_que_la_auditoria.py`.
+# Antes era una sola fila, «Aguas, metales y cofactores», con un único estado REVISAR.
 
 
-def _dossier_con(receptor_prep: dict | None):
+def _campos_del_dossier(receptor_prep: dict | None) -> dict:
     caso = caso_completo()
     resultado = resultado_completo()
     protocolo = dict(resultado.docking_protocol)
@@ -197,43 +201,44 @@ def _dossier_con(receptor_prep: dict | None):
     resultado.docking_protocol = protocolo
     caso["eval_result"] = resultado
     dossier = build_case_dossier(**caso)
-    return next(c for c in dossier.preparacion if c.etiqueta == "Aguas, metales y cofactores")
+    return {c.etiqueta: c for c in dossier.preparacion}
 
 
 class TestElDossier:
     def test_sin_diff_es_no_evaluado(self):
-        campo = _dossier_con({"source": "meeko_report", "recipe_hash": "a" * 64})
+        campo = _campos_del_dossier({"source": "meeko_report", "recipe_hash": "a" * 64})["Metales y cofactores junto al sitio"]
         assert campo.estado == Estado.NO_EVALUADO
         assert "no se reconstruye" in campo.razon.lower()
 
     def test_un_receptor_congelado_lo_dice(self):
-        campo = _dossier_con({"source": "durable_receptor_snapshot"})
+        campo = _campos_del_dossier({"source": "durable_receptor_snapshot"})["Metales y cofactores junto al sitio"]
         assert campo.estado == Estado.NO_EVALUADO
         assert "congelado" in campo.razon
 
-    def test_un_metal_retirado_junto_al_sitio_pide_revision_y_se_ve(self):
-        campo = _dossier_con({"source": "meeko_report", "species_diff": _diff()})
-        assert campo.estado == Estado.REVISAR
-        # El qué es el motivo de revisar: no puede quedar escondido.
+    def test_un_metal_retirado_junto_al_sitio_abstiene_y_se_ve(self):
+        campo = _campos_del_dossier({"source": "meeko_report", "species_diff": _diff()})["Metales y cofactores junto al sitio"]
+        assert campo.estado == Estado.ABSTENCION  # era REVISAR en el PDF mientras la auditoría decía ABSTENCIÓN
+        # El qué es el motivo de abstenerse: no puede quedar escondido.
         assert "ZN A:301" in campo.texto
         assert "HEM B:701" in campo.texto
-        assert "ligando del cristal (LIG A:601)" in campo.texto
 
-    def test_solo_aguas_y_ligando_es_registrado(self):
+    def test_solo_aguas_y_ligando_no_toca_los_metales(self):
         diff = _diff()
         diff["near_site"] = {
             **diff["near_site"],
             "removed": [f for f in diff["near_site"]["removed"]
                         if f["category"] in ("water", "site_ligand")],
         }
-        campo = _dossier_con({"source": "meeko_report", "species_diff": diff})
-        assert campo.estado == Estado.REGISTRADO
-        assert "retirado 1 agua(s)" in campo.texto
+        campos = _campos_del_dossier({"source": "meeko_report", "species_diff": diff})
+        assert campos["Metales y cofactores junto al sitio"].estado == Estado.REGISTRADO
+        assert campos["Aguas junto al sitio"].estado == Estado.REVISAR
+        assert "HOH A:401" in campos["Aguas junto al sitio"].texto
 
     def test_los_recuentos_se_llaman_registros(self):
         """`count_species` cuenta registros HETATM: un HEM son 43, no uno."""
-        campo = _dossier_con({"source": "meeko_report", "species_diff": _diff()})
-        assert campo.texto.startswith("Registros HETATM retirados del ensamblaje")
+        campo = _campos_del_dossier({"source": "meeko_report", "species_diff": _diff()})["Registros HETATM retirados del ensamblaje"]
+        assert campo.estado == Estado.REGISTRADO
+        assert campo.valor.startswith("aguas ")
 
 
 # ── QA-027: un cloruro no es un metal ─────────────────────────────────────

@@ -103,7 +103,9 @@ async def create_run(
         status=ex.RUN_QUEUED,
         cohort_fingerprint=cohort.cohort_fingerprint,
         run_fingerprint=fingerprint,
-        effective_config_json=config.as_dict(),
+        effective_config_json={**config.as_dict(), "row_seeds": {
+            str(f.source_row_index): config.seed for f in planned
+        }},
         receptor_provenance_json=receptor.as_dict(),
         receptor_prepared_bytes=receptor.prepared_bytes,
         # `total_rows` es el del ARCHIVO, no el del trabajo: es lo que permite
@@ -264,6 +266,10 @@ async def execute_run(run_id: uuid.UUID, *, workers: int) -> None:
             exhaustiveness=int(corrida.effective_config_json["exhaustiveness"]),
             num_poses=int(corrida.effective_config_json["num_poses"]),
             seed=corrida.effective_config_json.get("seed"),
+            seed_origin=corrida.effective_config_json.get("seed_origin"),
+            # Sin el campo, la corrida es de una cohorte que tampoco lo declara:
+            # vale lo mismo que en ella (`TAUTOMERO_SIN_DECLARAR`).
+            tautomero=ex.modo_tautomero_de(corrida.effective_config_json),
         )
         receptor = ex.ReceptorProvenance(
             pdb_id=corrida.receptor_provenance_json["pdb_id"],
@@ -277,6 +283,10 @@ async def execute_run(run_id: uuid.UUID, *, workers: int) -> None:
         )
         owner = str(corrida.user_id)
         todas = await list_rows(db, run_id)
+
+    if config.seed is None or config.seed <= 0:
+        await _set_run(run_id, status=ex.RUN_INTERRUPTED, last_error='La semilla de esta cohorte histórica no se puede reconstruir. Crea y comprueba una nueva cohorte con semilla positiva.')
+        return
 
     if not receptor.prepared_bytes:
         await _set_run(

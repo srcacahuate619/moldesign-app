@@ -95,6 +95,11 @@ def clon(tmp_path: Path) -> Path:
         # forma de probar la segunda muralla por separado de la primera.
         "tools/llama/README.md": b"llama.cpp: el binario no viaja en el repo\n",
         "tools/openbabel/openbabel-manifest.json": b"{}\n",
+        # Versionado en el repositorio real desde `ae7ff2f9` (QA-028). Es la
+        # sonda de `esmfold/models/`, así que sin él este clon no se parecía a
+        # uno de verdad: el bootstrap veía «una pieza que no puso ningún
+        # artefacto» y se negaba (AJENO) en cualquier clon limpio.
+        "esmfold/models/config.json": b"{}\n",
         ".gitignore": b"python-embed/\ndist/\ntools/**/*.exe\ndata/*.db\n",
     }
     for relativa, cuerpo in versionados.items():

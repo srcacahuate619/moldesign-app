@@ -85,6 +85,35 @@ def test_controles_negativos(nombre, smiles):
     assert motivos_de_revision(smiles) == []
 
 
+#: Especies ACOPLADAS en la calibración de 8HFI (`CAL-8HFI-01`, panel CHEMBL853189):
+#: la amina con el grupo atractor salió protonada.
+AMINAS_CON_ATRACTOR_ACOPLADAS = {
+    "CHEMBL1182011 (N-cianoetilo)": "N#CCC[NH+](Cc1ccc(F)cc1C(F)(F)F)C1CC[NH2+]CC1",
+    "CHEMBL1184968 (nitrilo en β, gem-dimetilo)": "CC(C)(C#N)C[NH+](Cc1ccc(F)cc1C(F)(F)F)C1CC[NH2+]CC1",
+    "CHEMBL1184991 (N-trifluoroetilo)": "FC(F)(F)C[NH+](Cc1ccccc1C(F)(F)F)C1CC[NH2+]CC1",
+    "aminoacetonitrilo protonado (nitrilo en α)": "N#CC[NH3+]",
+    "3,3-difluoropiperidinio (CF2 en β, en anillo)": "FC1(F)CCC[NH2+]C1",
+}
+
+
+@pytest.mark.parametrize("nombre", sorted(AMINAS_CON_ATRACTOR_ACOPLADAS))
+def test_amina_protonada_con_atractor(nombre):
+    codigos = [m.codigo for m in motivos_de_revision(AMINAS_CON_ATRACTOR_ACOPLADAS[nombre])]
+    assert "amina_con_atractor" in codigos
+
+
+@pytest.mark.parametrize("nombre, smiles", [
+    ("N-trifluoroetilo acoplada NEUTRA: nada que revisar", "FC(F)(F)CN(C)Cc1ccccc1"),
+    ("fluoxetina: CF3 en el arilo, lejos del N", "C[NH2+]CCC(Oc1ccc(C(F)(F)F)cc1)c1ccccc1"),
+    ("2-fluoroetilamonio: un solo flúor (pKa ≈ 9)", "[NH3+]CCF"),
+    ("4,4-difluoropiperidinio: CF2 en γ", "FC1(F)CC[NH2+]CC1"),
+    ("verapamilo: nitrilo a cuatro enlaces del N", CORRECTAS_VERIFICADAS["verapamilo"]),
+    ("amonio cuaternario sin H", "N#CCC[N+](C)(C)C"),
+])
+def test_amina_con_atractor_controles_negativos(nombre, smiles):
+    assert "amina_con_atractor" not in [m.codigo for m in motivos_de_revision(smiles)]
+
+
 def test_sin_smiles_o_ilegible_no_inventa_motivos():
     assert motivos_de_revision(None) == []
     assert motivos_de_revision("esto no es un smiles") == []

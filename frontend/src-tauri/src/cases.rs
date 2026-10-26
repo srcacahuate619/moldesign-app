@@ -511,7 +511,7 @@ fn replace_target(src: &Path, dst: &Path) -> io::Result<()> {
 /// `MOVEFILE_COPY_ALLOWED`) seguía fallando bajo la virtualización del paquete;
 /// el reemplazo usa ahora `MoveFileExW` con `MOVEFILE_COPY_ALLOWED` (ver
 /// `replace_target`).
-fn write_atomic_sibling(path: &Path, bytes: &[u8]) -> io::Result<()> {
+pub(crate) fn write_atomic_sibling(path: &Path, bytes: &[u8]) -> io::Result<()> {
     let parent = path
         .parent()
         .filter(|p| !p.as_os_str().is_empty())
@@ -1808,16 +1808,63 @@ async fn pick_folder(
     let Some(path) = picked.and_then(|p| p.into_path().ok()) else {
         return Ok(None);
     };
-    // Se canonicaliza AQUÍ: lo que se autoriza es la ruta real, no la que
-    // devolvió el diálogo. Un symlink queda resuelto antes de conceder nada.
-    let canonical = canonicalize(&path)?;
+    grant_folder(&registry, &path).map(Some)
+}
+
+/// Concede una carpeta: canonicaliza y devuelve token + ruta de presentación.
+///
+/// Se canonicaliza AQUÍ: lo que se autoriza es la ruta real, no la que devolvió
+/// el diálogo. Un symlink queda resuelto antes de conceder nada. Es el ÚNICO
+/// sitio donde una carpeta se convierte en autoridad, tanto si la eligió la
+/// persona como si es la que se propone por defecto.
+fn grant_folder(registry: &CaseRegistry, path: &Path) -> Result<PickedFolder, String> {
+    let canonical = canonicalize(path)?;
     let has_manifest = canonical.join(MANIFEST_FILE).is_file();
     let token = registry.grant(canonical.clone());
-    Ok(Some(PickedFolder {
+    Ok(PickedFolder {
         token,
         display_path: canonical.to_string_lossy().to_string(),
         has_manifest,
-    }))
+    })
+}
+
+/// Carpeta contenedora que se propone para los casos nuevos, bajo «Documentos».
+///
+/// Decisión del propietario (2026-10-04): `Documentos\MolDesign\Casos`. Visible y fácil de
+/// copiar o mandar a un tercero, que es lo que hace transferible un caso. Riesgo conocido:
+/// en muchos equipos «Documentos» se sincroniza con OneDrive, que puede bloquear o duplicar
+/// ficheros mientras se escriben; por eso la persona puede cambiarla al crear el caso.
+pub fn default_parent_dir(documents: &Path) -> PathBuf {
+    documents.join("MolDesign").join("Casos")
+}
+
+/// Crea (si falta) la carpeta por defecto y la devuelve. Idempotente: no toca lo que ya hay dentro.
+pub fn core_ensure_default_parent(documents: &Path) -> Result<PathBuf, String> {
+    let dir = default_parent_dir(documents);
+    fs::create_dir_all(&dir).map_err(|e| {
+        format!(
+            "IO_ERROR: no se pudo crear la carpeta por defecto {} ({e}).",
+            dir.display()
+        )
+    })?;
+    Ok(dir)
+}
+
+/// Propone la carpeta contenedora por defecto para un caso nuevo.
+///
+/// A diferencia de `case_pick_parent_directory` no abre ningún diálogo y el frontend no aporta
+/// NINGUNA ruta: la carpeta es siempre `Documentos\MolDesign\Casos` y Rust la resuelve, la crea
+/// y concede su token. Así no existe una forma de pedir autorización sobre una ruta arbitraria.
+#[tauri::command]
+pub async fn case_default_parent_directory(
+    app: tauri::AppHandle,
+    registry: tauri::State<'_, CaseRegistry>,
+) -> Result<PickedFolder, String> {
+    let documents = app.path().document_dir().map_err(|e| {
+        format!("NOT_FOUND: no se encontró la carpeta Documentos de este equipo ({e}).")
+    })?;
+    let dir = core_ensure_default_parent(&documents)?;
+    grant_folder(&registry, &dir)
 }
 
 #[tauri::command]

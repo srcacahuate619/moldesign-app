@@ -1,0 +1,175 @@
+{
+  "SIN": {
+    "state": "PREPARED",
+    "target": {
+      "id": "24378cbe-79c0-4296-8ee9-d8cb93d6ab48",
+      "pdb_id": "USR_7EBCE8",
+      "name": "MET01R1-confirmatory-4PHL-SIN",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Trypanosoma Brucei",
+      "resolution": 1.95,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 50
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "PIL",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 34.05,
+      "grid_center_y": 30.33,
+      "grid_center_z": 29.31,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "09323f36-7e16-43cb-aa5c-0a8063c80d87",
+      "receptor_source_sha256": "add04130cc3b75fb980063dd1b7b5bef886de17f6a3097ed5876b2a9bb13a861",
+      "prepared_receptor_sha256": "28a48718f664603f54b5a5cf5f868df39a4a21a11dfe91d444e6dcd26340ced7",
+      "preparation_fingerprint": "566cf128c6c0ab39fc81e0796ca866f8f66b998938ea9ac0f152dba7ca9e5b20",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "4PHL",
+        "chain": "A",
+        "grid_center": [
+          34.05,
+          30.33,
+          29.31
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": []
+  },
+  "CON": {
+    "state": "PREPARED",
+    "target": {
+      "id": "e10955f4-a660-426f-a96a-90c6d97914aa",
+      "pdb_id": "USR_381935",
+      "name": "MET01R1-confirmatory-4PHL-CON",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Trypanosoma Brucei",
+      "resolution": 1.95,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 50
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "PIL",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 34.05,
+      "grid_center_y": 30.33,
+      "grid_center_z": 29.31,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [
+        "MG",
+        "ZN"
+      ],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "09323f36-7e16-43cb-aa5c-0a8063c80d87",
+      "receptor_source_sha256": "add04130cc3b75fb980063dd1b7b5bef886de17f6a3097ed5876b2a9bb13a861",
+      "prepared_receptor_sha256": "5d00cb660a3b7f5c6498cd3be82e1b084c778f369df84b00a855877da47d87d8",
+      "preparation_fingerprint": "cd21138d74f68d9c68f3de3613c61df77052010789a7a723cf924b8fc373cdbb",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "4PHL",
+        "chain": "A",
+        "grid_center": [
+          34.05,
+          30.33,
+          29.31
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [
+          "MG",
+          "ZN"
+        ],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": [
+      "MG",
+      "ZN"
+    ]
+  }
+}

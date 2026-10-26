@@ -67,6 +67,16 @@ export const certificacion: ModuloDeTraduccion = {
     ce_devnet_etiqueta: "devnet no disponible",
     ce_devnet_accesible: "devnet accesible",
     ce_verificando: "verificando",
+    ce_permiso_titulo: "Esta cuenta aún no autorizó la salida a Solana devnet",
+    ce_permiso_detalle:
+      "Para registrar el memo se contacta con el host indicado. Saldrían los campos del memo (el hash del "
+      + "SMILES, el score redondeado, el PDB, la fecha y la wallet), una clave pública (la efímera o la de tu "
+      + "wallet) y la firma de la transacción; ningún archivo científico, y ningún hash del informe. El permiso "
+      + "es de esta cuenta y puedes revocarlo.",
+    ce_permiso_autorizar: "Autorizar y comprobar devnet",
+    ce_faucet_agotado:
+      "El faucet público de Solana devnet rechazó la petición (límite diario por IP o faucet sin fondos). "
+      + "No es un fallo del expediente: inténtalo más tarde o desde otra red.",
     ce_memo_fallido: "No se pudo generar el memo de integridad.",
     ce_prueba_fallida:
       "La prueba de Solana devnet no pudo completarse. El faucet público puede "
@@ -101,6 +111,18 @@ export const certificacion: ModuloDeTraduccion = {
     ce_faucet_sin_valor: "Faucet devnet · sin valor",
     ce_identidad_efimera: "Identidad efímera local",
     ce_datos_cientificos: "Datos científicos",
+    ce_receipt_recorded: "Comprobante registrado",
+    ce_run_poc: "Ejecutar prueba de concepto",
+    ce_run_devnet_test: "Ejecutar prueba devnet",
+    ce_experimental_badge: "En fase experimental",
+    ce_signature: "Firma",
+    ce_sign_and_publish: "Firmar y publicar",
+    ce_funds: "Fondos",
+    ce_stay_local: "Permanecen locales",
+    ce_network: "Red",
+    ce_record_evidence_solana: "Registrar evidencia en Solana",
+    ce_browse_wallets: "Ver wallets en Solana",
+    ce_checking_network: "comprobando red",
 
     // ── Seguridad de la wallet ────────────────────────────────────
     ce_antes_de_continuar: "Antes de continuar",
@@ -154,6 +176,16 @@ export const certificacion: ModuloDeTraduccion = {
     ce_devnet_etiqueta: "devnet unavailable",
     ce_devnet_accesible: "devnet reachable",
     ce_verificando: "checking",
+    ce_permiso_titulo: "This account has not yet authorized access to Solana devnet",
+    ce_permiso_detalle:
+      "To record the memo, the host shown below is contacted. What would leave: the memo fields (the SMILES "
+      + "hash, the rounded score, the PDB, the date and the wallet), a public key (the ephemeral one or your "
+      + "wallet's) and the transaction signature; no scientific file, and no hash of the report. The permission "
+      + "belongs to this account and you can revoke it.",
+    ce_permiso_autorizar: "Authorize and check devnet",
+    ce_faucet_agotado:
+      "The public Solana devnet faucet rejected the request (daily per-IP limit or faucet out of funds). "
+      + "This is not a problem with your record: try again later or from another network.",
     ce_memo_fallido: "The integrity memo could not be generated.",
     ce_prueba_fallida:
       "The Solana devnet test could not be completed. The public faucet may "
@@ -185,6 +217,18 @@ export const certificacion: ModuloDeTraduccion = {
     ce_faucet_sin_valor: "devnet faucet · no value",
     ce_identidad_efimera: "Local ephemeral identity",
     ce_datos_cientificos: "Scientific data",
+    ce_receipt_recorded: "Receipt recorded",
+    ce_run_poc: "Run proof of concept",
+    ce_run_devnet_test: "Run devnet test",
+    ce_experimental_badge: "Experimental",
+    ce_signature: "Signature",
+    ce_sign_and_publish: "Sign and publish",
+    ce_funds: "Funds",
+    ce_stay_local: "Stay local",
+    ce_network: "Network",
+    ce_record_evidence_solana: "Record evidence on Solana",
+    ce_browse_wallets: "Browse Solana wallets",
+    ce_checking_network: "checking network",
 
     ce_antes_de_continuar: "Before you continue",
     ce_aviso_dominio:

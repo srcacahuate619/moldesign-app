@@ -4,6 +4,7 @@ Blockchain certification router.
 Provides endpoints for certifying molecular discoveries on Solana devnet.
 """
 
+import contextlib
 import hashlib
 import uuid
 from typing import Optional
@@ -136,6 +137,39 @@ def _valores_del_sello(
     }
 
 
+async def _evaluacion_de_la_ficha(
+    db: AsyncSession, molecule_id: uuid.UUID, task_id: Optional[str],
+):
+    """La evaluación que describe una ficha de Moldex, y su corrida si no es la vigente.
+
+    Moldex guarda UNA ficha por corrida y una molécula se reevalúa muchas veces:
+    la fila de `evaluation_results` sólo describe la última. Certificar o imprimir
+    el dossier de una ficha anterior con esa fila sellaría el score de OTRA
+    evaluación bajo el nombre de ésta, y un sello es irreversible.
+
+    Devuelve ``(evaluacion, corrida)``: ``corrida`` es ``None`` cuando la ficha es
+    la proyección vigente (o no se pidió una concreta) y la evaluación es la fila.
+    Para una corrida anterior la evaluación es una copia sin sesión armada desde su
+    snapshot —con los addenda ya aplicados—, que nunca se persiste.
+    """
+    vigente = await db.scalar(
+        select(EvaluationResultORM).where(EvaluationResultORM.molecule_id == molecule_id)
+    )
+    if vigente is None or task_id is None or task_id == vigente.task_id:
+        return vigente, None
+
+    from db.repository import Repository, run_snapshot_values
+
+    repo = Repository(db)
+    corrida = await repo.get_evaluation_run(task_id, molecule_id)
+    if corrida is None or (corrida.status or "SUCCESS") != "SUCCESS":
+        raise HTTPException(status_code=404, detail="Evaluación no encontrada.")
+    datos = await repo.materialize_run_snapshot(corrida)
+    evaluacion = EvaluationResultORM(**run_snapshot_values(datos))
+    evaluacion.task_id = corrida.task_id
+    return evaluacion, corrida
+
+
 class CertificationRequest(BaseModel):
     molecule_id: uuid.UUID
     user_wallet: Optional[str] = None
@@ -185,7 +219,8 @@ async def prepare_certification(
     molecule_id: uuid.UUID,
     user_wallet: str,
     current_user: UserORM = Depends(get_current_user),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    task_id: Optional[str] = None,
 ):
     """
     Prepares the memo string for a client-side Web3 certification.
@@ -201,7 +236,7 @@ async def prepare_certification(
     if not _is_solana_wallet(user_wallet):
         raise HTTPException(status_code=422, detail="La direccion de wallet de Solana no es valida")
 
-    evaluation = await db.scalar(select(EvaluationResultORM).where(EvaluationResultORM.molecule_id == molecule_id))
+    evaluation, _corrida = await _evaluacion_de_la_ficha(db, molecule_id, task_id)
     if not evaluation:
         raise HTTPException(status_code=400, detail="Molécula no evaluada")
 
@@ -232,6 +267,8 @@ async def prepare_certification(
 class LinkRequest(BaseModel):
     molecule_id: uuid.UUID
     signature: str
+    #: Corrida que se certifica. Sin ella, la evaluación vigente de la molécula.
+    task_id: Optional[str] = None
 
 @router.post("/certify/link")
 async def link_certification(
@@ -261,8 +298,8 @@ async def link_certification(
 
     # A matching hash is not enough: the public memo must describe the exact
     # target and score that are about to be linked to this local evaluation.
-    evaluation = await db.scalar(
-        select(EvaluationResultORM).where(EvaluationResultORM.molecule_id == request.molecule_id)
+    evaluation, corrida_anterior = await _evaluacion_de_la_ficha(
+        db, request.molecule_id, request.task_id,
     )
     if not evaluation:
         raise HTTPException(status_code=400, detail="Molécula no evaluada")
@@ -284,29 +321,29 @@ async def link_certification(
     #    se toma del memo verificado en la cadena, no de la fila local: el memo
     #    es lo que realmente quedó atestiguado, y la fila puede haber cambiado
     #    entre la firma y este enlace.
-    evaluacion_sellada = await db.scalar(
-        select(EvaluationResultORM).where(
-            EvaluationResultORM.molecule_id == request.molecule_id
-        )
-    )
+    sellada_task_id = getattr(evaluation, "task_id", None)
     seal_values = _valores_del_sello(
-        request.signature, getattr(evaluacion_sellada, "task_id", None),
-        record.total_score,
+        request.signature, sellada_task_id, record.total_score,
     )
-    stmt_update = (
-        update(EvaluationResultORM)
-        .where(EvaluationResultORM.molecule_id == request.molecule_id)
-        .values(
-            **seal_values
+    if corrida_anterior is None:
+        # La ficha es la evaluación vigente: el sello también va a su proyección.
+        await db.execute(
+            update(EvaluationResultORM)
+            .where(EvaluationResultORM.molecule_id == request.molecule_id)
+            .values(**seal_values)
         )
-    )
-    await db.execute(stmt_update)
-    if getattr(evaluacion_sellada, "task_id", None):
+    # Una ficha anterior NO toca la proyección: ésa describe otra corrida y
+    # llevaría un sello que no es suyo. El sello vive en el addendum de su corrida.
+    if sellada_task_id:
         from db.repository import Repository
-        await Repository(db).append_run_addendum(
-            request.molecule_id, evaluacion_sellada.task_id, "certificate",
-            seal_values,
+        repo = Repository(db)
+        await repo.append_run_addendum(
+            request.molecule_id, sellada_task_id, "certificate", seal_values,
         )
+        # Certificar una evaluación la guarda en Moldex, como siempre; ahora la
+        # ficha es esa corrida y no la molécula entera.
+        with contextlib.suppress(LookupError, ValueError):
+            await repo.save_evaluation_run(request.molecule_id, sellada_task_id)
 
     mol.is_saved = True
     if mol.user_id is None:
@@ -323,9 +360,12 @@ async def verify_certification(
     current_user: UserORM = Depends(get_current_user),
 ):
     """
-    Verify a certification transaction on the blockchain.
+    Comprueba una transacción de devnet y lee su memo.
 
-    Returns the certified record if found and valid.
+    Lo que acredita es estrecho (SCI-A-058): la transacción está confirmada,
+    lleva un memo con un esquema que MolDesign emitió y, si el memo nombra una
+    wallet, esa wallet la firmó. No es un aval científico ni institucional, y la
+    fecha del memo es la que declaró quien firmó: la de la cadena va aparte.
     """
     record = await verify_certification_onchain(signature)
 
@@ -335,14 +375,22 @@ async def verify_certification(
     return {
         "signature": signature,
         "record": record.dict(),
-        "status": "verified",
-        "message": "Certification verified on Solana blockchain"
+        "status": "memo_verified",
+        "declared_timestamp": record.timestamp.isoformat(),
+        "block_time": record.block_time.isoformat() if record.block_time else None,
+        "message": (
+            "The devnet transaction is confirmed and carries a MolDesign memo signed by "
+            "the wallet it names. This attests to the memo fields only (SMILES hash, "
+            "rounded score, PDB, declared date, wallet); it is not a scientific or "
+            "institutional endorsement."
+        ),
     }
 
 async def _generate_certificate_data(
     molecule_id: uuid.UUID,
     current_user: UserORM | None,
-    db: AsyncSession
+    db: AsyncSession,
+    task_id: Optional[str] = None,
 ):
     stmt = select(MoleculeORM).options(selectinload(MoleculeORM.target)).where(MoleculeORM.id == molecule_id)
     result = await db.execute(stmt)
@@ -353,9 +401,7 @@ async def _generate_certificate_data(
 
     _require_certificate_owner(mol, current_user)
 
-    evaluation = await db.scalar(
-        select(EvaluationResultORM).where(EvaluationResultORM.molecule_id == molecule_id)
-    )
+    evaluation, _corrida = await _evaluacion_de_la_ficha(db, molecule_id, task_id)
     if not evaluation:
         raise HTTPException(status_code=400, detail="La molécula no ha sido evaluada")
 
@@ -440,12 +486,13 @@ async def _generate_certificate_data(
 async def get_certificate(
     molecule_id: uuid.UUID,
     current_user: UserORM | None = Depends(get_current_user_optional),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    task_id: Optional[str] = None,
 ):
     """
     Generates and downloads a PDF certificate for the certified molecule.
     """
-    pdf_buf, dynamic_filename = await _generate_certificate_data(molecule_id, current_user, db)
+    pdf_buf, dynamic_filename = await _generate_certificate_data(molecule_id, current_user, db, task_id)
     return StreamingResponse(
         pdf_buf,
         media_type="application/pdf",
@@ -460,12 +507,13 @@ async def get_certificate(
 async def get_certificate_preview(
     molecule_id: uuid.UUID,
     current_user: UserORM | None = Depends(get_current_user_optional),
-    db: AsyncSession = Depends(get_db)
+    db: AsyncSession = Depends(get_db),
+    task_id: Optional[str] = None,
 ):
     """
     Generates and returns a PDF certificate inline for the viewer.
     """
-    pdf_buf, dynamic_filename = await _generate_certificate_data(molecule_id, current_user, db)
+    pdf_buf, dynamic_filename = await _generate_certificate_data(molecule_id, current_user, db, task_id)
     return StreamingResponse(
         pdf_buf,
         media_type="application/pdf",

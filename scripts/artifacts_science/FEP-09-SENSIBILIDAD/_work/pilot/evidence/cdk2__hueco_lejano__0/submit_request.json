@@ -1,0 +1,40 @@
+{
+  "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+  "target_pdb_id": "USR_1D660D",
+  "chain": "A",
+  "molecule_name": "cdk2__hueco_lejano__0",
+  "grid_center": [
+    5.866,
+    43.854,
+    50.492
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:a7cbab2e56ea26373d8bb55f4832ed6d1b0ba0b3cde7f9306cea43eaf3c09cf5"
+}

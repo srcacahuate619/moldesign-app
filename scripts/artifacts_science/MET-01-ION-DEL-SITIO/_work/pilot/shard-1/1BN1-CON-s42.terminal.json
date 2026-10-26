@@ -1,0 +1,20 @@
+{
+  "id": "1BN1-CON-s42",
+  "entry": "1BN1",
+  "arm": "CON",
+  "seed": 42,
+  "outcome": "INFRASTRUCTURE_FAILURE",
+  "error": "('Receptor drift', '96e0aa3134454f59a8f8bc3ef365ae8412c3c5bd3e67490988e7e204acb6fed8', 'e23dabe7f14c443a8df26a8ec8aa0ff5d2d3efd90370e4c5d4ee65dd6ff5c08b')",
+  "physical_status": null,
+  "rmsd_top1_A": null,
+  "attempts": 2,
+  "cofactors_whitelist": [
+    "ZN"
+  ],
+  "receptor_sha256": "e23dabe7f14c443a8df26a8ec8aa0ff5d2d3efd90370e4c5d4ee65dd6ff5c08b",
+  "microstate_expected": "Cc1ccc(CNS(=O)(=O)c2ccc(S(N)(=O)=O)s2)cc1",
+  "task_id": null,
+  "product_commit": "f0e6408668fa8ecbecb417cf39621928fdfee886",
+  "phase": "pilot",
+  "total_seconds": 25.563000000000102
+}

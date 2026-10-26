@@ -1,0 +1,27 @@
+{
+  "pdb": "1RKP",
+  "semilla": 13,
+  "inicio": "2026-10-23T03:59:04+00:00",
+  "resultado": "auditada",
+  "task_id": "7b352cc4-2dc5-45b0-9ebf-cbccdfe4c10e",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:501 (5.14 Å); más lejos: MG A:502 (6.83 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal IBM A:201",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "9a3fa22d479bc53e5a09187eda255cd0fcbf74d35f15d3770eb7fe94dd724f40",
+  "afinidad_top1": -6.68,
+  "microestado": "CC(C)Cn1c(=O)n(C)c(=O)c2nc[nH]c21",
+  "microestado_coincide": true,
+  "semilla_declarada": 13,
+  "vina": "1.2.7",
+  "receptor_sha256": "82f4debaed25b584c08cba42b855fe90d53bdd7bf80d3a964ccafdf03c916a48",
+  "segundos": 10.7,
+  "fin": "2026-10-23T03:59:15+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

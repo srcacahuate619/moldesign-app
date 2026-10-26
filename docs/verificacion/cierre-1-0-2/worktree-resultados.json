@@ -1,0 +1,20 @@
+[
+  {
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "salida": 0,
+    "segundos": 152.5060781,
+    "comando": "run test:run"
+  },
+  {
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "salida": 0,
+    "segundos": 15.5721434,
+    "comando": "run typecheck"
+  },
+  {
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "salida": 0,
+    "segundos": 29.2866886,
+    "comando": "run lint"
+  }
+]

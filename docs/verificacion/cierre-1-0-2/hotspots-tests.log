@@ -1,0 +1,41 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run components/interfaces/pro/__tests__/ProDockingTab.test.tsx lib/__tests__/idiomasCompletos.test.ts lib/__tests__/textosFijos.test.ts
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+ ❯ lib/__tests__/idiomasCompletos.test.ts (6 tests | 1 failed) 21ms
+   ❯ idiomas de la interfaz (6)
+     × ningún idioma deja cadenas sin traducir copiadas de la referencia 8ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  lib/__tests__/idiomasCompletos.test.ts > idiomas de la interfaz > ningún idioma deja cadenas sin traducir copiadas de la referencia
+AssertionError: en repite 2 cadenas de es sin traducir: rg_categoria_corrigendum, Corrigendum: expected [ 'rg_categoria_corrigendum', …(1) ] to deeply equal []
+
+- Expected
++ Received
+
+- []
++ [
++   "rg_categoria_corrigendum",
++   "Corrigendum",
++ ]
+
+ ❯ lib/__tests__/idiomasCompletos.test.ts:153:9
+    151|         `${code} repite ${copiadas.length} cadenas de ${REFERENCIA} si…
+    152|           copiadas.slice(0, 8).join(", "),
+    153|       ).toEqual([]);
+       |         ^
+    154|     }
+    155|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 12 passed (13)
+   Start at  19:19:03
+   Duration  4.14s (environment 39%, import 33%, setup 14%, transform 9%, tests 5%)
+

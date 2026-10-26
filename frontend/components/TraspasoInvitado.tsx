@@ -125,17 +125,15 @@ export function TraspasoInvitado() {
     >
       {fase === "hecho" && resultado ? (
         <div className="text-sm text-surface-200">
-          <p className="font-semibold">Trabajo traspasado a tu cuenta.</p>
+          <p className="font-semibold">{t("ca_work_transferred")}</p>
           <p className="mt-1 text-surface-400">
             {resultado.moleculasTraspasadas} {t("auto_384a1af1c5dc")}
-            {resultado.moleculasTraspasadas === 1 ? "" : "s"} y {resultado.casosMovidos} caso
-            {resultado.casosMovidos === 1 ? "" : "s"}.
+            {resultado.moleculasTraspasadas === 1 ? "" : "s"} {t("ca_and")} {resultado.casosMovidos} {t(resultado.casosMovidos === 1 ? "ca_case_singular" : "ca_case_plural")}.
             {resultado.casosNoMovidos.length > 0 && (
               <>
                 {" "}
                 <span className="text-yellow-400">
-                  {resultado.casosNoMovidos.length} caso
-                  {resultado.casosNoMovidos.length === 1 ? "" : "s"} {t("auto_b2869e46ca45")}
+                  {resultado.casosNoMovidos.length} {t(resultado.casosNoMovidos.length === 1 ? "ca_case_singular" : "ca_case_plural")} {t("auto_b2869e46ca45")}
                 </span>
               </>
             )}
@@ -147,7 +145,7 @@ export function TraspasoInvitado() {
             {t("pn_traspaso_tienes")}
           </p>
           <p className="mt-1 text-sm text-surface-400">
-            {inventario.casos.length} caso{inventario.casos.length === 1 ? "" : "s"}
+            {inventario.casos.length} {t(inventario.casos.length === 1 ? "ca_case_singular" : "ca_case_plural")}
             {conResultado > 0
               ? `, ${conResultado} con resultado guardado`
               : t("auto_8ff2cb920103")}
@@ -174,7 +172,7 @@ export function TraspasoInvitado() {
               disabled={fase === "moviendo"}
               className="rounded-lg bg-brand-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-brand-500 disabled:opacity-50"
             >
-              {fase === "moviendo" ? t("auto_fa66f6444d99") : "Llevarlo a mi cuenta"}
+              {fase === "moviendo" ? t("auto_fa66f6444d99") : t("ca_move_work_account")}
             </button>
             <button
               onClick={descartar}

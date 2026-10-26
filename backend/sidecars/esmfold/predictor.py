@@ -779,6 +779,7 @@ class ESMFoldFastPredictor(BasePredictor):
                     [sys.executable, "-m", "meeko.cli.mk_prepare_receptor",
                      "--read_pdb", entrada, "-o", str(tronco), "-p"],
                     capture_output=True, text=True, timeout=120, cwd=str(tmp),
+                    creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
                 )
 
             # ── EL LIGANDO VA POR LA API, NO POR LA CLI ──────────────────
@@ -874,7 +875,7 @@ class ESMFoldFastPredictor(BasePredictor):
             try:
                 result = subprocess.run(
                     vina_cmd, capture_output=True, text=True, timeout=VINA_TIMEOUT_S,
-                    cwd=str(tmp),
+                    cwd=str(tmp), creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
                 )
             except subprocess.TimeoutExpired:
                 # El límite es real y conviene decirlo con su causa. Medido en

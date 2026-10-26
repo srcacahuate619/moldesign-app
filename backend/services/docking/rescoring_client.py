@@ -1,3 +1,5 @@
+import asyncio
+
 import httpx
 from typing import Any, List
 from pydantic import BaseModel
@@ -69,7 +71,10 @@ async def get_ml_rescore(
     Fallback local: llama al sidecar HTTP :8001.
     """
     # ── Intento 1: Bridge directo (DESKTOP) ─────────────────────────
-    if _is_direct_available():
+    # Las dos llamadas son síncronas y caras: la primera importa y carga los modelos (scipy, xgboost, prolif,
+    # MDAnalysis) y la segunda extrae características y predice. Van en un hilo: en el bucle de eventos congelaban el
+    # backend en la primera evaluación y `/health` dejaba de contestar (2026-10-10).
+    if await asyncio.to_thread(_is_direct_available):
         from services.rescoring_service import predict_rescore
 
         payload_poses = []
@@ -80,7 +85,8 @@ async def get_ml_rescore(
                 "pdbqt_block": p_dict.get("pdbqt_block") or "",
             })
 
-        result = predict_rescore(
+        result = await asyncio.to_thread(
+            predict_rescore,
             smiles=smiles,
             poses=payload_poses,
             target_pdb_path=target_pdb_path,

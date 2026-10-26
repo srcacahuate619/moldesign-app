@@ -23,7 +23,7 @@ import math
 import uuid
 from datetime import datetime
 from typing import Any, Literal
-from pydantic import BaseModel, Field, computed_field, field_validator, model_validator
+from pydantic import BaseModel, Field, computed_field, field_serializer, field_validator, model_validator
 from sqlalchemy import (
     Boolean,
     Column,
@@ -602,6 +602,13 @@ class EvaluationRunORM(Base):
     status = Column(String(16), nullable=False, default="SUCCESS")
     error_message = Column(Text, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+    # v29. «Guardada en Moldex» es un hecho de ESTA corrida, no de la molécula.
+    # `molecules.is_saved` no podía decir cuál de las evaluaciones de una misma
+    # molécula y receptor se había guardado: Moldex leía la proyección mutable,
+    # así que reevaluar pisaba lo guardado. Son columnas de marca, no del
+    # snapshot: el snapshot científico sigue inmutable.
+    saved_at = Column(DateTime(timezone=True), nullable=True)
+    saved_name = Column(String(200), nullable=True)
 
 
 class EvaluationRunAddendumORM(Base):
@@ -1305,6 +1312,14 @@ class EvaluationResultRead(BaseModel):
 
     model_config = {"from_attributes": True}
 
+    @field_serializer("evaluated_at")
+    def _evaluated_at_con_zona(self, valor: datetime) -> datetime:
+        # SQLite lo devuelve sin zona y es UTC: sin ella el navegador lo leía como
+        # hora local (B03). Ver `utils/instantes.py`.
+        from utils.instantes import en_utc
+
+        return en_utc(valor)
+
     @model_validator(mode="after")
     def _druglikeness_historico_no_se_reinterpreta(self):
         # v24: antes de este campo Veber, Ghose y Muegge tenían criterios
@@ -1369,6 +1384,10 @@ class EvaluationResultRead(BaseModel):
         simple o doble-serializado. Sin esto, model_validate explota con
         ValidationError y el except en queue_handler lo traga → result=None
         → el frontend muestra el MOCK demo como si fuera real."""
+        if info.field_name == "hotspots_hit" and isinstance(v, str) and v.strip() == "[]":
+            # SCI-A-010: una lista evaluada y vacía es un cero real; no se lee como
+            # «no evaluado» (`None`), que es lo que `_coerce_json_value` hace con «[]».
+            return []
         return _coerce_json_value(v, expect="list")
 
     @field_validator("shap_values", "gnn_pharmacophores", mode="before")
@@ -1389,6 +1408,28 @@ def _coerce_hotspots(v):
     if isinstance(result, list):
         return [h for h in result if isinstance(h, dict)]
     return result
+
+
+def _coerce_cofactores(v) -> list[str]:
+    """Convierte `cofactors_whitelist` desde SQLite a una lista de códigos de residuo.
+
+    Es una lista de cadenas (`["ZN"]`), no de dicts: pasada por
+    `_coerce_hotspots` quedaba vacía, y la evaluación volvía a preparar el
+    receptor sin el metal o el cofactor declarados (MET-01, 2026-10-11).
+    Admite también `{"name": ...}` y escribe el código en mayúsculas, como lo
+    guardan la subida y las variantes y como lo cuenta la receta del receptor.
+    """
+    result = _coerce_json_value(v, expect="list")
+    if not isinstance(result, list):
+        return []
+    codigos: list[str] = []
+    for w in result:
+        nombre = w.get("name") if isinstance(w, dict) else w
+        if isinstance(nombre, str) and nombre.strip():
+            codigo = nombre.strip().upper()
+            if codigo not in codigos:
+                codigos.append(codigo)
+    return codigos
 
 
 def _coerce_json_value(v, expect: str = "list"):
@@ -1532,6 +1573,15 @@ class Target(BaseModel):
     #: anteriores al campo; el cliente debe leerlo como «sin comprobar», nunca
     #: como «calibrado».
     calibracion: dict[str, Any] | None = None
+    #: Catálogo incluido: sin dato se considera demostración; propios/comunidad, None.
+    seccion_catalogo: str | None = None
+    #: Evidencia de pose y calibración con la receta vigente; no implica disponibilidad.
+    verificacion: dict[str, Any] | None = None
+    #: Códigos de avisos medidos; textos traducidos por el cliente.
+    avisos_catalogo: list[str] | None = None
+    #: Intentos de verificación publicados (`backend/data/intentos_de_verificacion.json`),
+    #: pasen o no; un NO_GO no cambia la sección del receptor.
+    intentos_verificacion: list[dict[str, Any]] | None = None
     is_community: bool = False
     is_anti_target: bool = False
     anti_target_risk: str | None = None
@@ -1682,7 +1732,12 @@ class BlockchainRecord(BaseModel):
     total_score:  float = Field(..., ge=0, le=100)
     target_pdb_id: str
     user_wallet:  str
+    #: Fecha que DECLARA el memo: la escribe quien firma, no la cadena.
     timestamp:    datetime
+    #: Fecha de la cadena (`blockTime` del bloque que confirmó la transacción).
+    #: Sólo la rellena la verificación; ``None`` si el nodo no la devuelve
+    #: (SCI-A-058).
+    block_time:   datetime | None = None
 
     @field_validator("smiles_hash")
     @classmethod
@@ -1733,6 +1788,11 @@ class ProviderInfoResponse(BaseModel):
     available_models: list[str] = Field(default_factory=list)
     configured: bool = False
     active: bool = False
+    #: Modelo y URL que la cuenta tiene aplicados (la clave nunca viaja).
+    model: str = ""
+    base_url: str = ""
+    #: Por qué no está disponible, para quien usa la aplicación; vacío si lo está.
+    estado: str = ""
 
 
 class TraspasoRequest(BaseModel):

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useKeepAliveActive } from "@/context/KeepAliveContext";
 
 export type OrbState = "idle" | "processing" | "complete" | "error";
 
@@ -24,6 +25,9 @@ const DOTS = Array.from({ length: DOT_COUNT });
 
 export function ThinkingOrb({ state = "idle", size = "md", label }: ThinkingOrbProps) {
   const dotRefs = useRef<(HTMLDivElement | null)[]>([]);
+  // En una pestaña que no se desmonta y está oculta (display:none), `requestAnimationFrame` sigue corriendo:
+  // el navegador sólo lo pausa con la VENTANA oculta. Se detiene aquí.
+  const activa = useKeepAliveActive();
 
   const sizeMap = { sm: 36, md: 56, lg: 88 };
   const dotSizeMap = { sm: 3, md: 4, lg: 6 };
@@ -44,7 +48,7 @@ export function ThinkingOrb({ state = "idle", size = "md", label }: ThinkingOrbP
   // compositor resuelve sin volver a medir nada. La escala va dentro del
   // `transform`, no en el tamano de la caja. Se ve igual y no toca el layout.
   useEffect(() => {
-    if (state !== "processing") return;
+    if (state !== "processing" || !activa) return;
     let angle = 0;
     let frame = 0;
     const paso = () => {
@@ -67,7 +71,7 @@ export function ThinkingOrb({ state = "idle", size = "md", label }: ThinkingOrbP
     };
     frame = requestAnimationFrame(paso);
     return () => cancelAnimationFrame(frame);
-  }, [state, r]);
+  }, [state, r, activa]);
 
   return (
     <div className="flex flex-col items-center gap-2">

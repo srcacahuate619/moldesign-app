@@ -48,12 +48,16 @@ const EXPLICACION: Record<string, { titulo: string; detalle: string }> = {
   NOT_EVALUATED_PROTOCOL_NOT_EXECUTED: {
     titulo: "No evaluado · el protocolo no se ejecutó",
     detalle:
-      "Esta corrida es anterior a que M5-Zn se conectara al pipeline. Se puntuó con M4 y los pesos por defecto del stacking.",
+      "La corrida registró que el protocolo M5-Zn no se ejecutó. Los pesos de las señales se muestran por separado, cuando están registrados.",
   },
   REVIEW_OUT_OF_VALIDATED_TARGET: {
     titulo: "Revisar · fuera de las dianas validadas",
+    // QA1-009: el estado se dispara con CUALQUIER ion observado en la estructura (Mg, Na, K, Ca…)
+    // o con la etiqueta de metaloenzima del catálogo, y no dice cuál de los dos. Afirmar «es una
+    // metaloenzima de zinc» era falso en 90 de los 134 receptores que lo reciben sin zinc alguno
+    // (BACE1: un Na⁺ del tampón). Se dice sólo lo que es cierto en todos los casos.
     detalle:
-      "Es una metaloenzima de zinc, pero su PDB no es ninguno de los tres perfiles validados. No se heredan los pesos de otra diana.",
+      "No se aplicó ningún perfil de M5-Zn a esta diana. La estructura contiene un ion metálico, o el catálogo la declara metaloenzima, y su PDB no es ninguno de los tres perfiles de M5-Zn (implementados y en revisión: ninguno produce hoy VALIDATED). No se heredan los pesos de otra diana. Un ion presente no implica un sitio de unión metálico: puede ser parte del tampón de cristalización.",
   },
   REVIEW_OUT_OF_VALIDATED_STRUCTURE: {
     titulo: "Revisar · otra estructura de la misma proteína",
@@ -99,47 +103,47 @@ export function ProtocoloM5Zn({ resultado }: { resultado: EvaluationResult }) {
 
   return (
     <section
-      aria-label="Protocolo M5-Zn"
+      aria-label={t("pr_m5_protocol_label")}
       className="rounded-xl border border-white/10 bg-white/[0.02] p-4"
     >
       <header className="flex flex-wrap items-baseline justify-between gap-2">
-        <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-white/50">
-          {t("pn_m5zn_titulo")}
+        <h3 className="text-sm font-bold text-zinc-200">
+          {t(habilitado ? "pr_m5_applied_profile" : "pr_m5_applicability_check")}
         </h3>
         {resultado.m5_protocol_id && (
-          <span className="font-mono text-[11px] text-white/30">
+          <span className="break-all font-mono text-sm text-zinc-300">
             {resultado.m5_protocol_id}
           </span>
         )}
       </header>
 
       <p
-        className={`mt-3 font-mono text-xs font-bold ${
+        className={`mt-3 font-sans text-base font-bold leading-6 ${
           habilitado ? "text-emerald-300" : "text-amber-300"
         }`}
       >
         {explicacion.titulo}
       </p>
-      <p className="mt-1 text-xs leading-relaxed text-white/50">
+      <p className="mt-1 text-base leading-6 text-zinc-300 font-sans">
         {explicacion.detalle}
       </p>
 
       {resultado.m5_missing_components && resultado.m5_missing_components.length > 0 && (
-        <p className="mt-2 font-mono text-[11px] text-amber-300/80">
+        <p className="mt-2 font-sans text-base text-amber-300 leading-6">
           {t("auto_ae7a55091885")} {resultado.m5_missing_components.join(", ")}
         </p>
       )}
 
       {resultado.m5_score != null && (
         <div className="mt-3 rounded-lg border border-white/10 bg-black/20 p-3">
-          <p className="font-mono text-[10px] uppercase tracking-wider text-white/30">
-            {habilitado ? "Score compuesto" : t("auto_0d93be49ed45")}
+          <p className="font-sans text-sm uppercase tracking-wider text-zinc-400">
+            {habilitado ? t("pr_m5_composite_score") : t("auto_0d93be49ed45")}
           </p>
-          <p className="mt-1 font-mono text-lg text-white/80">
+          <p className="mt-1 font-sans text-lg text-white/80">
             {resultado.m5_score.toFixed(4)}
           </p>
           {!habilitado && (
-            <p className="mt-1 text-[11px] leading-relaxed text-amber-300/70">
+            <p className="mt-1 text-base leading-6 text-amber-300 font-sans">
               {t("pn_m5zn_no_entra")}
             </p>
           )}
@@ -147,7 +151,7 @@ export function ProtocoloM5Zn({ resultado }: { resultado: EvaluationResult }) {
       )}
 
       {resultado.ums_warhead != null && (
-        <p className="mt-3 font-mono text-[11px] text-white/40">
+        <p className="mt-3 font-sans text-base text-zinc-300 leading-6">
           {t("auto_ff7cabb9c513")}{" "}
           <span className="text-white/70">
             {resultado.ums_warhead.toFixed(4)}

@@ -15,7 +15,7 @@
 | 4 | Diagrama de inicio desactualizado | Critico | Corregido — removido Rescoring :8001 |
 | 5 | Parametros corruptos en API docs | Alta | Corregido — um_workers→num_workers, caracteres BEL |
 | 6 | Contradiccion en conclusiones del ablation | Alta | Corregido — ECIF-only era mejor en modelo viejo con ProLIF |
-| 7 | Modelo ignora ablation (167 vs 56 features) | Alta | Corregido — universal 0.7731 CV (Fase A 2026-08-10), supera ECIF-only |
+| 7 | Modelo ignora ablation (167 vs 56 features) | Alta | Corregido — universal 0.7731 (Fase A 2026-08-10), supera ECIF-only. *2026-10-20: ese 0.7731 es de una sola partición aleatoria 80/20, no de una CV (SCI-A-054; ver doc 38).* |
 | 8 | Test set no evaluado | Alta | Corregido — evaluado. El 0.8732 histórico está INVALIDADO por leakage; holdout honesto scaffold-disjoint (Fase A retrain 2026-08-10): Spearman 0.6094 [CI95 0.528–0.679] en 328 complejos. No citar el 0.8732. |
 | 9 | Error CDK2/CDK4 (PDB 3PP0) | Alta | Corregido — tabla + advertencia cientifica |
 | 10 | Versiones Python en conflicto | Alta | Documentado como legacy |

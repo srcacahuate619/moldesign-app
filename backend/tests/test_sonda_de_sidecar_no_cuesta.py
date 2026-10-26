@@ -45,9 +45,22 @@ def _sidecar_de_esmfold():
 
 
 def test_sin_pesos_descargados_no_se_sondea():
-    """La instalación recién hecha. Es el caso por defecto, no el raro."""
+    """La instalación recién hecha. Es el caso por defecto, no el raro.
+
+    SOL-16: los pesos faltantes se declaran en los DOS módulos — el guard
+    vive en `sidecar` y `estado_de` resuelve `archivos_que_faltan` desde
+    `catalogo`. Con un solo parche, esta prueba sólo pasaba en máquinas SIN
+    ESMFold descargado: en un equipo con los pesos puestos, `estado_de`
+    leía el disco real y clasificaba «instalado_apagado». Determinista en
+    cualquier equipo, como su hermana de abajo, que ya parcheaba ambos «a
+    propósito».
+    """
+    from services.motores import catalogo
+
     sc = _sidecar_de_esmfold()
-    with patch.object(mod, "archivos_que_faltan", return_value=["esmfold/models/pytorch_model.bin"]), \
+    faltan = ["esmfold/models/pytorch_model.bin"]
+    with patch.object(mod, "archivos_que_faltan", return_value=faltan), \
+         patch.object(catalogo, "archivos_que_faltan", return_value=faltan), \
          patch.object(sc, "responde", side_effect=AssertionError("no debería sondear")) as sonda:
         estado = sc.estado()
     assert sonda.call_count == 0
@@ -88,9 +101,15 @@ def test_si_el_proceso_esta_vivo_se_sondea_aunque_falten_archivos():
 def test_el_inventario_completo_no_tarda_segundos():
     """La regla, en la unidad que el usuario nota.
 
-    El umbral es deliberadamente flojo —medio segundo— porque esto corre en
-    máquinas muy distintas y lo que se vigila es que no haya vuelto un timeout
-    de red, no una décima de más. Medido: 2 022 ms antes, 18 ms después.
+    El umbral separa el trabajo LEGÍTIMO del inventario del MODO DE FALLO
+    (un timeout de sonda, 2 022 ms en la medición original). No es una
+    promesa de milisegundos: el trabajo honesto varía con el hardware y con
+    qué haya en disco. Calibración medida: 18 ms en la máquina original sin
+    pesos de ESMFold; 511–514 ms estables (3 corridas) en un equipo de
+    desarrollo con los pesos puestos. No se atribuye la causa componente a
+    componente porque no se midió; lo que el umbral de 1 000 ms garantiza
+    es detectar un timeout de sonda (2 000 ms) con margen de 2× sin vivir
+    pegado al trabajo legítimo, que es lo que al 0,5 s le pasaba.
     """
     from api.routers.evaluation import inventario_de_motores
 
@@ -99,9 +118,11 @@ def test_el_inventario_completo_no_tarda_segundos():
     inventario_de_motores()
     transcurrido = time.perf_counter() - t0
 
-    assert transcurrido < 0.5, (
+    assert transcurrido < 1.0, (
         f"el inventario de motores tardó {transcurrido * 1000:.0f} ms. "
-        "Algo volvió a sondear por red un motor que no puede estar vivo."
+        "Algo volvió a sondear por red un motor que no puede estar vivo "
+        "(un timeout de sonda son 2 000 ms; el trabajo legítimo anda por "
+        "decenas o cientos de ms)."
     )
 
 

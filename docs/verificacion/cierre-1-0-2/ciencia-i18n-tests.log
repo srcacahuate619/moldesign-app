@@ -1,0 +1,13 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run components/registro/__tests__/RegistroIdiomas.test.tsx
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  19:17:48
+   Duration  3.91s (environment 43%, tests 17%, setup 14%, import 13%, transform 13%)
+

@@ -14,7 +14,7 @@ from sqlalchemy import select
 
 from chem.validator import validate_smiles_or_raise
 from core.database import get_db
-from core.models import EvaluationResultRead, JobStatus, UserORM, _coerce_hotspots
+from core.models import EvaluationResultRead, JobStatus, UserORM, _coerce_cofactores, _coerce_hotspots
 from db.repository import Repository
 from utils.logger import bind_context, get_logger
 from api.dependencies import get_current_user, get_current_user_optional
@@ -241,6 +241,7 @@ class DockingStageParams(BaseModel):
 
 class ConformerStageParams(BaseModel):
     model_config = ConfigDict(extra="forbid")
+    tautomero: Literal["canonico", "entrada"] | None = None
     conformers: int | None = Field(default=None, ge=1, le=64)
     ph: float | None = Field(default=None, ge=1.0, le=12.0, allow_inf_nan=False)
 
@@ -251,6 +252,12 @@ class PropertiesStageParams(BaseModel):
 
 
 class PipelineConfigRequest(BaseModel):
+    # LUNA-04: un campo que el contrato no conoce es un 422 que lo nombra, no algo
+    # que se acepta y se descarta. Con el comportamiento por defecto de Pydantic
+    # (`ignore`), una errata como `docking_engin` o `exhaustiveness` suelto aquí
+    # dentro producía una corrida con el protocolo por defecto y ningún aviso.
+    model_config = ConfigDict(extra="forbid")
+
     enabled_stages: list[str] = Field(default_factory=lambda: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"])
     stage_params: dict[str, dict] = Field(default_factory=dict)
     stage_order: list[str] | None = None
@@ -316,6 +323,18 @@ class PipelineConfigRequest(BaseModel):
         return self
 
 class EvaluationGeometry(BaseModel):
+    # LUNA-04. `POST /evaluation/submit` con `docking_engine: "diffdock"` en la RAÍZ
+    # devolvía 202: el motor se declara dentro de `pipeline_config`, el modelo no
+    # conocía ese campo y lo descartaba. La corrida salía con Vina, pero el cliente
+    # creía haber pedido otro motor. Un campo desconocido en la petición de una
+    # corrida —motor, exhaustividad, un `target_id` donde es `target_pdb_id`— nunca
+    # es inocuo: cambia o intenta cambiar lo que se ejecuta. Se rechaza y se nombra.
+    #
+    # Lo heredan `EvaluationSubmitRequest` (y con él `/evaluation/evaluate`) y
+    # `PreflightRequest`. El preflight sigue aceptando `docking_engine` en la raíz,
+    # que es parte de su contrato.
+    model_config = ConfigDict(extra="forbid")
+
     @field_validator("grid_center", "grid_size", check_fields=False)
     @classmethod
     def valid_geometry(cls, value, info):
@@ -646,15 +665,59 @@ async def cancel_evaluation(
     from services.docking.queue_handler import (
         cancel_active_mmgbsa,
         cancel_active_selectivity,
+        cancel_active_structural_evidence,
         request_desktop_job_cancellation,
     )
 
     killed = cancel_active_mmgbsa(task_id)
     killed += cancel_active_selectivity(task_id)
+    killed += cancel_active_structural_evidence(task_id)
     job_cancelled = request_desktop_job_cancellation(task_id)
 
     log.info("evaluacion_cancelada", task_id=task_id, mmgbsa_killed=killed)
     return {"cancelled": bool(job_cancelled or killed), "mmgbsa_killed": killed}
+
+async def comprobar_preparacion(
+    *,
+    data: "EvaluationSubmitRequest",
+    canonical_smiles: str,
+    db: AsyncSession,
+    current_user: UserORM | None,
+) -> dict:
+    """El informe de preflight que la puerta de ejecución recalcula para `data`.
+
+    Extraído de `_enforce_submission_gates` (LUNA-05) porque MolChat necesita el
+    MISMO informe para PROPONER una corrida antes de que nadie la apruebe: lo que se
+    muestra al investigador y lo que la puerta recalcula al lanzar tienen que ser el
+    mismo cálculo, no dos parecidos.
+    """
+    docking_params: dict = {}
+    docking_engine = "vina"
+    if data.pipeline_config is not None:
+        docking_engine = data.pipeline_config.docking_engine
+        docking_params = data.pipeline_config.stage_params.get("docking", {})
+
+    return await evaluation_preflight(
+        data=PreflightRequest(
+            smiles=canonical_smiles,
+            target_pdb_id=data.target_pdb_id,
+            chain=data.chain,
+            grid_center=data.grid_center,
+            grid_size=data.grid_size,
+            custom_hotspots=data.custom_hotspots,
+            docking_engine=docking_engine,
+            exhaustiveness=docking_params.get("exhaustiveness"),
+            num_poses=docking_params.get("num_poses"),
+            conformers=(
+                (data.pipeline_config.stage_params.get("conformer") or {}).get("conformers")
+                if data.pipeline_config else None
+            ),
+            pipeline_config=(data.pipeline_config if data.pipeline_config else None),
+        ),
+        db=db,
+        current_user=current_user,
+    )
+
 
 async def _enforce_submission_gates(
     *,
@@ -694,29 +757,9 @@ async def _enforce_submission_gates(
     # el investigador acepta el preflight; MolChat no, así que si nadie lo
     # comprobó lo comprueba el servidor antes de encolar nada.
     if data.preflight_fingerprint is not None or exigir_preflight:
-        docking_params: dict = {}
-        docking_engine = "vina"
-        if data.pipeline_config is not None:
-            docking_engine = data.pipeline_config.docking_engine
-            docking_params = data.pipeline_config.stage_params.get("docking", {})
-
-        fresh_report = await evaluation_preflight(
-            data=PreflightRequest(
-                smiles=canonical_smiles,
-                target_pdb_id=data.target_pdb_id,
-                chain=data.chain,
-                grid_center=data.grid_center,
-                grid_size=data.grid_size,
-                custom_hotspots=data.custom_hotspots,
-                docking_engine=docking_engine,
-                exhaustiveness=docking_params.get("exhaustiveness"),
-                num_poses=docking_params.get("num_poses"),
-                conformers=(
-                    (data.pipeline_config.stage_params.get("conformer") or {}).get("conformers")
-                    if data.pipeline_config else None
-                ),
-                pipeline_config=(data.pipeline_config if data.pipeline_config else None),
-            ),
+        fresh_report = await comprobar_preparacion(
+            data=data,
+            canonical_smiles=canonical_smiles,
             db=db,
             current_user=current_user,
         )
@@ -939,12 +982,11 @@ async def get_evaluation_result(
                 detail="El snapshot persistido de la corrida no se pudo serializar.",
             ) from exc
 
-        molecule = await repository.get_molecule(molecule_id)
-        if molecule and molecule.target:
-            data.target_hotspots = _coerce_hotspots(molecule.target.hotspots)
-            data.target_name = molecule.target.name
-            data.target_spearman_rho = molecule.target.spearman_rho
-            data.target_calibracion = estado_de_calibracion(molecule.target).to_dict()
+        if data.task_id not in (None, task_id) or str(data.molecule_id) != str(molecule_id):
+            raise HTTPException(409, "El snapshot no corresponde a la corrida solicitada.")
+
+        # La metadata histórica pertenece al snapshot. Si no se registró, queda
+        # ausente: el catálogo vigente no puede reconstruir lo que se sabía entonces.
         return data.model_copy(update={"gnn_attention": None, "gnn_attention_svg": None, "gnn_pharmacophores": None, "mmgbsa_score": None})
 
     result = await repository.get_evaluation_result(molecule_id)
@@ -1061,7 +1103,15 @@ async def evaluation_preflight(
     puede terminar en un 422 sin informe. Tiene que salir como un bloqueante
     dentro del propio preflight, que es donde el usuario lo va a leer.
     """
+    import asyncio
+
     from services.docking.preflight import build_preflight
+    from services.docking.preparer import residuos_con_plantilla
+
+    # El preflight consulta las plantillas de Meeko con la regla de prepare_target. La primera consulta
+    # importa meeko: 3,35 s en frío con python-embed y el backend ya arrancado (medido el 2026-10-11).
+    # Va en un hilo para no congelar el bucle (AGENTS.md, restricción 7); después es una caché.
+    await asyncio.to_thread(residuos_con_plantilla)
 
     repository = Repository(db)
     target = await get_target_for_user(
@@ -1092,11 +1142,7 @@ async def evaluation_preflight(
         catalog_hotspots = [
             h.get("name") for h in (_coerce_hotspots(target.hotspots) or []) if h.get("name")
         ]
-        whitelist = _coerce_hotspots(target.cofactors_whitelist) or []
-        # `cofactors_whitelist` es una lista de cadenas, no de dicts: se
-        # normaliza aquí porque el ORM la guarda como JSON libre.
-        whitelist = [w if isinstance(w, str) else w.get("name") for w in whitelist]
-        whitelist = [w for w in whitelist if w]
+        whitelist = _coerce_cofactores(target.cofactors_whitelist)
         site_chains = list(getattr(target, "site_chains", None) or [])
         site_ligand = getattr(target, "site_ligand", None)
     else:

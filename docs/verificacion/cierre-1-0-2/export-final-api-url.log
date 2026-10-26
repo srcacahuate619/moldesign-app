@@ -1,0 +1,5 @@
+
+> moldesign-frontend@1.0.1 check:exported-api-url
+> node scripts/check-exported-api-url.js
+
+[check-exported-api-url] 255 archivos del export revisados: ninguna dirección de backend horneada.

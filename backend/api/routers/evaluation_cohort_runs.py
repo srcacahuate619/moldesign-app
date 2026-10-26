@@ -39,10 +39,12 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.dependencies import get_current_user_optional
 from services.targets.access import get_target_for_user
 from core.database import get_db
+from core.i18n import current_locale
 from core.models import CohortORM, UserORM
 from services.cohort import execution as ex
 from services.cohort import repository as cohort_repo
 from services.cohort import dossier as cohort_dossier
+from services.dossier.localization import traducir_dossier
 from services.cohort import evidence as cohort_evidence
 from services.cohort import runs as run_repo
 from services.cohort.schemas import COHORT_STATUS_READY
@@ -74,6 +76,7 @@ class CohortRunRowRead(_Base):
     status: str
     molecule_id: uuid.UUID | None = None
     result_id: uuid.UUID | None = None
+    task_id: str | None = None
     #: De ejecución: qué fila acopló de verdad el resultado que ésta reutiliza.
     reused_from_row: int | None = None
     error_code: str | None = None
@@ -143,7 +146,7 @@ def _iso(valor) -> str | None:
 
 
 async def _leer(db: AsyncSession, corrida) -> CohortRunRead:
-    filas = await run_repo.list_rows(db, corrida.id)
+    filas, resultados = await cohort_evidence.collect_rows(db, corrida.id)
     conteo: dict[str, int] = {}
     for fila in filas:
         conteo[fila.status] = conteo.get(fila.status, 0) + 1
@@ -184,6 +187,11 @@ async def _leer(db: AsyncSession, corrida) -> CohortRunRead:
                 status=fila.status,
                 molecule_id=fila.molecule_id,
                 result_id=fila.result_id,
+                task_id=(
+                    getattr(resultados.get(fila.result_id), "task_id", None)
+                    if resultados.get(fila.result_id) is not None
+                    and resultados[fila.result_id].molecule_id == fila.molecule_id else None
+                ),
                 reused_from_row=fila.reused_from_row,
                 error_code=fila.error_code,
                 error_detail=fila.error_detail,
@@ -274,7 +282,7 @@ async def open_run(
     try:
         # La configuración se resuelve una vez y gobierna también la eventual
         # preparación automática; luego el PDBQT queda congelado por su hash.
-        config = ex.resolve_effective_config(estudio, target)
+        config = ex.resolve_effective_config(estudio, target, seed_resolution=snapshot.get("seed_resolution"))
         # El receptor se obtiene SIEMPRE de `prepare_target`, con los mismos
         # argumentos que la evaluación individual: mismas cadenas del sitio,
         # misma lista de cofactores y la misma caja, así que la misma receta. Si
@@ -621,6 +629,7 @@ async def dossier_preview(
     db: AsyncSession = Depends(get_db),
 ):
     corrida, cohorte, evidencia = await _dossier(db, run_id, current_user)
+    evidencia = traducir_dossier(evidencia, current_locale())
     pdf = cohort_dossier.render_cohort_dossier_pdf(evidencia)
     nombre = f"dossier_cohorte_{cohort_repo.sanitize_source_filename(cohorte.name, maximo=60)}.pdf"
     log.info("cohort_dossier_preview", run_id=str(run_id), cohort_id=str(cohorte.id))
@@ -646,6 +655,7 @@ async def dossier_package(
     db: AsyncSession = Depends(get_db),
 ):
     corrida, cohorte, evidencia = await _dossier(db, run_id, current_user)
+    evidencia = traducir_dossier(evidencia, current_locale())
     pdf = cohort_dossier.render_cohort_dossier_pdf(evidencia).getvalue()
     datos, entradas, raiz = cohort_dossier.construir_paquete_cohorte(
         evidencia=evidencia, pdf_bytes=pdf, cohort=cohorte, run=corrida

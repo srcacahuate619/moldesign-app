@@ -1,0 +1,17 @@
+{
+  "name": "lote-rechaza-ligandos-cortos-en",
+  "url": "http://localhost:13013/evaluation/batch",
+  "time": "2026-10-10T01:03:37.880Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "en",
+  "theme": "dark",
+  "text": "OPTIONS\nPREPARATION\nMOLCYBETA\nBATCH\nEVALUATION\nMOLDEX\nHISTORY\n1\nDESKTOP USER\nSIGN OUT\n\nBATCH\n\nCohorts\n\nDefine a comparable cohort, check its inputs, run it under one shared configuration and deliver evidence with its coverage.\n\nAUTODOCK VINA\nEvaluation\n01\nDEFINE\n02\nCHECK\n03\nSAVE\n04\nRUN\n05\nEVIDENCE\n06\nREPORT\n\nDEFINE\n\n1 · New cohort\n\nOne receptor and one shared configuration for every molecule. That is what makes the rows comparable with each other.\n\nNAME\nPrepare the file\nInclude at most 500 molecules in a file of up to 8 MiB.\nFor CSV, use UTF-8, a header row first, commas as the separator and the recommended column smiles; these are also accepted: canonical_smiles and structure.\nEvery molecule will use a single receptor and the same frozen configuration.\n\nMINIMAL CSV EXAMPLE\n\nsmiles,name,active,control_role\nCC(=O)Nc1ccc(O)cc1,paracetamol,1,reference\nCC(C)Cc1ccc(cc1)C(C)C(=O)O,ibuprofeno,0,none\nSee every format and field\nMOLECULE FILE\nChoose file\nqa-cierre.csv\nDemo\nResult obtained with a demo receptor. A published attempt does not grant it the verification badge.\nVerification of this receptor was attempted and it did not pass calibration (ρ = 0.13; 95% CI: -0.16–0.41).\nRECEPTOR (PDB ID)\nCatalog (381)\nCHAIN (OPTIONAL)\nENGINE\nAutoDock Vina\nEngine available for new cohorts.\nQuickVina 2 · Coming soon\nIt needs a validated Windows binary. This version runs Vina only.\nEXHAUST.\nPOSES\nRANDOM SEEDUse the default seed (42)\n\nDefault seed: 42. You can choose an integer from 1 to 2147483647. It is frozen before execution and declared per row.\n\nCheck cohort\nChecking runs nothing.\n2 · Pre-flight check\n\nPassing it does not predict binding or pharmacological quality: nothing has been calculated yet.\n\nROWS\n2\nELIGIBLE\n0\nINVALID\n2\nDUPLICATES\n0\nUNIQUE MOLECULES\n0\nREFERENCE\n0\nPOSITIVES\n0\nNEGATIVES\n0\n\nEntry coverage: 0.0 % · 0 of 2\n\nBlocked — it cannot be saved or run\n\nNo molecule can enter this run.\n\nNotices — they do not block\n\nSome rows will not enter the run. Check the coverage before continuing.\nNo controls were declared; the result will not be comparable against a reference.\nThe search box will be taken from the validated configuration of the receptor.\nRows that will not enter the run (2)\n\nFix these rows in the file and check again, or continue without them.\n\nRow 1 · etanol · CCO — The SMILES reads, but this product does not evaluate it: it has fewer than 5 heavy atoms or an invalid chemical structure.\nRow 2 · etilamina · CCN — The SMILES reads, but this product does not evaluate it: it has fewer than 5 heavy atoms or an invalid chemical structure.\n3 · Save cohort\nsha256:02540daf8e646f8a90758d239905ba8b06f1daece44eb2a78755af41213fa400\n\nSAVE\n\nSaved cohorts\n\nNone yet.\n\nA saved cohort is immutable: changing the receptor, the configuration or the file produces another cohort, not an edit.\n\nThis screen does not rank molecules by pharmacological merit and produces no aggregate score. The observed Vina affinity is a ranking signal within this protocol, not a free-energy measurement and not a prediction of activity.",
+  "overflow": {
+    "width": 1440,
+    "document": 1440
+  },
+  "errors": []
+}

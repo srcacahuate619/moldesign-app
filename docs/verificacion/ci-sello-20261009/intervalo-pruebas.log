@@ -1,0 +1,12 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run components/science/__tests__ lib/__tests__/idiomasCompletos.test.ts lib/__tests__/textosSinTraducir.test.ts
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  8 passed (8)
+      Tests  125 passed (125)
+   Start at  18:00:53
+   Duration  5.06s (environment 52%, setup 21%, import 12%, transform 8%, tests 7%)

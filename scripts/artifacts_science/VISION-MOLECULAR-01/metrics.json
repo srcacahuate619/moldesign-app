@@ -1,0 +1,19 @@
+{
+ "experiment_id": "VISION-MOLECULAR-01",
+ "producto_de_referencia": "26df919c",
+ "conjuntos": {
+  "G37": "37 moléculas de 35 a 51 átomos pesados",
+  "O167": "las 167 del conjunto original"
+ },
+ "veredictos": {
+  "E1": "NO_GO",
+  "E2": "PARCIAL",
+  "E3": "NO_GO",
+  "E4": "NO_GO",
+  "E5": "NO_GO",
+  "E6": "NO_GO"
+ },
+ "alternativas_adoptadas": [],
+ "decision": "NO_GO",
+ "nota": "Ninguna alternativa entra en el producto. E2 (parcial) sólo mide la cifra: MMFF en fase gas exagera el ΔE cerca de un tercio (xTB-ALPB = 0,69 · MMFF) sin invertir el problema; el producto conserva el ΔE declarado."
+}

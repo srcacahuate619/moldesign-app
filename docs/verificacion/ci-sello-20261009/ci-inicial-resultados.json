@@ -1,0 +1,20 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "d514fe537539cdfcd37a44eeb0cd1819455555e8",
+    "inicio_utc": "2026-10-09T23:36:26.5189690Z",
+    "segundos": 149.44,
+    "salida": 0,
+    "registro": "ci-inicial-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "d514fe537539cdfcd37a44eeb0cd1819455555e8",
+    "inicio_utc": "2026-10-09T23:38:56.0394566Z",
+    "segundos": 2.85,
+    "salida": 1,
+    "registro": "ci-inicial-02.log"
+  }
+]

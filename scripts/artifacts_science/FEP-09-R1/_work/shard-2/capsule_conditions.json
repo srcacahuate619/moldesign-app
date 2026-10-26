@@ -1,0 +1,43 @@
+{
+  "repositorio": {
+    "raiz": "D:\\moldesign-build\\.worktrees\\fep09r1",
+    "rama": "claude/fep09-r1",
+    "commit": "68d368821b7c20e92ff45bafcecc1890724e3e0a",
+    "arbol_limpio": true
+  },
+  "puertos": {
+    "backend": 18018,
+    "frontend": 13018,
+    "llama": 18118
+  },
+  "vina_cpu": 4,
+  "runtime_compartido": {
+    "raiz": "D:\\moldesign-build",
+    "python": "D:\\moldesign-build\\python-embed\\python.exe",
+    "vina": "D:\\moldesign-build\\tools\\vina\\vina.exe"
+  },
+  "export": {
+    "origen": "externo",
+    "dir": "D:\\moldesign-build\\frontend\\out",
+    "huella": "ef783cc1f6054d79f444e1010fa72c4027e1513a8f043e9f92efa1034c169ccd",
+    "construidoEnSegundos": null,
+    "advertencia": "export externo (--out): no se garantiza que corresponda a este commit.",
+    "check_api_url": "FALLA: "
+  },
+  "desviaciones_respecto_a_la_app_instalada": [
+    "El backend corre desde el árbol (python-embed del árbol principal + backend/ de este worktree), no desde el runtime staged del instalador.",
+    "No se fija PYTHONDONTWRITEBYTECODE: el árbol no trae el bytecode precompilado del bundle y cada arranque tardaría decenas de segundos.",
+    "El perfil de usuario (USERPROFILE, APPDATA, LOCALAPPDATA, TEMP) apunta a la cápsula: el backend ve un usuario NUEVO.",
+    "Tauri está SIMULADO: el shim contesta ensure_backend/backend_launch_token y el servidor emula los comandos case_* de cases.rs, get_resource_dir, file_exists y verify_model (sólo existencia, sin SHA-256). Descargas, extracción, diálogos nativos y el Explorador NO se emulan.",
+    "El selector nativo de carpetas se sustituye por una carpeta fija (casos/) o por siguiente-carpeta.txt.",
+    "Se sirve desde http://localhost:<puerto>, no desde http://tauri.localhost: el CORS de producción para el origen de Tauri no se ejerce.",
+    "WebView2 no es Chrome: el navegador de la prueba es otro motor de renderizado.",
+    "Sidecars con puerto fijo (ESMFold 8100, ESMFold-Pro 8300): sólo UNA cápsula a la vez debe usarlos."
+  ],
+  "autoverificacion": {
+    "desktop_login": 200,
+    "cors_origen_propio": true,
+    "cors_origen_ajeno_bloqueado": true,
+    "health": "healthy"
+  }
+}

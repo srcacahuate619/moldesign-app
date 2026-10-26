@@ -41,6 +41,7 @@ from typing import Any
 from services.blockchain.evidence_summary import build_evidence_summary
 from services.dossier.schemas import CaseProjection
 from services.targets.calibracion import estado_de_calibracion
+from services.targets.seccion_catalogo import catalogo_de_la_corrida
 from services.dossier.taxonomy import ETIQUETA, GLOSARIO, Estado, estado_de_texto, estado_de_valor
 
 #: Versión del modelo canónico. Viaja al PDF, al manifiesto y al README.
@@ -237,6 +238,10 @@ class CaseDossier:
     procedencia: dict[str, Any]
     apendice_heredado: list[Campo]
     avisos_integridad: list[str]
+    #: Sección del catálogo del receptor y si su sello describe ESTA corrida
+    #: (`services/targets/seccion_catalogo.py::catalogo_de_la_corrida`). Datos
+    #: crudos: Preparación los lee por clave, nunca por la etiqueta de un campo.
+    catalogo: dict[str, Any] = field(default_factory=dict)
 
     def as_dict(self) -> dict[str, Any]:
         """Forma canónica. Es lo que viaja a `case_snapshot.json` y al README."""
@@ -252,6 +257,7 @@ class CaseDossier:
                 "molecule_id": self.molecule_id,
                 "task_id": self.task_id,
                 "target": self.target_label,
+                "catalogo": self.catalogo,
             },
             "portada": [c.as_dict() for c in self.portada],
             "proposito": [c.as_dict() for c in self.proposito],
@@ -317,9 +323,139 @@ def _campo_contexto(etiqueta: str, valor: str | None) -> Campo:
 def _respaldo_del_receptor(target: Any) -> str:
     """Una línea que un revisor pueda leer sin ambigüedad (SC-9)."""
     estado = estado_de_calibracion(target)
-    if estado.spearman_rho is not None:
-        return f"{estado.resumen} — ρ = {estado.spearman_rho}"
+    if estado.respaldo is not None:
+        r = estado.respaldo
+        return (f"{estado.resumen} — ρ = {r['rho']:.2f}, IC 95 % [{r['ic95'][0]:.2f}; "
+                f"{r['ic95'][1]:.2f}], n = {r['n']}")
     return f"{estado.resumen} — {estado.motivo}"
+
+
+#: Condiciones declaradas de un sello de verificación, en frases completas: el
+#: sello no se lee sin ellas. Un código desconocido se imprime, nunca se omite.
+_CONDICIONES_DEL_SELLO = {
+    "RECEPTOR_SIN_IONES": (
+        "El receptor se acopló sin los iones del depósito (la preparación los retira); Vina no "
+        "tiene término electrostático y la calibración se midió en esas condiciones."
+    ),
+    "SERIE_CONGENERICA": (
+        "El panel es casi entero una serie de análogos: la ρ describe cómo ordena compuestos de "
+        "esa serie, no ligandos de estructura diversa."
+    ),
+    "CONDICIONES_DEL_ENSAYO_NO_DOCUMENTADAS": (
+        "Ensayo de desplazamiento de [3H]nisoxetina; el pH, la temperatura y la concentración "
+        "del radioligando no constan en las fuentes consultadas, y la correlación es dentro de "
+        "un único ensayo."
+    ),
+}
+
+#: Avisos medidos del catálogo (`backend/data/avisos_catalogo.json`).
+AVISOS_DEL_CATALOGO = {
+    "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA": (
+        "Las cadenas del sitio anotado no están todas en la unidad biológica del depósito: el "
+        "sitio podría ser un contacto del cristal. Pendiente de reanotar."
+    ),
+}
+
+ETIQUETA_SECCION_DEL_CATALOGO = "Sección del catálogo"
+
+
+def texto_del_aviso_del_catalogo(codigo: str) -> str:
+    return AVISOS_DEL_CATALOGO.get(codigo) or f"Aviso del catálogo: {codigo}."
+
+
+def campo_de_la_seccion(catalogo: dict[str, Any] | None) -> Campo:
+    """La sección del catálogo de la corrida como campo: dossier y Preparación.
+
+    Demostración pide revisión y no bloquea: el producto sugiere, no impide. Un
+    sello verificado sólo se registra como tal si describe ESTA corrida (mismo
+    receptor y mismos parámetros); si no, se dice en qué difiere y qué no
+    declaró la corrida, sin confundir una cosa con la otra.
+    """
+    etiqueta = ETIQUETA_SECCION_DEL_CATALOGO
+    if not catalogo or not catalogo.get("pdb_id"):
+        return Campo(etiqueta, None, Estado.NO_EVALUADO, "La corrida no resolvió el receptor.")
+    seccion = catalogo.get("seccion")
+    if seccion is None:
+        return Campo(
+            etiqueta,
+            "Receptor del usuario: fuera del catálogo incluido; MolDesign no lo ha verificado ni calibrado.",
+            Estado.REGISTRADO,
+        )
+    if seccion == "demostracion":
+        return Campo(
+            etiqueta, "Demostración", Estado.REVISAR,
+            "Receptor preparado automáticamente desde el PDB, sin verificación de pose ni "
+            "calibración. Sirve para explorar la aplicación, no para decidir qué sintetizar.",
+            valor_es_clasificacion=True,
+        )
+    ver = catalogo.get("verificacion") or {}
+    cal, pose, prot = ver.get("calibracion") or {}, ver.get("pose") or {}, ver.get("protocolo") or {}
+    parametros = (f"Medido con exhaustividad {prot.get('exhaustiveness')}, {prot.get('num_poses')} "
+                  f"poses y semilla {prot.get('semilla')}.")
+    if not catalogo.get("aplica_a_esta_corrida"):
+        difiere = ", ".join(catalogo.get("difiere_en") or [])
+        sin_declarar = ", ".join(catalogo.get("sin_declarar") or [])
+        medido = (f"El sello se midió con exhaustividad {prot.get('exhaustiveness')}, "
+                  f"{prot.get('num_poses')} poses y semilla {prot.get('semilla')} sobre el receptor "
+                  f"{str(ver.get('receptor_sha256') or '')[:12]}")
+        if difiere and sin_declarar:
+            razon = (f"{medido}; esta corrida difiere en {difiere} y no declara {sin_declarar}: "
+                     "la calibración no la describe.")
+        elif sin_declarar:
+            razon = (f"{medido}; esta corrida no declara {sin_declarar}: no se puede comprobar "
+                     "que la calibración la describa.")
+        else:
+            razon = f"{medido}; esta corrida difiere en {difiere}: la calibración no la describe."
+        return Campo(etiqueta, "Verificado; el sello no describe esta corrida", Estado.REVISAR, razon,
+                     valor_es_clasificacion=True)
+    ic = cal.get("ic95") or [None, None]
+    frases = [
+        f"Verificado · ρ = {cal.get('rho'):.2f} (IC 95 %: {ic[0]:.2f}–{ic[1]:.2f}; n = {cal.get('n')}; "
+        f"{cal.get('endpoint')}, {cal.get('panel')}).",
+        f"Pose del cristal reproducida en {pose.get('semillas_rmsd_ok')} de {pose.get('semillas')} "
+        "semillas (RMSD ≤ 2 Å).",
+        parametros,
+    ]
+    frases += [_CONDICIONES_DEL_SELLO.get(c) or f"Condición declarada: {c}."
+               for c in ver.get("condiciones") or []]
+    return Campo(etiqueta, " ".join(frases), Estado.REGISTRADO)
+
+
+def _campo_unidad_acoplada(receptor: Any, procedencia_ejecucion: Any) -> Campo:
+    """La unidad de receptor que la corrida acopló, distinta de la que se declaró.
+
+    AMP-11. «Receptor declarado» dice lo que el caso pidió (en 3F75, la cadena
+    A). La corrida mide sobre los bytes del PDBQT cuáles cadenas contiene
+    realmente (A+P). Quien recibe el PDF sin conocer la sesión necesita las dos,
+    porque la declarada no demuestra que se acoplara sólo contra ella. En las
+    corridas anteriores a la medida se declara la ausencia: no se reconstruye la
+    unidad a partir de la petición.
+    """
+    preparacion = _v(procedencia_ejecucion, "receptor_prep")
+    cadenas = _v(preparacion, "prepared_chains")
+    if not isinstance(cadenas, (list, tuple)) or not cadenas:
+        return Campo(
+            etiqueta="Receptor acoplado (unidad preparada)",
+            estado=Estado.NO_DISPONIBLE,
+            razon=(
+                "La corrida no registró las cadenas del receptor preparado; la cadena "
+                "declarada por el caso no prueba contra cuáles se acopló."
+            ),
+        )
+    acopladas = "+".join(str(c) for c in cadenas)
+    declarada = (getattr(receptor, "chain", None) or "").strip() if receptor else ""
+    pdb = getattr(receptor, "pdb_id", None) if receptor else None
+    valor = f"{pdb + ' · ' if pdb else ''}cadenas {acopladas}"
+    if declarada and {declarada} != {str(c) for c in cadenas}:
+        valor += (
+            f" — el caso declaró la cadena {declarada}; el PDBQT acoplado contiene "
+            f"{acopladas}"
+        )
+    return Campo(
+        etiqueta="Receptor acoplado (unidad preparada)",
+        valor=valor + " (medido sobre los bytes del PDBQT hasheado)",
+        estado=Estado.REGISTRADO,
+    )
 
 
 def _campo_dato(etiqueta: str, valor: Any, razon_ausencia: str) -> Campo:
@@ -354,6 +490,13 @@ _ESTADO_EVIDENCIA = {
     "available": Estado.REGISTRADO,
     "ready": Estado.REGISTRADO,
     "review": Estado.REVISAR,
+    # SCI-A-059: la dimensión física ya no aplana `failed` en `review`, así que
+    # este mapa recibe `failed` por primera vez. El vocabulario de `Estado` no
+    # tiene un miembro para «se midió y falló» —lo más cercano es REVISAR—, y
+    # ampliarlo cambiaría el contrato del dossier, su PDF y su JSON. Se mapea
+    # explícito para no depender del `.get` por defecto; la observación del
+    # control sí nombra el fallo. Un `Estado` propio queda pendiente.
+    "failed": Estado.REVISAR,
     "missing": Estado.NO_DISPONIBLE,
     "not_evaluated": Estado.NO_EVALUADO,
     "incomplete": Estado.NO_DISPONIBLE,
@@ -434,6 +577,17 @@ def _campos_de_protocolo_y_abstencion(eval_result, resumen) -> list:
     es_peptidico = bool(
         ejecutado and any(m in str(ejecutado).lower() for m in ("esmfold", "colabfold"))
     )
+    if es_peptidico:
+        # Decisión del propietario (2026-10-04): la vía de péptidos se marca EXPERIMENTAL en pantalla y en
+        # el dossier. Está probado que ESMFold carga y sirve poses; no que las poses sean buenas.
+        campos.append(Campo(
+            "Validación del método peptídico",
+            "EXPERIMENTAL: la estructura la predice ESMFold y su calidad no está validada en MolDesign",
+            Estado.REVISAR,
+            "MolDesign ha comprobado que ESMFold carga y sirve estructuras, no que sean buenas. El acoplamiento "
+            "lo hace después Vina sobre esa estructura predicha: su afinidad no hereda validez de la predicción.",
+            valor_es_clasificacion=True,
+        ))
     if es_peptidico and afinidad is None:
         campos.append(Campo(
             "Estado del acoplamiento",
@@ -567,28 +721,37 @@ def campos_del_estado_del_ligando(ligand_state: Any) -> list[tuple[str, Campo]]:
                     f"Menor carga formal entre alternativas y entrada; {clases} "
                     "carece de pKa verificado. Población química no determinada."
                 )
+            # `rstrip(".")`: la descripción de un grupo sin pKa ya acaba en punto y
+            # el sufijo dejaba «no determinada.; el grupo…».
             if seleccion.get("revision_biguanida"):
-                descripcion = (descripcion or "Selección de biguanida") + (
+                descripcion = (descripcion or "Selección de biguanida").rstrip(".") + (
                     "; monocatión como hipótesis en revisión por datos "
                     "experimentales discrepantes cerca de pH fisiológico"
                 )
             elif seleccion.get("clases_sin_pka") and descripcion:
-                descripcion += "; el grupo sin pKa sigue en revisión"
+                descripcion = descripcion.rstrip(".") + "; el grupo sin pKa sigue en revisión"
             # Clases que la tabla de pKa por clases no resuelve aunque la selección
             # se declare resuelta (piperazinas, N-sulfonil-piperazinas, ácidos
             # enólicos): se DECLARAN en revisión; lo acoplado no cambia. Ver
             # `chem/especie_en_revision.py` y QA-002/QA-024/QA-S05.
             motivos = _motivos_de_revision_de_especie(ligand_state)
             if descripcion and (seleccion.get("quimica_resuelta") is False or motivos):
-                razon = descripcion + ". La selección es reproducible, pero la población "
-                if seleccion.get("quimica_resuelta") is False:
-                    razon += "del microestado no quedó establecida por una constante química verificada."
-                else:
-                    razon += "de esta clase no la resuelve la tabla de pKa por clases."
+                # Frases completas y literales: así tienen su traducción exacta y
+                # el auditor del catálogo inglés las ve vivas.
+                razon = descripcion.rstrip(".") + ". " + (
+                    "La selección es reproducible, pero la población del microestado no "
+                    "quedó establecida por una constante química verificada."
+                    if seleccion.get("quimica_resuelta") is False else
+                    "La selección es reproducible, pero la población de esta clase no la "
+                    "resuelve la tabla de pKa por clases."
+                )
                 if motivos:
+                    # Una frase por motivo: cada una tiene su traducción exacta.
+                    # Unidas con «; y por» no casaba ninguna plantilla y el
+                    # dossier en inglés salía con el párrafo en castellano.
                     razon += (
-                        " En revisión por " + "; y por ".join(m.texto for m in motivos)
-                        + ". Revisa la especie antes de un cálculo de energía libre."
+                        "".join(f" {m.texto}" for m in motivos)
+                        + " Revisa la especie antes de un cálculo de energía libre."
                     )
                 campos.append(("especie", Campo("Especie acoplada", None, Estado.REVISAR, razon)))
             else:
@@ -597,6 +760,29 @@ def campos_del_estado_del_ligando(ligand_state: Any) -> list[tuple[str, Campo]]:
                     descripcion,
                     "La corrida no registró con qué criterio se eligió el microestado.",
                 )))
+
+        # ── Con qué se enumeraron los microestados (CLAVE-09) ───────────────
+        #
+        # Para que un tercero repita la enumeración y compruebe que obtiene el
+        # mismo conjunto, no sólo el mismo elegido (FEP-05/06). Las corridas
+        # anteriores no lo registraron y no enseñan este campo.
+        parametros = protonacion.get("parametros")
+        if isinstance(parametros, dict) and protonacion.get("candidatos_sha256"):
+            valor = (
+                f"dimorphite-dl {protonacion.get('version_motor') or 'versión no registrada'} · "
+                f"pH {parametros.get('ph_min'):g}–{parametros.get('ph_max'):g} · "
+                f"precisión {parametros.get('precision'):g} · máximo {parametros.get('max_variants')} · "
+                f"huella {str(protonacion['candidatos_sha256'])[:12]}"
+            )
+            if protonacion.get("recortado"):
+                campos.append(("enumeracion", Campo(
+                    "Enumeración de microestados", valor + " · recortada al máximo", Estado.REVISAR,
+                    "dimorphite-dl devolvió su número máximo de microestados: el conjunto puede estar "
+                    "incompleto y la especie acoplada se eligió entre los que devolvió.",
+                    valor_es_clasificacion=True,
+                )))
+            else:
+                campos.append(("enumeracion", Campo("Enumeración de microestados", valor)))
 
     # ── Qué tautómero se acopló, y cuántos quedaron sin descartar ──────────
     #
@@ -611,6 +797,14 @@ def campos_del_estado_del_ligando(ligand_state: Any) -> list[tuple[str, Campo]]:
         from chem.declaracion_tautomeros import MULTIESTADO_REQUERIDO, RESUELTO_UNICO, resumen_para_humanos
 
         texto = resumen_para_humanos(declaracion)
+        mode = tautomeria.get("modo")
+        if mode in ("entrada", "canonico"):
+            choice = (
+                "Se acopló el tautómero del usuario; la protonación sigue el pH declarado."
+                if mode == "entrada" else
+                "Se acopló el tautómero canónico de RDKit; la protonación sigue el pH declarado."
+            )
+            texto = f"{choice} {texto}"
         if declaracion["estado"] == RESUELTO_UNICO:
             campos.append(("tautomero", Campo("Tautómero del ligando", texto, Estado.REGISTRADO, None)))
         elif declaracion["estado"] == MULTIESTADO_REQUERIDO:
@@ -633,6 +827,18 @@ def _campo_de_estado_quimico(eval_result: Any) -> Campo:
             return Campo(
                 "Estereoquímica del ligando", None, Estado.ABSTENCION,
                 "No se pudo asignar el isómero desde la geometría 3D guardada.",
+            )
+        perdida = estereo.get("perdida_en_la_especie_acoplada") or {}
+        centros_perdidos = int(perdida.get("centros") or 0)
+        dobles_perdidos = int(perdida.get("dobles") or 0)
+        if centros_perdidos or dobles_perdidos:
+            # QA-032: la entrada lo declaraba; la especie acoplada ya no.
+            return Campo(
+                "Estereoquímica del ligando", smiles_3d, Estado.REVISAR,
+                f"La entrada declaraba {centros_perdidos} estereocentro(s) y "
+                f"{dobles_perdidos} doble(s) E/Z que la especie acoplada no conserva "
+                "(la normalización cambió esos átomos): lo acoplado no es el "
+                "estereoisómero escrito.",
             )
         if centros or dobles:
             return Campo(
@@ -659,81 +865,62 @@ def _campo_de_estado_quimico(eval_result: Any) -> Campo:
     )
 
 
-#: Categorías de `species_diff` cuya retirada junto al sitio cambia la cavidad.
-#: Las aguas no están: la ruta de docking las retira todas y lo declara en su
-#: política. El ligando del cristal tampoco: retirarlo es el objeto de la corrida.
-_CATEGORIAS_QUE_CAMBIAN_EL_SITIO = ("metal", "organic_cofactor", "other_heteroatom")
+def _campo_de_registros_retirados(preparacion: Any) -> Campo | None:
+    """Cuántos registros HETATM retiró la preparación de TODA la estructura, sin juicio.
 
-
-def _campo_de_especies(procedencia_ejecucion: Any) -> Campo:
-    """Aguas, metales y cofactores que la preparación retiró, según la corrida.
-
-    Lee `receptor_prep.species_diff`, que `preparer.prepare_target` escribe
-    desde el 2026-09-27. Antes no existía, y un receptor preparado en caché
-    antes de esa fecha sigue sin él: se declara NO_EVALUADO y no se
-    reconstruye con el preflight, que describiría la receta de hoy y no la de
-    la corrida.
+    Es el único dato del diff que la auditoría de Preparación no trae (ella mira lo retirado junto al sitio). Va aparte y sin
+    estado de revisión: no clasifica nada, así que no puede decir otra cosa que la auditoría. Los recuentos son REGISTROS
+    HETATM, no moléculas: un HEM son 43.
     """
-    preparacion = _v(procedencia_ejecucion, "receptor_prep")
     diff = _v(preparacion, "species_diff") if isinstance(preparacion, dict) else None
     if not isinstance(diff, dict) or diff.get("state") != "evaluado":
-        congelado = isinstance(preparacion, dict) and (
-            preparacion.get("source") == "durable_receptor_snapshot"
-        )
-        return Campo(
-            "Aguas, metales y cofactores", None, Estado.NO_EVALUADO,
-            "La corrida usó un receptor congelado y su informe de preparación no viaja "
-            "con ella." if congelado else
-            "La corrida no serializó el diff fuente→preparado: su receptor se preparó "
-            "antes de que la preparación lo registrara. No se reconstruye a posteriori.",
-        )
-
+        return None
     retirado = diff.get("removed") or {}
-    cerca = diff.get("near_site") or {}
-    margen = cerca.get("margin_A")
-
-    def _instancias(filas: list[dict[str, Any]]) -> str:
-        aguas = sum(1 for f in filas if f.get("category") == "water")
-        resto = [
-            f"{f.get('name')} {f.get('chain')}:{f.get('residue_number')}"
-            f"{f.get('insertion_code') or ''} ({f.get('distance_to_box_A')} Å)"
-            + (f" como {f['converted_to']}" if f.get("converted_to") else "")
-            for f in filas if f.get("category") not in ("water", "site_ligand")
-        ]
-        partes = ([f"{aguas} agua(s)"] if aguas else []) + resto
-        return ", ".join(partes) if partes else "nada"
-
-    retiradas_cerca = list(cerca.get("removed") or [])
-    ligando = [f for f in retiradas_cerca if f.get("category") == "site_ligand"]
-    # Los recuentos globales son REGISTROS HETATM, no moléculas: un HEM son 43.
-    texto = (
-        f"Registros HETATM retirados del ensamblaje: aguas {retirado.get('waters', 0)}, "
-        f"metales {retirado.get('metals', 0)}, cofactores orgánicos "
-        f"{retirado.get('organic_cofactors', 0)}, otras especies "
-        f"{retirado.get('other_hetatm', 0)}. A {margen:g} Å o menos de la caja: retirado "
-        f"{_instancias(retiradas_cerca)}; conservado "
-        f"{_instancias(list(cerca.get('preserved') or []))}."
-        if isinstance(margen, (int, float)) else None
+    return Campo(
+        "Registros HETATM retirados del ensamblaje",
+        f"aguas {retirado.get('waters', 0)}, metales {retirado.get('metals', 0)}, cofactores orgánicos "
+        f"{retirado.get('organic_cofactors', 0)}, otras especies {retirado.get('other_hetatm', 0)}",
+        Estado.REGISTRADO,
     )
-    if texto is None:
-        return Campo(
-            "Aguas, metales y cofactores", None, Estado.NO_EVALUADO,
-            "El diff registrado no declara el margen del sitio.",
-        )
-    if ligando:
-        texto += " El ligando del cristal (" + ", ".join(
-            f"{f.get('name')} {f.get('chain')}:{f.get('residue_number')}" for f in ligando
-        ) + ") se retiró como parte de la corrida."
 
-    if any(f.get("category") in _CATEGORIAS_QUE_CAMBIAN_EL_SITIO for f in retiradas_cerca):
-        return Campo(
-            "Aguas, metales y cofactores", texto, Estado.REVISAR,
-            "La preparación retiró metales, cofactores u otras especies junto al sitio: el "
-            "receptor acoplado no los contiene. Decidir si formaban parte de la cavidad.",
-            # Qué se retiró ES el motivo de revisar; ocultarlo dejaría «REVISAR».
-            valor_es_clasificacion=True,
-        )
-    return Campo("Aguas, metales y cofactores", texto, Estado.REGISTRADO, None)
+
+def _campo_de_especies_convertidas(preparacion: Any) -> Campo | None:
+    """Las especies junto al sitio que la preparación conservó con el nombre de otro residuo (MSE → MET), sin juicio.
+
+    La auditoría de Preparación no las nombra (mira lo retirado), y el PDF antiguo las imprimía dentro de su fila única
+    («conservado MSE A:2 … como MET»): sin esta fila, cambiar el cálculo habría borrado una sustitución química del receptor.
+    La flecha va sin palabras para que no haga falta traducirla.
+    """
+    diff = _v(preparacion, "species_diff") if isinstance(preparacion, dict) else None
+    cerca = diff.get("near_site") if isinstance(diff, dict) and diff.get("state") == "evaluado" else None
+    if not isinstance(cerca, dict):
+        return None
+    filas = [f for lista in ("removed", "preserved") for f in cerca.get(lista) or [] if f.get("converted_to")]
+    if not filas:
+        return None
+    return Campo(
+        "Especies conservadas como otro residuo (Å a la caja)",
+        ", ".join(f"{f.get('name')} {f.get('chain')}:{f.get('residue_number')}{f.get('insertion_code') or ''} "
+                  f"({f.get('distance_to_box_A')} Å) → {f['converted_to']}" for f in filas),
+        Estado.REGISTRADO,
+    )
+
+
+def _campos_de_especies(procedencia_ejecucion: Any, projection: CaseProjection, contexto: Any) -> list[Campo]:
+    """Metales, cofactores, aguas y otras especies que la preparación retiró, según la corrida.
+
+    Los campos con veredicto NO se calculan aquí: son los de la auditoría de Preparación
+    (`preparacion.campos_del_entorno_para_el_dossier`), para que el PDF y `audit.json` del mismo paquete digan lo mismo. Antes
+    esta función los recalculaba a distancia de la caja con un solo estado, REVISAR (2026-10-22: ver ese módulo).
+    """
+    # Import tardío: `preparacion` importa este módulo.
+    from services.dossier.preparacion import campos_del_entorno_para_el_dossier
+
+    preparacion = _v(procedencia_ejecucion, "receptor_prep") or {}
+    registros = _campo_de_registros_retirados(preparacion)
+    convertidas = _campo_de_especies_convertidas(preparacion)
+    return [*campos_del_entorno_para_el_dossier(preparacion, projection, contexto),
+            *(c for c in (registros, convertidas) if c)]
 
 
 def _campos_de_eficiencia(eval_result, resumen) -> list:
@@ -803,6 +990,64 @@ def _campos_de_eficiencia(eval_result, resumen) -> list:
     ]
 
 
+#: Cómo se escribe el campo de fuerza que registró el conformador (`chem/conformer.py`).
+_CAMPO_DE_FUERZA = {"MMFF94": "MMFF94", "UFF": "UFF (MMFF94 no parametrizó la molécula)"}
+
+
+def _metodo_conformacional(eval_result: Any) -> tuple[str, bool]:
+    """(método, ¿optimizado con MMFF94 y convergido?) del confórmero de entrada.
+
+    SCI-A-025: el dossier escribía siempre «ETKDG + MMFF94», aunque el conformador
+    cae a UFF cuando MMFF no parametriza la molécula y a una geometría sin optimizar
+    si UFF también falla, y lo deja dicho en `ligand_state.conformero`. Sin ese
+    registro no se atribuye ningún método.
+    """
+    ligand_state = _v(eval_result, "ligand_state") or {}
+    conformero = ligand_state.get("conformero") if isinstance(ligand_state, dict) else None
+    if not isinstance(conformero, dict) or not conformero.get("campo_fuerza_final"):
+        return "método no registrado por la corrida", False
+    embebido = str(conformero.get("estrategia_embebido") or "ETKDG")
+    campo = str(conformero["campo_fuerza_final"])
+    if campo == "sin_optimizacion":
+        return f"{embebido}, sin optimizar: MMFF94 y UFF fallaron", False
+    texto = f"{embebido} + {_CAMPO_DE_FUERZA.get(campo, campo)}"
+    convergida = conformero.get("optimizacion_convergida") is True
+    if not convergida:
+        texto += ", sin converger"
+    return texto, campo == "MMFF94" and convergida
+
+
+def _campo_de_la_corrida(declarado: Any, registrado: Any) -> Campo:
+    """La identidad de la corrida, comprobada contra el resultado almacenado (SCI-A-022).
+
+    Se imprimía el `task_id` que declara el caso con `REGISTRADO` aunque el resultado
+    almacenado no guardara ninguno: la falta de un identificador guardado no demuestra
+    que coincidan. La discordancia la rechaza antes el router (409) y la avisa el
+    dossier; aquí se distingue «comprobada» de «sólo declarada».
+    """
+    declarado = str(declarado) if declarado else None
+    registrado = str(registrado) if registrado else None
+    if declarado and registrado and declarado == registrado:
+        return Campo("Corrida", declarado, Estado.REGISTRADO)
+    if declarado and not registrado:
+        return Campo(
+            "Corrida", f"{declarado} (declarada por el caso)", Estado.REVISAR,
+            "El resultado almacenado no guarda identificador de corrida: la correspondencia con la "
+            "corrida que declara el caso no se pudo comprobar.",
+            valor_es_clasificacion=True,
+        )
+    if registrado and not declarado:
+        return Campo("Corrida", registrado, Estado.REGISTRADO,
+                     "El caso no la declaró; es la del resultado almacenado.")
+    if declarado and registrado:
+        return Campo(
+            "Corrida", f"{declarado} (declarada por el caso)", Estado.REVISAR,
+            f"El resultado almacenado pertenece a la corrida «{registrado}».",
+            valor_es_clasificacion=True,
+        )
+    return _campo_dato("Corrida", None, "El caso no registró identificador de corrida.")
+
+
 def _campo_conformaciones(eval_result: Any) -> Campo:
     """
     El protocolo de generación 3D que la corrida ejecutó de verdad.
@@ -835,12 +1080,29 @@ def _campo_conformaciones(eval_result: Any) -> Campo:
             "El protocolo sellado no declara el número de conformaciones.",
         )
 
+    metodo, metodo_completo = _metodo_conformacional(eval_result)
+
     if pedidas <= 1:
         return Campo(
             "Generación conformacional",
-            "Confórmero único (ETKDG + MMFF94)",
-            Estado.REGISTRADO,
-            None,
+            f"Confórmero único ({metodo})",
+            Estado.REGISTRADO if metodo_completo else Estado.REVISAR,
+            None if metodo_completo else (
+                "La geometría de entrada no se optimizó con MMFF94 hasta converger, o la corrida "
+                "no registró cómo se optimizó: las poses de Vina parten de ella."
+            ),
+            valor_es_clasificacion=not metodo_completo,
+        )
+
+    if conseguidas <= 1:
+        # SCI-A-038: el ensemble se pidió y cayó a un único confórmero.
+        return Campo(
+            "Generación conformacional",
+            f"Confórmero único ({metodo}) · se pidieron {pedidas} conformaciones",
+            Estado.REVISAR,
+            f"Se pidieron {pedidas} conformaciones y la corrida siguió con una sola: el ensemble "
+            "no se generó y su cobertura no está.",
+            valor_es_clasificacion=True,
         )
 
     completo = conseguidas >= pedidas
@@ -856,12 +1118,22 @@ def _campo_conformaciones(eval_result: Any) -> Campo:
     # aunque una sea la mejor de 9 candidatas y la otra la mejor de 144. Eso no
     # es una advertencia sobre el método: es el denominador, y quien compare dos
     # expedientes lo necesita para saber que está comparando.
+    #
+    # SCI-A-024: el denominador es lo que el motor DEVOLVIÓ, no `conformaciones ×
+    # num_poses`. Vina puede dar menos modos de los pedidos y una conformación
+    # puede no acoplarse; multiplicar convertía el máximo solicitado en un hecho.
+    # El recuento real está en `execution_provenance.por_conformacion`; sin él, se
+    # dice que es un máximo.
     num_poses = protocolo.get("num_poses")
-    piscina = (
-        f" · pose elegida entre {conseguidas * num_poses} candidatas"
-        if isinstance(num_poses, int) and num_poses > 0 and conseguidas > 0
-        else ""
-    )
+    por_conformacion = (protocolo.get("execution_provenance") or {}).get("por_conformacion")
+    medidas = ([c.get("num_poses") for c in por_conformacion]
+               if isinstance(por_conformacion, list) and por_conformacion else None)
+    if medidas and all(isinstance(n, int) and not isinstance(n, bool) and n >= 0 for n in medidas):
+        piscina = f" · pose elegida entre {sum(medidas)} candidatas"
+    elif isinstance(num_poses, int) and num_poses > 0 and conseguidas > 0:
+        piscina = f" · pose elegida entre hasta {conseguidas * num_poses} candidatas (recuento no registrado)"
+    else:
+        piscina = ""
 
     return Campo(
         "Generación conformacional",
@@ -876,6 +1148,58 @@ def _campo_conformaciones(eval_result: Any) -> Campo:
         # ensemble incompleto imprimía «REVISAR» y perdía «22 de 30» — que es
         # justo la cifra por la que hay que revisar.
         valor_es_clasificacion=True,
+    )
+
+
+#: Cuántos nombres de residuo se escriben en el dossier antes de abreviar con «… y N más».
+_MAX_RESIDUOS_EN_DOSSIER = 12
+
+
+def _campo_residuos_de_referencia(protocolo: Any) -> Campo:
+    """Qué residuos de referencia usó la corrida (decisión del propietario, 2026-10-04).
+
+    Se lee del protocolo sellado con la corrida, nunca del catálogo actual: los residuos del catálogo
+    pueden no ser los que se usaron. Tres hechos distintos y una ausencia:
+
+        catalog   se heredó el catálogo
+        selected  la persona eligió un subconjunto
+        none      la persona decidió NO usar residuos de referencia
+        (sin dato) corrida anterior al sellado: se declara, no se sustituye
+    """
+    declarado = protocolo.get("reference_residues") if isinstance(protocolo, dict) else None
+    if not isinstance(declarado, dict):
+        return Campo(
+            "Residuos de referencia",
+            None,
+            Estado.NO_EVALUADO,
+            "Esta corrida es anterior al sellado de los residuos de referencia. No se sustituyen por los "
+            "del catálogo: podrían no ser los que se usaron.",
+        )
+
+    origen = declarado.get("source")
+    nombres = [str(n) for n in (declarado.get("residues") or [])]
+    cuantos = len(nombres)
+    total = declarado.get("catalog_count")
+
+    if origen == "none" or cuantos == 0:
+        return Campo(
+            "Residuos de referencia",
+            "Ninguno: la persona decidió no usar residuos de referencia",
+            Estado.REGISTRADO,
+            "Sin residuos de referencia la corrida no calcula qué residuos del sitio contactan las poses.",
+            valor_es_clasificacion=True,
+        )
+
+    lista = ", ".join(nombres[:_MAX_RESIDUOS_EN_DOSSIER])
+    if cuantos > _MAX_RESIDUOS_EN_DOSSIER:
+        lista += f" … y {cuantos - _MAX_RESIDUOS_EN_DOSSIER} más"
+    if origen == "selected":
+        de_cuantos = f" de {total}" if isinstance(total, int) and total > 0 else ""
+        valor = f"{cuantos} elegidos{de_cuantos} del catálogo: {lista}"
+    else:
+        valor = f"{cuantos} del catálogo: {lista}"
+    return Campo(
+        "Residuos de referencia", valor, Estado.REGISTRADO, None, valor_es_clasificacion=True,
     )
 
 
@@ -908,6 +1232,7 @@ def build_case_dossier(
     target: Any,
     artefactos: list[Artefacto] | None = None,
     generated_at: datetime | None = None,
+    contexto: Any | None = None,
 ) -> CaseDossier:
     """
     Interpreta la corrida UNA vez.
@@ -915,6 +1240,9 @@ def build_case_dossier(
     `generated_at` es inyectable para que el paquete pueda ser determinista bajo
     reloj congelado; sin eso, dos ZIP de la misma corrida diferirían sólo por la
     hora y el verificador no serviría para comparar.
+
+    `contexto` es el `ContextoEstructural` que mide las distancias al ligando (`contexto_estructural.medir`). Lo usa la
+    sección de especies del sitio para decir lo mismo que la auditoría de Preparación; sin él, ambas miden desde la caja.
     """
     ahora = (generated_at or datetime.now(timezone.utc)).replace(microsecond=0)
     generado = ahora.isoformat()
@@ -933,6 +1261,7 @@ def build_case_dossier(
     ) or "Receptor no informado"
     task_declarado = projection.run.task_id if projection.run else None
     task_registrado = _v(eval_result, "celery_task_id") or _v(eval_result, "task_id")
+    catalogo = catalogo_de_la_corrida(target, _v(eval_result, "docking_protocol") or {})
 
     portada = [
         Campo("Caso", projection.name),
@@ -942,7 +1271,10 @@ def build_case_dossier(
         # revisor lee. Si no dice qué respaldo tenía el receptor, invita
         # exactamente a la lectura que el catálogo no puede sostener.
         Campo("Respaldo del receptor", _respaldo_del_receptor(target)),
-        _campo_dato("Corrida", task_declarado, "El caso no registró identificador de corrida."),
+        # Un resultado de un receptor de demostración no puede salir del producto
+        # pareciendo de uno verificado: lo dice la portada, no sólo la pantalla.
+        campo_de_la_seccion(catalogo),
+        _campo_de_la_corrida(task_declarado, task_registrado),
         _campo_dato(
             "Fecha de la corrida",
             _texto(_v(eval_result, "evaluated_at")),
@@ -959,6 +1291,15 @@ def build_case_dossier(
         _campo_contexto("¿Qué justifica la elección del sistema?", ctx.system_rationale),
         _campo_contexto("¿Qué controles o referencias existen?", ctx.controls),
     ]
+    # AMP-05. Las notas ya viajaban en `case_snapshot.json` del paquete pero no
+    # en el documento que lee una persona: un canal que sólo ve quien abre el
+    # ZIP. Si salen del equipo, se ven. Sólo se imprimen cuando existen —un
+    # hueco en un campo opcional no es información— y la etiqueta dice lo que
+    # son: contexto libre del investigador, que no entra en ningún cálculo.
+    if ctx.notes and ctx.notes.strip():
+        proposito.append(
+            _campo_contexto("Notas del caso (contexto libre; no entra en ningún cálculo)", ctx.notes)
+        )
 
     # ── Ejecución: tres estados que NO se mezclan ────────────────────
     estado_tecnico = projection.run.execution_state if projection.run else None
@@ -1025,6 +1366,7 @@ def build_case_dossier(
             if receptor else None,
             "El caso no declaró receptor.",
         ),
+        _campo_unidad_acoplada(receptor, procedencia_ejecucion),
         _campo_dato(
             "Origen del receptor",
             receptor.origin if receptor else None,
@@ -1041,10 +1383,10 @@ def build_case_dossier(
             "No se registró la forma canónica del ligando.",
         ),
         _campo_dato(
-            "Caja efectiva",
+            "Caja de búsqueda efectiva",
             (f"centro {tuple(centro_corrida)} · tamaño {tuple(tamano_corrida)} Å"
              if centro_corrida and tamano_corrida else None),
-            "La corrida no persistió la caja efectiva; la caja declarada por el caso no prueba la ejecutada.",
+            "La corrida no persistió la caja de búsqueda efectiva; la caja declarada por el caso no prueba la ejecutada.",
         ),
         _campo_dato(
             "Residuos de referencia",
@@ -1114,7 +1456,7 @@ def build_case_dossier(
             preflight.execution_route if preflight else None,
             "La corrida no declaró la ruta de preparación aplicada.",
         ),
-        _campo_de_especies(procedencia_ejecucion),
+        *_campos_de_especies(procedencia_ejecucion, projection, contexto),
         _campo_de_estado_quimico(eval_result),
     ]
     if preflight and preflight.blockers:
@@ -1263,13 +1605,19 @@ def build_case_dossier(
     generacion = [
         _campo_dato("Poses producidas", len(poses) or None,
                     "La corrida no serializó poses."),
+        # SCI-A-036: lo que se pidió AL MOTOR en esta corrida es lo que selló su
+        # protocolo. Se tomaba del caso (`config.num_poses`), que es otro objeto y
+        # puede haber cambiado después: el dossier atribuía a la corrida una cifra
+        # que la corrida no registró. Lo declarado por el caso sigue aparte, en
+        # «Poses declaradas por el caso», con REVISAR si difiere.
         _campo_dato("Poses solicitadas al motor",
-                    config.num_poses if config else None,
+                    _v(protocolo_corrida, "num_poses"),
                     "La corrida no registró el número de poses solicitado."),
         _campo_dato("Exhaustividad", _v(protocolo_corrida, "exhaustiveness"),
                     "La corrida no registró la exhaustividad utilizada."),
         _campo_dato("Semilla aleatoria", repro.get("random_seed"),
                     "La corrida no registró la semilla: no es repetible bit a bit."),
+        _campo_residuos_de_referencia(protocolo_corrida),
         _campo_dato("Motor y versión",
                     " · ".join(x for x in (modelo.get("engine"), repro.get("vina_version")) if x) or None,
                     "La corrida no registró el motor ni su versión."),
@@ -1541,6 +1889,8 @@ def build_case_dossier(
     # revisor la lea junto al resto de lo que el caso no puede sostener.
     if calibracion.requiere_advertencia:
         incertidumbres.insert(0, calibracion.advertencia)
+    # Avisos medidos del catálogo (p. ej. un sitio fuera de la unidad biológica).
+    incertidumbres += [texto_del_aviso_del_catalogo(c) for c in catalogo.get("avisos") or []]
     if ctx.uncertainties and ctx.uncertainties.strip():
         incertidumbres.append(f"Declarado por el caso: {ctx.uncertainties.strip()}")
     if relacion != "corresponde":
@@ -1577,6 +1927,7 @@ def build_case_dossier(
         procedencia=resumen["provenance"],
         apendice_heredado=apendice,
         avisos_integridad=avisos,
+        catalogo=catalogo,
     )
 
 

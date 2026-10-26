@@ -1,0 +1,27 @@
+{
+  "pdb": "2AW1",
+  "semilla": 101,
+  "inicio": "2026-10-23T04:03:49+00:00",
+  "resultado": "auditada",
+  "task_id": "a9d69591-b64d-432a-ba26-5014c930e9f4",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:262 (1.91 Å). En contacto con el ligando del cristal: ZN A:262 (N1–ZN 1.91 Å).",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal COX A:264",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "c0bdeebff90ad2ad10cc49dbf961ac657db98093ae65a9b422da7fbd7cbcc667",
+  "afinidad_top1": -9.135,
+  "microestado": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "cfd8281ae7a6700e54259321b015b6986d98e67f2c8c3fe99e9de87719acf7d7",
+  "segundos": 15.0,
+  "fin": "2026-10-23T04:04:04+00:00",
+  "brazo": "despues",
+  "commit": "878c215b"
+}

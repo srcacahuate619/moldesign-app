@@ -109,3 +109,15 @@ Pero son justo los que un evaluador externo encuentra en los primeros diez minut
 baratos de arreglar ahora y caros de descubrir cuando los encuentre otro. Arreglarlos es la
 precondición de que `FEP-06` —el dry-run con un tercero de verdad— tenga alguna
 probabilidad de salir bien.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-161. G3 registra presencia de algún JSONL local no vacío y G4 presencia de algún
+  archivo Python entre los hashes. Sus recuentos describen esas condiciones sintácticas, no una
+  verificación de las cifras ni la identificación del productor efectivo de cada artefacto. Una
+  ausencia local tampoco descarta verificar un reanálisis desde fuentes parentales enlazadas. Se
+  retira la equivalencia entre pasar estos controles y que todo tercero pueda reproducir las
+  cifras del registro.

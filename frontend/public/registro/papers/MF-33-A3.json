@@ -1,7 +1,7 @@
 {
  "id": "MF-33-A3",
  "meta": {
-  "titulo": "Veintinueve veces más poses desde el mismo confórmero no mueven un solo complejo",
+  "titulo": "Veintinueve veces más poses desde el mismo confórmero dejan el mismo saldo: 19 contra 19",
   "entradilla": "A3 igualó corridas, poses (261) y CPU —gastó un 20% más que B— y perdió 26 a 19. La explicación alternativa que suspendía la magnitud de MF-33 está medida y no aporta nada."
  },
  "bloques": [
@@ -579,11 +579,11 @@
      "m": null
     },
     {
-     "t": "no mueve un solo complejo",
+     "t": "deja el mismo saldo, 19 contra 19",
      "m": "fuerte"
     },
     {
-     "t": ".",
+     "t": "; dentro de ese saldo cambian dos complejos (ver Correcciones, SCI-B-013).",
      "m": null
     }
    ]
@@ -664,37 +664,26 @@
       "m": "codigo"
      },
      {
-      "t": ".** La magnitud de",
+      "t": ".** La magnitud de ",
+      "m": null
+     },
+     {
+      "t": "MF-33",
+      "m": "codigo"
+     },
+     {
+      "t": " —1/33 rígido, 12/33 un confórmero flexible, 26/33 ensemble flexible— es ",
+      "m": null
+     },
+     {
+      "t": "citable",
+      "m": "fuerte"
+     },
+     {
+      "t": ", y el claim externo queda autorizado por la regla (2) del prerregistro.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "MF-33",
-     "m": "codigo"
-    },
-    {
-     "t": " —1/33 rígido, 12/33 un confórmero flexible, 26/33 ensemble flexible— es ",
-     "m": null
-    },
-    {
-     "t": "citable",
-     "m": "fuerte"
-    },
-    {
-     "t": ", y el claim externo queda autorizado por la regla (2) del prerregistro.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "**",
@@ -705,25 +694,10 @@
       "m": "codigo"
      },
      {
-      "t": " se relee sin cambiar su número.** Su 19/33 no era una limitación de conteo de",
+      "t": " se relee sin cambiar su número.** Su 19/33 no era una limitación de conteo de poses.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "poses.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "**",
@@ -742,25 +716,10 @@
       "m": "fuerte"
      },
      {
-      "t": "cobertura",
+      "t": "cobertura final** y no por la cobertura a presupuesto igualado, porque la ventaja del ensemble no es presupuesto. Su curva de cobertura contra presupuesto se conserva como secundario descriptivo.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "final** y no por la cobertura a presupuesto igualado, porque la ventaja del ensemble no es presupuesto. Su curva de cobertura contra presupuesto se conserva como secundario descriptivo.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "**",
@@ -771,19 +730,10 @@
       "m": "codigo"
      },
      {
-      "t": "** mantiene su comparador activo en 26/33, y su gate caducado sigue",
+      "t": "** mantiene su comparador activo en 26/33, y su gate caducado sigue caducado 8.67×.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "caducado 8.67×.",
-     "m": null
-    }
    ]
   },
   {
@@ -810,25 +760,10 @@
       "m": "fuerte"
      },
      {
-      "t": " el efecto, no",
+      "t": " el efecto, no lo cuantifica con precisión.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "lo cuantifica con precisión.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "No dice por qué",
@@ -841,7 +776,78 @@
     ],
     [
      {
-      "t": "No toca la cuestión de si esos confórmeros son alcanzables en producción, que es el techo",
+      "t": "No toca la cuestión de si esos confórmeros son alcanzables en producción, que es el techo que ",
+      "m": null
+     },
+     {
+      "t": "MF-02A-EXT",
+      "m": "codigo"
+     },
+     {
+      "t": " midió en 83.9% a K=30.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-013. El saldo de 19 contra 19 oculta ",
+      "m": null
+     },
+     {
+      "t": "dos complejos que cambian",
+      "m": "fuerte"
+     },
+     {
+      "t": ": no es cierto que multiplicar las poses «no mueva un solo complejo».",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-014. A3 no deja la conformación de partida como única diferencia: también cambian las semillas y la retención. La comparación es entre dos regímenes.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-015. El GO en la cohorte de entrenamiento no autoriza por sí mismo un claim público; hace falta una confirmación disjunta.",
       "m": null
      }
     ]
@@ -851,15 +857,11 @@
    "tipo": "parrafo",
    "frag": [
     {
-     "t": "que ",
-     "m": null
+     "t": "2026-10-22.",
+     "m": "fuerte"
     },
     {
-     "t": "MF-02A-EXT",
-     "m": "codigo"
-    },
-    {
-     "t": " midió en 83.9% a K=30.",
+     "t": " El titular y el párrafo de los resultados conservaban la frase que SCI-B-013 retiró; ahora dicen el saldo (hallazgo PAP-SOL-008 de la revisión de papers de Sol).",
      "m": null
     }
    ]

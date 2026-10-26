@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "MF-33-EXT-MOD-R1",
+  "hypothesis": "El BLOQUE 3 de MF-33-EXT-MOD (regla de decision) no se ejecuto: cuatro de cinco predictores quedaron vacios en los 68 externos. Calculados con el productor de MF-33-DOSIS, decide si algun descriptor estatico sobrevive BH q=0.05 (SCI-B-131)",
+  "protocol": "MF-33-EXT-MOD-R1/PREREGISTRO.md (01395459); scripts/run_mf33extmod_r1.py importa sin modificar los productores sellados de MF-33-DOSIS y MF-33-EXT-MOD; CPU local, sin docking",
+  "created_at": "2026-10-22T20:46:58.417342+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "claude/fase-1b",
+    "commit": "013954592e94efea8fa22a18f9fe77f16ba2533b",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "G0 reproduccion exacta de MF-33-DOSIS en los 48; G1 completitud >=65/68; GO si alguno de torsdof/rot_bonds/diversidad/n_heavy sobrevive BH, NO_GO si ninguno"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/MF-33-EXT-MOD/per_complex.jsonl": "273b9c7d9e68e2e8db2a31db0a755399e9fceb8951e11574c66dd97462a0ed28",
+    "scripts/artifacts_science/MF-33-DOSIS/per_complex.jsonl": "b6f560dd23f1f3e5433330862bd8dac1e5a18116cd4d6c46dce7c7d3f6b6f796"
+  },
+  "assets_hashes": {
+    "scripts/run_mf33extmod_r1.py": "5c377521a765c69e9dd3699d21978177c094aacee915611d15208a8d3eb517d1",
+    "scripts/analisis_mf33dosis_cuando_hace_falta_ensemble.py": "09cece5e629abb8ca60559aa1fec0d066b1439cc213e28f336692285217dce3d",
+    "scripts/analisis_mf33ext_moderadores.py": "60ee6c8475ca1e5b81391b02ac207434280b8654f3f3325bd52698a06422404b",
+    "scripts/artifacts_science/MF-33-EXT-MOD-R1/PREREGISTRO.md": "182f4c2b50c7370f30fbb5030572d2f65f7fb490e5beefc72a6516f29ceaa8ec"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-22T20:47:57.022507+00:00",
+  "decision_rationale": "GO preregistrado: reproduccion exacta de MF-33-DOSIS en los 48, completitud 65/68, y torsdof, rot_bonds, diversidad y n_heavy sobreviven BH en los 68 externos (rho 0.33-0.43); control barajado sin supervivientes. Diagnostico posterior declarado: controlando n_conformeros (K, confundido con la dosis) ninguno conserva asociacion (rho parcial -0.17 a -0.09): candidatos segun el PRE, sin senal propia mas alla de K.",
+  "finished_at": "2026-10-22T20:47:57.874579+00:00",
+  "duration_seconds": 20.2
+}

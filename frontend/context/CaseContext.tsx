@@ -44,10 +44,12 @@ import {
 } from "../lib/cases/repository";
 import { CaseSaveQueue, type SaveOutcome } from "../lib/cases/saveQueue";
 import { caseWithRun, touchCase } from "../lib/cases/schema";
+import { conDecision, registrarEscritorDeDecisiones } from "../lib/decisionesDeCaso";
 import {
   CaseError,
   hasCompletedRun,
   inputsForStructuralSystem,
+  pideOtroSistema,
   latestRun,
   isRunBlocking,
   runMatchesInputs,
@@ -59,6 +61,7 @@ import {
   type CaseInputs,
   type CaseRecord,
   type CaseRun,
+  type CaseDisposition,
   type CaseDispositionKind,
   type CaseStudyKind,
   type CaseView,
@@ -69,6 +72,17 @@ import { inputsAffectRun } from "../lib/preflight";
 import { getJobStatus } from "../lib/api";
 
 export type SaveState = "idle" | "saving" | "saved" | "error";
+
+/** Identidad de origen para respuestas que pueden llegar después de cambiar de caso. */
+export interface CaseOperationScope {
+  readonly caseId: string;
+  readonly ownerUserId?: string;
+}
+
+function matchesScope(record: CaseRecord, scope: CaseOperationScope): boolean {
+  return record.id === scope.caseId &&
+    (scope.ownerUserId === undefined || record.ownerUserId === scope.ownerUserId);
+}
 
 /** Trabajo vivo que impide reemplazar el caso activo. */
 export interface LiveWork {
@@ -83,6 +97,8 @@ export interface LiveWork {
 const NO_WORK: LiveWork = { evaluation: false, analysis: false, taskId: null };
 
 export interface CaseContextValue {
+  /** Identidad de la sesión que abrió este repositorio. */
+  readonly ownerUserId?: string;
   readonly repository: CaseRepository;
   readonly cases: readonly CaseIndexEntry[];
   readonly activeCase: CaseRecord | null;
@@ -96,7 +112,8 @@ export interface CaseContextValue {
   readonly registryHealth: RegistryHealth | null;
 
   createCase(name: string, studyKind: CaseStudyKind, parentDirectory?: string): Promise<CaseRecord | null>;
-  selectCase(id: string): Promise<void>;
+  /** `true` si al terminar ese caso es el activo (ya lo era o se abrió). */
+  selectCase(id: string): Promise<boolean>;
   closeCase(): Promise<void>;
   updateContext(patch: Partial<CaseContextData>): void;
   /**
@@ -116,9 +133,9 @@ export interface CaseContextValue {
    * viviera en la interfaz, cualquier ruta nueva podría dejar un preflight
    * describiendo una hipótesis que ya no existe.
    */
-  setInputs(patch: Partial<CaseInputs>): void;
+  setInputs(patch: Partial<CaseInputs>, scope?: CaseOperationScope): void;
   /** Guarda el resumen del último preflight generado para estos inputs. */
-  setPreflight(summary: PreflightSummary): void;
+  setPreflight(summary: PreflightSummary, scope?: CaseOperationScope): void;
   /**
    * Registra que una persona vio una advertencia y siguió adelante.
    *
@@ -127,7 +144,7 @@ export interface CaseContextValue {
    */
   recordDecision(controlCode: string, fingerprint: string, note?: string): void;
   /** Cierra el caso con una disposición científica explícita y justificada. */
-  setDisposition(kind: CaseDispositionKind, rationale: string): boolean;
+  setDisposition(kind: CaseDispositionKind, rationale: string): Promise<boolean>;
   setArchived(id: string, archived: boolean): Promise<void>;
   forgetCase(id: string): Promise<void>;
   relocateCase(id: string): Promise<void>;
@@ -158,7 +175,7 @@ export interface CaseContextValue {
    * en esa ventana la tarea queda viva en el backend sin que nada la registre.
    * Devuelve `false` si NO se pudo escribir.
    */
-  registerRun(run: CaseRun): Promise<boolean>;
+  registerRun(run: CaseRun, scope?: CaseOperationScope): Promise<boolean>;
   /** Corrida cuyo registro no llegó a disco. Bloquea y ofrece reintentar. */
   readonly unregisteredRun: CaseRun | null;
   retryRegisterRun(): Promise<boolean>;
@@ -184,6 +201,10 @@ function inputsReadyForPersistence(inputs: CaseInputs): CaseInputs {
 }
 
 export const AUTOSAVE_DELAY_MS = 600;
+
+export const SYSTEM_SEALED_MESSAGE =
+  "Este caso ya está fijado a su sistema estructural. Puedes cambiar el ligando y el " +
+  "protocolo; para cambiar receptor, caja o residuos crea otro caso.";
 
 export const LIVE_WORK_MESSAGE =
   "Hay trabajo en curso en este caso. Espera a que termine o cancélalo antes de cambiar de caso: cambiar ahora dejaría la ejecución sin seguimiento.";
@@ -402,7 +423,7 @@ export function CaseProvider({
   hasLiveWorkRef.current = hasLiveWork;
 
   const guardAgainstLiveWork = useCallback((): boolean => {
-    if (hasLiveWorkRef.current) {
+    if (hasLiveWorkRef.current || liveWorkRef.current.evaluation || liveWorkRef.current.analysis) {
       setError(LIVE_WORK_MESSAGE);
       return false;
     }
@@ -459,18 +480,20 @@ export function CaseProvider({
 
   const selectCase = useCallback(
     async (id: string) => {
-      if (activeCaseRef.current?.id === id) return;
-      if (!guardAgainstLiveWork()) return;
-      if (!(await drainActive())) return;
+      if (activeCaseRef.current?.id === id) return true;
+      if (!guardAgainstLiveWork()) return false;
+      if (!(await drainActive())) return false;
       try {
         const record = await repository.openCase(id);
-        if (!mounted.current) return;
+        if (!mounted.current) return false;
         setActiveCase(record);
         setError(null);
         setSaveState("idle");
         void refresh();
+        return true;
       } catch (err) {
         if (mounted.current) setError(describeError(err));
+        return false;
       }
     },
     [repository, refresh, guardAgainstLiveWork, drainActive, describeError],
@@ -509,9 +532,9 @@ export function CaseProvider({
   );
 
   const setInputs = useCallback(
-    (patch: Partial<CaseInputs>) => {
+    (patch: Partial<CaseInputs>, scope?: CaseOperationScope) => {
       setActiveCase((current) => {
-        if (!current) return current;
+        if (!current || (scope && !matchesScope(current, scope))) return current;
         const requestedInputs = inputsReadyForPersistence({ ...current.inputs, ...patch });
         // Una vez que una corrida TERMINÓ en este sistema, receptor, caja y
         // residuos dejan de ser controles editables. La UI los bloquea, pero
@@ -527,11 +550,8 @@ export function CaseProvider({
         const nextInputs = sealed && current.structuralSystem
           ? inputsForStructuralSystem(current.structuralSystem, requestedInputs)
           : requestedInputs;
-        if (sealed && JSON.stringify(nextInputs) !== JSON.stringify(requestedInputs)) {
-          setError(
-            "Este caso ya está fijado a su sistema estructural. Puedes cambiar el ligando y el " +
-              "protocolo; para cambiar receptor, caja o residuos crea otro caso.",
-          );
+        if (sealed && pideOtroSistema(patch, nextInputs)) {
+          setError(SYSTEM_SEALED_MESSAGE);
         }
         const invalidates = inputsAffectRun(current.inputs, nextInputs);
         if (!invalidates && JSON.stringify(nextInputs) === JSON.stringify(current.inputs ?? {})) {
@@ -547,10 +567,14 @@ export function CaseProvider({
         });
         // El preflight describe unos inputs concretos. Si cambian, deja de
         // describir nada: se retira. La corrida guardada NO se toca — sigue
-        // siendo historia del caso, sólo que de otra hipótesis.
+        // siendo historia del caso, sólo que de otra hipótesis. La
+        // disposición VIGENTE también se retira (AMP-01): describiría otra
+        // hipótesis. Pero no se BORRA — la decisión con su justificación vive
+        // en `dispositions`, el historial durable del caso, y el caso pasa a
+        // review para que se vuelva a decidir con conocimiento.
         const withPreflight: CaseRecord = invalidates
           ? (() => {
-              const { preflight: _drop, disposition: _oldDisposition, ...rest } = next;
+              const { preflight: _drop, disposition: _retirada, ...rest } = next;
               return rest as CaseRecord;
             })()
           : next;
@@ -563,9 +587,9 @@ export function CaseProvider({
   );
 
   const setPreflight = useCallback(
-    (summary: PreflightSummary) => {
+    (summary: PreflightSummary, scope?: CaseOperationScope) => {
       setActiveCase((current) => {
-        if (!current) return current;
+        if (!current || (scope && !matchesScope(current, scope))) return current;
         const next = touchCase(current, { preflight: summary });
         queue.enqueue(next);
         setSaveState("saving");
@@ -601,8 +625,23 @@ export function CaseProvider({
     [queue],
   );
 
+  // Preparación registra decisiones por aquí cuando el caso es el activo: escrito por fuera, el
+  // siguiente autoguardado de esta copia en memoria lo borraría (lib/decisionesDeCaso.ts).
+  useEffect(() => registrarEscritorDeDecisiones(async (casoId, decision) => {
+    const current = activeCaseRef.current;
+    if (!current || current.id !== casoId) return false;
+    const next = conDecision(current, decision);
+    activeCaseRef.current = next;
+    setActiveCase(next);
+    queue.enqueue(next);
+    setSaveState("saving");
+    const drained = await queue.drain(casoId);
+    if (!drained.ok) throw new Error("No se pudo guardar la decisión en el caso abierto en Evaluación.");
+    return true;
+  }), [queue]);
+
   const setDisposition = useCallback(
-    (kind: CaseDispositionKind, rationale: string): boolean => {
+    async (kind: CaseDispositionKind, rationale: string): Promise<boolean> => {
       const trimmed = rationale.trim();
       const current = activeCaseRef.current;
       const fingerprint = current?.activeRun?.inputFingerprint ?? current?.preflight?.fingerprint;
@@ -618,18 +657,31 @@ export function CaseProvider({
         setError("Escribe una justificación breve antes de cerrar el caso.");
         return false;
       }
+      const vigente: CaseDisposition = {
+        kind,
+        rationale: trimmed,
+        fingerprint,
+        at: new Date().toISOString(),
+      };
       const next = touchCase(current, {
         status: kind === "abstain" ? "abstained" : "completed",
-        disposition: {
-          kind,
-          rationale: trimmed,
-          fingerprint,
-          at: new Date().toISOString(),
-        },
+        disposition: vigente,
+        // AMP-01: la decisión entra también al HISTORIAL durable. Al
+        // invalidar los inputs, la vigente se retira pero el caso conserva
+        // qué se decidió, con qué justificación y sobre qué huella — el PDF
+        // exportado la conservaba; el caso, no.
+        dispositions: [...(current.dispositions ?? []), vigente],
       });
       setActiveCase(next);
+      activeCaseRef.current = next;
       queue.enqueue(next);
       setSaveState("saving");
+      const drained = await queue.drain(current.id);
+      if (!drained.ok) {
+        setSaveState("error");
+        return false;
+      }
+      setError(null);
       return true;
     },
     [queue],
@@ -813,6 +865,9 @@ export function CaseProvider({
   );
 
   const setLiveWork = useCallback((patch: Partial<LiveWork>) => {
+    // La guarda también debe ver una intención declarada en este mismo evento,
+    // antes de que React haya confirmado el siguiente render.
+    liveWorkRef.current = { ...liveWorkRef.current, ...patch };
     setLiveWorkState((current) => ({ ...current, ...patch }));
   }, []);
 
@@ -882,9 +937,26 @@ export function CaseProvider({
    * esto confirme.
    */
   const registerRun = useCallback(
-    async (run: CaseRun): Promise<boolean> => {
-      const current = activeCaseRef.current;
+    async (run: CaseRun, scope?: CaseOperationScope): Promise<boolean> => {
+      let current = activeCaseRef.current;
+      if (scope && (!current || !matchesScope(current, scope))) {
+        // Un submit ya aceptado no se descarta al desmontar/cambiar la sesión.
+        // Se conserva en su origen, nunca dentro del nuevo caso activo.
+        await queue.drain(scope.caseId);
+        try {
+          current = await repository.readCase(scope.caseId);
+        } catch {
+          return false;
+        }
+        if (!matchesScope(current, scope)) return false;
+      }
       if (!current) return false;
+      const currentId = current.id;
+      const appliesToActive = () => {
+        const active = activeCaseRef.current;
+        return mounted.current && active !== null && active.id === currentId &&
+          (!scope || matchesScope(active, scope));
+      };
 
       // El taskId es el momento correcto para ESCRIBIR el sistema: es el único
       // instante en que la huella y la configuración efectiva son las de esta
@@ -904,11 +976,13 @@ export function CaseProvider({
             }
           : {}),
       });
-      setActiveCase(next);
-      setLiveWorkState((w) => ({ ...w, evaluation: true, taskId: run.taskId }));
+      if (appliesToActive()) {
+        setActiveCase(next);
+        setLiveWorkState((w) => ({ ...w, evaluation: true, taskId: run.taskId }));
+      }
       queue.enqueue(next);
       const result = await queue.drain(current.id);
-      if (!mounted.current) return result.ok;
+      if (!appliesToActive()) return result.ok;
       if (!result.ok) {
         // El taskId NO se pierde: se guarda en memoria para poder reintentar o
         // copiarlo. Sin él, la tarea seguiría corriendo sin dueño.
@@ -925,7 +999,7 @@ export function CaseProvider({
       void refresh();
       return true;
     },
-    [queue, refresh],
+    [queue, refresh, repository],
   );
 
   const retryRegisterRun = useCallback(async (): Promise<boolean> => {
@@ -974,7 +1048,7 @@ export function CaseProvider({
 
   const value = useMemo<CaseContextValue>(
     () => ({
-      repository, cases, activeCase, loading, error, saveState, liveWork, hasLiveWork,
+      ownerUserId, repository, cases, activeCase, loading, error, saveState, liveWork, hasLiveWork,
       registryHealth, unregisteredRun,
       registerRun, retryRegisterRun,
       createCase, selectCase, closeCase, updateContext, setActiveView, setArchived,
@@ -985,7 +1059,7 @@ export function CaseProvider({
       setLiveWork, setActiveRun, retrySave, refresh, dismissError,
     }),
     [
-      repository, cases, activeCase, loading, error, saveState, liveWork, hasLiveWork,
+      ownerUserId, repository, cases, activeCase, loading, error, saveState, liveWork, hasLiveWork,
       registryHealth, unregisteredRun,
       registerRun, retryRegisterRun,
       createCase, selectCase, closeCase, updateContext, setActiveView, setArchived,

@@ -11,8 +11,101 @@ use tauri::{AppHandle, Emitter, Manager};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 use tokio::sync::Mutex;
 
+/// Descargas en curso: una por módulo, como mucho.
+///
+/// POR QUÉ. Nada impedía bajar el mismo módulo dos veces a la vez: la interfaz
+/// volvía a ofrecer «Descargar» mientras Rust seguía bajando (al recargar la
+/// ventana, al pulsar «Verificar instalación», o cuando la comprobación del
+/// arranque terminaba después de empezar una descarga). Las dos tareas escribían
+/// en el mismo `.part` y emitían cada una su progreso, así que la barra saltaba
+/// entre dos contadores —avanzaba y retrocedía— y el archivo mezclaba bytes de
+/// las dos.
+///
+/// La entrada vive mientras vive la tarea, no hasta que alguien pide cancelar:
+/// una cancelación no deja hueco para que otra descarga escriba en el `.part`
+/// antes de que la primera lo suelte.
 pub struct DownloadState {
     pub cancel_flags: Mutex<HashMap<String, Arc<AtomicBool>>>,
+}
+
+/// Lo que responde `download_model` si el módulo ya se está descargando. La
+/// interfaz lo reconoce por este texto y se engancha a la descarga que sigue.
+pub const YA_EN_CURSO: &str = "Ya hay una descarga en curso de este módulo";
+
+impl DownloadState {
+    pub fn new() -> Self {
+        Self {
+            cancel_flags: Mutex::new(HashMap::new()),
+        }
+    }
+
+    /// Reserva el módulo o dice que ya está reservado.
+    ///
+    /// Una descarga cancelada suelta el `.part` cuando llega su siguiente
+    /// bloque: se la espera unos segundos antes de rendirse.
+    async fn reservar(&self, model_id: &str) -> Result<Arc<AtomicBool>, String> {
+        for _ in 0..50 {
+            {
+                let mut flags = self.cancel_flags.lock().await;
+                match flags.get(model_id) {
+                    None => {
+                        let flag = Arc::new(AtomicBool::new(false));
+                        flags.insert(model_id.to_string(), flag.clone());
+                        return Ok(flag);
+                    }
+                    Some(flag) if !flag.load(Ordering::SeqCst) => {
+                        return Err(format!("{}: {}", YA_EN_CURSO, model_id));
+                    }
+                    Some(_) => {}
+                }
+            }
+            tokio::time::sleep(std::time::Duration::from_millis(200)).await;
+        }
+        Err(format!(
+            "{}: la anterior todavía se está cancelando ({})",
+            YA_EN_CURSO, model_id
+        ))
+    }
+
+    /// Libera la reserva de ESTA tarea; nunca la de otra.
+    async fn liberar(&self, model_id: &str, flag: &Arc<AtomicBool>) {
+        let mut flags = self.cancel_flags.lock().await;
+        if flags
+            .get(model_id)
+            .is_some_and(|actual| Arc::ptr_eq(actual, flag))
+        {
+            flags.remove(model_id);
+        }
+    }
+
+    async fn cancelar(&self, model_id: &str) -> bool {
+        let flags = self.cancel_flags.lock().await;
+        match flags.get(model_id) {
+            Some(flag) => {
+                flag.store(true, Ordering::SeqCst);
+                true
+            }
+            None => false,
+        }
+    }
+
+    /// Los módulos que se están descargando y nadie ha cancelado.
+    async fn en_curso(&self) -> Vec<String> {
+        let flags = self.cancel_flags.lock().await;
+        let mut ids: Vec<String> = flags
+            .iter()
+            .filter(|(_, flag)| !flag.load(Ordering::SeqCst))
+            .map(|(id, _)| id.clone())
+            .collect();
+        ids.sort();
+        ids
+    }
+}
+
+impl Default for DownloadState {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 #[derive(Clone, serde::Serialize)]
@@ -248,12 +341,54 @@ pub async fn download_model(
     let validated_url = validate_download_url(&url)?;
     let dest_path = resource_path(&app, &dest, "destino de descarga")?;
 
-    let cancel_flag = Arc::new(AtomicBool::new(false));
-    {
-        let mut flags = state.cancel_flags.lock().await;
-        flags.insert(model_id.clone(), cancel_flag.clone());
-    }
+    let cancel_flag = state.reservar(&model_id).await?;
+    let result = descargar(
+        &app,
+        &model_id,
+        validated_url,
+        &dest_path,
+        &sha256,
+        resume,
+        &cancel_flag,
+    )
+    .await;
+    state.liberar(&model_id, &cancel_flag).await;
 
+    // Se avisa SIEMPRE, también del fallo y de la cancelación: una ventana que
+    // se recargó a mitad de descarga ya no espera esta promesa y sólo por el
+    // evento sabe cómo acabó. Va después de liberar: quien lo reciba puede
+    // pedir otra descarga del mismo módulo sin chocar con esta.
+    let _ = app.emit(
+        "download:complete",
+        DownloadComplete {
+            model_id: model_id.clone(),
+            success: result.is_ok(),
+            error: result.as_ref().err().cloned(),
+        },
+    );
+    result
+}
+
+/// Los módulos que Rust está descargando ahora mismo.
+///
+/// La interfaz lo pregunta al arrancar: si la ventana se recargó durante una
+/// descarga, la retoma en vez de ofrecer «Descargar» otra vez.
+#[tauri::command]
+pub async fn active_downloads(
+    state: tauri::State<'_, DownloadState>,
+) -> Result<Vec<String>, String> {
+    Ok(state.en_curso().await)
+}
+
+async fn descargar(
+    app: &AppHandle,
+    model_id: &str,
+    validated_url: Url,
+    dest_path: &Path,
+    sha256: &str,
+    resume: bool,
+    cancel_flag: &AtomicBool,
+) -> Result<(), String> {
     if let Some(parent) = dest_path.parent() {
         tokio::fs::create_dir_all(parent)
             .await
@@ -286,7 +421,11 @@ pub async fn download_model(
         .map_err(|e| format!("Error en request: {}", e))?;
 
     if !resp.status().is_success() {
-        return Err(format!("Error HTTP descargando {}: {}", url, resp.status()));
+        return Err(format!(
+            "Error HTTP descargando {}: {}",
+            validated_url,
+            resp.status()
+        ));
     }
     // A server that ignores Range and returns 200 must not be appended to a
     // partial file: that would silently corrupt the artifact before hashing.
@@ -294,12 +433,16 @@ pub async fn download_model(
         downloaded = 0;
         drop(resp);
         resp = client
-            .get(validated_url)
+            .get(validated_url.clone())
             .send()
             .await
             .map_err(|e| format!("Error reiniciando descarga: {}", e))?;
         if !resp.status().is_success() {
-            return Err(format!("Error HTTP reiniciando {}: {}", url, resp.status()));
+            return Err(format!(
+                "Error HTTP reiniciando {}: {}",
+                validated_url,
+                resp.status()
+            ));
         }
     }
 
@@ -327,6 +470,9 @@ pub async fn download_model(
     let start = std::time::Instant::now();
     let mut last_emit = std::time::Instant::now();
     let mut total_downloaded = downloaded;
+    // La velocidad mide lo bajado en ESTA sesión: contar los bytes que ya traía
+    // el `.part` la inflaba al reanudar.
+    let inicio_de_sesion = downloaded;
 
     while let Some(chunk) = stream.next().await {
         if cancel_flag.load(Ordering::SeqCst) {
@@ -344,7 +490,7 @@ pub async fn download_model(
         if now.duration_since(last_emit).as_millis() >= 250 {
             let elapsed = now.duration_since(start).as_secs_f64();
             let speed = if elapsed > 0.0 {
-                total_downloaded as f64 / elapsed
+                (total_downloaded - inicio_de_sesion) as f64 / elapsed
             } else {
                 0.0
             };
@@ -352,7 +498,7 @@ pub async fn download_model(
             let _ = app.emit(
                 "download:progress",
                 DownloadProgress {
-                    model_id: model_id.clone(),
+                    model_id: model_id.to_string(),
                     bytes_downloaded: total_downloaded,
                     total_bytes: total,
                     speed_bytes_per_sec: speed,
@@ -371,29 +517,15 @@ pub async fn download_model(
     // Verify the completed temporary file before it becomes visible as a
     // usable model. A mismatch never leaves a corrupt final artifact behind.
     if !sha256.is_empty() {
-        if let Err(error) = verify_sha256(&part_path, &sha256).await {
+        if let Err(error) = verify_sha256(&part_path, sha256).await {
             let _ = tokio::fs::remove_file(&part_path).await;
             return Err(error);
         }
     }
 
-    tokio::fs::rename(&part_path, &dest_path)
+    tokio::fs::rename(&part_path, dest_path)
         .await
         .map_err(|e| format!("Error renombrando .part a destino: {}", e))?;
-
-    let _ = app.emit(
-        "download:complete",
-        DownloadComplete {
-            model_id: model_id.clone(),
-            success: true,
-            error: None,
-        },
-    );
-
-    {
-        let mut flags = state.cancel_flags.lock().await;
-        flags.remove(&model_id);
-    }
 
     Ok(())
 }
@@ -403,9 +535,9 @@ pub async fn cancel_download(
     state: tauri::State<'_, DownloadState>,
     model_id: String,
 ) -> Result<(), String> {
-    let mut flags = state.cancel_flags.lock().await;
-    if let Some(flag) = flags.remove(&model_id) {
-        flag.store(true, Ordering::SeqCst);
+    // Sólo se marca: la reserva la suelta la propia tarea al salir (ver
+    // `DownloadState`).
+    if state.cancelar(&model_id).await {
         Ok(())
     } else {
         Err(format!("No hay descarga activa para {}", model_id))
@@ -547,6 +679,69 @@ mod tests {
         assert!(inside.starts_with(&root));
         let escape = lexical_normalize(Path::new(r"C:\app\resources\..\secreto.bin")).unwrap();
         assert!(!escape.starts_with(&root));
+    }
+
+    #[test]
+    fn un_modulo_no_se_descarga_dos_veces_a_la_vez() {
+        tauri::async_runtime::block_on(async {
+            let state = DownloadState::new();
+            let primera = state.reservar("esmfold-weights").await.unwrap();
+
+            let segunda = state.reservar("esmfold-weights").await;
+            assert!(segunda.unwrap_err().contains(YA_EN_CURSO));
+            // Otro módulo sí puede bajar a la vez.
+            let otra = state.reservar("llm-qwen15").await.unwrap();
+            assert_eq!(
+                state.en_curso().await,
+                vec!["esmfold-weights", "llm-qwen15"]
+            );
+
+            state.liberar("esmfold-weights", &primera).await;
+            state.liberar("llm-qwen15", &otra).await;
+            assert!(state.en_curso().await.is_empty());
+            assert!(state.reservar("esmfold-weights").await.is_ok());
+        });
+    }
+
+    #[test]
+    fn cancelar_no_suelta_la_reserva_hasta_que_sale_la_tarea() {
+        tauri::async_runtime::block_on(async {
+            let state = DownloadState::new();
+            let tarea = state.reservar("esmfold-weights").await.unwrap();
+            assert!(state.cancelar("esmfold-weights").await);
+            assert!(tarea.load(Ordering::SeqCst));
+            // Cancelada ya no cuenta como «en curso», pero sigue reservada.
+            assert!(state.en_curso().await.is_empty());
+            assert!(state
+                .cancel_flags
+                .lock()
+                .await
+                .contains_key("esmfold-weights"));
+
+            // Una descarga nueva espera a que la cancelada suelte el `.part`.
+            let espera = state.reservar("esmfold-weights");
+            let suelta = async {
+                tokio::time::sleep(std::time::Duration::from_millis(300)).await;
+                state.liberar("esmfold-weights", &tarea).await;
+            };
+            let (nueva, ()) = futures_util::join!(espera, suelta);
+            let nueva = nueva.unwrap();
+            assert!(!Arc::ptr_eq(&nueva, &tarea));
+            assert!(!nueva.load(Ordering::SeqCst));
+        });
+    }
+
+    #[test]
+    fn una_tarea_vieja_no_libera_la_reserva_de_otra() {
+        tauri::async_runtime::block_on(async {
+            let state = DownloadState::new();
+            let vieja = Arc::new(AtomicBool::new(true));
+            let actual = state.reservar("esmfold-weights").await.unwrap();
+            state.liberar("esmfold-weights", &vieja).await;
+            assert_eq!(state.en_curso().await, vec!["esmfold-weights"]);
+            state.liberar("esmfold-weights", &actual).await;
+            assert!(state.en_curso().await.is_empty());
+        });
     }
 
     #[test]

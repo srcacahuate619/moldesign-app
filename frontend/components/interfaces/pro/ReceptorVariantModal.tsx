@@ -162,7 +162,7 @@ export function ReceptorVariantModal({ parent, onClose, onSuccess }: ReceptorVar
           <button type="button" onClick={onClose} disabled={busy} className="rounded-lg border border-zinc-800 px-4 py-2 text-xs text-zinc-300 hover:bg-zinc-900 disabled:opacity-50">{t("c_cancelar")}</button>
           <button type="submit" disabled={busy} className="inline-flex items-center gap-2 rounded-lg border border-purple-500/40 bg-purple-600 px-4 py-2 text-xs font-medium text-white hover:bg-purple-500 disabled:opacity-50">
             {busy && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />}
-            {busy ? t("auto_744d1b5d3397") : "Crear variante"}
+            {busy ? t("auto_744d1b5d3397") : t("pn_variante_crear")}
           </button>
         </footer>
       </form>

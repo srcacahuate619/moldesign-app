@@ -1,0 +1,27 @@
+{
+  "pdb": "4WUD",
+  "semilla": 7,
+  "inicio": "2026-10-23T03:18:22+00:00",
+  "resultado": "auditada",
+  "task_id": "0c943f05-e297-4b22-9a9e-37949867e174",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: MG A:402 (1.88 Å); más lejos: NA A:403 (8.06 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal ANP A:401",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "0fe765ca597c9f895f34fb242eec1d2233ae6bf3f1b0eb02a5a6fee9586308e9",
+  "afinidad_top1": -10.678,
+  "microestado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+  "microestado_coincide": true,
+  "semilla_declarada": 7,
+  "vina": "1.2.7",
+  "receptor_sha256": "ab1760ac18b6d49b8466cd87be454cfb0014d03087838cdbc6ecdf40b033f77c",
+  "segundos": 41.2,
+  "fin": "2026-10-23T03:19:03+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

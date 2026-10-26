@@ -67,7 +67,7 @@ export function SupportContent() {
     <div className="px-5 py-4 font-sans">
       <section className="mb-6">
         <h3 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-dim)]">
-          Contacto
+          {t("pr_contact_label")}
         </h3>
         <ExternalLink
           href="mailto:soporte-moldesign@amezcua-dev.com"
@@ -84,7 +84,7 @@ export function SupportContent() {
 
       <section className="mb-6">
         <h3 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-[var(--text-dim)]">
-          Preguntas frecuentes
+          {t("op_faq")}
         </h3>
         <div className="flex flex-col gap-1.5">
           {FAQ_ITEMS.map((item, index) => {

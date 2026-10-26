@@ -1,0 +1,33 @@
+[
+  {
+    "archivo": "8hfi_curado.pdbqt",
+    "modo": "manual (PDBQT)",
+    "http": 201,
+    "detalle": "Target personalizado USR_CF0FA9 subido exitosamente.",
+    "pdb_id": "USR_CF0FA9",
+    "evaluacion": "FALLA: preflight bloqueado: ['RECEPTOR_FUENTE_DISPONIBLE']"
+  },
+  {
+    "archivo": "8hfi_crudo.pdb",
+    "modo": "automático",
+    "http": 201,
+    "detalle": "Target personalizado USR_A5F756 curado e ingestado exitosamente.",
+    "pdb_id": "USR_A5F756",
+    "evaluacion": "SUCCESS · E top-1 -7.557 · 52.8 s",
+    "species_diff": true
+  },
+  {
+    "archivo": "8HFI_CRUDO.PDB",
+    "modo": "automático",
+    "http": 400,
+    "detalle": "{\"detail\":\"Error de validación. Por favor verifica el archivo y los parámetros.\"}",
+    "pdb_id": null
+  },
+  {
+    "archivo": "8hfi.cif",
+    "modo": "automático",
+    "http": 400,
+    "detalle": "{\"detail\":\"Invalid file format. Only PDB (.pdb), PDBQT (.pdbqt, modo manual) or SDF (.sdf) files are allowed.\"}",
+    "pdb_id": null
+  }
+]

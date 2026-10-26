@@ -24,6 +24,47 @@ def _sanitize_ascii(text: str) -> str:
     """Mantener el texto original en UTF-8 para preservar acentos y la eñe."""
     return text
 
+
+def _al_flujo(bloque: str, prefijo: str = "") -> str:
+    """Un bloque de resultados de herramientas tal como se emite, con su cierre.
+
+    Todo bloque que va al flujo pasa por aquí: lo que se emita después es la
+    respuesta, y la interfaz necesita saber dónde acaba la evidencia.
+    """
+    from services.ai.tool_registry import bloque_para_el_flujo
+
+    return bloque_para_el_flujo(bloque, prefijo)
+
+
+def validar_smiles_de_la_llamada(tool: Any, args: dict) -> tuple[dict, str | None]:
+    """El guardián de SMILES de una llamada nativa: `(args canonizados, error o None)`.
+
+    Cada argumento de SMILES que escribe el modelo (`smiles`, `smiles_a`…) se
+    valida con RDKit y se canoniza; sólo se exigen los que la herramienta declara
+    obligatorios. Antes se exigía `smiles` a TODAS: las 11 herramientas que no lo
+    llevan (`query_history`, `check_docking_status`, `query_molgraph`,
+    `compare_molecules` con `smiles_a`/`smiles_b`…) nunca se ejecutaban por la
+    ruta nativa, la del modelo local. Medido el 2026-10-10.
+    """
+    from services.ai.tool_registry import _guard_validate_smiles
+
+    parametros = getattr(tool, "parameters", None) or {}
+    claves = [k for k in parametros if "smiles" in k]
+    faltan = [k for k in claves if (parametros[k] or {}).get("required") and not args.get(k)]
+    if faltan:
+        # El modelo eligió una herramienta química sin darle la molécula: no se
+        # ejecuta con un hueco.
+        return args, f"falta el SMILES ({', '.join(faltan)}) en los argumentos {str(args)[:80]}"
+    args = dict(args)
+    for k in claves:
+        if not args.get(k):
+            continue
+        valido, canonico, error = _guard_validate_smiles(str(args[k]))
+        if not valido:
+            return args, f"SMILES invalido '{str(args[k])[:40]}': {error}"
+        args[k] = canonico
+    return args, None
+
 # Adaptive context: se escala según n_ctx del modelo cargado.
 # IMPORTANTE: este n_ctx DEBE coincidir con el que arranca el server en
 # local_llm.py:546 (`-c`). Antes esto era 8192 (speed) / 32768 (reasoning),
@@ -888,6 +929,12 @@ class ChatService:
             " - Para verificar drug-likeness (Lipinski, PAINS): usa 'check_druglikeness'.",
             " - Para predecir ADME/Tox: usa 'predict_admet'.",
             " - Para comparar dos moléculas: usa 'compare_molecules'.",
+            # La comprobación previa de Evaluación: qué bloquea o avisa antes
+            # de acoplar. Antes MolChat contestaba de memoria lo que el
+            # producto ya calcula.
+            " - Para saber por qué un receptor o una corrida está bloqueada o tiene advertencias "
+            "antes de acoplar, o si está lista (la comprobación previa de Evaluación): usa "
+            "'check_preparation'.",
             "NO respondas con SMILES inventados. Si no sabes una estructura, busca en las herramientas.",
         ]
         try:
@@ -1151,6 +1198,12 @@ class ChatService:
 
         conv = self.get_or_create_active(molecule_context, user_id=user_id)
 
+        # LUNA-05: las herramientas de este turno saben en qué conversación corren
+        # (una propuesta de docking deja constancia ahí cuando se aprueba).
+        from services.ai.contexto_de_turno import conversacion_del_turno
+
+        conversacion_del_turno.set(conv.id)
+
         # `fallback_provider` describe **este** turno, no la conversación para
         # siempre. Se marcaba al caer al motor local y no se limpiaba nunca, así
         # que el turno siguiente seguía declarándose respondido por un respaldo:
@@ -1216,6 +1269,26 @@ class ChatService:
                         break  # tomar el último __PENDING_WEB_ASK__
         except Exception as _e:
             log.warning("web_perm_handler_fail", error=str(_e)[:200])
+
+        # ── LUNA-05: un «sí» escrito no aprueba un docking propuesto ──
+        # La aprobación es el botón de la tarjeta (confirma con la sesión y se ata
+        # a la huella de la propuesta), no un mensaje de texto.
+        try:
+            from services.ai.propuestas_de_docking import respuesta_a_un_si_escrito
+
+            _aviso_si = await respuesta_a_un_si_escrito(
+                mensajes=conv.messages[:-1],  # sin el mensaje del usuario recién añadido
+                mensaje_del_usuario=user_message,
+                user_id=user_id,
+            )
+        except Exception as _e:
+            _aviso_si = None
+            log.warning("si_escrito_handler_fail", error=str(_e)[:200])
+        if _aviso_si:
+            yield _aviso_si
+            conv.add_message("assistant", _aviso_si)
+            self._persist_conv(conv)
+            return
 
         intent = self._route_user_intent(user_message)
 
@@ -1300,7 +1373,7 @@ class ChatService:
                             {"tool": "query_verified_source", "result": _r}
                         ])
                         _turn_tool_text = _rtxt
-                        yield f"\n\n{_rtxt}"
+                        yield _al_flujo(_rtxt)
                         conv.add_message("assistant",
                             "[query_verified_source — valores con fuente]")
                         conv.add_message("system", _rtxt)
@@ -1404,6 +1477,36 @@ class ChatService:
                     conv.add_message("assistant", resp)
                     self._persist_conv(conv)
                     return
+            # ── COMPROBACIÓN PREVIA: el informe REAL del panel de Evaluación,
+            # decidido por el clasificador, y una respuesta escrita por el
+            # código. El modelo no
+            # redacta encima: en la cápsula, Qwen2.5-1.5B dijo «8HFI está
+            # bloqueado» con un informe sin ningún bloqueante (2026-10-10). ──
+            if _det.tool == "check_preparation" and _det.target:
+                try:
+                    from services.ai.tool_registry import format_tool_results
+                    from services.ai.tools.preparation_tools import consultar_preparacion
+
+                    log.info("tool_classifier_preparation", target=_det.target,
+                             con_ligando=bool(_det.smiles))
+                    _res = await consultar_preparacion(
+                        _det.target, _det.smiles or "",
+                        user_id=str(user_id) if user_id else "",
+                    )
+                    if _res is not None:
+                        _informe_txt, _breve = _res
+                        _rtxt = format_tool_results([{"tool": "check_preparation", "result": _informe_txt}])
+                        yield _al_flujo(_rtxt)
+                        conv.add_message("system", _rtxt)
+                        yield f"\n\n{_breve}"
+                        conv.add_message("assistant", _breve)
+                        self._persist_conv(conv)
+                        log.info("deterministic_answer", tool="check_preparation",
+                                 intent=_det.name, chars=len(_breve))
+                        return
+                except Exception as _e:
+                    log.warning("preparation_tool_fail", error=str(_e)[:200])
+
             # ── Tools SIN SMILES (sesión/historial) ──
             # rank_session_molecules y query_history no reciben SMILES: operan
             # sobre la conversación actual o la DB. El clasificador las rutea
@@ -1467,7 +1570,7 @@ class ChatService:
                         _r = await _tool.fn(**_args)
                         _rtxt = format_tool_results([{"tool": _det.tool, "result": _r}])
                         _turn_tool_text = _rtxt
-                        yield f"\n\n{_rtxt}"
+                        yield _al_flujo(_rtxt)
                         conv.add_message("assistant",
                             f"[{_det.tool} — clasificador determinista]")
                         conv.add_message("system", _rtxt)
@@ -1533,7 +1636,7 @@ class ChatService:
                             {"tool": "query_evaluation_details", "result": _r}
                         ])
                         _turn_tool_text = _rtxt
-                        yield f"\n\n{_rtxt}"
+                        yield _al_flujo(_rtxt)
                         conv.add_message("assistant",
                             "[query_evaluation_details — datos reales de la evaluación]")
                         conv.add_message("system", _rtxt)
@@ -1597,7 +1700,7 @@ class ChatService:
                         if _r:
                             log.info("deterministic_answer", tool="suggest_smiles",
                                      intent=_det.name, chars=len(_r))
-                            yield f"\n\n{_rtxt}"
+                            yield _al_flujo(_rtxt)
                             conv.add_message("assistant", _r)
                             self._persist_conv(conv)
                             return
@@ -1641,7 +1744,7 @@ class ChatService:
                             for r in _rows
                         ])
                         _turn_tool_text = _rtxt
-                        yield f"\n\n{_rtxt}"
+                        yield _al_flujo(_rtxt)
                         conv.add_message("assistant",
                             f"[Comparando {len(_rows)} moléculas — clasificador determinista]")
                         conv.add_message("system", _rtxt)
@@ -1775,19 +1878,15 @@ class ChatService:
 
                             name_a = _name_for_smiles(_det.smiles)
                             name_b = _name_for_smiles(_det.smiles_b)
-                            _rtxt = (
-                                "\n[Sistema: resultados de herramientas ejecutadas:]\n"
-                                f"{_det.tool} (A={name_a} | B={name_b}): {_r}"
-                            )
-                        elif _tool_label:
-                            _rtxt = (
-                                "\n[Sistema: resultados de herramientas ejecutadas:]\n"
-                                f"{_det.tool} ({_tool_label}): {_r}"
-                            )
-                        else:
-                            _rtxt = format_tool_results([{"tool": _det.tool, "result": _r}])
+                            _tool_label = f"A={name_a} | B={name_b}"
+                        # Con nombre o sin él, el bloque declara su clase y su
+                        # fuente: antes el camino con nombre escribía el suyo sin
+                        # ellas, y la interfaz no lo reconocía y lo descartaba.
+                        _rtxt = format_tool_results([
+                            {"tool": _det.tool, "result": _r, "etiqueta": _tool_label}
+                        ])
                         _turn_tool_text = _rtxt
-                        yield f"\n\n{_rtxt}"
+                        yield _al_flujo(_rtxt)
                         conv.add_message("assistant",
                             f"[{_det.tool} — clasificador determinista]")
                         conv.add_message("system", _rtxt)
@@ -1993,31 +2092,9 @@ class ChatService:
                                         args = repaired
                                 except _json.JSONDecodeError:
                                     pass
-                            smiles_arg = args.get("smiles") or args.get("init_smiles")
-                            if smiles_arg:
-                                from services.ai.tool_registry import _guard_validate_smiles
-                                valid, canon, err = _guard_validate_smiles(smiles_arg)
-                                if not valid:
-                                    results.append({
-                                        "tool": name,
-                                        "error": f"SMILES invalido '{smiles_arg[:40]}': {err}",
-                                    })
-                                    continue
-                                for k in ("smiles", "init_smiles"):
-                                    if k in args:
-                                        args[k] = canon
-                                        break
-                            else:
-                                # Args sin SMILES plausible en una tool química:
-                                # el modelo alucinó o no entendió el formato.
-                                # No ejecutamos la tool — safe default.
-                                results.append({
-                                    "tool": name,
-                                    "error": (
-                                        "no se pudo extraer un SMILES válido "
-                                        f"de los argumentos {str(args)[:80]}"
-                                    ),
-                                })
+                            args, error_de_smiles = validar_smiles_de_la_llamada(tool, args)
+                            if error_de_smiles:
+                                results.append({"tool": name, "error": error_de_smiles})
                                 continue
                         try:
                             # La identidad la pone el servidor para CUALQUIER
@@ -2038,7 +2115,7 @@ class ChatService:
                     if results:
                         result_text = format_tool_results(results)
                         _turn_tool_text = result_text
-                        yield f"\n\n{result_text}"
+                        yield _al_flujo(result_text)
                         conv.add_message("assistant",
                             tc_response.get("content", "") or
                             f"[Llamando {len(tool_calls)} herramienta(s)]")
@@ -2138,7 +2215,7 @@ class ChatService:
                                     results = [{"tool": "compute_properties", "result": r}]
                                     result_text = format_tool_results(results)
                                     _turn_tool_text = result_text
-                                    yield f"\n\n{result_text}"
+                                    yield _al_flujo(result_text)
                                     conv.add_message("assistant",
                                         "[Ejecutando compute_properties forzado por validez]")
                                     conv.add_message("system", result_text)
@@ -2163,6 +2240,13 @@ class ChatService:
             async for token in provider.chat(messages=messages_for_api, stream=True):
                 full_response += token
                 yield token
+
+            # Un aviso del proveedor («Ollama no tiene el modelo…», «Evaluación en
+            # curso») ya salió como `event: warning`, y no es una respuesta: no se
+            # guarda como mensaje del asistente —se reenviaba al modelo en el
+            # turno siguiente como si lo hubiera dicho él— ni pasa por los guardas.
+            if full_response.startswith("__WARNING__:"):
+                return
 
             # Hallucination guard: verificar números después de la respuesta.
             # CUBRE DOS CASOS:
@@ -2337,7 +2421,7 @@ class ChatService:
 
                 result_text = format_tool_results(tool_results)
                 _any_tool_round = True
-                yield f"\n\n🔧 {result_text}"
+                yield _al_flujo(result_text, prefijo="🔧 ")
 
                 visible = strip_tool_markers(full_response).strip()
                 conv.add_message("assistant", visible)

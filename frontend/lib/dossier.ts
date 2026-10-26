@@ -1,4 +1,4 @@
-import { beginFileDownload, completeFileDownload, failFileDownload, type ActivitySource } from "./activityNotifications";
+import { beginFileDownload, handoffFileDownload, failFileDownload, type ActivitySource } from "./activityNotifications";
 
 // =====================================================================
 // Cliente del dossier de caso — proyección, PDF y paquete reproducible
@@ -31,9 +31,16 @@ import { beginFileDownload, completeFileDownload, failFileDownload, type Activit
 // ruta histórica `GET /blockchain/certificate/{id}/preview` sigue existiendo
 // para el certificado —otro documento, otra pregunta— y NO se toca.
 
-import { getApiUrl } from "./config";
+import { fetchBackend } from "./backendFetch";
 import { getAuthHeaders } from "./api";
-import type { CasePipelineConfig, CaseRecord, ReportableResult, RunInputsRelation } from "./cases/types";
+import {
+  CASE_CONTEXT_MAX_CHARS,
+  CASE_CONTEXT_SPECS,
+  type CasePipelineConfig,
+  type CaseRecord,
+  type ReportableResult,
+  type RunInputsRelation,
+} from "./cases/types";
 import { esAuditoriaPreparacion, type AuditoriaPreparacion } from "./preparacion";
 
 // ── Contrato: CaseProjection v1 ──────────────────────────────────────
@@ -451,6 +458,31 @@ export interface DossierArtifact {
   readonly filename: string | null;
 }
 
+/**
+ * Un texto del contexto que excede el contrato se rechaza AQUÍ, en español y
+ * nombrando el campo, no con el 422 técnico del backend (AMP-06). El texto del
+ * caso no se toca: la persona decide qué acortar.
+ */
+export function verificarLimitesDelContexto(context: ProjectedContext | undefined): void {
+  if (!context) return;
+  const excedidos: string[] = [];
+  for (const [clave, valor] of Object.entries(context)) {
+    if (typeof valor !== "string" || valor.length <= CASE_CONTEXT_MAX_CHARS) continue;
+    const campo = clave.replace(/_([a-z])/g, (_, letra: string) => letra.toUpperCase());
+    const etiqueta = CASE_CONTEXT_SPECS.find((spec) => spec.field === campo)?.question ?? clave;
+    excedidos.push(
+      `«${etiqueta}» tiene ${valor.length} caracteres (${valor.length - CASE_CONTEXT_MAX_CHARS} de más)`,
+    );
+  }
+  if (excedidos.length > 0) {
+    throw new DossierError(
+      `El dossier admite hasta ${CASE_CONTEXT_MAX_CHARS} caracteres por texto del contexto. ` +
+        `Acorta: ${excedidos.join("; ")}. El caso conserva el texto tal como lo escribiste.`,
+      422,
+    );
+  }
+}
+
 /** POST de la proyección. Devuelve la respuesta ya comprobada; los fallos, como `DossierError`. */
 async function sendProjection(
   moleculeId: string,
@@ -458,12 +490,12 @@ async function sendProjection(
   projection: CaseProjection,
   signal?: AbortSignal,
 ): Promise<Response> {
-  const base = await getApiUrl();
-  const url = `${base}/evaluation/dossier/${encodeURIComponent(moleculeId)}/${kind}`;
+  verificarLimitesDelContexto(projection.context);
+  const url = `/evaluation/dossier/${encodeURIComponent(moleculeId)}/${kind}`;
 
   let response: Response;
   try {
-    response = await fetch(url, {
+    response = await fetchBackend(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -544,9 +576,14 @@ export function requestDossierPackage(
 
 // ── Nombres de archivo ───────────────────────────────────────────────
 
-/** Misma lista blanca que `services/dossier/package.py::sanitizar`. */
+/**
+ * Misma lista blanca que `services/dossier/package.py::sanitizar`, y el mismo paso previo: las
+ * letras con tilde pierden la marca («Inhibición» → «Inhibicion»); antes cada una se volvía un
+ * guion («Inhibici-n»). Lo ata una prueba de paridad con el backend (QA1-001).
+ */
 export function sanitizeFilenamePart(value: string, maximum = 64): string {
-  let clean = (value ?? "").trim().replace(/[^A-Za-z0-9._-]+/g, "-");
+  const sinMarcas = (value ?? "").normalize("NFKD").replace(/\p{M}+/gu, "");
+  let clean = sinMarcas.trim().replace(/[^A-Za-z0-9._-]+/g, "-");
   clean = clean.replace(/\.{2,}/g, ".");
   clean = clean.replace(/-{2,}/g, "-").replace(/^[-._]+|[-._]+$/g, "");
   if (!clean) clean = "sin-nombre";
@@ -585,9 +622,9 @@ export function saveBlobAs(
     anchor.href = url;
     anchor.download = filename;
     document.body.appendChild(anchor);
+    handoffFileDownload(activityId, filename, url, source);
     anchor.click();
     anchor.remove();
-    completeFileDownload(activityId, filename, source);
   } catch (error) {
     failFileDownload(activityId, filename, source);
     throw error;

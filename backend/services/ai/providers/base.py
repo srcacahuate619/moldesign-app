@@ -57,6 +57,52 @@ class ProviderConfig:
     extra: dict[str, Any] = field(default_factory=dict)
 
 
+def aviso_de_error_http(proveedor: str, status: int, detalle: str, modelo: str) -> str:
+    """Un error HTTP de un proveedor, dicho como aviso que dice qué hacer.
+
+    Antes cada proveedor devolvía el error como texto de la respuesta —«Error
+    API (401): …», «Error Gemini (400)»—: se pintaba como si MolChat lo hubiera
+    escrito, se guardaba en la conversación y no decía qué hacer.
+    """
+    from services.ai.redaccion import redactar_secretos
+
+    detalle = redactar_secretos(str(detalle or "")).strip()[:160]
+    de_clave = status in (401, 403) or (status == 400 and "api key" in detalle.lower())
+    if de_clave:
+        que = (
+            f"{proveedor} rechazó la clave de API ({status}). Revísala en Opciones ▸ "
+            "Intérprete IA ▸ Clave de API."
+        )
+    elif status == 404:
+        que = (
+            f"{proveedor} no reconoce el modelo «{modelo}» ({status}). Cambia el modelo "
+            "en Opciones ▸ Intérprete IA."
+        )
+    elif status == 429:
+        que = (
+            f"{proveedor} limita las peticiones o la cuenta no tiene saldo ({status}). "
+            "Espera un poco, revisa tu plan o usa el modo local."
+        )
+    elif status >= 500:
+        que = (
+            f"{proveedor} tiene un fallo de su lado ({status}). Reintenta en unos "
+            "minutos o usa el modo local."
+        )
+    else:
+        que = f"{proveedor} respondió con un error ({status})."
+    return f"__WARNING__:{que} Detalle: {detalle}" if detalle else f"__WARNING__:{que}"
+
+
+def aviso_de_conexion(proveedor: str, destino: str, error: object) -> str:
+    """No se llegó a hablar con el proveedor: red, DNS, certificado, tiempo."""
+    from services.ai.redaccion import redactar_secretos
+
+    return (
+        f"__WARNING__:No se pudo conectar con {proveedor} en "
+        f"{redactar_secretos(destino)}: {redactar_secretos(error)[:120]}"
+    )
+
+
 class AIProvider(ABC):
     id: str = ""
     name: str = ""

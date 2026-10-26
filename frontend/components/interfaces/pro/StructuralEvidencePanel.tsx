@@ -88,7 +88,7 @@ function SelectionIcon({ status }: { status: SelectionStatus }) {
 function Badge({ cls, children }: { cls: string; children: React.ReactNode }) {
   return (
     <span
-      className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider ${cls}`}
+      className={`inline-flex max-w-full items-center gap-1.5 rounded border px-1.5 py-0.5 font-sans text-sm uppercase tracking-wider ${cls}`}
     >
       {children}
     </span>
@@ -111,12 +111,12 @@ function Fact({
   const { t } = useLanguage();
   return (
     <div className="min-w-0">
-      <dt className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+      <dt className="flex items-center gap-1 font-sans text-sm uppercase tracking-wider text-zinc-400">
         {label}
         {ayuda}
       </dt>
       <dd
-        className={`truncate text-xs ${value == null ? "text-zinc-500 italic" : "text-zinc-200"}`}
+        className={`break-words text-base font-sans leading-6 ${value == null ? "text-zinc-300 italic" : "text-zinc-200"}`}
         title={title ?? value ?? undefined}
       >
         {value ?? t("se_not_reported")}
@@ -143,12 +143,12 @@ function SectionHeading({
   return (
     <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
       <div className="min-w-0">
-        <h3 id={id} className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-100">
-          <span className="font-mono text-[10px] text-zinc-600">{index}</span>
-          <span className="text-zinc-500">{icon}</span>
+        <h3 id={id} className="flex items-center gap-2 font-sans text-base font-bold uppercase tracking-[0.14em] text-zinc-100">
+          <span className="font-mono text-sm text-zinc-400">{index}</span>
+          <span className="text-zinc-400">{icon}</span>
           {title}
         </h3>
-        <p className="mt-1 max-w-[70ch] text-xs leading-5 text-zinc-500">{lead}</p>
+        <p className="mt-1 max-w-[70ch] text-base leading-6 text-zinc-300 font-sans">{lead}</p>
       </div>
       {badge}
     </div>
@@ -190,10 +190,10 @@ export function PosePhysicalDetails({
     >
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h4 id="pose-physical-detail-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-200">
+          <h4 id="pose-physical-detail-title" className="font-sans text-base font-bold uppercase tracking-[0.14em] text-zinc-200">
             {t("se_phys_per_pose")}{rank == null ? "" : ` #${rank}`}
           </h4>
-          <p className="mt-1 text-[11px] leading-relaxed text-zinc-500">
+          <p className="mt-1 text-base leading-6 text-zinc-300 font-sans">
             {t("se_s3_lead")}
           </p>
         </div>
@@ -206,7 +206,7 @@ export function PosePhysicalDetails({
       </div>
 
       {!pose ? (
-        <p className="mt-3 text-xs leading-relaxed text-zinc-400">
+        <p className="mt-3 text-base leading-6 text-zinc-400 font-sans">
           {t("se_phys_not_evaluated_meaning")}
         </p>
       ) : (
@@ -223,8 +223,8 @@ export function PosePhysicalDetails({
             )}
           </dl>
           {pose.failingChecks.length > 0 ? (
-            <p className="mt-3 break-words text-xs leading-relaxed text-red-300/85">
-              <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+            <p className="mt-3 break-words text-base leading-6 text-red-300 font-sans">
+              <span className="font-sans text-sm uppercase tracking-wider text-zinc-400">
                 {t("se_phys_failing")}:
               </span>{" "}
               {/* El identificador de PoseBusters se conserva en el `title`: es
@@ -238,9 +238,9 @@ export function PosePhysicalDetails({
               ))}
             </p>
           ) : pose.status === "passed" ? (
-            <p className="mt-3 text-xs leading-relaxed text-zinc-500">{t("se_phys_none_failing")}</p>
+            <p className="mt-3 text-base leading-6 text-zinc-300 font-sans">{t("se_phys_none_failing")}</p>
           ) : null}
-          {pose.detail && <p className="mt-2 break-words text-xs leading-relaxed text-zinc-400">{pose.detail}</p>}
+          {pose.detail && <p className="mt-2 break-words text-base leading-6 text-zinc-400 font-sans">{pose.detail}</p>}
         </>
       )}
     </section>
@@ -329,33 +329,34 @@ export function StructuralEvidencePanel({
   return (
     <section
       aria-labelledby={`${baseId}-title`}
+      data-structural-evidence="true"
       className="w-full max-w-[1600px] border-y border-surface-800 bg-surface-950/60 px-4 py-4 sm:px-6"
     >
       <div className="min-w-0">
         <h2 id={`${baseId}-title`} className="font-display text-lg font-bold tracking-tight text-zinc-100">
           {t("se_title")}
         </h2>
-        <p className="mt-1 max-w-[78ch] text-xs leading-relaxed text-zinc-500">{t("se_subtitle")}</p>
-        <p className="mt-1 max-w-[78ch] text-xs leading-relaxed text-zinc-600">{t("se_disclaimer")}</p>
+        <p className="mt-1 max-w-[78ch] text-base leading-6 text-zinc-300 font-sans">{t("se_subtitle")}</p>
+        <p className="mt-1 max-w-[78ch] text-base leading-6 text-zinc-300 font-sans">{t("se_disclaimer")}</p>
       </div>
 
       {/* ── Estados de carga y error: la evidencia no se inventa mientras
              tanto, y un fallo de lectura no se disfraza de «no evaluada». ── */}
       {loading && (
-        <p role="status" className="mt-4 inline-flex items-center gap-2 text-xs text-zinc-400">
+        <p role="status" className="mt-4 inline-flex items-center gap-2 text-base text-zinc-400 font-sans leading-6">
           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
           {t("se_loading")}
         </p>
       )}
 
       {error && (
-        <p role="alert" className="mt-4 text-xs leading-relaxed text-amber-300">
+        <p role="alert" className="mt-4 text-base leading-6 text-amber-300 font-sans">
           {t("se_error")} {error}
         </p>
       )}
 
       {!loading && !error && !view.hasAnything && (
-        <p role="status" className="mt-4 text-xs leading-relaxed text-zinc-400">
+        <p role="status" className="mt-4 text-base leading-6 text-zinc-400 font-sans">
           {t("se_empty")}
         </p>
       )}
@@ -369,7 +370,7 @@ export function StructuralEvidencePanel({
                 <CircleSlash className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 {t("se_legacy")}
               </Badge>
-              <p className="mt-2 max-w-[78ch] text-xs leading-relaxed text-zinc-400">{t("se_legacy_note")}</p>
+              <p className="mt-2 max-w-[78ch] text-base leading-6 text-zinc-400 font-sans">{t("se_legacy_note")}</p>
             </div>
           )}
 
@@ -386,7 +387,7 @@ export function StructuralEvidencePanel({
             />
 
             {generation.posesProduced === 0 ? (
-              <p className="mt-3 text-xs leading-relaxed text-red-300">{t("se_gen_no_poses")}</p>
+              <p className="mt-3 text-base leading-6 text-red-300 font-sans">{t("se_gen_no_poses")}</p>
             ) : (
               <>
                 <dl className="mt-3 grid gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-4">
@@ -404,7 +405,7 @@ export function StructuralEvidencePanel({
                   />
                   <Fact label={t("se_gen_seed")} value={generation.seed == null ? null : String(generation.seed)} />
                 </dl>
-                <p className="mt-2 text-[11px] leading-relaxed text-zinc-600">{t("se_gen_affinity_note")}</p>
+                <p className="mt-2 text-base leading-6 text-zinc-300 font-sans">{t("se_gen_affinity_note")}</p>
 
                 <div id={`${baseId}-s1-detail`} className="mt-3 border-t border-surface-800 pt-3">
                     <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-3">
@@ -429,17 +430,19 @@ export function StructuralEvidencePanel({
                         value={shortHash(generation.receptorSha256)}
                         title={generation.receptorSha256 ?? undefined}
                       />
-                      <Fact label={t("se_gen_conformers")} value={null} />
+                      <Fact
+                        label={t("se_gen_conformers_count_label")}
+                        value={generation.conformers == null && generation.conformersRequested == null
+                          ? null
+                          : `${generation.conformers ?? t("se_not_reported")} / ${generation.conformersRequested ?? t("se_not_reported")}`}
+                      />
                     </dl>
                     {!generation.receptorSha256 && (
-                      <p className="mt-2 text-[11px] leading-relaxed text-zinc-500">{t("se_gen_receptor_absent")}</p>
+                      <p className="mt-2 text-base leading-6 text-zinc-300 font-sans">{t("se_gen_receptor_absent")}</p>
                     )}
-                    {/* Conformeros y restarts: la corrida no los guarda. Se
-                        dice, en vez de rellenarlos con la configuración del
-                        caso, que pertenece a otro objeto. */}
-                    <p className="mt-2 max-w-[78ch] text-[11px] leading-relaxed text-zinc-600">
-                      <span className="text-zinc-500">{t("se_gen_conformers_absent")}.</span>{" "}
-                      {t("se_gen_conformers_note")}
+                    {/* El número de conformaciones no acredita reinicios independientes. */}
+                    <p className="mt-2 max-w-[78ch] text-base leading-6 text-zinc-300 font-sans">
+                      {t("se_gen_restarts_absent")}
                     </p>
                 </div>
               </>
@@ -502,17 +505,17 @@ export function StructuralEvidencePanel({
                 tiene que ver para decidir por su cuenta. */}
             {selection.divergesFromVinaTop1 && (
               <div className="mt-3 rounded-md border border-amber-500/30 bg-amber-500/[0.06] p-3">
-                <p className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                <p className="flex items-center gap-1.5 font-sans text-sm font-bold uppercase tracking-wider text-amber-300">
                   <AlertTriangle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   {t("se_sel_diverge")}
                 </p>
-                <p className="mt-1.5 max-w-[78ch] text-xs leading-relaxed text-amber-100/80">
+                <p className="mt-1.5 max-w-[78ch] text-base leading-6 text-amber-100 font-sans">
                   {t("se_sel_diverge_note")}
                 </p>
               </div>
             )}
             {selection.status === "selected" && !selection.divergesFromVinaTop1 && (
-              <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-zinc-400">
+              <p className="mt-3 inline-flex items-center gap-1.5 text-base text-zinc-400 font-sans leading-6">
                 <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-400" aria-hidden="true" />
                 {t("se_sel_agree")}
               </p>
@@ -522,21 +525,21 @@ export function StructuralEvidencePanel({
                 fallback — no un acierto del selector. */}
             {selection.status !== "selected" && (
               <div className="mt-3 rounded-md border border-surface-700 bg-surface-900/40 p-3">
-                <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-300">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-base text-zinc-300 font-sans leading-6">
+                  <span className="font-sans text-sm font-bold uppercase tracking-wider text-zinc-400">
                     {t("se_sel_no_recommendation")}
                   </span>
                   {selection.isFallback && <span className="text-zinc-400">· {t("se_sel_fallback")}</span>}
                 </p>
                 {selection.abstentionReason && (
-                  <p className="mt-1.5 max-w-[78ch] text-xs leading-relaxed text-zinc-400">
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+                  <p className="mt-1.5 max-w-[78ch] text-base leading-6 text-zinc-400 font-sans">
+                    <span className="font-sans text-sm uppercase tracking-wider text-zinc-400">
                       {t("se_sel_abstain_reason")}:
                     </span>{" "}
                     {reasonText(selection.abstentionReason)}
                   </p>
                 )}
-                <p className="mt-1.5 max-w-[78ch] text-[11px] leading-relaxed text-zinc-600">
+                <p className="mt-1.5 max-w-[78ch] text-base leading-6 text-zinc-300 font-sans">
                   {t("se_sel_fallback_note")}
                 </p>
               </div>
@@ -545,21 +548,21 @@ export function StructuralEvidencePanel({
             {(selection.poseScores.length > 0 || selection.warnings.length > 0 || selection.detail) && (
               <div id={`${baseId}-s2-detail`} className="mt-3 border-t border-surface-800 pt-3">
                     {selection.detail && (
-                      <p className="max-w-[78ch] text-xs leading-relaxed text-zinc-400">{selection.detail}</p>
+                      <p className="max-w-[78ch] text-base leading-6 text-zinc-400 font-sans">{selection.detail}</p>
                     )}
-                    <p className="mt-2 max-w-[78ch] text-[11px] leading-relaxed text-zinc-600">
+                    <p className="mt-2 max-w-[78ch] text-base leading-6 text-zinc-300 font-sans">
                       {t("se_sel_confidence_note")}
                     </p>
 
                     {selection.poseScores.length > 0 && (
                       <div className="mt-3">
-                        <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+                        <p className="font-sans text-sm uppercase tracking-wider text-zinc-400">
                           {t("se_sel_scores")}
                         </p>
                         <ul className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
                           {selection.poseScores.map((entry) => (
-                            <li key={entry.rank} className="font-mono text-[11px] text-zinc-300">
-                              #{entry.rank} <span className="text-zinc-500">{num(entry.score, 4)}</span>
+                            <li key={entry.rank} className="font-sans text-base text-zinc-300 leading-6">
+                              #{entry.rank} <span className="text-zinc-400">{num(entry.score, 4)}</span>
                             </li>
                           ))}
                         </ul>
@@ -568,12 +571,12 @@ export function StructuralEvidencePanel({
 
                     {selection.warnings.length > 0 && (
                       <div className="mt-3">
-                        <p className="font-mono text-[10px] uppercase tracking-wider text-amber-300/70">
+                        <p className="font-sans text-sm uppercase tracking-wider text-amber-300">
                           {t("se_sel_warnings")}
                         </p>
                         <ul className="mt-1.5 space-y-1">
                           {selection.warnings.map((warning) => (
-                            <li key={warning} className="text-[11px] leading-relaxed text-amber-100/70">
+                            <li key={warning} className="text-base leading-6 text-amber-100 font-sans">
                               {warning}
                             </li>
                           ))}
@@ -582,7 +585,7 @@ export function StructuralEvidencePanel({
                     )}
 
                     {selection.modelSha256 && (
-                      <p className="mt-3 break-all font-mono text-[10px] text-zinc-600">
+                      <p className="mt-3 break-all font-sans text-base text-zinc-300 leading-6">
                         SHA-256 {selection.modelSha256}
                       </p>
                     )}
@@ -633,23 +636,23 @@ export function StructuralEvidencePanel({
                 está confirmada, se declara revisión y NO se cambia. */}
             {physical.needsReview && (
               <div className="mt-3 rounded-md border border-amber-500/30 bg-amber-500/[0.06] p-3">
-                <p className="flex items-center gap-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                <p className="flex items-center gap-1.5 font-sans text-sm font-bold uppercase tracking-wider text-amber-300">
                   <AlertTriangle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   {t("se_phys_review")}
                 </p>
-                <p className="mt-1.5 max-w-[78ch] text-xs leading-relaxed text-amber-100/80">
+                <p className="mt-1.5 max-w-[78ch] text-base leading-6 text-amber-100 font-sans">
                   {t("se_phys_review_note")}
                 </p>
               </div>
             )}
 
             {physical.stageStatus === "not_evaluated" && (
-              <p className="mt-3 max-w-[78ch] text-xs leading-relaxed text-zinc-400">
+              <p className="mt-3 max-w-[78ch] text-base leading-6 text-zinc-400 font-sans">
                 {t("se_phys_absent")} {t("se_phys_not_evaluated_meaning")}
               </p>
             )}
             {physical.stageStatus === "review" && (
-              <p className="mt-3 max-w-[78ch] text-[11px] leading-relaxed text-zinc-500">
+              <p className="mt-3 max-w-[78ch] text-base leading-6 text-zinc-300 font-sans">
                 {t("se_phys_review_meaning")}
               </p>
             )}
@@ -659,12 +662,12 @@ export function StructuralEvidencePanel({
                 <button
                   type="button"
                   onClick={() => onOpenPoseDetails(detailRank)}
-                  className="inline-flex min-h-9 items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/[0.06] px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-200 transition-colors hover:bg-purple-500/12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
+                  className="inline-flex min-h-9 items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/[0.06] px-3 py-1.5 font-sans text-sm font-bold uppercase tracking-wider text-purple-200 transition-colors hover:bg-purple-500/12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
                 >
                   <Layers className="h-3.5 w-3.5" aria-hidden="true" />
                   {t("se_phys_per_pose")} #{detailRank}
                 </button>
-                <p className="text-[11px] leading-relaxed text-zinc-500">
+                <p className="text-base leading-6 text-zinc-300 font-sans">
                   {t("se_phys_open_in_structure")}
                 </p>
               </div>
@@ -703,13 +706,13 @@ export function StructuralEvidencePanel({
 
             <div className="mt-3 grid gap-5 md:grid-cols-2">
               <div className="min-w-0">
-                <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+                <p className="font-sans text-sm uppercase tracking-wider text-zinc-400">
                   {t("se_dec_established")}
                 </p>
                 <ul className="mt-2 space-y-1.5">
                   {decision.established.map((code) => (
-                    <li key={code} className="flex gap-2 text-xs leading-relaxed text-zinc-300">
-                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400/70" aria-hidden="true" />
+                    <li key={code} className="flex gap-2 text-base leading-6 text-zinc-300 font-sans">
+                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-400" aria-hidden="true" />
                       <span>{t(`se_ev_${code}`)}</span>
                     </li>
                   ))}
@@ -717,14 +720,14 @@ export function StructuralEvidencePanel({
               </div>
 
               <div className="min-w-0">
-                <p className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-amber-300/70">
+                <p className="flex items-center gap-1.5 font-sans text-sm uppercase tracking-wider text-amber-300">
                   <AlertTriangle className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   {t("se_dec_uncertainties")}
                 </p>
                 {decision.uncertainties.length > 0 ? (
                   <ul className="mt-2 space-y-1.5">
                     {decision.uncertainties.map((code) => (
-                      <li key={code} className="flex gap-2 text-xs leading-relaxed text-amber-100/70">
+                      <li key={code} className="flex gap-2 text-base leading-6 text-amber-100 font-sans">
                         <span className="text-amber-500/50" aria-hidden="true">
                           —
                         </span>
@@ -733,14 +736,14 @@ export function StructuralEvidencePanel({
                     ))}
                   </ul>
                 ) : (
-                  <p className="mt-2 text-xs leading-relaxed text-zinc-500">{t("se_dec_no_uncertainties")}</p>
+                  <p className="mt-2 text-base leading-6 text-zinc-300 font-sans">{t("se_dec_no_uncertainties")}</p>
                 )}
               </div>
             </div>
 
             {/* Alternativas: se listan, no se eligen. */}
             <div className="mt-4">
-              <p className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+              <p className="font-sans text-sm uppercase tracking-wider text-zinc-400">
                 {t("se_dec_alternatives")}
               </p>
               {decision.alternatives.length > 0 ? (
@@ -754,12 +757,12 @@ export function StructuralEvidencePanel({
                       </li>
                     ))}
                   </ul>
-                  <p className="mt-2 max-w-[78ch] text-[11px] leading-relaxed text-zinc-600">
+                  <p className="mt-2 max-w-[78ch] text-base leading-6 text-zinc-300 font-sans">
                     {t("se_dec_alternatives_note")}
                   </p>
                 </>
               ) : (
-                <p className="mt-2 text-xs leading-relaxed text-zinc-500">{t("se_dec_no_alternatives")}</p>
+                <p className="mt-2 text-base leading-6 text-zinc-300 font-sans">{t("se_dec_no_alternatives")}</p>
               )}
             </div>
 
@@ -770,18 +773,18 @@ export function StructuralEvidencePanel({
               <div className="flex items-start gap-2.5">
                 <ArrowRight className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                 <div className="min-w-0">
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-wider opacity-70">
+                  <p className="font-sans text-sm font-bold uppercase tracking-wider opacity-70">
                     {t("se_dec_next")}
                   </p>
-                  <p className="mt-1 text-xs font-semibold">{t(nextStepKey)}</p>
-                  <p className="mt-1.5 max-w-[78ch] text-[11px] leading-relaxed opacity-80">
+                  <p className="mt-1 text-base font-semibold font-sans leading-6">{t(nextStepKey)}</p>
+                  <p className="mt-1.5 max-w-[78ch] text-base leading-6 opacity-100 font-sans">
                     {t(`${nextStepKey}_detail`)}
                   </p>
                   {decision.nextStep === "review" && onOpenPoseDetails && detailRank != null && (
                     <button
                       type="button"
                       onClick={() => onOpenPoseDetails(detailRank)}
-                      className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-lg border border-amber-400/35 bg-black/10 px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-amber-100 transition-colors hover:bg-black/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
+                      className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-lg border border-amber-400/35 bg-black/10 px-3 py-1.5 font-sans text-sm font-bold uppercase tracking-wider text-amber-100 transition-colors hover:bg-black/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200"
                     >
                       <ListChecks className="h-3.5 w-3.5" aria-hidden="true" />
                       {t("se_phys_per_pose")} #{detailRank}
@@ -797,24 +800,24 @@ export function StructuralEvidencePanel({
           {showInlineComparison && comparison.length > 0 && (
             <div className="mt-5 border-t border-surface-800 pt-4">
               <div className="min-w-0">
-                <h3 className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-100">{t("se_cmp_title")}</h3>
-                <p className="mt-1 max-w-[70ch] text-xs leading-5 text-zinc-500">{t("se_cmp_lead")}</p>
+                <h3 className="font-sans text-base font-bold uppercase tracking-[0.14em] text-zinc-100">{t("se_cmp_title")}</h3>
+                <p className="mt-1 max-w-[70ch] text-base leading-6 text-zinc-300 font-sans">{t("se_cmp_lead")}</p>
               </div>
               {comparisonPair && onComparePoses && (
                 <button
                   type="button"
                   onClick={() => onComparePoses(comparisonPair.leftRank, comparisonPair.rightRank)}
-                  className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/[0.06] px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-200 transition-colors hover:bg-purple-500/12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
+                  className="mt-3 inline-flex min-h-9 items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/[0.06] px-3 py-1.5 font-sans text-sm font-bold uppercase tracking-wider text-purple-200 transition-colors hover:bg-purple-500/12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
                 >
                   <ArrowLeftRight className="h-3.5 w-3.5" aria-hidden="true" />
-                  Comparar pose #{comparisonPair.leftRank} y #{comparisonPair.rightRank} en 3D
+                  {t("pr_compare_poses_3d", { left: comparisonPair.leftRank, right: comparisonPair.rightRank })}
                 </button>
               )}
               <div id={`${baseId}-cmp`} className="mt-3 overflow-x-auto">
-                  <table className="w-full min-w-[34rem] border-collapse text-xs">
+                  <table className="w-full min-w-[34rem] border-collapse text-sm">
                     <caption className="sr-only">{t("se_cmp_title")}</caption>
                     <thead>
-                      <tr className="border-b border-surface-800 text-left font-mono text-[10px] uppercase tracking-wider text-zinc-500">
+                      <tr className="border-b border-surface-800 text-left font-sans text-sm uppercase tracking-wider text-zinc-400">
                         <th scope="col" className="py-2 pr-3 font-normal">
                           {t("se_cmp_rank")}
                         </th>

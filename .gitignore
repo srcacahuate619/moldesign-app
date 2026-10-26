@@ -39,6 +39,8 @@ build/
 dist/
 develop-eggs/
 .downloads/
+.tmp-vina-trace/
+.tmp-molcy-source/
 sdist/
 wheels/
 pip-wheel-metadata/
@@ -64,6 +66,8 @@ frontend/.next/
 # Directorio de trabajo del servidor de desarrollo. Separado de `.next`
 # para que `next dev` y `next build` no se bloqueen el mismo archivo.
 frontend/.next-dev/
+# Export local de verificación de Molcy; se conserva fuera del historial.
+frontend/.next-molcy-verify/
 frontend/out/
 frontend/.next/cache/
 frontend/.next/trace
@@ -110,6 +114,9 @@ esmfold/models/*
 # en el bundle script. No son source, son dependencias binarias.
 tools/vina/*.exe
 tools/vina/**/*
+!tools/vina/vina-trace-manifest.json
+!tools/vina/trace-licenses/
+!tools/vina/trace-licenses/**
 tools/xtb/
 tools/xtb-*/
 tools/llama/
@@ -444,6 +451,14 @@ output/
 # corren; lo que se conserva como evidencia se sella en scripts/artifacts_science/.
 .experiment-runs/
 
+# Blender administrado descargado bajo demanda en desarrollo.
+# Sus archivos de terceros no forman parte del código fuente de MolDesign.
+tools/blender/
+
+# Configuración local de Claude Code (servidores de vista previa del escritorio).
+# Es de cada máquina; sin ignorarla, git la cuenta como cambio y el sello del instalador declara arbol_limpio: false.
+.claude/
+
 # ── Retenido del repositorio publico (triaje 2026-09-12) ────────────────────
 # Manuscritos sin enviar, su material, los resultados que los sostienen, el
 # material de inversion y cuatro registros internos abiertos. Siguen en el disco
@@ -531,3 +546,15 @@ docs/36_POR_ARREGLAR_Y_VALIDAR.md
 
 # legal
 docs/86_AUDITORIA_LEGAL_RELEASE_PUBLICO_Y_STORE.md
+
+# fep06_ciego (2026-10-25): la clave de las trampas, los generadores de paquetes, las actas y los
+# papers de FEP-06-PRE y FEP-06-PRE-2. Se retienen mientras la ronda con revisores humanos pueda
+# reutilizar esos diez paquetes; se publican al cerrarla (decisión del propietario).
+scripts/artifacts_science/FEP-06-PRE
+scripts/artifacts_science/FEP-06-PRE-2
+scripts/fep06pre
+scripts/fep06pre2
+docs/papers/FEP-06-PRE.md
+docs/papers/FEP-06-PRE-2.md
+frontend/public/registro/papers/FEP-06-PRE.json
+frontend/public/registro/papers/FEP-06-PRE-2.json

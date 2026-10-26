@@ -1,0 +1,8 @@
+{
+  "ruta": "D:\\moldesign-ci\\sol-1-0-2",
+  "fecha_utc": "2026-10-10T00:17:25.8186502Z",
+  "archivos": 106199,
+  "bytes_logicos": 5109544667,
+  "gib_logicos": 4.759,
+  "metodo": "Get-ChildItem -LiteralPath clon -Recurse -Force -File | Measure-Object -Property Length -Sum; no se siguen enlaces de directorio. Incluye .git, node_modules, builds y test-results. Los hardlinks de .git cuentan en el tamaño lógico; no mide bytes exclusivos en disco."
+}

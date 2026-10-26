@@ -1,0 +1,69 @@
+{
+  "entradas": 43,
+  "evaluables": 41,
+  "primarias": 41,
+  "H1_antes_cambian_con_la_semilla": {
+    "k": 0,
+    "n": 41,
+    "ic95": [
+      0.0,
+      0.086
+    ]
+  },
+  "H2_despues_cambian_con_la_semilla_primarias": {
+    "k": 0,
+    "n": 41,
+    "ic95": [
+      0.0,
+      0.086
+    ]
+  },
+  "despues_cambian_no_primarias": {
+    "k": 0,
+    "n": 0
+  },
+  "H3_coincide_con_el_inventario": {
+    "k": 37,
+    "n": 39,
+    "discrepancias": [
+      "5E92",
+      "9GKV"
+    ]
+  },
+  "pose_top1_identica_entre_brazos": {
+    "k": 205,
+    "n": 205,
+    "fraccion": 1.0
+  },
+  "estados_despues": {
+    "ABSTENCION": 160,
+    "REVISAR": 40,
+    "REGISTRADO": 5
+  },
+  "estados_antes": {
+    "ABSTENCION": 200,
+    "REGISTRADO": 5
+  },
+  "experiment_id": "MET-02-SEMILLA",
+  "brazos": {
+    "antes": "861f6a0e",
+    "despues": "878c215b (rama claude/metales-dos-niveles)"
+  },
+  "semillas": [
+    42,
+    7,
+    13,
+    101,
+    2026
+  ],
+  "no_evaluables": {
+    "1VKG": "Meeko rechaza el receptor en las 10 corridas (entrada no disponible del catálogo)",
+    "5I3T": "Meeko rechaza el receptor en las 10 corridas"
+  },
+  "H3_discrepancias_explicadas": {
+    "5E92": "MG A:602 y A:603 a 1,94–2,05 Å del ANP; el inventario lo da coordinado. El lector `_atomos` toma el elemento de las columnas 77-79 y en este depósito la 79 es la carga (\"MG2\"): no lo reconoce como metal.",
+    "9GKV": "ZN B:402 a 2,15 Å del SHH, coordinado por N1, O1 y O2. Mismo defecto: elemento \"ZN0\" (carga 0 en la columna 79), y los hidrógenos \"H0\" se contaban como átomos pesados."
+  },
+  "lectura": "H2 se cumple (0/41). H3 falla 37/39 por un defecto de implementación del lector de coordenadas, no por una diferencia declarada del criterio: por el registro previo cuenta como fallo. La pose top-1 es idéntica entre brazos en 205/205. H1: con la regla de antes tampoco cambia ninguna entrada con la semilla en este panel (0/41).",
+  "decision": "INCONCLUSIVE"
+}

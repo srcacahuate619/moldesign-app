@@ -1,0 +1,26 @@
+{
+  "fuente": "D:\\moldesign-build\\msix\\assets\\SplashScreen.scale-400.png",
+  "fuente_sha256": "97f0a0151e76865c467393113ec24942b4ccd59cef535178e418fccad13bc7be",
+  "recorte": [
+    752,
+    87,
+    1733,
+    982
+  ],
+  "tamano": [
+    981,
+    895
+  ],
+  "profundidad": {
+    "modelo": "depth-anything/Depth-Anything-V2-Small-hf",
+    "licencia": "Apache-2.0",
+    "normalizada": "0 fondo del emblema, 1 lo mas cercano",
+    "torch": "2.14.0.dev20260630+cu126"
+  },
+  "generado": "2026-09-22T20:29:19",
+  "sha256": {
+    "emblema.png": "90bd918395fb7e5b8eed7542a84bcf029e4d8230b83851c53d7f28d3f6b88220",
+    "emblema_alfa.png": "c6fa5795548944dedddc5c313f5489ece10884133fa9a07bb5a7d92df888e8f0",
+    "emblema_profundidad.png": "4df36f3d6aa69ce871d3cdb043ba18b30b2b220a1e59467f0d8b6343602e82ec"
+  }
+}

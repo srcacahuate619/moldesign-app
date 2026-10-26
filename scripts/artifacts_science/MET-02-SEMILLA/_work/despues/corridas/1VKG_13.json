@@ -1,0 +1,10 @@
+{
+  "pdb": "1VKG",
+  "semilla": 13,
+  "inicio": "2026-10-23T03:33:14+00:00",
+  "resultado": "corrida_fallida",
+  "motivo": "{'task_id': '98b5b704-ccd8-4168-ae58-43e1af24c447', 'status': 'FAILURE', 'progress': 0, 'error': \"ProteinPreparationError: Error preparando proteína '1VKG' en el paso 'mk_prepare_receptor'\", 'started_at': '2026-10-23T03:33:15.104649Z', 'finished_at': '2026-10-23T03:33:28.892674Z'}",
+  "segundos": 14.5,
+  "brazo": "despues",
+  "commit": "878c215b"
+}

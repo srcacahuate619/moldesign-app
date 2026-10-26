@@ -61,6 +61,15 @@ STREAM_READ_TIMEOUT_S = 90.0
 _DEFAULT_MODEL_REPO = "Qwen/Qwen2.5-1.5B-Instruct-GGUF"
 _DEFAULT_MODEL_FILE = "qwen2.5-1.5b-instruct-q4_k_m.gguf"
 _MODEL_TOTAL_LAYERS = 28
+
+#: Qwen3.5 piensa por defecto (`<think>…`) y llama-server separa ese texto en
+#: `reasoning_content`, que MolChat no enseña. Con el tope de 128 tokens del modo
+#: Rápido el pensamiento se los comía todos y el `content` llegaba VACÍO (medido
+#: el 2026-10-10 con Qwen3.5-4B Q4_K_M y el llama-server b10199 que viaja: 128
+#: tokens de pensamiento y ninguna respuesta; apagado, 66 tokens en 6,9 s). La
+#: plantilla de Qwen2.5 no usa la variable: mismos aciertos en el arnés de
+#: herramientas con y sin ella (`scripts/bench_tool_calling`).
+_PLANTILLA_SIN_PENSAMIENTO = {"enable_thinking": False}
 _GPU_KV_BUFFER_GB = 0.5
 
 MODEL_SEARCH_PATHS = [
@@ -327,6 +336,7 @@ class LocalLLM:
                         "max_tokens": max_tokens,
                         "temperature": temperature,
                         "stream": False,
+                        "chat_template_kwargs": _PLANTILLA_SIN_PENSAMIENTO,
                     },
                 )
                 resp.raise_for_status()
@@ -370,6 +380,7 @@ class LocalLLM:
                         "max_tokens": max_tokens,
                         "temperature": temperature,
                         "stream": False,
+                        "chat_template_kwargs": _PLANTILLA_SIN_PENSAMIENTO,
                     },
                 )
                 if resp.status_code != 200:
@@ -432,6 +443,7 @@ class LocalLLM:
             "max_tokens": max_tokens,
             "temperature": temperature,
             "stream": True,
+            "chat_template_kwargs": _PLANTILLA_SIN_PENSAMIENTO,
         }
 
         buffer = b""

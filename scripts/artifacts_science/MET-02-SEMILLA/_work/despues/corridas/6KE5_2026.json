@@ -1,0 +1,27 @@
+{
+  "pdb": "6KE5",
+  "semilla": 2026,
+  "inicio": "2026-10-23T04:46:59+00:00",
+  "resultado": "auditada",
+  "task_id": "8ecf03b4-018d-446a-88a3-424f85a9d8d4",
+  "estado_global": "REVISION",
+  "metales": {
+    "estado": "REVISAR",
+    "valor": "Retirados a 6 Å o menos del ligando: CA C:1303 (4.06 Å); más lejos: CA A:1302 (10.97 Å), CA D:1302 (7.85 Å). El ligando del cristal no toca ninguno (ni un N, O o S a 2,8 Å de un metal ni un átomo a 4 Å de un cofactor).",
+    "razon": "El receptor no contiene especies que estaban cerca del sitio, pero el ligando del cristal no las toca. Si sólo ocupan la segunda esfera, retirarlas puede ser aceptable; decide y justifícalo antes de un cálculo posterior.",
+    "accion_recomendada": "Si la especie es estructural o catalítica para este ligando, vuelve a evaluar con ella en la lista de cofactores del receptor; si no, registra por qué se retira."
+  },
+  "referencia": "Pose top-1 y ligando del cristal D6C C:1302",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "d5ac7ce85978ca6eb720ab2dadf0b18d6b14c24e94aeb4a590a128502bbca358",
+  "afinidad_top1": -4.687,
+  "microestado": "COc1ccc([C@@H]2Sc3ccccc3N(CC[NH+](C)C)C(=O)[C@H]2OC(C)=O)cc1",
+  "microestado_coincide": true,
+  "semilla_declarada": 2026,
+  "vina": "1.2.7",
+  "receptor_sha256": "96012353771ce99aad6e7c5a68d5cf8cc4a45910f2d32adcdb76dc5449521996",
+  "segundos": 61.2,
+  "fin": "2026-10-23T04:48:01+00:00",
+  "brazo": "despues",
+  "commit": "878c215b"
+}

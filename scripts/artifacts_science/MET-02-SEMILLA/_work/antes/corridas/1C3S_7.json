@@ -1,0 +1,27 @@
+{
+  "pdb": "1C3S",
+  "semilla": 7,
+  "inicio": "2026-10-23T03:06:41+00:00",
+  "resultado": "auditada",
+  "task_id": "bbd1c54d-370c-48e4-bf14-506972183b82",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:951 (1.84 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal SHH A:952",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "ea40e7ceb3f54064ff3ecb754d1a3efc46e2c8a88378f9f7d163c79addeacef4",
+  "afinidad_top1": -9.025,
+  "microestado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+  "microestado_coincide": true,
+  "semilla_declarada": 7,
+  "vina": "1.2.7",
+  "receptor_sha256": "d9c800c206692ccc0a1cb8e825b9c628379fcba95100536a9925ba94b7c8fd5d",
+  "segundos": 19.0,
+  "fin": "2026-10-23T03:07:00+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

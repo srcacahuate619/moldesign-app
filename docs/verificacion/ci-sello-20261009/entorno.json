@@ -1,0 +1,14 @@
+{
+  "fecha_utc": "2026-10-10T00:15:43.7283664Z",
+  "sistema": "Microsoft Windows NT 10.0.26300.0",
+  "sistema_64_bits": true,
+  "powershell": "7.6.5",
+  "node": "v24.20.0",
+  "npm": "11.19.0",
+  "next": "16.3.8",
+  "playwright": "1.62.1",
+  "vitest": "5.0.0",
+  "clon": "D:\\moldesign-ci\\sol-1-0-2",
+  "worktree": "D:\\moldesign-build\\.worktrees\\catalogo-demostracion",
+  "commit_codigo": "112a8476f92ec250e16699bf0f58485f7a41e837"
+}

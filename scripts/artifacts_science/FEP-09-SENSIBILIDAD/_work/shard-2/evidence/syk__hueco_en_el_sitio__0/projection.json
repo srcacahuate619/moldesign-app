@@ -1,0 +1,82 @@
+{
+  "projection_version": 1,
+  "case_id": "syk__hueco_en_el_sitio__0",
+  "name": "syk__hueco_en_el_sitio__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_36F906",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "canonical_smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC"
+    },
+    "config": {
+      "grid_center": [
+        -1.166,
+        2.265,
+        13.222
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:ebf7a640b73d86e74dd1b065742e988a96c522da4b8a50c7e56e34b3357034f9",
+    "generated_at": "2026-10-11T20:16:34.529324+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "LIGANDO_REVISION_QUIMICA",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "a15423e6-782b-4457-a39d-1e3f4d0d5c4b",
+    "input_fingerprint": "sha256:ebf7a640b73d86e74dd1b065742e988a96c522da4b8a50c7e56e34b3357034f9",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

@@ -1,0 +1,23 @@
+{
+  "tipo": "Selector real aislado en Vite de desarrollo; muestra de 1UZJ y 5COP del catálogo, sin backend ni corrida científica",
+  "evidence": [
+    {
+      "locale": "es-MX",
+      "headings": [
+        "Verificados",
+        "Tus receptores",
+        "Demostración"
+      ],
+      "errors": []
+    },
+    {
+      "locale": "en-US",
+      "headings": [
+        "Verified",
+        "Your receptors",
+        "Demo"
+      ],
+      "errors": []
+    }
+  ]
+}

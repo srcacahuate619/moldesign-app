@@ -714,3 +714,54 @@ def test_una_carpeta_con_contenido_ajeno_sigue_exigiendo_force(clon, tmp_path):
         rc = 1
     assert rc != 0
     assert (clon / "tools/llama/llama-server.exe").read_bytes() == b"MIO, NO DE GIT"
+
+
+# ── La traza de Vina viaja con lo que exige su manifiesto ────────────────
+
+
+def _manifiesto_de_traza(arbol: Path, traza: bytes) -> None:
+    """El manifiesto versionado de la traza, con los hashes de estos binarios."""
+    (arbol / "tools/vina/vina-trace-manifest.json").write_text(json.dumps({
+        "binary": "vina_trace.exe",
+        "binary_sha256": hashlib.sha256(traza).hexdigest(),
+        "reference_binary_sha256": hashlib.sha256(b"vina-de-mentira").hexdigest(),
+    }), encoding="utf-8")
+
+
+def test_sin_la_traza_que_exige_el_manifiesto_no_se_empaqueta(arbol, tmp_path):
+    """v1.1.1 se publicó sin `vina_trace.exe` y un clon con él no acoplaba nada."""
+    _manifiesto_de_traza(arbol, b"traza")
+    with pytest.raises(arch.ArchivoRechazado) as error:
+        arch.empaquetar(arbol, tmp_path / "a" / "x.zip")
+    assert error.value.codigo == "TRAZA_DE_VINA"
+    assert "vina_trace.exe no viaja" in error.value.detalle
+
+
+def test_una_traza_con_otros_bytes_no_se_empaqueta(arbol, tmp_path):
+    _manifiesto_de_traza(arbol, b"traza")
+    (arbol / "tools/vina/vina_trace.exe").write_bytes(b"traza vieja")
+    with pytest.raises(arch.ArchivoRechazado) as error:
+        arch.empaquetar(arbol, tmp_path / "a" / "x.zip")
+    assert error.value.codigo == "TRAZA_DE_VINA"
+
+
+def test_la_traza_correcta_viaja(arbol, tmp_path):
+    _manifiesto_de_traza(arbol, b"traza")
+    (arbol / "tools/vina/vina_trace.exe").write_bytes(b"traza")
+    salida = tmp_path / "a" / "x.zip"
+    arch.empaquetar(arbol, salida)
+    with zipfile.ZipFile(salida) as zf:
+        assert zf.read("tools/vina/vina_trace.exe") == b"traza"
+
+
+def test_los_pesos_de_esmfold_no_viajan_aunque_esten_descargados(arbol, tmp_path):
+    """Medido el 2026-10-10: con ESMFold descargado, el zip pasaba de 7,8 GB."""
+    (arbol / "esmfold/models").mkdir(parents=True)
+    (arbol / "esmfold/models/config.json").write_text("{}", encoding="utf-8")
+    (arbol / "esmfold/models/pytorch_model.bin").write_bytes(b"pesos de ESMFold")
+    (arbol / "esmfold/models/.gitattributes").write_text("*.bin lfs\n", encoding="utf-8")
+    salida = tmp_path / "a" / "x.zip"
+    arch.empaquetar(arbol, salida)
+    with zipfile.ZipFile(salida) as zf:
+        nombres = {n for n in zf.namelist() if n.startswith("esmfold/")}
+    assert nombres == {"esmfold/models/config.json"}

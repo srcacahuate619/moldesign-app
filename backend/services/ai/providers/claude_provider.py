@@ -9,6 +9,8 @@ from services.ai.providers.base import (
     HealthStatus,
     ProviderConfig,
     ProviderInfo,
+    aviso_de_conexion,
+    aviso_de_error_http,
 )
 from services.ai.redaccion import redactar_secretos
 from utils.logger import get_logger
@@ -96,7 +98,7 @@ class ClaudeProvider(AIProvider):
         import anthropic
 
         if not self._config.api_key:
-            yield "Error: ANTHROPIC_API_KEY no configurada"
+            yield "__WARNING__:Falta la clave de API de Anthropic. Escríbela en Opciones ▸ Intérprete IA ▸ Clave de API."
             return
 
         try:
@@ -112,10 +114,16 @@ class ClaudeProvider(AIProvider):
             if content:
                 yield content
             else:
-                yield "Error: Claude no generó respuesta."
+                yield f"__WARNING__:{self.name} no devolvió ninguna respuesta."
+        except anthropic.APIStatusError as e:
+            log.warning("claude_chat_failed", status=e.status_code, error=redactar_secretos(e))
+            yield aviso_de_error_http(self.name, e.status_code, getattr(e, "message", str(e)), self._config.model)
+        except anthropic.APIConnectionError as e:
+            log.warning("claude_chat_failed", error=redactar_secretos(e))
+            yield aviso_de_conexion(self.name, "api.anthropic.com", e)
         except Exception as e:
             log.warning("claude_chat_failed", error=redactar_secretos(e))
-            yield f"Error en Claude API: {redactar_secretos(e)[:120]}"
+            yield f"__WARNING__:{self.name} falló: {redactar_secretos(e)[:120]}"
 
     async def list_models(self) -> list[str]:
         return [

@@ -62,7 +62,7 @@ describe("ProtocoloM5Zn — el estado persistido se pinta tal cual", () => {
       expect(
         screen.getByText(/no entra en el score total/i),
       ).toBeInTheDocument();
-      expect(screen.queryByText(/^Score compuesto$/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/^Puntuación compuesta$/)).not.toBeInTheDocument();
     },
   );
 
@@ -88,7 +88,8 @@ describe("ProtocoloM5Zn — el estado persistido se pinta tal cual", () => {
         resultado={resultado({ m5_scientific_status: "VALIDATED" })}
       />,
     );
-    expect(screen.getByText("Score compuesto")).toBeInTheDocument();
+    expect(screen.getByText("Puntuación compuesta")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Perfil M5-Zn aplicado" })).toBeInTheDocument();
     expect(
       screen.queryByText(/no entra en el score total/i),
     ).not.toBeInTheDocument();
@@ -136,5 +137,40 @@ describe("ProtocoloM5Zn — el estado persistido se pinta tal cual", () => {
       />,
     );
     expect(screen.getByText(/Componentes ausentes: gnn_d/i)).toBeInTheDocument();
+  });
+});
+
+// QA1-009. Medido sobre los 380 receptores: 134 reciben este bloque sólo porque la
+// estructura trae un ion (Mg, Na, K, Ca, Fe…) y 90 de ellos no contienen zinc.
+// El texto afirmaba «Es una metaloenzima de zinc» en BACE1, cuyo único metal es un
+// Na⁺ del tampón de cristalización. El estado no dice QUÉ ion hay (no viaja en el
+// resultado), así que la explicación sólo puede decir lo que es cierto en todos los
+// casos que lo disparan: hay un ion o una etiqueta de metaloenzima, y el PDB no es
+// ninguno de los tres perfiles de M5-Zn.
+describe("ProtocoloM5Zn — REVIEW_OUT_OF_VALIDATED_TARGET no afirma zinc (QA1-009)", () => {
+  it("no dice que la diana sea una metaloenzima de zinc", () => {
+    render(
+      <ProtocoloM5Zn
+        resultado={resultado({ m5_scientific_status: "REVIEW_OUT_OF_VALIDATED_TARGET" })}
+      />,
+    );
+    expect(screen.queryByText(/Es una metaloenzima de zinc/i)).not.toBeInTheDocument();
+    expect(document.body.textContent).not.toMatch(/es una metaloenzima de zinc/i);
+  });
+
+  it("dice lo que sí es cierto: hay un ion y el PDB no es un perfil de M5-Zn", () => {
+    render(
+      <ProtocoloM5Zn
+        resultado={resultado({ m5_scientific_status: "REVIEW_OUT_OF_VALIDATED_TARGET" })}
+      />,
+    );
+    const texto = document.body.textContent ?? "";
+    expect(texto).toMatch(/ion metálico/i);
+    expect(texto).toMatch(/ninguno de los tres perfiles de M5-Zn/i);
+    expect(texto).toMatch(/no implica un sitio de unión metálico/i);
+    expect(texto).toMatch(/No se heredan los pesos de otra diana/i);
+    expect(screen.getByRole("heading", { name: "Comprobación de aplicabilidad · M5-Zn" })).toBeInTheDocument();
+    expect(texto).toMatch(/No se aplicó ningún perfil de M5-Zn a esta diana/i);
+    expect(screen.queryByText("Perfil M5-Zn aplicado")).not.toBeInTheDocument();
   });
 });

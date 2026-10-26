@@ -384,8 +384,12 @@ def test_casos_y_cohortes_usan_la_MISMA_funcion_productiva():
     from services.cohort import execution as ex
     from services.pipeline import runner
 
+    from services.chemistry import structural_evidence as se
+
     hook = inspect.getsource(runner.run_pipeline)
-    assert "build_structural_evidence" in hook
+    # El hook la ejecuta en un proceso hijo con plazo (4-67 de CAL-D-01-R4), y el hijo llama a la misma función.
+    assert "construir_evidencia_aislada" in hook
+    assert "build_structural_evidence(" in inspect.getsource(se._main_hijo)
     # El hook recibe los bytes CONGELADOS cuando los hay: en una cohorte, el
     # receptor no se lee del catálogo mutable.
     assert "receptor_bytes=prepared_receptor_bytes" in hook

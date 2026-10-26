@@ -1,0 +1,175 @@
+{
+  "SIN": {
+    "state": "PREPARED",
+    "target": {
+      "id": "6be92f4b-73da-498f-9acf-b18153c1a7dd",
+      "pdb_id": "USR_2F6A02",
+      "name": "MET01R1-confirmatory-4QGE-SIN",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Pan Troglodytes",
+      "resolution": 2.0,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 38
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "35O",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 76.28,
+      "grid_center_y": 50.98,
+      "grid_center_z": 40.35,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "c5c16372-4beb-4894-8b11-a85c4a5c9470",
+      "receptor_source_sha256": "b1778a2b7b7d5a3403a76ae0ddc36b65dd365717995d2e3f6dc7aa94761e42f1",
+      "prepared_receptor_sha256": "688c1d0f0768212752135853debf6e6c6b320c9e36f5e394fd7d38d035094f81",
+      "preparation_fingerprint": "be3742f7beb02851e5a88d8aaaffcdacc15a9a1db931420555bcd8a2661368bc",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "4QGE",
+        "chain": "A",
+        "grid_center": [
+          76.28,
+          50.98,
+          40.35
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": []
+  },
+  "CON": {
+    "state": "PREPARED",
+    "target": {
+      "id": "9d9f18ca-ee3b-43b2-b76e-f35313dbc8a9",
+      "pdb_id": "USR_222D43",
+      "name": "MET01R1-confirmatory-4QGE-CON",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Pan Troglodytes",
+      "resolution": 2.0,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 38
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "35O",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 76.28,
+      "grid_center_y": 50.98,
+      "grid_center_z": 40.35,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [
+        "MG",
+        "ZN"
+      ],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "c5c16372-4beb-4894-8b11-a85c4a5c9470",
+      "receptor_source_sha256": "b1778a2b7b7d5a3403a76ae0ddc36b65dd365717995d2e3f6dc7aa94761e42f1",
+      "prepared_receptor_sha256": "7b7df54d612ec001e2e99b0e3a64d8761e58e59f55bd0a298778fa500854ec49",
+      "preparation_fingerprint": "935bcde70afcc3fad756b4f22f992f4cc7d7b6633067c4f6c68f7b6b6512684b",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "4QGE",
+        "chain": "A",
+        "grid_center": [
+          76.28,
+          50.98,
+          40.35
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [
+          "MG",
+          "ZN"
+        ],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": [
+      "MG",
+      "ZN"
+    ]
+  }
+}

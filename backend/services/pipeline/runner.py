@@ -4,7 +4,7 @@ from datetime import datetime, UTC
 from typing import Any
 import os
 
-from core.models import MoleculeStatus, _coerce_hotspots
+from core.models import MoleculeStatus, _coerce_cofactores, _coerce_hotspots
 from core.database import (
     DB_WRITE_RETRY_DELAY,
     MAX_DB_WRITE_RETRIES,
@@ -47,22 +47,32 @@ async def _generar_conformaciones(smiles: str, params_por_etapa) -> dict:
     except Exception:                                              # noqa: BLE001
         ph = None
 
+    from services.docking.protocolo import resolver_modo_tautomero
+    mode = resolver_modo_tautomero((params_por_etapa or {}).get("conformer"))
+    # Siempre explícito: el valor por defecto del conformador ya no es «canonico».
+    kwargs = {"tautomero": mode}
+
     if k <= 1:
-        return await generate_conformer(smiles, ph)
+        return await generate_conformer(smiles, ph, **kwargs)
 
     try:
         from chem.conformer_ensemble import generate_conformer_ensemble
 
-        return await generate_conformer_ensemble(smiles, k, ph)
+        return await generate_conformer_ensemble(smiles, k, ph, **kwargs)
     except Exception as exc:                                       # noqa: BLE001
         log.warning("ensemble_no_disponible", error=str(exc)[:200], k=k)
-        base = await generate_conformer(smiles, ph)
+        base = await generate_conformer(smiles, ph, **kwargs)
         base["conformer_warnings"] = [
             f"El ensemble de {k} conformaciones no se pudo generar "
             f"({type(exc).__name__}); la corrida sigue con una sola."
         ]
+        # SCI-A-038: sin esto el protocolo sellaba «1 pedida, 1 generada» y el
+        # dossier escribía «Confórmero único · REGISTRADO» de una corrida que pidió
+        # K. Lo pedido y lo conseguido se dicen los dos.
+        base["conformers_requested"] = k
+        base["conformers_generated"] = 1
         return base
-from services.docking.protocolo import construir_protocolo, es_motor_peptidico, validar_motor_solicitado
+from services.docking.protocolo import construir_protocolo, declarar_residuos_de_referencia, es_motor_peptidico, resolver_parametros_docking, validar_motor_solicitado
 from services.docking.vina_service import run_vina_docking
 from services.targets.resolution import resolve_execution_target
 from services.docking.rescoring_client import get_ml_rescore
@@ -339,7 +349,7 @@ async def run_pipeline(
             target_grid_size_z=target.grid_size_z,
             target_hotspots_base=_coerce_hotspots(target.hotspots) or [],
             target_hotspots_source=getattr(target, "hotspots_source", None),
-            target_cofactors_whitelist=_coerce_hotspots(target.cofactors_whitelist) or [],
+            target_cofactors_whitelist=_coerce_cofactores(target.cofactors_whitelist),
             affinity_threshold=target.affinity_threshold,
             specificity_floor=target.specificity_floor if target.specificity_floor is not None else 0.5,
             target_spearman_rho=target.spearman_rho,
@@ -374,7 +384,11 @@ async def run_pipeline(
 
         from utils.structural import normalize_hotspots
         active_hotspots = normalize_hotspots(pipeline_params.target_hotspots_base)
-        if pipeline_params.custom_hotspots:
+        # SOL-08: `[]` es una decisión explícita de no usar residuos de
+        # referencia. Con el chequeo truthy, la selección vacía restauraba
+        # los hotspots base para el análisis de contactos — la decisión del
+        # investigador se perdía a mitad de la corrida.
+        if pipeline_params.custom_hotspots is not None:
             target_hotspots_map = {h.get("name"): h.get("importance", 1.0) for h in active_hotspots}
             active_hotspots = [{"name": h_name, "importance": target_hotspots_map.get(h_name, 1.0)} for h_name in pipeline_params.custom_hotspots]
 
@@ -384,8 +398,8 @@ async def run_pipeline(
             if not context.get("docking"):
                 raise ValueError("Docking required for xgb")
 
-            from services.docking.preparer import get_target_pdb_path
-            pdb_path = str(get_target_pdb_path(pipeline_params.target_pdb_id))
+            from services.docking.preparer import pdb_para_rescoring
+            pdb_path = str(pdb_para_rescoring(pipeline_params.target_pdb_id))
             context["_pdb_path"] = pdb_path
             ml_result = await get_ml_rescore(
                 smiles=smiles,
@@ -464,7 +478,10 @@ async def run_pipeline(
                 # None, que es lo correcto para un scorer post-docking.
                 _dock = context.get("docking")
                 _mejor_pose = _dock.poses[0] if _dock and _dock.poses else None
-                clgnn_prob = predict_clgnn(
+                # En un hilo: la primera vez importa torch_geometric y carga el modelo, y en el bucle de eventos eso
+                # congelaba el backend varios segundos (`/health` sin contestar; 2026-10-10).
+                clgnn_prob = await asyncio.to_thread(
+                    predict_clgnn,
                     pipeline_params.molecule_smiles,
                     context.get("_pdb_path", ""),
                     pose_sdf_path=_dock.poses_file_path if _dock else None,
@@ -600,8 +617,7 @@ async def run_pipeline(
                                 f"rotables) — el docking será lento (búsqueda conformacional extensa). "
                                 f"Si el tiempo es un límite, revisa el tamaño de la caja y la "
                                 f"exhaustividad de Vina; reducirlos limita la búsqueda y puede "
-                                f"cambiar las poses. La ruta ESMFold para péptidos es exploratoria "
-                                f"y no tiene un benchmark de precisión de poses."
+                                f"cambiar las poses."
                             )
                         elif _n_rot_b > 8 or _n_heavy_b > 25:
                             context["scientific_warnings"].append(
@@ -642,7 +658,17 @@ async def run_pipeline(
                     else:
                         engine = params.get("engine", docking_engine)
                         validar_motor_solicitado(engine)
-                        num_poses = params.get("num_poses", 8)
+                        # SOL-02: la MISMA resolución que declaró el preflight y
+                        # firmó la huella. Los literales 32/8/42 que vivían aquí
+                        # eran una segunda fuente de verdad con otros valores
+                        # que settings: ejecutaban un protocolo distinto del
+                        # que el investigador había aprobado.
+                        resuelto = resolver_parametros_docking(
+                            pipeline_config=pipeline_config,
+                            size=tuple(box_size),
+                            docking_engine=docking_engine,
+                        )
+                        num_poses = resuelto["num_poses"]
 
                         async def _dock_una(smiles_hash: str, smiles: str | None = None):
                             """Una corrida de Vina. Es la unidad que el ensemble repite."""
@@ -655,9 +681,9 @@ async def run_pipeline(
                                 target_size=box_size,
                                 hotspots=active_hotspots,
                                 docking_engine=engine,
-                                exhaustiveness=params.get("exhaustiveness", 32),
+                                exhaustiveness=resuelto["exhaustiveness"],
                                 num_poses=num_poses,
-                                seed=params.get("seed", 42),
+                                seed=resuelto["seed"],
                                 smiles=smiles,
                                 prepared_receptor_bytes=prepared_receptor_bytes,
                                 cofactors_whitelist=pipeline_params.target_cofactors_whitelist,
@@ -737,7 +763,10 @@ async def run_pipeline(
                         )
                         continue
                     workers = pipeline_params.num_workers or params.get("num_workers", 2)
-                    anti_ids = pipeline_params.selected_anti_targets or []
+                    from services.docking.selectivity import ANTI_TARGET_PANEL
+                    anti_ids = (pipeline_params.selected_anti_targets
+                                if pipeline_config and pipeline_config.get("pro_anti_targets") is not None
+                                else [target["pdb_id"] for target in ANTI_TARGET_PANEL])
                     try:
                         from services.docking.selectivity import validar_protocolo_panel
                         panel_protocol = construir_protocolo(
@@ -1057,7 +1086,7 @@ async def run_pipeline(
             # intacto. Es la regla que separa «no lo medimos» de «salio mal».
             structural_evidence = None
             try:
-                from services.chemistry.structural_evidence import build_structural_evidence
+                from services.chemistry.structural_evidence import construir_evidencia_aislada
                 from utils.local_storage import read_bytes
 
                 evidence_receptor_bytes = prepared_receptor_bytes
@@ -1065,8 +1094,10 @@ async def run_pipeline(
                 if evidence_receptor_bytes is None and receptor_snapshot:
                     evidence_receptor_bytes = await read_bytes(receptor_snapshot)
 
-                structural_evidence = await asyncio.to_thread(
-                    build_structural_evidence,
+                # En un proceso hijo con plazo: un hilo no se puede detener, y el embebido de RDKit de PoseBusters
+                # no terminaba con 4-67 (CAL-D-01-R4) y seguía gastando CPU después del Timeout de la evaluación.
+                structural_evidence = await construir_evidencia_aislada(
+                    task_id=task_id,
                     poses=list(docking.poses or []),
                     target_pdb_id=pipeline_params.target_pdb_id,
                     receptor_sha256=getattr(docking, "receptor_sha256", None),
@@ -1128,6 +1159,13 @@ async def run_pipeline(
                 docking_engine=docking_engine,
                 docking_params=stage_params.get("docking"),
                 conformer_ctx=context.get("conformer"),
+                # Los residuos que ENTRARON en el análisis de contactos, no los del catálogo.
+                residuos_de_referencia=declarar_residuos_de_referencia(
+                    activos=active_hotspots,
+                    elegidos=pipeline_params.custom_hotspots,
+                    catalogo=normalize_hotspots(pipeline_params.target_hotspots_base),
+                    fuente_del_catalogo=pipeline_params.target_hotspots_source,
+                ),
             )
 
             # Guardar todo en DB (mini-transacción: transacción de ms)

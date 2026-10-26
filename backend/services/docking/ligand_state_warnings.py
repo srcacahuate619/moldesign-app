@@ -21,6 +21,15 @@ def avisos_estado_ligando(estado: dict | None) -> list[dict]:
             "SIN_CORRECCION_DE_PROTONACION", Severidad.PRECAUCION,
             str(estado["protonacion"]["motivo"]),
         ))
+    if (estado.get("protonacion") or {}).get("recortado"):
+        # CLAVE-09: con la lista en el tope de dimorphite, el conjunto de
+        # microestados puede estar incompleto y el elegido sale de un subconjunto.
+        tope = ((estado["protonacion"].get("parametros") or {}).get("max_variants")) or "el tope"
+        resultado.append(aviso(
+            "MICROESTADOS_RECORTADOS", Severidad.PRECAUCION,
+            f"dimorphite-dl devolvió {tope} microestados, su máximo: el conjunto puede "
+            "estar incompleto y la especie acoplada se eligió entre los que devolvió.",
+        ))
     seleccion = (estado.get("protonacion") or {}).get("seleccion") or {}
     if seleccion.get("criterio") == "primer_smiles_alfabetico_sin_centros":
         resultado.append(aviso(
@@ -44,6 +53,18 @@ def avisos_estado_ligando(estado: dict | None) -> list[dict]:
             "de metformina cerca de pH fisiológico; revisar la especie antes de interpretar la pose.",
         ))
     estereo = estado.get("estereoquimica") or {}
+    perdida = estereo.get("perdida_en_la_especie_acoplada") or {}
+    centros_perdidos = int(perdida.get("centros") or 0)
+    dobles_perdidos = int(perdida.get("dobles") or 0)
+    if centros_perdidos or dobles_perdidos:
+        resultado.append(aviso(
+            "ESTEREOQUIMICA_PERDIDA_AL_NORMALIZAR", Severidad.CRITICA,
+            f"La entrada declaraba {centros_perdidos} estereocentro(s) y "
+            f"{dobles_perdidos} doble(s) enlace(s) E/Z que la especie acoplada no "
+            "conserva: la normalización de tautómero o protonación cambió esos "
+            f"átomos. Lo acoplado ({estado.get('smiles_acoplado')}) no es el "
+            "estereoisómero que se escribió.",
+        ))
     centros = int(estereo.get("centros_sin_asignar") or 0)
     dobles = int(estereo.get("dobles_sin_asignar") or 0)
     if centros or dobles:

@@ -1,0 +1,1115 @@
+{
+  "coverage": 1.0,
+  "detail": null,
+  "evaluated_at": "2026-10-10T00:52:18.468406+00:00",
+  "pose_strategy": "vina_top1",
+  "poses": [
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.954,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 1,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.764,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 2,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.644,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 3,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.544,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 4,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.408,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 5,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.364,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 6,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.304,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 7,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.261,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 8,
+      "reason_code": null,
+      "status": "passed"
+    },
+    {
+      "canonicalization_invariants": {
+        "carga_formal_identica": true,
+        "desplazamiento_pesado_max_A": 0.0,
+        "h_polares_declarados_descartados": 2,
+        "h_sin_coordenada_eliminados": 0,
+        "mapa_biyectivo": true,
+        "n_atomos_en_pdbqt": 15,
+        "n_atomos_pesados_identico": true,
+        "n_coordenadas_aplicadas": 13,
+        "n_enlaces_pesados_identico": true,
+        "n_h_canonicos": 11,
+        "n_h_heredados": 0,
+        "pesados_invariantes": true,
+        "smiles_isomerico_identico": true
+      },
+      "checks": [
+        {
+          "check": "mol_pred_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "mol_cond_loaded",
+          "estado": "PASA"
+        },
+        {
+          "check": "sanitization",
+          "estado": "PASA"
+        },
+        {
+          "check": "inchi_convertible",
+          "estado": "PASA"
+        },
+        {
+          "check": "all_atoms_connected",
+          "estado": "PASA"
+        },
+        {
+          "check": "no_radicals",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_lengths",
+          "estado": "PASA"
+        },
+        {
+          "check": "bond_angles",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_steric_clash",
+          "estado": "PASA"
+        },
+        {
+          "check": "aromatic_ring_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "non-aromatic_ring_non-flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "double_bond_flatness",
+          "estado": "PASA"
+        },
+        {
+          "check": "internal_energy",
+          "estado": "PASA"
+        },
+        {
+          "check": "protein-ligand_maximum_distance",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "minimum_distance_to_waters",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_protein",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_organic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_inorganic_cofactors",
+          "estado": "PASA"
+        },
+        {
+          "check": "volume_overlap_with_waters",
+          "estado": "PASA"
+        }
+      ],
+      "checks_que_fallan": [],
+      "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+      "engine": "posebusters:0.6.5:dock",
+      "label": "CONTROLES SUPERADOS",
+      "observed_vina_affinity_kcal_mol": -6.25,
+      "provenance": {
+        "index_map": "meeko_remark_smiles_idx",
+        "pose_pdbqt": "docking_poses[].pdbqt_block",
+        "reader_route": "mapa_atomico_canonico",
+        "receptor": "cohort_runs.receptor_prepared_bytes",
+        "template": "meeko_remark_smiles_idx_sin_h_polares"
+      },
+      "rank": 9,
+      "reason_code": null,
+      "status": "passed"
+    }
+  ],
+  "poses_evaluated": 9,
+  "poses_produced": 9,
+  "primary_pose_rank": 1,
+  "reason_code": null,
+  "receptor_sha256": "30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60",
+  "receptor_source": "cohort_runs.receptor_prepared_bytes",
+  "stage_status": "passed",
+  "validation_engine": "posebusters:0.6.5:dock",
+  "version_schema": 1
+}

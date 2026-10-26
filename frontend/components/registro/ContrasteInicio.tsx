@@ -55,7 +55,7 @@ export function ContrasteInicio() {
             marginBottom: 18,
           }}
         >
-          {t("auto_b76b2b4f5246")} {idx.total} artefactos sellados
+          {t("auto_b76b2b4f5246")} {idx.total} {t("pr_reg_sealed_artifacts")}
         </div>
 
         <h2

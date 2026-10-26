@@ -1,47 +1,72 @@
 """Texto de contexto fisiológico para los certificados de MolDesign.
 
-Este módulo no interpreta resultados ni modifica la evaluación.  Sólo conserva
-la clasificación textual que antes vivía acoplada al renderer de ReportLab.
+Este módulo no interpreta resultados ni modifica la evaluación.
+
+SCI-A-020, 043, 046, 047 y 048. Aquí vivía una clasificación por subcadenas sobre
+el PDB **entero** —encabezado, REMARKs y condiciones de cristalización—, y cada
+regla acertaba por casualidad o fallaba con naturalidad:
+
+* «RECEPTOR» llamaba GPCR o transmembranal a un receptor nuclear (3ERT);
+* «KINASE» en ``COMPND FRAGMENT: KINASE DOMAIN`` llamaba quinasa a BACE1, una
+  aspartil proteasa (5TOL);
+* «MPRO» dentro de ``REMARK 3 IMPROPER ANGLES`` llamaba proteasa a la anhidrasa
+  carbónica II (1BN1);
+* «POTASSIUM» en ``REMARK 280 POTASSIUM CHLORIDE`` llamaba canal iónico a la
+  transcriptasa inversa de la telomerasa (6E53);
+* y lo que no casaba con nada se describía como «catalizador o transductor de
+  señal intracelular» (1SM3, un anticuerpo con su epítopo).
+
+Una función biológica no se deduce de una palabra del archivo. Sin una anotación
+funcional curada (la descripción del catálogo, que el PDF prefiere cuando existe)
+se dice que el contexto no está disponible, y lo que el depósito sí declara —su
+clasificación y su título— se conserva como dato, sin convertirlo en función.
 """
+
+from __future__ import annotations
+
+#: Lo más largo que se copia del título del depósito: es un dato, no un párrafo.
+MAX_TITULO = 160
+
+SIN_CONTEXTO = (
+    "Contexto fisiológico no disponible: el receptor no tiene una anotación funcional curada."
+)
+
+
+def _registro(texto: str, nombre: str) -> str | None:
+    """El contenido de un registro PDB (HEADER, TITLE…), uniendo sus continuaciones."""
+    partes = []
+    for linea in texto.splitlines():
+        if linea[:6].rstrip() != nombre:
+            continue
+        if nombre == "HEADER":
+            # Columnas 11-50: la clasificación. Lo que sigue es la fecha y el código.
+            partes.append(linea[10:50].strip())
+        else:
+            partes.append(linea[10:80].strip())
+    contenido = " ".join(p for p in partes if p).strip()
+    return contenido or None
 
 
 def generate_physiological_context(pdb_id: str, header_lines: str | None) -> str:
-    """Devuelve el contexto fisiológico a partir de los headers de un PDB.
+    """El contexto fisiológico que se puede afirmar sin anotación curada: ninguno.
 
     ``pdb_id`` se conserva en el contrato público porque los certificados lo
-    proporcionan y futuros catálogos pueden usarlo. La clasificación actual se
-    basa exclusivamente en el contenido del encabezado, igual que antes.
+    proporcionan. ``header_lines`` puede ser el PDB entero: sólo se leen sus
+    registros HEADER y TITLE, nunca los REMARK ni las condiciones de cristalización.
     """
     del pdb_id
-
     if not header_lines:
-        return "Descripción fisiológica no disponible para este receptor personalizado."
+        return SIN_CONTEXTO
 
-    text = header_lines.upper()
-
-    if any(k in text for k in ("GPCR", "RECEPTOR", "5-HT", "DOPAMINE", "ADRENERGIC", "SEROTONIN", "ACETYLCHOLINE", "GLYCOPROTEIN")):
-        return (
-            "Este target clasifica como un Receptor Acoplado a Proteínas G (GPCR) o receptor transmembranal. "
-            "Los GPCRs median la transducción de señales extracelulares al interior celular a través de cascadas "
-            "enzimáticas mediadas por nucleótidos de guanina. Son dianas esenciales en neurofarmacología y endocrinología."
-        )
-    if any(k in text for k in ("KINASE", "PHOSPHOTRASE", "TYROSINE KINASE", "MAPK", "CDK")):
-        return (
-            "Este target clasifica como una Proteína Quinasa (Kinase). Las quinasas son enzimas que catalizan la "
-            "transferencia de grupos fosfato desde el ATP a sustratos específicos, actuando como interruptores críticos "
-            "en vías de proliferación, crecimiento y señalización celular. Altamente relevantes en oncología."
-        )
-    if any(k in text for k in ("PROTEASE", "PEPTIDASE", "HYDROLASE", "HIV PROTEASE", "MPRO", "COV PROTEASE")):
-        return (
-            "Este target clasifica como una Hidrolasa / Proteasa. Las proteasas (ej. aspartil o cisteín proteasas) "
-            "catalizan la ruptura de enlaces peptídicos de proteínas. Son dianas esenciales para el control del "
-            "procesamiento de poliproteínas funcionales y la replicación en ciclos de infección viral (como en VIH o Coronavirus)."
-        )
-    if any(k in text for k in ("CHANNEL", "ION CHANNEL", "PORE", "PUMP", "POTASSIUM", "SODIUM", "CALCIUM")):
-        return (
-            "Este target clasifica como un Canal Iónico o transportador de membrana. Regula de manera selectiva "
-            "el paso de iones a través de la bicapa lipídica, manteniendo el gradiente electroquímico e interviniendo "
-            "en la excitabilidad neuronal, contracción muscular y señalización de segundos mensajeros."
-        )
-
-    return "Estructura proteica personalizada del usuario. Interactúa como catalizador o transductor de señal intracelular."
+    clasificacion = _registro(header_lines, "HEADER")
+    titulo = _registro(header_lines, "TITLE")
+    if titulo and len(titulo) > MAX_TITULO:
+        titulo = titulo[:MAX_TITULO - 1].rstrip() + "…"
+    if clasificacion and titulo:
+        return (f"{SIN_CONTEXTO} Clasificación del depósito: {clasificacion}; "
+                f"título del depósito: {titulo}.")
+    if clasificacion:
+        return f"{SIN_CONTEXTO} Clasificación del depósito: {clasificacion}."
+    if titulo:
+        return f"{SIN_CONTEXTO} Título del depósito: {titulo}."
+    return SIN_CONTEXTO

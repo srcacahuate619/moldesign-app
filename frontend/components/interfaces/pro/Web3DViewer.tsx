@@ -120,7 +120,7 @@ function buildHotspotLookup(hotspots: Array<{ name: string }>, fallbackChain?: s
   return map;
 }
 
-function parsePdbAtoms(pdb: string, lookup: Map<string, Set<string>>, chains?: Set<string>): Atom[] {
+export function parsePdbAtoms(pdb: string, lookup: Map<string, Set<string>>, chains?: Set<string>): Atom[] {
   const atoms: Atom[] = [];
   for (const line of pdb.split("\n")) {
     if (!line.startsWith("ATOM")) continue;
@@ -134,7 +134,7 @@ function parsePdbAtoms(pdb: string, lookup: Map<string, Set<string>>, chains?: S
       const element = (line.slice(76, 78).trim() || line.slice(12, 16).trim() || "C").toUpperCase();
       // ¿Este átomo pertenece a un residuo del sitio activo (hotspot)?
       const resName = line.slice(17, 20).trim().toUpperCase();
-      const resSeq = line.slice(22, 26).trim();
+      const resSeq = line.slice(22, 27).trim();
       const rid = `${resName}${resSeq}`.toUpperCase();
       const isHotspot = lookup.get(ch)?.has(rid) || lookup.get("*")?.has(rid);
       atoms.push({ x, y, z, element, isHotspot: !!isHotspot, resId: rid, chain: ch });
@@ -146,7 +146,7 @@ function parsePdbAtoms(pdb: string, lookup: Map<string, Set<string>>, chains?: S
 
 type HotspotMarker = { x: number; y: number; z: number; name: string; importance: number };
 
-function parsePdbHotspots(pdb: string, hotspots: Array<{ name: string; importance?: number }>, chains?: Set<string>): HotspotMarker[] {
+export function parsePdbHotspots(pdb: string, hotspots: Array<{ name: string; importance?: number }>, chains?: Set<string>): HotspotMarker[] {
   // Extrae el CA de cada residuo hotspot respetando SU cadena (fallback:
   // "A:LEU221" con cadena explícita o "LEU221" en cualquier cadena).
   const impByRid = new Map<string, number>();
@@ -158,7 +158,7 @@ function parsePdbHotspots(pdb: string, hotspots: Array<{ name: string; importanc
     const chain = hasChain ? parts[0].trim() : "*";
     const rid = (hasChain ? parts[1] : upper).trim();
     if (!rid) return;
-    impByRid.set(rid, h.importance ?? 0.5);
+    impByRid.set(`${chain}:${rid}`, h.importance ?? 0.5);
     const set = lookup.get(chain) ?? new Set<string>();
     set.add(rid);
     lookup.set(chain, set);
@@ -170,7 +170,7 @@ function parsePdbHotspots(pdb: string, hotspots: Array<{ name: string; importanc
     const ch = line[21].trim().toUpperCase();
     if (chains && chains.size > 0 && !chains.has(ch)) continue;
     const resName = line.slice(17, 20).trim().toUpperCase();
-    const resSeq = line.slice(22, 26).trim();
+    const resSeq = line.slice(22, 27).trim();
     const atomName = line.slice(12, 16).trim().toUpperCase();
     const rid = `${resName}${resSeq}`.toUpperCase();
     if (atomName !== "CA") continue;
@@ -185,7 +185,7 @@ function parsePdbHotspots(pdb: string, hotspots: Array<{ name: string; importanc
         y: parseFloat(line.slice(38, 46)),
         z: parseFloat(line.slice(46, 54)),
         name: `${ch}:${rid}`,
-        importance: impByRid.get(rid) ?? 0.5,
+        importance: impByRid.get(key) ?? impByRid.get(`*:${rid}`) ?? 0.5,
       });
     } catch { /* skip */ }
   }
@@ -928,7 +928,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
     // cadena del receptor). Prioridad 2: derivar el CA del PDB (fallback).
     let parsed = proteinData ? parsePdbHotspots(proteinData, hotspots, receptorChains) : [];
     if (parsed.length === 0 && receptorChains.size > 0) parsed = proteinData ? parsePdbHotspots(proteinData, hotspots) : [];
-    const byName = new Map(parsed.map((p) => [p.name.toUpperCase().split(":").pop() ?? "", p]));
+    const byName = new Map(parsed.map((p) => [p.name.toUpperCase(), p]));
     const out: HotspotMarker[] = [];
     hotspots.forEach((h) => {
       const n = h.name.toUpperCase();
@@ -936,7 +936,10 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
         out.push({ x: h.x, y: h.y, z: h.z, name: h.name, importance: h.importance ?? 0.5 });
         return;
       }
-      const f = byName.get(n.split(":").pop() ?? "");
+      // Una cadena explícita forma parte de la identidad del residuo.
+      // La anotación sin cadena sólo se acepta si hay una coincidencia única.
+      const matches = n.includes(":") ? [] : parsed.filter((p) => p.name.split(":").pop()?.toUpperCase() === n);
+      const f = n.includes(":") ? byName.get(n) : matches.length === 1 ? matches[0] : undefined;
       if (f) out.push({ x: f.x, y: f.y, z: f.z, name: h.name, importance: h.importance ?? f.importance ?? 0.5 });
     });
     return out;
@@ -1118,7 +1121,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
           onClick={() => setLegendOpen((v) => !v)}
           className={`${VIEWER_LABEL_BUTTON_CLASS} min-w-[112px] justify-between`}
         >
-          <span className="text-emerald-300">Leyenda</span>
+          <span className="text-emerald-300">{t("pr_viewer_legend")}</span>
           <span className="text-slate-500">{legendOpen ? "▾" : "▸"}</span>
         </button>
         {/* La barra de desplazamiento existía, pero no se podía usar.
@@ -1165,9 +1168,9 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
                 );
               })
             )}
-            {showAtoms && <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-[#4a4a5a] inline-block" /> Receptor completo</span>}
+            {showAtoms && <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-[#4a4a5a] inline-block" /> {t("pr_viewer_receptor_full")}</span>}
             {showMolecule && ligand.atoms.length > 0 && (
-              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#e6e6f2] inline-block" /> Ligando acoplado</span>
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#e6e6f2] inline-block" /> {t("pr_viewer_ligand_docked")}</span>
             )}
             {showInteractions && interactions && interactions.length > 0 && (
               [...new Set(interactions.map((i) => i.type))].map((interactionType) => (
@@ -1186,7 +1189,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
         <div className="absolute bottom-3 right-3 z-10">
           <button onClick={onSwitchViewer} className={VIEWER_SWITCH_BUTTON_CLASS}>
             <Box size={12} className="text-emerald-400" />
-            Ver {viewerLabel ?? "MolStar"}
+            {t("pr_viewer_view")} {viewerLabel ?? "MolStar"}
           </button>
         </div>
       )}
@@ -1217,7 +1220,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               >
                 <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
                   <EyeOff size={12} className={showAtoms ? "text-amber-400" : "text-slate-500"} />
-                  {showAtoms ? "Ocultar receptor" : "Mostrar receptor"}
+                  {showAtoms ? t("pr_viewer_hide_receptor") : t("pr_viewer_show_receptor")}
                 </span>
                 <span className={`relative h-4 w-7 rounded-full transition-colors ${showAtoms ? "bg-purple-500/60" : "bg-white/10"}`}>
                   <span className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white transition-transform ${showAtoms ? "translate-x-3" : ""}`} />
@@ -1237,7 +1240,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               >
                 <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
                   <Atom size={12} className={showMolecule ? "text-sky-400" : "text-slate-500"} />
-                  {showMolecule ? "Ocultar ligando" : "Mostrar ligando"}
+                  {showMolecule ? t("pr_viewer_hide_ligand") : t("pr_viewer_show_ligand")}
                 </span>
                 <span className={`relative h-4 w-7 rounded-full transition-colors ${showMolecule ? "bg-purple-500/60" : "bg-white/10"}`}>
                   <span className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white transition-transform ${showMolecule ? "translate-x-3" : ""}`} />
@@ -1257,7 +1260,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               >
                 <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
                   <Zap size={12} className={showInteractions ? "text-yellow-400" : "text-slate-500"} />
-                  {showInteractions ? "Ocultar interacciones" : "Ver interacciones"}
+                  {showInteractions ? t("pr_viewer_hide_interactions") : t("pr_viewer_show_interactions")}
                 </span>
                 <span className={`relative h-4 w-7 rounded-full transition-colors ${showInteractions ? "bg-purple-500/60" : "bg-white/10"}`}>
                   <span className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white transition-transform ${showInteractions ? "translate-x-3" : ""}`} />
@@ -1297,7 +1300,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               {t(selectedInfo.desc)}
             </p>
             <div className="pt-1 border-t border-white/5 flex items-center justify-between text-[10px] font-mono">
-              <span className="text-slate-500 uppercase tracking-wider">Importancia relativa</span>
+              <span className="text-slate-500 uppercase tracking-wider">{t("pr_viewer_relative_importance")}</span>
               <span className={`font-black ${selectedHotspot.importance >= 0.8 ? "text-emerald-400" : selectedHotspot.importance >= 0.5 ? "text-amber-400" : "text-slate-400"}`}>
                 {selectedHotspot.importance.toFixed(2)}
               </span>

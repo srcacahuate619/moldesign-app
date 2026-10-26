@@ -1,0 +1,26 @@
+[
+  {
+    "comando": "npm run test:run",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:00:40.6127721Z",
+    "segundos": 134.28,
+    "salida": 0,
+    "registro": "worktree-93b004cf-01.log"
+  },
+  {
+    "comando": "npx tsc --noEmit",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:02:54.9587843Z",
+    "segundos": 12.98,
+    "salida": 0,
+    "registro": "worktree-93b004cf-02.log"
+  },
+  {
+    "comando": "npm run lint",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:03:07.9381264Z",
+    "segundos": 34.36,
+    "salida": 0,
+    "registro": "worktree-93b004cf-03.log"
+  }
+]

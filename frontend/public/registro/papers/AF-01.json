@@ -2,7 +2,7 @@
  "id": "AF-01",
  "meta": {
   "titulo": "Reproduce exactamente, y con eso descubre que no significa lo que decía",
-  "entradilla": "Spearman 0.6094, delta 0.0 respecto a la cifra original. Al estratificar por relación con el receptor, cae a 0.3626 en las proteínas no relacionadas. La cifra reproduce; el alcance era otro."
+  "entradilla": "Spearman 0.6094, delta 0.0 respecto a la cifra original. Al estratificar por relación con el receptor, cae a 0.3626 en el estrato de receptor casi idéntico (estratos rehechos después en AF-01-R1). La cifra reproduce; el alcance era otro."
  },
  "bloques": [
   {
@@ -420,6 +420,63 @@
      "t": "La cifra no bajó. Bajó el tamaño de la afirmación que se puede construir con ella, que es una forma de progreso menos satisfactoria y más útil.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-031. La entradilla atribuía el 0,3626 a las proteínas «no relacionadas», y la tabla lo da para el estrato de receptor ",
+      "m": null
+     },
+     {
+      "t": "casi idéntico",
+      "m": "fuerte"
+     },
+     {
+      "t": ". Además, el corrigendum AF-01-R1 rehízo los estratos con otra regla (receptor ya visto 0,724, n = 126; casi idéntico 0,5135, n = 108; no relacionado 0,5395, n = 94): los de este texto quedan supersedidos. La ρ global de 0,6094 no cambia.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-032. Que el solapamiento con el receptor «infle» la métrica, o que parte del acierto sea «memoria», es una asociación entre estratos, no una cuantificación causal. «No relacionado» significa menos de 0,90 de identidad por k-mer, no disjunción biológica.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

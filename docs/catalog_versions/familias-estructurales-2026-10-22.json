@@ -1,0 +1,22 @@
+{
+  "catalog_version": "familias-estructurales-2026-10-22",
+  "based_on_commit": "0f779009",
+  "supersedes": {
+    "curated_targets_json_sha256": "21e807af380b71a62b0172f519415ed9130ca46986b6cd5543418dac950c1839",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "active": {
+    "curated_targets_json_sha256": "c221c363bd1c752ebc6df41c42b5d25e71ddd750cb44611f092339af6b5a93bf",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "cambio": "Cuatro entradas tenían una familia estructural equivocada, asignada por una palabra del título y no por la proteína. 2VE3 es CYP120A1 de cianobacteria (un citocromo P450) y figuraba como nuclear_receptor por llevar ácido retinoico: pasa a cytochrome_p450. 3RUT, 3RUU y 6A5W son el dominio de unión a ligando de FXR (un receptor nuclear) y figuraban como kinase por el péptido coactivador SRC1: pasan a nuclear_receptor. Cambia sólo structural_family de esas cuatro filas (verificado fila a fila); el CSV no las contiene. La familia se muestra en Moldex y en las estadísticas; no cambia ninguna caja, receptor preparado ni sitio. No equivale a una auditoría de todas las familias: se revisaron por palabra clave del nombre las de receptor nuclear, P450 y quinasa, y no se buscaron otros errores.",
+  "corregidas": [
+    "2VE3",
+    "3RUT",
+    "3RUU",
+    "6A5W"
+  ],
+  "pendientes": {},
+  "herramienta": "edición dirigida de structural_family en curated_targets.json (4 valores), comprobada contra el JSON anterior",
+  "evidencia": "2VE3: informe de MET_datos de Sol 6.1 (2026-10-22, fuera del repositorio: D:\\moldesign-audits\\MET_datos), que señala que su campo structural_family dice nuclear_receptor aunque el título describe CYP120A1. 3RUT, 3RUU y 6A5W: encontrados al buscar por palabra clave del nombre; 3RUU se leyó además en la auditoría de Preparación de ABS-TR-01."
+}

@@ -1,0 +1,12 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run components/science/__tests__ app/preparacion/__tests__ app/molcy/__tests__/page.test.tsx app/evaluation/batch/__tests__/cohortes.test.tsx lib/__tests__/idiomasCompletos.test.ts lib/__tests__/interfazSinTextoFijo.test.ts
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  15 passed (15)
+      Tests  240 passed (240)
+   Start at  18:05:17
+   Duration  24.49s (tests 34%, environment 32%, import 21%, setup 10%, transform 3%)

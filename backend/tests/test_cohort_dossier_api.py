@@ -242,6 +242,40 @@ async def test_el_zip_lleva_el_receptor_congelado_y_lo_valida_el_mismo_verificad
 
 @rdkit_available
 @pytest.mark.asyncio
+async def test_accept_language_en_traduce_el_dossier_de_cohorte_y_conserva_la_fila(
+    entorno, evaluador
+):
+    pypdf = pytest.importorskip("pypdf", reason="extracción semántica del PDF")
+    PdfReader = pypdf.PdfReader
+
+    await entorno.crear_target()
+    entorno.preparar_receptor()
+    client = entorno.app(localization_middleware=True)
+    cohorte = _congelar(client)
+    _, run_id = await _abrir_y_esperar(entorno, client, cohorte["id"])
+
+    respuesta = client.post(
+        f"/evaluation/cohort-runs/{run_id}/dossier/package",
+        headers={"Accept-Language": "en"},
+    )
+
+    assert respuesta.status_code == 200, respuesta.text
+    assert respuesta.headers["content-language"] == "en"
+    assert verificar_paquete(respuesta.content).valido
+    _, nombres, contenido = _abrir_zip(respuesta.content)
+    assert "README.md" in nombres
+    readme = contenido["README.md"].decode("utf-8")
+    evidencia = json.loads(contenido["evidence.json"])
+    pdf = PdfReader(io.BytesIO(contenido["dossier.pdf"]))
+    texto_pdf = "\n".join(pagina.extract_text() or "" for pagina in pdf.pages)
+
+    assert "# Audited cohort evidence package" in readme
+    assert "Cohort dossier" in texto_pdf
+    assert evidencia["molecules"][0]["source_name"] == "aspirina"
+
+
+@rdkit_available
+@pytest.mark.asyncio
 async def test_adulterar_cualquier_archivo_del_zip_lo_invalida(entorno, evaluador):
     await entorno.crear_target()
     entorno.preparar_receptor()

@@ -59,9 +59,7 @@ from typing import Any, Literal
 from core.config import get_settings
 from chem.validator import validate_smiles
 from services.docking import preparer
-from services.docking.search_policy import (
-    BOX_VOLUME_WARNING_A3, box_volume, effective_exhaustiveness as resolve_exhaustiveness,
-)
+from services.docking.search_policy import BOX_VOLUME_WARNING_A3, box_volume
 from utils.local_storage import path_for
 from utils.file_handlers import StoragePath
 from utils.logger import get_logger
@@ -75,6 +73,15 @@ PREFLIGHT_SCHEMA_VERSION = 4
 #: heteroátomos difiere entre docking y MM-GBSA (docs/53 §6.2), así que el
 #: resultado no significa nada sin decir de qué ruta habla.
 EXECUTION_ROUTE = "docking_vina"
+
+#: Límites de la caja de búsqueda que la ejecución admite (SOL-13). La interfaz
+#: los espeja en `frontend/lib/limitesCaja.ts` y una prueba lee este archivo
+#: para que no se separen: un tope de interfaz más estrecho que éste recorta
+#: en silencio lo que el usuario pidió. El origen de coordenadas lo fija la
+#: estructura, así que el centro sólo se exige finito y acotado.
+CAJA_LADO_MIN_A = 5.0
+CAJA_LADO_MAX_A = 80.0
+CAJA_CENTRO_MAX_A = 10000.0
 
 ControlState = Literal["pasa", "advertencia", "bloquea", "no_evaluado"]
 
@@ -148,6 +155,19 @@ def _es_metal(residue: str) -> bool:
     return residue in preparer.METAL_COFACTORS and residue not in _NO_SON_METALES
 
 
+#: Cofactores orgánicos que la receta de hoy RETIRA —no tienen plantilla local— y que son cofactores, no aditivos de
+#: cristalización: la forma reducida del NADP (NDP, NADPH) y del NAD (NAI, NADH). Sin esto un NDP retirado junto al sitio se
+#: contaba como «otra especie» y pedía revisión, como un sulfato, cuando es lo mismo que un NAP retirado: abstención.
+#: Aparte de `ORGANIC_COFACTORS_KEPT` a propósito: conservarlos exige una plantilla, y la biblioteca de plantillas entra en el
+#: hash de la receta de los 381 receptores (`receptor_recipe_hash`). Decisión del propietario, no una corrección mecánica.
+COFACTORES_RECONOCIDOS_QUE_LA_RECETA_RETIRA = frozenset({"NDP", "NAI"})
+
+
+def _es_cofactor_organico(residue: str) -> bool:
+    """Un cofactor orgánico: el que la receta conserva o el que reconoce y retira."""
+    return residue in preparer.ORGANIC_COFACTORS_KEPT or residue in COFACTORES_RECONOCIDOS_QUE_LA_RECETA_RETIRA
+
+
 def _species_category(residue: str) -> str:
     """Categoría estable de API; los nombres internos no llegan a la UI."""
 
@@ -155,7 +175,7 @@ def _species_category(residue: str) -> str:
         return "water"
     if _es_metal(residue):
         return "metal"
-    if residue in preparer.ORGANIC_COFACTORS_KEPT:
+    if _es_cofactor_organico(residue):
         return "organic_cofactor"
     return "other_heteroatom"
 
@@ -213,11 +233,67 @@ def count_species(pdb_content: str) -> _SpeciesCount:
             counts.waters += 1
         elif _es_metal(residue):
             counts.metals += 1
-        elif residue in preparer.ORGANIC_COFACTORS_KEPT:
+        elif _es_cofactor_organico(residue):
             counts.organic_cofactors += 1
         else:
             counts.other_hetatm += 1
     return counts
+
+
+def _el_canonico_cambia_el_tautomero(smiles: str) -> bool:
+    """¿El canónico de RDKit acoplaría otro tautómero que el escrito? Ante la duda, sí."""
+    try:
+        from rdkit import Chem, RDLogger
+        from rdkit.Chem.MolStandardize import rdMolStandardize
+
+        RDLogger.DisableLog("rdApp.*")
+        mol = Chem.MolFromSmiles(smiles)
+        if mol is None:
+            return True
+        parametros = rdMolStandardize.CleanupParameters()
+        parametros.tautomerRemoveSp3Stereo = False      # los mismos que `chem/conformer.py`
+        parametros.tautomerRemoveBondStereo = False
+        canonico = rdMolStandardize.TautomerEnumerator(parametros).Canonicalize(mol)
+        return (Chem.MolToSmiles(canonico, isomericSmiles=False)
+                != Chem.MolToSmiles(mol, isomericSmiles=False))
+    except Exception:  # noqa: BLE001 — sin poder comprobarlo, la huella lo distingue
+        return True
+
+
+def _tautomero_en_la_huella(
+    smiles: str, pipeline_config: dict[str, Any] | None,
+) -> tuple[dict[str, Any] | None, str | None]:
+    """El modo de tautómero, tal como entra en la huella: sólo si cambia lo que se acopla.
+
+    Hasta el 2026-10-10 el valor por defecto era `canonico` y se firmaba sin clave;
+    `entrada` se firmaba dentro de `pipeline_config`. Ahora el defecto es `entrada`.
+    Firmar siempre el modo convertiría en «corrida anterior» todos los casos
+    guardados, aunque su molécula no tenga otro tautómero que acoplar. Así que la
+    clave sólo aparece cuando el modo efectivo es `entrada` y el canónico de RDKit
+    cambiaría la molécula: la misma codificación de antes para lo que ya existía, y
+    una huella distinta para una corrida que ahora acopla otra especie que antes.
+    Devuelve la configuración normalizada y, sin `pipeline_config`, la clave suelta.
+    """
+    import copy
+
+    from services.docking.protocolo import resolver_modo_tautomero
+
+    conformer = ((pipeline_config or {}).get("stage_params") or {}).get("conformer")
+    modo = resolver_modo_tautomero(conformer if isinstance(conformer, dict) else None)
+    config = copy.deepcopy(pipeline_config) if pipeline_config else None
+    anidado = ((config or {}).get("stage_params") or {}).get("conformer")
+    if isinstance(anidado, dict):
+        anidado.pop("tautomero", None)
+    if modo != "entrada" or not _el_canonico_cambia_el_tautomero(smiles):
+        return config, None
+    if config is None:
+        return None, "entrada"
+    stage_params = config.setdefault("stage_params", {})
+    conformer_params = stage_params.get("conformer")
+    if not isinstance(conformer_params, dict):
+        conformer_params = stage_params["conformer"] = {}
+    conformer_params["tautomero"] = "entrada"
+    return config, None
 
 
 def canonical_input_document(
@@ -268,7 +344,10 @@ def canonical_input_document(
         "grid_size": _grid(grid_size),
         # Ordenados: el mismo conjunto de hotspots en otro orden es la misma
         # corrida.
-        "custom_hotspots": sorted(custom_hotspots) if custom_hotspots else None,
+        # SOL-08: `[]` (decisión de no usar referencias) firma distinto que
+        # la clave ausente (nunca se abrió Opciones). Antes el truthy
+        # colapsaba ambas en la misma huella.
+        "custom_hotspots": sorted(custom_hotspots) if custom_hotspots is not None else None,
         "docking_engine": docking_engine,
         "exhaustiveness": int(exhaustiveness),
         "num_poses": int(num_poses),
@@ -292,6 +371,9 @@ def canonical_input_document(
     # identidad tambien.
     if int(conformers or 1) > 1:
         document["conformers"] = int(conformers)
+    pipeline_config, tautomero_suelto = _tautomero_en_la_huella(smiles_for_hash, pipeline_config)
+    if tautomero_suelto:
+        document["tautomero"] = tautomero_suelto
     if pipeline_config:
         # La configuración PRO forma parte de la identidad de la corrida. Se
         # conserva dentro del documento canónico para que activar selectividad,
@@ -461,8 +543,24 @@ def build_preflight(
 
     # ── Receptor: artefactos reales ──────────────────────────────────
     pdb_id = target_pdb_id.strip().upper()
-    site_ligand = site_ligand or preparer.catalog_site_ligand(pdb_id)
+    site_ligand = site_ligand or preparer.ligando_del_sitio(pdb_id)
     source_path = _source_pdb_path(pdb_id)
+    # Un receptor propio que la persona subió ya preparado se evalúa tal cual: el
+    # catálogo no tiene perfil, así que `perfil_propio` es None y nada de lo que
+    # sigue cambia para él.
+    perfil_propio = preparer.distinto_del_automatico(pdb_id)
+    es_pdbqt = perfil_propio is not None and perfil_propio["modo"] == "pdbqt"
+    # Una estructura que el equipo ya preparó se respeta: no se retiran sus aguas ni sus metales.
+    es_respetar = perfil_propio is not None and perfil_propio["modo"] == "respetar"
+    pdbqt_texto: str | None = None
+    pdbqt_sha: str | None = None
+    if es_pdbqt:
+        try:
+            pdbqt_bytes = path_for(perfil_propio["almacen"]["receptor"]).read_bytes()
+            pdbqt_sha = sha256_of(pdbqt_bytes)
+            pdbqt_texto = pdbqt_bytes.decode("utf-8", errors="replace")
+        except (OSError, KeyError):
+            pdbqt_texto = None
     prepared_path: Path | None = None
     source_original_text: str | None = None
     cadenas_del_sitio = {str(c).strip() for c in (site_chains or []) if str(c).strip()}
@@ -484,7 +582,9 @@ def build_preflight(
             source_original_text = (source_bytes.decode("utf-8", errors="replace")
                                     .replace("\r\n", "\n").replace("\r", "\n"))
             from services.chemistry.ensamblaje_biologico import generar_unidad_biologica
-            source_text = generar_unidad_biologica(source_original_text, pdb_id=pdb_id).pdb
+            # Un receptor ya preparado se usa tal como viene: no se genera su unidad biológica.
+            source_text = (source_original_text if es_respetar
+                           else generar_unidad_biologica(source_original_text, pdb_id=pdb_id).pdb)
             source_counts = count_species(source_text)
             controls.append(
                 Control(
@@ -496,7 +596,12 @@ def build_preflight(
                         f"{source_counts.hetatm_records} HETATM · cadenas "
                         f"{', '.join(sorted(source_counts.chains)) or 'ninguna'}."
                     ),
-                    reason="Es el archivo exacto que leerá la preparación de la corrida.",
+                    reason=(
+                        "Es la estructura de origen del PDBQT: sólo se usa para auditarlo; el receptor "
+                        "de la corrida es el PDBQT tal como se subió."
+                        if es_pdbqt else
+                        "Es el archivo exacto que leerá la preparación de la corrida."
+                    ),
                     provenance=f"{source_path.name} · {source_sha}",
                 )
             )
@@ -512,6 +617,26 @@ def build_preflight(
                     provenance="lectura local del PDB de origen",
                 )
             )
+    elif es_pdbqt:
+        # El PDBQT se evalúa tal cual; lo que falta es poder AUDITARLO. No bloquea la
+        # evaluación, pero tampoco se calla: Preparación pedirá la estructura de origen.
+        controls.append(
+            Control(
+                code="RECEPTOR_FUENTE_DISPONIBLE",
+                state="advertencia",
+                title="Fuente del receptor",
+                observation=(
+                    f"{pdb_id} se subió como PDBQT sin estructura de origen"
+                    + (f" (SHA-256 {pdbqt_sha[7:]})" if pdbqt_sha else "")
+                    + ": se evaluará exactamente ese archivo."
+                ),  # plantilla en core/i18n_receptores_propios.py
+                reason=(
+                    "Sin la estructura de origen no se puede saber qué se retiró al preparar el PDBQT "
+                    "(aguas, metales, cofactores, residuos, huecos). Súbela junto al PDBQT para auditar."
+                ),
+                provenance="PDBQT subido por el investigador",
+            )
+        )
     else:
         controls.append(
             Control(
@@ -535,7 +660,22 @@ def build_preflight(
     filtered_text: str | None = None
     chain_error: str | None = None
 
-    if source_text is None or source_counts is None:
+    if es_pdbqt:
+        # El receptor de la corrida es el PDBQT subido: sus átomos son «lo que entra».
+        from services.docking.preparer_propio import pdbqt_como_pdb
+
+        if pdbqt_texto is not None:
+            filtered_text = pdbqt_como_pdb(pdbqt_texto, con_hidrogenos=True)
+            filtered_counts = count_species(filtered_text)
+            etiqueta_cadenas = "+".join(sorted(filtered_counts.chains)) or etiqueta_cadenas
+        if source_counts is not None and filtered_counts is not None:
+            diff = _build_diff(source_counts, filtered_counts, etiqueta_cadenas)
+        else:
+            diff = _diff_not_evaluated(
+                "Sin la estructura de origen no se puede saber qué se retiró al preparar el PDBQT: "
+                "súbela para auditar."
+            )
+    elif source_text is None or source_counts is None:
         diff = _diff_not_evaluated(
             "No hay fuente en disco que comparar. Se calculará cuando la corrida la descargue."
         )
@@ -543,13 +683,26 @@ def build_preflight(
         try:
             # LA MISMA función que ejecuta la corrida, con LOS MISMOS
             # argumentos que usa `vina_service.run_docking`.
-            filtered_text = preparer.filter_pdb_content(
-                source_text,
-                chain_id=cadenas,
-                keep_hetatm=True,
-                cofactors_whitelist=cofactors_whitelist,
-                site_ligand=site_ligand,
-            )
+            if es_respetar:
+                # LA MISMA función que ejecuta la corrida (preparer_respetando), con la caja provisional
+                # que se conoce aquí: la efectiva se resuelve más abajo.
+                from services.docking import preparer_respetando as respetando
+
+                traducido, _ = respetando.traducir_residuos(source_text)
+                caja_provisional = (
+                    tuple(float(v) for v in (grid_center or catalog_grid_center or (0.0, 0.0, 0.0))),
+                    tuple(float(v) for v in (grid_size or catalog_grid_size or (20.0, 20.0, 20.0))),
+                )
+                filtered_text, _ = respetando.filtrar_respetando(traducido, cadenas, *caja_provisional)
+                source_counts = count_species(traducido)
+            else:
+                filtered_text = preparer.filter_pdb_content(
+                    source_text,
+                    chain_id=cadenas,
+                    keep_hetatm=True,
+                    cofactors_whitelist=cofactors_whitelist,
+                    site_ligand=site_ligand,
+                )
             filtered_counts = count_species(filtered_text)
             diff = _build_diff(source_counts, filtered_counts, etiqueta_cadenas)
         except Exception as exc:  # ProteinPreparationError y cualquier otro fallo real
@@ -558,7 +711,30 @@ def build_preflight(
                 "El filtrado de la cadena falló, así que no hay preparado con el que comparar."
             )
 
-    if chain_error is not None:
+    if es_pdbqt:
+        declaradas = sorted(filtered_counts.chains) if filtered_counts else []
+        cadena_pedida = chain.strip()
+        if filtered_counts is None:
+            estado_cadena, obs_cadena = "no_evaluado", "No se pudo leer el PDBQT subido."
+        elif cadena_pedida and cadena_pedida not in declaradas and declaradas:
+            estado_cadena = "advertencia"
+            obs_cadena = (f"La cadena declarada '{cadena_pedida}' no aparece en el PDBQT, que contiene "
+                          f"{', '.join(declaradas)}. Se acopla contra lo que contiene.")
+        else:
+            estado_cadena = "pasa"
+            obs_cadena = (f"El PDBQT aporta {filtered_counts.atom_records} átomos de las cadenas "
+                          f"{', '.join(declaradas) or 'sin identificar'} al receptor de la corrida.")
+        controls.append(
+            Control(
+                code="RECEPTOR_CADENA_PRESENTE",
+                state=estado_cadena,
+                title="Cadena del receptor",
+                observation=obs_cadena,
+                reason="El receptor es el PDBQT tal como se subió: no se filtra ninguna cadena.",
+                provenance="PDBQT subido por el investigador",
+            )
+        )
+    elif chain_error is not None:
         controls.append(
             Control(
                 code="RECEPTOR_CADENA_PRESENTE",
@@ -609,36 +785,67 @@ def build_preflight(
         )
 
     # ── Política de heteroátomos de ESTA ruta ────────────────────────
-    controls.extend(
-        _heteroatom_controls(
-            source_counts=source_counts,
-            filtered_counts=filtered_counts,
-            cofactors_whitelist=cofactors_whitelist,
-        )
+    controles_heteroatomos = _heteroatom_controls(
+        source_counts=source_counts,
+        filtered_counts=filtered_counts,
+        cofactors_whitelist=cofactors_whitelist,
     )
-
-    retained_organic = sorted({
-        line[17:20].strip()
-        for line in (filtered_text or "").splitlines()
-        if line.startswith("HETATM")
-        and line[17:20].strip() not in preparer.METAL_COFACTORS
-        and line[17:20].strip() != "MSE"
-    })
-    if retained_organic:
-        controls.append(Control(
-            code="COFACTOR_TEMPLATE_NO_DISPONIBLE",
-            state="bloquea",
-            title="Plantilla local de cofactor",
+    if es_pdbqt:
+        # La política del catálogo (aguas fuera, lista blanca de metales) no se aplica a un
+        # PDBQT que la persona preparó: se enseña lo que realmente pasa.
+        controles_heteroatomos[0] = Control(
+            code="POLITICA_HETEROATOMOS",
+            state="pasa",
+            title="Política de heteroátomos de esta ruta",
             observation=(
-                "Sin plantilla Meeko local validada para "
-                + ", ".join(retained_organic) + "."
+                "El PDBQT se usa tal cual: MolDesign no retira aguas, metales ni cofactores. "
+                "Lo que contiene es lo que decidió quien lo preparó."
             ),
-            reason="La preparación se abstiene antes de consultar CCD por red o retirar el cofactor.",
-            provenance="preparer.prepare_target · política offline de cofactores",
-        ))
+            reason="Un resultado no se puede comparar con otro sin declarar la política de cada ruta.",
+            provenance="PDBQT subido por el investigador",
+        )
+    if es_respetar:
+        controles_heteroatomos[0] = Control(
+            code="POLITICA_HETEROATOMOS",
+            state="pasa",
+            title="Política de heteroátomos de esta ruta",
+            observation=(
+                "Receptor ya preparado por el usuario: se conservan las aguas, los metales y los cofactores "
+                "que trae el archivo (sin lista blanca). Sólo se retiran, y se declaran, las especies de otras "
+                "cadenas y las que Meeko no puede representar lejos del sitio."
+            ),
+            reason="Un resultado no se puede comparar con otro sin declarar la política de cada ruta.",
+            provenance="preparer_respetando.filtrar_respetando (la función que ejecuta la corrida)",
+        )
+    controls.extend(controles_heteroatomos)
 
+    if es_respetar and filtered_text is not None:
+        from services.docking import preparer_respetando as respetando
+
+        sin_representacion = respetando.especies_sin_representacion(filtered_text, *caja_provisional)
+        cerca = [f for f in sin_representacion if f["distance_to_box_A"] <= preparer.MARGEN_SITIO_A]
+        if sin_representacion:
+            etiquetas = ", ".join(respetando._etiqueta(f) for f in sin_representacion[:6])
+            controls.append(Control(
+                code="ESPECIES_SIN_REPRESENTACION",
+                state="bloquea" if cerca else "advertencia",
+                title="Especies que Meeko no puede representar",
+                observation=(
+                    f"{len(sin_representacion)} especie(s) del archivo no tienen plantilla en Meeko o no se "
+                    f"pueden tipar para Vina: {etiquetas}."
+                ),
+                reason=(
+                    "Junto al sitio la preparación se abstiene: ni se adivinan ni se retiran en silencio. "
+                    "Lejos de él se retiran y se declaran."
+                ),
+                provenance="preparer_respetando.especies_sin_representacion",
+            ))
     from chem.conformer_ensemble import normalizar_k
 
+    # K declarado en el nivel superior del request. La resolución efectiva la
+    # hace `_effective_configuration` con el resolutor único (SOL-02): el
+    # anidado gobierna y este valor sólo sirve para declarar el conflicto si
+    # el cliente envía los dos y no coinciden.
     conformaciones = normalizar_k(conformers if conformers is not None else 1)
 
     effective, grid_controls = _effective_configuration(
@@ -649,7 +856,8 @@ def build_preflight(
         custom_hotspots=custom_hotspots,
         catalog_hotspots=catalog_hotspots,
         cofactors_whitelist=cofactors_whitelist,
-        filtered_text=(preparer.source_for_dynamic_box(
+        filtered_text=(filtered_text if es_pdbqt else
+                       preparer.source_for_dynamic_box(
                            source_text, cadenas, site_ligand, preparer.catalog_site_center(pdb_id))
                        if source_text is not None else None),
         prepared_chains=sorted(filtered_counts.chains) if filtered_counts else [],
@@ -657,27 +865,139 @@ def build_preflight(
         exhaustiveness=exhaustiveness,
         num_poses=num_poses,
         conformers=conformaciones,
+        pipeline_config=pipeline_config,
     )
     controls.extend(grid_controls)
-    recipe_hash = (
-        preparer.receptor_recipe_hash(
-            source_original_text,
-            chains=cadenas,
-            cofactors_whitelist=cofactors_whitelist,
-            center=tuple(effective["grid_center"]),
-            size=tuple(effective["grid_size"]),
-            site_ligand=site_ligand,
+
+    # ── Cofactores sin plantilla: la MISMA regla que prepare_target ──
+    #
+    # Antes bastaba un HETATM orgánico conservado para bloquear: el hemo, el FMN, el ADP y los
+    # fosforresiduos, que tienen plantilla local, y hasta la MET que sale de una MSE. Eran 18 de los
+    # 381 receptores del catálogo y en los 18 era el único bloqueante: la corrida se rechazaba (409)
+    # aunque prepare_target la preparaba (auditoría de receptores, 2026-10-10). Se consulta la misma
+    # función, con el mismo ensamblaje, cadenas, ligando de referencia, lista blanca y CAJA EFECTIVA
+    # (overrides y caja dinámica incluidos). Un receptor propio ya preparado o un PDBQT tienen sus
+    # propios controles: no pasan por la preparación automática.
+    cofactor_check: dict[str, Any] = {"state": "no_evaluado"}
+    if not (es_pdbqt or es_respetar) and source_text is not None:
+        box_center = tuple(float(v) for v in effective["grid_center"])
+        box_size = tuple(float(v) for v in effective["grid_size"])
+        if all(math.isfinite(v) for v in (*box_center, *box_size)) and all(v > 0 for v in box_size):
+            en_el_sitio, fuera_del_sitio = preparer.cofactores_sin_plantilla(
+                source_text, cadenas=cadenas, site_ligand=site_ligand,
+                cofactors_whitelist=cofactors_whitelist, center=box_center, size=box_size,
+            )
+            cofactor_check = {
+                "state": "evaluado",
+                "margin_A": preparer.MARGEN_SITIO_A,
+                "box_center": list(box_center),
+                "box_size": list(box_size),
+                "missing_near_site": en_el_sitio,
+                "missing_outside_site": fuera_del_sitio,
+                "local_templates_sha256": preparer._plantillas_sha256(),
+            }
+
+            def _instancias(filas: list[dict[str, Any]]) -> str:
+                return ", ".join(
+                    f"{f['name']} {f['chain']}:{f['residue_number']}{f['insertion_code']} "
+                    f"({f['distance_to_box_A']} Å)" for f in filas
+                )
+
+            if en_el_sitio:
+                controls.append(Control(
+                    code="COFACTOR_TEMPLATE_NO_DISPONIBLE",
+                    state="bloquea",
+                    title="Plantilla local de cofactor",
+                    observation=(
+                        f"Sin plantilla Meeko local a {preparer.MARGEN_SITIO_A:g} Å o menos de la caja: "
+                        f"{_instancias(en_el_sitio)}."
+                    ),
+                    reason="La preparación se abstiene antes de consultar CCD por red o retirar el cofactor.",
+                    provenance="preparer.cofactores_sin_plantilla · caja efectiva de la corrida, la misma regla que prepare_target",
+                ))
+            if fuera_del_sitio:
+                controls.append(Control(
+                    code="COFACTORES_SIN_PLANTILLA_FUERA_DEL_SITIO",
+                    state="advertencia",
+                    title="Cofactores sin plantilla fuera del margen",
+                    observation=(
+                        f"La preparación retirará {_instancias(fuera_del_sitio)}: "
+                        f"a más de {preparer.MARGEN_SITIO_A:g} Å de la caja."
+                    ),
+                    reason=(
+                        "Quedan fuera del margen geométrico de preparación; esa distancia no demuestra "
+                        "irrelevancia química."
+                    ),
+                    provenance="preparer.cofactores_sin_plantilla · caja efectiva de la corrida, la misma regla que prepare_target",
+                ))
+                # prepare_target los retira antes de filtrar: el diff y la política de heteroátomos
+                # tienen que contar lo que de verdad entra, no lo que había antes de retirarlos.
+                if filtered_text is not None and source_counts is not None:
+                    filtered_text = preparer.retirar_cofactores_fuera_del_sitio(filtered_text, fuera_del_sitio)
+                    filtered_counts = count_species(filtered_text)
+                    diff = _build_diff(source_counts, filtered_counts, etiqueta_cadenas)
+                    rehechos = _heteroatom_controls(
+                        source_counts=source_counts,
+                        filtered_counts=filtered_counts,
+                        cofactors_whitelist=cofactors_whitelist,
+                    )
+                    inicio = next(i for i, c in enumerate(controls) if c is controles_heteroatomos[0])
+                    controls[inicio:inicio + len(controles_heteroatomos)] = rehechos
+
+    if es_pdbqt:
+        from services.docking.preparer_propio import receta_pdbqt
+
+        recipe_hash = receta_pdbqt(
+            perfil_propio, tuple(effective["grid_center"]), tuple(effective["grid_size"]))
+        # El receptor preparado ES el PDBQT que se subió: existe desde la ingesta.
+        prepared_path = path_for(perfil_propio["almacen"]["receptor"]) if pdbqt_texto is not None else None
+    elif es_respetar:
+        from services.docking import preparer_respetando as respetando
+
+        recipe_hash = (
+            respetando.receta_respetando(
+                source_original_text, cadenas, tuple(effective["grid_center"]), tuple(effective["grid_size"]))
+            if source_original_text is not None else None
         )
-        if source_original_text is not None else None
-    )
-    prepared_path = _prepared_pdbqt_path(pdb_id, recipe_hash)
+        prepared_path = _prepared_pdbqt_path(pdb_id, recipe_hash)
+    else:
+        recipe_hash = (
+            preparer.receptor_recipe_hash(
+                source_original_text,
+                chains=cadenas,
+                cofactors_whitelist=cofactors_whitelist,
+                center=tuple(effective["grid_center"]),
+                size=tuple(effective["grid_size"]),
+                site_ligand=site_ligand,
+            )
+            if source_original_text is not None else None
+        )
+        prepared_path = _prepared_pdbqt_path(pdb_id, recipe_hash)
 
     # ── Receptor preparado ───────────────────────────────────────────
     prepared_sha: str | None = None
     prepared_sha_for_run: str | None = None
     prepared_compatible: bool | None = None
     prepared_chains: list[str] = []
-    if prepared_path is not None:
+    if es_pdbqt and pdbqt_texto is not None:
+        prepared_sha = pdbqt_sha
+        prepared_sha_for_run = pdbqt_sha
+        prepared_compatible = True
+        prepared_chains = sorted(preparer.prepared_receptor_chains(pdbqt_texto))
+        controls.append(
+            Control(
+                code="RECEPTOR_PREPARADO_DISPONIBLE",
+                state="pasa",
+                title="Receptor preparado",
+                observation=(
+                    f"El receptor es el PDBQT que subiste, sin cambios "
+                    f"({sum(1 for l in pdbqt_texto.splitlines() if l.startswith(('ATOM', 'HETATM')))} átomos)."
+                ),
+                reason="La corrida lo usa tal cual; su hash entra en la huella.",
+                provenance=f"PDBQT subido · {pdbqt_sha}",
+            )
+        )
+    elif prepared_path is not None:
         try:
             prepared_bytes = prepared_path.read_bytes()
             prepared_sha = sha256_of(prepared_bytes)
@@ -731,9 +1051,10 @@ def build_preflight(
         controls.append(
             Control(
                 code="RECEPTOR_PREPARADO_DISPONIBLE",
-                state="no_evaluado",
+                state="bloquea" if es_pdbqt else "no_evaluado",
                 title="Receptor preparado",
-                observation="Todavía no existe: la corrida lo generará con Meeko.",
+                observation=("No se pudo leer el PDBQT que se subió; la corrida no tiene receptor."
+                             if es_pdbqt else "Todavía no existe: la corrida lo generará con Meeko."),
                 reason=(
                     "El hash del receptor preparado sólo puede calcularse sobre un archivo que exista. "
                     "Prepararlo aquí convertiría la comprobación previa en trabajo de corrida."
@@ -742,7 +1063,18 @@ def build_preflight(
             )
         )
 
-    if prepared_path is not None and prepared_compatible:
+    if es_pdbqt and prepared_compatible:
+        controls.append(Control(
+            code="RECEPTOR_PROTONACION_DECLARADA", state="advertencia",
+            title="Protonación del receptor",
+            observation="La declara quien preparó el PDBQT; MolDesign no la comprueba ni la modifica.",
+            reason=(
+                "Un PDBQT no lleva el JSON de plantillas de Meeko, así que no se puede atribuir una "
+                "protonación concreta a cada residuo. El hash del archivo identifica lo que se acopla."
+            ),
+            provenance="PDBQT subido por el investigador",
+        ))
+    elif prepared_path is not None and prepared_compatible:
         try:
             prep_report = json.loads(path_for(preparer._meeko_report_path(
                 StoragePath.target_prepared(pdb_id, recipe_hash)
@@ -752,14 +1084,28 @@ def build_preflight(
                 f"{resid}={row['template']}" for resid, row in templates.items()
                 if row.get("input_resname") in {"HIS", "HID", "HIE", "HIP"}
             )
-            controls.append(Control(
-                code="RECEPTOR_PROTONACION_DECLARADA", state="advertencia",
-                title="Protonación del receptor",
-                observation=("Plantillas de histidina de Meeko: "
-                             + (", ".join(histidines) if histidines else "ninguna") + "."),
-                reason="El template elegido está registrado; el microestado experimental no está validado.",
-                provenance="informe Meeko del receptor preparado",
-            ))
+            declarada = prep_report.get("protonacion_declarada")
+            if declarada:
+                controls.append(Control(
+                    code="RECEPTOR_PROTONACION_DECLARADA", state="advertencia",
+                    title="Protonación del receptor",
+                    observation=(
+                        f"La declara quien preparó el archivo: {declarada.get('plantillas_declaradas', 0)} "
+                        "residuo(s) con protonación en el nombre, y Meeko aplicó exactamente esas plantillas."
+                        + (" Plantillas de histidina: " + ", ".join(histidines) + "." if histidines else "")
+                    ),
+                    reason="MolDesign no fija un pH ni decide la protonación: la responsabilidad es de quien preparó el receptor.",
+                    provenance="informe Meeko del receptor preparado",
+                ))
+            else:
+                controls.append(Control(
+                    code="RECEPTOR_PROTONACION_DECLARADA", state="advertencia",
+                    title="Protonación del receptor",
+                    observation=("Plantillas de histidina de Meeko: "
+                                 + (", ".join(histidines) if histidines else "ninguna") + "."),
+                    reason="El template elegido está registrado; el microestado experimental no está validado.",
+                    provenance="informe Meeko del receptor preparado",
+                ))
         except (OSError, ValueError, KeyError, TypeError):
             controls.append(Control(
                 code="RECEPTOR_PROTONACION_DECLARADA", state="bloquea",
@@ -823,7 +1169,7 @@ def build_preflight(
         receptor_recipe_hash=recipe_hash,
         site_chains=sorted(cadenas) if len(cadenas) > 1 else None,
         cofactors_whitelist=cofactors_whitelist,
-        conformers=conformaciones,
+        conformers=int(effective["conformers"]),
         pipeline_config=pipeline_config,
     )
 
@@ -845,6 +1191,7 @@ def build_preflight(
             "recipe_hash": recipe_hash,
             "site_chains": sorted(cadenas),
             "site_ligand_removed": site_ligand,
+            "cofactor_template_check": cofactor_check,
             "prepared_compatible": prepared_compatible,
             "prepared_chains": prepared_chains,
             # SC-9: el respaldo científico del receptor viaja con el informe,
@@ -871,6 +1218,11 @@ def build_preflight(
         "warnings": [c.code for c in controls if c.state == "advertencia"],
         "not_evaluated": [c.code for c in controls if c.state == "no_evaluado"],
     }
+    if perfil_propio:
+        # Sólo un receptor propio con otro modo de preparación lo trae: el informe del
+        # catálogo no cambia. Dice qué se hizo con el archivo que subió la persona.
+        report["receptor"]["modo_de_preparacion"] = (
+            perfil_propio.get("modo_detallado") or perfil_propio["modo"])
     return report
 
 
@@ -903,23 +1255,43 @@ def _calibration_controls(calibracion: dict[str, Any] | None) -> list[Control]:
         ]
 
     nivel = calibracion.get("nivel", "sin_curar")
-    requiere = bool(calibracion.get("requiere_advertencia", True))
-    rho = calibracion.get("spearman_rho")
+    respaldo = calibracion.get("respaldo")
+    # SCI-D-001: un «calibrado» sin su medida (n, IC, panel, protocolo) no
+    # suprime la reserva, venga de donde venga el diccionario.
+    respaldado = (
+        nivel == "calibrado"
+        and isinstance(respaldo, dict)
+        and all(respaldo.get(k) not in (None, "", []) for k in ("rho", "ic95", "n", "panel", "protocolo"))
+    )
+    requiere = bool(calibracion.get("requiere_advertencia", True)) or not respaldado
     observacion = calibracion.get("resumen", "")
-    if rho is not None:
-        observacion = f"{observacion} (ρ = {rho})"
+    if respaldado:
+        ic = respaldo["ic95"]
+        observacion = (
+            f"{observacion} (ρ = {respaldo['rho']:.2f}, IC 95 % [{ic[0]:.2f}; {ic[1]:.2f}], "
+            f"n = {respaldo['n']}, panel {respaldo['panel']})"
+        )
+    if respaldado:
+        protocolo = respaldo["protocolo"]
+        razon = (
+            "El ranking del motor se calibró para este receptor con exhaustividad "
+            f"{protocolo.get('exhaustiveness')}, {protocolo.get('num_poses')} poses y semilla "
+            f"{protocolo.get('semilla')}; la medida describe corridas con esos parámetros."
+        )
+    else:
+        razon = calibracion.get("advertencia") or (
+            "No hay una medida de calibración con n, intervalo y protocolo para este "
+            "receptor: el ranking no está respaldado aquí."
+        )
     return [
         Control(
             code="CALIBRACION_RECEPTOR",
             state="advertencia" if requiere else "pasa",
             title="Respaldo científico del receptor",
             observation=observacion,
-            reason=(
-                calibracion.get("advertencia")
-                or "El ranking del motor está calibrado para este receptor."
-            ),
+            reason=razon,
             provenance=(
-                f"targets.spearman_rho + familia estructural ({nivel}); "
+                f"receptores_verificados.json + familia estructural ({nivel}); "
                 "services/targets/calibracion.py"
             ),
         )
@@ -1058,9 +1430,14 @@ def diff_de_especies_de_la_corrida(
             )
     retiradas: list[dict[str, Any]] = []
     conservadas: list[dict[str, Any]] = []
-    for (cadena, numero, insercion, nombre), posiciones in sorted(
-        _instancias_hetatm(fuente).items()
-    ):
+    instancias = _instancias_hetatm(fuente)
+    # El ligando del cristal es UNA copia: la más cercana al centro de la caja, como la referencia de
+    # `contexto_estructural`. Las otras con el mismo código se retiran igual, pero se declaran como otra
+    # especie. FEP-06-PRE-2 (6SXC): OHT A:307, a 3,3 Å de OHT A:305, desaparecía como «el ligando» y la
+    # auditoría decía que no se había retirado nada a 6 Å o menos.
+    copias = [clave for clave in instancias if ligando and clave[3] == ligando]
+    referencia = min(copias, key=lambda c: min(math.dist(p, center) for p in instancias[c]), default=None)
+    for (cadena, numero, insercion, nombre), posiciones in sorted(instancias.items()):
         distancia = min(preparer.distancia_a_caja(p, center, size) for p in posiciones)
         if distancia > preparer.MARGEN_SITIO_A:
             continue
@@ -1069,10 +1446,13 @@ def diff_de_especies_de_la_corrida(
             "residue_number": numero,
             "insertion_code": insercion,
             "name": nombre,
-            "category": "site_ligand" if ligando and nombre == ligando
+            "category": "site_ligand" if (cadena, numero, insercion, nombre) == referencia
+            else "other_heteroatom" if ligando and nombre == ligando
             else _species_category(nombre),
             "distance_to_box_A": round(distancia, 3),
         }
+        if ligando and nombre == ligando and (cadena, numero, insercion, nombre) != referencia:
+            fila["site_ligand_copy"] = True
         destino = en_meeko.get((cadena, numero, insercion))
         if destino is None:
             retiradas.append(fila)
@@ -1353,6 +1733,17 @@ def _toolchain_controls(
     return controls
 
 
+def _mismo_triple(
+    a: tuple[float, float, float],
+    b: tuple[float, float, float] | list[float] | None,
+    tolerancia: float = 1e-3,
+) -> bool:
+    """`a` es el triple del catálogo `b` (a 3 decimales, el redondeo que usa el documento canónico)."""
+    if b is None or len(a) != len(b):
+        return False
+    return all(abs(float(x) - float(y)) <= tolerancia for x, y in zip(a, b))
+
+
 def _effective_configuration(
     *,
     grid_center: tuple[float, float, float] | None,
@@ -1368,6 +1759,7 @@ def _effective_configuration(
     exhaustiveness: int | None,
     num_poses: int | None,
     conformers: int = 1,
+    pipeline_config: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any], list[Control]]:
     """
     Resuelve la caja igual que lo hará la corrida.
@@ -1384,9 +1776,18 @@ def _effective_configuration(
     """
     controls: list[Control] = []
 
+    # QA1-007. Un valor recibido NO es por eso «elegido por el usuario»: la interfaz
+    # guarda en el caso la caja del catálogo al elegir el receptor y la envía en cada
+    # comprobación, y el preflight la presentaba como «origen: elegido por ti» sin que
+    # la investigadora hubiera tocado nada. Si coincide con el catálogo, el origen es
+    # el catálogo; sólo lo que difiere es decisión suya.
     if grid_center is not None:
         center = tuple(float(v) for v in grid_center)
-        center_origin = "override_usuario"
+        center_origin = (
+            "catalogo_target"
+            if _mismo_triple(center, catalog_grid_center)
+            else "override_usuario"
+        )
     elif catalog_grid_center is not None:
         center = tuple(float(v) for v in catalog_grid_center)
         center_origin = "catalogo_target"
@@ -1396,7 +1797,11 @@ def _effective_configuration(
 
     if grid_size is not None:
         size = tuple(float(v) for v in grid_size)
-        size_origin = "override_usuario"
+        size_origin = (
+            "catalogo_target"
+            if _mismo_triple(size, catalog_grid_size)
+            else "override_usuario"
+        )
     elif catalog_grid_size is not None:
         size = tuple(float(v) for v in catalog_grid_size)
         size_origin = "catalogo_target"
@@ -1452,8 +1857,10 @@ def _effective_configuration(
                 )
             )
     else:
-        invalid_size = any(not math.isfinite(v) or not 5 <= v <= 80 for v in size)
-        invalid_center = any(not math.isfinite(v) or abs(v) > 10000 for v in center)
+        invalid_size = any(
+            not math.isfinite(v) or not CAJA_LADO_MIN_A <= v <= CAJA_LADO_MAX_A for v in size
+        )
+        invalid_center = any(not math.isfinite(v) or abs(v) > CAJA_CENTRO_MAX_A for v in center)
         controls.append(
             Control(
                 code="GRID_EFECTIVO",
@@ -1465,22 +1872,98 @@ def _effective_configuration(
                     f"tamaño {_fmt(size)} Å · origen: "
                     f"{'elegido por ti' if size_origin == 'override_usuario' else 'catálogo del receptor'}."
                 ),
-                reason=("Caja fuera de los límites de ejecución: lados entre 5 y 80 Å, "
-                        "centro finito entre -10000 y 10000 Å."
+                reason=(f"Caja fuera de los límites de ejecución: lados entre {CAJA_LADO_MIN_A:g} y "
+                        f"{CAJA_LADO_MAX_A:g} Å, centro finito entre -{CAJA_CENTRO_MAX_A:g} y "
+                        f"{CAJA_CENTRO_MAX_A:g} Å."
                         if invalid_size or invalid_center else
                         "Es la caja exacta que recibirá el acoplamiento."),
                 provenance="PipelineParams.effective_grid_center/size",
             )
         )
 
+    # ── SOL-07: la relación geométrica caja/receptor/sitio ────────────
+    #
+    # El rango numérico de GRID_EFECTIVO no dice nada de PERTINENCIA: una
+    # caja en (9999, 9999, 9999) pasaba como válida contra un receptor en el
+    # origen. La auditoría lo midió con la API real. La distancia se MIDE
+    # sobre el PDB filtrado de la ruta real, y la decisión de buscar lejos
+    # del receptor queda registrada — no se bloquea, porque explorar fuera
+    # del sitio puede ser intencional; se declara.
+    extension_receptor, separacion = _geometria_caja_receptor(center, size, filtered_text)
+    if extension_receptor is None or separacion is None:
+        controls.append(Control(
+            code="CAJA_VS_RECEPTOR",
+            state="no_evaluado",
+            title="Caja y receptor",
+            observation="No hay estructura del receptor disponible para comparar la caja.",
+            reason=(
+                "Sin el PDB de la ruta no se puede medir la relación geométrica "
+                "entre la caja y el receptor; no se inventa."
+            ),
+            provenance="PDB filtrado de la ruta real",
+        ))
+    elif separacion > 0:
+        detalle_sitio = ""
+        if catalog_grid_center is not None:
+            distancia_sitio = math.dist(
+                tuple(float(v) for v in center),
+                tuple(float(v) for v in catalog_grid_center),
+            )
+            detalle_sitio = (
+                f" El centro del sitio declarado por el catálogo queda a "
+                f"{distancia_sitio:,.1f} Å de esta caja."
+            )
+        controls.append(Control(
+            code="CAJA_VS_RECEPTOR",
+            state="advertencia",
+            title="Caja y receptor",
+            observation=(
+                f"Caja en {_fmt(center)} · tamaño {_fmt(size)} Å: NO abarca ningún "
+                f"átomo del receptor. Separación medida de {separacion:,.1f} Å con la "
+                f"extensión del receptor "
+                f"({_fmt(extension_receptor[0])} a {_fmt(extension_receptor[1])} Å)."
+                f"{detalle_sitio} La búsqueda ocurrirá en espacio vacío salvo que "
+                "buscar lejos del receptor sea tu intención; queda registrado aquí."
+            ),
+            reason=(
+                "Una caja sin intersección con el receptor acopla contra espacio "
+                "vacío: el score que salga no describirá ningún bolsillo. La decisión "
+                "de explorar fuera es del investigador; lo que no puede ser invisible."
+            ),
+            provenance="PDB filtrado de la ruta real · geometría de la caja de búsqueda efectiva",
+        ))
+    else:
+        controls.append(Control(
+            code="CAJA_VS_RECEPTOR",
+            state="pasa",
+            title="Caja y receptor",
+            observation=(
+                f"La caja abarca volumen con átomos del receptor "
+                f"(extensión {_fmt(extension_receptor[0])} a {_fmt(extension_receptor[1])} Å)."
+            ),
+            reason="La búsqueda tiene estructura delante; la pertinencia del sitio se lee en los residuos de referencia.",
+            provenance="PDB filtrado de la ruta real · geometría de la caja de búsqueda efectiva",
+        ))
+
+    # ── Protocolo efectivo (SOL-02) ───────────────────────────────────
+    # Una sola resolución para preflight, fingerprint, revalidación de submit
+    # y runner. Los campos de nivel superior del request son espejos de la
+    # UI: si contradicen lo que la ejecución hará con `pipeline_config`, se
+    # declara el conflicto — no se ejecuta en silencio.
+    from services.docking.protocolo import resolver_parametros_docking
+
+    resuelto = resolver_parametros_docking(
+        pipeline_config=pipeline_config,
+        size=tuple(size),
+        docking_engine=docking_engine,
+        exhaustiveness_declarada=exhaustiveness,
+        num_poses_declarado=num_poses,
+        conformers_declarado=conformers,
+    )
+
     volume = box_volume(size)
     if volume > BOX_VOLUME_WARNING_A3:
-        effective_exh = resolve_exhaustiveness(
-            requested=exhaustiveness,
-            default=(4 if docking_engine.strip().lower() == "qvina2" else settings.vina_exhaustiveness),
-            size=size,
-            engine=docking_engine.strip().lower(),
-        )
+        effective_exh = resuelto["exhaustiveness"]
         controls.append(Control(
             code="GRID_VOLUMEN_AMPLIO",
             state="advertencia",
@@ -1492,20 +1975,33 @@ def _effective_configuration(
             provenance="services.docking.search_policy · tamaño efectivo de caja",
         ))
 
-    hotspots = sorted(custom_hotspots) if custom_hotspots else sorted(catalog_hotspots or [])
-    hotspots_origin = (
-        "seleccion_usuario" if custom_hotspots else ("catalogo_target" if catalog_hotspots else "ninguno")
-    )
+    # SOL-08: `[]` es una decisión («no quiero residuos de referencia»), no
+    # una ausencia. La UI ya viaja con la distinción (`null` vs `[]`);
+    # colapsarla aquí devolvía el catálogo a quien acababa de desmarcarlo
+    # todo, y el origen le atribuía la elección al catálogo.
+    if custom_hotspots is None:
+        hotspots = sorted(catalog_hotspots or [])
+        hotspots_origin = "catalogo_target" if catalog_hotspots else "ninguno"
+        seleccion_vacia = False
+    else:
+        hotspots = sorted(custom_hotspots)
+        hotspots_origin = "seleccion_usuario" if hotspots else "seleccion_vacia"
+        seleccion_vacia = not hotspots
     controls.extend(_hotspot_chain_controls(hotspots, prepared_chains))
     controls.append(
         Control(
             code="HOTSPOTS_EFECTIVOS",
-            state="pasa" if hotspots else "no_evaluado",
+            state="pasa" if hotspots or seleccion_vacia else "no_evaluado",
             title="Residuos de referencia",
             observation=(
                 f"{len(hotspots)} residuo(s): {', '.join(hotspots)}."
                 if hotspots
-                else "El receptor no declara residuos de referencia y no has seleccionado ninguno."
+                else (
+                    "0 residuos por decisión del investigador: esta corrida no usa "
+                    "residuos de referencia; el análisis de contactos viajará sin lista."
+                    if seleccion_vacia
+                    else "El receptor no declara residuos de referencia y no has seleccionado ninguno."
+                )
             ),
             reason=(
                 "Los hotspots no restringen el acoplamiento; se usan para describir el sitio y "
@@ -1514,6 +2010,28 @@ def _effective_configuration(
             provenance="PipelineParams.effective_hotspots",
         )
     )
+
+    if resuelto["conflictos"]:
+        detalle = "; ".join(
+            f"{c['campo']}: declarado {c['declarado']}, efectivo {c['efectivo']}"
+            for c in resuelto["conflictos"]
+        )
+        controls.append(Control(
+            code="PROTOCOLO_DECLARADO_CONFLICTIVO",
+            state="advertencia",
+            title="Protocolo declarado y protocolo ejecutable distintos",
+            observation=(
+                f"Campos de nivel superior ignorados frente a pipeline_config — {detalle}. "
+                "La corrida ejecuta los valores de pipeline_config.stage_params."
+            ),
+            reason=(
+                "El protocolo que puede ejecutarse viaja en pipeline_config: las puertas "
+                "de ejecución no llevan esos campos de nivel superior. Declararlos como "
+                "efectivos firmaría una corrida que no ocurriría; para cambiar el "
+                "protocolo hay que declararlo en stage_params."
+            ),
+            provenance="services.docking.protocolo.resolver_parametros_docking",
+        ))
 
     effective = {
         "grid_center": [round(v, 3) for v in center],
@@ -1524,18 +2042,13 @@ def _effective_configuration(
         "hotspots": hotspots,
         "hotspots_origin": hotspots_origin,
         "docking_engine": docking_engine.strip().lower(),
-        "exhaustiveness": resolve_exhaustiveness(
-            requested=exhaustiveness,
-            default=(4 if docking_engine.strip().lower() == "qvina2" else settings.vina_exhaustiveness),
-            size=size,
-            engine=docking_engine.strip().lower(),
-        ),
-        "num_poses": int(num_poses if num_poses is not None else settings.vina_num_poses),
-        "seed": int(settings.vina_seed),
+        "exhaustiveness": resuelto["exhaustiveness"],
+        "num_poses": resuelto["num_poses"],
+        "seed": resuelto["seed"],
         # Conformaciones de entrada. 1 = confórmero único, el protocolo por
         # defecto. K > 1 activa el ensemble, que amplía cobertura geométrica y
         # cuesta K veces el tiempo de docking sin mejorar, por sí solo, el top-1.
-        "conformers": int(conformers or 1),
+        "conformers": resuelto["conformers"],
         "heteroatom_policy": {
             "route": EXECUTION_ROUTE,
             "waters": "eliminadas",
@@ -1548,6 +2061,54 @@ def _effective_configuration(
         },
     }
     return effective, controls
+
+
+def _geometria_caja_receptor(
+    center: tuple[float, float, float],
+    size: tuple[float, float, float],
+    filtered_text: str | None,
+) -> tuple[tuple[tuple[float, float, float], tuple[float, float, float]] | None, float | None]:
+    """La extensión del receptor y la separación entre la caja y esa extensión.
+
+    SOL-07. Devuelve `(None, None)` cuando no hay estructura que comparar o
+    el texto no contiene coordenadas interpretables: la relación geométrica
+    no se inventa. La separación es 0.0 cuando la caja y el receptor se tocan
+    o solapan — la forma canónica de decir que la búsqueda tiene algo delante.
+
+    Coordenadas por columnas fijas del formato PDB (x 31-38, y 39-46, z
+    47-54, 1-indexadas): la misma convención que lee la ruta de preparación.
+    """
+    if not filtered_text:
+        return None, None
+    xs: list[float] = []
+    ys: list[float] = []
+    zs: list[float] = []
+    for line in filtered_text.splitlines():
+        if line.startswith(("ATOM", "HETATM")):
+            try:
+                xs.append(float(line[30:38]))
+                ys.append(float(line[38:46]))
+                zs.append(float(line[46:54]))
+            except ValueError:
+                continue
+    if not xs:
+        return None, None
+    extension = (
+        (min(xs), min(ys), min(zs)),
+        (max(xs), max(ys), max(zs)),
+    )
+    # Separación por eje entre el ortoedro de la caja y el del receptor; 0
+    # cuando se solapan. La distancia es la norma euclídea de los huecos.
+    gaps = []
+    for axis in range(3):
+        box_min = float(center[axis]) - float(size[axis]) / 2.0
+        box_max = float(center[axis]) + float(size[axis]) / 2.0
+        gaps.append(max(
+            extension[0][axis] - box_max,
+            box_min - extension[1][axis],
+            0.0,
+        ))
+    return extension, math.sqrt(sum(g * g for g in gaps))
 
 
 def _hotspot_chain_controls(hotspots: list[str], prepared_chains: list[str]) -> list[Control]:

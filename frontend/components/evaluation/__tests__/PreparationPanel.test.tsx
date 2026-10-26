@@ -127,9 +127,6 @@ describe("legibilidad y lenguaje público del preflight", () => {
         loading={false}
         error={null}
         stale={false}
-        canCheck
-        missingInputs={null}
-        onCheck={vi.fn()}
         decisions={[]}
         onAcknowledge={vi.fn()}
       />,
@@ -141,10 +138,11 @@ describe("legibilidad y lenguaje público del preflight", () => {
     // el valor traducido en lugar de por una cadena castellana fija —que es
     // justamente lo que se quitó—.
     const { pro } = await import("../../../context/traducciones/pro");
-    expect(screen.getByText(pro.es.pr_preparacion_explicacion)).toHaveClass(
-      "text-zinc-300",
-      "font-medium",
-    );
+    expect(screen.getByRole("heading", { name: pro.es.pr_preparacion_titulo })).toHaveClass("text-zinc-100");
+    expect(screen.queryByText(pro.es.pr_preparacion_explicacion)).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Qué significa: Comprobación previa" }));
+    expect(screen.getByText(pro.es.pr_preparacion_explicacion)).toBeInTheDocument();
+    fireEvent.keyDown(document, { key: "Escape" });
 
     fireEvent.click(screen.getByRole("button", { name: /ver detalle/i }));
 
@@ -156,5 +154,50 @@ describe("legibilidad y lenguaje público del preflight", () => {
     expect(screen.queryByText("METALES_ELIMINADOS")).not.toBeInTheDocument();
     expect(screen.queryByText(/preparer\.filter_pdb_content/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Procedencia:/i)).not.toBeInTheDocument();
+  });
+});
+
+describe("la comprobación no es un botón: la hace «Evaluar»", () => {
+  const props = { loading: false, error: null, stale: false, decisions: [], onAcknowledge: vi.fn() };
+
+  it("no ofrece ningún botón de comprobar, ni antes ni después de comprobar", () => {
+    const { unmount } = montar(<PreparationPanel {...props} report={null} />);
+    expect(screen.queryByRole("button", { name: /comprobar|check/i })).not.toBeInTheDocument();
+    unmount();
+    montar(<PreparationPanel {...props} report={report} />);
+    expect(screen.queryByRole("button", { name: /comprobar|check again|recheck/i })).not.toBeInTheDocument();
+  });
+
+  it("antes de comprobar explica que se hace sola, para que nadie busque un paso que no existe", async () => {
+    vi.spyOn(window.navigator, "language", "get").mockReturnValue("es-ES");
+    montar(<PreparationPanel {...props} report={null} />);
+    const { pro } = await import("../../../context/traducciones/pro");
+    expect(screen.getByText(pro.es.pr_comprobacion_automatica)).toBeInTheDocument();
+  });
+
+  it("mientras comprueba lo dice, y no enseña la explicación de «se hace sola»", async () => {
+    vi.spyOn(window.navigator, "language", "get").mockReturnValue("es-ES");
+    montar(<PreparationPanel {...props} loading report={null} />);
+    const { pro } = await import("../../../context/traducciones/pro");
+    expect(screen.getByRole("status")).toBeInTheDocument();
+    expect(screen.queryByText(pro.es.pr_comprobacion_automatica)).not.toBeInTheDocument();
+  });
+
+  it("resume los confórmeros aplicados y deja pendiente lo que aún no comprobó", () => {
+    montar(<PreparationPanel {...props} report={null} conformers={12} />);
+    expect(screen.getByText("12 confórmeros iniciales")).toBeInTheDocument();
+    expect(screen.getByText("Pendiente")).toBeInTheDocument();
+    expect(screen.queryByRole("combobox")).toBeNull();
+    expect(screen.queryByRole("spinbutton")).toBeNull();
+  });
+
+  it("despliega automáticamente el detalle de un bloqueante técnico", () => {
+    montar(<PreparationPanel {...props} report={{
+      ...report,
+      technical_blockers: ["LIGANDO_INVALIDO"],
+      controls: [{ code: "LIGANDO_INVALIDO", state: "bloquea", title: "Ligando inválido", observation: "No se puede preparar el ligando.", reason: "Corrige el SMILES.", provenance: "test" }],
+    }} />);
+    expect(screen.getByText("Corrige el SMILES.")).toBeVisible();
+    expect(screen.getByRole("button", { name: /ocultar detalle/i })).toHaveAttribute("aria-expanded", "true");
   });
 });

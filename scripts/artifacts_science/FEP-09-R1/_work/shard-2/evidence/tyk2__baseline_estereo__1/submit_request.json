@@ -1,0 +1,40 @@
+{
+  "smiles": "O=C(Nc1ccnc(NC(=O)[C@H]2C[C@H]2F)c1)c1c(Cl)cccc1Cl",
+  "target_pdb_id": "USR_3FAF8E",
+  "chain": "A",
+  "molecule_name": "tyk2__baseline_estereo__1",
+  "grid_center": [
+    -7.971,
+    -8.68,
+    -16.955
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:def683369075349d125ab99ed4511ceeb5d5a041ebb4dacdba3057e101588622"
+}

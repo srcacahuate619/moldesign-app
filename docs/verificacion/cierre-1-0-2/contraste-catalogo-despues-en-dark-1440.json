@@ -1,0 +1,48 @@
+{
+  "label": "catalogo-despues-en-dark-1440",
+  "commit": "873d23071ebb2979c5dc66e663e10267792d541f",
+  "export": "2d33c69db02b00596f35fa621414e91d6998c82010ccb8e4c3e6ca0fa1e270ab",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "en",
+  "theme": "dark",
+  "readings": [
+    {
+      "tag": "H2",
+      "id": "target-selector-title",
+      "text": "Receptor catalog",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        17,
+        17,
+        21
+      ],
+      "ratio": 18.837,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "",
+      "text": "8HFI",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    }
+  ],
+  "passes": true
+}

@@ -24,7 +24,9 @@
 
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getJobStatus } from "../api";
+import { getJobStatus, getTargetPdb } from "../api";
+import { requestPreflight } from "../preflight";
+import { getGpuStatus } from "../proApi";
 import { getApiUrl, resetApiUrl } from "../config";
 import { mockFetch, mockTauriInvoke, setTauriEnv } from "../../vitest.setup";
 
@@ -102,6 +104,41 @@ describe("el motor se mudó de puerto", () => {
 
     // Sin esto, cada llamada pagaría su propio fallo antes de recuperarse.
     await expect(getApiUrl()).resolves.toBe("http://127.0.0.1:8003");
+  });
+
+  it.each([
+    ["preflight de Evaluación", () => requestPreflight({ smiles: "CCO", targetPdbId: "3F75" })],
+    ["receptor del visor", () => getTargetPdb("3F75")],
+    ["estado GPU de PRO", () => getGpuStatus()],
+  ])("%s también encuentra el nuevo puerto", async (_nombre, pedir) => {
+    motorEnPuerto(8000);
+    await getApiUrl();
+    motorEnPuerto(8003);
+    const urls: string[] = [];
+    responderSegunUrl(async (url) => {
+      urls.push(url);
+      if (url.includes(":8000")) throw new TypeError("Failed to fetch");
+      return respuestaOk();
+    });
+
+    await expect(pedir()).resolves.toBeDefined();
+    expect(urls).toHaveLength(2);
+    expect(urls[0]).toContain(":8000/");
+    expect(urls[1]).toBe(urls[0].replace(":8000/", ":8003/"));
+  });
+
+  it("cancelar el preflight no reinicia la resolución ni reenvía la petición", async () => {
+    motorEnPuerto(8000);
+    await getApiUrl();
+    mockTauriInvoke.mockClear();
+    const controller = new AbortController();
+    controller.abort();
+    mockFetch.mockRejectedValue(new DOMException("Cancelado", "AbortError"));
+
+    await expect(requestPreflight({ smiles: "CCO", targetPdbId: "3F75" }, controller.signal))
+      .rejects.toMatchObject({ name: "AbortError" });
+    expect(mockTauriInvoke).not.toHaveBeenCalled();
+    expect(mockFetch).toHaveBeenCalledTimes(1);
   });
 
   it("NO reintenta si el puerto es el mismo: sería el mismo fallo dos veces", async () => {

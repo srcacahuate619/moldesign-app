@@ -219,6 +219,57 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-058. El validador de procedencia sólo falla con lo desconocido si se pasa ",
+      "m": null
+     },
+     {
+      "t": "--strict-unknown",
+      "m": "codigo"
+     },
+     {
+      "t": ", y la ingesta no lo exige. Lo cableado en 3 de 3 generadores es que la procedencia se escribe; la «trazabilidad completa garantizada» de poses futuras no es automática hasta que el builder falle cerrado.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/FND-06.md"

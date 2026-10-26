@@ -1,5 +1,6 @@
 from types import SimpleNamespace
 
+from core.i18n import reset_request_locale, set_request_locale
 from services.blockchain.evidence_summary import build_evidence_summary, derive_target_readiness
 
 
@@ -20,8 +21,30 @@ def _target(**overrides):
     return SimpleNamespace(**data)
 
 
+# Lo que una corrida reciente registra de sí misma (`vina_service.py`). Sin esto
+# la dimensión de reproducibilidad ya no dice «REGISTRADA» (SOL-06).
+PROCEDENCIA_COMPLETA = {
+    "box_center": [1.0, 2.0, 3.0],
+    "box_size": [20.0, 20.0, 20.0],
+    "receptor_sha256": "a" * 64,
+    "ligand_input_sha256": "b" * 64,
+    "ligand_pdbqt_sha256": "c" * 64,
+    "poses_sha256": "d" * 64,
+    "log_sha256": "e" * 64,
+    "app_version": "1.0.2",
+}
+
+
 def _result(**overrides):
     data = {
+        "docking_protocol": {
+            "engine": "vina",
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42,
+            "execution_provenance": dict(PROCEDENCIA_COMPLETA),
+        },
+        "ligand_state": {"smiles_acoplado": "CCO", "protonacion": {"aplicada": False}},
         "affinity_kcal": -7.4,
         "docking_poses": [
             {"rank": 1, "affinity": -7.6},
@@ -116,3 +139,112 @@ def test_result_can_proceed_only_after_physical_controls_pass():
     assert summary["pose_selection"]["diverges_from_vina_top1"] is False
     assert [p["rank"] for p in summary["pose_evidence"]] == [1, 2]
     assert all(p["physically_valid"] for p in summary["pose_evidence"])
+
+
+# SOL-06. «COMPLETA» salía de tres metadatos. Tres escalones que no se
+# confunden: trazas mínimas, elementos de reconstrucción registrados y
+# reconstrucción demostrada (que esta dimensión no puede afirmar nunca).
+def _reproducibilidad(**overrides):
+    summary = build_evidence_summary(_result(**overrides), _target())
+    dimension = next(item for item in summary["dimensions"] if item["id"] == "reproducibility")
+    return summary, dimension
+
+
+def test_tres_trazas_sin_caja_ni_hashes_no_se_rotulan_completas():
+    summary, dimension = _reproducibilidad(docking_protocol=None, ligand_state=None)
+    assert dimension["status_label"] == "PARCIAL"
+    assert dimension["status"] == "review"
+    assert "Trazas mínimas 3/3" in dimension["detail"]
+    assert "elementos de reconstrucción 0/7" in dimension["detail"]
+    for faltante in ("caja de búsqueda efectiva", "hash del receptor", "preparación del ligando"):
+        assert faltante in dimension["detail"]
+    assert summary["reproducibility"]["reconstruction"]["present_count"] == 0
+
+
+def test_el_resumen_ya_no_promete_reproduccion_si_faltan_elementos():
+    summary, _ = _reproducibilidad(docking_protocol=None, ligand_state=None)
+    assert summary["status"] == "review"
+    assert "suficientes para" not in summary["summary"]
+    assert any(u.startswith("Faltan elementos para reconstruir") for u in summary["uncertainties"])
+
+
+def test_con_todo_registrado_dice_registrada_y_declara_no_demostrada():
+    summary, dimension = _reproducibilidad()
+    assert dimension["status_label"] == "REGISTRADA"
+    assert dimension["status"] == "available"
+    assert "no demostrada" in dimension["detail"]
+    assert "COMPLET" not in dimension["status_label"]
+    assert summary["status"] == "ready"
+    assert "no está demostrada" in summary["summary"]
+    assert summary["reproducibility"]["reconstruction"]["demonstrated"] is False
+    assert summary["reproducibility"]["reconstruction"]["missing"] == []
+
+
+def test_el_resumen_traduce_solo_el_texto_visible_y_conserva_datos() -> None:
+    aviso = (
+        "Preparación en condición desolvatada: la estructura depositada no tenía aguas "
+        "cristalográficas dentro de la caja de acoplamiento, así que el sitio no perdió ninguna al prepararlo."
+    )
+    token = set_request_locale("en")
+    try:
+        summary = build_evidence_summary(
+            _result(scientific_warnings=[aviso]),
+            _target(),
+        )
+    finally:
+        reset_request_locale(token)
+
+    sampling = next(item for item in summary["dimensions"] if item["id"] == "sampling")
+    assert sampling["label"] == "Pose sampling"
+    assert summary["assumptions"][-1].startswith("Desolvated preparation:")
+    assert summary["warnings"] == [
+        "Desolvated preparation: the deposited structure had no crystallographic waters inside the docking box, so none were removed from the site during preparation."
+    ]
+    assert summary["status"] == "review"
+    assert summary["model_context"]["model"] == "pose_selector_v06"
+    assert summary["provenance"]["nota"].startswith(
+        "These hashes let a third party verify"
+    )
+
+
+import pytest  # noqa: E402
+
+
+@pytest.mark.parametrize(
+    ("faltante", "cambio"),
+    [
+        ("caja de búsqueda efectiva", {"box_size": None}),
+        ("hash del receptor", {"receptor_sha256": ""}),
+        ("hashes de entrada del ligando", {"ligand_pdbqt_sha256": None}),
+        ("hashes de salida (poses y registro)", {"log_sha256": None}),
+        ("versión de la aplicación", {"app_version": None}),
+    ],
+)
+def test_sin_un_elemento_la_dimension_es_parcial_y_lo_nombra(faltante, cambio):
+    procedencia = {**PROCEDENCIA_COMPLETA, **cambio}
+    _, dimension = _reproducibilidad(
+        docking_protocol={
+            "engine": "vina", "exhaustiveness": 8, "num_poses": 9, "seed": 42,
+            "execution_provenance": procedencia,
+        }
+    )
+    assert dimension["status_label"] == "PARCIAL"
+    assert f"faltan: {faltante}" in dimension["detail"]
+
+
+def test_sin_protocolo_de_busqueda_o_preparacion_del_ligando_es_parcial():
+    _, sin_protocolo = _reproducibilidad(
+        docking_protocol={"engine": "vina", "execution_provenance": dict(PROCEDENCIA_COMPLETA)}
+    )
+    assert "faltan: protocolo de búsqueda" in sin_protocolo["detail"]
+    _, sin_preparacion = _reproducibilidad(ligand_state={"smiles_acoplado": "CCO"})
+    assert "faltan: preparación del ligando" in sin_preparacion["detail"]
+
+
+def test_sin_ninguna_traza_ni_elemento_es_insuficiente():
+    _, dimension = _reproducibilidad(
+        docking_protocol=None, ligand_state=None,
+        vina_version=None, vina_random_seed=None, parsing_source=None,
+    )
+    assert dimension["status_label"] == "INSUFICIENTE"
+    assert dimension["status"] == "missing"

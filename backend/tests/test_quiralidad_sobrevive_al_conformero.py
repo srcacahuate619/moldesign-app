@@ -102,8 +102,27 @@ def _canonicalizar_tautomero(smiles: str) -> str:
 
     parametros = rdMolStandardize.CleanupParameters()
     parametros.tautomerRemoveSp3Stereo = False
+    parametros.tautomerRemoveBondStereo = False
     te = rdMolStandardize.TautomerEnumerator(parametros)
     return Chem.MolToSmiles(te.Canonicalize(Chem.MolFromSmiles(smiles)))
+
+
+# QA-032: la E/Z se perdía en el mismo paso. Fármacos cuya E es el fármaco.
+E_Z_DECLARADA = [
+    ("rilpivirina", r"Cc1cc(/C=C/C#N)cc(C)c1Nc1ccnc(Nc2ccc(C#N)cc2)n1"),
+    ("entacapona", r"CCN(CC)C(=O)/C(C#N)=C/c1cc(O)c(O)c([N+](=O)[O-])c1"),
+]
+
+
+@pytest.mark.parametrize(("nombre", "smiles"), E_Z_DECLARADA)
+def test_la_especie_acoplada_conserva_la_e_z(nombre, smiles):
+    """El conformador real, no una réplica: lo acoplado y su 3D llevan la E."""
+    from chem.conformer import _construir_conformero
+
+    estado = _construir_conformero(smiles)["estado_del_ligando"]
+    esperado = Chem.MolToSmiles(Chem.MolFromSmiles(smiles))
+    assert "/" in estado["smiles_acoplado"], f"{nombre}: {estado['smiles_acoplado']}"
+    assert estado["estereoquimica"]["smiles_3d_efectivo"] == esperado
 
 
 @pytest.mark.parametrize(("nombre", "uno", "otro"), PARES)

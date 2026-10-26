@@ -77,13 +77,13 @@ ANTI_TARGET_PANEL = [
         "affinity_threshold": -7.0,
     },
     {
-        "pdb_id": "4NC3",
+        "pdb_id": "7SRQ",
         "name": "5-HT2B (HTR2B)",
-        "chain": "A",
+        "chain": "R",
         "category": "CNS/Safety",
         "risk": "Agonismo 5-HT2B causa valvulopatia cardiaca. Fenfluramina, Pergolida retirados.",
-        "center": (-22.06, -18.62, 12.05),
-        "size": (22.0, 22.0, 22.0),
+        "center": (152.587, 158.245, 155.595),
+        "size": (18.0, 18.0, 18.0),
         "affinity_threshold": -7.5,
     },
 
@@ -171,7 +171,7 @@ async def seleccionar_anti_dianas(
     por_id.update({k: v for k, v in anti_dianas_seleccionables_de_bowes().items()
                    if k not in por_id})
 
-    if not anti_targets:
+    if anti_targets is None:
         return list(ANTI_TARGET_PANEL), []
 
     pedidas = [str(pid).strip().upper() for pid in anti_targets if str(pid).strip()]

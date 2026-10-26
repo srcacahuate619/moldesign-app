@@ -1,0 +1,144 @@
+{
+  "baseline_receptor_distinct_hashes": {
+    "cdk2": 1,
+    "cdk8": 1,
+    "cmet": 1,
+    "eg5": 1,
+    "hif2a": 1,
+    "mcl1": 1,
+    "p38": 1,
+    "pde2": 1,
+    "pfkfb3": 1,
+    "ptp1b": 1,
+    "shp2": 1,
+    "syk": 1,
+    "thrombin": 1,
+    "tnks2": 1,
+    "tyk2": 1
+  },
+  "context_reference_counts": {
+    "NO_EVALUADO: El archivo de origen no es el que preparó el receptor de esta corrida (la receta no coincide): las distancias se miden desde la caja.": 127
+  },
+  "context_reproduction": {
+    "automatic_recipe_document_no_contradictory_h": {
+      "chains": [
+        "A"
+      ],
+      "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+      "cofactors_whitelist": [],
+      "crop": null,
+      "incomplete_sidechains": {
+        "atoms_invented": false,
+        "margin_A": 6.0,
+        "policy": "truncate_to_ala_or_gly"
+      },
+      "meeko_options": {
+        "add_hydrogens": true,
+        "allow_bad_residues": true,
+        "box_center": [
+          5.866,
+          43.854,
+          50.492
+        ],
+        "box_size": [
+          20.0,
+          20.0,
+          20.0
+        ],
+        "default_altloc": "A",
+        "write_parameterized_json": true
+      },
+      "meeko_version": "0.7.1",
+      "site_ligand_removed": null,
+      "source_sha256": "15d1e509d7951ca45ea266d51a627d5f452dcf0bb5bd48751ae57eb29e28ab69",
+      "version": 7
+    },
+    "automatic_recipe_recomputed_no_contradictory_h": "60cdf37b8d15046c175e36fad693af6b58c0aaf851d24c15f73708ce31251041",
+    "case_id": "cdk2__baseline__0",
+    "method": "reconstrucción stdlib de contratos para demostrar origen presente y receta B coincidente; no import del producto",
+    "normalized_raw_sha256": "15d1e509d7951ca45ea266d51a627d5f452dcf0bb5bd48751ae57eb29e28ab69",
+    "observed_reference": {
+      "clave": "entorno.referencia",
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Referencia de las distancias",
+      "fuente": "pose top-1 · estructura de origen comprobada por la receta del receptor",
+      "imprescindible": false,
+      "razon": "El archivo de origen no es el que preparó el receptor de esta corrida (la receta no coincide): las distancias se miden desde la caja.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "prepared_sha256": "c359de55ebe3a134edcf1d2f75c989f7f86a0564bc48651abbca71ed3f09410c",
+    "recorded_recipe_hash": "c6fea531565d2ef11917c2338198f8b982225eb0efd69a502ac59fca007ee644",
+    "respect_recipe_document": {
+      "box_center": [
+        5.866,
+        43.854,
+        50.492
+      ],
+      "box_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "chains": [
+        "A"
+      ],
+      "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+      "crop": null,
+      "margen_sitio_A": 6.0,
+      "meeko_version": "0.7.1",
+      "modo": "respetar",
+      "source_sha256": "15d1e509d7951ca45ea266d51a627d5f452dcf0bb5bd48751ae57eb29e28ab69",
+      "traducciones": [
+        [
+          "HSD",
+          "HID"
+        ],
+        [
+          "HSE",
+          "HIE"
+        ],
+        [
+          "HSP",
+          "HIP"
+        ],
+        [
+          "WAT",
+          "HOH"
+        ]
+      ],
+      "version": 1
+    },
+    "respect_recipe_recomputed": "c6fea531565d2ef11917c2338198f8b982225eb0efd69a502ac59fca007ee644",
+    "source_contracts": [
+      "backend/services/docking/preparer_respetando.py:256",
+      "backend/services/dossier/contexto_estructural.py:380"
+    ],
+    "task_id": "b85d23a6-55f1-47ed-a4dc-dd82ff82edd4",
+    "uploaded_input_sha256": "4ac4621d1592644ec5ef81e5309ab90773e7f29335a86f204fceb358e86eb066"
+  },
+  "input_files_and_source_hashes_match": true,
+  "n_expected": 127,
+  "n_verified_audits": 127,
+  "outcomes": {
+    "audited": 127
+  },
+  "preflight_canonical_modes": {
+    "entrada": 29,
+    "opcional no declarado": 98
+  },
+  "preregistration_hashes_match": true,
+  "product_diff_empty": true,
+  "protocol_deviation": {
+    "actual_request": "modo no especificado; la API aplica entrada por defecto",
+    "disposition": "prerregistro intacto; no reintentos ni ajuste de gate; cierre INCONCLUSIVE y proxies fuera de categorías estrictas",
+    "planned_description": "modo por defecto canónico"
+  },
+  "scope": "API de cápsulas, archivos de procedencia y contratos de hash; no instalador",
+  "tautomer_modes_observed": {
+    "entrada": 127
+  },
+  "vina_trace_binary_hashes": [
+    "0e0125909e6db01f7a9ca54ff310409151bf9132c08239dcd1970e10e0aac386"
+  ]
+}

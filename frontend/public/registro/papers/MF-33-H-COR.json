@@ -1321,6 +1321,200 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-017. El IC de Wilson de 99,30 a 99,61 % trata las 8224 poses como independientes, y vienen de 48 complejos: no es la incertidumbre para complejos nuevos. Las 8181 de 8224 bajo este protocolo de hidrógenos siguen en pie como censo.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "PROD-PV-H-01: el proxy energético y el control oficial producen veredictos distintos",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de conformidad de medición.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade un contraste de procedimientos en el ámbito top-1 rígido ya definido en este paper. No modifica las tasas de batería física.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El control oficial aislado fue ",
+     "m": null
+    },
+    {
+     "t": "energy_ratio",
+     "m": "codigo"
+    },
+    {
+     "t": " de PoseBusters 0.6.5, configuración dock con UFF, 50 conformaciones y umbral 100,0. Divide energía de pose por energía media del ensemble; el proxy propio de RDKit usa otro procedimiento.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Contraste archivado",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Registros",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Proxy FALLA y oficial PASA, representación mixta",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "33",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Proxy PASA y oficial PASA, misma representación",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "199",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Discrepancias del control oficial, mixta frente a canónica",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Lector y canonicalización tienen cobertura completa en la salida; el evaluador oficial entrega razón finita en todos los registros. Esas coberturas se informan separadas en el artefacto. La reparación del lector se observó antes del sello; no se presenta como descubrimiento ciego de la corrida final.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "SCI-B-016",
+     "m": "fuerte"
+    },
+    {
+     "t": " impide leer PASA como batería completa. Aquí el productor llama directamente a ",
+     "m": null
+    },
+    {
+     "t": "check_energy_ratio",
+     "m": "codigo"
+    },
+    {
+     "t": " y clasifica NaN como NO_EVALUADO; no usa para ese control el wrapper histórico de batería. El proxy conserva su autoría y no debe llamarse ",
+     "m": null
+    },
+    {
+     "t": "internal_energy",
+     "m": "codigo"
+    },
+    {
+     "t": " de PoseBusters por concordancia observada. El límite por pose de SCI-B-017 sigue en Correcciones del padre. No comprobado por mí: ejecutar lector, reconstrucción de H o control energético. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "PROD-PV-H-01",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
   }
  ],
  "fuente": "docs/papers/MF-33-H-COR.md"

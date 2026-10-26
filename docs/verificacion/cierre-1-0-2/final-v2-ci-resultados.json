@@ -1,0 +1,11 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "99c77889efdc8d90cc44d04ab5cacd945b20e133",
+    "inicio_utc": "2026-10-10T01:20:36.7938356Z",
+    "segundos": 15.5,
+    "salida": -4048,
+    "registro": "final-v2-ci-01.log"
+  }
+]

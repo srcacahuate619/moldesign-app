@@ -21,7 +21,8 @@ allow_nan=False)`; el fingerprint es `"sha256:" + sha256(utf8(documento))`.
                      "docking_engine": <minúsculas>,
                      "exhaustiveness": <int>,
                      "num_poses":      <int>,
-                     "seed":           <int|null>},
+                     "seed":           <int|null>,
+                     "tautomero":      "entrada"   ← sólo si se acopla el escrito},
       "rows":       [ [<molecula>, <active|null>, <control_role>], ... ]
     }
 
@@ -34,6 +35,12 @@ Las filas van **en el orden del archivo**. Reordenar el archivo cambia el
 fingerprint: en v1 la cohorte es el conjunto tal como se declaró. Ordenar por
 canónico haría indistinguible «reordené» de «cambié una molécula», y la
 deduplicación todavía no está decidida (5B).
+
+`tautomero` sólo entra cuando vale «entrada». El canónico de RDKit, declarado
+o no, deja el documento como estaba antes de que existiera el campo: es lo que
+acoplaban esas cohortes, y así conservan su huella. Una cohorte que acopla el
+tautómero escrito sí cambia de huella, porque puede acoplar otra especie (el
+canónico convierte hidroxamatos en iminoles, por ejemplo).
 
 # Qué NO entra, y por qué
 
@@ -103,6 +110,7 @@ def canonical_cohort_document(study: CohortStudy, rows: list[FingerprintRow]) ->
             "exhaustiveness": int(study.config.exhaustiveness),
             "num_poses": int(study.config.num_poses),
             "seed": None if study.config.seed is None else int(study.config.seed),
+            **({"tautomero": "entrada"} if study.config.tautomero == "entrada" else {}),
         },
         "rows": [[row.molecule, row.active_label, row.control_role] for row in rows],
     }

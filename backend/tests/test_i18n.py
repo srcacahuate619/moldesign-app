@@ -83,3 +83,33 @@ async def test_json_response_is_translated_without_touching_streams(
         i18n.reset_request_locale(token)
     assert json.loads(body) == {"detail": "Not found"}
     assert localized.headers["content-language"] == "en"
+
+
+def test_openapi_translation_is_scoped_to_schema_prose(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setitem(i18n.ENGLISH_MESSAGES, "Resumen de prueba", "Test summary")
+    monkeypatch.setitem(i18n.ENGLISH_MESSAGES, "Descripción de prueba", "Test description")
+    monkeypatch.setitem(i18n.ENGLISH_MESSAGES, "Etiqueta de prueba", "Test tag")
+    token = i18n.set_request_locale("en")
+    try:
+        payload = i18n.localize_openapi_payload({
+            "paths": {
+                "/example": {
+                    "post": {
+                        "summary": "Resumen de prueba",
+                        "description": "Descripción de prueba",
+                        "tags": ["Etiqueta de prueba"],
+                        "operationId": "Descripción de prueba",
+                    }
+                }
+            },
+        })
+        ordinary_payload = i18n.localize_payload({"description": "Descripción de prueba"})
+    finally:
+        i18n.reset_request_locale(token)
+
+    operation = payload["paths"]["/example"]["post"]
+    assert operation["summary"] == "Test summary"
+    assert operation["description"] == "Test description"
+    assert operation["tags"] == ["Test tag"]
+    assert operation["operationId"] == "Descripción de prueba"
+    assert ordinary_payload["description"] == "Descripción de prueba"

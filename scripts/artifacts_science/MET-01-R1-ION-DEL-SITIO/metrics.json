@@ -1,0 +1,3206 @@
+{
+  "experiment": "MET-01-R1-ION-DEL-SITIO",
+  "product_commit": "9ce8b10490fcdd1c21b5dc0cf1efa8f3eae76d70",
+  "principal": {
+    "population_n": 35,
+    "paired_n": 28,
+    "excluded_n": 7,
+    "favor_CON": 0,
+    "favor_SIN": 3,
+    "exact_two_sided_p": 0.25,
+    "rate_difference": -0.10714285714285714,
+    "test_applicable": true
+  },
+  "controls": {
+    "population_n": 6,
+    "evaluable_n": 4,
+    "all_evaluable": false,
+    "harm_n": 0,
+    "minimum_n": 4
+  },
+  "decision": "NO_GO",
+  "seed_rates": {
+    "SIN": {
+      "n": 160,
+      "successes": 43
+    },
+    "CON": {
+      "n": 160,
+      "successes": 34
+    }
+  },
+  "elements_membership": {
+    "ZN": [
+      "1BN1",
+      "1C3R",
+      "1C3S",
+      "1J36",
+      "1J37",
+      "1T69",
+      "1W22",
+      "1ZZ1",
+      "2AW1",
+      "2GH6",
+      "2X8Z",
+      "2X90",
+      "4CA7",
+      "4CA8",
+      "4PHL",
+      "4QA0",
+      "4QGE",
+      "5A2R",
+      "5TY1",
+      "6HSK",
+      "7JVU",
+      "7JVW",
+      "7SGG",
+      "9RJE"
+    ],
+    "MG": [
+      "2JDI",
+      "3QXX",
+      "4CVL",
+      "4PHL",
+      "4QGE",
+      "4WUD",
+      "5Z2R",
+      "6E53"
+    ],
+    "CA": [
+      "2A3W",
+      "6KE5"
+    ],
+    "K": []
+  },
+  "entries": [
+    {
+      "entry": "1BN1",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1BN1",
+          "metal": "ZN",
+          "metal_id": "A:262",
+          "ligando": "AL5",
+          "d_ligando_A": 1.91,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N21"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -6.844,
+            -1.668,
+            15.437
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "sulfonamide_N",
+        "smarts": "[SX4](=[OX1])(=[OX1])[NX3;H1,H2]",
+        "crystal_atom": "N21",
+        "smiles": "Cc1ccc(CNS(=O)(=O)c2ccc(S([NH-])(=O)=O)s2)cc1",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "Cc1ccc(CNS(=O)(=O)c2ccc(S(N)(=O)=O)s2)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "Cc1ccc(C[N-]S(=O)(=O)c2ccc(S([NH-])(=O)=O)s2)cc1",
+              "charge": -2,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "Cc1ccc(C[N-]S(=O)(=O)c2ccc(S([NH-])(=O)=O)s2)cc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "Cc1ccc(CNS(=O)(=O)c2ccc(S(N)(=O)=O)s2)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "Cc1ccc(C[N-]S(=O)(=O)c2ccc(S([NH-])(=O)=O)s2)cc1",
+              "charge": -2,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "Cc1ccc(C[N-]S(=O)(=O)c2ccc(S([NH-])(=O)=O)s2)cc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "e53fee3c0efad6f80d5aa7ff84b7a7b68bfe39492bf26428b1ef75b947253926"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "1C3R",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1C3R",
+          "metal": "ZN",
+          "metal_id": "A:501",
+          "ligando": "TSN",
+          "d_ligando_A": 2.24,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            49.66,
+            9.211,
+            109.302
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O1",
+        "smiles": "CC(C=CC(=O)N[O-])=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "CC(C=CC(=O)NO)=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "CC(C=CC(=O)NO)=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "CC(C=CC(=O)N[O-])=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "CC(C=CC(=O)NO)=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "CC(C=CC(=O)NO)=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "CC(C=CC(=O)N[O-])=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": 12.0,
+        "representable": true,
+        "sha256": "56f8db66a6b37354959214a44033c520c083fec77844152bb14e9fc9c140805a",
+        "expected_microstate": "CC(C=CC(=O)N[O-])=C[C@@H](C)C(=O)c1ccc(N(C)C)cc1"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 2,
+          "joint_successes": 2,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 1,
+          "joint_successes": 1,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "1C3S",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1C3S",
+          "metal": "ZN",
+          "metal_id": "A:951",
+          "ligando": "SHH",
+          "d_ligando_A": 1.84,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            23.696,
+            34.788,
+            54.072
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O1",
+        "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)N[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "22fb8b4eb230b085a947ae5a7c2773fc60b5694a318c301ae9277ea6065222b2"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "1J36",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1J36",
+          "metal": "ZN",
+          "metal_id": "A:701",
+          "ligando": "LPR",
+          "d_ligando_A": 1.94,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2",
+            "O3"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            8.122,
+            -4.823,
+            20.294
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "1J37",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1J37",
+          "metal": "ZN",
+          "metal_id": "A:701",
+          "ligando": "X8Z",
+          "d_ligando_A": 1.99,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "S"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            8.01,
+            -4.795,
+            20.113
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "thiol_S",
+        "smarts": "[SX2H1]",
+        "crystal_atom": "S",
+        "smiles": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": 7.4,
+        "representable": true,
+        "sha256": "e29fc1552fdf709c1d84940beeb7ce0c3451d6df630b4744ae78143d95754b5d",
+        "expected_microstate": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 3,
+          "joint_successes": 3,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "1T69",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1T69",
+          "metal": "ZN",
+          "metal_id": "A:378",
+          "ligando": "SHH",
+          "d_ligando_A": 1.95,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            27.517,
+            -0.78,
+            -7.657
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O1",
+        "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)N[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "22fb8b4eb230b085a947ae5a7c2773fc60b5694a318c301ae9277ea6065222b2"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "1VKG",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1VKG",
+          "metal": "ZN",
+          "metal_id": "B:400",
+          "ligando": "CRI",
+          "d_ligando_A": 1.91,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N",
+            "O",
+            "OH"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            5.15,
+            63.416,
+            79.876
+          ]
+        }
+      ],
+      "exclusion": [
+        "CATALOG_UNPREPARABLE: Error preparando proteína '1VKG' en el paso 'mk_prepare_receptor'",
+        "SIN_NOT_REPRESENTABLE: POST /targets/1VKG/variants: HTTP 500, esperado [201]: {\"error\":\"InternalServerError\",\"message\":\"Ocurrió un error interno no controlado\",\"detail\":null}",
+        "CON_NOT_REPRESENTABLE: POST /targets/1VKG/variants: HTTP 500, esperado [201]: {\"error\":\"InternalServerError\",\"message\":\"Ocurrió un error interno no controlado\",\"detail\":null}",
+        "CAL_REFERENCE_UNMAPPABLE: el ligando del cristal no casa con el SMILES de la desipramina"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "1W22",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1W22",
+          "metal": "ZN",
+          "metal_id": "B:1375",
+          "ligando": "NHB",
+          "d_ligando_A": 2.14,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N24",
+            "O25",
+            "O26"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            7.188,
+            22.757,
+            19.218
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O26",
+        "smiles": "CN(c1ccc(C(=O)N[O-])cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "CN(c1ccc(C(=O)NO)cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "CN(c1ccc(C(=O)NO)cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "CN(c1ccc(C(=O)N[O-])cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "CN(c1ccc(C(=O)NO)cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "CN(c1ccc(C(=O)NO)cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "CN(c1ccc(C(=O)N[O-])cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": 12.0,
+        "representable": true,
+        "sha256": "755930cbac144db98be202469436123fb1c7fa95992b636c3f8dcd9342d5e42a",
+        "expected_microstate": "CN(c1ccc(C(=O)N[O-])cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 1,
+          "joint_successes": 1,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 2,
+          "joint_successes": 2,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "1ZZ1",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "1ZZ1",
+          "metal": "ZN",
+          "metal_id": "A:2451",
+          "ligando": "SHH",
+          "d_ligando_A": 1.9,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -2.525,
+            -14.342,
+            44.411
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O1",
+        "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)N[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "22fb8b4eb230b085a947ae5a7c2773fc60b5694a318c301ae9277ea6065222b2"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 2,
+          "joint_successes": 2,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "2A3W",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "2A3W",
+          "metal": "CA",
+          "metal_id": "A:301",
+          "ligando": "CPJ",
+          "d_ligando_A": 2.18,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O8"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -3.642,
+            21.422,
+            -28.43
+          ]
+        },
+        {
+          "pdb_id": "2A3W",
+          "metal": "CA",
+          "metal_id": "A:302",
+          "ligando": "CPJ",
+          "d_ligando_A": 2.29,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O9"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -1.541,
+            24.559,
+            -27.56
+          ]
+        },
+        {
+          "pdb_id": "2A3W",
+          "metal": "CA",
+          "metal_id": "J:319",
+          "ligando": "CPJ",
+          "d_ligando_A": 2.31,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O30"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            14.435,
+            16.831,
+            -35.123
+          ]
+        },
+        {
+          "pdb_id": "2A3W",
+          "metal": "CA",
+          "metal_id": "J:320",
+          "ligando": "CPJ",
+          "d_ligando_A": 2.32,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O31"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            12.605,
+            18.28,
+            -38.273
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 1,
+          "joint_successes": 1,
+          "physical_passed": 3,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 2,
+          "joint_successes": 2,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "2AW1",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "2AW1",
+          "metal": "ZN",
+          "metal_id": "A:262",
+          "ligando": "COX",
+          "d_ligando_A": 1.91,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -6.605,
+            -1.586,
+            15.122
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "sulfonamide_N",
+        "smarts": "[SX4](=[OX1])(=[OX1])[NX3;H1,H2]",
+        "crystal_atom": "N1",
+        "smiles": "Cc1onc(-c2ccccc2)c1-c1ccc(S([NH-])(=O)=O)cc1",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "Cc1onc(-c2ccccc2)c1-c1ccc(S([NH-])(=O)=O)cc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "Cc1onc(-c2ccccc2)c1-c1ccc(S([NH-])(=O)=O)cc1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "Cc1onc(-c2ccccc2)c1-c1ccc(S([NH-])(=O)=O)cc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "Cc1onc(-c2ccccc2)c1-c1ccc(S([NH-])(=O)=O)cc1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": 10.0,
+        "representable": true,
+        "sha256": "9f9b9ea932931b94c936fa14da13e629a2bc2e7f5a21ac44498a58bc5da9878f",
+        "expected_microstate": "Cc1onc(-c2ccccc2)c1-c1ccc(S([NH-])(=O)=O)cc1"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 4,
+          "joint_successes": 4,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "2GH6",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "2GH6",
+          "metal": "ZN",
+          "metal_id": "A:9451",
+          "ligando": "CF3",
+          "d_ligando_A": 1.77,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -3.574,
+            6.034,
+            42.607
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 1,
+          "joint_successes": 1,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "2JDI",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "2JDI",
+          "metal": "MG",
+          "metal_id": "A:1512",
+          "ligando": "ANP",
+          "d_ligando_A": 2.16,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2B",
+            "O2G"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            37.168,
+            88.772,
+            101.154
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 1,
+          "joint_successes": 1,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 2,
+          "joint_successes": 2,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "2X8Z",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "2X8Z",
+          "metal": "ZN",
+          "metal_id": "A:1616",
+          "ligando": "X8Z",
+          "d_ligando_A": 2.14,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "S"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            26.533,
+            2.348,
+            -46.836
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "thiol_S",
+        "smarts": "[SX2H1]",
+        "crystal_atom": "S",
+        "smiles": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": 7.4,
+        "representable": true,
+        "sha256": "e29fc1552fdf709c1d84940beeb7ce0c3451d6df630b4744ae78143d95754b5d",
+        "expected_microstate": "C[C@H](C[S-])C(=O)N1CCC[C@H]1C(=O)[O-]"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "2X90",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "2X90",
+          "metal": "ZN",
+          "metal_id": "A:1618",
+          "ligando": "EAL",
+          "d_ligando_A": 2.0,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2",
+            "O3"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -11.442,
+            24.207,
+            -20.02
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "3QXX",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "3QXX",
+          "metal": "MG",
+          "metal_id": "A:223",
+          "ligando": "GDP",
+          "d_ligando_A": 2.01,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1B"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            7.522,
+            -28.151,
+            -20.767
+          ]
+        },
+        {
+          "pdb_id": "3QXX",
+          "metal": "MG",
+          "metal_id": "A:224",
+          "ligando": "GDP",
+          "d_ligando_A": 2.01,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O3B"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            9.477,
+            -25.977,
+            -18.707
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "4CA7",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "4CA7",
+          "metal": "ZN",
+          "metal_id": "A:1616",
+          "ligando": "3EF",
+          "d_ligando_A": 2.23,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "OAD",
+            "OAG"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            26.653,
+            -2.326,
+            13.616
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 2,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 3,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "4CA8",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "4CA8",
+          "metal": "ZN",
+          "metal_id": "A:1620",
+          "ligando": "3ES",
+          "d_ligando_A": 2.28,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "OAD",
+            "OAG"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            26.398,
+            2.453,
+            -46.303
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 1,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 1,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "4CVL",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "4CVL",
+          "metal": "MG",
+          "metal_id": "A:1453",
+          "ligando": "ACP",
+          "d_ligando_A": 1.9,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2B",
+            "O3G"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            15.883,
+            -30.439,
+            -13.962
+          ]
+        },
+        {
+          "pdb_id": "4CVL",
+          "metal": "MG",
+          "metal_id": "A:1454",
+          "ligando": "ACP",
+          "d_ligando_A": 2.19,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1A",
+            "O2B",
+            "O3G"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            17.962,
+            -31.432,
+            -13.597
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "4PHL",
+      "principal": false,
+      "ions": [
+        {
+          "pdb_id": "4PHL",
+          "metal": "MG",
+          "metal_id": "A:1002",
+          "ligando": "PIL",
+          "d_ligando_A": 4.36,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            29.821,
+            38.292,
+            25.738
+          ]
+        },
+        {
+          "pdb_id": "4PHL",
+          "metal": "ZN",
+          "metal_id": "A:1001",
+          "ligando": "PIL",
+          "d_ligando_A": 5.51,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            27.784,
+            36.341,
+            28.567
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "4QA0",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "4QA0",
+          "metal": "ZN",
+          "metal_id": "A:401",
+          "ligando": "SHH",
+          "d_ligando_A": 2.27,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            16.835,
+            26.151,
+            16.888
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O1",
+        "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)N[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "22fb8b4eb230b085a947ae5a7c2773fc60b5694a318c301ae9277ea6065222b2"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 4,
+          "joint_successes": 4,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "4QGE",
+      "principal": false,
+      "ions": [
+        {
+          "pdb_id": "4QGE",
+          "metal": "MG",
+          "metal_id": "A:603",
+          "ligando": "35O",
+          "d_ligando_A": 5.71,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            85.608,
+            47.087,
+            38.39
+          ]
+        },
+        {
+          "pdb_id": "4QGE",
+          "metal": "ZN",
+          "metal_id": "A:602",
+          "ligando": "35O",
+          "d_ligando_A": 5.79,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            85.2,
+            47.296,
+            42.174
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "4WUD",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "4WUD",
+          "metal": "MG",
+          "metal_id": "A:402",
+          "ligando": "ANP",
+          "d_ligando_A": 2.04,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1A",
+            "O2B",
+            "O2G"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            11.809,
+            23.125,
+            -13.408
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "5A2R",
+      "principal": false,
+      "ions": [
+        {
+          "pdb_id": "5A2R",
+          "metal": "ZN",
+          "metal_id": "A:1616",
+          "ligando": "MLT",
+          "d_ligando_A": 4.38,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            17.702,
+            -5.696,
+            -19.577
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "5E92",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "5E92",
+          "metal": "MG",
+          "metal_id": "A:602",
+          "ligando": "ANP",
+          "d_ligando_A": 1.82,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N3B",
+            "O2A",
+            "O2G"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            21.244,
+            1.285,
+            9.975
+          ]
+        },
+        {
+          "pdb_id": "5E92",
+          "metal": "MG",
+          "metal_id": "A:603",
+          "ligando": "ANP",
+          "d_ligando_A": 1.94,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1G",
+            "O2B"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            23.048,
+            -0.551,
+            12.602
+          ]
+        }
+      ],
+      "exclusion": [
+        "CAL_REFERENCE_UNMAPPABLE: Explicit valence for atom # 14 C, 5, is greater than permitted"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "5I3T",
+      "principal": false,
+      "ions": [
+        {
+          "pdb_id": "5I3T",
+          "metal": "K",
+          "metal_id": "A:503",
+          "ligando": "BU2",
+          "d_ligando_A": 4.0,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            58.189,
+            42.345,
+            68.596
+          ]
+        }
+      ],
+      "exclusion": [
+        "CATALOG_UNPREPARABLE: Error preparando proteína '5I3T' en el paso 'mk_prepare_receptor'",
+        "SIN_NOT_REPRESENTABLE: POST /targets/5I3T/variants: HTTP 500, esperado [201]: {\"error\":\"InternalServerError\",\"message\":\"Ocurrió un error interno no controlado\",\"detail\":null}",
+        "CON_NOT_REPRESENTABLE: POST /targets/5I3T/variants: HTTP 500, esperado [201]: {\"error\":\"InternalServerError\",\"message\":\"Ocurrió un error interno no controlado\",\"detail\":null}"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "5TY1",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "5TY1",
+          "metal": "ZN",
+          "metal_id": "A:301",
+          "ligando": "7QV",
+          "d_ligando_A": 1.98,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N3"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -6.826,
+            -1.224,
+            15.141
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 5,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "5Z2R",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "5Z2R",
+          "metal": "MG",
+          "metal_id": "A:602",
+          "ligando": "TD6",
+          "d_ligando_A": 2.01,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2A",
+            "O3B"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -14.025,
+            -22.818,
+            28.629
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "6E53",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "6E53",
+          "metal": "MG",
+          "metal_id": "A:601",
+          "ligando": "HUV",
+          "d_ligando_A": 2.11,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1A",
+            "O1G",
+            "O2B"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            8.801,
+            -8.561,
+            108.483
+          ]
+        },
+        {
+          "pdb_id": "6E53",
+          "metal": "MG",
+          "metal_id": "A:602",
+          "ligando": "HUV",
+          "d_ligando_A": 3.61,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            10.144,
+            -6.852,
+            112.364
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 2,
+          "joint_successes": 2,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 1,
+          "joint_successes": 1,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "6HSK",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "6HSK",
+          "metal": "ZN",
+          "metal_id": "A:401",
+          "ligando": "GOK",
+          "d_ligando_A": 2.13,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O3",
+            "O4"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -18.669,
+            7.364,
+            -8.239
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O4",
+        "smiles": "Cn1cc(C[NH2+]CC2CCN(c3ncc(C(=O)N[O-])cn3)CC2)c2ccccc21",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "Cn1cc(CNCC2CCN(c3ncc(C(=O)NO)cn3)CC2)c2ccccc21",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "Cn1cc(CNCC2CCN(c3ncc(C(=O)NO)cn3)CC2)c2ccccc21",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "Cn1cc(CNCC2CCN(c3ncc(C(=O)N[O-])cn3)CC2)c2ccccc21",
+              "charge": -1,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "Cn1cc(CNCC2CCN(c3ncc(C(=O)NO)cn3)CC2)c2ccccc21",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "Cn1cc(CNCC2CCN(c3ncc(C(=O)NO)cn3)CC2)c2ccccc21",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "Cn1cc(CNCC2CCN(c3ncc(C(=O)N[O-])cn3)CC2)c2ccccc21",
+              "charge": -1,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "cd66db7bb1fa0233f3800ecc45cbe81ea51751c2a9f334a89ed62381a8fa4092"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "6KE5",
+      "principal": false,
+      "ions": [
+        {
+          "pdb_id": "6KE5",
+          "metal": "CA",
+          "metal_id": "C:1303",
+          "ligando": "D6C",
+          "d_ligando_A": 4.06,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            32.197,
+            187.456,
+            18.028
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "6S1Y",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "6S1Y",
+          "metal": "ZN",
+          "metal_id": "A:709",
+          "ligando": "KSN",
+          "d_ligando_A": 1.9,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O14",
+            "O15"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            14.706,
+            -59.446,
+            -23.549
+          ]
+        }
+      ],
+      "exclusion": [
+        "CAL_REFERENCE_UNMAPPABLE: Explicit valence for atom # 3 C, 5, is greater than permitted"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "6S1Z",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "6S1Z",
+          "metal": "ZN",
+          "metal_id": "A:705",
+          "ligando": "KS8",
+          "d_ligando_A": 2.18,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O01"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            15.639,
+            -62.302,
+            -22.292
+          ]
+        }
+      ],
+      "exclusion": [
+        "CAL_REFERENCE_UNMAPPABLE: Explicit valence for atom # 13 C, 5, is greater than permitted"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "6USR",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "6USR",
+          "metal": "K",
+          "metal_id": "A:605",
+          "ligando": "G2P",
+          "d_ligando_A": 2.74,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1A"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            24.478,
+            -14.99,
+            -14.272
+          ]
+        },
+        {
+          "pdb_id": "6USR",
+          "metal": "MG",
+          "metal_id": "A:602",
+          "ligando": "G2P",
+          "d_ligando_A": 2.27,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1B",
+            "O1G"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            22.292,
+            -14.869,
+            -17.626
+          ]
+        },
+        {
+          "pdb_id": "6USR",
+          "metal": "MG",
+          "metal_id": "A:603",
+          "ligando": "G2P",
+          "d_ligando_A": 2.3,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O1A"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            22.9,
+            -12.068,
+            -15.194
+          ]
+        }
+      ],
+      "exclusion": [
+        "CON_NOT_REPRESENTABLE: POST /targets/6USR/variants: HTTP 500, esperado [201]: {\"error\":\"InternalServerError\",\"message\":\"Ocurrió un error interno no controlado\",\"detail\":null}",
+        "CAL_REFERENCE_UNMAPPABLE: No matching found"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "7JVU",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "7JVU",
+          "metal": "ZN",
+          "metal_id": "B:401",
+          "ligando": "SHH",
+          "d_ligando_A": 2.03,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            13.916,
+            42.284,
+            27.341
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O1",
+        "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)N[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "22fb8b4eb230b085a947ae5a7c2773fc60b5694a318c301ae9277ea6065222b2"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 3,
+          "joint_successes": 3,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 1,
+          "joint_successes": 1,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "7JVW",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "7JVW",
+          "metal": "ZN",
+          "metal_id": "A:502",
+          "ligando": "B3N",
+          "d_ligando_A": 2.06,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2",
+            "O4"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            16.609,
+            24.006,
+            17.309
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O4",
+        "smiles": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)N[O-])cc1",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)N[O-])cc1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1",
+              "charge": 0,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)N[O-])cc1",
+              "charge": -1,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": 12.0,
+        "representable": true,
+        "sha256": "15ed9c5e4bddcae50a51d43c8aa08ce0fa78840f35e1974a2d37315bbec4ed66",
+        "expected_microstate": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)N[O-])cc1"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "DIAG_CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "7SGG",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "7SGG",
+          "metal": "ZN",
+          "metal_id": "A:703",
+          "ligando": "SHH",
+          "d_ligando_A": 2.1,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -19.48,
+            -38.806,
+            32.173
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": {
+        "rule": "hydroxamate_O",
+        "smarts": "[CX3](=[OX1])[NX3][OX2H1]",
+        "crystal_atom": "O1",
+        "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)N[O-]",
+        "source": "Independent MET-01 rule: remove one proton from the matched N/O/S within 2.8 A of Zn. Hypothesis of anchoring, not a validated bound population.",
+        "probes": [
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          },
+          {
+            "7.4": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+              "charge": 0,
+              "ph": 7.4
+            },
+            "10.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)NO)[N-]c1ccccc1",
+              "charge": -1,
+              "ph": 10.0
+            },
+            "12.0": {
+              "smiles_acoplado": "O=C(CCCCCCC(=O)N[O-])[N-]c1ccccc1",
+              "charge": -2,
+              "ph": 12.0
+            }
+          }
+        ],
+        "ph": null,
+        "representable": false,
+        "sha256": "22fb8b4eb230b085a947ae5a7c2773fc60b5694a318c301ae9277ea6065222b2"
+      },
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    },
+    {
+      "entry": "8UBR",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "8UBR",
+          "metal": "MG",
+          "metal_id": "A:1501",
+          "ligando": "ATP",
+          "d_ligando_A": 2.1,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O2B",
+            "O3G"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            156.219,
+            154.162,
+            96.771
+          ]
+        }
+      ],
+      "exclusion": [
+        "SIN_DIFFERS_FROM_CATALOG",
+        "Variant SIN retains 70 additional atoms of ATP A1502/A1503; every shared protein atom is identical. Catalogue preparation passes site_ligand=ATP and removes that reference cofactor; variant ingestion omits site_ligand during prepare_target for the new USR ID, retaining the other ATP instances. Thus SIN is not the catalogue baseline. Excluded before docking; no product patch."
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "8WGR",
+      "principal": false,
+      "ions": [
+        {
+          "pdb_id": "8WGR",
+          "metal": "K",
+          "metal_id": "A:704",
+          "ligando": "DSM",
+          "d_ligando_A": 3.67,
+          "atomos_del_ligando_que_lo_coordinan": [],
+          "lo_coordina_el_ligando": false,
+          "xyz": [
+            95.019,
+            109.179,
+            102.03
+          ]
+        }
+      ],
+      "exclusion": [
+        "CON_NOT_REPRESENTABLE: POST /targets/8WGR/variants: HTTP 500, esperado [201]: {\"error\":\"InternalServerError\",\"message\":\"Ocurrió un error interno no controlado\",\"detail\":null}",
+        "CAL_REFERENCE_UNMAPPABLE: el ligando del cristal no casa con el SMILES de la desipramina"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "9GKV",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "9GKV",
+          "metal": "ZN",
+          "metal_id": "B:402",
+          "ligando": "SHH",
+          "d_ligando_A": 2.15,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "N1",
+            "O1",
+            "O2"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            0.17,
+            -5.754,
+            -31.576
+          ]
+        }
+      ],
+      "exclusion": [
+        "CAL_REFERENCE_UNMAPPABLE: el ligando del cristal no casa con el SMILES de la desipramina"
+      ],
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 0,
+          "complete": false,
+          "reproduces": false,
+          "rmsd_successes": 0,
+          "joint_successes": 0,
+          "physical_passed": 0,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": false
+    },
+    {
+      "entry": "9RJE",
+      "principal": true,
+      "ions": [
+        {
+          "pdb_id": "9RJE",
+          "metal": "ZN",
+          "metal_id": "A:407",
+          "ligando": "6NA",
+          "d_ligando_A": 2.14,
+          "atomos_del_ligando_que_lo_coordinan": [
+            "O",
+            "OXT"
+          ],
+          "lo_coordina_el_ligando": true,
+          "xyz": [
+            -9.676,
+            -6.484,
+            -27.513
+          ]
+        }
+      ],
+      "exclusion": null,
+      "diagnostic": null,
+      "arms": {
+        "SIN": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        },
+        "CON": {
+          "n": 5,
+          "complete": true,
+          "reproduces": true,
+          "rmsd_successes": 5,
+          "joint_successes": 5,
+          "physical_passed": 5,
+          "histidine_warning_n": 0,
+          "infra_failure_n": 0,
+          "rejected_n": 0
+        }
+      },
+      "paired_evaluable": true
+    }
+  ],
+  "failures_n": 0,
+  "product_rejections_n": 0,
+  "total_runs": 380,
+  "no_demuestra": [
+    "No demuestra afinidad ni energía de coordinación, actividad, calibración experimental, readiness para FEP ni compatibilidad con FEP+.",
+    "Redocking en el receptor de su propio cristal; no cross-docking ni otra versión de Vina.",
+    "La potencia es condicional al modelo de discordancias declarado; no demuestra ausencia de un efecto moderado.",
+    "Las formas diagnósticas son hipótesis químicas independientes; el pH usado para expresarlas no estima una población de unión.",
+    "El requisito de no daño sólo se verifica en al menos cuatro controles evaluables; no acredita ausencia de daño en los controles excluidos.",
+    "PoseBusters omite los iones Meeko ATOM de las máscaras inorgánica y de proteína; su PASA no valida contactos con el metal."
+  ],
+  "per_element_descriptive": {
+    "ZN": {
+      "entries": 24,
+      "arms": {
+        "SIN": {
+          "seeds_n": 120,
+          "joint_successes": 29,
+          "reproducing_entries": 6
+        },
+        "CON": {
+          "seeds_n": 120,
+          "joint_successes": 19,
+          "reproducing_entries": 3
+        }
+      }
+    },
+    "MG": {
+      "entries": 8,
+      "arms": {
+        "SIN": {
+          "seeds_n": 40,
+          "joint_successes": 18,
+          "reproducing_entries": 3
+        },
+        "CON": {
+          "seeds_n": 40,
+          "joint_successes": 18,
+          "reproducing_entries": 3
+        }
+      }
+    },
+    "CA": {
+      "entries": 2,
+      "arms": {
+        "SIN": {
+          "seeds_n": 10,
+          "joint_successes": 1,
+          "reproducing_entries": 0
+        },
+        "CON": {
+          "seeds_n": 10,
+          "joint_successes": 2,
+          "reproducing_entries": 0
+        }
+      }
+    },
+    "K": {
+      "entries": 0,
+      "arms": {
+        "SIN": {
+          "seeds_n": 0,
+          "joint_successes": 0,
+          "reproducing_entries": 0
+        },
+        "CON": {
+          "seeds_n": 0,
+          "joint_successes": 0,
+          "reproducing_entries": 0
+        }
+      }
+    }
+  },
+  "per_element_condition": "Membership is nonexclusive for entries containing more than one element; seed observations are correlated, not independent sample units.",
+  "coordination_descriptive": {
+    "CON": {
+      "runs_n": 160,
+      "ion_seed_observations_n": 200,
+      "donor_within_2_8_A_n": 108,
+      "physical_passed_runs_n": 154,
+      "histidine_warning_runs_n": 55
+    },
+    "DIAG_CON": {
+      "runs_n": 30,
+      "ion_seed_observations_n": 30,
+      "donor_within_2_8_A_n": 7,
+      "physical_passed_runs_n": 30,
+      "histidine_warning_runs_n": 15
+    }
+  },
+  "best_of_returned_poses_descriptive": {
+    "SIN": {
+      "successful_runs_n": 160,
+      "best_geometric_rmsd_le2_n": 75,
+      "poses_returned_histogram": {
+        "6": 2,
+        "7": 2,
+        "8": 2,
+        "9": 154
+      }
+    },
+    "CON": {
+      "successful_runs_n": 160,
+      "best_geometric_rmsd_le2_n": 72,
+      "poses_returned_histogram": {
+        "5": 1,
+        "6": 2,
+        "7": 2,
+        "9": 155
+      }
+    },
+    "DIAG_SIN": {
+      "successful_runs_n": 30,
+      "best_geometric_rmsd_le2_n": 9,
+      "poses_returned_histogram": {
+        "9": 30
+      }
+    },
+    "DIAG_CON": {
+      "successful_runs_n": 30,
+      "best_geometric_rmsd_le2_n": 12,
+      "poses_returned_histogram": {
+        "9": 30
+      }
+    }
+  }
+}

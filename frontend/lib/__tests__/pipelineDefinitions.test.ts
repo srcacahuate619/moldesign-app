@@ -12,8 +12,8 @@
 //   contra el orden canónico del timeline en el test de "8 orbs")
 // - nodo Quantum en TODAS las familias: weight 0.0 y value 0.55 (post_hoc)
 // - convención de pesos: suman 1.0 en las familias M4
-// - metaloenzyme: HOY es M4 con pesos por defecto. M5-Zn esta implementado
-//   y NO conectado, y UMS/MolChamb son senales informativas con peso 0
+// - metaloenzyme: el stacking M4 conserva sus pesos por defecto. M5-Zn
+//   se ejecuta y persiste aparte; UMS/MolChamb no entran en este stacking
 // - fallback de familia desconocida → default (stacking neutro, no gpcr)
 // - orden del timeline de 8 orbs vs. orden canónico de etapas del backend
 
@@ -32,9 +32,8 @@ const METALOENZYME_NODES = [...M4_REQUIRED_NODES, "ums", "molchamb"];
 
 // TODAS las familias son M4 hoy: los pesos suman 1.0 en las cuatro etapas del
 // stacking. La entrada de metaloenzimas se retiro de stacking_weights.json el
-// 2026-09-04 (ADR 75) y M5-Zn no esta conectado al pipeline, asi que esas
-// dianas caen a los pesos por defecto como cualquier otra familia sin
-// calibracion propia.
+// 2026-09-04 (ADR 75). El bloque M5-Zn que ejecutan runner y queue_handler
+// conserva su perfil y estado por separado; no reemplaza este stacking.
 const M4_FAMILIES = [
   "gpcr",
   "protease",
@@ -107,8 +106,8 @@ describe("PIPELINES_BY_FAMILY — fallbacks del DOT por familia", () => {
   it("metaloenzyme: UMS y MolChamb son informativos, con peso 0 en el ranking", () => {
     // Llegaron a mostrarse con peso 1.00 bajo la etiqueta «M5 Gated · UMS +
     // MolChamb + CL-GNN (sin Vina)». Nada de eso se ejecuta: el ADR 75 retiro
-    // el empujon aditivo de UMS al stacking y M5-Zn no esta conectado al
-    // pipeline. Un peso distinto de cero aqui afirma una contribucion al
+    // el empujon aditivo de UMS al stacking. M5-Zn se registra por separado;
+    // un peso distinto de cero aqui afirma una contribucion al
     // ranking que el engine no hace.
     const pipeline = PIPELINES_BY_FAMILY.metaloenzyme;
     for (const id of ["ums", "molchamb"]) {

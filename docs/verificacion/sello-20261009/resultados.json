@@ -1,0 +1,14 @@
+{
+  "fecha": "2026-10-09",
+  "rama": "sol/catalogo-sello",
+  "base": "e9b032ae",
+  "directorio": "D:/moldesign-build/.worktrees/catalogo-demostracion/frontend",
+  "comandos": [
+    { "comando": "npm run test:run -- --maxWorkers=2", "salida": 0, "pruebas": 1694, "archivos": 182, "duracion_s": 289.50, "registro": "frontend-tests.log" },
+    { "comando": "npx tsc --noEmit", "salida": 0, "stdout": "", "stderr": "" },
+    { "comando": "npm run lint", "salida": 0, "errores": 0, "advertencias": 39, "registro": "frontend-lint.log" }
+  ],
+  "backend_modificado": false,
+  "entrada_capturas": "ficticia; inyectada únicamente en componentes y en el hook del arnés local",
+  "build_staged_smoke_ejecutados": false
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:32:15.4146602Z",
+    "segundos": 165.8,
+    "salida": 0,
+    "registro": "final-v4-ci-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:35:01.2582699Z",
+    "segundos": 2.15,
+    "salida": 0,
+    "registro": "final-v4-ci-02.log"
+  },
+  {
+    "paso": "03",
+    "comando": "npm run check:csp",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:35:03.4157586Z",
+    "segundos": 0.47,
+    "salida": 0,
+    "registro": "final-v4-ci-03.log"
+  },
+  {
+    "paso": "04",
+    "comando": "npm run typecheck",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:35:03.8951010Z",
+    "segundos": 21.61,
+    "salida": 0,
+    "registro": "final-v4-ci-04.log"
+  },
+  {
+    "paso": "05",
+    "comando": "npm run test:run",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:35:25.5251249Z",
+    "segundos": 128.27,
+    "salida": 0,
+    "registro": "final-v4-ci-05.log"
+  },
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:37:33.8049991Z",
+    "segundos": 70.57,
+    "salida": 0,
+    "registro": "final-v4-ci-06.log"
+  },
+  {
+    "paso": "07",
+    "comando": "npm run test:ux",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:38:44.3817963Z",
+    "segundos": 45.27,
+    "salida": 0,
+    "registro": "final-v4-ci-07.log"
+  },
+  {
+    "paso": "08",
+    "comando": "npm run build:desktop",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "inicio_utc": "2026-10-10T01:39:29.6655657Z",
+    "segundos": 40.58,
+    "salida": 0,
+    "registro": "final-v4-ci-08.log"
+  }
+]

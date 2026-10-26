@@ -1,0 +1,16 @@
+{
+  "id_r2": "S27",
+  "pdb": "2X8Z",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 37.2,
+      "crudo": "S27-2X8Z-intento1.json.gz",
+      "crudo_sha256": "d08b6f4e7ce2b00d7621bb418e3e523dac448295d791b7d8bdfef002c841f7ba"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S27-2X8Z-intento1.json.gz",
+  "crudo_sha256": "d08b6f4e7ce2b00d7621bb418e3e523dac448295d791b7d8bdfef002c841f7ba",
+  "registrado_en": "2026-10-22T16:48:35+00:00"
+}

@@ -1,0 +1,36 @@
+{
+  "commit_codigo": "44c3a97e715e7dfd4a6a2dacd9c461bae06120ac",
+  "utc": "2026-10-10T03:44:18.8501352Z",
+  "capsula": "D:\\moldesign-build\\.worktrees\\.sandbox\\agente3",
+  "comando": "node scripts/qa_sandbox/sandbox-up.mjs --agente 3 --down --limpiar",
+  "directorios": [
+    "casos",
+    "data",
+    "home",
+    "install",
+    "logs",
+    "registro-casos",
+    "tmp"
+  ],
+  "archivos": 117,
+  "bytes": 42798220.0,
+  "archivos_raiz": [
+    ".capsula-moldesign",
+    "build-stamp.json",
+    "enlaces.json",
+    "manifest.json",
+    "serve.json"
+  ],
+  "junctions_restantes": [],
+  "junction_node_modules_retirada": true,
+  "destino_compartido_conservado": true,
+  "puertos_capsula_cerrados": true,
+  "servicio_ajeno_3123_conservado": true,
+  "escuchas": [
+    {
+      "LocalAddress": "::",
+      "LocalPort": 3123,
+      "OwningProcess": 19304
+    }
+  ]
+}

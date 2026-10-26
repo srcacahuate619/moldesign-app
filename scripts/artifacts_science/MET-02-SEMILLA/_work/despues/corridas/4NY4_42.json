@@ -1,0 +1,27 @@
+{
+  "pdb": "4NY4",
+  "semilla": 42,
+  "inicio": "2026-10-23T03:05:44+00:00",
+  "resultado": "auditada",
+  "task_id": "163bb076-3cce-42e5-80f8-94566d23c52a",
+  "estado_global": "REVISION",
+  "metales": {
+    "estado": "REVISAR",
+    "valor": "Ninguno retirado a 6 Å o menos del ligando; conservados: HEM A:601 (2.58 Å). Conservados y coordinados por el ligando del cristal: HEM A:601 (N32–FE 2.58 Å).",
+    "razon": "El ligando del cristal coordina un metal que el receptor conserva. Vina no tiene término de coordinación: la pose no la reproduce y un cálculo posterior necesita parámetros para ese enlace.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal 2QH A:602",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "51728e229670e5f04a1d5c8ee3077aaad86dc974381a045f916ac58f17db8840",
+  "afinidad_top1": -11.731,
+  "microestado": "COc1ccc([C@]2(c3ccc(F)c(-c4cccnc4)c3)[NH+]=C(N)N3CC(F)(F)C[NH+]=C32)cc1C",
+  "microestado_coincide": true,
+  "semilla_declarada": 42,
+  "vina": "1.2.7",
+  "receptor_sha256": "1e450736a8696043679acb4cf88743481bb16269e6ddba437b2bd6d1c2abe19c",
+  "segundos": 31.5,
+  "fin": "2026-10-23T03:06:15+00:00",
+  "brazo": "despues",
+  "commit": "878c215b"
+}

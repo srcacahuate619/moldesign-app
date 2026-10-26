@@ -1,0 +1,19 @@
+{
+  "catalog_version": "nombre-2hzi-2026-10-24",
+  "based_on_commit": "7e5c76d4",
+  "supersedes": {
+    "curated_targets_json_sha256": "c221c363bd1c752ebc6df41c42b5d25e71ddd750cb44611f092339af6b5a93bf",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "active": {
+    "curated_targets_json_sha256": "f66cd263f2a20ac548bf2ee5492e17a28ba04a898c7b6f124bba86c4f24e4593",
+    "curated_targets_csv_sha256": "2b49cd98e20258a17467067a5ab204b2ed7cb647c0d21634d57fb152694c1303"
+  },
+  "cambio": "2HZI se llamaba «ABL1 Kinase Imatinib», pero su depósito es el dominio quinasa de ABL1 con PD180970 (JIN, el site_ligand de la entrada; TITLE «ABL KINASE DOMAIN IN COMPLEX WITH PD180970»). Pasa a «ABL1 Kinase PD180970» en curated_targets.json, curated_targets.csv y target_aliases.json (nombre y alias). Se conserva el alias de búsqueda «imatinib», que lleva a la diana ABL1: el catálogo no tiene un depósito con imatinib. No cambia ninguna caja, receptor preparado ni sitio.",
+  "corregidas": [
+    "2HZI"
+  ],
+  "pendientes": {},
+  "herramienta": "sustitución literal del nombre en los tres ficheros, comprobada contra el anterior",
+  "evidencia": "RESULTS.md §5.7 del HOT FIX 1.0.3 (docs/versions/1.0.3_cambios.md, «Qué no entra»); cabecera de data/targets/2HZI.pdb.gz."
+}

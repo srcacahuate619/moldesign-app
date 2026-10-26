@@ -805,6 +805,49 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-161. G3 registra presencia de algún JSONL local no vacío y G4 presencia de algún archivo Python entre los hashes. Sus recuentos describen esas condiciones sintácticas, no una verificación de las cifras ni la identificación del productor efectivo de cada artefacto. Una ausencia local tampoco descarta verificar un reanálisis desde fuentes parentales enlazadas. Se retira la equivalencia entre pasar estos controles y que todo tercero pueda reproducir las cifras del registro.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/FND-08.md"

@@ -1,0 +1,162 @@
+[
+  {
+    "salida": 0,
+    "numero": 1,
+    "pruebas": 47,
+    "segundos": 36.87,
+    "registro": "intentos-molcy-01.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 2,
+    "pruebas": 47,
+    "segundos": 26.17,
+    "registro": "intentos-molcy-02.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 3,
+    "pruebas": 47,
+    "segundos": 22.63,
+    "registro": "intentos-molcy-03.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 4,
+    "pruebas": 47,
+    "segundos": 22.24,
+    "registro": "intentos-molcy-04.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 5,
+    "pruebas": 47,
+    "segundos": 22.11,
+    "registro": "intentos-molcy-05.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 6,
+    "pruebas": 47,
+    "segundos": 22.84,
+    "registro": "intentos-molcy-06.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 7,
+    "pruebas": 47,
+    "segundos": 20.97,
+    "registro": "intentos-molcy-07.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 8,
+    "pruebas": 47,
+    "segundos": 24.44,
+    "registro": "intentos-molcy-08.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 9,
+    "pruebas": 47,
+    "segundos": 24.25,
+    "registro": "intentos-molcy-09.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 10,
+    "pruebas": 47,
+    "segundos": 18.89,
+    "registro": "intentos-molcy-10.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 11,
+    "pruebas": 47,
+    "segundos": 21.51,
+    "registro": "intentos-molcy-11.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 12,
+    "pruebas": 47,
+    "segundos": 17.82,
+    "registro": "intentos-molcy-12.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 13,
+    "pruebas": 47,
+    "segundos": 18.42,
+    "registro": "intentos-molcy-13.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 14,
+    "pruebas": 47,
+    "segundos": 18.26,
+    "registro": "intentos-molcy-14.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 15,
+    "pruebas": 47,
+    "segundos": 17.97,
+    "registro": "intentos-molcy-15.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 16,
+    "pruebas": 47,
+    "segundos": 20.57,
+    "registro": "intentos-molcy-16.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 17,
+    "pruebas": 47,
+    "segundos": 19.53,
+    "registro": "intentos-molcy-17.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 18,
+    "pruebas": 47,
+    "segundos": 17.78,
+    "registro": "intentos-molcy-18.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 19,
+    "pruebas": 47,
+    "segundos": 17.32,
+    "registro": "intentos-molcy-19.log",
+    "archivo_completo": true
+  },
+  {
+    "salida": 0,
+    "numero": 20,
+    "pruebas": 47,
+    "segundos": 17.7,
+    "registro": "intentos-molcy-20.log",
+    "archivo_completo": true
+  }
+]

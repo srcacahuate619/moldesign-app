@@ -1,0 +1,47 @@
+{
+  "key": "es-dark-1440",
+  "actions": [
+    {
+      "text": "Parámetros de la evaluación",
+      "rect": {
+        "x": 321,
+        "y": 395,
+        "width": 309.96875,
+        "height": 44,
+        "top": 395,
+        "right": 630.96875,
+        "bottom": 439,
+        "left": 321
+      },
+      "inside": true
+    },
+    {
+      "text": "Evaluaciones anteriores1",
+      "rect": {
+        "x": 642.96875,
+        "y": 394,
+        "width": 300.375,
+        "height": 46,
+        "top": 394,
+        "right": 943.34375,
+        "bottom": 440,
+        "left": 642.96875
+      },
+      "inside": true
+    },
+    {
+      "text": "Ejecutar evaluación",
+      "rect": {
+        "x": 955.34375,
+        "y": 395,
+        "width": 242.859375,
+        "height": 44,
+        "top": 395,
+        "right": 1198.203125,
+        "bottom": 439,
+        "left": 955.34375
+      },
+      "inside": true
+    }
+  ]
+}

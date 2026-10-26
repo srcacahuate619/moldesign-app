@@ -1,0 +1,762 @@
+--- página 1 ---
+COMPUTATIONAL EVIDENCE DOSSIER
+This document describes the evidence produced by a run, what can be reproduced, and what was not
+evaluated. It does not rate the molecule or claim that it is a drug, clinical candidate, or safe compound.
+Field
+Content
+Status
+Case
+QA cierre 8HFI
+RECORDED
+Molecule
+e5655ee8-fa0b-4c1a-aebe-995548b0281b
+RECORDED
+Receptor
+8HFI · CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE
+TRANSPORTER NET IN THE
+RECORDED
+Receptor support
+Structurally curated; calibration and a family pipeline are missing — the
+receptor's Spearman ρ and calibrated stacking for its family are missing
+RECORDED
+Catalog section
+Demo
+Receptor prepared automatically from the PDB, without pose verification or
+calibration. It serves to explore the application, not to decide what to synthesize.
+REVIEW
+Run
+27c62c96-a890-47f6-b0c1-095dc6801edb
+RECORDED
+Run date
+2026-10-10T00:52:18.887044
+RECORDED
+Dossier schema
+v1
+RECORDED
+1. Case question and purpose
+Field
+Content
+Status
+Study type
+explore-hypothesis
+RECORDED
+What is this case trying to answer?
+NOT DEFINED
+The case did not declare it.
+NOT DEFINED
+What decision is intended?
+NOT DEFINED
+The case did not declare it.
+NOT DEFINED
+What supports the choice of
+system?
+NOT DEFINED
+The case did not declare it.
+NOT DEFINED
+What controls or references are
+available?
+NOT DEFINED
+The case did not declare it.
+NOT DEFINED
+2. Summary of what ran
+Field
+Content
+Status
+Execution status (technical)
+completed
+RECORDED
+Scientific disposition of the
+evidence
+REVIEW
+The run produced useful evidence, but it contains caveats that should be reviewed
+before proceeding.
+REVIEW
+Human review
+NOT EVALUATED
+No one has reviewed or acknowledged this run's checks.
+NOT EVALUATED
+Technical status, scientific disposition, and human review are three separate things. A process finishing does not validate its result, and the
+absence of alerts does not mean anyone reviewed it.
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 1 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 2 ---
+3. Inputs and provenance
+Field
+Content
+Status
+Declared receptor
+8HFI · chain A
+RECORDED
+Docked receptor (prepared unit)
+8HFI · cadenas A (measured from the hashed PDBQT bytes)
+RECORDED
+Receptor source
+curado
+RECORDED
+Input ligand
+c1ccccc1CNCC(F)(F)F
+RECORDED
+Canonical ligand (the one docked)
+FC(F)(F)C[NH2+]Cc1ccccc1
+RECORDED
+Effective search box
+center (100.281, 100.843, 101.442) · size (30.0, 30.0, 30.0) Å
+RECORDED
+Reference residues
+A:ALA145, A:ASP75, A:GLY149, A:GLY320, A:GLY423, A:LEU319,
+A:PHE317, A:PHE323, A:PHE72, A:SER318, A:SER419, A:SER420,
+A:TYR152, A:VAL148, A:VAL325
+RECORDED
+Input fingerprint (preflight)
+sha256:f5434a08d18f4ae81fa2791292d093caf2769638797d0149fafa66
+0121e34e74
+RECORDED
+Relationship of the run with current
+inputs
+This run used the inputs described in this dossier.
+RECORDED
+Box declared by the case
+center (100.281, 100.843, 101.442) · size (30.0, 30.0, 30.0) Å
+Value declared by the case; it does not replace the box used.
+RECORDED
+Field
+Content
+Status
+Ligand hash (SMILES)
+e3dc5e9f3439b3ff841416be2b6dc76e8b3b1538e77c1add165bcfc75d82
+59b3
+RECORDED
+Receptor reference
+runs/receptors/30e6695403f7b072cbe436daefa3479f9c8e33ee670590e
+5f04e01d3a7ff0e60.pdbqt
+RECORDED
+Configuration hash
+NOT AVAILABLE
+No sealed configuration.
+NOT AVAILABLE
+Pose hash
+c49f7d5ef53c292a65f29da5923838ef1e5d0f2c4a042e3459aa0c9fae179
+170
+RECORDED
+4. System preparation and assumptions
+Field
+Content
+Status
+Declared heteroatom policy
+docking_vina
+RECORDED
+Waters, metals, and cofactors
+HETATM records removed from the assembly: waters 39, metals 0,
+organic cofactors 0, other species 21. Within 6 Å of the box: removed 32
+water(s), CL A:702 (0.0 Å); retained none. The crystal ligand (DSM
+A:701) was removed as part of the run.
+Preparation removed metals, cofactors, or other species near the site: the docked
+receptor does not contain them. Decide whether they were part of the cavity.
+REVIEW
+Ligand stereochemistry
+FC(F)(F)C[NH2+]Cc1ccccc1
+Isomeric SMILES derived from the saved 3D conformer.
+RECORDED
+Preflight warnings
+REVIEW
+Scientific warnings recorded before execution.
+REVIEW
+Unassessed checks in the previous
+check
+ABSTENTION
+The preflight could not execute these controls. They were not evaluated: that does
+not mean they passed them.
+ABSTENTION
+Human decisions: NOT EVALUATED — no one has reviewed or acknowledged this run's checks.
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 2 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 3 ---
+5. Protocol and run environment
+Field
+Content
+Status
+Docking engine
+vina
+RECORDED
+Engine version
+1.2.7
+RECORDED
+MolDesign version
+1.0.1
+RECORDED
+Code commit
+NOT AVAILABLE
+This run did not declare a verifiable commit (bundle or modified tree).
+NOT AVAILABLE
+CPUs requested for Vina
+4
+RECORDED
+Prepared receptor SHA-256
+30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff
+0e60
+RECORDED
+Input ligand SDF SHA-256
+680cf104e8d0268e11eaef32c731cb79f0331119ebc5f49b3c5ad86ffe6ed
+4e5
+RECORDED
+PDBQT ligand SHA-256
+8efe1b0ab321873f882f4737d1eb3dff756741c479e747ca24cd42b4e647
+3f40
+RECORDED
+Pose SDF SHA-256
+6131119e2272eb427c1eb97c7f81b64a66596900c1f2a71c9b2a825b7b0
+7a79e
+RECORDED
+Log SHA-256
+e6a12bf94ad5a88297ee6ff5e8238302681241ecb8a7dab705b1584dabc
+d391b
+RECORDED
+Receptor preparation recipe
+cde3e715fd357bd60903e848e66001d195d8d31699beef3ee666f26c400
+d0efc
+RECORDED
+Preparation versions
+{"dimorphite_dl": "2.0.2", "meeko": "0.7.1", "rdkit": "2025.9.6", "vina":
+"1.2.7"}
+RECORDED
+Random seed
+42
+RECORDED
+Parser source
+sdf
+RECORDED
+Rescoring model
+universal
+RECORDED
+Declared PRO settings
+{"docking_engine": "vina", "enabled_stages": ["validation", "properties",
+"sa_filter", "conformer", "docking", "xgb", "clgnn"], "gnn_precision":
+"fp32", "pro_anti_targets": [], "pro_mmgbsa": false,
+"pro_mmgbsa_steps": 1000, "pro_parallel_docks": 2, "pro_selectivity":
+true, "pro_workers": 4, "stage_params": {"conformer": {"conformers": 1,
+"ph": 7.4}, "docking": {"exhaustiveness": 8, "num_poses": 9},
+"properties": {"run_admet_ai": false}}}
+RECORDED
+Exhaustiveness
+8
+RECORDED
+Poses requested
+9
+RECORDED
+Fallback reason
+Familia 'transporter' sin modelo entrenado disponible — modelo
+universal usado.
+RECORDED
+Declared error
+NOT AVAILABLE
+This run did not record errors.
+NOT AVAILABLE
+Exhaustiveness declared by the
+case
+8
+Value declared by the case; execution is documented separately.
+RECORDED
+Poses declared by the case
+9
+Value declared by the case; execution is documented separately.
+RECORDED
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 3 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 4 ---
+6. Structural evidence and docking
+Rank
+Affinity (kcal/mol)
+RMSD lower bound
+RMSD upper bound
+1
+-6.95
+0.00
+0.00
+2
+-6.76
+3.22
+4.43
+3
+-6.64
+3.53
+5.23
+4
+-6.54
+3.63
+5.29
+5
+-6.41
+4.68
+6.18
+6
+-6.36
+4.38
+5.61
+7
+-6.30
+4.35
+5.43
+8
+-6.26
+3.90
+5.42
+9
+-6.25
+4.38
+5.66
+Affinities are ranking signals within this protocol, not measurements of free energy. The pose with the best energy is not necessarily the correct
+pose: without a passed geometric check, there is no structural evidence.
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 4 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 5 ---
+7. Pose generation
+Field
+Content
+Status
+Poses generated
+9
+RECORDED
+Poses requested from the engine
+9
+RECORDED
+Exhaustiveness
+8
+RECORDED
+Random seed
+42
+RECORDED
+Reference residues
+15 selected out of 15 in the catalog: A:ALA145, A:ASP75, A:GLY149,
+A:GLY320, A:GLY423, A:LEU319, A:PHE317, A:PHE323, A:PHE72,
+A:SER318, A:SER419, A:SER420 … and 3 more
+RECORDED
+Engine and version
+vina · 1.2.7
+RECORDED
+Conformer generation
+Single conformer (ETKDG + MMFF94)
+RECORDED
+Best observed Vina affinity
+-6.95 kcal/mol
+RECORDED
+Physical validation coverage
+9/9 poses with a verdict
+RECORDED
+Observation · AutoDock Vina
+affinity
+-6.95 kcal/mol (Vina score, untransformed)
+RECORDED
+Interpretation · regression XGBoost
+(pKi)
+pKi 3.56 · equivalent to -4.84 kcal/mol · within the applicability domain
+It is reported TOGETHER the affinity of Vina, not in its place: they are two quantities
+with different error and different domain of validity.
+RECORDED
+Rescoring model and structural
+family
+universal · transporter family
+RECORDED
+Effective M4 stacking weights
+vina=1.0000 | xgb=0.0000 | gnn=0.0000 | clgnn=0.0000
+The normalized weights actually used in this run were persisted.
+RECORDED
+Engine used
+vina
+RECORDED
+RDKit version for canonicalization
+2025.09.6
+RECORDED
+Identity v2 SHA-256
+ac25507fefae3cc4a7fbed2f0246e315d0e97b1880afc11289dbe77b3ea9
+3dcb
+RECORDED
+ligand protonation pH
+7.4
+RECORDED
+Docked species
+REVIEW
+Microstate closest to the one predicted at pH 7.4, out of 2 enumerated. The selection
+is reproducible, but the class-based pKa table does not resolve the population of this
+class. Under review because of protonated amine with an electron-withdrawing group
+one or two bonds from the N (CF3 or CHF2 at β, nitrile at α or β): the group lowers
+the class pKa the table assigns (9.8) by several units; 2,2,2-trifluoroethylamine has
+pKa ≈5.7 and 3-aminopropionitrile ≈7.8, so the charge at pH 7.4 is an open decision.
+Review the species before a free-energy calculation.
+REVIEW
+Ligand tautomer
+The RDKit canonical tautomer was docked; protonation follows the
+declared pH. One enumerable tautomer
+RECORDED
+Ligand efficiency (LE)
+0.535 kcal/mol per heavy atom (13 atoms). Hopkins et al. 2004. It
+depends on size by construction: measured across this project's cohort
+(17,431 molecules), its correlation with atom count is as strong as that of
+the raw score, with the opposite sign.
+RECORDED
+SILE
+3.221 = |affinity| / HA^0.3. Nissink, J. Chem. Inf. Model. 49 (2009) 1617.
+The paper does not publish a threshold, so none is used here.
+RECORDED
+Fit Quality (Vina proxy)
+0.675 = LE / LE_scale(HA), where LE_scale = 0.0715 + 7.5328/HA +
+25.7079/HA² − 361.4722/HA³ (Reynolds, Tounge, Bembenek, J. Med.
+Chem. 51 (2008) 2432, Eq. 1–2). LE_scale used: 0.5808 in pKi units.
+PROXY: the scale was fitted against experimental Ki, not docking
+scores; the conversion uses 1.37 kcal/mol per log unit. FQ ≈ 1 means
+proximity to the efficient frontier of the Reynolds set for that size—it is
+not a probability of binding or pose quality. The scale was capped at
+HA=15: the Reynolds fit covers 15–50 heavy atoms, and this molecule
+falls outside that range, so the value is a bound, not an interpolation.
+RECORDED
+Parameters that the run did not persist appear as NOT EVALUATED with a reason. They are not replaced with values from the case
+configuration: that would describe settings no one saved with this result.
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 5 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 6 ---
+8. Pose selection
+Field
+Content
+Status
+Selection stage status
+SELECTOR ABSTENIDO
+The margin did not reach the threshold: the selector does NOT recommend a pose.
+ABSTENTION
+Product primary pose (Vina top-1)
+#1
+RECORDED
+Pose recommended by the selector
+NOT AVAILABLE
+The selector did not recommend a pose.
+NOT AVAILABLE
+Pose the selector would have
+recommended (abstention)
+#1
+RECORDED
+Selector margin and threshold
+0.081710 (threshold 0.097663)
+RECORDED
+Declared reference
+Vina top-1 as FALLBACK: this is not a selector hit
+When there is no recommendation, Vina top-1 is the default reference.
+REVIEW
+Abstention reason
+MARGEN_BAJO_UMBRAL
+RECORDED
+Selector model
+v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)
+RECORDED
+Model SHA-256
+9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196
+e5d31
+RECORDED
+Model metadata SHA-256
+9ac4e379f9c54aef24acc72fe7e61ffff751a70bf80b751f610bf93f34e4fc96
+RECORDED
+Physically Valid Alternatives
+#1, #2, #3, #4, #5, #6, #7, #8, #9
+They are listed for comparison. NONE is selected automatically.
+RECORDED
+The selector RECOMMENDS; it does not replace. The product's primary pose remains Vina top-1, which is always retained and declared. If the
+selector abstains, is missing, or fails, the reference is Vina top-1 as a FALLBACK—not as a selector success. The confidence margin is the
+distance between the first and second pose according to the model; it is not a probability or a score.
+9. Geometric and physical validation
+Field
+Content
+Status
+Stage verdict
+CHECKS PASSED
+9 of 9 poses received a verdict, and none failed the chemistry or geometry checks.
+Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.
+PASSED
+Validation engine
+posebusters:0.6.5:dock
+RECORDED
+Coverage
+9 of 9 poses
+RECORDED
+Reason code
+NOT AVAILABLE
+The stage did not record a reason code.
+NOT AVAILABLE
+Physical status of the
+recommended pose
+NOT AVAILABLE
+There is no recommended pose, or its physical status was not measured.
+NOT AVAILABLE
+Physical status of the pose the
+selector would have recommended
+passed
+RECORDED
+Verdict by pose
+Pose
+Vina affinity
+(kcal/mol)
+Physical checks
+Selector
+Role
+Failed checks
+#1
+-6.95
+PASSED
+0.3240
+Vina top-1 · Valid
+alternative
+—
+#2
+-6.76
+PASSED
+0.1456
+Valid alternative
+—
+#3
+-6.64
+PASSED
+0.0974
+Valid alternative
+—
+#4
+-6.54
+PASSED
+0.0045
+Valid alternative
+—
+#5
+-6.41
+PASSED
+0.2422
+Valid alternative
+—
+#6
+-6.36
+PASSED
+0.1990
+Valid alternative
+—
+#7
+-6.30
+PASSED
+-0.1868
+Valid alternative
+—
+#8
+-6.26
+PASSED
+0.0277
+Valid alternative
+—
+#9
+-6.25
+PASSED
+-0.1366
+Valid alternative
+—
+Only an explicit PASSED CHECK allows a pose to be called valid. REVIEW describes a check suite that did not run in full, and NOT
+EVALUATED describes a validator that did not run: both describe what happened to the check, never to the molecule, and neither is negative
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 6 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 7 ---
+evidence about the compound.
+10. Physical and geometric checks
+Check
+Observation and protocol
+Status
+Physical and geometric validity
+of the poses
+VALIDEZ_FISICA_POSES
+9 of 9 poses received a verdict, and none failed the chemistry or geometry
+checks. Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.
+Protocolo: Pose reconstruction from PDBQT using the SMILES template, followed by
+geometric validation. The representation used for validation is NOT the crystal structure:
+hydrogens are added during reconstruction.
+Procedencia: eval_result.structural_evidence
+PASSED
+Energy separation between
+poses
+SEPARACION_ENTRE_POSES
+9 poses are within 1 kcal/mol; the pose 1–2 difference is 0.19 kcal/mol. No
+replicates or ensemble were recorded.
+Protocolo: Affinity difference between poses 1 and 2, and the count within ≤1 kcal/mol.
+Procedencia: eval_result.docking_poses
+REVIEW
+Technical reproducibility trace
+TRAZA_REPRODUCIBILIDAD
+3/3 traces: engine version, seed, and parser.
+Protocolo: Presence of the three fields needed to repeat the run.
+Procedencia: eval_result
+RECORDED
+The absence of alerts does not establish validity: a check that did not run appears as NOT EVALUATED and supports no conclusion.
+11. Evidence by dimension
+Check
+Observation and protocol
+Status
+System preparation
+SYSTEM
+The inventory records the prepared receptor, grid, and structural
+references.
+Procedencia: build_evidence_summary
+RECORDED
+Docking signal
+DOCKING
+9 serialized poses; best raw affinity -6.95 kcal/mol · vina 1.2.7.
+Procedencia: build_evidence_summary
+RECORDED
+Pose sampling
+SAMPLING
+9 poses are within 1 kcal/mol; the pose 1–2 difference is 0.19 kcal/mol. No
+replicates or ensemble were recorded.
+Procedencia: build_evidence_summary
+REVIEW
+Technical reproducibility
+REPRODUCIBILITY
+Minimum traces 3/3 (engine version, seed, and parser); reconstruction
+items 7/7. Reconstruction by a third party: not demonstrated.
+Procedencia: build_evidence_summary
+RECORDED
+Physical validity of poses
+PHYSICAL
+9 of 9 poses received a verdict, and none failed the chemistry or geometry
+checks. Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.
+Procedencia: build_evidence_summary
+RECORDED
+Model applicability domain
+MODEL
+universal model; fallback: Familia 'transporter' sin modelo entrenado
+disponible — modelo universal usado. The docking engine and its version
+are listed in the reproducibility trace, not here; they are distinct identities.
+Procedencia: build_evidence_summary
+RECORDED
+Physicochemical descriptors
+PHYSICOCHEMICAL
+Values and rules are reported separately; they do not become a global
+rating.
+Procedencia: build_evidence_summary
+RECORDED
+Selectivity evidence
+SELECTIVITY
+Computational comparison relating to the protocol; it does not demonstrate
+experimental selectivity.
+Procedencia: build_evidence_summary
+REVIEW
+12. Declared assumptions
+• Affinities are interpreted as ranking signals within the protocol, not as experimental free-energy measurements.
+• The best raw pose is identified by serialized affinity order; that order does not demonstrate geometric validity.
+• No preparation, protonation, or minimization steps are attributed to the run unless it recorded them.
+• Desolvated preparation: all crystallographic waters were removed from the receptor. If this target requires conserved bridging
+waters for molecular recognition, this run's contacts and affinities do not include them.
+13. Uncertainties and limitations
+• This receptor has no measured Spearman ρ, and its structural family has no calibrated stacking, so it runs under the shared
+conservative alpha contract. There is no evidence that the ranking correlates with actual affinity here. Treat the result as a
+hypothesis to test, not as a measurement.
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 7 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 8 ---
+• 9 poses are within 1 kcal/mol; selecting a single pose is ambiguous.
+• The pose selector abstained: it did not recommend a pose. The fallback reference is Vina top-1, not a successful selector
+prediction.
+• Meeko-assigned histidine templates: A:178=HIE, A:220=HIE, A:222=HIE, A:228=HIE, A:280=HIE, A:296=HIE, A:370=HIE,
+A:372=HIE, A:441=HIE, A:598=HIE, A:599=HIE, A:613=HIE. The assignment is template-based and does not validate the
+experimental microstate or a specific pH.
+• Desolvated preparation: 23 crystallographic waters were removed from the docking box; 10 had at least 3 contacts within 3.5
+Å of the receptor (the best-coordinated water had 6). If any of these waters participates in recognition by this target—such as
+the catalytic water in HIV-1 protease or the hinge network in some kinases—this run's contacts do not include it.
+• Ligand efficiency LE=0.53. With 13 heavy atoms, the 0.45 threshold is crossed by any affinity better than -5.9 kcal/mol, so
+exceeding it does not distinguish good binding from mediocre binding. In this mass range (< 300 Da, Rule of Three), efficiency
+per atom is high by construction: it can compare molecules of the same size, but cannot serve as a verdict.
+• The docked species differs from the input: FC(F)(F)CNCc1ccccc1 → FC(F)(F)C[NH2+]Cc1ccccc1. Unevaluated alternatives
+remain a source of chemical uncertainty.
+14. Supported interpretation and next steps
+RESOLVE CAVEATS BEFORE COMPARING
+Document the reservations of preparation, domain or reproducibility before comparing this run with others.
+None of these actions claims that the compound is a drug, clinical candidate, or safe compound. They describe what computational work is
+justified by the evidence from this run.
+15. Provenance and verification instructions
+The reproducible package accompanying this dossier includes a `manifest.json` with the role, size, and SHA-256 of each file,
+and a sorted `checksums.sha256` file that detects missing, modified, or added files.
+Unsealed provenance fields in this run: configuracion_sha256, vocabulario_especies.
+How to verify the package without running anything: (1) open the ZIP and read `manifest.json`, which declares each file's
+role, size, and SHA-256, including missing files and their reason; (2) recalculate each file's SHA-256 and compare it with
+`checksums.sha256`; (3) check that no file is missing or extra relative to the manifest. The ZIP itself, `checksums.sha256`, and
+the `manifest.json` entry inside `files` are excluded by design—a file cannot contain its own hash—and the package README
+explains this.
+A correct checksum demonstrates INTEGRITY: the bytes have not changed since the package was created. It does not show that the method
+is suitable, the preparation was correct, or the conclusion is true. Integrity is not scientific validity, and this dossier does not present them as the
+same.
+These hashes let a third party verify that this dossier's conclusions were calculated from the inputs it declares. An on-chain record certifies
+WHEN the document was issued; it does not certify WHAT it was calculated from. Both are necessary; neither replaces the other.
+16. Status glossary
+Status
+Meaning
+NOT DEFINED
+The case did not declare this context.
+NOT EVALUATED
+The control was not evaluated in this run.
+NOT AVAILABLE
+The expected result or artifact is unavailable.
+NOT APPLICABLE
+The control does not apply to this case.
+REVIEW
+Evidence is available, but it does not support a conclusion on its own.
+ABSTENTION
+Required evidence is missing or a declared blocker exists.
+RECORDED
+The data exists and was serialized by the run.
+PASSED
+The control ran and passed.
+Appendix A. Legacy outputs (not for decisions)
+The following indices are calculated by the pipeline for compatibility with earlier reports. They are not decision criteria. They
+are not probability, confidence, or quality measures, and should not be used to compare molecules or prioritize experimental
+work.
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 8 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation
+
+
+--- página 9 ---
+Field
+Content
+Status
+Legacy composite index
+(total_score)
+64.5
+Without formula or published version: it is not interpretable as probability, confidence
+or quality.
+REVIEW
+Legacy affinity index
+89.6
+Without formula or published version: it is not interpretable as probability, confidence
+or quality.
+REVIEW
+Legacy ADME index
+100.0
+Without formula or published version: it is not interpretable as probability, confidence
+or quality.
+REVIEW
+Legacy drug-likeness index
+76.9
+Without formula or published version: it is not interpretable as probability, confidence
+or quality.
+REVIEW
+QA cierre 8HFI · corrida 27c62c96-a890-47f6-b0c1-095dc6801edb
+Page 9 of 9
+MolDesign · computational evidence dossier · not a clinical recommendation

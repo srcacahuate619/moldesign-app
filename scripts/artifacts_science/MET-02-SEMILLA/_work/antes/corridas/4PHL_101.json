@@ -1,0 +1,27 @@
+{
+  "pdb": "4PHL",
+  "semilla": 101,
+  "inicio": "2026-10-23T04:14:22+00:00",
+  "resultado": "auditada",
+  "task_id": "cb9c23b3-09a5-4a9c-a004-a82635075e5c",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:1001 (5.46 Å), MG A:1002 (4.3 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal PIL A:1003",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "f868d72a1fe58883e09dede16979ce098c4fa6bd4b7d733ebc4ec16fbd0d47d5",
+  "afinidad_top1": -8.382,
+  "microestado": "COc1ccc(C(=O)Nc2c(Cl)cncc2Cl)cc1OC1CCCC1",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "28a48718f664603f54b5a5cf5f868df39a4a21a11dfe91d444e6dcd26340ced7",
+  "segundos": 18.9,
+  "fin": "2026-10-23T04:14:41+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

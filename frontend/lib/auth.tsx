@@ -29,7 +29,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
-import { getApiUrl } from "./config";
+import { fetchBackend } from "./backendFetch";
 import { desktopLogin } from "./desktopAuth";
 import { recordarInvitado } from "./traspaso";
 
@@ -190,7 +190,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      const res = await fetch(`${await getApiUrl()}/auth/login`, {
+      const res = await fetchBackend("/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -210,7 +210,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const register = useCallback(
     async (email: string, username: string, password: string) => {
-      const res = await fetch(`${await getApiUrl()}/auth/register`, {
+      const res = await fetchBackend("/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, username, password }),
@@ -230,7 +230,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginWithOAuth = useCallback(
     async (provider: string, id_token: string) => {
-      const res = await fetch(`${await getApiUrl()}/auth/oauth`, {
+      const res = await fetchBackend("/auth/oauth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ provider, id_token }),
@@ -255,15 +255,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (token) {
       const currentToken = token;
       const currentRefresh = refreshToken;
-      void getApiUrl()
-        .then((base) => fetch(`${base}/auth/logout`, {
+      void fetchBackend("/auth/logout", {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${currentToken}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ refresh_token: currentRefresh }),
-        }))
+        })
         .catch(() => {});
     }
     setToken(null);

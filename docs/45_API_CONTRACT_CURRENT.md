@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **116**
-- Operaciones HTTP: **122**
-- Versión declarada: `1.0.1`
-- SHA-256: `475736e130e8b4bc51f3d70ba317137bb482eec5417e56a6faca90b804e6da2c`
+- Paths: **147**
+- Operaciones HTTP: **158**
+- Versión declarada: `1.0.4`
+- SHA-256: `efdb16a448416074518a013509ae4d15d81492d768b0125f64707fe92c44acd3`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -38,6 +38,9 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/ai/models/open-folder` | `open_models_folder_ai_models_open_folder_post` | Open Models Folder | MolChat |
 | `GET` | `/ai/models/recommend-quant` | `recommend_quantization_ai_models_recommend_quant_get` | Recommend Quantization | MolChat |
 | `GET` | `/ai/models/search` | `search_models_ai_models_search_get` | Search Models | MolChat |
+| `GET` | `/ai/proposals/{proposal_id}` | `consultar_propuesta_de_docking_ai_proposals__proposal_id__get` | Consultar Propuesta De Docking | MolChat |
+| `POST` | `/ai/proposals/{proposal_id}/approve` | `aprobar_propuesta_de_docking_ai_proposals__proposal_id__approve_post` | Aprobar Propuesta De Docking | MolChat |
+| `POST` | `/ai/proposals/{proposal_id}/reject` | `rechazar_propuesta_de_docking_ai_proposals__proposal_id__reject_post` | Rechazar Propuesta De Docking | MolChat |
 | `GET` | `/ai/providers` | `list_providers_ai_providers_get` | List Providers | MolChat |
 | `GET` | `/ai/providers/active` | `get_active_provider_ai_providers_active_get` | Get Active Provider | MolChat |
 | `POST` | `/ai/providers/active` | `set_active_provider_ai_providers_active_post` | Set Active Provider | MolChat |
@@ -63,6 +66,8 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/blockchain/health` | `blockchain_health_blockchain_health_get` | Blockchain Health | blockchain |
 | `GET` | `/blockchain/verify/{signature}` | `verify_certification_blockchain_verify__signature__get` | Verify Certification | blockchain |
 | `POST` | `/chem/conformer` | `conformer_endpoint_chem_conformer_post` | Genera estructura 3D | Química computacional |
+| `POST` | `/chem/elevacion` | `elevacion_del_editor_chem_elevacion_post` | Conformador calculado de un SMILES, alineado con su dibujo 2D | Química computacional |
+| `GET` | `/chem/elevacion/{molecule_id}` | `elevacion_de_la_corrida_chem_elevacion__molecule_id__get` | Pose top-1 de una corrida, alineada con su miniatura 2D | Química computacional |
 | `POST` | `/chem/properties` | `properties_endpoint_chem_properties_post` | Calcula propiedades fisicoquímicas | Química computacional |
 | `GET` | `/chem/render/{molecule_id}` | `render_2d_molecule_chem_render__molecule_id__get` | Renderiza molécula en 2D | Química computacional |
 | `POST` | `/chem/validate` | `validate_endpoint_chem_validate_post` | Valida un SMILES | Química computacional |
@@ -95,7 +100,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/evaluation/evaluate` | `evaluate_sync_evaluation_evaluate_post` | Evaluacion sincrona con SSE progress | Evaluación científica |
 | `GET` | `/evaluation/files/complex/{molecule_id}` | `get_complex_file_evaluation_files_complex__molecule_id__get` | Complejo proteína-ligando fusionado (un único PDB para visualización 3D correcta) | Evaluación científica, Evaluación científica |
 | `GET` | `/evaluation/files/poses/{molecule_id}` | `get_pose_file_evaluation_files_poses__molecule_id__get` | Descargar SDF de poses de docking | Evaluación científica, Evaluación científica |
-| `GET` | `/evaluation/files/protein/{molecule_id}` | `get_protein_file_evaluation_files_protein__molecule_id__get` | Descargar PDB del target biológico | Evaluación científica, Evaluación científica |
+| `GET` | `/evaluation/files/protein/{molecule_id}` | `get_protein_file_evaluation_files_protein__molecule_id__get` | Descargar receptor preparado de una corrida | Evaluación científica, Evaluación científica |
 | `GET` | `/evaluation/gnn-attention/{molecule_id}` | `get_gnn_attention_evaluation_gnn_attention__molecule_id__get` | Leer SVG de atención GNN on-demand (UI-7, fuera del polling) | Evaluación científica |
 | `GET` | `/evaluation/interactions/{molecule_id}` | `get_interactions_evaluation_interactions__molecule_id__get` | Get Interactions | Interaction Analysis |
 | `POST` | `/evaluation/preflight` | `evaluation_preflight_evaluation_preflight_post` | Comprobación previa factual de una corrida (no ejecuta docking) | Evaluación científica |
@@ -107,9 +112,40 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/hardware/estimate` | `estimate_time_hardware_estimate_get` | Estimate evaluation time | Meta |
 | `GET` | `/health` | `health_health_get` | Estado integral del sistema | Meta |
 | `GET` | `/history/evaluations` | `list_evaluations_history_evaluations_get` | Listar evaluaciones del usuario | Historial de evaluaciones |
+| `GET` | `/history/receipts/{task_id}` | `get_run_receipt_history_receipts__task_id__get` | Recibo PDF de una corrida conservada | Historial de evaluaciones |
 | `POST` | `/history/save/{molecule_id}` | `save_molecule_history_save__molecule_id__post` | Guardar molécula explícitamente en la cuenta | Historial de evaluaciones |
 | `GET` | `/history/stats` | `get_stats_history_stats_get` | Estadísticas del usuario | Historial de evaluaciones |
+| `GET` | `/molcy/addon` | `estado_addon_molcy_addon_get` | Estado Addon | Molcy |
+| `POST` | `/molcy/addon` | `instalar_addon_molcy_addon_post` | Instalar Addon | Molcy |
+| `GET` | `/molcy/blender` | `estado_blender_molcy_blender_get` | Estado Blender | Molcy |
+| `POST` | `/molcy/blender` | `instalar_blender_molcy_blender_post` | Instalar Blender | Molcy |
+| `POST` | `/molcy/blender/cancelar` | `cancelar_blender_molcy_blender_cancelar_post` | Cancelar Blender | Molcy |
+| `PUT` | `/molcy/configuracion` | `configurar_molcy_configuracion_put` | Configurar | Molcy |
+| `POST` | `/molcy/fotos` | `crear_fotos_molcy_fotos_post` | Crear Fotos | Molcy |
+| `POST` | `/molcy/fotos/estimacion` | `estimacion_foto_molcy_fotos_estimacion_post` | Estimacion Foto | Molcy |
+| `GET` | `/molcy/fuentes` | `fuentes_molcy_fuentes_get` | Fuentes | Molcy |
+| `GET` | `/molcy/recursos` | `recursos_molcy_recursos_get` | Recursos | Molcy |
+| `GET` | `/molcy/renderizador` | `renderizador_molcy_renderizador_get` | Renderizador | Molcy |
+| `GET` | `/molcy/salida` | `salida_actual_molcy_salida_get` | Salida Actual | Molcy |
+| `PUT` | `/molcy/salida` | `fijar_salida_molcy_salida_put` | Fijar Salida | Molcy |
+| `GET` | `/molcy/trabajos` | `trabajos_molcy_trabajos_get` | Trabajos | Molcy |
+| `POST` | `/molcy/trabajos` | `crear_trabajo_molcy_trabajos_post` | Crear Trabajo | Molcy |
+| `DELETE` | `/molcy/trabajos/{job_id}` | `eliminar_molcy_trabajos__job_id__delete` | Eliminar | Molcy |
+| `GET` | `/molcy/trabajos/{job_id}` | `estado_molcy_trabajos__job_id__get` | Estado | Molcy |
+| `POST` | `/molcy/trabajos/{job_id}/acceso` | `acceso_video_molcy_trabajos__job_id__acceso_post` | Acceso Video | Molcy |
+| `POST` | `/molcy/trabajos/{job_id}/cancelar` | `cancelar_molcy_trabajos__job_id__cancelar_post` | Cancelar | Molcy |
+| `GET` | `/molcy/trabajos/{job_id}/fotograma` | `fotograma_molcy_trabajos__job_id__fotograma_get` | Fotograma | Molcy |
+| `POST` | `/molcy/trabajos/{job_id}/fotos` | `tomar_foto_molcy_trabajos__job_id__fotos_post` | Tomar Foto | Molcy |
+| `GET` | `/molcy/trabajos/{job_id}/fotos/{foto_id}` | `foto_molcy_trabajos__job_id__fotos__foto_id__get` | Foto | Molcy |
+| `GET` | `/molcy/trabajos/{job_id}/procedencia` | `procedencia_molcy_trabajos__job_id__procedencia_get` | Procedencia | Molcy |
+| `POST` | `/molcy/trabajos/{job_id}/revelar` | `revelar_molcy_trabajos__job_id__revelar_post` | Revelar | Molcy |
+| `GET` | `/molcy/trabajos/{job_id}/tomas/{fotograma}` | `toma_molcy_trabajos__job_id__tomas__fotograma__get` | Toma | Molcy |
+| `GET` | `/molcy/trabajos/{job_id}/video` | `video_molcy_trabajos__job_id__video_get` | Video | Molcy |
+| `POST` | `/molcy/trabajos/{job_id}/vista` | `vista_previa_molcy_trabajos__job_id__vista_post` | Vista Previa | Molcy |
+| `GET` | `/molcy/trabajos/{job_id}/vistas/{fotograma}` | `vista_molcy_trabajos__job_id__vistas__fotograma__get` | Vista | Molcy |
 | `GET` | `/moldex` | `get_moldex_moldex_get` | Obtiene el catálogo de moléculas evaluadas (Moldex) | Moldex |
+| `GET` | `/moldex/ubicacion` | `ubicacion_de_moldex_moldex_ubicacion_get` | Ubicacion De Moldex | Moldex |
+| `POST` | `/moldex/ubicacion/abrir` | `abrir_ubicacion_de_moldex_moldex_ubicacion_abrir_post` | Abrir Ubicacion De Moldex | Moldex |
 | `POST` | `/pro/admet/{molecule_id}` | `run_admet_endpoint_pro_admet__molecule_id__post` | Perfil ADMET de una molecula ya evaluada, calculado despues del acoplamiento | PRO Features |
 | `GET` | `/pro/anti-targets` | `list_anti_targets_pro_anti_targets_get` | List Anti Targets | PRO Features |
 | `GET` | `/pro/gpu` | `gpu_status_pro_gpu_get` | Gpu Status | PRO Features |

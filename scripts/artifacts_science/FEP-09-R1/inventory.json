@@ -1,0 +1,3463 @@
+{
+  "plb_commit": "fd88824f9114244f95a14b485e6d6c96c1de716d",
+  "rdkit": "2025.09.6",
+  "public_sources": [
+    {
+      "target": "tnks2",
+      "ligand": "lig_7",
+      "category": "especie_del_ligando",
+      "url": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101",
+      "summary": "La incidencia comunica un N de amida sin H y carga negativa en lig_7 frente al resto de la serie; se comprueba su representación en el commit fijado, sin adjudicar su población a pH experimental.",
+      "matched_records": [
+        26
+      ],
+      "opened_on": "2026-10-11"
+    },
+    {
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084935",
+      "category": "estereoquimica_del_ligando",
+      "url": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101",
+      "summary": "La incidencia pregunta por las dos representaciones de estereoquímica de una amina protonada y nombres repetidos. Es una preocupación publicada, no una demostración de que alguna sea incorrecta.",
+      "matched_records": [
+        11
+      ],
+      "opened_on": "2026-10-11"
+    },
+    {
+      "target": "thrombin",
+      "ligand": "lig_7d",
+      "category": "estereoquimica_del_ligando",
+      "url": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101",
+      "summary": "La incidencia pregunta si la medida de lig_7d corresponde a un estereoisómero o una mezcla, ante varias entradas. Se documenta la incertidumbre experimental, sin atribuir un error a los autores.",
+      "matched_records": [],
+      "opened_on": "2026-10-11"
+    },
+    {
+      "target": "tyk2",
+      "ligand": null,
+      "category": "identidad_biologica_fuera_del_catalogo",
+      "url": "https://github.com/openforcefield/protein-ligand-benchmark/issues/112",
+      "summary": "La incidencia propone revisar D1023N respecto al sistema del ensayo. El auditor no declara comparar secuencia y construcción experimental; se mide como límite. La correspondencia de numeración con 4GIH no se ha probado.",
+      "matched_records": [
+        0
+      ],
+      "opened_on": "2026-10-11"
+    }
+  ],
+  "systems": [
+    {
+      "target": "cdk2",
+      "record": 0,
+      "ligand": "lig_20",
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\cdk2\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\cdk2\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "4ac4621d1592644ec5ef81e5309ab90773e7f29335a86f204fceb358e86eb066",
+      "sdf_sha256": "fca06a96a6743773427bb612d3290bae8badf17f6d71f4a8b78bef6c9570a409",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 120,
+        "B": 0
+      },
+      "grid_center": [
+        5.8663,
+        43.854,
+        50.4917
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 2,
+        "TPO": 1,
+        "NME": 2,
+        "HOH": 1
+      }
+    },
+    {
+      "target": "cdk8",
+      "record": 0,
+      "ligand": "lig_40",
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\cdk8\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\cdk8\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "efd9d45669980201db24e40196827b1f3aaec4dbeefab745dddc74d9fd22c8c2",
+      "sdf_sha256": "a8c66f992f58f8b5e242f6eb963fa4ee5b2ccd281561f33d4716bf7ddcfa9d69",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 129,
+        "B": 0
+      },
+      "grid_center": [
+        -4.5079,
+        11.9481,
+        -9.569
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 2,
+        "NME": 2
+      }
+    },
+    {
+      "target": "cmet",
+      "record": 0,
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\cmet\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\cmet\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "51464b15a33d855fd90b434d1c36f9007f633411f04be49ceff0e42237980ded",
+      "sdf_sha256": "7584be23c7fd42d4b26919ae024c0fea386e8b7b4434f23779b0dfcf23c57c7b",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 141
+      },
+      "grid_center": [
+        -19.8288,
+        23.5457,
+        98.1902
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 3
+      }
+    },
+    {
+      "target": "eg5",
+      "record": 0,
+      "ligand": "lig_CHEMBL1084677",
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\eg5\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\eg5\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "1ac4ab31de8128bd8e75d971a98531f81574f5cbed01990a32664c6b35b3f224",
+      "sdf_sha256": "8f15c50aa2c33c508c6d5b690fa11d45643a5e1d8ac5762e5c77fb31baaad8bf",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 143
+      },
+      "grid_center": [
+        27.3319,
+        9.2128,
+        15.2072
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 7
+      }
+    },
+    {
+      "target": "hif2a",
+      "record": 0,
+      "ligand": "lig_231",
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)C2",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\hif2a\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\hif2a\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "69e4945fefb01109fc5736a5ca08996f06089c3135b549215735c4ba991e766d",
+      "sdf_sha256": "8685a375e51ff857f0ce6e03459bf8e221e67e97bde731bd377a7410a19ad60e",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 164,
+        "B": 0
+      },
+      "grid_center": [
+        23.7789,
+        -0.2565,
+        -10.4889
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 2,
+        "NME": 2
+      }
+    },
+    {
+      "target": "mcl1",
+      "record": 0,
+      "ligand": "lig_43",
+      "smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\mcl1\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\mcl1\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "a2805f49f4de73c65cd7914d85dbde3484536d100e6dc413923c30032f7cb827",
+      "sdf_sha256": "178fe912fa0f71b682dd6ec0e93eb9b4dc733396932e5b83ebabdcaeedc416d0",
+      "chain": "B",
+      "chain_contributions_6A": {
+        "B": 115
+      },
+      "grid_center": [
+        66.7065,
+        -32.8845,
+        27.1289
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1
+      }
+    },
+    {
+      "target": "p38",
+      "record": 0,
+      "ligand": "lig_p38a_2r",
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\p38\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\p38\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "f3929abf39fde9a0251b3f449a24bb1bb764a11716caaca10f32cad7fadfb9d0",
+      "sdf_sha256": "5e80777fa229e6ef4e94bdc278502e97d4276a70c2847cababefaa7180c9af0a",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 139
+      },
+      "grid_center": [
+        22.0891,
+        10.7991,
+        31.5223
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 3
+      }
+    },
+    {
+      "target": "pde2",
+      "record": 0,
+      "ligand": "lig_49175789",
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\pde2\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\pde2\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "68440abfaf955ec097a527b4201ddc4769627c55907a35411fbdcd5739d9420a",
+      "sdf_sha256": "50bf2d10236e003dd2f26ae8ef1f38182164e137ce929bc85986b47e235bbe2e",
+      "chain": "D",
+      "chain_contributions_6A": {
+        "D": 130
+      },
+      "grid_center": [
+        27.78,
+        -11.1814,
+        23.3445
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "ZN": 1,
+        "MG": 1,
+        "HOH": 3
+      }
+    },
+    {
+      "target": "pfkfb3",
+      "record": 0,
+      "ligand": "lig_29",
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\pfkfb3\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\pfkfb3\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "3505d5a23327f5b4e5682d589ea541f055aa295b3ddd0e6bd3e738a261912ae6",
+      "sdf_sha256": "796397630afd2f2ce957c5f8b83feb9d5f2e7a7d43b0de573b68df1a3dca5f3f",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 147
+      },
+      "grid_center": [
+        91.8576,
+        49.1921,
+        267.5116
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 17
+      }
+    },
+    {
+      "target": "ptp1b",
+      "record": 0,
+      "ligand": "lig_20667_2qbp",
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\ptp1b\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\ptp1b\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "b0e420eefab878018ade869ab4526b90c13fe9b7baf5c8872e8d6ad162eb0f5c",
+      "sdf_sha256": "8cef2f1147b4dfb15890e7a02bc366f925c7689c7eef6bddda5045e6e03fb52d",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 154
+      },
+      "grid_center": [
+        48.3984,
+        9.8708,
+        3.134
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 4
+      }
+    },
+    {
+      "target": "shp2",
+      "record": 0,
+      "ligand": "lig_E8",
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\shp2\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\shp2\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "62d0a0938835d34774b325c8cb4968d65bff0bdc63e59110e923bda5fcd91bc3",
+      "sdf_sha256": "c52881b0b86c2d25b5043c16e3d4e0b10ea3dcdb21c574781d9fe39a18cbbdd2",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 132
+      },
+      "grid_center": [
+        22.6253,
+        41.2671,
+        4.6637
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 5
+      }
+    },
+    {
+      "target": "syk",
+      "record": 0,
+      "ligand": "lig_CHEMBL3265000",
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\syk\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\syk\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "2b5e5a731083dda506e1a6a5d2f4adcc8f1c5038f31251cd545e146c6fcdc746",
+      "sdf_sha256": "fbe0d2a3bd0ac00f5299755eb9a9819a4816caeeb2826ead9c41384d356ae84e",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 125
+      },
+      "grid_center": [
+        -1.1664,
+        2.2652,
+        13.2216
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 2
+      }
+    },
+    {
+      "target": "thrombin",
+      "record": 0,
+      "ligand": "lig_4",
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\thrombin\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\thrombin\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "6eaf85bb77617904996d02aee17ec4532d4398b7b693652f8bbeb0e2c454fe78",
+      "sdf_sha256": "efb1b7d073db1bd10cd6621a284debdc79f33115cdb5c2fa9208f360cfdc616c",
+      "chain": "H",
+      "chain_contributions_6A": {
+        "H": 132,
+        "L": 0
+      },
+      "grid_center": [
+        16.441,
+        -12.5175,
+        22.6462
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 2,
+        "NME": 2,
+        "HOH": 3
+      }
+    },
+    {
+      "target": "tnks2",
+      "record": 0,
+      "ligand": "lig_8c",
+      "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\tnks2\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\tnks2\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "d05818b8bf5480dde9074c9cf882698b8d7612640a41b6f87734254ab75c8974",
+      "sdf_sha256": "e40155c08628db3c99e2e065f0836e6e2da83cf38a67ac38f9da789ee2398bb3",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 114,
+        "C": 12
+      },
+      "grid_center": [
+        -39.007,
+        -12.0365,
+        10.9845
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 2,
+        "NME": 2,
+        "ZN": 1,
+        "HOH": 5
+      }
+    },
+    {
+      "target": "tyk2",
+      "record": 0,
+      "ligand": "lig_ejm_54",
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "pdb_path": "E:\\MolDesign-science\\openff-plb\\data\\tyk2\\01_protein\\crd\\protein.pdb",
+      "sdf_path": "E:\\MolDesign-science\\openff-plb\\data\\tyk2\\02_ligands\\ligands.sdf",
+      "pdb_sha256": "67c5f85705f8a6d4467c3720281dc2a5d858023054960bf16c7501c63e2198fb",
+      "sdf_sha256": "e87f433472769f5549277c93f284b62914fbd51715c02db08081ae48c893d62e",
+      "chain": "A",
+      "chain_contributions_6A": {
+        "A": 111
+      },
+      "grid_center": [
+        -7.9711,
+        -8.6804,
+        -16.9549
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "hetero_residues": {
+        "ACE": 1,
+        "NME": 1,
+        "HOH": 2
+      }
+    }
+  ],
+  "excluded": [
+    {
+      "target": "bace",
+      "reason": "falta receptor o SDF en rutas prescritas"
+    },
+    {
+      "target": "bace_hunt",
+      "reason": "falta receptor o SDF en rutas prescritas"
+    },
+    {
+      "target": "bace_p2",
+      "reason": "falta receptor o SDF en rutas prescritas"
+    },
+    {
+      "target": "galectin",
+      "reason": "falta receptor o SDF en rutas prescritas"
+    },
+    {
+      "target": "jnk1",
+      "reason": "falta receptor o SDF en rutas prescritas"
+    },
+    {
+      "target": "pde10",
+      "reason": "falta receptor o SDF en rutas prescritas"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "cdk2__baseline__0",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk2__baseline__1",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk2__baseline__2",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk2__seriales_renumerados__0",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk2__hueco_en_el_sitio__0",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "79",
+            "",
+            "VAL"
+          ],
+          [
+            "A",
+            "80",
+            "",
+            "PHE"
+          ],
+          [
+            "A",
+            "81",
+            "",
+            "GLU"
+          ]
+        ],
+        "distance_to_reference_A": 2.7695,
+        "flank_distance_A": 4.5905,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 9.7906
+      },
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk2__hueco_lejano__0",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "229",
+            "",
+            "GLY"
+          ],
+          [
+            "A",
+            "230",
+            "",
+            "VAL"
+          ],
+          [
+            "A",
+            "231",
+            "",
+            "THR"
+          ]
+        ],
+        "distance_to_reference_A": 31.6616,
+        "flank_distance_A": 35.5064,
+        "distance_to_box_A": 24.7493,
+        "c_n_after_cut_A": 7.242
+      },
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk2__agua_puente_retirada__0",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "2117",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 3.0928,
+        "distance_to_protein_polar_A": 3.1969
+      },
+      "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk2__tautomero_alternativo_proxy__0",
+      "target": "cdk2",
+      "ligand": "lig_20",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 249,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "OCc1cccc(N=c2[nH]c3ncnc-3c(OCC3CCCCC3)[nH]2)c1",
+      "baseline_id": "cdk2__baseline__0"
+    },
+    {
+      "case_id": "cdk8__baseline__0",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__baseline__1",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__baseline__2",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__seriales_renumerados__0",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__hueco_en_el_sitio__0",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "173",
+            "",
+            "ASP"
+          ],
+          [
+            "A",
+            "174",
+            "",
+            "MET"
+          ],
+          [
+            "A",
+            "175",
+            "",
+            "GLY"
+          ]
+        ],
+        "distance_to_reference_A": 2.8262,
+        "flank_distance_A": 4.6222,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 9.0234
+      },
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__hueco_lejano__0",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "285",
+            "",
+            "ARG"
+          ],
+          [
+            "A",
+            "286",
+            "",
+            "ASN"
+          ],
+          [
+            "A",
+            "287",
+            "",
+            "THR"
+          ]
+        ],
+        "distance_to_reference_A": 33.0767,
+        "flank_distance_A": 33.906,
+        "distance_to_box_A": 24.1199,
+        "c_n_after_cut_A": 5.5305
+      },
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__protonacion_del_sitio__0",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "A",
+      "category": "protonacion_del_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "protonate_acid",
+        "residue": [
+          "A",
+          "173",
+          "",
+          "ASP"
+        ],
+        "oxygen": "OD2",
+        "distance_to_reference_A": 2.8262
+      },
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__tautomero_alternativo_proxy__0",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 358,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "Cn1cc(-c2ccc(CC3=NN=C4C=CC(C(=O)N5CC[NH2+]CC5)C=C43)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cdk8__especie_opuesta_proxy__0",
+      "target": "cdk8",
+      "ligand": "lig_40",
+      "arm": "A",
+      "category": "especie_opuesta_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 23,
+        "class": "amina_alifatica",
+        "source": "estado opuesto al archivo de curadores; pKa individual no verificado"
+      },
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CCNCC5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline__0"
+    },
+    {
+      "case_id": "cmet__baseline__0",
+      "target": "cmet",
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "baseline_id": "cmet__baseline__0"
+    },
+    {
+      "case_id": "cmet__baseline__1",
+      "target": "cmet",
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "baseline_id": "cmet__baseline__0"
+    },
+    {
+      "case_id": "cmet__baseline__2",
+      "target": "cmet",
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "baseline_id": "cmet__baseline__0"
+    },
+    {
+      "case_id": "cmet__seriales_renumerados__0",
+      "target": "cmet",
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "baseline_id": "cmet__baseline__0"
+    },
+    {
+      "case_id": "cmet__hueco_en_el_sitio__0",
+      "target": "cmet",
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "1158",
+            "",
+            "PRO"
+          ],
+          [
+            "A",
+            "1159",
+            "",
+            "TYR"
+          ],
+          [
+            "A",
+            "1160",
+            "",
+            "MET"
+          ]
+        ],
+        "distance_to_reference_A": 2.9012,
+        "flank_distance_A": 4.5697,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 9.7928
+      },
+      "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "baseline_id": "cmet__baseline__0"
+    },
+    {
+      "case_id": "cmet__agua_puente_retirada__0",
+      "target": "cmet",
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "1611",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 2.9969,
+        "distance_to_protein_polar_A": 2.8261
+      },
+      "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "baseline_id": "cmet__baseline__0"
+    },
+    {
+      "case_id": "cmet__tautomero_alternativo_proxy__0",
+      "target": "cmet",
+      "ligand": "lig_CHEMBL3402745_200_5",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 608,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "CCOC(O)=Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+      "baseline_id": "cmet__baseline__0"
+    },
+    {
+      "case_id": "eg5__baseline__0",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__baseline__1",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__baseline__2",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__seriales_renumerados__0",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__hueco_en_el_sitio__0",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "116",
+            "",
+            "GLU"
+          ],
+          [
+            "A",
+            "117",
+            "",
+            "GLY"
+          ],
+          [
+            "A",
+            "118",
+            "",
+            "GLU"
+          ]
+        ],
+        "distance_to_reference_A": 2.7741,
+        "flank_distance_A": 4.195,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 10.9692
+      },
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__hueco_lejano__0",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "277",
+            "",
+            "ALA"
+          ],
+          [
+            "A",
+            "278",
+            "",
+            "VAL"
+          ],
+          [
+            "A",
+            "279",
+            "",
+            "ASP"
+          ]
+        ],
+        "distance_to_reference_A": 31.4636,
+        "flank_distance_A": 32.895,
+        "distance_to_box_A": 24.3329,
+        "c_n_after_cut_A": 5.9821
+      },
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__protonacion_del_sitio__0",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "A",
+      "category": "protonacion_del_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "protonate_acid",
+        "residue": [
+          "A",
+          "116",
+          "",
+          "GLU"
+        ],
+        "oxygen": "OE2",
+        "distance_to_reference_A": 3.1824
+      },
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__estereo_sin_asignar__0",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 4
+      },
+      "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@H]2C(c3ccccc3)Nc3ccc(C(F)(F)F)cc3[C@H]2O1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "eg5__especie_opuesta_proxy__0",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084677",
+      "arm": "A",
+      "category": "especie_opuesta_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 26,
+        "class": "amina_alifatica",
+        "source": "estado opuesto al archivo de curadores; pKa individual no verificado"
+      },
+      "smiles": "CNCCS(=O)(=O)NC[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": "eg5__baseline__0"
+    },
+    {
+      "case_id": "hif2a__baseline__0",
+      "target": "hif2a",
+      "ligand": "lig_231",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)C2",
+      "baseline_id": "hif2a__baseline__0"
+    },
+    {
+      "case_id": "hif2a__baseline__1",
+      "target": "hif2a",
+      "ligand": "lig_231",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)C2",
+      "baseline_id": "hif2a__baseline__0"
+    },
+    {
+      "case_id": "hif2a__baseline__2",
+      "target": "hif2a",
+      "ligand": "lig_231",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)C2",
+      "baseline_id": "hif2a__baseline__0"
+    },
+    {
+      "case_id": "hif2a__seriales_renumerados__0",
+      "target": "hif2a",
+      "ligand": "lig_231",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)C2",
+      "baseline_id": "hif2a__baseline__0"
+    },
+    {
+      "case_id": "hif2a__hueco_en_el_sitio__0",
+      "target": "hif2a",
+      "ligand": "lig_231",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "293",
+            "",
+            "HIS"
+          ],
+          [
+            "A",
+            "294",
+            "",
+            "GLN"
+          ],
+          [
+            "A",
+            "295",
+            "",
+            "ASN"
+          ]
+        ],
+        "distance_to_reference_A": 2.8556,
+        "flank_distance_A": 3.7263,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 3.952
+      },
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)C2",
+      "baseline_id": "hif2a__baseline__0"
+    },
+    {
+      "case_id": "hif2a__protonacion_del_sitio__0",
+      "target": "hif2a",
+      "ligand": "lig_231",
+      "arm": "A",
+      "category": "protonacion_del_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "flip_histidine",
+        "residue": [
+          "A",
+          "293",
+          "",
+          "HIS"
+        ],
+        "hydrogen": "HE2",
+        "distance_to_reference_A": 2.8556
+      },
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)C2",
+      "baseline_id": "hif2a__baseline__0"
+    },
+    {
+      "case_id": "hif2a__estereo_sin_asignar__0",
+      "target": "hif2a",
+      "ligand": "lig_231",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 1
+      },
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1C(O)[C@H](F)C2",
+      "baseline_id": "hif2a__baseline__0"
+    },
+    {
+      "case_id": "mcl1__baseline__0",
+      "target": "mcl1",
+      "ligand": "lig_43",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "baseline_id": "mcl1__baseline__0"
+    },
+    {
+      "case_id": "mcl1__baseline__1",
+      "target": "mcl1",
+      "ligand": "lig_43",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "baseline_id": "mcl1__baseline__0"
+    },
+    {
+      "case_id": "mcl1__baseline__2",
+      "target": "mcl1",
+      "ligand": "lig_43",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "baseline_id": "mcl1__baseline__0"
+    },
+    {
+      "case_id": "mcl1__seriales_renumerados__0",
+      "target": "mcl1",
+      "ligand": "lig_43",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "baseline_id": "mcl1__baseline__0"
+    },
+    {
+      "case_id": "mcl1__hueco_en_el_sitio__0",
+      "target": "mcl1",
+      "ligand": "lig_43",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "B",
+            "263",
+            "",
+            "ARG"
+          ],
+          [
+            "B",
+            "264",
+            "",
+            "ILE"
+          ],
+          [
+            "B",
+            "265",
+            "",
+            "VAL"
+          ]
+        ],
+        "distance_to_reference_A": 2.9356,
+        "flank_distance_A": 5.5083,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 4.1811
+      },
+      "smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "baseline_id": "mcl1__baseline__0"
+    },
+    {
+      "case_id": "mcl1__tautomero_alternativo_proxy__0",
+      "target": "mcl1",
+      "ligand": "lig_43",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 750,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "[O-]C(O)=C1N=c2ccccc2=C1CCCOc1ccc2ccccc2c1",
+      "baseline_id": "mcl1__baseline__0"
+    },
+    {
+      "case_id": "mcl1__especie_opuesta_proxy__0",
+      "target": "mcl1",
+      "ligand": "lig_43",
+      "arm": "A",
+      "category": "especie_opuesta_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 25,
+        "class": "carboxilato",
+        "source": "estado opuesto al archivo de curadores; pKa individual no verificado"
+      },
+      "smiles": "O=C(O)c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "baseline_id": "mcl1__baseline__0"
+    },
+    {
+      "case_id": "p38__baseline__0",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "p38__baseline__1",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "p38__baseline__2",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "p38__seriales_renumerados__0",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "p38__hueco_en_el_sitio__0",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "30",
+            "",
+            "VAL"
+          ],
+          [
+            "A",
+            "31",
+            "",
+            "GLY"
+          ],
+          [
+            "A",
+            "32",
+            "",
+            "SER"
+          ]
+        ],
+        "distance_to_reference_A": 2.6828,
+        "flank_distance_A": 3.9535,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 9.5665
+      },
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "p38__hueco_lejano__0",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "242",
+            "",
+            "PRO"
+          ],
+          [
+            "A",
+            "243",
+            "",
+            "GLY"
+          ],
+          [
+            "A",
+            "244",
+            "",
+            "ALA"
+          ]
+        ],
+        "distance_to_reference_A": 35.6302,
+        "flank_distance_A": 36.4674,
+        "distance_to_box_A": 20.3917,
+        "c_n_after_cut_A": 9.2903
+      },
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "p38__agua_puente_retirada__0",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "1154",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 2.9149,
+        "distance_to_protein_polar_A": 2.8783
+      },
+      "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "p38__tautomero_alternativo_proxy__0",
+      "target": "p38",
+      "ligand": "lig_p38a_2r",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 251,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "CC(C)(O)Cn1c2nc(=NC3CCOCC3)ncc-2cc(Oc2ccc(F)cc2F)c1O",
+      "baseline_id": "p38__baseline__0"
+    },
+    {
+      "case_id": "pde2__baseline__0",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__baseline__1",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__baseline__2",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__seriales_renumerados__0",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__hueco_en_el_sitio__0",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "D",
+            "767",
+            "",
+            "ALA"
+          ],
+          [
+            "D",
+            "768",
+            "",
+            "THR"
+          ],
+          [
+            "D",
+            "769",
+            "",
+            "ASP"
+          ]
+        ],
+        "distance_to_reference_A": 3.0667,
+        "flank_distance_A": 3.3839,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 7.2324
+      },
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__hueco_lejano__0",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "D",
+            "587",
+            "",
+            "HIS"
+          ],
+          [
+            "D",
+            "588",
+            "",
+            "ASP"
+          ],
+          [
+            "D",
+            "589",
+            "",
+            "GLY"
+          ]
+        ],
+        "distance_to_reference_A": 32.1743,
+        "flank_distance_A": 32.5261,
+        "distance_to_box_A": 17.5209,
+        "c_n_after_cut_A": 6.4093
+      },
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__metal_o_cofactor_retirado__0",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "A",
+      "category": "metal_o_cofactor_retirado",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "D",
+            "1001",
+            "",
+            "ZN"
+          ]
+        ],
+        "distance_to_reference_A": 5.4035
+      },
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__agua_puente_retirada__0",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "D",
+            "2111",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 3.1227,
+        "distance_to_protein_polar_A": 3.036
+      },
+      "smiles": "CCCCOc1ccc(Cl)c(-c2nnc3c(C)nc4ccc(CN5CCOCC5)cc4n23)c1",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pde2__tautomero_alternativo_proxy__0",
+      "target": "pde2",
+      "ligand": "lig_49175789",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 601,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "C=C1Nc2ccc(CN3CCOCC3)cc2-n2c1nnc2-c1cc(OCCCC)ccc1Cl",
+      "baseline_id": "pde2__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__baseline__0",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__baseline__1",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__baseline__2",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__seriales_renumerados__0",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__hueco_en_el_sitio__0",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "163",
+            "",
+            "ASN"
+          ],
+          [
+            "A",
+            "164",
+            "",
+            "ILE"
+          ],
+          [
+            "A",
+            "165",
+            "",
+            "MET"
+          ]
+        ],
+        "distance_to_reference_A": 2.9447,
+        "flank_distance_A": 5.9313,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 4.1659
+      },
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__hueco_lejano__0",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "2",
+            "",
+            "LEU"
+          ],
+          [
+            "A",
+            "3",
+            "",
+            "GLU"
+          ],
+          [
+            "A",
+            "4",
+            "",
+            "LEU"
+          ]
+        ],
+        "distance_to_reference_A": 43.5493,
+        "flank_distance_A": 45.2648,
+        "distance_to_box_A": 33.5452,
+        "c_n_after_cut_A": 10.8196
+      },
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__agua_puente_retirada__0",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "702",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 2.6365,
+        "distance_to_protein_polar_A": 2.9999
+      },
+      "smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "pfkfb3__tautomero_alternativo_proxy__0",
+      "target": "pfkfb3",
+      "ligand": "lig_29",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 601,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "Cn1ccc2ccc(-c3cc(=Nc4ccccc4S(C)(=O)=O)cc4[nH]ccnc3-4)cc21",
+      "baseline_id": "pfkfb3__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__baseline__0",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__baseline__1",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__baseline__2",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__seriales_renumerados__0",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__hueco_en_el_sitio__0",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "257",
+            "",
+            "ARG"
+          ],
+          [
+            "A",
+            "258",
+            "",
+            "MET"
+          ],
+          [
+            "A",
+            "259",
+            "",
+            "GLY"
+          ]
+        ],
+        "distance_to_reference_A": 2.9595,
+        "flank_distance_A": 5.4496,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 8.3013
+      },
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__hueco_lejano__0",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "164",
+            "",
+            "THR"
+          ],
+          [
+            "A",
+            "165",
+            "",
+            "THR"
+          ],
+          [
+            "A",
+            "166",
+            "",
+            "GLN"
+          ]
+        ],
+        "distance_to_reference_A": 33.749,
+        "flank_distance_A": 34.2881,
+        "distance_to_box_A": 20.3584,
+        "c_n_after_cut_A": 6.3238
+      },
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__agua_puente_retirada__0",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "832",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 2.6693,
+        "distance_to_protein_polar_A": 2.8741
+      },
+      "smiles": "O=C([O-])COc1c(C(=O)[O-])sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__tautomero_alternativo_proxy__0",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 605,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "O=C([O-])c1sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c(Br)c1OC=C([O-])O",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "ptp1b__especie_opuesta_proxy__0",
+      "target": "ptp1b",
+      "ligand": "lig_20667_2qbp",
+      "arm": "A",
+      "category": "especie_opuesta_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 30,
+        "class": "carboxilato",
+        "source": "estado opuesto al archivo de curadores; pKa individual no verificado"
+      },
+      "smiles": "O=C([O-])COc1c(C(=O)O)sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c1Br",
+      "baseline_id": "ptp1b__baseline__0"
+    },
+    {
+      "case_id": "shp2__baseline__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__baseline__1",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__baseline__2",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__seriales_renumerados__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__hueco_en_el_sitio__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "108",
+            "",
+            "THR"
+          ],
+          [
+            "A",
+            "109",
+            "",
+            "SER"
+          ],
+          [
+            "A",
+            "110",
+            "",
+            "GLU"
+          ]
+        ],
+        "distance_to_reference_A": 2.6075,
+        "flank_distance_A": 4.6231,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 6.9769
+      },
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__hueco_lejano__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "407",
+            "",
+            "GLY"
+          ],
+          [
+            "A",
+            "408",
+            "",
+            "GLN"
+          ],
+          [
+            "A",
+            "409",
+            "",
+            "GLY"
+          ]
+        ],
+        "distance_to_reference_A": 43.896,
+        "flank_distance_A": 46.1833,
+        "distance_to_box_A": 31.3747,
+        "c_n_after_cut_A": 8.5358
+      },
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__agua_puente_retirada__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "928",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 3.186,
+        "distance_to_protein_polar_A": 2.8898
+      },
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__protonacion_del_sitio__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "A",
+      "category": "protonacion_del_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "flip_histidine",
+        "residue": [
+          "A",
+          "114",
+          "",
+          "HIS"
+        ],
+        "hydrogen": "HD1",
+        "distance_to_reference_A": 3.3808
+      },
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__tautomero_alternativo_proxy__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 350,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(=N)[nH]2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "shp2__especie_opuesta_proxy__0",
+      "target": "shp2",
+      "ligand": "lig_E8",
+      "arm": "A",
+      "category": "especie_opuesta_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 21,
+        "class": "amina_alifatica",
+        "source": "estado opuesto al archivo de curadores; pKa individual no verificado"
+      },
+      "smiles": "CC1(CN)CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "baseline_id": "shp2__baseline__0"
+    },
+    {
+      "case_id": "syk__baseline__0",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "syk__baseline__1",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "syk__baseline__2",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "syk__seriales_renumerados__0",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "syk__hueco_en_el_sitio__0",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "455",
+            "",
+            "PRO"
+          ],
+          [
+            "A",
+            "456",
+            "",
+            "LEU"
+          ],
+          [
+            "A",
+            "457",
+            "",
+            "ASN"
+          ]
+        ],
+        "distance_to_reference_A": 3.0423,
+        "flank_distance_A": 4.9451,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 6.6196
+      },
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "syk__hueco_lejano__0",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "632",
+            "",
+            "ASP"
+          ],
+          [
+            "A",
+            "633",
+            "",
+            "VAL"
+          ],
+          [
+            "A",
+            "634",
+            "",
+            "VAL"
+          ]
+        ],
+        "distance_to_reference_A": 26.0294,
+        "flank_distance_A": 29.6413,
+        "distance_to_box_A": 15.8324,
+        "c_n_after_cut_A": 4.0038
+      },
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "syk__agua_puente_retirada__0",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "835",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 3.111,
+        "distance_to_protein_polar_A": 2.8697
+      },
+      "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "syk__tautomero_alternativo_proxy__0",
+      "target": "syk",
+      "ligand": "lig_CHEMBL3265000",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 708,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "COc1ccc(N=c2[nH]c(-c3cccc(C(=O)N=C4C=CC(=C(O)[N-]S(C)(=O)=O)C=C4)c3)cn3ccnc23)cc1OC",
+      "baseline_id": "syk__baseline__0"
+    },
+    {
+      "case_id": "thrombin__baseline__0",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__baseline__1",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__baseline__2",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__seriales_renumerados__0",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__hueco_en_el_sitio__0",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "H",
+            "216",
+            "",
+            "GLY"
+          ],
+          [
+            "H",
+            "217",
+            "",
+            "GLU"
+          ],
+          [
+            "H",
+            "219",
+            "",
+            "GLY"
+          ]
+        ],
+        "distance_to_reference_A": 2.4731,
+        "flank_distance_A": 3.5551,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 8.4729
+      },
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__protonacion_del_sitio__0",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "A",
+      "category": "protonacion_del_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "protonate_acid",
+        "residue": [
+          "H",
+          "189",
+          "",
+          "ASP"
+        ],
+        "oxygen": "OD2",
+        "distance_to_reference_A": 2.6878
+      },
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__tautomero_alternativo_proxy__0",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 503,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "NC(=[NH2+])c1ccc(CNC(O)=C2CCCN2C(O)=C([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__estereo_sin_asignar__0",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 2
+      },
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)C2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "thrombin__especie_opuesta_proxy__0",
+      "target": "thrombin",
+      "ligand": "lig_4",
+      "arm": "A",
+      "category": "especie_opuesta_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 9,
+        "class": "amina_alifatica",
+        "source": "estado opuesto al archivo de curadores; pKa individual no verificado"
+      },
+      "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H](N)Cc2ccccc2)cc1",
+      "baseline_id": "thrombin__baseline__0"
+    },
+    {
+      "case_id": "tnks2__baseline__0",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__baseline__1",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__baseline__2",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__seriales_renumerados__0",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__hueco_en_el_sitio__0",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "1066",
+            "",
+            "SER"
+          ],
+          [
+            "A",
+            "1067",
+            "",
+            "LYS"
+          ],
+          [
+            "A",
+            "1068",
+            "",
+            "SER"
+          ]
+        ],
+        "distance_to_reference_A": 2.8863,
+        "flank_distance_A": 5.8363,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 4.1316
+      },
+      "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__cadena_del_sitio_ausente__0",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "A",
+      "category": "cadena_del_sitio_ausente",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_chain",
+        "chain": "C",
+        "atoms_within_6A": 12
+      },
+      "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__tautomero_alternativo_proxy__0",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 600,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "Oc1nc(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__especie_opuesta_proxy__0",
+      "target": "tnks2",
+      "ligand": "lig_8c",
+      "arm": "A",
+      "category": "especie_opuesta_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 17,
+        "class": "amina_alifatica",
+        "source": "estado opuesto al archivo de curadores; pKa individual no verificado"
+      },
+      "smiles": "O=c1[nH]c(-c2ccc(C3CCNCC3)cc2)nc2c(F)cc(F)cc12",
+      "baseline_id": "tnks2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__baseline__0",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 0,
+      "defect": {},
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__baseline__1",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 1,
+      "defect": {},
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__baseline__2",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "B",
+      "category": "baseline",
+      "repeat": 2,
+      "defect": {},
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__seriales_renumerados__0",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "B",
+      "category": "seriales_renumerados",
+      "repeat": 0,
+      "defect": {
+        "operation": "renumber_serials"
+      },
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__hueco_en_el_sitio__0",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "A",
+      "category": "hueco_en_el_sitio",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "979",
+            "",
+            "GLU"
+          ],
+          [
+            "A",
+            "980",
+            "",
+            "TYR"
+          ],
+          [
+            "A",
+            "981",
+            "",
+            "VAL"
+          ]
+        ],
+        "distance_to_reference_A": 3.0095,
+        "flank_distance_A": 5.0421,
+        "distance_to_box_A": 0.0,
+        "c_n_after_cut_A": 9.9383
+      },
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__hueco_lejano__0",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "B",
+      "category": "hueco_lejano",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "1155",
+            "",
+            "GLU"
+          ],
+          [
+            "A",
+            "1156",
+            "",
+            "ALA"
+          ],
+          [
+            "A",
+            "1157",
+            "",
+            "SER"
+          ]
+        ],
+        "distance_to_reference_A": 25.8063,
+        "flank_distance_A": 27.5167,
+        "distance_to_box_A": 18.2206,
+        "c_n_after_cut_A": 6.8991
+      },
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__agua_puente_retirada__0",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "A",
+      "category": "agua_puente_retirada",
+      "repeat": 0,
+      "defect": {
+        "operation": "remove_residues",
+        "residues": [
+          [
+            "A",
+            "1325",
+            "",
+            "HOH"
+          ]
+        ],
+        "distance_to_reference_A": 3.2273,
+        "distance_to_protein_polar_A": 3.0763
+      },
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tyk2__tautomero_alternativo_proxy__0",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "A",
+      "category": "tautomero_alternativo_proxy",
+      "repeat": 0,
+      "defect": {
+        "operation": "replace_smiles",
+        "rdkit_score": 358,
+        "source": "RDKit TautomerEnumerator; no demuestra minoría"
+      },
+      "smiles": "CCN=C(O)N=c1cc(N=C(O)c2c(Cl)cccc2Cl)cc[nH]1",
+      "baseline_id": "tyk2__baseline__0"
+    },
+    {
+      "case_id": "tnks2__public__26",
+      "target": "tnks2",
+      "ligand": "lig_7",
+      "arm": "C",
+      "category": "especie_del_ligando",
+      "repeat": 0,
+      "defect": {
+        "source": {
+          "target": "tnks2",
+          "ligand": "lig_7",
+          "category": "especie_del_ligando",
+          "url": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101",
+          "summary": "La incidencia comunica un N de amida sin H y carga negativa en lig_7 frente al resto de la serie; se comprueba su representación en el commit fijado, sin adjudicar su población a pH experimental.",
+          "matched_records": [
+            26
+          ],
+          "opened_on": "2026-10-11"
+        }
+      },
+      "smiles": "CC(C)(O)c1ccc(-c2nc3ccc(F)cc3c(=O)[nH]2)nc1",
+      "baseline_id": null
+    },
+    {
+      "case_id": "eg5__public__11",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084935",
+      "arm": "C",
+      "category": "estereoquimica_del_ligando",
+      "repeat": 0,
+      "defect": {
+        "source": {
+          "target": "eg5",
+          "ligand": "lig_CHEMBL1084935",
+          "category": "estereoquimica_del_ligando",
+          "url": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101",
+          "summary": "La incidencia pregunta por las dos representaciones de estereoquímica de una amina protonada y nombres repetidos. Es una preocupación publicada, no una demostración de que alguna sea incorrecta.",
+          "matched_records": [
+            11
+          ],
+          "opened_on": "2026-10-11"
+        }
+      },
+      "smiles": "CC[N@H+](CCO)C[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(C)(C)C)ccc1N[C@H]2c1ccccc1",
+      "baseline_id": null
+    },
+    {
+      "case_id": "tyk2__public__0",
+      "target": "tyk2",
+      "ligand": "lig_ejm_54",
+      "arm": "C",
+      "category": "identidad_biologica_fuera_del_catalogo",
+      "repeat": 0,
+      "defect": {
+        "source": {
+          "target": "tyk2",
+          "ligand": null,
+          "category": "identidad_biologica_fuera_del_catalogo",
+          "url": "https://github.com/openforcefield/protein-ligand-benchmark/issues/112",
+          "summary": "La incidencia propone revisar D1023N respecto al sistema del ensayo. El auditor no declara comparar secuencia y construcción experimental; se mide como límite. La correspondencia de numeración con 4GIH no se ha probado.",
+          "matched_records": [
+            0
+          ],
+          "opened_on": "2026-10-11"
+        }
+      },
+      "smiles": "CCNC(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": null
+    },
+    {
+      "case_id": "cdk8__baseline_estereo__1",
+      "target": "cdk8",
+      "ligand": "lig_30",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 1,
+      "defect": {},
+      "record": 1,
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[C@H](O)C5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline_estereo__1"
+    },
+    {
+      "case_id": "cdk8__estereo_sin_asignar__1",
+      "target": "cdk8",
+      "ligand": "lig_30",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 1,
+      "record": 1,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 1,
+        "record": 1
+      },
+      "smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CCC(O)C5)cc34)cc2)cn1",
+      "baseline_id": "cdk8__baseline_estereo__1"
+    },
+    {
+      "case_id": "cdk8__baseline_estereo__2",
+      "target": "cdk8",
+      "ligand": "lig_42",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 2,
+      "defect": {},
+      "record": 2,
+      "smiles": "Cn1ncc2cc(Cc3n[nH]c4ccc(C(=O)N5CC[C@H](O)C5)cc34)ccc21",
+      "baseline_id": "cdk8__baseline_estereo__2"
+    },
+    {
+      "case_id": "cdk8__estereo_sin_asignar__2",
+      "target": "cdk8",
+      "ligand": "lig_42",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 2,
+      "record": 2,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 1,
+        "record": 2
+      },
+      "smiles": "Cn1ncc2cc(Cc3n[nH]c4ccc(C(=O)N5CCC(O)C5)cc34)ccc21",
+      "baseline_id": "cdk8__baseline_estereo__2"
+    },
+    {
+      "case_id": "cdk8__baseline_estereo__5",
+      "target": "cdk8",
+      "ligand": "lig_13",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 5,
+      "defect": {},
+      "record": 5,
+      "smiles": "Cc1cccc(Cc2n[nH]c3cc(O)c(C(=O)N4CC[C@H](O)C4)cc23)c1",
+      "baseline_id": "cdk8__baseline_estereo__5"
+    },
+    {
+      "case_id": "cdk8__estereo_sin_asignar__5",
+      "target": "cdk8",
+      "ligand": "lig_13",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 5,
+      "record": 5,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 8,
+        "record": 5
+      },
+      "smiles": "Cc1cccc(Cc2n[nH]c3cc(O)c(C(=O)N4CCC(O)C4)cc23)c1",
+      "baseline_id": "cdk8__baseline_estereo__5"
+    },
+    {
+      "case_id": "eg5__baseline_estereo__1",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1083517",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 1,
+      "defect": {},
+      "record": 1,
+      "smiles": "C[NH2+]C[C@H]1CC[C@@H]2[C@H](O1)c1cc(C(F)(F)F)ccc1N[C@H]2c1ccc(O)cc1",
+      "baseline_id": "eg5__baseline_estereo__1"
+    },
+    {
+      "case_id": "eg5__estereo_sin_asignar__1",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1083517",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 1,
+      "record": 1,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 5,
+        "record": 1
+      },
+      "smiles": "C[NH2+]C[C@H]1CC[C@H]2C(c3ccc(O)cc3)Nc3ccc(C(F)(F)F)cc3[C@H]2O1",
+      "baseline_id": "eg5__baseline_estereo__1"
+    },
+    {
+      "case_id": "eg5__baseline_estereo__2",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084143",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 2,
+      "defect": {},
+      "record": 2,
+      "smiles": "CC(C)c1ccc2c(c1)[C@H]1O[C@@H](CNS(=O)(=O)CCC[NH+](C)C)CC[C@H]1[C@H](c1ccccc1)N2",
+      "baseline_id": "eg5__baseline_estereo__2"
+    },
+    {
+      "case_id": "eg5__estereo_sin_asignar__2",
+      "target": "eg5",
+      "ligand": "lig_CHEMBL1084143",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 2,
+      "record": 2,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 4,
+        "record": 2
+      },
+      "smiles": "CC(C)c1ccc2c(c1)[C@H]1O[C@@H](CNS(=O)(=O)CCC[NH+](C)C)CC[C@H]1C(c1ccccc1)N2",
+      "baseline_id": "eg5__baseline_estereo__2"
+    },
+    {
+      "case_id": "hif2a__baseline_estereo__1",
+      "target": "hif2a",
+      "ligand": "lig_163",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 1,
+      "defect": {},
+      "record": 1,
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)C(F)(F)C2",
+      "baseline_id": "hif2a__baseline_estereo__1"
+    },
+    {
+      "case_id": "hif2a__estereo_sin_asignar__1",
+      "target": "hif2a",
+      "ligand": "lig_163",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 1,
+      "record": 1,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 1,
+        "record": 1
+      },
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1C(O)C(F)(F)C2",
+      "baseline_id": "hif2a__baseline_estereo__1"
+    },
+    {
+      "case_id": "hif2a__baseline_estereo__2",
+      "target": "hif2a",
+      "ligand": "lig_289",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 2,
+      "defect": {},
+      "record": 2,
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1[C@H](O)[C@H](F)[C@@H]2F",
+      "baseline_id": "hif2a__baseline_estereo__2"
+    },
+    {
+      "case_id": "hif2a__estereo_sin_asignar__2",
+      "target": "hif2a",
+      "ligand": "lig_289",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 2,
+      "record": 2,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 1,
+        "record": 2
+      },
+      "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1C(O)[C@H](F)[C@@H]2F",
+      "baseline_id": "hif2a__baseline_estereo__2"
+    },
+    {
+      "case_id": "p38__baseline_estereo__1",
+      "target": "p38",
+      "ligand": "lig_p38a_2s",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 1,
+      "defect": {},
+      "record": 1,
+      "smiles": "O=c1c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc2n1C[C@H](O)CO",
+      "baseline_id": "p38__baseline_estereo__1"
+    },
+    {
+      "case_id": "p38__estereo_sin_asignar__1",
+      "target": "p38",
+      "ligand": "lig_p38a_2s",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 1,
+      "record": 1,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 2,
+        "record": 1
+      },
+      "smiles": "O=c1c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc2n1CC(O)CO",
+      "baseline_id": "p38__baseline_estereo__1"
+    },
+    {
+      "case_id": "p38__baseline_estereo__3",
+      "target": "p38",
+      "ligand": "lig_p38a_3fmh",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 3,
+      "defect": {},
+      "record": 3,
+      "smiles": "C[C@H](Cn1ncnn1)Nc1ncc2cc(Oc3ccc(F)cc3F)c(=O)n(C)c2n1",
+      "baseline_id": "p38__baseline_estereo__3"
+    },
+    {
+      "case_id": "p38__estereo_sin_asignar__3",
+      "target": "p38",
+      "ligand": "lig_p38a_3fmh",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 3,
+      "record": 3,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 4,
+        "record": 3
+      },
+      "smiles": "CC(Cn1ncnn1)Nc1ncc2cc(Oc3ccc(F)cc3F)c(=O)n(C)c2n1",
+      "baseline_id": "p38__baseline_estereo__3"
+    },
+    {
+      "case_id": "p38__baseline_estereo__8",
+      "target": "p38",
+      "ligand": "lig_p38a_2x",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 8,
+      "defect": {},
+      "record": 8,
+      "smiles": "Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(N[C@@H]3CCOC3)nc21",
+      "baseline_id": "p38__baseline_estereo__8"
+    },
+    {
+      "case_id": "p38__estereo_sin_asignar__8",
+      "target": "p38",
+      "ligand": "lig_p38a_2x",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 8,
+      "record": 8,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 4,
+        "record": 8
+      },
+      "smiles": "Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOC3)nc21",
+      "baseline_id": "p38__baseline_estereo__8"
+    },
+    {
+      "case_id": "shp2__baseline_estereo__6",
+      "target": "shp2",
+      "ligand": "lig_E14",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 6,
+      "defect": {},
+      "record": 6,
+      "smiles": "Nc1nc(N2CC[C@@H](C[NH3+])C2)cnc1-c1cccc(Cl)c1Cl",
+      "baseline_id": "shp2__baseline_estereo__6"
+    },
+    {
+      "case_id": "shp2__estereo_sin_asignar__6",
+      "target": "shp2",
+      "ligand": "lig_E14",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 6,
+      "record": 6,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 18,
+        "record": 6
+      },
+      "smiles": "Nc1nc(N2CCC(C[NH3+])C2)cnc1-c1cccc(Cl)c1Cl",
+      "baseline_id": "shp2__baseline_estereo__6"
+    },
+    {
+      "case_id": "shp2__baseline_estereo__11",
+      "target": "shp2",
+      "ligand": "lig_SHP836-2",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 11,
+      "defect": {},
+      "record": 11,
+      "smiles": "C[C@@H]1CN(c2ncc(-c3cccc(Cl)c3Cl)c(N)n2)C[C@H](C)[NH2+]1",
+      "baseline_id": "shp2__baseline_estereo__11"
+    },
+    {
+      "case_id": "shp2__estereo_sin_asignar__11",
+      "target": "shp2",
+      "ligand": "lig_SHP836-2",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 11,
+      "record": 11,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 5,
+        "record": 11
+      },
+      "smiles": "CC1CN(c2ncc(-c3cccc(Cl)c3Cl)c(N)n2)C[C@@H](C)[NH2+]1",
+      "baseline_id": "shp2__baseline_estereo__11"
+    },
+    {
+      "case_id": "shp2__baseline_estereo__14",
+      "target": "shp2",
+      "ligand": "lig_3",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 14,
+      "defect": {},
+      "record": 14,
+      "smiles": "C[C@@H]1CN(c2ncc(-c3cccc(Cl)c3)c(N)n2)C[C@H](C)[NH2+]1",
+      "baseline_id": "shp2__baseline_estereo__14"
+    },
+    {
+      "case_id": "shp2__estereo_sin_asignar__14",
+      "target": "shp2",
+      "ligand": "lig_3",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 14,
+      "record": 14,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 5,
+        "record": 14
+      },
+      "smiles": "CC1CN(c2ncc(-c3cccc(Cl)c3)c(N)n2)C[C@@H](C)[NH2+]1",
+      "baseline_id": "shp2__baseline_estereo__14"
+    },
+    {
+      "case_id": "thrombin__baseline_estereo__1",
+      "target": "thrombin",
+      "ligand": "lig_6c",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 1,
+      "defect": {},
+      "record": 1,
+      "smiles": "COc1ccc(Cl)cc1CNC(=O)[C@@H]1CCCN1C(=O)[C@H]([NH3+])Cc1ccccc1",
+      "baseline_id": "thrombin__baseline_estereo__1"
+    },
+    {
+      "case_id": "thrombin__estereo_sin_asignar__1",
+      "target": "thrombin",
+      "ligand": "lig_6c",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 1,
+      "record": 1,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 2,
+        "record": 1
+      },
+      "smiles": "COc1ccc(Cl)cc1CNC(=O)C1CCCN1C(=O)[C@H]([NH3+])Cc1ccccc1",
+      "baseline_id": "thrombin__baseline_estereo__1"
+    },
+    {
+      "case_id": "thrombin__baseline_estereo__2",
+      "target": "thrombin",
+      "ligand": "lig_1a",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 2,
+      "defect": {},
+      "record": 2,
+      "smiles": "[NH3+][C@H](Cc1ccccc1)C(=O)N1CCC[C@H]1C(=O)NCc1cccc(F)c1",
+      "baseline_id": "thrombin__baseline_estereo__2"
+    },
+    {
+      "case_id": "thrombin__estereo_sin_asignar__2",
+      "target": "thrombin",
+      "ligand": "lig_1a",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 2,
+      "record": 2,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 7,
+        "record": 2
+      },
+      "smiles": "[NH3+]C(Cc1ccccc1)C(=O)N1CCC[C@H]1C(=O)NCc1cccc(F)c1",
+      "baseline_id": "thrombin__baseline_estereo__2"
+    },
+    {
+      "case_id": "tyk2__baseline_estereo__1",
+      "target": "tyk2",
+      "ligand": "lig_jmc_23",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 1,
+      "defect": {},
+      "record": 1,
+      "smiles": "O=C(Nc1ccnc(NC(=O)[C@H]2C[C@H]2F)c1)c1c(Cl)cccc1Cl",
+      "baseline_id": "tyk2__baseline_estereo__1"
+    },
+    {
+      "case_id": "tyk2__estereo_sin_asignar__1",
+      "target": "tyk2",
+      "ligand": "lig_jmc_23",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 1,
+      "record": 1,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 19,
+        "record": 1
+      },
+      "smiles": "O=C(Nc1ccnc(NC(=O)C2C[C@H]2F)c1)c1c(Cl)cccc1Cl",
+      "baseline_id": "tyk2__baseline_estereo__1"
+    },
+    {
+      "case_id": "tyk2__baseline_estereo__3",
+      "target": "tyk2",
+      "ligand": "lig_jmc_27",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 3,
+      "defect": {},
+      "record": 3,
+      "smiles": "O=C(Nc1ccnc(NC(=O)[C@H]2C[C@H]2Cl)c1)c1c(Cl)cccc1Cl",
+      "baseline_id": "tyk2__baseline_estereo__3"
+    },
+    {
+      "case_id": "tyk2__estereo_sin_asignar__3",
+      "target": "tyk2",
+      "ligand": "lig_jmc_27",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 3,
+      "record": 3,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 19,
+        "record": 3
+      },
+      "smiles": "O=C(Nc1ccnc(NC(=O)C2C[C@H]2Cl)c1)c1c(Cl)cccc1Cl",
+      "baseline_id": "tyk2__baseline_estereo__3"
+    },
+    {
+      "case_id": "tyk2__baseline_estereo__9",
+      "target": "tyk2",
+      "ligand": "lig_jmc_28",
+      "arm": "B",
+      "category": "baseline_estereo",
+      "repeat": 9,
+      "defect": {},
+      "record": 9,
+      "smiles": "C[C@@H]1C[C@@H]1C(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline_estereo__9"
+    },
+    {
+      "case_id": "tyk2__estereo_sin_asignar__9",
+      "target": "tyk2",
+      "ligand": "lig_jmc_28",
+      "arm": "A",
+      "category": "estereo_sin_asignar",
+      "repeat": 9,
+      "record": 9,
+      "defect": {
+        "operation": "replace_smiles",
+        "atom_index": 19,
+        "record": 9
+      },
+      "smiles": "C[C@@H]1CC1C(=O)Nc1cc(NC(=O)c2c(Cl)cccc2Cl)ccn1",
+      "baseline_id": "tyk2__baseline_estereo__9"
+    }
+  ],
+  "applicable": {
+    "baseline": 45,
+    "seriales_renumerados": 15,
+    "hueco_en_el_sitio": 15,
+    "hueco_lejano": 10,
+    "agua_puente_retirada": 9,
+    "tautomero_alternativo_proxy": 13,
+    "protonacion_del_sitio": 5,
+    "especie_opuesta_proxy": 7,
+    "estereo_sin_asignar": 21,
+    "metal_o_cofactor_retirado": 1,
+    "cadena_del_sitio_ausente": 1,
+    "especie_del_ligando": 1,
+    "estereoquimica_del_ligando": 1,
+    "identidad_biologica_fuera_del_catalogo": 1,
+    "baseline_estereo": 18
+  },
+  "extension_estereo": {
+    "ligandos_por_diana": 3,
+    "casos": [
+      "cdk8__baseline_estereo__1",
+      "cdk8__estereo_sin_asignar__1",
+      "cdk8__baseline_estereo__2",
+      "cdk8__estereo_sin_asignar__2",
+      "cdk8__baseline_estereo__5",
+      "cdk8__estereo_sin_asignar__5",
+      "eg5__baseline_estereo__1",
+      "eg5__estereo_sin_asignar__1",
+      "eg5__baseline_estereo__2",
+      "eg5__estereo_sin_asignar__2",
+      "hif2a__baseline_estereo__1",
+      "hif2a__estereo_sin_asignar__1",
+      "hif2a__baseline_estereo__2",
+      "hif2a__estereo_sin_asignar__2",
+      "p38__baseline_estereo__1",
+      "p38__estereo_sin_asignar__1",
+      "p38__baseline_estereo__3",
+      "p38__estereo_sin_asignar__3",
+      "p38__baseline_estereo__8",
+      "p38__estereo_sin_asignar__8",
+      "shp2__baseline_estereo__6",
+      "shp2__estereo_sin_asignar__6",
+      "shp2__baseline_estereo__11",
+      "shp2__estereo_sin_asignar__11",
+      "shp2__baseline_estereo__14",
+      "shp2__estereo_sin_asignar__14",
+      "thrombin__baseline_estereo__1",
+      "thrombin__estereo_sin_asignar__1",
+      "thrombin__baseline_estereo__2",
+      "thrombin__estereo_sin_asignar__2",
+      "tyk2__baseline_estereo__1",
+      "tyk2__estereo_sin_asignar__1",
+      "tyk2__baseline_estereo__3",
+      "tyk2__estereo_sin_asignar__3",
+      "tyk2__baseline_estereo__9",
+      "tyk2__estereo_sin_asignar__9"
+    ]
+  }
+}

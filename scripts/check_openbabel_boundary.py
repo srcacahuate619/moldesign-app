@@ -11,7 +11,8 @@ intencionado, para que deje de ser cierta sin que nada lo diga.
 
 Las nueve comprobaciones, en el orden en que aparecen:
 
-    G1  el código de producción no importa `openbabel`, `pybel` ni `_openbabel`
+    G1  ningún `.py` de `backend/` ni `rescoring/` importa `openbabel`, `pybel` ni
+        `_openbabel` (AST sobre TODO el árbol; sólo las excepciones declaradas)
     G2  esos bindings no están en el `site-packages` del backend empaquetado
     G3  producción no resuelve `obabel` por PATH
     G4  el ejecutable empaquetado está donde dice el manifiesto
@@ -44,6 +45,22 @@ versionan, igual que Vina y xTB— así que G4-G7 no pueden comprobar nada. En e
 caso lo DICEN y devuelven un código distinto de «verificado»; no se anuncian en
 verde. Con `--exigir-binario` (lo que hace el build) la ausencia es un fallo.
 
+# El alcance de G1 y la lista de excepciones
+
+G1 mira **todos** los `.py` de `backend/` y `rescoring/` —`tests/`, `scripts/`,
+`data/`, `artifacts/` y `deprecated/` incluidos— y detecta `import`, `from ... import`
+e imports dinámicos con nombre constante (`__import__("openbabel")`,
+`importlib.import_module("pybel")`). Un nombre calculado en tiempo de ejecución no
+se ve: es el límite del análisis estático, y se declara en vez de callarse. Un archivo
+que no se puede analizar es un fallo, no un «limpio».
+
+La única excepción es `EXCEPCIONES_DEV_ONLY`: scripts de desarrollo, nombrados uno a
+uno y con su motivo escrito, que no viajan en el instalador. Esa lista no se amplía
+para que la guarda pase: añadir una es una decisión del propietario (AGENTS.md,
+`docs/79_ADR_FRONTERA_OPEN_BABEL.md` §5.1, `docs/86`, LUNA-01). `g1b` comprueba que
+cada una existe y que `bundle_helper` la excluye del empaquetado; G2 y G1 sobre el
+bundle comprueban, sin ninguna exención, que no viaja.
+
 Exit code: 0 = frontera intacta, 1 = rota.
 """
 
@@ -58,7 +75,7 @@ import subprocess
 import sys
 import tempfile
 from dataclasses import dataclass, field
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 # La consola de Windows usa cp1252: un carácter fuera de esa tabla convierte un
 # informe en un traceback DESPUÉS de haber hecho el trabajo. Ver salida_consola.
@@ -85,48 +102,69 @@ consola_utf8()
 RAIZ = Path(__file__).resolve().parents[1]
 RESOURCES = RAIZ / "frontend" / "src-tauri" / "resources"
 
-# ── Qué cuenta como «código de producción» ───────────────────────────────
+# ── Qué recorre cada comprobación ────────────────────────────────────────
 #
-# Lo que viaja en el instalador y se ejecuta en el equipo del investigador. Los
-# scripts científicos y los generadores de datasets NO están aquí: pueden usar
-# los bindings legítimamente porque son dependencias de desarrollo y no se
-# distribuyen. Lo que la guarda exige es que no se distribuyan (G2).
+# G1 mira TODO `.py` de estos dos árboles. Antes filtraba por nombre de directorio
+# (`NO_ES_PRODUCCION`: `tests`, `scripts`, `data`...) y por una lista de módulos «de
+# desarrollo» leída de `bundle_helper`: «limpio» era cierto sólo del subconjunto
+# que miraba, y un recorrido AST completo encontró siete imports que el filtro no
+# veía (auditoría LUNA-01). La regla de AGENTS.md no distingue directorios.
 ARBOLES_DE_PRODUCCION = ("backend", "rescoring")
 
-#: Módulos que sí pueden nombrar Open Babel: el adaptador y su paquete.
+#: Módulos que sí pueden nombrar Open Babel (cadenas, nombre del ejecutable): el
+#: adaptador y su paquete. Sólo exime de G3; NUNCA de G1 —el adaptador invoca el
+#: programa, no importa los bindings—.
 EXENTOS = (
     "backend/services/external_tools/open_babel.py",
     "backend/services/external_tools/__init__.py",
 )
 
+#: Ruido de máquina, no código del proyecto: nada de esto se versiona ni viaja.
+DIRECTORIOS_IGNORADOS = frozenset(
+    {"__pycache__", "node_modules", ".venv", "venv", "site-packages", ".git"}
+)
 
-def _dev_only_declarados() -> set[str]:
-    r"""Módulos científicos que usan los bindings y NO se distribuyen.
+#: LO ÚNICO QUE G1 DEJA PASAR. Scripts de desarrollo que importan los bindings y
+#: que no viajan en el instalador (decisión del propietario, 2026-10-03; ver
+#: `docs/86_CORRECCIONES_AUDITORIA_LUNA_20261002.md`, LUNA-01).
+#:
+#: Cada uno lleva su motivo, porque una excepción sin motivo es una puerta sin
+#: dueño. La lista NO se amplía para que la guarda pase: una violación nueva se
+#: arregla o se lleva al propietario. Tampoco se confía en ella a ciegas:
+#: `g1b_excepciones_coherentes` exige que cada entrada exista y que
+#: `bundle_helper` la excluya del empaquetado, y G2 / G1-sobre-el-bundle lo
+#: comprueban en el artefacto.
+EXCEPCIONES_DEV_ONLY: dict[str, str] = {
+    "rescoring/generate_gpu_dataset.py": (
+        "Genera los datasets de entrenamiento (docking y features 3D de PDBbind); "
+        "nunca fue runtime. `bundle_helper` lo excluye por nombre "
+        "(RESCORING_FUERA_DEL_RUNTIME_FILES) y su cabecera ya lo declara "
+        "dependencia de desarrollo."
+    ),
+    "rescoring/RTMScore/feats/extract_pocket_prody.py": (
+        "Ayudante de preparación de bolsillos del código de terceros RTMScore (MIT); "
+        "ningún módulo del producto lo importa (`gnn_service` usa mol2graph_pyg y "
+        "RTMScore.model.*). `bundle_helper` lo excluye por nombre."
+    ),
+    "rescoring/scripts/redock_pdbbind.py": (
+        "Preparación del redocking de PDBbind con los bindings de Open Babel (receptor "
+        "PDB→PDBQT rígido). 1414 registros de procedencia de cinco artefactos sellados "
+        "declaran el receptor «openbabel_pdb2pdbqt_rigido» y en FND-06 470 citan este "
+        "archivo como el código de preparación; además lo importan scripts/molflex*.py, "
+        "calibrate_redock.py y otros por ruta. Reescribirlo cambiaría lo medido. "
+        "`rescoring/scripts` no viaja (RESCORING_DIRS_FUERA_DEL_RUNTIME)."
+    ),
+    "rescoring/scripts/test_crystal_vs_docked.py": (
+        "Experimento de desarrollo (degradación de features cristal vs acoplado) que "
+        "prepara el receptor con los bindings; no es una prueba del producto y nadie lo "
+        "importa. `rescoring/scripts` no viaja (RESCORING_DIRS_FUERA_DEL_RUNTIME)."
+    ),
+}
 
-    La lista no se escribe aquí: se lee de `bundle_helper.py`, que es quien de
-    verdad los excluye del instalador. Dos copias de la misma decisión se
-    separan, y la que se quedara vieja sería justo ésta —la que autoriza—.
-
-    Y la autorización no se cree a ciegas: G2 comprueba sobre el bundle REAL
-    que ninguno de estos archivos viaja. Si alguien añade uno aquí sin
-    excluirlo allí, la guarda lo caza en el artefacto.
-    """
-    sys.path.insert(0, str(RAIZ / "scripts"))
-    try:
-        from bundle_helper import RESCORING_FUERA_DEL_RUNTIME_FILES
-    except ImportError:  # pragma: no cover - sólo si se mueve el empaquetador
-        return set()
-    permitidos: set[str] = set()
-    for arbol in ARBOLES_DE_PRODUCCION:
-        raiz = RAIZ / arbol
-        if not raiz.is_dir():
-            continue
-        for nombre in RESCORING_FUERA_DEL_RUNTIME_FILES:
-            for encontrado in raiz.rglob(nombre):
-                permitidos.add(encontrado.relative_to(RAIZ).as_posix())
-    return permitidos
-
-#: Directorios que no son producción aunque cuelguen de un árbol que sí lo es.
+#: Alcance de G3 (resolución por PATH): sigue siendo CÓDIGO DE PRODUCCIÓN. Es una
+#: búsqueda por expresión regular sobre el texto, y en `tests/` abundan las
+#: muestras que contienen justo lo que se busca; aquí el filtro por directorio sí
+#: tiene sentido, y por eso G1 y G3 ya no comparten recorrido.
 NO_ES_PRODUCCION = {
     "tests", "test", "__pycache__", "deprecated", "scripts", "data",
     "node_modules", ".venv", "artifacts", "trained_models",
@@ -177,33 +215,64 @@ class Resultado:
 # ── Detectores (cada uno con su autotest más abajo) ──────────────────────
 
 
-def importa_prohibido(fuente: str) -> list[str]:
-    """Módulos prohibidos que este archivo IMPORTA de verdad.
+def _nombre_importado_dinamicamente(llamada: ast.Call) -> str | None:
+    """`__import__("x")` / `importlib.import_module("x")` con nombre CONSTANTE."""
+    funcion = llamada.func
+    if isinstance(funcion, ast.Name):
+        nombre = funcion.id
+    elif isinstance(funcion, ast.Attribute):
+        nombre = funcion.attr
+    else:
+        return None
+    if nombre not in ("__import__", "import_module") or not llamada.args:
+        return None
+    primero = llamada.args[0]
+    if isinstance(primero, ast.Constant) and isinstance(primero.value, str):
+        return primero.value
+    return None
+
+
+def analizar_imports(fuente: str | bytes) -> tuple[list[tuple[str, int]], str | None]:
+    """(hallazgos, error): imports prohibidos con su línea, y por qué no se pudo leer.
 
     Se analiza el AST y no el texto: un comentario que explique la prohibición
     no es una violación, y una guarda que no sepa distinguirlos convertiría
     cada explicación en un falso positivo — y acabaría desactivada.
+
+    Lo que NO ve, declarado: un nombre de módulo calculado en tiempo de ejecución
+    (`importlib.import_module(nombre)`). Y lo que NO hace: devolver «limpio» ante un
+    archivo que no pudo leer —el detector anterior contestaba `[]` ante un
+    `SyntaxError`, y la auditoría LUNA que originó este cambio escaneó con
+    `except: continue`—. El error se devuelve aparte para que quien llama lo trate
+    como lo que es: un archivo sin mirar.
     """
     try:
         arbol = ast.parse(fuente)
-    except SyntaxError:
-        return []
-    encontrados: list[str] = []
+    except (SyntaxError, ValueError, RecursionError, MemoryError) as exc:
+        return [], f"{type(exc).__name__}: {str(exc)[:120]}"
+    hallazgos: set[tuple[str, int]] = set()
     for nodo in ast.walk(arbol):
         if isinstance(nodo, ast.Import):
             for alias in nodo.names:
-                raiz = alias.name.split(".")[0]
-                if raiz in MODULOS_PROHIBIDOS:
-                    encontrados.append(alias.name)
+                if alias.name.split(".")[0] in MODULOS_PROHIBIDOS:
+                    hallazgos.add((alias.name, nodo.lineno))
         elif isinstance(nodo, ast.ImportFrom):
-            raiz = (nodo.module or "").split(".")[0]
-            if raiz in MODULOS_PROHIBIDOS:
-                encontrados.append(nodo.module or "")
-            elif nodo.module is None:
-                continue
-            # `from openbabel import openbabel` cae en la rama anterior;
-            # `from x import openbabel` sólo importa un nombre, no el paquete.
-    return sorted(set(encontrados))
+            # `level > 0` es un import RELATIVO: `from .openbabel import x` nombra un
+            # módulo local, no los bindings. `from x import openbabel` sólo importa un
+            # nombre de `x`, no el paquete.
+            if nodo.level == 0 and (nodo.module or "").split(".")[0] in MODULOS_PROHIBIDOS:
+                hallazgos.add((nodo.module or "", nodo.lineno))
+        elif isinstance(nodo, ast.Call):
+            dinamico = _nombre_importado_dinamicamente(nodo)
+            if dinamico and dinamico.split(".")[0] in MODULOS_PROHIBIDOS:
+                hallazgos.add((dinamico, nodo.lineno))
+    return sorted(hallazgos, key=lambda h: (h[1], h[0])), None
+
+
+def importa_prohibido(fuente: str | bytes) -> list[str]:
+    """Módulos prohibidos que este archivo IMPORTA de verdad (ver `analizar_imports`)."""
+    hallazgos, _ = analizar_imports(fuente)
+    return sorted({modulo for modulo, _linea in hallazgos})
 
 
 def _sin_comentarios(fuente: str) -> str:
@@ -248,6 +317,9 @@ _DEBE_VER_IMPORT = (
     "from openbabel import pybel\n",
     "import pybel\n",
     "import openbabel.openbabel as ob\n",
+    '__import__("openbabel")\n',
+    'import importlib\nimportlib.import_module("openbabel.openbabel")\n',
+    "def f():\n    try:\n        import pybel\n    except ImportError:\n        pass\n",
 )
 _NO_DEBE_VER_IMPORT = (
     "# from openbabel import openbabel  <- prohibido, ver el ADR\n",
@@ -255,6 +327,9 @@ _NO_DEBE_VER_IMPORT = (
     "from services.external_tools import open_babel\n",
     "texto = 'openbabel'\n",
     "from rdkit import Chem\n",
+    "from .openbabel import algo\n",                         # módulo local
+    "import importlib\nimportlib.import_module(nombre)\n",   # nombre no constante
+    '__import__("rdkit")\n',
 )
 _DEBE_VER_PATH = (
     'shutil.which("obabel")\n',
@@ -296,12 +371,106 @@ def autotest() -> None:
                 f"[check-openbabel] AUTOTEST FALLIDO: el detector de PATH marca de "
                 f"más en `{muestra.strip()[:60]}`."
             )
+    hallazgos, error = analizar_imports("def roto(:\n")
+    if hallazgos or not error:
+        raise SystemExit(
+            "[check-openbabel] AUTOTEST FALLIDO: un archivo que no parsea tiene que "
+            "devolver un error, no «limpio»."
+        )
+    autotest_recorrido()
+
+
+def autotest_recorrido() -> None:
+    """El recorrido de árbol, ejecutado sobre un árbol fabricado.
+
+    Los detectores de arriba prueban que se ve un `import`; esto prueba que el
+    RECORRIDO llega a donde debe: `tests/`, `scripts/` y `data/` (los directorios
+    que el filtro anterior se saltaba), que un archivo ilegible no se da por
+    limpio, que una excepción declarada se admite y se lista, y que el ruido de
+    máquina (`__pycache__`) no cuenta. Aborta si algo de eso falla.
+    """
+    importa = "from openbabel import openbabel\n"
+    muestras = {
+        "backend/services/sano.py": "import os\n",
+        "backend/tests/test_roto.py": importa,
+        "rescoring/scripts/roto.py": importa,
+        "rescoring/data/roto.py": importa,
+        "rescoring/artifacts/roto.py": importa,
+        "backend/services/ilegible.py": "def roto(:\n",
+        "rescoring/scripts/declarado.py": importa,
+        "backend/__pycache__/ruido.py": importa,
+    }
+    esperados = {
+        "backend/tests/test_roto.py", "rescoring/scripts/roto.py",
+        "rescoring/data/roto.py", "rescoring/artifacts/roto.py",
+        "rescoring/scripts/declarado.py",
+    }
+
+    def fallo(mensaje: str) -> None:
+        raise SystemExit(f"[check-openbabel] AUTOTEST FALLIDO (recorrido): {mensaje}")
+
+    with tempfile.TemporaryDirectory(prefix="ob-recorrido-") as tmp:
+        base = Path(tmp)
+        for relativa, fuente in muestras.items():
+            destino = base / relativa
+            destino.parent.mkdir(parents=True, exist_ok=True)
+            destino.write_text(fuente, encoding="utf-8")
+
+        encontrados, ilegibles = imports_prohibidos_en(base)
+        if set(encontrados) != esperados:
+            fallo(
+                f"el recorrido vio {sorted(encontrados)} y debía ver {sorted(esperados)}: "
+                "un directorio se está saltando o el ruido cuenta como código"
+            )
+        if [ruta for ruta, _ in ilegibles] != ["backend/services/ilegible.py"]:
+            fallo(f"un archivo ilegible no quedó declarado: {ilegibles}")
+
+        resultado = Resultado()
+        g1_g3_codigo(
+            base, "autotest", resultado,
+            excepciones={"rescoring/scripts/declarado.py": "excepción de muestra"},
+        )
+        mensaje = "\n".join(resultado.fallos)
+        if resultado.ok:
+            fallo("G1 aprobó un árbol con imports prohibidos")
+        for ruta in esperados - {"rescoring/scripts/declarado.py"}:
+            if ruta not in mensaje:
+                fallo(f"G1 no nombró {ruta}")
+        if "ilegible.py" not in mensaje:
+            fallo("G1 no declaró el archivo que no pudo analizar")
+        if "declarado.py" in mensaje:
+            fallo("G1 marcó una excepción declarada")
+        if not any("declarado.py" in v for v in resultado.verificado):
+            fallo("G1 no listó la excepción declarada: una excepción callada es una puerta oculta")
+
+        for relativa in muestras:
+            if relativa != "backend/services/sano.py":
+                (base / relativa).unlink()
+        sano = Resultado()
+        g1_g3_codigo(base, "autotest", sano, excepciones={})
+        if not sano.ok:
+            fallo(f"G1 marcó un árbol limpio: {sano.fallos}")
 
 
 # ── Recorrido ────────────────────────────────────────────────────────────
 
 
+def _archivos_python(base: Path) -> list[Path]:
+    """TODO `.py` de los dos árboles, sin más filtro que el ruido de máquina."""
+    salida: list[Path] = []
+    for arbol in ARBOLES_DE_PRODUCCION:
+        raiz = base / arbol
+        if not raiz.is_dir():
+            continue
+        for archivo in raiz.rglob("*.py"):
+            if DIRECTORIOS_IGNORADOS & set(archivo.relative_to(base).parts):
+                continue
+            salida.append(archivo)
+    return sorted(salida)
+
+
 def _archivos_de_produccion(base: Path, arboles: tuple[str, ...]) -> list[Path]:
+    """Alcance de G3: código de producción (ver `NO_ES_PRODUCCION`)."""
     salida: list[Path] = []
     for arbol in arboles:
         raiz = base / arbol
@@ -318,46 +487,96 @@ def _relativa(archivo: Path, base: Path) -> str:
     return archivo.relative_to(base).as_posix()
 
 
-def g1_g3_codigo(base: Path, etiqueta: str, resultado: Resultado) -> None:
-    """G1 imports prohibidos · G3 resolución por PATH."""
-    archivos = _archivos_de_produccion(base, ARBOLES_DE_PRODUCCION)
+def imports_prohibidos_en(
+    base: Path,
+) -> tuple[dict[str, list[tuple[str, int]]], list[tuple[str, str]]]:
+    """(imports por archivo, archivos ilegibles) sobre TODO el árbol, sin exenciones.
+
+    Es la verdad de fondo: lo que el AST encuentra cuando nadie queda fuera. G1
+    decide después qué admite; esta función no admite nada.
+    """
+    encontrados: dict[str, list[tuple[str, int]]] = {}
+    ilegibles: list[tuple[str, str]] = []
+    for archivo in _archivos_python(base):
+        relativa = _relativa(archivo, base)
+        try:
+            fuente = archivo.read_bytes()
+        except OSError as exc:
+            ilegibles.append((relativa, f"OSError: {exc}"))
+            continue
+        hallazgos, error = analizar_imports(fuente)
+        if error:
+            ilegibles.append((relativa, error))
+        elif hallazgos:
+            encontrados[relativa] = hallazgos
+    return encontrados, ilegibles
+
+
+def g1_g3_codigo(
+    base: Path,
+    etiqueta: str,
+    resultado: Resultado,
+    *,
+    excepciones: dict[str, str] | None = None,
+) -> None:
+    """G1 imports prohibidos (todo el árbol) · G3 resolución por PATH (producción).
+
+    Sobre el repositorio rige `EXCEPCIONES_DEV_ONLY`. Sobre el BUNDLE no hay
+    ninguna: lo que no debe distribuirse, no está, y eso incluye los scripts
+    declarados de desarrollo.
+    """
+    archivos = _archivos_python(base)
     if not archivos:
         resultado.salta(f"[{etiqueta}] no hay árboles de producción que revisar")
         return
-    # En el BUNDLE no hay excepciones: lo que no debe distribuirse, no está.
-    # En el repositorio se permiten los módulos declarados como dependencia de
-    # desarrollo, porque el árbol de trabajo no es lo que se entrega.
-    dev_only = _dev_only_declarados() if base == RAIZ else set()
-    con_import: list[str] = []
+    if excepciones is None:
+        excepciones = EXCEPCIONES_DEV_ONLY if base == RAIZ else {}
+
+    encontrados, ilegibles = imports_prohibidos_en(base)
+    violaciones: list[str] = []
+    admitidas: list[str] = []
+    for relativa, hallazgos in sorted(encontrados.items()):
+        destino = admitidas if relativa in excepciones else violaciones
+        for modulo, linea in hallazgos:
+            destino.append(f"{relativa}:{linea}: import {modulo}")
+
+    if admitidas:
+        rutas = sorted({a.split(":")[0] for a in admitidas})
+        resultado.bien(
+            f"G1 [{etiqueta}] {len(rutas)} excepción(es) declarada(s) de desarrollo, que "
+            f"no viajan (G2 y G1 sobre el bundle lo comprueban): {', '.join(rutas)}"
+        )
+    if ilegibles:
+        resultado.mal(
+            f"G1 [{etiqueta}] no se pudo analizar {len(ilegibles)} archivo(s): no se "
+            "afirma que estén limpios. Un detector que calla ante lo que no entiende "
+            "anuncia «limpio» sobre algo que no miró.\n  - "
+            + "\n  - ".join(f"{ruta}: {error}" for ruta, error in ilegibles[:20])
+        )
+    if violaciones:
+        resultado.mal(
+            f"G1 [{etiqueta}] hay código que importa los bindings de Open Babel. Eso "
+            "convertiría a MolDesign y a Open Babel en una sola obra: los bindings "
+            "GPL-2.0-only no pueden redistribuirse como una sola obra con código "
+            "PolyForm Noncommercial. La regla vale para TODO `backend/` y `rescoring/` "
+            "(también tests, scripts y data). No se añade una excepción para que la "
+            "guarda pase: es una decisión del propietario (AGENTS.md, docs/86 LUNA-01)."
+            "\n  - " + "\n  - ".join(violaciones[:20])
+        )
+    if not (violaciones or ilegibles):
+        resultado.bien(f"G1 [{etiqueta}] {len(archivos)} módulos: ningún import prohibido")
+
     con_path: list[str] = []
-    for archivo in archivos:
+    for archivo in _archivos_de_produccion(base, ARBOLES_DE_PRODUCCION):
         relativa = _relativa(archivo, base)
-        if relativa in EXENTOS or relativa in dev_only:
+        if relativa in EXENTOS or relativa in excepciones:
             continue
         try:
             fuente = archivo.read_text(encoding="utf-8", errors="replace")
         except OSError:
             continue
-        for modulo in importa_prohibido(fuente):
-            con_import.append(f"{relativa}: import {modulo}")
         for hallazgo in resuelve_por_path(fuente):
             con_path.append(f"{relativa}: {hallazgo}")
-
-    if dev_only:
-        resultado.bien(
-            f"G1 [{etiqueta}] {len(dev_only)} módulo(s) declarados dependencia de "
-            "desarrollo (y G2 comprueba que no viajan): "
-            + ", ".join(sorted(dev_only))
-        )
-    if con_import:
-        resultado.mal(
-            f"G1 [{etiqueta}] el código de producción importa los bindings de Open "
-            "Babel. Eso convierte a MolDesign y a Open Babel en una sola obra y "
-            "mezclaría bindings GPL-2.0-only con código PolyForm Noncommercial, que no puede redistribuirse como una sola obra, y "
-            "incompatibles.\n  - " + "\n  - ".join(con_import[:20])
-        )
-    else:
-        resultado.bien(f"G1 [{etiqueta}] {len(archivos)} módulos: ningún import prohibido")
 
     if con_path:
         resultado.mal(
@@ -368,6 +587,60 @@ def g1_g3_codigo(base: Path, etiqueta: str, resultado: Resultado) -> None:
         )
     else:
         resultado.bien(f"G3 [{etiqueta}] ninguna resolución de `obabel` por entorno")
+
+
+def _excluido_del_empaquetado(relativa: str) -> str | None:
+    """Por qué `bundle_helper` NO copia este archivo, o None si viajaría."""
+    sys.path.insert(0, str(RAIZ / "scripts"))
+    try:
+        from bundle_helper import (
+            RESCORING_DIRS_FUERA_DEL_RUNTIME,
+            RESCORING_FUERA_DEL_RUNTIME_FILES,
+        )
+    except ImportError:  # pragma: no cover - sólo si se mueve el empaquetador
+        return None
+    partes = PurePosixPath(relativa).parts
+    if not partes or partes[0] != "rescoring":
+        return None  # no hay regla de exclusión conocida fuera de rescoring/
+    if partes[-1] in RESCORING_FUERA_DEL_RUNTIME_FILES:
+        return f"excluido por nombre ({partes[-1]})"
+    directorios = {d.lower() for d in partes[1:-1]} & {
+        d.lower() for d in RESCORING_DIRS_FUERA_DEL_RUNTIME
+    }
+    if directorios:
+        return f"excluido por directorio ({sorted(directorios)[0]}/)"
+    return None
+
+
+def g1b_excepciones_coherentes(resultado: Resultado) -> None:
+    """Cada excepción existe, lleva su motivo y `bundle_helper` la excluye.
+
+    Una excepción que ya no existe autorizaría el próximo import que alguien
+    ponga en ese camino; una que el empaquetado SÍ copia sería una puerta abierta
+    al instalador; una sin motivo no tiene dueño.
+    """
+    problemas: list[str] = []
+    for relativa, motivo in sorted(EXCEPCIONES_DEV_ONLY.items()):
+        if not (RAIZ / relativa).is_file():
+            problemas.append(f"{relativa}: excepción huérfana, el archivo ya no existe")
+            continue
+        if len(motivo.strip()) < 60:
+            problemas.append(f"{relativa}: el motivo no está escrito")
+        if _excluido_del_empaquetado(relativa) is None:
+            problemas.append(
+                f"{relativa}: `bundle_helper` NO lo excluye del instalador; una "
+                "excepción de desarrollo que viaja deja de ser de desarrollo"
+            )
+    if problemas:
+        resultado.mal(
+            "G1b la lista de excepciones de desarrollo no es coherente:\n  - "
+            + "\n  - ".join(problemas)
+        )
+    else:
+        resultado.bien(
+            f"G1b {len(EXCEPCIONES_DEV_ONLY)} excepciones: existen, con motivo, y "
+            "`bundle_helper` las excluye del empaquetado"
+        )
 
 
 def g2_bindings_en_el_bundle(resultado: Resultado) -> None:
@@ -399,6 +672,11 @@ def g2_bindings_en_el_bundle(resultado: Resultado) -> None:
         for p in (RESOURCES / "rescoring").rglob("*.py")
         if p.name in _fuera
     ]
+    # Y TODA excepción declarada de G1, no sólo las dos que el empaquetado excluye
+    # por nombre: las otras dos cuelgan de `rescoring/scripts`, que se excluye por
+    # directorio. Si alguna aparece aquí, la declaración «no viaja» era falsa.
+    colados += [r for r in sorted(EXCEPCIONES_DEV_ONLY) if (RESOURCES / r).exists()]
+    colados = sorted(set(colados))
     lanzadores = [
         _relativa(p, RESOURCES)
         for p in (RESOURCES / "python").rglob("obabel*")
@@ -645,6 +923,7 @@ def main() -> int:
     resultado = Resultado()
 
     g1_g3_codigo(RAIZ, "repositorio", resultado)
+    g1b_excepciones_coherentes(resultado)
     g4_g7_herramienta(RAIZ, "repositorio", resultado, exigir=args.exigir_binario)
     g8_contrato_de_persistencia(resultado)
     g9_licencia_declarada(resultado)

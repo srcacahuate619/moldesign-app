@@ -142,6 +142,14 @@ export interface CaseRepository {
   pickParentDirectory?(): Promise<PickedParentDirectory | null>;
 
   /**
+   * La carpeta contenedora que se PROPONE por defecto para un caso nuevo
+   * (`Documentos\MolDesign\Casos`), ya autorizada. Rust la resuelve y la crea: el webview
+   * no aporta ninguna ruta. Decisión del propietario (2026-10-04): crear un caso sólo exige
+   * nombrarlo, y la persona puede cambiar la carpeta.
+   */
+  defaultParentDirectory?(): Promise<PickedParentDirectory | null>;
+
+  /**
    * Restaura el manifiesto desde su copia de seguridad.
    *
    * Sólo existe donde hay copia de la que restaurar. Un «Reparar» que no repara

@@ -1,0 +1,1101 @@
+{
+ "herramienta": "scripts/corregir_referencias_cofactor.py",
+ "fuente_de_la_decision": "codex/receptores-curacion-20261008-wip (affbc92e): docs/auditorias/receptores-continuacion-20261008/decisiones_referencia.json",
+ "criterio": "centro en el centroide de la instancia; ligando a >= 4.0 Å de cada cara; sitio con anotar_sitio; hotspots a <= 4.5 Å del ligando de la caja",
+ "fuera_a_proposito": {},
+ "revisadas": {
+  "3N8Y": "Fuera el primer día por la serina acetilada (OAS). Medido después: la OAS sólo está en la cadena B (microheterogénea, a 34,8 Å del diclofenaco A:701); la cadena A del catálogo tiene la Ser530 sin modificar y el carboxilato del diclofenaco le da un puente de hidrógeno (2,53 Å)."
+ },
+ "decisiones": [
+  {
+   "pdb_id": "1CX2",
+   "referencia": "S58 A:701",
+   "motivo": "COX-2 murina con SC-558; el hemo se conserva como cofactor.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     22.7,
+     35.37,
+     1.86
+    ],
+    "hotspots": [
+     "A:HIS388",
+     "A:GLN203",
+     "A:HIS386",
+     "A:HIS207",
+     "A:THR212",
+     "A:TRP387",
+     "A:ASN382",
+     "A:VAL447",
+     "A:LEU391",
+     "A:LYS211",
+     "A:HIS214",
+     "A:GLN454",
+     "A:PHE210",
+     "A:TYR385",
+     "A:VAL295"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 26,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     24.664,
+     21.747,
+     16.451
+    ],
+    "lado": [
+     31.1,
+     31.1,
+     31.1
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 88
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "S58",
+    "hotspots": [
+     "A:ARG513",
+     "A:HIS90",
+     "A:ARG120",
+     "A:TYR355",
+     "A:PHE518",
+     "A:VAL523",
+     "A:LEU352",
+     "A:TYR385",
+     "A:VAL349",
+     "A:LEU359",
+     "A:ALA527",
+     "A:GLN192",
+     "A:ALA516",
+     "A:SER353",
+     "A:GLY526"
+    ]
+   },
+   "desplazamiento_del_centro_A": 20.06,
+   "margen_minimo_del_ligando_A": 9.75
+  },
+  {
+   "pdb_id": "1Q4G",
+   "referencia": "BFL A:701",
+   "motivo": "COX-1 ovina con ácido alfa-metil-4-bifenilacético.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     22.08,
+     45.36,
+     186.62
+    ],
+    "hotspots": [
+     "A:HIS388",
+     "A:GLN203",
+     "A:HIS386",
+     "A:THR212",
+     "A:PHE210",
+     "A:HIS207",
+     "A:TRP387",
+     "A:MET391",
+     "A:VAL447",
+     "A:ASN382",
+     "A:TYR385",
+     "A:LYS211",
+     "A:ILE444",
+     "A:LEU295",
+     "A:ALA202"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 17,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     26.617,
+     33.7,
+     201.931
+    ],
+    "lado": [
+     32.3,
+     32.3,
+     32.3
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 41
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "BFL",
+    "hotspots": [
+     "A:TYR355",
+     "A:ARG120",
+     "A:SER530",
+     "A:TRP387",
+     "A:VAL116",
+     "A:ALA527",
+     "A:VAL349",
+     "A:TYR385",
+     "A:LEU352",
+     "A:GLY526",
+     "A:LEU531",
+     "A:LEU359",
+     "A:ILE523",
+     "A:MET522",
+     "A:LEU384"
+    ]
+   },
+   "desplazamiento_del_centro_A": 19.77,
+   "margen_minimo_del_ligando_A": 11.67
+  },
+  {
+   "pdb_id": "2OYE",
+   "referencia": "IM8 P:700",
+   "motivo": "Indometacina-(R)-alfa-etil-etanolamida en COX-1.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     241.58,
+     90.91,
+     -42.43
+    ],
+    "hotspots": [
+     "P:HIS388",
+     "P:GLN203",
+     "P:VAL447",
+     "P:HIS386",
+     "P:TRP387",
+     "P:THR212",
+     "P:HIS207",
+     "P:TYR385",
+     "P:MET391",
+     "P:PHE210",
+     "P:ASN382",
+     "P:ILE444",
+     "P:ASP450",
+     "P:LEU295",
+     "P:LYS211"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "P"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 30,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     251.281,
+     108.483,
+     -39.571
+    ],
+    "lado": [
+     31.5,
+     31.5,
+     31.5
+    ],
+    "site_chains": [
+     "P"
+    ],
+    "site_chain_atoms": {
+     "P": 70
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "IM8",
+    "hotspots": [
+     "P:ARG120",
+     "P:TYR355",
+     "P:GLU524",
+     "P:MET522",
+     "P:ALA527",
+     "P:LEU93",
+     "P:SER353",
+     "P:GLY526",
+     "P:SER530",
+     "P:LEU384",
+     "P:LEU352",
+     "P:VAL349",
+     "P:ILE523",
+     "P:TRP387",
+     "P:PHE518"
+    ]
+   },
+   "desplazamiento_del_centro_A": 20.28,
+   "margen_minimo_del_ligando_A": 9.68
+  },
+  {
+   "pdb_id": "2OYU",
+   "referencia": "IMS P:700",
+   "motivo": "Indometacina-(S)-alfa-etil-etanolamida en COX-1; no intercambiar enantiómeros.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     30.68,
+     66.48,
+     9.64
+    ],
+    "hotspots": [
+     "P:GLN203",
+     "P:HIS388",
+     "P:HIS386",
+     "P:VAL447",
+     "P:HIS207",
+     "P:THR212",
+     "P:PHE210",
+     "P:MET391",
+     "P:TRP387",
+     "P:LEU295",
+     "P:ASN382",
+     "P:TYR385",
+     "P:ALA202",
+     "P:ILE444",
+     "P:ALA199"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "P"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 30,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     20.064,
+     49.311,
+     11.742
+    ],
+    "lado": [
+     31.4,
+     31.4,
+     31.4
+    ],
+    "site_chains": [
+     "P"
+    ],
+    "site_chain_atoms": {
+     "P": 71
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "IMS",
+    "hotspots": [
+     "P:SER353",
+     "P:ARG120",
+     "P:LEU352",
+     "P:ALA527",
+     "P:HIS90",
+     "P:TYR355",
+     "P:VAL116",
+     "P:LEU359",
+     "P:MET113",
+     "P:GLY526",
+     "P:PHE518",
+     "P:ILE523",
+     "P:GLN192",
+     "P:VAL349",
+     "P:SER516"
+    ]
+   },
+   "desplazamiento_del_centro_A": 20.3,
+   "margen_minimo_del_ligando_A": 9.03
+  },
+  {
+   "pdb_id": "3KK6",
+   "referencia": "CEL A:701",
+   "motivo": "Celecoxib define el sitio del complejo COX-1; su fallo de preparación se conserva.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     -40.98,
+     60.62,
+     -6.8
+    ],
+    "hotspots": [
+     "A:GLN203",
+     "A:VAL447",
+     "A:HIS386",
+     "A:MET391",
+     "A:TYR385",
+     "A:TRP387",
+     "A:HIS388",
+     "A:PHE210",
+     "A:ILE444",
+     "A:ASN382",
+     "A:THR212",
+     "A:LEU295",
+     "A:THR206",
+     "A:HIS207",
+     "A:ASP450"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 26,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     -32.211,
+     42.708,
+     -5.452
+    ],
+    "lado": [
+     32.5,
+     32.5,
+     32.5
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 179
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "CEL",
+    "hotspots": [
+     "A:LEU352",
+     "A:GLN192",
+     "A:ILE517",
+     "A:TRP387",
+     "A:ILE523",
+     "A:VAL116",
+     "A:LEU359",
+     "A:MET522",
+     "A:VAL349",
+     "A:SER353",
+     "A:HIS90",
+     "A:ALA527",
+     "A:TYR355",
+     "A:SER516",
+     "A:LEU531"
+    ]
+   },
+   "desplazamiento_del_centro_A": 19.99,
+   "margen_minimo_del_ligando_A": 10.46
+  },
+  {
+   "pdb_id": "3N8W",
+   "referencia": "FLP A:802",
+   "motivo": "Flurbiprofeno en A del heterodímero R120Q/nativo; no es la enzima nativa homogénea.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     41.66,
+     -61.03,
+     -2.68
+    ],
+    "hotspots": [
+     "A:HIS388",
+     "A:GLN203",
+     "A:HIS386",
+     "A:HIS207",
+     "A:PHE210",
+     "A:VAL447",
+     "A:THR212",
+     "A:TRP387",
+     "A:TYR385",
+     "A:LEU295",
+     "A:ASN382",
+     "A:MET391",
+     "A:LYS211",
+     "A:ALA199",
+     "A:ILE444"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 18,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     32.297,
+     -44.194,
+     1.154
+    ],
+    "lado": [
+     31.5,
+     31.5,
+     31.5
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 41
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "FLP",
+    "hotspots": [
+     "A:ARG120",
+     "A:TYR355",
+     "A:SER530",
+     "A:ALA527",
+     "A:TRP387",
+     "A:TYR385",
+     "A:VAL349",
+     "A:GLY526",
+     "A:LEU352",
+     "A:VAL116",
+     "A:LEU531",
+     "A:LEU359",
+     "A:MET522",
+     "A:SER353",
+     "A:ILE523"
+    ]
+   },
+   "desplazamiento_del_centro_A": 19.64,
+   "margen_minimo_del_ligando_A": 11.1
+  },
+  {
+   "pdb_id": "3N8X",
+   "referencia": "NIM A:701",
+   "motivo": "COX-1 con nimesulida.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     -30.4,
+     -66.82,
+     -0.24
+    ],
+    "hotspots": [
+     "A:HIS388",
+     "A:GLN203",
+     "A:HIS386",
+     "A:HIS207",
+     "A:PHE210",
+     "A:THR212",
+     "A:VAL447",
+     "A:MET391",
+     "A:TRP387",
+     "A:ILE444",
+     "A:TYR385",
+     "A:ASN382",
+     "A:LYS211",
+     "A:THR206",
+     "A:LEU295"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 21,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     -20.561,
+     -50.082,
+     1.9
+    ],
+    "lado": [
+     31.5,
+     31.5,
+     31.5
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 61
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "NIM",
+    "hotspots": [
+     "A:LEU352",
+     "A:ARG120",
+     "A:SER353",
+     "A:LEU531",
+     "A:ALA527",
+     "A:PHE518",
+     "A:SER530",
+     "A:TYR355",
+     "A:GLY526",
+     "A:ILE523",
+     "A:VAL349",
+     "A:MET522",
+     "A:HIS90",
+     "A:LEU359",
+     "A:TRP387"
+    ]
+   },
+   "desplazamiento_del_centro_A": 19.53,
+   "margen_minimo_del_ligando_A": 11.27
+  },
+  {
+   "pdb_id": "3N8Y",
+   "referencia": "DIF A:701",
+   "motivo": "COX-1 tratada con aspirina, con diclofenaco en la cadena A. La serina acetilada (OAS) sólo está en la B, a 34,8 Å; en la A la Ser530 está sin modificar.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     41.32,
+     -61.09,
+     -7.19
+    ],
+    "hotspots": [
+     "A:HIS388",
+     "A:GLN203",
+     "A:HIS386",
+     "A:TRP387",
+     "A:HIS207",
+     "A:TYR385",
+     "A:THR212",
+     "A:VAL447",
+     "A:PHE210",
+     "A:LEU295",
+     "A:ASN382",
+     "A:MET391",
+     "A:ILE444",
+     "A:ASP450",
+     "A:ALA199"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 19,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     33.364,
+     -45.304,
+     -3.403
+    ],
+    "lado": [
+     31.5,
+     31.5,
+     31.5
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 45
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "DIF",
+    "hotspots": [
+     "A:SER530",
+     "A:TYR385",
+     "A:VAL349",
+     "A:MET522",
+     "A:ILE523",
+     "A:ALA527",
+     "A:GLY526",
+     "A:TYR355",
+     "A:TRP387",
+     "A:LEU352",
+     "A:SER353",
+     "A:LEU531",
+     "A:TYR348",
+     "A:LEU384",
+     "A:PHE518"
+    ]
+   },
+   "desplazamiento_del_centro_A": 18.08,
+   "margen_minimo_del_ligando_A": 12.02
+  },
+  {
+   "pdb_id": "3N8Z",
+   "referencia": "FLP A:701",
+   "motivo": "COX-1 con flurbiprofeno.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     -30.52,
+     67.02,
+     13.94
+    ],
+    "hotspots": [
+     "A:GLN203",
+     "A:HIS388",
+     "A:HIS386",
+     "A:VAL447",
+     "A:PHE210",
+     "A:HIS207",
+     "A:THR212",
+     "A:TYR385",
+     "A:TRP387",
+     "A:MET391",
+     "A:ILE444",
+     "A:LEU295",
+     "A:ALA202",
+     "A:ASN382",
+     "A:ALA199"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 18,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     -21.013,
+     50.235,
+     10.106
+    ],
+    "lado": [
+     31.7,
+     31.7,
+     31.7
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 45
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "FLP",
+    "hotspots": [
+     "A:ARG120",
+     "A:SER530",
+     "A:TYR385",
+     "A:TYR355",
+     "A:VAL349",
+     "A:LEU531",
+     "A:LEU352",
+     "A:ALA527",
+     "A:VAL116",
+     "A:TRP387",
+     "A:GLY526",
+     "A:MET522",
+     "A:LEU359",
+     "A:SER353",
+     "A:LEU384"
+    ]
+   },
+   "desplazamiento_del_centro_A": 19.67,
+   "margen_minimo_del_ligando_A": 11.33
+  },
+  {
+   "pdb_id": "3SRW",
+   "referencia": "Q27 X:168",
+   "motivo": "DHFR de S. aureus con una 7-aril-2,4-diaminoquinazolina; el NADP es cofactor.",
+   "antes": {
+    "site_ligand": "NAP",
+    "centro": [
+     6.85,
+     -31.58,
+     6.12
+    ],
+    "hotspots": [
+     "X:ARG45",
+     "X:GLY95",
+     "X:LEU63",
+     "X:LYS46",
+     "X:ILE15",
+     "X:THR47",
+     "X:THR97",
+     "X:THR64",
+     "X:SER65",
+     "X:GLN96",
+     "X:GLY44",
+     "X:GLN20",
+     "X:THR122",
+     "X:GLU101",
+     "X:ASN19"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "X"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 26,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     -5.147,
+     -32.121,
+     6.066
+    ],
+    "lado": [
+     38.4,
+     38.4,
+     38.4
+    ],
+    "site_chains": [
+     "X"
+    ],
+    "site_chain_atoms": {
+     "X": 49
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "Q27",
+    "hotspots": [
+     "X:ASP28",
+     "X:LEU6",
+     "X:PHE93",
+     "X:LEU21",
+     "X:VAL32",
+     "X:VAL7",
+     "X:ALA8",
+     "X:THR47",
+     "X:ILE51",
+     "X:LEU29",
+     "X:SER50",
+     "X:THR112",
+     "X:GLN20",
+     "X:LEU55",
+     "X:PHE99"
+    ]
+   },
+   "desplazamiento_del_centro_A": 12.01,
+   "margen_minimo_del_ligando_A": 13.84
+  },
+  {
+   "pdb_id": "5TBO",
+   "referencia": "78Z A:1001",
+   "motivo": "DHODH de P. falciparum con DSM421; el FMN es cofactor.",
+   "antes": {
+    "site_ligand": "FMN",
+    "centro": [
+     22.49,
+     -9.12,
+     -6.54
+    ],
+    "hotspots": [
+     "A:TYR528",
+     "A:LYS429",
+     "A:SER477",
+     "A:ASN274",
+     "A:THR459",
+     "A:ALA225",
+     "A:GLY226",
+     "A:ASN458",
+     "A:LYS229",
+     "A:ILE263",
+     "A:SER505",
+     "A:THR249",
+     "A:SER529",
+     "A:LEU481",
+     "A:ALA224"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 25,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     23.216,
+     -17.511,
+     -14.763
+    ],
+    "lado": [
+     30.0,
+     30.0,
+     30.0
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 182
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "78Z",
+    "hotspots": [
+     "A:ILE272",
+     "A:ILE263",
+     "A:HIS185",
+     "A:LEU172",
+     "A:ARG265",
+     "A:VAL532",
+     "A:LEU176",
+     "A:LEU531",
+     "A:PHE188",
+     "A:MET536",
+     "A:GLY181",
+     "A:CYS175",
+     "A:PHE227",
+     "A:LEU240",
+     "A:CYS184"
+    ]
+   },
+   "desplazamiento_del_centro_A": 11.77,
+   "margen_minimo_del_ligando_A": 9.02
+  },
+  {
+   "pdb_id": "5TFT",
+   "referencia": "P6U A:604",
+   "motivo": "CYP2D6 con un inhibidor de BACE1; el hemo no se retira como si fuera el ligando.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     -8.84,
+     26.62,
+     -3.58
+    ],
+    "hotspots": [
+     "A:CYS443",
+     "A:ARG441",
+     "A:PHE436",
+     "A:THR309",
+     "A:PHE120",
+     "A:ARG101",
+     "A:GLY445",
+     "A:GLY306",
+     "A:ALA305",
+     "A:SER437",
+     "A:LEU444",
+     "A:VAL374",
+     "A:HIS376",
+     "A:VAL119",
+     "A:TRP128"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 25,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     -3.751,
+     28.528,
+     6.335
+    ],
+    "lado": [
+     31.6,
+     31.6,
+     31.6
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 53
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "P6U",
+    "hotspots": [
+     "A:ALA209",
+     "A:GLU216",
+     "A:SER304",
+     "A:LEU121",
+     "A:PHE247",
+     "A:GLN244",
+     "A:PHE120",
+     "A:LEU110",
+     "A:ASP301",
+     "A:VAL308",
+     "A:LEU248",
+     "A:ALA305",
+     "A:LEU213",
+     "A:ALA300",
+     "A:GLY212"
+    ]
+   },
+   "desplazamiento_del_centro_A": 11.31,
+   "margen_minimo_del_ligando_A": 11.93
+  },
+  {
+   "pdb_id": "5U6X",
+   "referencia": "P6A A:702",
+   "motivo": "Complejo COX-1:P6.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     17.47,
+     163.44,
+     29.62
+    ],
+    "hotspots": [
+     "A:HIS388",
+     "A:GLN203",
+     "A:HIS386",
+     "A:THR212",
+     "A:HIS207",
+     "A:ILE444",
+     "A:VAL447",
+     "A:MET391",
+     "A:PHE210",
+     "A:TRP387",
+     "A:LEU295",
+     "A:TYR385",
+     "A:LYS211",
+     "A:ASN382",
+     "A:ALA202"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 18,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     37.477,
+     163.684,
+     27.102
+    ],
+    "lado": [
+     30.9,
+     30.9,
+     30.9
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 46
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "P6A",
+    "hotspots": [
+     "A:ARG120",
+     "A:SER353",
+     "A:SER530",
+     "A:PHE518",
+     "A:ILE523",
+     "A:LEU352",
+     "A:GLY526",
+     "A:ALA527",
+     "A:VAL349",
+     "A:LEU531",
+     "A:TYR355",
+     "A:VAL116",
+     "A:MET522"
+    ]
+   },
+   "desplazamiento_del_centro_A": 20.17,
+   "margen_minimo_del_ligando_A": 10.89
+  },
+  {
+   "pdb_id": "5WBE",
+   "referencia": "63X A:803",
+   "motivo": "Complejo COX-1:mofezolac.",
+   "antes": {
+    "site_ligand": "HEM",
+    "centro": [
+     17.49,
+     163.13,
+     29.92
+    ],
+    "hotspots": [
+     "A:HIS388",
+     "A:GLN203",
+     "A:HIS386",
+     "A:VAL447",
+     "A:HIS207",
+     "A:THR212",
+     "A:TYR385",
+     "A:PHE210",
+     "A:TRP387",
+     "A:MET391",
+     "A:ASN382",
+     "A:ILE444",
+     "A:LEU295",
+     "A:ALA199",
+     "A:ALA202"
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "site_chains": [
+     "A"
+    ]
+   },
+   "problemas": [],
+   "atomos_pesados": 25,
+   "altlocs": [
+    ""
+   ],
+   "despues": {
+    "centro": [
+     37.206,
+     163.298,
+     27.41
+    ],
+    "lado": [
+     31.4,
+     31.4,
+     31.4
+    ],
+    "site_chains": [
+     "A"
+    ],
+    "site_chain_atoms": {
+     "A": 60
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "63X",
+    "hotspots": [
+     "A:TYR355",
+     "A:ARG120",
+     "A:ILE523",
+     "A:LEU352",
+     "A:TRP387",
+     "A:TYR385",
+     "A:ALA527",
+     "A:GLY526",
+     "A:VAL116",
+     "A:LEU384",
+     "A:VAL349",
+     "A:SER353",
+     "A:LEU531",
+     "A:ILE517",
+     "A:HIS90"
+    ]
+   },
+   "desplazamiento_del_centro_A": 19.88,
+   "margen_minimo_del_ligando_A": 10.14
+  }
+ ]
+}

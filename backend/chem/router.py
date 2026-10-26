@@ -33,6 +33,8 @@ Decisión de diseño: validación en el router vs. en el servicio.
     científicamente — y eso lo detecta chem/validator.py.
 """
 
+from typing import Literal
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -50,7 +52,15 @@ from core.models import MoleculeORM
 import uuid
 from sqlalchemy import select
 from fastapi import Response
-from rdkit.Chem.Draw import rdMolDraw2D
+from chem.elevacion import (
+    SEMILLAS_CRITERIO,
+    ElevacionNoDisponible,
+    dibujo_2d,
+    evidencia_de_la_corrida,
+    modelo_de_la_especie_acoplada,
+    modelo_desde_conformador,
+    modelo_desde_pose,
+)
 from rdkit import Chem
 from core.models import (
     PhysicochemicalProperties,
@@ -371,19 +381,9 @@ async def render_2d_molecule(
         mol = Chem.MolFromSmiles(smiles)
         if not mol:
             return None
-
-        d2d = rdMolDraw2D.MolDraw2DSVG(300, 300)
-        options = d2d.drawOptions()
-        options.useBWAtomPalette()  # Blanco y negro elegante
-        options.bondLineWidth = 2
-        options.fixedFontSize = 14
-        options.addStereoAnnotation = True
-
-        # Preparar molécula (calcula coordenadas 2D si no las tiene)
-        Chem.rdDepictor.Compute2DCoords(mol)
-        d2d.DrawMolecule(mol)
-        d2d.FinishDrawing()
-        return d2d.GetDrawingText()
+        # El mismo dibujo del que parte la elevación 3D (`chem/elevacion.py`):
+        # si divergieran, la ficha saltaría al empezar a girar.
+        return dibujo_2d(mol).svg
 
     svg = await run_in_threadpool(_dibujar, molecule.smiles)
     if svg is None:
@@ -395,6 +395,92 @@ async def render_2d_molecule(
         media_type="image/svg+xml",
         headers={"Cache-Control": "private, no-store"}
     )
+
+
+# ── Elevación 2D → 3D ─────────────────────────────────────────────────────────
+
+
+class ElevacionRequest(BaseModel):
+    smiles: str = Field(..., min_length=1, max_length=2000,
+                        description="SMILES del editor. Se genera un conformador, no una pose.")
+    vista: Literal["escrita", "acoplada"] = Field(
+        "escrita",
+        description=("`escrita`: conformadores del SMILES tal cual. `acoplada`: la especie y el conformador de "
+                     "partida que prepararía la corrida, con su pH y su modo de tautómero."))
+    ph: float | None = Field(None, description="pH de la corrida (sólo `acoplada`). Se acota como en la corrida.")
+    tautomero: str | None = Field(None, description="Modo de tautómero de la corrida (sólo `acoplada`).")
+    molfile: str | None = Field(
+        None, max_length=500_000,
+        description=("Dibujo de Ketcher (molfile). Si es la molécula del SMILES, el levantamiento parte de él; "
+                     "si no, se usa el de RDKit y se dice (`dibujo`)."))
+    rapida: bool = Field(
+        False,
+        description=("Sólo `escrita`: una semilla en vez de tres, para enseñar algo enseguida. La abstención "
+                     "queda provisional (`abstencion_provisional`) hasta pedir la completa."))
+
+
+@router.get(
+    "/elevacion/{molecule_id}",
+    summary="Pose top-1 de una corrida, alineada con su miniatura 2D",
+    description=(
+        "Primer registro del SDF de la corrida (Vina top-1), alineado por rotación propia con el dibujo 2D de "
+        "`/chem/render/{id}`. Sin SDF de la corrida responde 404/409: no se sustituye por un conformador."
+    ),
+)
+async def elevacion_de_la_corrida(
+    molecule_id: uuid.UUID,
+    task_id: str | None = None,
+    db: AsyncSession = Depends(get_db),
+    current_user: UserORM | None = Depends(get_current_user_optional),
+) -> dict:
+    from api.routers.evaluation_access import result_for_task
+    from services.docking.result_sdf import ResultSdfUnavailable, read_result_sdf
+
+    bind_context(endpoint="elevacion", molecule_id=str(molecule_id))
+    repository = Repository(db)
+    molecule = await require_owned_molecule(
+        repository=repository, db=db, molecule_id=molecule_id,
+        current_user=current_user, forbidden_detail="Molécula no accesible",
+        missing_detail="Molécula no encontrada",
+    )
+    selected = await result_for_task(repository, molecule_id, task_id)
+    try:
+        artefacto = await read_result_sdf(selected)
+    except ResultSdfUnavailable as exc:
+        raise HTTPException(exc.status_code, str(exc)) from exc
+    try:
+        modelo = await run_in_threadpool(modelo_desde_pose, molecule.smiles, artefacto.content)
+    except ElevacionNoDisponible as exc:
+        raise HTTPException(status.HTTP_409_CONFLICT, str(exc)) from exc
+    modelo["pose"]["task_id"] = getattr(selected, "task_id", None)
+    # Lo que la corrida ya guardó manda: la afinidad que enseñan la ficha y el
+    # dossier, y el veredicto físico de su pose top-1.
+    corrida = evidencia_de_la_corrida(selected)
+    if corrida["afinidad_kcal_mol"] is not None:
+        modelo["pose"]["afinidad_kcal_mol"] = corrida["afinidad_kcal_mol"]
+    modelo["pose"]["validez_fisica"] = corrida["validez_fisica"]
+    return modelo
+
+
+@router.post(
+    "/elevacion",
+    summary="Conformador calculado de un SMILES, alineado con su dibujo 2D",
+    description=(
+        "Vista previa del editor, no una pose de docking. `escrita`: ETKDGv3 + MMFF94 con semillas fijas. "
+        "`acoplada`: la especie y el conformador de partida que prepararía la corrida."
+    ),
+)
+async def elevacion_del_editor(request: ElevacionRequest) -> dict:
+    try:
+        if request.vista == "acoplada":
+            return await run_in_threadpool(
+                modelo_de_la_especie_acoplada, request.smiles, ph=request.ph, tautomero=request.tautomero,
+                molfile=request.molfile)
+        semillas = SEMILLAS_CRITERIO[:1] if request.rapida else SEMILLAS_CRITERIO
+        return await run_in_threadpool(modelo_desde_conformador, request.smiles, semillas=semillas,
+                                       molfile=request.molfile)
+    except ElevacionNoDisponible as exc:
+        raise HTTPException(422, str(exc)) from exc
 
 
 # ── Endpoint de salud del servicio ────────────────────────────────────────────

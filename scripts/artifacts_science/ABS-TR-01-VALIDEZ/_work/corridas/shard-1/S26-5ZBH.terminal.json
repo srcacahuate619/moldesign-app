@@ -1,0 +1,16 @@
+{
+  "id_r2": "S26",
+  "pdb": "5ZBH",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 98.4,
+      "crudo": "S26-5ZBH-intento1.json.gz",
+      "crudo_sha256": "46edde03f34e3d990f86eaa964e297e22800107a2992644b663af1669a28121e"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S26-5ZBH-intento1.json.gz",
+  "crudo_sha256": "46edde03f34e3d990f86eaa964e297e22800107a2992644b663af1669a28121e",
+  "registrado_en": "2026-10-22T16:50:55+00:00"
+}

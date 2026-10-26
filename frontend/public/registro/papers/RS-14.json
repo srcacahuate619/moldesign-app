@@ -437,6 +437,154 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-027. El NO_GO no demuestra un empate dentro del ruido ni que el espacio de características esté agotado: demuestra que este protocolo no encontró superioridad.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-029. El gate G4 de determinismo no se midió ni participó en la decisión; los dos NO_GO lo son por G2.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-030. MF-09 deja ",
+      "m": null
+     },
+     {
+      "t": "7",
+      "m": "fuerte"
+     },
+     {
+      "t": " de 15 complejos recuperables en el top-5, no 8: el 8 es el margen del oráculo.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-025. El intervalo llamado «CI95 BCa» es el ",
+      "m": null
+     },
+     {
+      "t": "percentil",
+      "m": "fuerte"
+     },
+     {
+      "t": " del bootstrap (",
+      "m": null
+     },
+     {
+      "t": "np.percentile",
+      "m": "codigo"
+     },
+     {
+      "t": "), sin corrección de sesgo ni aceleración; el preregistro pedía BCa. Recalculado con el BCa de verdad sobre las mismas diferencias y el mismo generador: ",
+      "m": null
+     },
+     {
+      "t": "[−0.159, 0.054]",
+      "m": "fuerte"
+     },
+     {
+      "t": " frente a [−0.152, 0.062] publicado. Sigue incluyendo el cero: el gate no cambia. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_rs14_bca.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-026. El nulo por permutación no aplica la misma estadística que el resultado: el observado es la media de tres semillas con validación fija; cada permutación usa una sola semilla y una partición de validación aleatoria. El p empírico de 0.0 no es un p calibrado, y «no memoriza ruido» se lee como diagnóstico: con etiquetas barajadas el entrenamiento rinde menos, no como garantía contra el sobreajuste.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-002. El MDE de 22.3 pp viene de un modelo ±1 que no corresponde a la respuesta fraccionaria del selector; con la varianza observada es 15.6 pp (ver el paper de ",
+      "m": null
+     },
+     {
+      "t": "FND-04",
+      "m": "codigo"
+     },
+     {
+      "t": ").",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/RS-14.md"

@@ -1,0 +1,26 @@
+{
+ "tipo": "diagnostico posterior, declarado: no cambia la decision preregistrada",
+ "metodo": "Spearman parcial: Pearson de los residuos de los rangos tras regresar cada uno sobre el rango de n_conformeros",
+ "parcial_controlando_n_conformeros": {
+  "torsdof": {
+   "n": 68,
+   "rho_parcial": -0.1668,
+   "p": 0.174
+  },
+  "rot_bonds": {
+   "n": 68,
+   "rho_parcial": -0.1394,
+   "p": 0.257
+  },
+  "diversidad": {
+   "n": 65,
+   "rho_parcial": -0.1508,
+   "p": 0.2306
+  },
+  "n_heavy": {
+   "n": 68,
+   "rho_parcial": -0.0911,
+   "p": 0.4602
+  }
+ }
+}

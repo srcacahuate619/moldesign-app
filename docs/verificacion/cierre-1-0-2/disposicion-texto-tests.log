@@ -1,0 +1,13 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run components/cases/__tests__/CaseDispositionPanel.test.tsx lib/__tests__/idiomasCompletos.test.ts lib/__tests__/textoJsxSinEscapes.test.ts
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  3 passed (3)
+      Tests  13 passed (13)
+   Start at  19:31:01
+   Duration  4.26s (environment 47%, import 25%, setup 17%, transform 7%, tests 4%)
+

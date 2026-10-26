@@ -1,0 +1,16 @@
+{
+  "id_r2": "S38",
+  "pdb": "4WUD",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 43.0,
+      "crudo": "S38-4WUD-intento1.json.gz",
+      "crudo_sha256": "2f5e45ed53afc0c22c9d6a79e8efd1b68af202785221805aa754d503456dba11"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S38-4WUD-intento1.json.gz",
+  "crudo_sha256": "2f5e45ed53afc0c22c9d6a79e8efd1b68af202785221805aa754d503456dba11",
+  "registrado_en": "2026-10-25T01:37:37+00:00"
+}

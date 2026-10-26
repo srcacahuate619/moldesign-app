@@ -13,7 +13,7 @@ import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 
-import { hayNumero, numeroOGuion, SIN_DATO } from "../formatoNumerico";
+import { hayNumero, numeroOGuion, SIN_DATO, clavePluralDePoses } from "../formatoNumerico";
 
 describe("numeroOGuion", () => {
   it("devuelve el guion con null — el caso que rompía la pestaña", () => {
@@ -63,5 +63,23 @@ describe("la pestaña Propiedades no vuelve al patrón roto", () => {
     );
     const fuente = fs.readFileSync(archivo, "utf8");
     expect(fuente).not.toMatch(/!==\s*undefined[^\n]*\.toFixed\(/);
+  });
+});
+
+describe("clavePluralDePoses (QA1-011)", () => {
+  it("una sola pose va en singular; el resto, en plural", () => {
+    expect(clavePluralDePoses(1)).toBe("pr_cfg_pose");
+    for (const n of [0, 2, 3, 5, 9, 15, 20]) expect(clavePluralDePoses(n)).toBe("pr_cfg_poses");
+  });
+
+  it("el selector de modos la usa y las dos claves existen en español e inglés", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const modal = readFileSync(resolve(process.cwd(), "components/interfaces/pro/ProOptionsModal.tsx"), "utf8");
+    expect(modal).toContain("t(clavePluralDePoses(n))");
+    expect(modal).not.toContain('{n} {t("pr_cfg_poses")}');
+    const dic = readFileSync(resolve(process.cwd(), "context/traducciones/pro.ts"), "utf8");
+    expect(dic.match(/pr_cfg_pose: /g)).toHaveLength(2);
+    expect(dic.match(/pr_cfg_poses: /g)).toHaveLength(2);
   });
 });

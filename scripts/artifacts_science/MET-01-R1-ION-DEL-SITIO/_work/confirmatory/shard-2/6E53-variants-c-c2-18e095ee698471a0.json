@@ -1,0 +1,176 @@
+{
+  "SIN": {
+    "state": "PREPARED",
+    "target": {
+      "id": "7657e327-b165-4055-bd31-1b781bd8e333",
+      "pdb_id": "USR_C8CD21",
+      "name": "MET01R1-confirmatory-6E53-SIN",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Tribolium Castaneum",
+      "resolution": 2.8,
+      "hotspots": [],
+      "site_chains": [
+        "A",
+        "E"
+      ],
+      "site_chain_atoms": {
+        "A": 54,
+        "E": 21
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "HUV",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 3.928,
+      "grid_center_y": -11.158,
+      "grid_center_z": 112.574,
+      "grid_size_x": 30.0,
+      "grid_size_y": 30.0,
+      "grid_size_z": 30.0,
+      "cofactors_whitelist": [],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "7eeed00e-e04c-40b2-a585-126eb3fc1016",
+      "receptor_source_sha256": "9cf09b11ff476d1abcff05eebc413a40f5911cce178f48a580a79de42d8ec6aa",
+      "prepared_receptor_sha256": "9c3341d528f613d236b5ce3db83c9d65c2d352c8a6123463d5533c24697e6dd6",
+      "preparation_fingerprint": "17fa863baeac0cf8596b1f097fbf43b3b288244f326d28b4e0b67597df22554e",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "6E53",
+        "chain": "A",
+        "grid_center": [
+          3.928,
+          -11.158,
+          112.574
+        ],
+        "grid_size": [
+          30.0,
+          30.0,
+          30.0
+        ],
+        "cofactors_whitelist": [],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": []
+  },
+  "CON": {
+    "state": "PREPARED",
+    "target": {
+      "id": "d12dd8a9-a8e4-46be-a76d-3f35b18c6c9b",
+      "pdb_id": "USR_63E7EF",
+      "name": "MET01R1-confirmatory-6E53-CON",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Tribolium Castaneum",
+      "resolution": 2.8,
+      "hotspots": [],
+      "site_chains": [
+        "A",
+        "E"
+      ],
+      "site_chain_atoms": {
+        "A": 54,
+        "E": 21
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "HUV",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 3.928,
+      "grid_center_y": -11.158,
+      "grid_center_z": 112.574,
+      "grid_size_x": 30.0,
+      "grid_size_y": 30.0,
+      "grid_size_z": 30.0,
+      "cofactors_whitelist": [
+        "MG"
+      ],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "7eeed00e-e04c-40b2-a585-126eb3fc1016",
+      "receptor_source_sha256": "9cf09b11ff476d1abcff05eebc413a40f5911cce178f48a580a79de42d8ec6aa",
+      "prepared_receptor_sha256": "4205c171a63aede9c9364f2aad7b33726a1da9f77a27a917afb276788e5f3225",
+      "preparation_fingerprint": "e3850cbf54ec4ca767da01be9de6fb9ad2f68002848682ae0ed9bfb601bdfe21",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "6E53",
+        "chain": "A",
+        "grid_center": [
+          3.928,
+          -11.158,
+          112.574
+        ],
+        "grid_size": [
+          30.0,
+          30.0,
+          30.0
+        ],
+        "cofactors_whitelist": [
+          "MG"
+        ],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": [
+      "MG"
+    ]
+  }
+}

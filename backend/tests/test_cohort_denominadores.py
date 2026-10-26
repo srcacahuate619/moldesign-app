@@ -214,3 +214,119 @@ def test_el_pdf_de_cohorte_imprime_el_embudo_y_las_exclusiones(cohorte):
     assert "no_elegible_en_preflight" in texto
     # Y la advertencia que impide leer «revisión» como aprobado.
     assert "no es una pose aprobada" in texto.lower()
+
+
+def test_el_dossier_de_cohorte_sirve_pdf_y_readme_en_ingles_sin_traducir_el_nombre(cohorte):
+    pypdf = pytest.importorskip("pypdf")
+    import io as _io
+
+    from core.i18n import reset_request_locale, set_request_locale
+    from services.cohort.dossier import _readme_cohorte, render_cohort_dossier_pdf
+
+    run, filas, resultados = cohorte
+    nombre = "Cohorte Ácido de prueba"
+    evidencia = {
+        "contract": "cohort_evidence/v1",
+        "run_id": str(run.id),
+        "cohort_id": str(uuid.uuid4()),
+        "cohort_name": nombre,
+        "run_status": "completed",
+        "sorted_by": "source_row_index",
+        "cohort_fingerprint": "sha256:" + "a" * 64,
+        "run_fingerprint": "sha256:" + "b" * 64,
+        "effective_config": {"exhaustiveness": 8, "num_poses": 9, "seed": 42},
+        "receptor": {"pdb_id": "7E2Y"},
+        "coverage": cohort_ev.build_coverage(run, filas, resultados),
+        "molecules": cohort_ev.build_molecule_evidence(filas, resultados),
+        "labeled_metrics": {"status": "not_evaluated", "reason_code": "SIN_ETIQUETAS",
+                            "reason": "El archivo no traía etiquetas."},
+        "provenance": {"cohort": {}, "preflight_summary": None,
+                       "execution_contract": "x", "evidence_contract": "y",
+                       "stages": ["validation", "docking"]},
+        "limits": ["Completar un acoplamiento no demuestra actividad."],
+    }
+    token = set_request_locale("en")
+    try:
+        pdf = render_cohort_dossier_pdf(evidencia).getvalue()
+        readme = _readme_cohorte(evidencia, "moldesign_cohort_example").decode("utf-8")
+    finally:
+        reset_request_locale(token)
+
+    texto = "\n".join(p.extract_text() or "" for p in pypdf.PdfReader(_io.BytesIO(pdf)).pages)
+
+    assert "This dossier answers exactly one computational question" in texto
+    assert "Rows in the file" in texto
+    assert nombre in texto
+    assert "el resultado de esta cohorte" not in texto.lower()
+    assert "The verifiable counterpart to `dossier.pdf`" in readme
+    assert "SAME verifier used for case packages" in readme
+    assert "Rows in the file" in readme
+    assert nombre in readme
+
+
+def test_el_pdf_de_cohorte_entrega_cadenas_localizadas_al_renderizador(cohorte, monkeypatch):
+    from reportlab.platypus import Paragraph, Table
+
+    from core.i18n import reset_request_locale, set_request_locale
+    from services.cohort import dossier as cohort_dossier
+
+    run, filas, resultados = cohorte
+    nombre = "Cohorte Ácido de prueba"
+    evidencia = {
+        "contract": "cohort_evidence/v1",
+        "run_id": str(run.id),
+        "cohort_id": str(uuid.uuid4()),
+        "cohort_name": nombre,
+        "run_status": "completed",
+        "sorted_by": "source_row_index",
+        "cohort_fingerprint": "sha256:" + "a" * 64,
+        "run_fingerprint": "sha256:" + "b" * 64,
+        "effective_config": {"exhaustiveness": 8, "num_poses": 9, "seed": 42},
+        "receptor": {"pdb_id": "7E2Y"},
+        "coverage": cohort_ev.build_coverage(run, filas, resultados),
+        "molecules": cohort_ev.build_molecule_evidence(filas, resultados),
+        "labeled_metrics": {"status": "not_evaluated", "reason_code": "SIN_ETIQUETAS",
+                            "reason": "El archivo no traía etiquetas."},
+        "provenance": {"cohort": {}, "preflight_summary": None,
+                       "execution_contract": "x", "evidence_contract": "y",
+                       "stages": ["validation", "docking"]},
+        "limits": ["Completar un acoplamiento no demuestra actividad."],
+    }
+    rendered: list[str] = []
+    document_class = cohort_dossier.SimpleDocTemplate
+
+    class _CapturingDocument(document_class):
+        def build(self, flowables, *args, **kwargs):
+            def visit(flowable):
+                if isinstance(flowable, str):
+                    rendered.append(flowable)
+                elif isinstance(flowable, Paragraph):
+                    rendered.append(flowable.getPlainText())
+                elif isinstance(flowable, Table):
+                    for row in flowable._cellvalues:
+                        for cell in row:
+                            visit(cell)
+                else:
+                    for child in getattr(flowable, "_content", ()):
+                        visit(child)
+
+            for flowable in flowables:
+                visit(flowable)
+            return super().build(flowables, *args, **kwargs)
+
+    monkeypatch.setattr(cohort_dossier, "SimpleDocTemplate", _CapturingDocument)
+    token = set_request_locale("en")
+    try:
+        pdf = cohort_dossier.render_cohort_dossier_pdf(evidencia).getvalue()
+    finally:
+        reset_request_locale(token)
+    texto = "\n".join(rendered)
+
+    assert pdf.startswith(b"%PDF")
+    assert "This dossier answers exactly one computational question" in texto
+    assert "Ineligible rows" in texto
+    assert "Rows in the file" in texto
+    assert "Chain" in texto
+    assert nombre in texto
+    assert "Filas NO elegibles" not in texto
+    assert "El receptor preparado se congeló" not in texto

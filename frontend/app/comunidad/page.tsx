@@ -7,7 +7,7 @@ import {
   Share2, User, Search, Activity, Target,
 } from "lucide-react";
 import { downloadCommunityTarget } from "../../lib/proApi";
-import { getApiUrl } from "../../lib/config";
+import { fetchBackend } from "../../lib/backendFetch";
 import type { Target as TargetType } from "../../lib/api";
 import { getUserItem } from "../../lib/userStorage";
 
@@ -37,7 +37,7 @@ export default function ComunidadPage() {
     setLoading(true);
     setError(null);
     try {
-      const targetsRes = await fetch(`${await getApiUrl()}/targets/community`);
+      const targetsRes = await fetchBackend("/targets/community");
       if (!targetsRes.ok) {
         throw new Error("Los datos compartidos no están disponibles.");
       }

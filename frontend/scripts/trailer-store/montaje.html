@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Montaje del tráiler</title>
+<!--
+  Compone un fotograma del tráiler para un instante `t` (segundos): `await pintar(t)`. No hay animaciones CSS: todo lo
+  mueve `pintar`, así que el mismo `t` da siempre el mismo fotograma. `montar.mjs` carga el plan con `cargar(plan)` y
+  recorre los instantes; abierta en un navegador con `?plan=<url>`, la página se puede revisar a mano (barra espaciadora
+  y flechas).
+  Tipografía: la de la aplicación en Windows (Segoe UI y Cascadia Mono; la app no empaqueta Inter ni Space Grotesk).
+-->
+<style>
+  :root { --acento: #a78bfa; --fondo: #0a0a0a; --texto: #eaeaea; --texto-2: #a1a1aa; }
+  html, body { margin: 0; background: #000; }
+  #escenario { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--fondo);
+    font-family: "Segoe UI", system-ui, sans-serif; color: var(--texto); }
+  .plano { position: absolute; inset: 0; display: none; }
+  .camara { position: absolute; left: 0; top: 0; width: 1440px; height: 810px; transform-origin: 0 0; }
+  .camara img { position: absolute; left: 0; top: 0; width: 1440px; height: 810px; }
+  .anillo { position: absolute; border: 3px solid var(--acento); border-radius: 8px;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, .35), 0 0 22px rgba(167, 139, 250, .55); opacity: 0; }
+  .onda { position: absolute; border: 2.5px solid var(--acento); border-radius: 50%; opacity: 0; }
+  .cursor { position: absolute; left: 0; top: 0; width: 17px; height: 25px; transform-origin: 0 0;
+    filter: drop-shadow(0 1px 1.4px rgba(0, 0, 0, .7)); }
+  .vineta { position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 58%, rgba(0, 0, 0, .42) 100%); }
+  /* Velo bajo los rótulos: la interfaz de detrás no compite con el título del paso. */
+  .velo { position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    background: radial-gradient(ellipse 70% 55% at 12% 100%, rgba(0, 0, 0, .78) 0%, rgba(0, 0, 0, .45) 45%, rgba(0, 0, 0, 0) 100%); }
+  .rotulo { position: absolute; left: 96px; bottom: 124px; padding: 22px 36px 24px 30px; display: none;
+    background: rgba(9, 9, 11, .84); backdrop-filter: blur(14px); border-left: 4px solid var(--acento);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .45); }
+  .rotulo .num { font-family: "Cascadia Mono", monospace; font-size: 19px; letter-spacing: .22em; color: var(--acento); font-weight: 600; }
+  .rotulo .titulo { font-size: 60px; font-weight: 700; line-height: 1.06; margin-top: 8px; letter-spacing: -.01em; white-space: nowrap; }
+  .rotulo .nota { font-family: "Cascadia Mono", monospace; font-size: 17px; letter-spacing: .1em; color: #cfc4f7; margin-top: 14px; white-space: nowrap; }
+  #intro { position: absolute; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse at 50% 40%, #1e1532 0%, #0a0a0a 64%); }
+  #intro img { width: 220px; height: auto; }
+  #intro .marca { font-family: "Cascadia Mono", monospace; font-size: 21px; letter-spacing: .34em; color: var(--acento); margin-top: 18px; font-weight: 600; }
+  #intro h1 { font-size: 84px; font-weight: 700; margin: 26px 0 0; letter-spacing: -.015em; text-align: center; line-height: 1.06; }
+  #intro p { font-size: 28px; color: var(--texto-2); margin: 24px 0 0; }
+  body.suelto #escenario { background: transparent; }
+</style>
+</head>
+<body>
+<div id="escenario"></div>
+<script>
+const CURSOR = `<svg class="cursor" viewBox="0 0 17 25" xmlns="http://www.w3.org/2000/svg"><path d="M1 1 L1 21 L6.2 16.2 L9.6 24 L13 22.5 L9.7 14.9 L16 14.9 Z" fill="#fff" stroke="#111" stroke-width="1.3" stroke-linejoin="round"/></svg>`;
+const BASE = 1920 / 1440; // píxeles de salida por píxel CSS de la captura, sin zoom
+
+let PLAN = null;
+const planos = [];
+const cache = new Map();
+
+const suave = (x) => (x <= 0 ? 0 : x >= 1 ? 1 : x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const lineal = (a, b, f) => a + (b - a) * f;
+const entre = (x, a, b) => Math.min(b, Math.max(a, x));
+
+/** Interpola fotogramas clave [{t, ...valores}] con curva suave; fuera de rango, sostiene el extremo. */
+function clave(claves, t, campos) {
+  if (!claves?.length) return null;
+  if (t <= claves[0].t) return pick(claves[0], campos);
+  for (let i = 0; i < claves.length - 1; i++) {
+    const a = claves[i], b = claves[i + 1];
+    if (t <= b.t) {
+      const f = suave((t - a.t) / Math.max(1e-6, b.t - a.t));
+      return Object.fromEntries(campos.map((c) => [c, lineal(a[c], b[c], f)]));
+    }
+  }
+  return pick(claves.at(-1), campos);
+}
+const pick = (o, campos) => Object.fromEntries(campos.map((c) => [c, o[c]]));
+
+function imagen(src) {
+  if (!cache.has(src)) {
+    const img = new Image();
+    img.decoding = "sync";
+    img.src = src;
+    cache.set(src, { img, listo: img.decode().catch(() => {}) });
+  }
+  return cache.get(src);
+}
+
+function cargar(plan) {
+  PLAN = plan;
+  const escenario = document.getElementById("escenario");
+  escenario.innerHTML = "";
+  planos.length = 0;
+  for (const p of plan.planos) {
+    const raiz = document.createElement("div");
+    raiz.className = "plano";
+    const camara = document.createElement("div");
+    camara.className = "camara";
+    const anillo = document.createElement("div");
+    anillo.className = "anillo";
+    const onda = document.createElement("div");
+    onda.className = "onda";
+    camara.append(anillo, onda);
+    camara.insertAdjacentHTML("beforeend", p.cursor ? CURSOR : "");
+    if (p.superpuesta) {
+      // Un plano «libre» puede salirse de la captura: su borde inferior se funde con el fondo y, encima, la imagen
+      // superpuesta (el primer fotograma del vídeo de Molcy sobre su reproductor) completa lo que la captura cortó.
+      camara.insertAdjacentHTML("afterbegin", `<div class="borde" style="position:absolute;left:-1440px;top:770px;width:4320px;height:40px;background:linear-gradient(rgba(10,10,10,0),#0a0a0a)"></div><div class="borde" style="position:absolute;left:-1440px;top:809px;width:4320px;height:900px;background:#0a0a0a"></div>`);
+      const [x, y, w, h] = p.superpuesta.caja;
+      const img = document.createElement("img");
+      img.className = "superpuesta";
+      img.src = p.superpuesta.src;
+      Object.assign(img.style, { left: `${x}px`, top: `${y}px`, width: `${w}px`, height: `${h}px`, opacity: 0 });
+      camara.insertBefore(img, anillo);
+    }
+    raiz.append(camara);
+    escenario.append(raiz);
+    planos.push({ p, raiz, camara, anillo, onda, cursor: camara.querySelector(".cursor"), imgs: new Map() });
+  }
+  const vineta = document.createElement("div");
+  vineta.className = "vineta";
+  const velo = document.createElement("div");
+  velo.className = "velo";
+  escenario.append(vineta, velo);
+  for (const r of plan.rotulos) {
+    const el = document.createElement("div");
+    el.className = "rotulo";
+    el.innerHTML = `<div class="num"></div><div class="titulo"></div>${r.nota ? '<div class="nota"></div>' : ""}`;
+    el.querySelector(".num").textContent = r.num;
+    el.querySelector(".titulo").textContent = r.titulo;
+    if (r.nota) el.querySelector(".nota").textContent = r.nota;
+    escenario.append(el);
+    r.el = el;
+  }
+  if (plan.intro) {
+    const i = plan.intro;
+    const el = document.createElement("div");
+    if (i.portada) {
+      // El arranque es la portada (la misma composición que la miniatura): decisión del propietario, 2026-10-12.
+      el.style.cssText = "position:absolute;inset:0;display:none";
+      el.innerHTML = marcadoPortada(i.portada);
+    } else {
+      el.id = "intro";
+      el.innerHTML = `<img alt=""><div class="marca"></div><h1></h1><p></p>`;
+      el.querySelector("img").src = i.logo;
+      el.querySelector(".marca").textContent = i.marca;
+      el.querySelector("h1").textContent = i.titulo;
+      el.querySelector("p").textContent = i.subtitulo;
+    }
+    escenario.append(el);
+    i.el = el;
+  }
+}
+
+/** La imagen que toca en el instante local `tl` y, si hay fundido, la siguiente con su peso. */
+function imagenesDe(p, tl) {
+  const lista = p.imagenes;
+  let k = 0;
+  while (k + 1 < lista.length && lista[k + 1].t <= tl) k++;
+  const actual = lista[k];
+  const siguiente = lista[k + 1];
+  if (p.fundido && siguiente) {
+    const f = (tl - (siguiente.t - p.fundido)) / p.fundido;
+    if (f > 0) return [[actual.src, 1], [siguiente.src, entre(f, 0, 1)]];
+  }
+  return [[actual.src, 1]];
+}
+
+function camaraDe(p, tl) {
+  const c = clave(p.camara, tl, ["cx", "cy", "z"]) ?? { cx: 720, cy: 405, z: 1 };
+  const z = Math.max(1, c.z);
+  if (p.libre) return { cx: c.cx, cy: c.cy, z };
+  const mx = 720 / z, my = 405 / z;
+  return { cx: entre(c.cx, mx, 1440 - mx), cy: entre(c.cy, my, 810 - my), z };
+}
+
+async function pintar(t) {
+  const esperas = [];
+  for (const v of planos) {
+    const { p } = v;
+    const visible = t >= p.inicio && t < p.fin;
+    v.raiz.style.display = visible ? "block" : "none";
+    if (!visible) {
+      // Lo que ya pasó se suelta: decenas de capturas a 2880×1620 no caben a la vez.
+      if (t > p.fin + 1 && v.imgs.size) { for (const img of v.imgs.values()) img.remove(); v.imgs.clear(); }
+      if (t > p.inicio - 1.5 && t < p.inicio) for (const im of p.imagenes.slice(0, 3)) esperas.push(imagen(im.src).listo);
+      continue;
+    }
+    const tl = t - p.inicio;
+    v.raiz.style.opacity = p.entra ? entre(tl / p.entra, 0, 1) : 1;
+    const mostrar = imagenesDe(p, tl);
+    const usadas = new Set(mostrar.map(([src]) => src));
+    for (const [src, img] of v.imgs) if (!usadas.has(src)) img.style.display = "none";
+    for (const [src, peso] of mostrar) {
+      let img = v.imgs.get(src);
+      if (!img) {
+        const c = imagen(src);
+        esperas.push(c.listo);
+        img = c.img.cloneNode();
+        v.imgs.set(src, img);
+        v.camara.prepend(img);
+      }
+      img.style.display = "block";
+      img.style.opacity = peso;
+    }
+    // Las de detrás primero: la que entra por fundido queda encima. Los bordes de un plano libre, detrás de todo.
+    const delante = v.camara.querySelector(".superpuesta") ?? v.anillo;
+    for (const [src] of mostrar) v.camara.insertBefore(v.imgs.get(src), delante);
+    const borde = v.camara.querySelectorAll(".borde");
+    for (const b of borde) v.camara.insertBefore(b, delante);
+    if (p.superpuesta) {
+      const s = v.camara.querySelector(".superpuesta");
+      esperas.push(imagen(p.superpuesta.src).listo);
+      s.style.opacity = entre((tl - p.superpuesta.desde) / 0.25, 0, 1);
+    }
+    const sig = p.imagenes.find((im) => im.t > tl);
+    if (sig) esperas.push(imagen(sig.src).listo);
+
+    const { cx, cy, z } = camaraDe(p, tl);
+    const k = BASE * z;
+    v.camara.style.transform = `translate(${960 - cx * k}px, ${540 - cy * k}px) scale(${k})`;
+
+    if (p.anillo) {
+      const [x, y, w, h] = p.anillo.caja;
+      const a = p.anillo;
+      const f = entre((tl - a.desde) / 0.35, 0, 1) * (a.hasta == null ? 1 : entre((a.hasta - tl) / 0.25, 0, 1));
+      const s = lineal(1.18, 1, suave(entre((tl - a.desde) / 0.35, 0, 1)));
+      const pad = 4;
+      Object.assign(v.anillo.style, { left: `${x - pad}px`, top: `${y - pad}px`, width: `${w + 2 * pad}px`, height: `${h + 2 * pad}px`,
+        opacity: f, transform: `scale(${s})` });
+    } else v.anillo.style.opacity = 0;
+
+    if (v.cursor) {
+      const c = clave(p.cursor, tl, ["x", "y"]);
+      let escala = 1;
+      let onda = null;
+      for (const tc of p.clics ?? []) {
+        const d = tl - tc;
+        if (d >= -0.08 && d < 0.14) escala = 0.84;
+        if (d >= 0 && d < 0.55) onda = d / 0.55;
+      }
+      // Arrastre (girar el visor): el botón sigue pulsado.
+      for (const [a, b] of p.presionado ?? []) if (tl >= a && tl < b) escala = 0.84;
+      v.cursor.style.transform = `translate(${c.x}px, ${c.y}px) scale(${escala})`;
+      if (onda != null) {
+        const r = lineal(5, 30, suave(onda));
+        Object.assign(v.onda.style, { left: `${c.x - r}px`, top: `${c.y - r}px`, width: `${2 * r}px`, height: `${2 * r}px`,
+          opacity: (1 - onda) * 0.95 });
+      } else v.onda.style.opacity = 0;
+    }
+  }
+
+  let velo = 0;
+  for (const r of PLAN.rotulos) {
+    // El velo no parpadea entre un paso y el siguiente: cuenta con un poco de margen a los lados.
+    if (t >= r.inicio - 0.3 && t < r.fin + 0.3) velo = Math.max(velo, entre((t - r.inicio + 0.3) / 0.5, 0, 1) * entre((r.fin + 0.3 - t) / 0.5, 0, 1));
+    const visible = t >= r.inicio && t < r.fin;
+    r.el.style.display = visible ? "block" : "none";
+    if (!visible) continue;
+    const fin = entre((r.fin - t) / 0.3, 0, 1);
+    const ini = suave(entre((t - r.inicio) / 0.4, 0, 1));
+    r.el.style.opacity = Math.min(ini, fin);
+    r.el.style.transform = `translateY(${lineal(26, 0, ini)}px)`;
+  }
+  const capaVelo = document.querySelector(".velo");
+  if (capaVelo) capaVelo.style.opacity = velo;
+
+  const i = PLAN.intro;
+  if (i) {
+    const visible = t >= i.inicio && t < i.fin;
+    i.el.style.display = visible ? (i.portada ? "block" : "flex") : "none";
+    if (visible) {
+      const fin = entre((i.fin - t) / 0.55, 0, 1);
+      const avance = entre((t - i.inicio) / (i.fin - i.inicio), 0, 1);
+      if (i.portada) {
+        // Desde el primer fotograma, entera (es la imagen que ve la Store antes de reproducir); sólo el fondo se acerca.
+        i.el.style.opacity = fin;
+        i.el.querySelector(".fondo-portada").style.transform = `scale(${lineal(1, 1.035, avance)})`;
+        for (const im of i.el.querySelectorAll("img")) esperas.push(im.decode().catch(() => {}));
+      } else {
+        i.el.style.opacity = Math.min(entre((t - i.inicio) / 0.6, 0, 1), fin);
+        i.el.style.transform = `scale(${lineal(0.96, 1.0, suave(avance))})`;
+      }
+    }
+  }
+  await Promise.all(esperas);
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+}
+
+/** Un rótulo suelto, sin fondo, para superponerlo con ffmpeg (el del vídeo de Molcy). */
+function soloRotulo(r) {
+  // Sin ningún fondo: el PNG se superpone al vídeo de Molcy y sólo debe tapar donde está el rótulo.
+  document.documentElement.style.background = "transparent";
+  document.body.style.background = "transparent";
+  document.body.classList.add("suelto");
+  cargar({ planos: [], rotulos: [{ ...r, inicio: 0, fin: 1e9 }] });
+  document.querySelector(".vineta").remove();
+  document.querySelector(".velo").remove();
+  const el = PLAN.rotulos[0].el;
+  el.style.display = "block";
+  Object.assign(el.style, r.estilo ?? {});
+}
+
+/**
+ * La portada: un fotograma del vídeo de Molcy que cubre TODO el cuadro (ampliado `escala` veces, con el punto `centro` del
+ * fotograma llevado a `destinoX`), el emblema y el título a la izquierda. Es la miniatura y el arranque del tráiler.
+ * Antes se desplazaba el fotograma sin ampliarlo y a la izquierda quedaba una franja lisa con el borde de la imagen.
+ */
+function marcadoPortada({ fondo, logo, marca, titulo, subtitulo, escala = 1, centro = [960, 540], destinoX = 960 }) {
+  // Encuadre que siempre cubre 1920×1080: nunca deja ver el borde del fotograma.
+  const ancho = 1920 * escala, alto = 1080 * escala;
+  const left = entre(destinoX - centro[0] * escala, 1920 - ancho, 0);
+  const top = entre(540 - centro[1] * escala, 1080 - alto, 0);
+  return `
+    <div style="position:absolute;inset:0;background:#04070b"></div>
+    <img class="fondo-portada" src="${fondo}" style="position:absolute;left:${left}px;top:${top}px;width:${ancho}px;height:${alto}px;transform-origin:${destinoX - left}px ${540 - top}px">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(4,7,11,.86) 0%,rgba(4,7,11,.74) 30%,rgba(4,7,11,.3) 52%,rgba(4,7,11,0) 66%)"></div>
+    <div style="position:absolute;left:120px;top:50%;transform:translateY(-50%);width:900px;text-align:left">
+      <img src="${logo}" style="width:132px;height:auto;display:block">
+      <div style="font-family:'Cascadia Mono',monospace;font-size:22px;letter-spacing:.34em;color:var(--acento);font-weight:600;margin-top:26px">${marca}</div>
+      <div style="font-size:86px;font-weight:700;line-height:1.04;letter-spacing:-.015em;margin-top:18px;white-space:pre-line">${titulo}</div>
+      <div style="font-size:28px;color:#c8c8d0;margin-top:26px;line-height:1.35">${subtitulo}</div>
+    </div>`;
+}
+
+async function portada(opciones) {
+  const escenario = document.getElementById("escenario");
+  escenario.innerHTML = marcadoPortada(opciones);
+  await Promise.all([...escenario.querySelectorAll("img")].map((i) => i.decode().catch(() => {})));
+}
+
+window.cargar = cargar;
+window.pintar = pintar;
+window.soloRotulo = soloRotulo;
+window.portada = portada;
+
+// Revisión a mano: ?plan=<url del plan.json>; espacio reproduce, flechas avanzan.
+const q = new URLSearchParams(location.search);
+if (q.get("plan")) {
+  fetch(q.get("plan")).then((r) => r.json()).then(async (plan) => {
+    cargar(plan);
+    let t = Number(q.get("t") ?? 0), corriendo = false;
+    await pintar(t);
+    addEventListener("keydown", async (e) => {
+      if (e.key === " ") { corriendo = !corriendo; let prev = performance.now();
+        const paso = async (ahora) => { if (!corriendo) return; t += (ahora - prev) / 1000; prev = ahora; await pintar(t); requestAnimationFrame(paso); };
+        requestAnimationFrame(paso); }
+      if (e.key === "ArrowRight") { t += 1 / 30; await pintar(t); }
+      if (e.key === "ArrowLeft") { t = Math.max(0, t - 1 / 30); await pintar(t); }
+    });
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+
+> moldesign-frontend@1.0.1 lint
+> eslint .
+
+
+Oops! Something went wrong! :(
+
+ESLint: 9.39.2
+
+Error: ENOENT: no such file or directory, open 'D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\MutanteInvisibleDelGuardian.tsx'
+    at async open (node:internal/fs/promises:1345:25)
+    at async Object.readFile (node:internal/fs/promises:1996:14)
+    at async readAndVerifyFile (D:\moldesign-build\frontend\node_modules\eslint\lib\eslint\eslint-helpers.js:1306:16)

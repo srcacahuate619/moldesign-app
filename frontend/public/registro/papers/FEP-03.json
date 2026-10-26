@@ -406,6 +406,57 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-006. El conteo de parejas no es una ",
+      "m": null
+     },
+     {
+      "t": "cota superior",
+      "m": "fuerte"
+     },
+     {
+      "t": " demostrada: un MCS que se corta por tiempo puede quedarse corto y excluir parejas, además de agruparlas de más. Es un conteo de candidatas con sesgos en las dos direcciones.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/FEP-03.md"

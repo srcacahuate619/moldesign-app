@@ -1,0 +1,118 @@
+{
+  "avisos_integridad": [],
+  "controles": [
+    {
+      "codigo": "VALIDEZ_FISICA_POSES",
+      "estado": "PASA",
+      "observacion": "9 of 9 poses received a verdict, and none failed the chemistry or geometry checks. Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.",
+      "procedencia": "eval_result.structural_evidence",
+      "protocolo": "Pose reconstruction from PDBQT using the SMILES template, followed by geometric validation. The representation used for validation is NOT the crystal structure: hydrogens are added during reconstruction.",
+      "titulo": "Physical and geometric validity of the poses"
+    },
+    {
+      "codigo": "SEPARACION_ENTRE_POSES",
+      "estado": "REVISAR",
+      "observacion": "9 poses are within 1 kcal/mol; the pose 1–2 difference is 0.19 kcal/mol. No replicates or ensemble were recorded.",
+      "procedencia": "eval_result.docking_poses",
+      "protocolo": "Affinity difference between poses 1 and 2, and the count within ≤1 kcal/mol.",
+      "titulo": "Energy separation between poses"
+    },
+    {
+      "codigo": "TRAZA_REPRODUCIBILIDAD",
+      "estado": "REGISTRADO",
+      "observacion": "3/3 traces: engine version, seed, and parser.",
+      "procedencia": "eval_result",
+      "protocolo": "Presence of the three fields needed to repeat the run.",
+      "titulo": "Technical reproducibility trace"
+    }
+  ],
+  "decisiones_humanas": [],
+  "dimensiones": [
+    {
+      "codigo": "SYSTEM",
+      "estado": "REGISTRADO",
+      "observacion": "The inventory records the prepared receptor, grid, and structural references.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "System preparation"
+    },
+    {
+      "codigo": "DOCKING",
+      "estado": "REGISTRADO",
+      "observacion": "9 serialized poses; best raw affinity -6.95 kcal/mol · vina 1.2.7.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Docking signal"
+    },
+    {
+      "codigo": "SAMPLING",
+      "estado": "REVISAR",
+      "observacion": "9 poses are within 1 kcal/mol; the pose 1–2 difference is 0.19 kcal/mol. No replicates or ensemble were recorded.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Pose sampling"
+    },
+    {
+      "codigo": "REPRODUCIBILITY",
+      "estado": "REGISTRADO",
+      "observacion": "Minimum traces 3/3 (engine version, seed, and parser); reconstruction items 7/7. Reconstruction by a third party: not demonstrated.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Technical reproducibility"
+    },
+    {
+      "codigo": "PHYSICAL",
+      "estado": "REGISTRADO",
+      "observacion": "9 of 9 poses received a verdict, and none failed the chemistry or geometry checks. Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Physical validity of poses"
+    },
+    {
+      "codigo": "MODEL",
+      "estado": "REGISTRADO",
+      "observacion": "universal model; fallback: Familia 'transporter' sin modelo entrenado disponible — modelo universal usado. The docking engine and its version are listed in the reproducibility trace, not here; they are distinct identities.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Model applicability domain"
+    },
+    {
+      "codigo": "PHYSICOCHEMICAL",
+      "estado": "REGISTRADO",
+      "observacion": "Values and rules are reported separately; they do not become a global rating.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Physicochemical descriptors"
+    },
+    {
+      "codigo": "SELECTIVITY",
+      "estado": "REVISAR",
+      "observacion": "Computational comparison relating to the protocol; it does not demonstrate experimental selectivity.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Selectivity evidence"
+    }
+  ],
+  "incertidumbres": [
+    "This receptor has no measured Spearman ρ, and its structural family has no calibrated stacking, so it runs under the shared conservative alpha contract. There is no evidence that the ranking correlates with actual affinity here. Treat the result as a hypothesis to test, not as a measurement.",
+    "9 poses are within 1 kcal/mol; selecting a single pose is ambiguous.",
+    "The pose selector abstained: it did not recommend a pose. The fallback reference is Vina top-1, not a successful selector prediction.",
+    "Meeko-assigned histidine templates: A:178=HIE, A:220=HIE, A:222=HIE, A:228=HIE, A:280=HIE, A:296=HIE, A:370=HIE, A:372=HIE, A:441=HIE, A:598=HIE, A:599=HIE, A:613=HIE. The assignment is template-based and does not validate the experimental microstate or a specific pH.",
+    "Desolvated preparation: 23 crystallographic waters were removed from the docking box; 10 had at least 3 contacts within 3.5 Å of the receptor (the best-coordinated water had 6). If any of these waters participates in recognition by this target—such as the catalytic water in HIV-1 protease or the hinge network in some kinases—this run's contacts do not include it.",
+    "Ligand efficiency LE=0.53. With 13 heavy atoms, the 0.45 threshold is crossed by any affinity better than -5.9 kcal/mol, so exceeding it does not distinguish good binding from mediocre binding. In this mass range (< 300 Da, Rule of Three), efficiency per atom is high by construction: it can compare molecules of the same size, but cannot serve as a verdict.",
+    "The docked species differs from the input: FC(F)(F)CNCc1ccccc1 → FC(F)(F)C[NH2+]Cc1ccccc1. Unevaluated alternatives remain a source of chemical uncertainty."
+  ],
+  "siguiente_accion": {
+    "estado": "REVISAR",
+    "etiqueta": "Next justified action",
+    "razon": "Document the reservations of preparation, domain or reproducibility before comparing this run with others.",
+    "valor": "RESOLVE CAVEATS BEFORE COMPARING",
+    "valor_es_clasificacion": true
+  },
+  "supuestos": [
+    "Affinities are interpreted as ranking signals within the protocol, not as experimental free-energy measurements.",
+    "The best raw pose is identified by serialized affinity order; that order does not demonstrate geometric validity.",
+    "No preparation, protonation, or minimization steps are attributed to the run unless it recorded them.",
+    "Desolvated preparation: all crystallographic waters were removed from the receptor. If this target requires conserved bridging waters for molecular recognition, this run's contacts and affinities do not include them."
+  ]
+}

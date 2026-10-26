@@ -16,6 +16,8 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 const routerPush = vi.fn();
 vi.mock("next/navigation", () => ({ useRouter: () => ({ push: routerPush }) }));
+// Sin sesión, la tarjeta de Molcy no pregunta al backend (ver PaqueteMolcyCard.test.tsx).
+vi.mock("@/lib/auth", () => ({ useAuth: () => ({ user: null, isLoading: false }) }));
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { type ReactNode } from "react";
 
@@ -92,6 +94,13 @@ describe("LauncherScreen — botones de estado", () => {
     }, { timeout: 8000 });
 
     expect(screen.getByRole("button", { name: /Abrir sin módulos opcionales/i })).toBeEnabled();
+  });
+
+  it("el menú ofrece también Blender + Molecular Nodes para Molcy (pedido por el propietario, 2026-10-10)", async () => {
+    renderWithProvider(<LauncherScreen />);
+    const paquete = await screen.findByTestId("paquete-molcy");
+    expect(paquete).toHaveTextContent("Blender + Molecular Nodes");
+    expect(paquete).toHaveTextContent("Para Molcy");
   });
 
   it("botón 'Verificar módulos instalados' llama a checkModules", async () => {

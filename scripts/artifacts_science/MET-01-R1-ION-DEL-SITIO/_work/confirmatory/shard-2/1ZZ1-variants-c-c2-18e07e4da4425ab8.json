@@ -1,0 +1,172 @@
+{
+  "SIN": {
+    "state": "PREPARED",
+    "target": {
+      "id": "3d963715-5ec0-4b8b-a4b2-61c81cc98648",
+      "pdb_id": "USR_E63AD9",
+      "name": "MET01R1-confirmatory-1ZZ1-SIN",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Alcaligenaceae Bacterium",
+      "resolution": 1.57,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 48
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "SHH",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": -6.65,
+      "grid_center_y": -10.43,
+      "grid_center_z": 38.01,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "1217e475-b3e8-4f35-93c8-d07716d679db",
+      "receptor_source_sha256": "0a935c8c799d1ed9770191cc408927b9c4ca16176a62e83badd475e739ad5c5c",
+      "prepared_receptor_sha256": "781c3a09e6874021e3951c6fc317d6909c88056f1e37ca5ba2e728dfe4ba1306",
+      "preparation_fingerprint": "06487ddbc9ced08758aa6fddf2ff1e8b43ad86fa4a5bff00c79bb4caa17cfd09",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "1ZZ1",
+        "chain": "A",
+        "grid_center": [
+          -6.65,
+          -10.43,
+          38.01
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": []
+  },
+  "CON": {
+    "state": "PREPARED",
+    "target": {
+      "id": "df9614a3-e406-4846-806e-cfcde9fc5761",
+      "pdb_id": "USR_5CA5C7",
+      "name": "MET01R1-confirmatory-1ZZ1-CON",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Alcaligenaceae Bacterium",
+      "resolution": 1.57,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 48
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "SHH",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": -6.65,
+      "grid_center_y": -10.43,
+      "grid_center_z": 38.01,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [
+        "ZN"
+      ],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "1217e475-b3e8-4f35-93c8-d07716d679db",
+      "receptor_source_sha256": "0a935c8c799d1ed9770191cc408927b9c4ca16176a62e83badd475e739ad5c5c",
+      "prepared_receptor_sha256": "7f27901e1e9a2c763a8a885ca33dcdbf5b95e42cb67811a0debf3567a831924f",
+      "preparation_fingerprint": "3022f7ca01ac1527d1b3146d881a64ad61032b547f88e6ef96dd8ca230a8ce28",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "1ZZ1",
+        "chain": "A",
+        "grid_center": [
+          -6.65,
+          -10.43,
+          38.01
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [
+          "ZN"
+        ],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": [
+      "ZN"
+    ]
+  }
+}

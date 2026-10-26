@@ -43,3 +43,15 @@ hacen falta las dos ramas.
 El MM-GBSA candidato sobre OpenMM **no calculaba el GBn2 parametrizado en
 cuanto había una Met o una Cys**. Con la corrección, sí. Nada de esto está
 conectado a la aplicación: MM-GBSA sigue desactivado hasta pasar sus puertas.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-138. La salida contiene 55 topologías cuyos identificadores coinciden con el panel
+  histórico H5-R1, más los dos péptidos, sin duplicados. Hay dos geometrías indeterminadas
+  declaradas y la paridad se satisface en los evaluables con comparación Windows/Linux para los
+  57. El gate original podía pasar con sólo los péptidos; esta comprobación posterior acredita
+  completitud observada y no fabrica una lista de miembros prerregistrada. Productor:
+  `scripts/analisis_fase1b_cohortes.py`.

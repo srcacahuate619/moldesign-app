@@ -19,7 +19,7 @@ El redocking demuestra que la caja describe el sitio de ESE ligando. **No
 demuestra que ese sitio sea el farmacológicamente relevante**: con hERG, las
 estructuras de rayos X son del dominio PAS y no del poro (DOCK-016). Por eso
 `sitio_adjudicado` sólo es cierto donde una persona lo revisó, y las dos dianas
-del panel por defecto (hERG 5VA1 y 5-HT2B 4NC3) siguen viniendo del catálogo
+del panel por defecto (hERG 5VA1 y 5-HT2B 7SRQ) siguen viniendo del catálogo
 curado, no de aquí.
 
 # Uso
@@ -90,7 +90,8 @@ RIESGO: dict[str, str] = {
 
 #: Las dos que vienen del catálogo curado, con su sitio ya adjudicado en la
 #: fase 1 (hERG sobre el tetrámero y sus hotspots T623/S624/Y652/F656).
-DEL_CATALOGO = {"hERG": "5VA1", "5-HT2B": "4NC3"}
+DEL_CATALOGO = {"hERG": "5VA1", "5-HT2B": "7SRQ"}
+ADOPCION_5HT2B = RAIZ / "docs" / "catalog_versions" / "anti-diana-5ht2b-2026-10-05.json"
 
 #: Los mismos umbrales que la validación: el sitio decide, el RMSD se informa.
 SITIO_MAX_A = 4.0
@@ -136,6 +137,16 @@ def construir() -> dict:
                     "nota": ("no se ofrece como anti-diana aparte para no duplicar la diana; "
                              "queda como medida independiente del sitio"),
                 }
+            if assay == "5-HT2B":
+                nueva = json.loads(ADOPCION_5HT2B.read_text(encoding="utf-8"))["5ht2b_adoption"]
+                medida = nueva["redocking"]
+                entrada.update({
+                    "metodo": nueva["metodo"], "resolucion_A": nueva["resolucion_A"],
+                    "site_ligand": nueva["site_ligand"],
+                    "redock": {**medida, "vina": nueva["vina"], "ligando": nueva["site_ligand"]},
+                    "truncadas_en_sitio": sum(t["site_critical"] for t in nueva["preparation"]["truncated_sidechains"]),
+                    "procedencia_sitio": "LSD 7LD ortostérico; continuidad y redocking medidos en anti-diana-5ht2b-2026-10-05.json",
+                })
             dianas.append(entrada)
             continue
         if buenas:
@@ -194,7 +205,7 @@ def construir() -> dict:
     }
 
 
-DOC = RAIZ / "docs" / "auditorias" / "ae4db6a" / "panel_bowes44.md"
+DOC = RAIZ / "docs" / "auditorias" / "panel_bowes44_actual.md"
 
 #: Qué significa cada estado de intento, para que el motivo se lea sin el código
 #: delante. `no_es_farmaco` es el más fácil de malinterpretar: no es que faltara
@@ -288,7 +299,7 @@ def markdown(datos: dict) -> str:
         r = d.get("redock") or {}
         alt = d.get("alternativa_medida") or {}
         pdb = d.get("pdb_id") or "—"
-        if alt:
+        if alt and not r:
             # Las cifras son de OTRA estructura: decirlo, o la fila mezcla el PDB
             # que se acopla con la medida de una entrada distinta.
             pdb = f"{pdb} (medida: {alt.get('pdb_id')})"

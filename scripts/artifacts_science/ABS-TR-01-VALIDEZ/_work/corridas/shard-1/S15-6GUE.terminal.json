@@ -1,0 +1,16 @@
+{
+  "id_r2": "S15",
+  "pdb": "6GUE",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 25.3,
+      "crudo": "S15-6GUE-intento1.json.gz",
+      "crudo_sha256": "446348d4cc8ae3f4451b43d4d21b8b0a8c88090906c09e4df13bf5244883ff76"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S15-6GUE-intento1.json.gz",
+  "crudo_sha256": "446348d4cc8ae3f4451b43d4d21b8b0a8c88090906c09e4df13bf5244883ff76",
+  "registrado_en": "2026-10-22T16:45:26+00:00"
+}

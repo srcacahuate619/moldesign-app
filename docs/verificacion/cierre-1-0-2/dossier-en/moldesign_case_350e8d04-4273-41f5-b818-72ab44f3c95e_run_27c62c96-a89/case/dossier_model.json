@@ -1,0 +1,1097 @@
+{
+  "apendice_heredado": [
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Legacy composite index (total_score)",
+      "razon": "Without formula or published version: it is not interpretable as probability, confidence or quality.",
+      "valor": "64.5",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Legacy affinity index",
+      "razon": "Without formula or published version: it is not interpretable as probability, confidence or quality.",
+      "valor": "89.6",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Legacy ADME index",
+      "razon": "Without formula or published version: it is not interpretable as probability, confidence or quality.",
+      "valor": "100.0",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Legacy drug-likeness index",
+      "razon": "Without formula or published version: it is not interpretable as probability, confidence or quality.",
+      "valor": "76.9",
+      "valor_es_clasificacion": true
+    }
+  ],
+  "avisos_integridad": [],
+  "case": {
+    "case_id": "350e8d04-4273-41f5-b818-72ab44f3c95e",
+    "case_schema_version": 7,
+    "name": "QA cierre 8HFI"
+  },
+  "controles": [
+    {
+      "codigo": "VALIDEZ_FISICA_POSES",
+      "estado": "PASA",
+      "observacion": "9 of 9 poses received a verdict, and none failed the chemistry or geometry checks. Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.",
+      "procedencia": "eval_result.structural_evidence",
+      "protocolo": "Pose reconstruction from PDBQT using the SMILES template, followed by geometric validation. The representation used for validation is NOT the crystal structure: hydrogens are added during reconstruction.",
+      "titulo": "Physical and geometric validity of the poses"
+    },
+    {
+      "codigo": "SEPARACION_ENTRE_POSES",
+      "estado": "REVISAR",
+      "observacion": "9 poses are within 1 kcal/mol; the pose 1–2 difference is 0.19 kcal/mol. No replicates or ensemble were recorded.",
+      "procedencia": "eval_result.docking_poses",
+      "protocolo": "Affinity difference between poses 1 and 2, and the count within ≤1 kcal/mol.",
+      "titulo": "Energy separation between poses"
+    },
+    {
+      "codigo": "TRAZA_REPRODUCIBILIDAD",
+      "estado": "REGISTRADO",
+      "observacion": "3/3 traces: engine version, seed, and parser.",
+      "procedencia": "eval_result",
+      "protocolo": "Presence of the three fields needed to repeat the run.",
+      "titulo": "Technical reproducibility trace"
+    }
+  ],
+  "decisiones": [],
+  "dimensiones": [
+    {
+      "codigo": "SYSTEM",
+      "estado": "REGISTRADO",
+      "observacion": "The inventory records the prepared receptor, grid, and structural references.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "System preparation"
+    },
+    {
+      "codigo": "DOCKING",
+      "estado": "REGISTRADO",
+      "observacion": "9 serialized poses; best raw affinity -6.95 kcal/mol · vina 1.2.7.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Docking signal"
+    },
+    {
+      "codigo": "SAMPLING",
+      "estado": "REVISAR",
+      "observacion": "9 poses are within 1 kcal/mol; the pose 1–2 difference is 0.19 kcal/mol. No replicates or ensemble were recorded.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Pose sampling"
+    },
+    {
+      "codigo": "REPRODUCIBILITY",
+      "estado": "REGISTRADO",
+      "observacion": "Minimum traces 3/3 (engine version, seed, and parser); reconstruction items 7/7. Reconstruction by a third party: not demonstrated.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Technical reproducibility"
+    },
+    {
+      "codigo": "PHYSICAL",
+      "estado": "REGISTRADO",
+      "observacion": "9 of 9 poses received a verdict, and none failed the chemistry or geometry checks. Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Physical validity of poses"
+    },
+    {
+      "codigo": "MODEL",
+      "estado": "REGISTRADO",
+      "observacion": "universal model; fallback: Familia 'transporter' sin modelo entrenado disponible — modelo universal usado. The docking engine and its version are listed in the reproducibility trace, not here; they are distinct identities.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Model applicability domain"
+    },
+    {
+      "codigo": "PHYSICOCHEMICAL",
+      "estado": "REGISTRADO",
+      "observacion": "Values and rules are reported separately; they do not become a global rating.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Physicochemical descriptors"
+    },
+    {
+      "codigo": "SELECTIVITY",
+      "estado": "REVISAR",
+      "observacion": "Computational comparison relating to the protocol; it does not demonstrate experimental selectivity.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Selectivity evidence"
+    }
+  ],
+  "ejecucion": {
+    "cientifico": {
+      "estado": "REVISAR",
+      "etiqueta": "Scientific disposition of the evidence",
+      "razon": "The run produced useful evidence, but it contains caveats that should be reviewed before proceeding.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "disposicion_final": {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Final case disposition",
+      "razon": "The case does not yet have a final scientific disposition.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "humano": {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Human review",
+      "razon": "No one has reviewed or acknowledged this run's checks.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "tecnico": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Execution status (technical)",
+      "razon": null,
+      "valor": "completed",
+      "valor_es_clasificacion": false
+    }
+  },
+  "entradas": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Declared receptor",
+      "razon": null,
+      "valor": "8HFI · chain A",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Docked receptor (prepared unit)",
+      "razon": null,
+      "valor": "8HFI · cadenas A (measured from the hashed PDBQT bytes)",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor source",
+      "razon": null,
+      "valor": "curado",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Input ligand",
+      "razon": null,
+      "valor": "c1ccccc1CNCC(F)(F)F",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Canonical ligand (the one docked)",
+      "razon": null,
+      "valor": "FC(F)(F)C[NH2+]Cc1ccccc1",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Effective search box",
+      "razon": null,
+      "valor": "center (100.281, 100.843, 101.442) · size (30.0, 30.0, 30.0) Å",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Reference residues",
+      "razon": null,
+      "valor": "A:ALA145, A:ASP75, A:GLY149, A:GLY320, A:GLY423, A:LEU319, A:PHE317, A:PHE323, A:PHE72, A:SER318, A:SER419, A:SER420, A:TYR152, A:VAL148, A:VAL325",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Input fingerprint (preflight)",
+      "razon": null,
+      "valor": "sha256:f5434a08d18f4ae81fa2791292d093caf2769638797d0149fafa660121e34e74",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Relationship of the run with current inputs",
+      "razon": "This run used the inputs described in this dossier.",
+      "valor": "This run used the inputs described in this dossier.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Box declared by the case",
+      "razon": "Value declared by the case; it does not replace the box used.",
+      "valor": "center (100.281, 100.843, 101.442) · size (30.0, 30.0, 30.0) Å",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "generacion": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses generated",
+      "razon": null,
+      "valor": "9",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses requested from the engine",
+      "razon": null,
+      "valor": "9",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustiveness",
+      "razon": null,
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Random seed",
+      "razon": null,
+      "valor": "42",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Reference residues",
+      "razon": null,
+      "valor": "15 selected out of 15 in the catalog: A:ALA145, A:ASP75, A:GLY149, A:GLY320, A:GLY423, A:LEU319, A:PHE317, A:PHE323, A:PHE72, A:SER318, A:SER419, A:SER420 … and 3 more",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Engine and version",
+      "razon": null,
+      "valor": "vina · 1.2.7",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Conformer generation",
+      "razon": null,
+      "valor": "Single conformer (ETKDG + MMFF94)",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Best observed Vina affinity",
+      "razon": null,
+      "valor": "-6.95 kcal/mol",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Physical validation coverage",
+      "razon": null,
+      "valor": "9/9 poses with a verdict",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Observation · AutoDock Vina affinity",
+      "razon": null,
+      "valor": "-6.95 kcal/mol (Vina score, untransformed)",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Interpretation · regression XGBoost (pKi)",
+      "razon": "It is reported TOGETHER the affinity of Vina, not in its place: they are two quantities with different error and different domain of validity.",
+      "valor": "pKi 3.56 · equivalent to -4.84 kcal/mol · within the applicability domain",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Rescoring model and structural family",
+      "razon": null,
+      "valor": "universal · transporter family",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Effective M4 stacking weights",
+      "razon": "The normalized weights actually used in this run were persisted.",
+      "valor": "vina=1.0000 | xgb=0.0000 | gnn=0.0000 | clgnn=0.0000",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Engine used",
+      "razon": null,
+      "valor": "vina",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "RDKit version for canonicalization",
+      "razon": null,
+      "valor": "2025.09.6",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Identity v2 SHA-256",
+      "razon": null,
+      "valor": "ac25507fefae3cc4a7fbed2f0246e315d0e97b1880afc11289dbe77b3ea93dcb",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "ligand protonation pH",
+      "razon": null,
+      "valor": "7.4",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Docked species",
+      "razon": "Microstate closest to the one predicted at pH 7.4, out of 2 enumerated. The selection is reproducible, but the class-based pKa table does not resolve the population of this class. Under review because of protonated amine with an electron-withdrawing group one or two bonds from the N (CF3 or CHF2 at β, nitrile at α or β): the group lowers the class pKa the table assigns (9.8) by several units; 2,2,2-trifluoroethylamine has pKa ≈5.7 and 3-aminopropionitrile ≈7.8, so the charge at pH 7.4 is an open decision. Review the species before a free-energy calculation.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Ligand tautomer",
+      "razon": null,
+      "valor": "The RDKit canonical tautomer was docked; protonation follows the declared pH. One enumerable tautomer",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Ligand efficiency (LE)",
+      "razon": null,
+      "valor": "0.535 kcal/mol per heavy atom (13 atoms). Hopkins et al. 2004. It depends on size by construction: measured across this project's cohort (17,431 molecules), its correlation with atom count is as strong as that of the raw score, with the opposite sign.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "SILE",
+      "razon": null,
+      "valor": "3.221 = |affinity| / HA^0.3. Nissink, J. Chem. Inf. Model. 49 (2009) 1617. The paper does not publish a threshold, so none is used here.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Fit Quality (Vina proxy)",
+      "razon": null,
+      "valor": "0.675 = LE / LE_scale(HA), where LE_scale = 0.0715 + 7.5328/HA + 25.7079/HA² − 361.4722/HA³ (Reynolds, Tounge, Bembenek, J. Med. Chem. 51 (2008) 2432, Eq. 1–2). LE_scale used: 0.5808 in pKi units. PROXY: the scale was fitted against experimental Ki, not docking scores; the conversion uses 1.37 kcal/mol per log unit. FQ ≈ 1 means proximity to the efficient frontier of the Reynolds set for that size—it is not a probability of binding or pose quality. The scale was capped at HA=15: the Reynolds fit covers 15–50 heavy atoms, and this molecule falls outside that range, so the value is a bound, not an interpolation.",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "generated_at": "2026-10-10T00:56:56+00:00",
+  "glosario": {
+    "ABSTENCION": "Required evidence is missing or a declared blocker exists.",
+    "NO_APLICA": "The control does not apply to this case.",
+    "NO_DEFINIDO": "The case did not declare this context.",
+    "NO_DISPONIBLE": "The expected result or artifact is unavailable.",
+    "NO_EVALUADO": "The control was not evaluated in this run.",
+    "PASA": "The control ran and passed.",
+    "REGISTRADO": "The data exists and was serialized by the run.",
+    "REVISAR": "Evidence is available, but it does not support a conclusion on its own."
+  },
+  "incertidumbres": [
+    "This receptor has no measured Spearman ρ, and its structural family has no calibrated stacking, so it runs under the shared conservative alpha contract. There is no evidence that the ranking correlates with actual affinity here. Treat the result as a hypothesis to test, not as a measurement.",
+    "9 poses are within 1 kcal/mol; selecting a single pose is ambiguous.",
+    "The pose selector abstained: it did not recommend a pose. The fallback reference is Vina top-1, not a successful selector prediction.",
+    "Meeko-assigned histidine templates: A:178=HIE, A:220=HIE, A:222=HIE, A:228=HIE, A:280=HIE, A:296=HIE, A:370=HIE, A:372=HIE, A:441=HIE, A:598=HIE, A:599=HIE, A:613=HIE. The assignment is template-based and does not validate the experimental microstate or a specific pH.",
+    "Desolvated preparation: 23 crystallographic waters were removed from the docking box; 10 had at least 3 contacts within 3.5 Å of the receptor (the best-coordinated water had 6). If any of these waters participates in recognition by this target—such as the catalytic water in HIV-1 protease or the hinge network in some kinases—this run's contacts do not include it.",
+    "Ligand efficiency LE=0.53. With 13 heavy atoms, the 0.45 threshold is crossed by any affinity better than -5.9 kcal/mol, so exceeding it does not distinguish good binding from mediocre binding. In this mass range (< 300 Da, Rule of Three), efficiency per atom is high by construction: it can compare molecules of the same size, but cannot serve as a verdict.",
+    "The docked species differs from the input: FC(F)(F)CNCc1ccccc1 → FC(F)(F)C[NH2+]Cc1ccccc1. Unevaluated alternatives remain a source of chemical uncertainty."
+  ],
+  "portada": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Case",
+      "razon": null,
+      "valor": "QA cierre 8HFI",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Molecule",
+      "razon": null,
+      "valor": "e5655ee8-fa0b-4c1a-aebe-995548b0281b",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor",
+      "razon": null,
+      "valor": "8HFI · CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor support",
+      "razon": null,
+      "valor": "Structurally curated; calibration and a family pipeline are missing — the receptor's Spearman ρ and calibrated stacking for its family are missing",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Catalog section",
+      "razon": "Receptor prepared automatically from the PDB, without pose verification or calibration. It serves to explore the application, not to decide what to synthesize.",
+      "valor": "Demo",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Run",
+      "razon": null,
+      "valor": "27c62c96-a890-47f6-b0c1-095dc6801edb",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Run date",
+      "razon": null,
+      "valor": "2026-10-10T00:52:18.887044",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Dossier schema",
+      "razon": null,
+      "valor": "v1",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "poses": {
+    "estado": "REGISTRADO",
+    "items": [
+      {
+        "afinidad_kcal_mol": -6.954,
+        "rango": 1,
+        "rmsd_lb": 0.0,
+        "rmsd_ub": 0.0
+      },
+      {
+        "afinidad_kcal_mol": -6.764,
+        "rango": 2,
+        "rmsd_lb": 3.224,
+        "rmsd_ub": 4.431
+      },
+      {
+        "afinidad_kcal_mol": -6.644,
+        "rango": 3,
+        "rmsd_lb": 3.529,
+        "rmsd_ub": 5.232
+      },
+      {
+        "afinidad_kcal_mol": -6.544,
+        "rango": 4,
+        "rmsd_lb": 3.635,
+        "rmsd_ub": 5.287
+      },
+      {
+        "afinidad_kcal_mol": -6.408,
+        "rango": 5,
+        "rmsd_lb": 4.677,
+        "rmsd_ub": 6.179
+      },
+      {
+        "afinidad_kcal_mol": -6.364,
+        "rango": 6,
+        "rmsd_lb": 4.382,
+        "rmsd_ub": 5.614
+      },
+      {
+        "afinidad_kcal_mol": -6.304,
+        "rango": 7,
+        "rmsd_lb": 4.349,
+        "rmsd_ub": 5.433
+      },
+      {
+        "afinidad_kcal_mol": -6.261,
+        "rango": 8,
+        "rmsd_lb": 3.895,
+        "rmsd_ub": 5.416
+      },
+      {
+        "afinidad_kcal_mol": -6.25,
+        "rango": 9,
+        "rmsd_lb": 4.375,
+        "rmsd_ub": 5.66
+      }
+    ],
+    "razon": null
+  },
+  "preparacion": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Declared heteroatom policy",
+      "razon": null,
+      "valor": "docking_vina",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Waters, metals, and cofactors",
+      "razon": "Preparation removed metals, cofactors, or other species near the site: the docked receptor does not contain them. Decide whether they were part of the cavity.",
+      "valor": "HETATM records removed from the assembly: waters 39, metals 0, organic cofactors 0, other species 21. Within 6 Å of the box: removed 32 water(s), CL A:702 (0.0 Å); retained none. The crystal ligand (DSM A:701) was removed as part of the run.",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Ligand stereochemistry",
+      "razon": "Isomeric SMILES derived from the saved 3D conformer.",
+      "valor": "FC(F)(F)C[NH2+]Cc1ccccc1",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Preflight warnings",
+      "razon": "Scientific warnings recorded before execution.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "ABSTENCION",
+      "etiqueta": "Unassessed checks in the previous check",
+      "razon": "The preflight could not execute these controls. They were not evaluated: that does not mean they passed them.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    }
+  ],
+  "procedencia": {
+    "campos_ausentes": [
+      "configuracion_sha256",
+      "vocabulario_especies"
+    ],
+    "completo": false,
+    "configuracion": {
+      "exhaustiveness": 8,
+      "grid_center": null,
+      "grid_size": null,
+      "num_modes": 9,
+      "random_seed": 42,
+      "vina_version": "1.2.7"
+    },
+    "configuracion_sha256": null,
+    "ligando_smiles_sha256": "e3dc5e9f3439b3ff841416be2b6dc76e8b3b1538e77c1add165bcfc75d8259b3",
+    "modelo": "universal",
+    "motor": "vina",
+    "nota": "These hashes let a third party verify that this dossier's conclusions were calculated from the inputs it declares. An on-chain record certifies WHEN the document was issued; it does not certify WHAT it was calculated from. Both are necessary; neither replaces the other.",
+    "poses_sha256": "c49f7d5ef53c292a65f29da5923838ef1e5d0f2c4a042e3459aa0c9fae179170",
+    "receptor_referencia": "runs/receptors/30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60.pdbqt",
+    "vocabulario_especies": null
+  },
+  "proposito": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Study type",
+      "razon": null,
+      "valor": "explore-hypothesis",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DEFINIDO",
+      "etiqueta": "What is this case trying to answer?",
+      "razon": "The case did not declare it.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DEFINIDO",
+      "etiqueta": "What decision is intended?",
+      "razon": "The case did not declare it.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DEFINIDO",
+      "etiqueta": "What supports the choice of system?",
+      "razon": "The case did not declare it.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DEFINIDO",
+      "etiqueta": "What controls or references are available?",
+      "razon": "The case did not declare it.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    }
+  ],
+  "protocolo": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Docking engine",
+      "razon": null,
+      "valor": "vina",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Engine version",
+      "razon": null,
+      "valor": "1.2.7",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "MolDesign version",
+      "razon": null,
+      "valor": "1.0.1",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Code commit",
+      "razon": "This run did not declare a verifiable commit (bundle or modified tree).",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "CPUs requested for Vina",
+      "razon": null,
+      "valor": "4",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Prepared receptor SHA-256",
+      "razon": null,
+      "valor": "30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Input ligand SDF SHA-256",
+      "razon": null,
+      "valor": "680cf104e8d0268e11eaef32c731cb79f0331119ebc5f49b3c5ad86ffe6ed4e5",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "PDBQT ligand SHA-256",
+      "razon": null,
+      "valor": "8efe1b0ab321873f882f4737d1eb3dff756741c479e747ca24cd42b4e6473f40",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Pose SDF SHA-256",
+      "razon": null,
+      "valor": "6131119e2272eb427c1eb97c7f81b64a66596900c1f2a71c9b2a825b7b07a79e",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Log SHA-256",
+      "razon": null,
+      "valor": "e6a12bf94ad5a88297ee6ff5e8238302681241ecb8a7dab705b1584dabcd391b",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor preparation recipe",
+      "razon": null,
+      "valor": "cde3e715fd357bd60903e848e66001d195d8d31699beef3ee666f26c400d0efc",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Preparation versions",
+      "razon": null,
+      "valor": "{\"dimorphite_dl\": \"2.0.2\", \"meeko\": \"0.7.1\", \"rdkit\": \"2025.9.6\", \"vina\": \"1.2.7\"}",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Random seed",
+      "razon": null,
+      "valor": "42",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Parser source",
+      "razon": null,
+      "valor": "sdf",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Rescoring model",
+      "razon": null,
+      "valor": "universal",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Declared PRO settings",
+      "razon": null,
+      "valor": "{\"docking_engine\": \"vina\", \"enabled_stages\": [\"validation\", \"properties\", \"sa_filter\", \"conformer\", \"docking\", \"xgb\", \"clgnn\"], \"gnn_precision\": \"fp32\", \"pro_anti_targets\": [], \"pro_mmgbsa\": false, \"pro_mmgbsa_steps\": 1000, \"pro_parallel_docks\": 2, \"pro_selectivity\": true, \"pro_workers\": 4, \"stage_params\": {\"conformer\": {\"conformers\": 1, \"ph\": 7.4}, \"docking\": {\"exhaustiveness\": 8, \"num_poses\": 9}, \"properties\": {\"run_admet_ai\": false}}}",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustiveness",
+      "razon": null,
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses requested",
+      "razon": null,
+      "valor": "9",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Fallback reason",
+      "razon": null,
+      "valor": "Familia 'transporter' sin modelo entrenado disponible — modelo universal usado.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Declared error",
+      "razon": "This run did not record errors.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustiveness declared by the case",
+      "razon": "Value declared by the case; execution is documented separately.",
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses declared by the case",
+      "razon": "Value declared by the case; execution is documented separately.",
+      "valor": "9",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "run": {
+    "catalogo": {
+      "aplica_a_esta_corrida": false,
+      "avisos": [],
+      "difiere_en": [],
+      "pdb_id": "8HFI",
+      "seccion": "demostracion",
+      "sin_declarar": [],
+      "verificacion": null
+    },
+    "molecule_id": "e5655ee8-fa0b-4c1a-aebe-995548b0281b",
+    "target": "8HFI · CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+    "task_id": "27c62c96-a890-47f6-b0c1-095dc6801edb"
+  },
+  "schema_version": 1,
+  "seleccion": [
+    {
+      "estado": "ABSTENCION",
+      "etiqueta": "Selection stage status",
+      "razon": "The margin did not reach the threshold: the selector does NOT recommend a pose.",
+      "valor": "SELECTOR ABSTENIDO",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Product primary pose (Vina top-1)",
+      "razon": null,
+      "valor": "#1",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Pose recommended by the selector",
+      "razon": "The selector did not recommend a pose.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Pose the selector would have recommended (abstention)",
+      "razon": null,
+      "valor": "#1",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Selector margin and threshold",
+      "razon": null,
+      "valor": "0.081710 (threshold 0.097663)",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Declared reference",
+      "razon": "When there is no recommendation, Vina top-1 is the default reference.",
+      "valor": "Vina top-1 as FALLBACK: this is not a selector hit",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Abstention reason",
+      "razon": null,
+      "valor": "MARGEN_BAJO_UMBRAL",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Selector model",
+      "razon": null,
+      "valor": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Model SHA-256",
+      "razon": null,
+      "valor": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Model metadata SHA-256",
+      "razon": null,
+      "valor": "9ac4e379f9c54aef24acc72fe7e61ffff751a70bf80b751f610bf93f34e4fc96",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Physically Valid Alternatives",
+      "razon": "They are listed for comparison. NONE is selected automatically.",
+      "valor": "#1, #2, #3, #4, #5, #6, #7, #8, #9",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "siguiente_accion": {
+    "estado": "REVISAR",
+    "etiqueta": "Next justified action",
+    "razon": "Document the reservations of preparation, domain or reproducibility before comparing this run with others.",
+    "valor": "RESOLVE CAVEATS BEFORE COMPARING",
+    "valor_es_clasificacion": true
+  },
+  "supuestos": [
+    "Affinities are interpreted as ranking signals within the protocol, not as experimental free-energy measurements.",
+    "The best raw pose is identified by serialized affinity order; that order does not demonstrate geometric validity.",
+    "No preparation, protonation, or minimization steps are attributed to the run unless it recorded them.",
+    "Desolvated preparation: all crystallographic waters were removed from the receptor. If this target requires conserved bridging waters for molecular recognition, this run's contacts and affinities do not include them."
+  ],
+  "validacion_fisica": {
+    "campos": [
+      {
+        "estado": "PASA",
+        "etiqueta": "Stage verdict",
+        "razon": "9 of 9 poses received a verdict, and none failed the chemistry or geometry checks. Engine: posebusters:0.6.5:dock. Coverage: 9/9 poses.",
+        "valor": "CHECKS PASSED",
+        "valor_es_clasificacion": true
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Validation engine",
+        "razon": null,
+        "valor": "posebusters:0.6.5:dock",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Coverage",
+        "razon": null,
+        "valor": "9 of 9 poses",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_DISPONIBLE",
+        "etiqueta": "Reason code",
+        "razon": "The stage did not record a reason code.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_DISPONIBLE",
+        "etiqueta": "Physical status of the recommended pose",
+        "razon": "There is no recommended pose, or its physical status was not measured.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Physical status of the pose the selector would have recommended",
+        "razon": null,
+        "valor": "passed",
+        "valor_es_clasificacion": false
+      }
+    ],
+    "por_pose": [
+      {
+        "afinidad_kcal_mol": -6.954,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": true
+        },
+        "puntuacion_selector": 0.3239596486091614,
+        "rango": 1,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.764,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.1455794721841812,
+        "rango": 2,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.644,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.09739986807107925,
+        "rango": 3,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.544,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.004496779292821884,
+        "rango": 4,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.408,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.2422494739294052,
+        "rango": 5,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.364,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.198992058634758,
+        "rango": 6,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.304,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": -0.18681718409061432,
+        "rango": 7,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.261,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.02769983559846878,
+        "rango": 8,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -6.25,
+        "checks_que_fallan": [],
+        "checks_totales": 22,
+        "detalle": "PoseBusters in `dock` mode—without ground truth, which is not available in production. No chemistry or geometry checks fail. The absence of alerts does not mean there are no clashes, impossible bonds, or preparation artifacts.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:0.6.5:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": -0.13659852743148804,
+        "rango": 9,
+        "razon": null
+      }
+    ]
+  }
+}

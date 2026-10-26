@@ -8,7 +8,7 @@ expediente, con qué se hizo.
 
 `services/dossier/model.py` construye esos campos y `services/dossier/pdf.py`
 los imprime en las secciones 3 y 5. **Ninguna prueba los fijaba**: buscando
-«Caja efectiva», «Residuos de referencia», «Exhaustividad» y «Motor de
+«Caja de búsqueda efectiva», «Residuos de referencia», «Exhaustividad» y «Motor de
 acoplamiento» en toda la suite no había una sola coincidencia. Renombrar una
 etiqueta, o dejar de pasar `config`, habría vaciado esas filas sin que nada
 fallara — y el fallo se lee como «la corrida no lo registró», que es
@@ -48,7 +48,7 @@ def _todos(d):
 
 def test_la_caja_declarada_no_se_presenta_como_ejecutada():
     dossier = _dossier()
-    efectiva = _campo(_todos(dossier), "Caja efectiva")
+    efectiva = _campo(_todos(dossier), "Caja de búsqueda efectiva")
     declarada = _campo(_todos(dossier), "Caja declarada por el caso")
     assert efectiva.estado == Estado.NO_DISPONIBLE
     assert declarada.estado == Estado.REGISTRADO

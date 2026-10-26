@@ -1,0 +1,82 @@
+{
+  "projection_version": 1,
+  "case_id": "tnks2__public__26",
+  "name": "tnks2__public__26",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_CF6DAD",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "CC(C)(O)c1ccc(-c2nc3ccc(F)cc3c(=O)[nH]2)nc1",
+      "canonical_smiles": "CC(C)(O)c1ccc(-c2nc3ccc(F)cc3c(=O)[nH]2)nc1"
+    },
+    "config": {
+      "grid_center": [
+        -39.007,
+        -12.037,
+        10.985
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:12d373a81381de4f0a53f9d4b823ee03273d2365b8efe3985271689f4622b29f",
+    "generated_at": "2026-10-11T20:23:21.028276+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "ESPECIES_DEL_SITIO_RETIRADAS",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "e93a43df-0e04-4a28-94ba-8603c0841732",
+    "input_fingerprint": "sha256:12d373a81381de4f0a53f9d4b823ee03273d2365b8efe3985271689f4622b29f",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

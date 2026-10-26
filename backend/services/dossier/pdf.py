@@ -25,6 +25,7 @@ queden huérfanos al final de una página.
 from __future__ import annotations
 
 import io
+import os
 from typing import Any
 
 from reportlab.lib import colors
@@ -32,6 +33,8 @@ from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas as pdfcanvas
 from reportlab.platypus import (
     KeepTogether,
@@ -42,6 +45,8 @@ from reportlab.platypus import (
     TableStyle,
 )
 
+from core.i18n import current_locale, translate_text
+from services.dossier.localization import traducir_dossier
 from services.dossier.model import CaseDossier, Campo, Control
 from services.dossier.taxonomy import ETIQUETA, GLOSARIO, Estado
 
@@ -67,6 +72,72 @@ COLOR_ESTADO: dict[Estado, colors.Color] = {
 }
 
 _ANCHO_UTIL = A4[0] - 3.6 * cm  # márgenes de 1.8 cm a cada lado
+
+
+# ── Fuente del texto: incrustada, no la Helvetica «estándar» ──────────
+#
+# AMP-08. El documento usaba Helvetica y Symbol sin incrustar. Un visor que no
+# tiene la métrica exacta (Poppler en la auditoría) dejó huecos en α, β, Δ y ≤
+# de la pregunta del caso, aunque el texto sí estaba en la extracción. Eso es
+# un problema de PORTABILIDAD del documento, no de su contenido: el dossier se
+# transfiere a terceros que abren el PDF en visores que no controlamos. Una
+# TrueType se incrusta (subconjunto) y se ve igual en todas partes.
+#
+# Se busca donde de verdad puede estar: Arial en Windows, que es la plataforma
+# de este producto, y DejaVu/Liberation en Linux. Si no hay ninguna, el
+# documento se compone con Helvetica como antes —no se inventa una fuente— y
+# `fuente_de_texto_incrustada()` lo dice, para que quien necesite la garantía
+# pueda comprobarla.
+_FAMILIA_DE_TEXTO = "MolDesignSans"
+_CANDIDATAS_DE_FUENTE = (
+    # (regular, negrita, cursiva, negrita cursiva)
+    tuple(
+        os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts", nombre)
+        for nombre in ("arial.ttf", "arialbd.ttf", "ariali.ttf", "arialbi.ttf")
+    ),
+    (
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Oblique.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-BoldOblique.ttf",
+    ),
+    (
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Italic.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-BoldItalic.ttf",
+    ),
+)
+_FUENTES_DE_TEXTO: tuple[str, str] | None = None
+
+
+def _fuentes_de_texto() -> tuple[str, str]:
+    """(regular, negrita). Registra la familia incrustable la primera vez."""
+    global _FUENTES_DE_TEXTO
+    if _FUENTES_DE_TEXTO is not None:
+        return _FUENTES_DE_TEXTO
+    for juego in _CANDIDATAS_DE_FUENTE:
+        if not all(os.path.exists(ruta) for ruta in juego):
+            continue
+        try:
+            nombres = [f"{_FAMILIA_DE_TEXTO}-{sufijo}" for sufijo in ("R", "B", "I", "BI")]
+            for nombre, ruta in zip(nombres, juego):
+                pdfmetrics.registerFont(TTFont(nombre, ruta))
+            pdfmetrics.registerFontFamily(
+                _FAMILIA_DE_TEXTO,
+                normal=nombres[0], bold=nombres[1], italic=nombres[2], boldItalic=nombres[3],
+            )
+            _FUENTES_DE_TEXTO = (nombres[0], nombres[1])
+            return _FUENTES_DE_TEXTO
+        except Exception:  # noqa: BLE001 - una fuente ilegible no tumba el dossier
+            continue
+    _FUENTES_DE_TEXTO = ("Helvetica", "Helvetica-Bold")
+    return _FUENTES_DE_TEXTO
+
+
+def fuente_de_texto_incrustada() -> bool:
+    """`True` si el texto del dossier va con una TrueType incrustada."""
+    return _fuentes_de_texto()[0] != "Helvetica"
 
 
 def _escapar(texto: Any) -> str:
@@ -127,22 +198,24 @@ class _Chrome(pdfcanvas.Canvas):
         self.setFillColor(BRAND)
         self.rect(0, A4[1] - 0.18 * cm, A4[0], 0.18 * cm, stroke=0, fill=1)
 
-        self.setFont("Helvetica", 7)
+        self.setFont(_fuentes_de_texto()[0], 7)
         self.setFillColor(SLATE_LT)
         self.drawString(1.8 * cm, A4[1] - 0.85 * cm, self.encabezado)
         self.drawRightString(
-            A4[0] - 1.8 * cm, 1.0 * cm, f"Página {self._pageNumber} de {total}"
+            A4[0] - 1.8 * cm, 1.0 * cm,
+            translate_text(f"Página {self._pageNumber} de {total}")
         )
         self.drawString(
             1.8 * cm, 1.0 * cm,
-            "MolDesign · dossier de evidencia computacional · no es una recomendación clínica",
+            translate_text("MolDesign · dossier de evidencia computacional · no es una recomendación clínica"),
         )
         self.restoreState()
 
 
 def _estilos() -> dict[str, ParagraphStyle]:
     base = getSampleStyleSheet()
-    return {
+    regular, negrita = _fuentes_de_texto()
+    estilos = {
         "titulo": ParagraphStyle(
             "DossierTitulo", parent=base["Heading1"], fontSize=17, leading=21,
             textColor=BRAND, spaceAfter=2, alignment=TA_LEFT,
@@ -174,6 +247,11 @@ def _estilos() -> dict[str, ParagraphStyle]:
             leading=9.4, textColor=INK,
         ),
     }
+    for nombre, estilo in estilos.items():
+        if nombre == "mono":
+            continue  # hashes y SMILES: ASCII, la monoespaciada incorporada basta
+        estilo.fontName = negrita if nombre in ("titulo", "seccion") else regular
+    return estilos
 
 
 def _tabla_campos(campos: list[Campo], est: dict[str, ParagraphStyle]) -> Table:
@@ -186,13 +264,18 @@ def _tabla_campos(campos: list[Campo], est: dict[str, ParagraphStyle]) -> Table:
     empujara el valor fuera del margen.
     """
     filas = [[
-        Paragraph("<b>Campo</b>", est["celda"]),
-        Paragraph("<b>Contenido</b>", est["celda"]),
-        Paragraph("<b>Estado</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Campo')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Contenido')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Estado')}</b>", est["celda"]),
     ]]
     estilos_fila = []
     for indice, campo in enumerate(campos, start=1):
-        cuerpo = _escapar(_romper_largo(campo.texto))
+        texto = campo.texto
+        # Missing-value labels are generated taxonomy, not case-authored data.
+        # Translate only that exact fallback so free-text case values remain intact.
+        if texto == ETIQUETA[campo.estado]:
+            texto = translate_text(texto)
+        cuerpo = _escapar(_romper_largo(texto))
         # La razón sólo se añade si DICE algo distinto del valor. Repetir la
         # misma frase dos veces seguidas es ruido, y aparecía en la fila de
         # «relación de la corrida con los inputs».
@@ -201,7 +284,7 @@ def _tabla_campos(campos: list[Campo], est: dict[str, ParagraphStyle]) -> Table:
         filas.append([
             Paragraph(_escapar(campo.etiqueta), est["celda"]),
             Paragraph(cuerpo, est["celda"]),
-            Paragraph(ETIQUETA[campo.estado], est["celda_nota"]),
+            Paragraph(translate_text(ETIQUETA[campo.estado]), est["celda_nota"]),
         ])
         estilos_fila.append(("TEXTCOLOR", (2, indice), (2, indice), COLOR_ESTADO[campo.estado]))
 
@@ -225,21 +308,23 @@ def _tabla_campos(campos: list[Campo], est: dict[str, ParagraphStyle]) -> Table:
 
 def _tabla_controles(controles: list[Control], est: dict[str, ParagraphStyle]) -> Table:
     filas = [[
-        Paragraph("<b>Control</b>", est["celda"]),
-        Paragraph("<b>Observación y protocolo</b>", est["celda"]),
-        Paragraph("<b>Estado</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Control')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Observación y protocolo')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Estado')}</b>", est["celda"]),
     ]]
     estilos_fila = []
     for indice, control in enumerate(controles, start=1):
         cuerpo = _escapar(control.observacion)
         if control.protocolo:
-            cuerpo += f"<br/><font size='7' color='#64748b'>Protocolo: {_escapar(control.protocolo)}</font>"
+            cuerpo += (f"<br/><font size='7' color='#64748b'>{translate_text('Protocolo')}: "
+                       f"{_escapar(control.protocolo)}</font>")
         if control.procedencia:
-            cuerpo += f"<br/><font size='7' color='#94a3b8'>Procedencia: {_escapar(control.procedencia)}</font>"
+            cuerpo += (f"<br/><font size='7' color='#94a3b8'>{translate_text('Procedencia')}: "
+                       f"{_escapar(control.procedencia)}</font>")
         filas.append([
             Paragraph(f"{_escapar(control.titulo)}<br/><font size='6.6' color='#94a3b8'>{_escapar(control.codigo)}</font>", est["celda"]),
             Paragraph(cuerpo, est["celda"]),
-            Paragraph(ETIQUETA[control.estado], est["celda_nota"]),
+            Paragraph(translate_text(ETIQUETA[control.estado]), est["celda_nota"]),
         ])
         estilos_fila.append(("TEXTCOLOR", (2, indice), (2, indice), COLOR_ESTADO[control.estado]))
 
@@ -267,26 +352,26 @@ def _tabla_poses_evidencia(evidencia: list[Any], est: dict[str, ParagraphStyle])
     la que falla. Colapsarlos escondería justo la combinación que hay que ver.
     """
     filas = [[
-        Paragraph("<b>Pose</b>", est["celda"]),
-        Paragraph("<b>Afinidad Vina (kcal/mol)</b>", est["celda"]),
-        Paragraph("<b>Controles físicos</b>", est["celda"]),
-        Paragraph("<b>Selector</b>", est["celda"]),
-        Paragraph("<b>Papel</b>", est["celda"]),
-        Paragraph("<b>Controles que fallan</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Pose')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Afinidad Vina (kcal/mol)')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Controles físicos')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Selector')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Papel')}</b>", est["celda"]),
+        Paragraph(f"<b>{translate_text('Controles que fallan')}</b>", est["celda"]),
     ]]
     for pose in evidencia:
         papeles = []
         if pose.es_vina_top1:
             papeles.append("Vina top-1")
         if pose.es_sugerida:
-            papeles.append("Sugerida")
+            papeles.append(translate_text("Sugerida"))
         if pose.es_alternativa:
-            papeles.append("Alternativa válida")
+            papeles.append(translate_text("Alternativa válida"))
         filas.append([
             Paragraph(f"#{pose.rango}" if pose.rango is not None else "—", est["celda"]),
             Paragraph(f"{pose.afinidad_kcal_mol:.2f}" if pose.afinidad_kcal_mol is not None
-                      else ETIQUETA[Estado.NO_DISPONIBLE], est["celda"]),
-            Paragraph(ETIQUETA[pose.estado_fisico], est["celda"]),
+                      else translate_text(ETIQUETA[Estado.NO_DISPONIBLE]), est["celda"]),
+            Paragraph(translate_text(ETIQUETA[pose.estado_fisico]), est["celda"]),
             Paragraph(f"{pose.puntuacion_selector:.4f}" if pose.puntuacion_selector is not None
                       else "—", est["celda"]),
             Paragraph(_escapar(" · ".join(papeles)) if papeles else "—", est["celda"]),
@@ -315,13 +400,14 @@ def _seccion(titulo: str, est: dict[str, ParagraphStyle], *cuerpo: Any) -> list[
     su tabla en la siguiente: el defecto de «encabezado huérfano» que el QA
     visual busca.
     """
-    partes: list[Any] = [KeepTogether([Paragraph(titulo, est["seccion"]), *list(cuerpo)[:1]])]
+    partes: list[Any] = [KeepTogether([Paragraph(translate_text(titulo), est["seccion"]), *list(cuerpo)[:1]])]
     partes.extend(list(cuerpo)[1:])
     return partes
 
 
 def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     """Convierte el modelo canónico en PDF. Sin red, sin cálculo, sin estado."""
+    dossier = traducir_dossier(dossier, current_locale())
     est = _estilos()
     buf = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -331,7 +417,7 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
         topMargin=1.5 * cm, bottomMargin=1.6 * cm,
         title=f"Dossier · {dossier.case_name}",
         author="MolDesign",
-        subject="Dossier de evidencia computacional",
+        subject=translate_text("Dossier de evidencia computacional"),
         # DETERMINISMO. Sin `invariant`, reportlab escribe `/CreationDate` con la
         # hora real y un `/ID` aleatorio en el tráiler, así que dos PDF del mismo
         # caso difieren byte a byte. Eso propagaba la diferencia al hash del
@@ -344,11 +430,11 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     flujo: list[Any] = []
 
     # ── 1. Portada ───────────────────────────────────────────────────
-    flujo.append(Paragraph("DOSSIER DE EVIDENCIA COMPUTACIONAL", est["titulo"]))
+    flujo.append(Paragraph(translate_text("DOSSIER DE EVIDENCIA COMPUTACIONAL"), est["titulo"]))
     flujo.append(Paragraph(
-        "Este documento describe qué evidencia produjo una corrida, qué partes son "
+        translate_text("Este documento describe qué evidencia produjo una corrida, qué partes son "
         "reproducibles y qué quedó sin evaluar. No califica la molécula ni afirma que sea "
-        "un fármaco, un candidato clínico ni un compuesto seguro.",
+        "un fármaco, un candidato clínico ni un compuesto seguro."),
         est["subtitulo"],
     ))
     flujo.append(_tabla_campos(dossier.portada, est))
@@ -357,7 +443,7 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
         flujo.append(Spacer(1, 6))
         for aviso in dossier.avisos_integridad:
             flujo.append(Paragraph(
-                f"<b>Aviso de integridad:</b> {_escapar(aviso)}", est["cuerpo"]))
+                translate_text(f"<b>Aviso de integridad:</b> {_escapar(aviso)}"), est["cuerpo"]))
 
     # ── 2. Pregunta y propósito ──────────────────────────────────────
     flujo.extend(_seccion("1. Pregunta y propósito del caso", est,
@@ -371,9 +457,9 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
             est,
         ),
         Paragraph(
-            "El estado técnico, la disposición científica y la revisión humana son tres cosas "
+            translate_text("El estado técnico, la disposición científica y la revisión humana son tres cosas "
             "distintas. Que un proceso termine no valida su resultado, y que no haya alertas no "
-            "significa que alguien lo haya revisado.",
+            "significa que alguien lo haya revisado."),
             est["nota"],
         ),
     ))
@@ -383,19 +469,19 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
                           _tabla_campos(dossier.entradas, est)))
 
     hashes = [
-        Campo("Hash del ligando (SMILES)", dossier.procedencia.get("ligando_smiles_sha256"),
+        Campo(translate_text("Hash del ligando (SMILES)"), dossier.procedencia.get("ligando_smiles_sha256"),
               Estado.REGISTRADO if dossier.procedencia.get("ligando_smiles_sha256") else Estado.NO_DISPONIBLE,
-              None if dossier.procedencia.get("ligando_smiles_sha256") else "La corrida no selló el ligando."),
-        Campo("Referencia del receptor", dossier.procedencia.get("receptor_referencia"),
+              None if dossier.procedencia.get("ligando_smiles_sha256") else translate_text("La corrida no selló el ligando.")),
+        Campo(translate_text("Referencia del receptor"), dossier.procedencia.get("receptor_referencia"),
               Estado.REGISTRADO if dossier.procedencia.get("receptor_referencia") else Estado.NO_DISPONIBLE,
-              None if dossier.procedencia.get("receptor_referencia") else "Sin referencia de receptor."),
-        Campo("Hash de la configuración", dossier.procedencia.get("configuracion_sha256"),
+              None if dossier.procedencia.get("receptor_referencia") else translate_text("Sin referencia de receptor.")),
+        Campo(translate_text("Hash de la configuración"), dossier.procedencia.get("configuracion_sha256"),
               Estado.REGISTRADO if dossier.procedencia.get("configuracion_sha256") else Estado.NO_DISPONIBLE,
-              None if dossier.procedencia.get("configuracion_sha256") else "Sin configuración sellada."),
-        Campo("Hash de las poses", dossier.procedencia.get("poses_sha256"),
+              None if dossier.procedencia.get("configuracion_sha256") else translate_text("Sin configuración sellada.")),
+        Campo(translate_text("Hash de las poses"), dossier.procedencia.get("poses_sha256"),
               Estado.REGISTRADO if dossier.procedencia.get("poses_sha256") else Estado.NO_DISPONIBLE,
               None if dossier.procedencia.get("poses_sha256") else
-              "La corrida no serializó bloques de pose que sellar."),
+              translate_text("La corrida no serializó bloques de pose que sellar.")),
     ]
     # La tabla de hashes es corta: se mantiene entera. Sin esto, su cabecera
     # quedaba sola al pie de la página 1 y las filas empezaban en la 2.
@@ -407,16 +493,16 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
 
     if dossier.decisiones:
         filas = [[
-            Paragraph("<b>Control</b>", est["celda"]),
-            Paragraph("<b>Decisión</b>", est["celda"]),
-            Paragraph("<b>Aplica a los inputs actuales</b>", est["celda"]),
+            Paragraph(f"<b>{translate_text('Control')}</b>", est["celda"]),
+            Paragraph(f"<b>{translate_text('Decisión')}</b>", est["celda"]),
+            Paragraph(f"<b>{translate_text('Aplica a los inputs actuales')}</b>", est["celda"]),
         ]]
         for decision in dossier.decisiones:
             nota = f"<br/><font size='7' color='#64748b'>{_escapar(decision.get('nota'))}</font>" if decision.get("nota") else ""
             filas.append([
                 Paragraph(_escapar(decision["control"]), est["celda"]),
-                Paragraph(f"{_escapar(decision['decision'])} · {_escapar(decision.get('fecha'))}{nota}", est["celda"]),
-                Paragraph("Sí" if decision.get("aplica_a_los_inputs_actuales") else "No", est["celda_nota"]),
+                Paragraph(f"{_escapar(translate_text(decision['decision']))} · {_escapar(decision.get('fecha'))}{nota}", est["celda"]),
+                Paragraph(translate_text("Sí" if decision.get("aplica_a_los_inputs_actuales") else "No"), est["celda_nota"]),
             ])
         tabla_dec = Table(filas, colWidths=[_ANCHO_UTIL * 0.3, _ANCHO_UTIL * 0.5, _ANCHO_UTIL * 0.2],
                           repeatRows=1)
@@ -428,13 +514,13 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
             ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
         ]))
         flujo.append(Spacer(1, 6))
-        flujo.append(Paragraph("Decisiones humanas registradas", est["cuerpo"]))
+        flujo.append(Paragraph(translate_text("Decisiones humanas registradas"), est["cuerpo"]))
         flujo.append(tabla_dec)
     else:
         flujo.append(Spacer(1, 4))
         flujo.append(Paragraph(
-            "<b>Decisiones humanas:</b> NO EVALUADO — nadie ha revisado ni reconocido controles "
-            "de esta corrida.", est["cuerpo"]))
+            translate_text("<b>Decisiones humanas:</b> NO EVALUADO — nadie ha revisado ni reconocido controles "
+            "de esta corrida."), est["cuerpo"]))
 
     # ── 6. Protocolo y entorno ───────────────────────────────────────
     flujo.extend(_seccion("5. Protocolo y entorno de ejecución", est,
@@ -443,16 +529,16 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     # ── 7. Evidencia estructural ─────────────────────────────────────
     if dossier.poses:
         filas = [[
-            Paragraph("<b>Rango</b>", est["celda"]),
-            Paragraph("<b>Afinidad (kcal/mol)</b>", est["celda"]),
-            Paragraph("<b>RMSD l.b.</b>", est["celda"]),
-            Paragraph("<b>RMSD u.b.</b>", est["celda"]),
+            Paragraph(f"<b>{translate_text('Rango')}</b>", est["celda"]),
+            Paragraph(f"<b>{translate_text('Afinidad (kcal/mol)')}</b>", est["celda"]),
+            Paragraph(f"<b>{translate_text('RMSD l.b.')}</b>", est["celda"]),
+            Paragraph(f"<b>{translate_text('RMSD u.b.')}</b>", est["celda"]),
         ]]
         for pose in dossier.poses:
             filas.append([
                 Paragraph(str(pose.rango), est["celda"]),
                 Paragraph(f"{pose.afinidad_kcal_mol:.2f}" if pose.afinidad_kcal_mol is not None
-                          else ETIQUETA[Estado.NO_DISPONIBLE], est["celda"]),
+                          else translate_text(ETIQUETA[Estado.NO_DISPONIBLE]), est["celda"]),
                 Paragraph(f"{pose.rmsd_lb:.2f}" if isinstance(pose.rmsd_lb, (int, float)) else "—", est["celda"]),
                 Paragraph(f"{pose.rmsd_ub:.2f}" if isinstance(pose.rmsd_ub, (int, float)) else "—", est["celda"]),
             ])
@@ -467,14 +553,14 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
             ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
         ]))
         cuerpo_poses: list[Any] = [tabla_poses, Paragraph(
-            "Las afinidades son señales de ranking dentro de este protocolo, no mediciones de "
+            translate_text("Las afinidades son señales de ranking dentro de este protocolo, no mediciones de "
             "energía libre. La pose de mejor energía no es, por serlo, la pose correcta: sin un "
-            "control geométrico superado no hay evidencia estructural.",
+            "control geométrico superado no hay evidencia estructural."),
             est["nota"],
         )]
     else:
         cuerpo_poses = [Paragraph(
-            f"<b>{ETIQUETA[dossier.poses_estado]}</b> — {_escapar(dossier.poses_razon)}",
+            f"<b>{translate_text(ETIQUETA[dossier.poses_estado])}</b> — {_escapar(dossier.poses_razon)}",
             est["cuerpo"])]
     flujo.extend(_seccion("6. Evidencia estructural y acoplamiento", est, *cuerpo_poses))
 
@@ -483,9 +569,9 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
         "7. Generación de poses", est,
         _tabla_campos(dossier.generacion, est),
         Paragraph(
-            "Los parámetros que la corrida no persistió aparecen como NO EVALUADO con su razón. "
+            translate_text("Los parámetros que la corrida no persistió aparecen como NO EVALUADO con su razón. "
             "No se sustituyen por los de la configuración del caso: describirían un ajuste que "
-            "nadie guardó con este resultado.",
+            "nadie guardó con este resultado."),
             est["nota"]),
     ))
 
@@ -494,11 +580,11 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
         "8. Selección de pose", est,
         _tabla_campos(dossier.seleccion, est),
         Paragraph(
-            "El selector RECOMIENDA; no sustituye. La pose principal del producto sigue siendo "
+            translate_text("El selector RECOMIENDA; no sustituye. La pose principal del producto sigue siendo "
             "la top-1 de Vina, que se conserva y se declara siempre. Cuando el selector se "
             "abstiene, falta o falla, la referencia es Vina top-1 en calidad de FALLBACK — no "
             "como un acierto del selector. El margen de confianza es la distancia entre la "
-            "primera y la segunda pose según el modelo: no es una probabilidad ni una nota.",
+            "primera y la segunda pose según el modelo: no es una probabilidad ni una nota."),
             est["nota"]),
     ))
 
@@ -506,17 +592,17 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     cuerpo_val: list[Any] = [_tabla_campos(dossier.validacion, est)]
     if dossier.evidencia_poses:
         cuerpo_val.append(Spacer(1, 0.25 * cm))
-        cuerpo_val.append(Paragraph("<b>Veredicto por pose</b>", est["cuerpo"]))
+        cuerpo_val.append(Paragraph(f"<b>{translate_text('Veredicto por pose')}</b>", est["cuerpo"]))
         cuerpo_val.append(_tabla_poses_evidencia(dossier.evidencia_poses, est))
     else:
         cuerpo_val.append(Paragraph(
-            f"<b>{ETIQUETA[Estado.NO_EVALUADO]}</b> — Esta corrida no registró veredicto físico "
-            f"por pose.", est["cuerpo"]))
+            translate_text(f"<b>{translate_text(ETIQUETA[Estado.NO_EVALUADO])}</b> — Esta corrida no registró veredicto físico "
+            f"por pose."), est["cuerpo"]))
     cuerpo_val.append(Paragraph(
-        "Sólo un CONTROL SUPERADO explícito autoriza llamar válida a una pose. REVISIÓN "
+        translate_text("Sólo un CONTROL SUPERADO explícito autoriza llamar válida a una pose. REVISIÓN "
         "describe una batería que no corrió entera, y NO EVALUADO un validador que no corrió: "
         "las dos describen lo que le pasó a la comprobación, nunca a la molécula, y ninguna de "
-        "las dos es evidencia negativa sobre el compuesto.",
+        "las dos es evidencia negativa sobre el compuesto."),
         est["nota"]))
     flujo.extend(_seccion("9. Validación geométrica y física", est, *cuerpo_val))
 
@@ -524,8 +610,8 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     flujo.extend(_seccion("10. Controles físicos y geométricos", est,
                           _tabla_controles(dossier.controles, est),
                           Paragraph(
-                              "La ausencia de alertas no equivale a validez: un control que no se "
-                              "ejecutó aparece como NO EVALUADO y no autoriza ninguna conclusión.",
+                              translate_text("La ausencia de alertas no equivale a validez: un control que no se "
+                              "ejecutó aparece como NO EVALUADO y no autoriza ninguna conclusión."),
                               est["nota"])))
 
     # ── 9. Evidencia por dimensión ───────────────────────────────────
@@ -539,7 +625,7 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     for texto in dossier.supuestos:
         cuerpo_sup.append(Paragraph(f"• {_escapar(texto)}", est["cuerpo"]))
     if not cuerpo_sup:
-        cuerpo_sup.append(Paragraph(ETIQUETA[Estado.NO_DEFINIDO], est["cuerpo"]))
+        cuerpo_sup.append(Paragraph(translate_text(ETIQUETA[Estado.NO_DEFINIDO]), est["cuerpo"]))
     flujo.extend(_seccion("12. Supuestos declarados", est, *cuerpo_sup))
 
     cuerpo_inc: list[Any] = []
@@ -547,7 +633,7 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
         cuerpo_inc.append(Paragraph(f"• {_escapar(texto)}", est["cuerpo"]))
     if not cuerpo_inc:
         cuerpo_inc.append(Paragraph(
-            "No se registraron incertidumbres adicionales. Esto no significa que no existan.",
+            translate_text("No se registraron incertidumbres adicionales. Esto no significa que no existan."),
             est["cuerpo"]))
     flujo.extend(_seccion("13. Incertidumbres y limitaciones", est, *cuerpo_inc))
 
@@ -558,9 +644,9 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
         Paragraph(f"<b>{_escapar(accion.texto)}</b>", est["cuerpo"]),
         Paragraph(_escapar(accion.razon or ""), est["cuerpo"]),
         Paragraph(
-            "Ninguna acción de esta lista afirma que el compuesto sea un fármaco, un candidato "
+            translate_text("Ninguna acción de esta lista afirma que el compuesto sea un fármaco, un candidato "
             "clínico ni un compuesto seguro. Describen qué trabajo computacional queda "
-            "justificado por la evidencia de esta corrida.",
+            "justificado por la evidencia de esta corrida."),
             est["nota"]),
     ))
 
@@ -569,38 +655,40 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     flujo.extend(_seccion(
         "15. Procedencia e instrucciones de verificación", est,
         Paragraph(
-            "El paquete reproducible que acompaña a este dossier lleva un `manifest.json` con "
+            translate_text("El paquete reproducible que acompaña a este dossier lleva un `manifest.json` con "
             "rol, tamaño y SHA-256 de cada archivo, y un `checksums.sha256` ordenado que permite "
-            "detectar archivos ausentes, modificados o añadidos.",
+            "detectar archivos ausentes, modificados o añadidos."),
             est["cuerpo"]),
         Paragraph(
-            f"Campos de procedencia sin sellar en esta corrida: "
-            f"{_escapar(', '.join(faltantes)) if faltantes else 'ninguno'}.",
+            translate_text(f"Campos de procedencia sin sellar en esta corrida: "
+            f"{_escapar(', '.join(faltantes)) if faltantes else 'ninguno'}."),
             est["cuerpo"]),
         Paragraph(
-            "<b>Cómo verificar el paquete, sin ejecutar nada:</b> (1) abrir el ZIP y leer "
+            translate_text("<b>Cómo verificar el paquete, sin ejecutar nada:</b> (1) abrir el ZIP y leer "
             "`manifest.json`, que declara rol, tamaño y SHA-256 de cada archivo, incluidos los "
             "ausentes con su razón; (2) recalcular el SHA-256 de cada archivo y compararlo con "
             "`checksums.sha256`; (3) comprobar que no sobra ni falta ningún archivo respecto al "
             "manifiesto. El propio ZIP, `checksums.sha256` y la entrada de `manifest.json` "
             "dentro de `files` quedan fuera por construcción —un archivo no puede contener su "
-            "propio hash—, y el README del paquete lo declara.",
+            "propio hash—, y el README del paquete lo declara."),
             est["cuerpo"]),
         Paragraph(
-            "Un checksum correcto demuestra INTEGRIDAD: que los bytes no cambiaron desde que se "
-            "generó el paquete. No demuestra que el método sea adecuado, que la preparación "
+            translate_text("Un checksum correcto demuestra INTEGRIDAD: que los archivos coinciden con el "
+            "manifiesto y los checksums que trae el propio paquete; que no cambiaron desde la "
+            "exportación sólo se comprueba contra una huella guardada aparte. No demuestra que "
+            "el método sea adecuado, que la preparación "
             "fuera correcta ni que la conclusión sea cierta. Integridad no es validez "
-            "científica, y este dossier no las presenta como lo mismo.",
+            "científica, y este dossier no las presenta como lo mismo."),
             est["nota"]),
         Paragraph(_escapar(dossier.procedencia.get("nota", "")), est["nota"]),
     ))
 
     # ── 13. Glosario de estados ──────────────────────────────────────
-    filas_glos = [[Paragraph("<b>Estado</b>", est["celda"]), Paragraph("<b>Significado</b>", est["celda"])]]
+    filas_glos = [[Paragraph(f"<b>{translate_text('Estado')}</b>", est["celda"]), Paragraph(f"<b>{translate_text('Significado')}</b>", est["celda"])]]
     for estado in Estado:
         filas_glos.append([
-            Paragraph(ETIQUETA[estado], est["celda"]),
-            Paragraph(_escapar(GLOSARIO[estado]), est["celda"]),
+            Paragraph(translate_text(ETIQUETA[estado]), est["celda"]),
+            Paragraph(_escapar(translate_text(GLOSARIO[estado])), est["celda"]),
         ])
     tabla_glos = Table(filas_glos, colWidths=[_ANCHO_UTIL * 0.25, _ANCHO_UTIL * 0.75],
                        repeatRows=1)
@@ -615,16 +703,16 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
 
     # ── 14. Apéndice heredado ────────────────────────────────────────
     cuerpo_ap: list[Any] = [Paragraph(
-        "Los índices siguientes los calcula el pipeline por compatibilidad con lecturas "
+        translate_text("Los índices siguientes los calcula el pipeline por compatibilidad con lecturas "
         "anteriores. <b>No son decisionales.</b> No son probabilidad, ni confianza, ni calidad, "
-        "y no deben usarse para comparar moléculas ni para priorizar trabajo experimental.",
+        "y no deben usarse para comparar moléculas ni para priorizar trabajo experimental."),
         est["cuerpo"])]
     if dossier.apendice_heredado:
         cuerpo_ap.append(_tabla_campos(dossier.apendice_heredado, est))
     else:
         cuerpo_ap.append(Paragraph(
-            "Esta corrida no serializó ningún índice heredado.", est["cuerpo"]))
-    flujo.extend(_seccion("Apéndice A. Outputs heredados (no decisionales)", est, *cuerpo_ap))
+            translate_text("Esta corrida no serializó ningún índice heredado."), est["cuerpo"]))
+    flujo.extend(_seccion("Apéndice A. Resultados heredados (no decisionales)", est, *cuerpo_ap))
 
     # El encabezado se compone al revés de lo intuitivo: el identificador de
     # corrida es lo ÚLTIMO que puede perderse, porque es la identidad del
@@ -636,7 +724,8 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     caso = dossier.case_name
     if len(caso) > espacio:
         caso = caso[: max(0, espacio - 1)].rstrip() + "…"
-    encabezado = f"{caso} · corrida {corrida}"
+    # El nombre del caso lo escribió la persona: no se traduce aunque se parezca a un nombre generado por el catálogo.
+    encabezado = f"{caso} · {translate_text('corrida')} {corrida}"
 
     def _con_chrome(*args: Any, **kwargs: Any) -> _Chrome:
         lienzo = _Chrome(*args, **kwargs)

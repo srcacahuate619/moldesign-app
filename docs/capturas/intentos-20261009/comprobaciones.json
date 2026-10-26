@@ -1,0 +1,49 @@
+{
+  "fuente": "backend/data/intentos_de_verificacion.json",
+  "fuente_sha256": "ed62af0df8c1682a0728915271706f55a12b16380f3f195a0ea425f98d7f3d0a",
+  "nombre": "backend/data/target_aliases.json; sin completar metadata ausente",
+  "componente": "TargetSelectorModal real y providers reales; subset 8HFI",
+  "capturas": "selector en su viewport; fragmentos de su DOM copiados sin recorte del contenedor de scroll",
+  "checks": [
+    {
+      "lang": "es",
+      "width": 1440,
+      "viewport": 1440,
+      "originalDialogWidth": 1024,
+      "scrollWidth": 1440,
+      "title": "No superó la calibración: ρ = 0.13 (IC 95 %: -0.16–0.41; n = 57; Ki, CHEMBL853189). El orden que da Vina no se distingue del azar en este panel. Pose del cristal reproducida en 3 de 5 semillas (RMSD ≤ 2 Å) Medido con exhaustividad 8, 9 poses y semilla 42. Con otros parámetros no se ha medido. El receptor se acopló sin los iones del depósito (la preparación los retira). Vina no tiene término electrostático; la calibración se midió en esas condiciones. El panel es casi entero una serie de análogos: la ρ describe cómo ordena compuestos de esa serie, no ligandos de estructura diversa. Las condiciones del ensayo (pH, temperatura, radioligando) no constan en las fuentes consultadas; la correlación es dentro de un único ensayo. RMSD del top-1 por semilla: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Experimento sellado: CAL-8HFI-01 (2026-10-09).",
+      "ariaLabel": "No superó la calibración: ρ = 0.13 (IC 95 %: -0.16–0.41; n = 57; Ki, CHEMBL853189). El orden que da Vina no se distingue del azar en este panel. Pose del cristal reproducida en 3 de 5 semillas (RMSD ≤ 2 Å) Medido con exhaustividad 8, 9 poses y semilla 42. Con otros parámetros no se ha medido. El receptor se acopló sin los iones del depósito (la preparación los retira). Vina no tiene término electrostático; la calibración se midió en esas condiciones. El panel es casi entero una serie de análogos: la ρ describe cómo ordena compuestos de esa serie, no ligandos de estructura diversa. Las condiciones del ensayo (pH, temperatura, radioligando) no constan en las fuentes consultadas; la correlación es dentro de un único ensayo. RMSD del top-1 por semilla: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Experimento sellado: CAL-8HFI-01 (2026-10-09).",
+      "pageErrors": []
+    },
+    {
+      "lang": "es",
+      "width": 375,
+      "viewport": 375,
+      "originalDialogWidth": 343,
+      "scrollWidth": 375,
+      "title": "No superó la calibración: ρ = 0.13 (IC 95 %: -0.16–0.41; n = 57; Ki, CHEMBL853189). El orden que da Vina no se distingue del azar en este panel. Pose del cristal reproducida en 3 de 5 semillas (RMSD ≤ 2 Å) Medido con exhaustividad 8, 9 poses y semilla 42. Con otros parámetros no se ha medido. El receptor se acopló sin los iones del depósito (la preparación los retira). Vina no tiene término electrostático; la calibración se midió en esas condiciones. El panel es casi entero una serie de análogos: la ρ describe cómo ordena compuestos de esa serie, no ligandos de estructura diversa. Las condiciones del ensayo (pH, temperatura, radioligando) no constan en las fuentes consultadas; la correlación es dentro de un único ensayo. RMSD del top-1 por semilla: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Experimento sellado: CAL-8HFI-01 (2026-10-09).",
+      "ariaLabel": "No superó la calibración: ρ = 0.13 (IC 95 %: -0.16–0.41; n = 57; Ki, CHEMBL853189). El orden que da Vina no se distingue del azar en este panel. Pose del cristal reproducida en 3 de 5 semillas (RMSD ≤ 2 Å) Medido con exhaustividad 8, 9 poses y semilla 42. Con otros parámetros no se ha medido. El receptor se acopló sin los iones del depósito (la preparación los retira). Vina no tiene término electrostático; la calibración se midió en esas condiciones. El panel es casi entero una serie de análogos: la ρ describe cómo ordena compuestos de esa serie, no ligandos de estructura diversa. Las condiciones del ensayo (pH, temperatura, radioligando) no constan en las fuentes consultadas; la correlación es dentro de un único ensayo. RMSD del top-1 por semilla: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Experimento sellado: CAL-8HFI-01 (2026-10-09).",
+      "pageErrors": []
+    },
+    {
+      "lang": "en",
+      "width": 1440,
+      "viewport": 1440,
+      "originalDialogWidth": 1024,
+      "scrollWidth": 1440,
+      "title": "Did not pass calibration: ρ = 0.13 (95% CI: -0.16–0.41; n = 57; Ki, CHEMBL853189). Vina's ranking cannot be distinguished from chance on this panel. Crystal pose reproduced in 3 of 5 seeds (RMSD ≤ 2 Å) Measured with exhaustiveness 8, 9 poses and seed 42. Not measured with other parameters. The receptor was docked without the deposited ions (preparation removes them). Vina has no electrostatic term; the calibration was measured under these conditions. The panel is almost entirely one analogue series: ρ describes how it ranks compounds of that series, not structurally diverse ligands. The assay conditions (pH, temperature, radioligand) are not documented in the sources consulted; the correlation is within a single assay. Top-1 RMSD by seed: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Sealed experiment: CAL-8HFI-01 (2026-10-09).",
+      "ariaLabel": "Did not pass calibration: ρ = 0.13 (95% CI: -0.16–0.41; n = 57; Ki, CHEMBL853189). Vina's ranking cannot be distinguished from chance on this panel. Crystal pose reproduced in 3 of 5 seeds (RMSD ≤ 2 Å) Measured with exhaustiveness 8, 9 poses and seed 42. Not measured with other parameters. The receptor was docked without the deposited ions (preparation removes them). Vina has no electrostatic term; the calibration was measured under these conditions. The panel is almost entirely one analogue series: ρ describes how it ranks compounds of that series, not structurally diverse ligands. The assay conditions (pH, temperature, radioligand) are not documented in the sources consulted; the correlation is within a single assay. Top-1 RMSD by seed: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Sealed experiment: CAL-8HFI-01 (2026-10-09).",
+      "pageErrors": []
+    },
+    {
+      "lang": "en",
+      "width": 375,
+      "viewport": 375,
+      "originalDialogWidth": 343,
+      "scrollWidth": 375,
+      "title": "Did not pass calibration: ρ = 0.13 (95% CI: -0.16–0.41; n = 57; Ki, CHEMBL853189). Vina's ranking cannot be distinguished from chance on this panel. Crystal pose reproduced in 3 of 5 seeds (RMSD ≤ 2 Å) Measured with exhaustiveness 8, 9 poses and seed 42. Not measured with other parameters. The receptor was docked without the deposited ions (preparation removes them). Vina has no electrostatic term; the calibration was measured under these conditions. The panel is almost entirely one analogue series: ρ describes how it ranks compounds of that series, not structurally diverse ligands. The assay conditions (pH, temperature, radioligand) are not documented in the sources consulted; the correlation is within a single assay. Top-1 RMSD by seed: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Sealed experiment: CAL-8HFI-01 (2026-10-09).",
+      "ariaLabel": "Did not pass calibration: ρ = 0.13 (95% CI: -0.16–0.41; n = 57; Ki, CHEMBL853189). Vina's ranking cannot be distinguished from chance on this panel. Crystal pose reproduced in 3 of 5 seeds (RMSD ≤ 2 Å) Measured with exhaustiveness 8, 9 poses and seed 42. Not measured with other parameters. The receptor was docked without the deposited ions (preparation removes them). Vina has no electrostatic term; the calibration was measured under these conditions. The panel is almost entirely one analogue series: ρ describes how it ranks compounds of that series, not structurally diverse ligands. The assay conditions (pH, temperature, radioligand) are not documented in the sources consulted; the correlation is within a single assay. Top-1 RMSD by seed: 0.6, 0.5, 4.1, 0.6, 3.7 Å. Sealed experiment: CAL-8HFI-01 (2026-10-09).",
+      "pageErrors": []
+    }
+  ]
+}

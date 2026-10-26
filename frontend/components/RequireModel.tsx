@@ -45,7 +45,7 @@ export function RequireModel({ modelId, children, fallback }: Props) {
           marginBottom: 8,
         }}
       >
-        {entry?.name || "Modelo requerido"}
+        {entry?.name || t("op_required_model")}
       </span>
       <p
         style={{
@@ -89,7 +89,7 @@ export function RequireModel({ modelId, children, fallback }: Props) {
             color: "var(--bg)",
           }}
 >
-        {status === "error" ? "Reintentar descarga" : "Descargar ahora"}
+        {status === "error" ? t("op_download_retry") : t("op_download_now")}
         </button>
       ) : null}
     </div>

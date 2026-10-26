@@ -1,0 +1,52 @@
+{
+ "experiment_id": "SUP-02-TOTAL-SCORE",
+ "series": {
+  "8T69": {
+   "n": 89,
+   "rho_total_score": 0.3966,
+   "rho_vina": 0.3918,
+   "delta": 0.0048,
+   "delta_ic95": [
+    -0.058,
+    0.0606
+   ],
+   "remuestreos_no_finitos": 0,
+   "rho_total_score_frente_a_vina": 0.9726,
+   "en_el_techo": 0,
+   "en_el_suelo": 0,
+   "total_score_mediana": 40.03,
+   "total_score_rango": [
+    14.25,
+    67.15
+   ],
+   "ic_excluye_cero": "no"
+  },
+  "8HFI": {
+   "n": 57,
+   "rho_total_score": 0.0285,
+   "rho_vina": 0.1293,
+   "delta": -0.1008,
+   "delta_ic95": [
+    -0.3335,
+    0.1344
+   ],
+   "remuestreos_no_finitos": 0,
+   "rho_total_score_frente_a_vina": 0.628,
+   "en_el_techo": 0,
+   "en_el_suelo": 0,
+   "total_score_mediana": 54.52,
+   "total_score_rango": [
+    33.82,
+    72.68
+   ],
+   "ic_excluye_cero": "no"
+  }
+ },
+ "dano": false,
+ "decision": "NO_GO",
+ "bootstrap": {
+  "remuestreos": 10000,
+  "semilla": 42,
+  "tipo": "pareado por compuesto, percentiles 2,5–97,5"
+ }
+}

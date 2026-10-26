@@ -2,13 +2,13 @@
 
 
 import { useLanguage } from "@/context/LanguageContext";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Cpu, HardDrive, Monitor, Zap, Clock, Shield, Atom, ChevronDown,
   ChevronUp, AlertTriangle, CheckCircle2, Info, Layers, Sliders,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { getApiUrl } from "../../../lib/config";
+import { fetchBackend } from "../../../lib/backendFetch";
 
 interface HardwareInfo {
   cpu: { model: string; cores_physical: number; cores_logical: number };
@@ -27,46 +27,9 @@ interface TimeEstimate {
   mmgbsa: string;
 }
 
-interface AntiTarget {
-  pdb_id: string;
-  name: string;
-  category: string;
-  risk: string;
-  threshold_kcal: number;
-  source?: string;
-  /** Si se marca al abrir. Las sugeridas de Bowes 2012 llegan en `false`. */
-  por_defecto?: boolean;
-  /** Si hoy se puede preparar su receptor; ausente se lee como disponible. */
-  disponible?: boolean;
-  motivo_no_disponible?: string | null;
-  /**
-   * Panel de Bowes 2012: en qué estado está esa diana. `validada` trae
-   * estructura y las cifras del redocking que la respaldan; las demás se
-   * listan con su motivo y no se pueden seleccionar.
-   */
-  estado?: "validada" | "en_el_panel_por_defecto" | "sin_estructura_preparable" | "sin_estructura";
-  seleccionable?: boolean;
-  motivo?: string | null;
-  estructura?: {
-    pdb_id: string;
-    metodo?: string | null;
-    resolucion_A?: number | null;
-    ligando_de_referencia?: string | null;
-    /** Cuánto se alejó el centroide de la primera pose del ligando cristalizado. */
-    distancia_centroides_A?: number | null;
-    /** Si además el RMSD baja de 2 Å. Mide a Vina, no a la estructura. */
-    pose_reproducida?: boolean | null;
-    rmsd_pose1_A?: number | null;
-    sitio_adjudicado?: boolean;
-  } | null;
-}
-
-/** Se marcan al abrir sólo las del panel por defecto que se pueden preparar. */
-export function antiDianasPorDefecto(list: AntiTarget[]): string[] {
-  return list
-    .filter((a) => a.por_defecto !== false && a.disponible !== false)
-    .map((a) => a.pdb_id);
-}
+export { antiDianasPorDefecto } from "@/lib/antiDianas";
+import { antiDianasParaEnviar, antiDianasPorDefecto, useAntiDianas } from "@/lib/antiDianas";
+import { AntiDianasSelector } from "./AntiDianasSelector";
 
 export interface ProConfig {
   numWorkers: number;
@@ -88,29 +51,37 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
   const { t } = useLanguage();
   const [hw, setHw] = useState<HardwareInfo | null>(null);
   const [estimate, setEstimate] = useState<TimeEstimate | null>(null);
-  const [antiTargets, setAntiTargets] = useState<AntiTarget[]>([]);
+  const configRef = useRef(config);
+  useEffect(() => { configRef.current = config; }, [config]);
+  const anti = useAntiDianas();
+  const initialized = useRef(false);
+  useEffect(() => {
+    if (anti.targets && !initialized.current) {
+      initialized.current = true;
+      if (config.selectedAntiTargets.length === 0) onChange({ ...config, selectedAntiTargets: antiDianasPorDefecto(anti.targets) });
+    }
+  }, [anti.targets, config, onChange]);
   const [expanded, setExpanded] = useState(!initialCollapsed);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchHardware();
-    fetchAntiTargets();
   }, []);
 
   useEffect(() => {
     if (hw) updateEstimate();
-  }, [config.enableSelectivity, config.enableMMGBSA, config.selectedAntiTargets, hw]);
+  }, [config.enableSelectivity, config.enableMMGBSA, config.selectedAntiTargets, hw, anti.targets]);
 
   const fetchHardware = async () => {
     for (let attempt = 1; attempt <= 10; attempt++) {
       try {
-        const r = await fetch(`${await getApiUrl()}/hardware`);
+        const r = await fetchBackend(`/hardware`);
         const data = await r.json();
         if (data.cpu?.cores_physical) {
           setHw(data);
           const rec = data.recommendations;
           onChange({
-            ...config,
+            ...configRef.current,
             numWorkers: rec.workers,
             parallelDocks: rec.parallel_docks,
           });
@@ -124,61 +95,17 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
     setLoading(false);
   };
 
-  const fetchAntiTargets = async () => {
-    for (let attempt = 1; attempt <= 10; attempt++) {
-      try {
-        const r = await fetch(`${await getApiUrl()}/pro/anti-targets`);
-        if (r.ok) {
-          const data = await r.json();
-          const list = data.anti_targets || [];
-          setAntiTargets(list);
-          // Marcar el panel por defecto, no todo lo ofrecido: cada anti-diana
-          // es un acoplamiento más por corrida.
-          if (config.selectedAntiTargets.length === 0) {
-            onChange({
-              ...config,
-              selectedAntiTargets: antiDianasPorDefecto(list),
-            });
-          }
-          return;
-        }
-      } catch (e) {
-        // Backend not ready yet
-      }
-      if (attempt < 10) await new Promise(r => setTimeout(r, 2000));
-    }
-  };
-
   const updateEstimate = async () => {
     if (!hw) return;
-    const targets = config.enableSelectivity ? config.selectedAntiTargets.length : 0;
+    const targets = config.enableSelectivity ? antiDianasParaEnviar(anti.targets, config.selectedAntiTargets).length : 0;
     try {
-      const r = await fetch(
-        `${await getApiUrl()}/hardware/estimate?mode=pro&anti_targets=${targets}&mmgbsa=false`
+      const r = await fetchBackend(
+        `/hardware/estimate?mode=pro&anti_targets=${targets}&mmgbsa=false`
       );
       const data = await r.json();
       setEstimate(data);
     } catch (e) {}
   };
-
-  const toggleAntiTarget = (pdbId: string) => {
-    const next = config.selectedAntiTargets.includes(pdbId)
-      ? config.selectedAntiTargets.filter((id) => id !== pdbId)
-      : [...config.selectedAntiTargets, pdbId];
-    onChange({ ...config, selectedAntiTargets: next });
-  };
-
-  /** Cada anti-diana es un acoplamiento más: se puede marcar todo, nada o el panel. */
-  const seleccionar = (cuales: "todas" | "ninguna" | "por_defecto") => {
-    const lista =
-      cuales === "ninguna"
-        ? []
-        : cuales === "por_defecto"
-        ? antiDianasPorDefecto(antiTargets)
-        : antiTargets.filter((a) => a.disponible !== false && a.pdb_id).map((a) => a.pdb_id);
-    onChange({ ...config, selectedAntiTargets: lista });
-  };
-  const disponibles = antiTargets.filter((a) => a.disponible !== false).length;
 
   const formatTime = (s: number) => {
     if (s < 60) return `${s}s`;
@@ -199,9 +126,9 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
             <Sliders className="w-4 h-4 text-violet-400" />
           </div>
           <div className="text-left">
-            <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Opciones Avanzadas</h3>
+            <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{t("op_opciones_avanzadas")}</h3>
             <p className="text-[11px] text-zinc-500">
-              {estimate ? formatTime(estimate.total_seconds_min) : "..."} - {estimate ? formatTime(estimate.total_seconds_max) : "..."} estimado
+              {estimate ? formatTime(estimate.total_seconds_min) : "..."} - {estimate ? formatTime(estimate.total_seconds_max) : "..."} {t("pr_cfg_estimado")}
             </p>
           </div>
         </div>
@@ -233,7 +160,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                   />
                   <HardwareChip
                     icon={<Monitor className="w-3 h-3" />}
-                    label={hw.gpu?.available ? (hw.gpu?.cuda ? "CUDA" : "OpenCL") : "CPU only"}
+                    label={hw.gpu?.available ? (hw.gpu?.cuda ? t("pr_cfg_cuda") : t("pr_cfg_opencl")) : t("pr_cfg_cpu_only")}
                     color={hw.gpu?.available ? "violet" : "zinc"}
                   />
                 </div>
@@ -251,7 +178,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
-                    <Layers className="w-3 h-3" /> Workers
+                    <Layers className="w-3 h-3" /> {t("pr_cfg_workers")}
                   </span>
                   <span className="font-mono text-zinc-800 dark:text-zinc-300">{config.numWorkers}</span>
                 </div>
@@ -276,7 +203,7 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
                   <span className="text-zinc-500 dark:text-zinc-400 flex items-center gap-1.5">
-                    <Zap className="w-3 h-3" /> Docks paralelos
+                    <Zap className="w-3 h-3" /> {t("pr_cfg_docks_paralelos")}
                   </span>
                   <span className="font-mono text-zinc-800 dark:text-zinc-300">{config.parallelDocks}</span>
                 </div>
@@ -315,62 +242,8 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
                 </label>
 
                 {config.enableSelectivity && (
-                  <div className="pl-6 space-y-1.5">
-                    <div className="flex items-center gap-2 pb-1">
-                      {([["todas", "pn_todas"], ["por_defecto", "pn_panel_por_defecto"],
-                         ["ninguna", "pn_ninguna"]] as const).map(([cual, clave]) => (
-                        <button
-                          key={cual}
-                          type="button"
-                          onClick={() => seleccionar(cual)}
-                          className="rounded border border-zinc-300 dark:border-zinc-700 px-1.5 py-0.5
-                            font-mono text-[9px] uppercase tracking-wider text-zinc-600 dark:text-zinc-400
-                            transition-colors hover:border-amber-500/40 hover:text-amber-500"
-                        >
-                          {t(clave)}
-                        </button>
-                      ))}
-                      <span className="ml-auto font-mono text-[9px] text-zinc-500">
-                        {config.selectedAntiTargets.length}/{disponibles}
-                      </span>
-                    </div>
-                    {/* El panel pasó de 3 anti-dianas a las 44 de Bowes 2012 más las
-                        propias: sin altura máxima, la lista empuja el resto de la
-                        configuración casi mil píxeles hacia abajo. */}
-                    <div className="max-h-64 space-y-1.5 overflow-y-auto pr-1">
-                    {antiTargets.map((at) => (
-                      <label key={at.pdb_id}
-                        title={at.disponible === false ? (at.motivo_no_disponible ?? undefined) : undefined}
-                        className={`flex items-center gap-2 group ${at.disponible === false ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}>
-                        <input
-                          type="checkbox"
-                          disabled={at.disponible === false}
-                          checked={at.disponible !== false && config.selectedAntiTargets.includes(at.pdb_id)}
-                          onChange={() => toggleAntiTarget(at.pdb_id)}
-                          className="w-3.5 h-3.5 rounded border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-700 text-amber-500 focus:ring-0"
-                        />
-                        <span className="text-[11px] text-zinc-600 group-hover:text-zinc-800 dark:text-zinc-400 dark:group-hover:text-zinc-300 transition-colors">
-                          {at.name}
-                        </span>
-                        <span className="text-[10px] text-zinc-450 dark:text-zinc-600">{at.category}</span>
-                        {at.source === "user" && (
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-violet-500/10 text-violet-400 font-mono">TUYO</span>
-                        )}
-                        {at.source === "default" && (
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700/50 text-zinc-500 font-mono">{t("pn_catalogo")}</span>
-                        )}
-                        {at.disponible === false && (
-                          <span className="text-[9px] px-1 py-0.5 rounded bg-amber-500/10 text-amber-500 font-mono">{t("pn_no_disponible")}</span>
-                        )}
-                        <div className="relative group/tip">
-                          <Info className="w-3 h-3 text-zinc-400 dark:text-zinc-600 group-hover/tip:text-zinc-800 dark:group-hover/tip:text-zinc-400" />
-                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 rounded-lg bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 text-[10px] text-zinc-700 dark:text-zinc-300 shadow-lg opacity-0 group-hover/tip:opacity-100 transition-opacity pointer-events-none z-50">
-                            {at.risk}
-                          </div>
-                        </div>
-                      </label>
-                    ))}
-                    </div>
+                  <div className="pl-6">
+                    <AntiDianasSelector targets={anti.targets} selected={config.selectedAntiTargets} error={anti.error} onRetry={anti.retry} onChange={(ids) => onChange({ ...config, selectedAntiTargets: ids })} />
                   </div>
                 )}
               </div>
@@ -399,10 +272,10 @@ export function ProConfigPanel({ config, onChange, collapsed: initialCollapsed }
               <label className="flex items-center justify-between cursor-pointer">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded bg-emerald-500/20 flex items-center justify-center">
-                    <span className="text-[8px] font-bold text-emerald-400">AD</span>
+                    <span className="text-[8px] font-bold text-emerald-400">{t("pr_cfg_ad")}</span>
                   </div>
                   <div>
-                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Predicciones ADMET-AI</span>
+                    <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{t("pr_cfg_predicciones_admet")}</span>
                     {/* Mismo aviso que en Opciones (`ProOptionsModal`): los dos
                         interruptores encienden el mismo modelo, así que no
                         pueden prometer cosas distintas. «~90s extra» era una

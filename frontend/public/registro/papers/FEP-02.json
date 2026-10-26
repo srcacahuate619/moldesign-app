@@ -1,8 +1,8 @@
 {
  "id": "FEP-02",
  "meta": {
-  "titulo": "Los nueve que fallaron tienen huecos de cadena, nueve de nueve",
-  "entradilla": "41% de los receptores quedarían documentados. Y de paso la auditoría verificó un diagnóstico que llevaba meses siendo una conjetura razonable: p ≈ 0.0004."
+  "titulo": "Los nueve que fallaron tienen saltos de numeración, nueve de nueve",
+  "entradilla": "El 41 % de los receptores pasa los dos criterios de cribado del código, que no es estar listo para FEP. Y los nueve que fallaron tienen saltos de numeración, nueve de nueve: compatible con cortes de cadena, no una confirmación."
  },
  "bloques": [
   {
@@ -236,7 +236,7 @@
    "tipo": "parrafo",
    "frag": [
     {
-     "t": "El diagnóstico queda confirmado, y con él la decisión que dependía de él: ",
+     "t": "El diagnóstico queda respaldado —la asociación es compatible con él, no lo confirma (SCI-B-007)—, y con él la decisión que dependía de él: ",
      "m": null
     },
     {
@@ -307,6 +307,203 @@
    "frag": [
     {
      "t": "Los 9 del caso anterior sí lo eran, lo cual da alguna confianza en el criterio pero no lo valida en general. La cifra honesta es «86 estructuras a revisar», no «86 estructuras rotas».",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-007. Que los 9 fallos de MF-10 tengan saltos de numeración, y la probabilidad de 0,424⁹, son ",
+      "m": null
+     },
+     {
+      "t": "compatibles",
+      "m": "fuerte"
+     },
+     {
+      "t": " con el diagnóstico de cortes de cadena; no lo confirman. Es una asociación, y la probabilidad supone una independencia que no se estableció.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-040. «Documentados» quiere decir que pasan los ",
+      "m": null
+     },
+     {
+      "t": "dos criterios de cribado",
+      "m": "fuerte"
+     },
+     {
+      "t": " que aplica el código: sin saltos de numeración y sin sitio entre cadenas. Metales, cofactores y aguas del sitio no entran en el criterio. Ni los 83 de 203 ni los 1543 de 3887 de PDBBind son receptores listos para FEP.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-041. ",
+      "m": null
+     },
+     {
+      "t": "FEP-02-PDBBIND",
+      "m": "codigo"
+     },
+     {
+      "t": " declaró «comparable» sin margen ni gate, y su universo contiene a los 203. Excluyéndolos: 1460 de 3684 (39.6 %) frente a 83 de 203 (40.9 %). Es una coincidencia descriptiva, no una equivalencia probada; y la copia local no tenía 1438 receptores.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-25",
+     "m": "fuerte"
+    },
+    {
+     "t": " (inventario SUPUESTOS-01, C-232). El título y la entradilla seguían diciendo «huecos de cadena», «quedarían documentados» y que la auditoría «verificó» el diagnóstico con p ≈ 0.0004, por encima de las correcciones SCI-B-007 y SCI-B-040. Se reescriben con su alcance. Ninguna cifra cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El cuerpo decía todavía «el diagnóstico queda confirmado», que SCI-B-007 rebajó a compatible (hallazgo L2-SOL-005 de la revisión de papers de Sol).",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "FEP-02-PDBBIND: el inventario del sitio conserva límites de la copia local de PDBBind",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de auditoría descriptiva.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade el inventario auxiliar, sin convertir la coincidencia de cribados de SCI-B-041 en equivalencia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Entre los receptores legibles, el contador marca sitio entre cadenas en 938 casos, metales próximos en 819 y cofactores en 2; la mediana de aguas es 11. Son observaciones sobre ",
+     "m": null
+    },
+    {
+     "t": "_protein.pdb",
+     "m": "codigo"
+    },
+    {
+     "t": " ya limpiados por PDBBind: lo que la fuente retiró no puede contarse como conservado ni perdido aquí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La ausencia de archivos no se demostró aleatoria. ",
+     "m": null
+    },
+    {
+     "t": "SCI-B-040 y SCI-B-041",
+     "m": "fuerte"
+    },
+    {
+     "t": ", desarrolladas arriba, delimitan el cribado y la población comparada. No se vuelve a llamar completo al filtro de numeración y cadenas. No comprobado por mí: reconstruir inventarios desde los depósitos originales. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "FEP-02-PDBBIND",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
      "m": null
     }
    ]

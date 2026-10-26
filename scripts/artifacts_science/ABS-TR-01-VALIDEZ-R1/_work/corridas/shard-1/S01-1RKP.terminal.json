@@ -1,0 +1,16 @@
+{
+  "id_r2": "S01",
+  "pdb": "1RKP",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 34.9,
+      "crudo": "S01-1RKP-intento1.json.gz",
+      "crudo_sha256": "10b9caaffbd79e00bf0d4ac9373f69c924b38b95fae2bcdc6680091118cadc7e"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S01-1RKP-intento1.json.gz",
+  "crudo_sha256": "10b9caaffbd79e00bf0d4ac9373f69c924b38b95fae2bcdc6680091118cadc7e",
+  "registrado_en": "2026-10-25T01:26:27+00:00"
+}

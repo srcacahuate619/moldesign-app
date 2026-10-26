@@ -173,7 +173,7 @@ La decisión arquitectónica más importante de la v2 es separar dos clases de n
 | Buscable por FTS (nombre/aliases) | ✅ | ✅ |
 | Aporta fingerprint de similitud | ✅ | ✅ |
 
-**Por qué es crítico**: si un nodo *catalog* entrara al early-exit sin score, se mezclaría como `0.5` silencioso (el bug de la v1) y contaminaría el ranking con moléculas que jamás se evaluaron. El guard `is_catalog=0` **protege la garantía de 0% falsos negativos** documentada en `plan_early_exit.md`.
+**Por qué es crítico**: si un nodo *catalog* entrara al early-exit sin score, se mezclaría como `0.5` silencioso (el bug de la v1) y contaminaría el ranking con moléculas que jamás se evaluaron. El guard `is_catalog=0` evita esa contaminación. No protege ninguna «garantía»: el 0 % de falsos negativos de `plan_early_exit.md` se **observó** en un ensayo histórico que no descartó ninguna molécula (skip 0,0 %, §7.2), así que no mide el riesgo de descartar (corrección del 2026-10-20, SCI-A-070).
 
 **Precedencia de evidencia**: si una molécula ya existe como *evaluated* y luego se agrega como *catalog* (mismo `node_id`), el catálogo **appendea** `common_name` + `aliases` **sin tocar** `is_catalog` ni `score`. La evidencia evaluada manda.
 
@@ -450,8 +450,8 @@ Cobertura en `services/ai/molgraph.py`: **0% → 56%**.
 | Métrica | Valor |
 |---|---|
 | Moléculas validadas | **7642** (`validate_early_exit.py --all`) |
-| Falsos negativos | **0%** |
-| Skip (ahorro docking) | 0.0% |
+| Falsos negativos observados | 0 % (con 0,0 % de descartes: la prueba no descartó ninguna molécula, así que no puede medir falsos negativos) |
+| Skip (ahorro docking) | 0.0% (ningún ahorro demostrado) |
 | Cold start | **22.6%** |
 
 ### 7.3 DB live (`C:\Users\Johan Amezcua\MolDesign\data\molgraph.db`)

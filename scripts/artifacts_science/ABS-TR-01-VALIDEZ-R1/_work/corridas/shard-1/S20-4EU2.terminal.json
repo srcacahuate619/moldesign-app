@@ -1,0 +1,16 @@
+{
+  "id_r2": "S20",
+  "pdb": "4EU2",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 175.1,
+      "crudo": "S20-4EU2-intento1.json.gz",
+      "crudo_sha256": "b913287e34d036adf47c6b49c86739bee6b3fa4163609efa26adee30f238fa84"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S20-4EU2-intento1.json.gz",
+  "crudo_sha256": "b913287e34d036adf47c6b49c86739bee6b3fa4163609efa26adee30f238fa84",
+  "registrado_en": "2026-10-25T01:34:19+00:00"
+}

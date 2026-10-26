@@ -1,0 +1,18 @@
+[
+  {
+    "comando": "npm run check:exported-api-url",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:14:41.6655878Z",
+    "segundos": 5.96,
+    "salida": 0,
+    "registro": "export-check-exported-api-url.log"
+  },
+  {
+    "comando": "npm run check:no-remote-assets",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:14:47.6591908Z",
+    "segundos": 1.15,
+    "salida": 0,
+    "registro": "export-check-no-remote-assets.log"
+  }
+]

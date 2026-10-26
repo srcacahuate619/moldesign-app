@@ -246,3 +246,68 @@ describe("archivar con un cambio pendiente", () => {
     expect(queue.hasPending("b")).toBe(false);
   });
 });
+
+describe("drenar mientras entra otra edición (QA1-008)", () => {
+  // Medido en la app: al registrar la primera corrida de un caso, el contexto
+  // encola el registro y a los ~34 ms entra otra edición, dentro del drenaje.
+  // Ninguna escritura falló, pero el drenaje devolvía `ok: false` porque quedaba
+  // algo pendiente, y la interfaz avisaba de que el identificador de la corrida
+  // no se había guardado. El aviso nunca se retiraba.
+  it("una edición que llega DURANTE el drenaje no lo hace fallar: se vuelca también", async () => {
+    const { write, calls } = controlledWriter();
+    const { queue } = makeQueue(write);
+
+    queue.enqueue(record("a", "registro de la corrida"));
+    const drained = queue.drain("a");
+    await vi.waitFor(() => expect(calls).toHaveLength(1));
+
+    // La primera escritura sigue en vuelo cuando entra otra edición.
+    queue.enqueue(record("a", "edición posterior"));
+    calls[0].resolve(calls[0].record);
+
+    await vi.waitFor(() => expect(calls).toHaveLength(2));
+    expect(calls[1].record.context.question).toBe("edición posterior");
+    calls[1].resolve(calls[1].record);
+
+    await expect(drained).resolves.toEqual({ ok: true, caseId: "a" });
+    expect(queue.hasPending("a")).toBe(false);
+  });
+
+  it("si la edición posterior SÍ falla al escribirse, el drenaje lo dice", async () => {
+    const { write, calls } = controlledWriter();
+    const { queue } = makeQueue(write);
+
+    queue.enqueue(record("a", "uno"));
+    const drained = queue.drain("a");
+    await vi.waitFor(() => expect(calls).toHaveLength(1));
+    queue.enqueue(record("a", "dos"));
+    calls[0].resolve(calls[0].record);
+
+    await vi.waitFor(() => expect(calls).toHaveLength(2));
+    const error = new Error("disco lleno");
+    calls[1].reject(error);
+
+    await expect(drained).resolves.toEqual({ ok: false, caseId: "a", error });
+    // Lo que no se pudo escribir sigue pendiente: reintentar lo tiene.
+    expect(queue.hasPending("a")).toBe(true);
+  });
+
+  it("un caso que no deja de cambiar no deja el drenaje esperando para siempre", async () => {
+    const { write, calls } = controlledWriter();
+    const { queue } = makeQueue(write);
+
+    queue.enqueue(record("a", "0"));
+    const drained = queue.drain("a");
+    // Cada escritura que termina deja una edición nueva esperando.
+    for (let i = 1; i <= 12; i += 1) {
+      await vi.waitFor(() => expect(calls).toHaveLength(i));
+      queue.enqueue(record("a", String(i)));
+      calls[i - 1].resolve(calls[i - 1].record);
+      if (i > 9) break;
+    }
+
+    const result = await drained;
+    expect(result.ok).toBe(false);
+    expect(result.error).toBeInstanceOf(Error);
+  });
+});

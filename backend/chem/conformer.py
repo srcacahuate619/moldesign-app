@@ -30,6 +30,8 @@ a AutoDock Vina para el docking.
 """
 
 
+import hashlib
+
 import rdkit
 from rdkit import Chem
 from rdkit.Chem import AllChem, rdMolDescriptors
@@ -142,6 +144,43 @@ def _get_ring_size_info(mol: Mol) -> str:
 
 #: Rango de pH que se acepta.
 #:
+#: Parámetros de la enumeración de microestados. Se registran con la corrida
+#: (`reproduccion_de_la_protonacion`): sin ellos no se puede repetir.
+PRECISION_DIMORPHITE = 1.0
+MAX_VARIANTES_DIMORPHITE = 128
+
+
+def reproduccion_de_la_protonacion(candidatos: list[str], ph: float,
+                                   version: str | None) -> dict:
+    """Versión, parámetros y huella del conjunto de candidatos de dimorphite (CLAVE-09).
+
+    El elegido ya no depende del orden en que dimorphite devuelve la lista
+    (`elegir_microestado` ordena), pero eso no basta para que un tercero
+    reconstruya el paquete: necesita saber con qué versión y parámetros se
+    enumeró, y poder comprobar que su enumeración da el mismo conjunto. La huella
+    es el SHA-256 de los SMILES canónicos ordenados.
+
+    `recortado`: dimorphite devuelve como mucho `max_variants` estados. Si la
+    lista llega al tope, el conjunto puede estar incompleto y el elegido sale de
+    un subconjunto: se dice.
+    """
+    try:
+        from rdkit import Chem
+        canonicos = sorted({
+            Chem.MolToSmiles(mol, isomericSmiles=True)
+            for smi in candidatos if (mol := Chem.MolFromSmiles(smi)) is not None
+        })
+    except ImportError:
+        canonicos = sorted(set(candidatos))
+    return {
+        "version_motor": version,
+        "parametros": {"ph_min": ph, "ph_max": ph, "precision": PRECISION_DIMORPHITE,
+                       "max_variants": MAX_VARIANTES_DIMORPHITE},
+        "candidatos_sha256": hashlib.sha256("\n".join(canonicos).encode("utf-8")).hexdigest(),
+        "recortado": len(candidatos) >= MAX_VARIANTES_DIMORPHITE,
+    }
+
+
 #: No es el rango en el que dimorphite sabe trabajar —acepta cualquier número—
 #: sino aquel en el que la tabla de pKa por clase de `chem/ionizacion.py` dice
 #: algo útil. Fuera de él, Henderson-Hasselbalch devuelve fracciones saturadas
@@ -192,7 +231,29 @@ TAUTOMERO_MODOS = ("canonico", "entrada")
 
 class _TautomeroDeEntrada(Exception):
     """Señal interna: el usuario pidió respetar el tautómero de entrada."""
-TAUTOMERO_POR_DEFECTO = "canonico"
+
+
+#: Decisión del propietario, 2026-10-10: por defecto se acopla el tautómero que se
+#: escribió. El canónico de RDKit cambiaba el de 5 de 20 fármacos comunes, a veces a
+#: formas sin población real (hidroxamatos de vorinostat y belinostat → iminol,
+#: aciclovir → N3-H). Quien quiera el canónico lo pide (`tautomero="canonico"`).
+TAUTOMERO_POR_DEFECTO = "entrada"
+
+
+def _estereo_especificada(smiles: str | None) -> tuple[int, int] | None:
+    """Centros tetraédricos y dobles enlaces con configuración declarada."""
+    mol = Chem.MolFromSmiles(smiles) if smiles else None
+    if mol is None:
+        return None
+    centros = dobles = 0
+    for elemento in Chem.FindPotentialStereo(mol):
+        if elemento.specified != Chem.StereoSpecified.Specified:
+            continue
+        if elemento.type == Chem.StereoType.Atom_Tetrahedral:
+            centros += 1
+        elif elemento.type == Chem.StereoType.Bond_Double:
+            dobles += 1
+    return centros, dobles
 
 
 def acotar_tautomero(modo: str | None) -> tuple[str, str | None]:
@@ -371,8 +432,17 @@ def _construir_conformero(smiles: str, ph: float | None = None,
         # `tautomerRemoveSp3Stereo = False` conserva esos centros. Comprobado
         # que la canonicalización de tautómeros de verdad sigue funcionando: la
         # guanina sigue convergiendo a su forma canónica.
+        #
+        # Lo mismo pasaba con la E/Z: `tautomerRemoveBondStereo = True` (por
+        # defecto) borra la configuración de todo doble enlace del sistema
+        # tautomérico, aunque siga siendo doble en el canónico. Medido (QA-032):
+        # la rilpivirina y la entacapona —las dos fármacos E— se acoplaban sin
+        # E/Z, y ETKDG elegía la geometría al azar; el dieno Z,Z de la
+        # geldanamicina salía E,E. Con `False` ningún SMILES del corpus de
+        # pruebas y goldens cambia (186 de 186).
         parametros = rdMolStandardize.CleanupParameters()
         parametros.tautomerRemoveSp3Stereo = False
+        parametros.tautomerRemoveBondStereo = False
         te = rdMolStandardize.TautomerEnumerator(parametros)
         mol_tmp = Chem.MolFromSmiles(canonical)
         if mol_tmp:
@@ -424,7 +494,8 @@ def _construir_conformero(smiles: str, ph: float | None = None,
             canonical,
             ph_min=ph_usado,
             ph_max=ph_usado,
-            precision=1.0
+            precision=PRECISION_DIMORPHITE,
+            max_variants=MAX_VARIANTES_DIMORPHITE,
         )
         if protonated_list:
             # ═════════════════════════════════════════════════════════════
@@ -471,6 +542,11 @@ def _construir_conformero(smiles: str, ph: float | None = None,
                 "alternativas": len(protonated_list),
                 "seleccion": criterio_protonacion,
                 "motivo": None,
+                # CLAVE-09 (reproducibilidad, FEP-05/06). Lo que un tercero
+                # necesita para repetir la enumeración y comprobar que obtiene
+                # el MISMO conjunto de candidatos, no sólo el mismo elegido.
+                **reproduccion_de_la_protonacion(
+                    protonated_list, ph_usado, getattr(dimorphite_dl, "__version__", None)),
             }
             log.info(
                 f"SMILES protonado a pH {ph_usado:g} con dimorphite-dl",
@@ -694,6 +770,17 @@ def _construir_conformero(smiles: str, ph: float | None = None,
         estereo["dobles_sin_clasificar_3d"] = estereo_no_asignada(copia_sin_h)[1]
     except Exception as exc:
         estereo["motivo"] = f"Asignación desde 3D falló: {type(exc).__name__}: {exc}"[:200]
+    # QA-032: `declarada_por_el_usuario` mide la ENTRADA. Si la normalización
+    # cambia los átomos de un estereocentro o de un doble enlace declarado —el
+    # tautómero canónico de la geldanamicina aromatiza la quinona y su C6 deja de
+    # ser quiral—, lo acoplado ya no es el estereoisómero escrito. Se cuenta.
+    especificados_entrada = _estereo_especificada(smiles_del_usuario)
+    especificados_acoplado = _estereo_especificada(canonical)
+    if especificados_entrada is not None and especificados_acoplado is not None:
+        estereo["perdida_en_la_especie_acoplada"] = {
+            "centros": max(0, especificados_entrada[0] - especificados_acoplado[0]),
+            "dobles": max(0, especificados_entrada[1] - especificados_acoplado[1]),
+        }
     estado_del_ligando["estereoquimica"] = estereo
 
     # Paso 6: convertir a SDF y guardar en el almacenamiento local

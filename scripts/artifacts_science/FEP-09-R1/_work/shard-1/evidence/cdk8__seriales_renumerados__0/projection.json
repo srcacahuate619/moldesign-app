@@ -1,0 +1,82 @@
+{
+  "projection_version": 1,
+  "case_id": "cdk8__seriales_renumerados__0",
+  "name": "cdk8__seriales_renumerados__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_C35BBC",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1",
+      "canonical_smiles": "Cn1cc(-c2ccc(Cc3n[nH]c4ccc(C(=O)N5CC[NH2+]CC5)cc34)cc2)cn1"
+    },
+    "config": {
+      "grid_center": [
+        -4.508,
+        11.948,
+        -9.569
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:2aa62e85121f9ec351b5166d210c67982c91e7c6a6be1ab8a1857725bf773e94",
+    "generated_at": "2026-10-11T22:36:24.326693+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "ESPECIES_DEL_SITIO_RETIRADAS",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "80508878-3925-460f-9ec8-20c37b3da22e",
+    "input_fingerprint": "sha256:2aa62e85121f9ec351b5166d210c67982c91e7c6a6be1ab8a1857725bf773e94",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

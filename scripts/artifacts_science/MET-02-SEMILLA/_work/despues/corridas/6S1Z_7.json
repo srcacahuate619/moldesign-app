@@ -1,0 +1,27 @@
+{
+  "pdb": "6S1Z",
+  "semilla": 7,
+  "inicio": "2026-10-23T03:23:41+00:00",
+  "resultado": "auditada",
+  "task_id": "0fefa27c-9484-4f74-b090-167c39e2c16c",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:705 (2.18 Å). En contacto con el ligando del cristal: ZN A:705 (O01–ZN 2.18 Å).",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal KS8 A:704",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "19f9e5879a8bc89c1b2750f315742562d3ea1696136bfc961cb34fef47d079c9",
+  "afinidad_top1": -9.54,
+  "microestado": "O=C([O-])[C@@H]1C[C@@H](C2CCCCC2)CN1C(=O)CP(=O)(O)CCCCc1ccccc1",
+  "microestado_coincide": true,
+  "semilla_declarada": 7,
+  "vina": "1.2.7",
+  "receptor_sha256": "4410a562f7a3842197ee63ad5a5f3eb4ccda28d18ad712af406c221009a95af2",
+  "segundos": 38.2,
+  "fin": "2026-10-23T03:24:19+00:00",
+  "brazo": "despues",
+  "commit": "878c215b"
+}

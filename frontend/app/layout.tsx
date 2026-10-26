@@ -51,18 +51,21 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <link rel="icon" href="/favicon.png" type="image/png" />
         <script
           nonce={nonce}
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: t("auto_7a133b421d46"),
           }}
         />
         <script
           nonce={nonce}
+          suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: t("auto_4d382c8b0332"),
           }}
         />
         <script
           nonce={nonce}
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -98,7 +101,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                     <ErrorBoundary>
                       <TraspasoInvitado />
                     </ErrorBoundary>
-                    <main className="flex-1 w-full">
+                    <main className="min-h-0 flex-1 w-full">
                       <ErrorBoundary>
                         <PersistentKeepAliveLayout>
                           {children}

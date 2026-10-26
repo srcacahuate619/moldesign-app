@@ -1,0 +1,40 @@
+{
+  "smiles": "CS(=O)(=O)c1ccc(Oc2cc(F)cc(C#N)c2)c2c1C(O)[C@H](F)[C@@H]2F",
+  "target_pdb_id": "USR_F44E10",
+  "chain": "A",
+  "molecule_name": "hif2a__estereo_sin_asignar__2",
+  "grid_center": [
+    23.779,
+    -0.257,
+    -10.489
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:cf3934c603ff447abfd794f79e4739251343461f8744723d449f4d48c80310f4"
+}

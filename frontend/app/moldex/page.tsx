@@ -3,6 +3,7 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4
  * Bioteca y expediente en paneles sólidos; el visor ocupa sólo su área útil. */
 
+import type { CSSProperties } from "react";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -20,8 +21,10 @@ import {
   leerSello,
   urlDelExplorador,
   esRedDePruebas,
-  ALCANCE_DEL_SELLO,
   presentarClgnn,
+  calibracionDeLaFicha,
+  hotspotsTocados,
+  nombreDeLaFicha,
   type MoldexMolecule,
 } from "../../lib/moldex";
 import { useApiUrl } from "../../hooks/useApiUrl";
@@ -29,14 +32,18 @@ import { useDownload } from "../../hooks/useDownload";
 import { useKeepAliveActive } from "../../context/KeepAliveContext";
 import { isDesktopRuntime } from "../../lib/tauri";
 import { MoleculeViewer3D } from "../../components/MoleculeViewer3D";
+import Link from "next/link";
+import { InsigniaDelCatalogo } from "@/components/science/InsigniaDelCatalogo";
+import { pedirPreparacion } from "@/lib/peticionDePreparacion";
 import MoldexCard from "../../components/MoldexCard";
+import { MoldexUbicacion } from "../../components/MoldexUbicacion";
 import MolecularComparison from "../../components/MolecularComparison";
 import { PDFReportViewer } from "../../components/PDFReportViewer";
 import { CertificationModal, type CertificationSuccess } from "../../components/CertificationModal";
 import { ThinkingOrb } from "../../components/ui/ThinkingOrb";
 import { Virtuoso } from "react-virtuoso";
 
-import { Search, Activity, Info, ChevronRight, Database, Box, FlaskConical, AlertCircle, Eye, Play } from "lucide-react";
+import { Search, Activity, Info, ChevronRight, ClipboardCheck, Database, Box, FlaskConical, AlertCircle, Eye, Play } from "lucide-react";
 
 import { ExternalLink } from "@/components/ui/ExternalLink";
 // ─────────────────────────────────────────────────────────────────────
@@ -50,6 +57,8 @@ import { ExternalLink } from "@/components/ui/ExternalLink";
 // ─────────────────────────────────────────────────────────────────────
 
 const NAV_HEIGHT = 56; // h-14 del Navigation.tsx
+// Los paneles sólo se desplazan (transform, en el compositor); nunca animan width ni tocan el canvas.
+const PANEL_TRANSITION = { type: "tween", duration: 0.2, ease: "easeOut" } as const;
 
 type MoldexErrorKind = "engine" | "request" | "download";
 
@@ -72,6 +81,7 @@ function isTransportError(message: string): boolean {
 
 export default function MoldexPage() {
   const { t } = useLanguage();
+  const allTargetsLabel = t("mx_filter_all");
   // Los enlaces de descarga se construyen EN RENDER, así que no pueden esperar
   // a una promesa: el hook devuelve null hasta que Rust confirma el puerto y
   // vuelve a pintar entonces. Mientras tanto los enlaces quedan inertes; usar
@@ -144,12 +154,15 @@ export default function MoldexPage() {
   const [descargando, setDescargando] = useState<"pdf" | "complejo" | null>(null);
 
   const descargar = async (que: "pdf" | "complejo") => {
-    if (!selectedId) return;
+    if (!selectedMolecule) return;
     setDescargando(que);
     setError(null);
+    // El archivo es el de la corrida de la ficha, no el de la última evaluación
+    // de la molécula: una molécula guardada varias veces tiene varias fichas.
+    const corrida = selectedMolecule.provenance?.task_id ?? null;
     try {
-      if (que === "pdf") await downloadCertificate(selectedId);
-      else await downloadComplexFile(selectedId);
+      if (que === "pdf") await downloadCertificate(selectedMolecule.id, "general", corrida);
+      else await downloadComplexFile(selectedMolecule.id, "general", corrida);
     } catch (e) {
       setError({
         kind: "download",
@@ -166,7 +179,7 @@ export default function MoldexPage() {
     // El sello acaba de emitirse contra la corrida que la ficha muestra, así
     // que se registra esa correspondencia (MOLDEX-SCI-001). Sin esto la
     // insignia diría «sello sin corrida» justo después de certificar con éxito.
-    setMolecules(prev => prev.map(m => m.id === selectedId
+    setMolecules(prev => prev.map(m => m.entry_id === selectedId
       ? {
           ...m,
           blockchain: {
@@ -195,14 +208,22 @@ export default function MoldexPage() {
   }, []);
 
   // ── Carga inicial de moléculas desde getMoldex() — limitado a 100 para memoria ──
-  // `preferSelectId`: si llega (ej: desde el handler de `moldex:invalidated`,
-  // cuando el usuario recién guardó una molécula en /evaluation), se respeta
-  // como selectedId final SIEMPRE que esa molécula exista en la respuesta.
-  // Sin esto, `setSelectedId(normalized[0].id)` pisaría la selección que el
+  // `preferir`: si llega (ej: desde el handler de `moldex:invalidated`, cuando
+  // el usuario recién guardó una evaluación en /evaluation), se respeta como
+  // selección final SIEMPRE que esa ficha exista en la respuesta. Se identifica
+  // por molécula + corrida: una molécula guardada varias veces tiene varias
+  // fichas y «la de esta molécula» no dice cuál.
+  // Sin esto, `setSelectedId(normalized[0].entry_id)` pisaría la selección que el
   // handler ya decidió, rompiendo la UX t("mx_llevame_a_ella").
-  const loadMoldex = useCallback((preferSelectId?: string) => {
-    setError(null);
-    setLoading(true);
+  // `silencioso`: al volver a la pestaña (keep-alive) la lista que había se queda en pantalla hasta que llega la nueva,
+  // sin «cargando», y la ficha elegida sigue elegida si sigue en la lista. Un fallo silencioso no tapa la lista.
+  const cargada = useRef(false);
+  const loadMoldex = useCallback((preferir?: { moleculeId?: string; taskId?: string }, opciones?: { silencioso?: boolean }) => {
+    const silencioso = Boolean(opciones?.silencioso);
+    if (!silencioso) {
+      setError(null);
+      setLoading(true);
+    }
     getMoldex(undefined, 100, 0)
       .then((data) => {
         // FIX: el backend serializa `target.hotspots` (y a veces `hotspots_hit`)
@@ -218,25 +239,32 @@ export default function MoldexPage() {
         };
         const normalized: MoldexMolecule[] = (data.results || []).map((m) => ({
           ...m,
-          hotspots_hit: normalizeArr(m.hotspots_hit),
+          hotspots_hit: hotspotsTocados(m.hotspots_hit),
           target: m.target
             ? { ...m.target, hotspots: normalizeArr(m.target.hotspots) }
             : m.target,
         }));
         setMolecules(normalized);
         setCatalogTotal(typeof data.total === "number" ? data.total : normalized.length);
+        cargada.current = true;
         if (normalized.length > 0) {
           // Si el caller pidió una molécula concreta (recién guardada), la
           // respetamos solo si está en la respuesta. Si no está (típicamente
           // porque el backend todavía no la commiteó — no debería pasar si el
           // CustomEvent se emite post-await), caemos al default: la primera.
-          const wantsId = preferSelectId
-            && normalized.some((m) => m.id === preferSelectId);
-          setSelectedId(wantsId ? preferSelectId! : normalized[0].id);
+          const preferida = preferir?.moleculeId
+            ? normalized.find((m) =>
+                m.id === preferir.moleculeId
+                && (!preferir.taskId || m.provenance?.task_id === preferir.taskId))
+            : undefined;
+          setSelectedId((anterior) => preferida ? preferida.entry_id
+            : silencioso && anterior && normalized.some((m) => m.entry_id === anterior) ? anterior
+              : normalized[0].entry_id);
         }
       })
       .catch((err) => {
         console.error("Error loading Moldex library:", err);
+        if (silencioso) return;
         setError({
           kind: "request",
           message: err instanceof Error ? err.message : String(err),
@@ -269,11 +297,12 @@ export default function MoldexPage() {
       }
     }
 
-    loadMoldex();
+    loadMoldex(undefined, { silencioso: cargada.current });
   }, [loadMoldex, isActive, desktopRuntime, initialized, engine.state, engine.detail]);
 
   // Listener cross-route: cuando /evaluation (o cualquier otra ruta) hace
-  // saveMolecule exitosamente, emite `moldex:invalidated` con detail.moleculeId.
+  // saveMolecule exitosamente, emite `moldex:invalidated` con detail.moleculeId
+  // y detail.taskId (la evaluación guardada).
   // Aquí recargamos la biblioteca y pre-seleccionamos la molécula nueva para
   // que el usuario la vea sin tener que hacer scroll/buscar. Esto cubre el
   // race condition "POST→navegación→loadMoldex antes de commit del backend":
@@ -284,15 +313,19 @@ export default function MoldexPage() {
     if (typeof window === "undefined") return;
     const handler = (e: Event) => {
       const detail = (e as CustomEvent).detail;
-      loadMoldex(detail?.moleculeId);
+      loadMoldex({ moleculeId: detail?.moleculeId, taskId: detail?.taskId });
     };
     window.addEventListener("moldex:invalidated", handler);
     return () => window.removeEventListener("moldex:invalidated", handler);
   }, [loadMoldex]);
 
   const selectedMolecule = useMemo(() =>
-    molecules.find(m => m.id === selectedId),
+    molecules.find(m => m.entry_id === selectedId),
   [selectedId, molecules]);
+  // Primitivos: el efecto del visor 3D depende de ellos y no de `selectedMolecule`
+  // (que cambia de referencia en cada recarga de la lista).
+  const selectedMoleculeId = selectedMolecule?.id ?? null;
+  const selectedTaskId = selectedMolecule?.provenance?.task_id ?? null;
 
   // FIX (rendimiento): memoizar props del visor 3D. `hotspots.map(...)` creaba
   // un array NUEVO en cada render del padre → MoleculeViewer3D (ahora memo)
@@ -323,14 +356,19 @@ export default function MoldexPage() {
   }, []);
 
   // ── Cargar proteinData + poseData 3D al cambiar selección ──
-  // FIX (rendimiento): depende SOLO de selectedId (primitivo). Antes dependía
-  // de selectedMolecule (objeto que cambia de referencia con cada re-fetch de
-  // la lista), lo que re-descargaba protein/pose cada vez que la página se
-  // reactivaba aunque la selección no hubiera cambiado.
+  // FIX (rendimiento): depende SOLO de primitivos (molécula y corrida de la
+  // ficha). Antes dependía de selectedMolecule (objeto que cambia de referencia
+  // con cada re-fetch de la lista), lo que re-descargaba protein/pose cada vez
+  // que la página se reactivaba aunque la selección no hubiera cambiado.
+  // La pose es la de la corrida de la ficha, no la de la última evaluación.
   useEffect(() => {
-    if (!selectedId) {
+    if (!selectedMoleculeId) {
       setProteinData(null);
       setPoseData(null);
+      return;
+    }
+    if (!selectedTaskId) {
+      setProteinData(null); setPoseData(null); setLoading3D(false); setViewerError(true);
       return;
     }
     let cancelled = false;
@@ -339,8 +377,8 @@ export default function MoldexPage() {
     setProteinData(null);
     setPoseData(null);
     Promise.all([
-      getProteinFile(selectedId),
-      getPoseFile(selectedId)
+      getProteinFile(selectedMoleculeId, selectedTaskId),
+      getPoseFile(selectedMoleculeId, selectedTaskId)
     ]).then(([protein, pose]) => {
       if (cancelled) return;
       setProteinData(protein);
@@ -352,7 +390,7 @@ export default function MoldexPage() {
       setViewerError(true);
     }).finally(() => { if (!cancelled) setLoading3D(false); });
     return () => { cancelled = true; };
-  }, [selectedId, viewerRetry]);
+  }, [selectedMoleculeId, selectedTaskId, viewerRetry]);
 
   const filteredMolecules = useMemo(() => {
     const q = search.toLowerCase();
@@ -382,14 +420,16 @@ export default function MoldexPage() {
     return ["ALL", ...Array.from(t)];
   }, [molecules]);
   const compactDesktop = windowWidth < 1280;
+  const leftWidth = compactDesktop ? 280 : 320;
+  const rightWidth = compactDesktop ? 320 : 400;
 
   // Moléculas del comparador memoizadas (refs estables para el memo de
   // MolecularComparison; antes se recomputaban con .find() en cada render).
   const compareMols = useMemo(() => {
     if (selectionForCompare.length !== 2) return { molA: undefined, molB: undefined };
     return {
-      molA: molecules.find(m => m.id === selectionForCompare[0]),
-      molB: molecules.find(m => m.id === selectionForCompare[1]),
+      molA: molecules.find(m => m.entry_id === selectionForCompare[0]),
+      molB: molecules.find(m => m.entry_id === selectionForCompare[1]),
     };
   }, [molecules, selectionForCompare]);
 
@@ -405,14 +445,9 @@ export default function MoldexPage() {
           <ThinkingOrb state="processing" size="lg" label={t("mx_sincronizando_bioteca")} />
 
           {/* Sub-line decorativo, mono uppercase, visible sobre dark */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: [0.4, 0.75, 0.4] }}
-            transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-            className="font-mono text-xs uppercase tracking-[0.4em] text-dim dark:text-white/60"
-          >
+          <p className="font-mono text-xs uppercase tracking-[0.4em] text-dim opacity-60 dark:text-white/60 motion-safe:animate-latido">
             {t("pg_mx_cargando")}
-          </motion.p>
+          </p>
         </div>
       </div>
     );
@@ -471,23 +506,18 @@ export default function MoldexPage() {
           }}
         />
 
-        {/* Particles decorativas "stars" sutiles arriba */}
+        {/* Estrellas decorativas: animación CSS (se detiene sola con la pestaña oculta y con «reducir movimiento») */}
         <div className="absolute inset-x-0 top-0 h-1/3 pointer-events-none">
           {[...Array(8)].map((_, i) => (
-            <motion.span
+            <span
               key={i}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: [0, 0.5, 0] }}
-              transition={{
-                duration: 3 + (i % 3),
-                repeat: Infinity,
-                delay: i * 0.6,
-                ease: "easeInOut",
-              }}
-              className="absolute h-px w-px bg-purple-300 rotate-45 shadow-[0_0_6px_rgba(216,180,254,0.7)]"
+              data-testid="estrella-decorativa"
+              className="absolute h-px w-px bg-purple-300 rotate-45 opacity-0 shadow-[0_0_6px_rgba(216,180,254,0.7)] motion-safe:animate-destello"
               style={{
                 left: `${15 + (i * 9)}%`,
                 top: `${8 + (i % 4) * 6}%`,
+                animationDuration: `${3 + (i % 3)}s`,
+                animationDelay: `${i * 0.6}s`,
               }}
             />
           ))}
@@ -538,7 +568,7 @@ export default function MoldexPage() {
           >
             {[
               { n: "1", t: t("mx_paso_disena"), d: t("mx_paso_disena_d") },
-              { n: "2", t: t("mx_paso_acopla"), d: t("mx_paso_acopla_d") },
+              { n: "2", t: t("mx_paso_acopla"), d: t("mx_paso_acopla_vina_d") },
               { n: "3", t: t("mx_paso_guarda"), d: t("mx_paso_guarda_d") },
             ].map(s => (
               <div
@@ -595,7 +625,7 @@ export default function MoldexPage() {
           </div>
           <div className="ml-5 min-w-0 border-l border-[var(--border)] pl-5">
             <p className="font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--text-dim)]">{t("mx_molecula")}</p>
-            <p className="truncate text-sm font-semibold text-[var(--text-secondary)]">{selectedMolecule?.name || "—"}</p>
+            <p className="truncate text-sm font-semibold text-[var(--text-secondary)]">{selectedMolecule ? nombreDeLaFicha(selectedMolecule) : "—"}</p>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--text-dim)]">
@@ -605,10 +635,12 @@ export default function MoldexPage() {
       </header>
 
       <div className="relative flex min-h-0 flex-1 flex-col md:flex-row">
-      {/* El canvas ocupa sólo el área entre paneles: controles y cámara quedan visibles. */}
-      <div className={`absolute inset-y-0 z-0 overflow-hidden transition-[left,right] duration-300 ${
-        isMobile ? "inset-x-0" : `${showLeftPanel ? (compactDesktop ? "left-[304px]" : "left-[344px]") : "left-6"} ${showRightPanel ? (compactDesktop ? "right-[344px]" : "right-[424px]") : "right-6"}`
-      }`}>
+      {/* El canvas tiene siempre el tamaño completo: los paneles se dibujan encima. Redimensionarlo al
+          abrir/cerrar paneles reconstruía el framebuffer WebGL en cada fotograma de la animación. */}
+      <div
+        className="absolute inset-0 z-0 overflow-hidden"
+        style={isMobile ? undefined : ({ "--viewer-inset-l": `${showLeftPanel ? leftWidth : 0}px`, "--viewer-inset-r": `${showRightPanel ? rightWidth : 0}px` } as CSSProperties)}
+      >
         <MoleculeViewer3D
           proteinData={proteinData ?? undefined}
           poseData={poseData ?? undefined}
@@ -625,7 +657,7 @@ export default function MoldexPage() {
         )}
         {viewerError && !loading3D && (
           <div role="alert" className="pointer-events-auto absolute inset-x-6 top-24 mx-auto max-w-md border border-[var(--border-light)] bg-[var(--bg-card)] p-5 text-center shadow-lg">
-            <p className="text-xs leading-5 text-[var(--text-secondary)]">{t("mx_visor_archivos_error")}</p>
+            <p className="text-xs leading-5 text-[var(--text-secondary)]">{t(selectedTaskId ? "mx_visor_archivos_error" : "rx_sin_identidad_corrida")}</p>
             <button type="button" onClick={() => setViewerRetry((n) => n + 1)} className="mt-4 cursor-pointer border border-[var(--accent)] px-3 py-2 text-xs font-bold text-[var(--accent-strong)] hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]">{t("mx_visor_reintentar")}</button>
           </div>
         )}
@@ -670,14 +702,15 @@ export default function MoldexPage() {
             opacity: activeView === "list" ? 1 : 0,
             x: activeView === "list" ? 0 : -800
           } : {
-            width: showLeftPanel ? (compactDesktop ? 280 : 320) : 0,
-            opacity: showLeftPanel ? 1 : 0,
-            x: showLeftPanel ? 0 : -320
+            width: leftWidth,
+            opacity: 1,
+            x: showLeftPanel ? 0 : -leftWidth
           }}
-          transition={{ type: "spring", stiffness: 300, damping: 35 }}
+          transition={isMobile ? { type: "spring", stiffness: 300, damping: 35 } : PANEL_TRANSITION}
+          inert={!isMobile && !showLeftPanel}
           className={`pointer-events-auto flex flex-col border-r border-[var(--border)] bg-[var(--bg-card)] ${
             isMobile ? 'absolute inset-x-0 bottom-0 top-[60px] z-40 overflow-y-auto'
-                     : 'h-full md:overflow-hidden'
+                     : 'absolute inset-y-0 left-0 z-30 will-change-transform md:overflow-hidden'
           } ${isMobile && activeView !== "list" ? 'pointer-events-none' : ''}`}
         >
           <div className="min-w-0 shrink-0 border-b border-[var(--border)] p-5">
@@ -716,7 +749,7 @@ export default function MoldexPage() {
                           const matchesTarget = t === "ALL" || m.target?.pdb_id === t;
                           return matchesSearch && matchesTarget;
                         });
-                        if (newFiltered.length > 0) setSelectedId(newFiltered[0].id);
+                        if (newFiltered.length > 0) setSelectedId(newFiltered[0].entry_id);
                       }}
                       aria-pressed={targetFilter === t}
                       className={`min-h-8 flex-shrink-0 cursor-pointer border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] ${
@@ -724,7 +757,7 @@ export default function MoldexPage() {
                                            : 'border-[var(--border)] bg-[var(--bg-card)] text-[var(--text-secondary)] hover:border-[var(--border-light)]'
                       }`}
                     >
-                      {t}
+                      {t === "ALL" ? allTargetsLabel : t}
                     </button>
                   ))}
                 </div>
@@ -756,27 +789,32 @@ export default function MoldexPage() {
               </motion.div>
             ) : (
               <Virtuoso
+                className="focus-visible:!outline-solid focus-visible:!outline-2 focus-visible:!outline-[var(--accent-strong)] focus-visible:!outline-offset-[-2px]"
                 style={{ height: "100%" }}
                 totalCount={filteredMolecules.length}
                 data={filteredMolecules}
                 increaseViewportBy={{ bottom: 300, top: 100 }}
                 itemContent={(_, molecule) => (
                   <MoldexCard
-                    key={molecule.id}
+                    key={molecule.entry_id}
                     molecule={molecule}
-                    isSelected={selectedId === molecule.id}
+                    isSelected={selectedId === molecule.entry_id}
                     onClick={handleSelectMolecule}
                     onCompareToggle={handleToggleCompare}
-                    isComparing={selectionForCompare.includes(molecule.id)}
+                    isComparing={selectionForCompare.includes(molecule.entry_id)}
                   />
                 )}
               />
             )}
           </div>
+          {!isMobile && <MoldexUbicacion />}
         </motion.aside>
 
         {/* Toggle Left Button (chevron colapsa biblioteca) */}
-        <div className="hidden md:flex items-center z-50 pointer-events-auto">
+        <div
+          className="pointer-events-auto absolute top-1/2 z-40 hidden -translate-y-1/2 transition-transform duration-200 ease-out md:flex"
+          style={{ left: leftWidth, transform: `translate(${showLeftPanel ? 0 : -leftWidth}px, -50%)` }}
+        >
           <button
             onClick={() => setShowLeftPanel(!showLeftPanel)}
             className="flex h-16 w-6 cursor-pointer items-center justify-center border border-[var(--border-light)] bg-[var(--bg-card)] text-[var(--accent-strong)] transition-colors hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]"
@@ -787,7 +825,10 @@ export default function MoldexPage() {
         </div>
 
         {/* Espacio Central del Visor */}
-        <div className="flex-1 relative pointer-events-none">
+        <div
+          className="pointer-events-none absolute inset-y-0 md:left-[var(--hud-l)] md:right-[var(--hud-r)]"
+          style={isMobile ? undefined : ({ "--hud-l": `${showLeftPanel ? leftWidth : 0}px`, "--hud-r": `${showRightPanel ? rightWidth : 0}px` } as CSSProperties)}
+        >
           {/* HUD Inferior (Info de Molécula activa) */}
           <AnimatePresence mode="wait">
             {((!isMobile && selectedId) || (isMobile && activeView === "3d" && selectedId)) && (
@@ -802,13 +843,13 @@ export default function MoldexPage() {
                   <div className="min-w-0 flex-1">
                     <div className="mb-1 flex items-center gap-2">
                       <span className="border border-[var(--accent)] px-1.5 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--accent-strong)]">{t("mx_sitio_receptor")}</span>
-                      <h3 className="truncate font-display text-sm font-bold text-[var(--text)]">{selectedMolecule?.name || t("mx_molecula")}</h3>
+                      <h3 className="truncate font-display text-sm font-bold text-[var(--text)]">{selectedMolecule ? nombreDeLaFicha(selectedMolecule) : t("mx_molecula")}</h3>
                     </div>
                     <p className="hidden truncate font-mono text-[10px] text-[var(--text-dim)] md:block">{selectedMolecule?.smiles}</p>
                   </div>
                   <div className="flex items-center justify-between gap-5 border-t border-[var(--border)] pt-2 md:border-l md:border-t-0 md:pl-5 md:pt-0">
                     <div>
-                      <p className="mb-1 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t("mx_afinidad_observada")}</p>
+                      <p className="mb-1 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t(selectedMolecule?.metrics?.affinity_origin === "vina" ? "mx_afinidad_observada" : "mx_afinidad_heredada")}</p>
                       <div className="font-display text-xl font-bold tabular-nums text-[var(--text)]">
                         {selectedMolecule?.metrics?.affinity !== null && selectedMolecule?.metrics?.affinity !== undefined
                           ? selectedMolecule.metrics.affinity.toFixed(1)
@@ -829,7 +870,10 @@ export default function MoldexPage() {
         </div>
 
         {/* Toggle Right Button (chevron colapsa panel derecho) */}
-        <div className="hidden md:flex items-center z-50 pointer-events-auto">
+        <div
+          className="pointer-events-auto absolute top-1/2 z-40 hidden transition-transform duration-200 ease-out md:flex"
+          style={{ right: rightWidth, transform: `translate(${showRightPanel ? 0 : rightWidth}px, -50%)` }}
+        >
           <button
             onClick={() => setShowRightPanel(!showRightPanel)}
             className="flex h-16 w-6 cursor-pointer items-center justify-center border border-[var(--border-light)] bg-[var(--bg-card)] text-[var(--accent-strong)] transition-colors hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]"
@@ -847,14 +891,15 @@ export default function MoldexPage() {
             opacity: activeView === "info" ? 1 : 0,
             x: activeView === "info" ? 0 : 1000
           } : {
-            width: showRightPanel ? (compactDesktop ? 320 : 400) : 0,
-            opacity: showRightPanel ? 1 : 0,
-            x: showRightPanel ? 0 : 400
+            width: rightWidth,
+            opacity: 1,
+            x: showRightPanel ? 0 : rightWidth
           }}
-          transition={{ type: "spring", stiffness: 300, damping: 35 }}
+          transition={isMobile ? { type: "spring", stiffness: 300, damping: 35 } : PANEL_TRANSITION}
+          inert={!isMobile && !showRightPanel}
           className={`custom-scrollbar pointer-events-auto flex flex-col overflow-y-auto border-l border-[var(--border)] bg-[var(--bg-card)] p-5 ${
             isMobile ? 'absolute inset-x-0 bottom-0 top-[60px] z-40'
-                     : 'h-full'
+                     : 'absolute inset-y-0 right-0 z-30 will-change-transform'
           } ${isMobile && activeView !== "info" ? 'pointer-events-none' : ''}`}
         >
           <AnimatePresence mode="wait">
@@ -862,8 +907,9 @@ export default function MoldexPage() {
 
               <div className="border-b border-[var(--border)] pb-4">
                 <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--accent-strong)]">02 / {t("mx_molecula")}</p>
-                <h2 className="mt-1 truncate font-display text-lg font-bold text-[var(--text)]" title={selectedMolecule?.name}>{selectedMolecule?.name || t("mx_sin_nombre")}</h2>
+                <h2 className="mt-1 truncate font-display text-lg font-bold text-[var(--text)]" title={selectedMolecule ? nombreDeLaFicha(selectedMolecule) : undefined}>{selectedMolecule ? nombreDeLaFicha(selectedMolecule) : t("mx_sin_nombre")}</h2>
                 <p className="mt-1 font-mono text-[10px] text-[var(--text-dim)]">{selectedMolecule?.target?.pdb_id || "—"}</p>
+                {selectedMolecule && <InsigniaDelCatalogo pdbId={selectedMolecule.target?.pdb_id} corrida={{ receptor_sha256: selectedMolecule.provenance?.receptor_sha256, docking_protocol: selectedMolecule.provenance?.docking_protocol, vina_random_seed: selectedMolecule.provenance?.random_seed }} />}
               </div>
 
               {/* MÓDULO 1: {t("pg_mx_contexto_target")} */}
@@ -879,7 +925,10 @@ export default function MoldexPage() {
                   <div className="flex items-center justify-between border-t border-[var(--border)] pt-3">
                     <div>
                       <p className="font-mono text-[10px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t("mx_correlacion_benchmark")}</p>
-                      <p className="mt-1 font-mono text-xs text-[var(--text)]">{t("auto_c2ed1380a98a")} {selectedMolecule?.target?.spearman_rho?.toFixed(3) ?? "—"}</p>
+                      <p className="mt-1 font-mono text-xs text-[var(--text)]">{(() => {
+                        const cal = calibracionDeLaFicha(selectedMolecule?.target);
+                        return cal.medida ? t("mx_calibracion_medida", { rho: cal.rho, a: cal.a, b: cal.b, n: cal.n }) : t("mx_calibracion_sin_medida");
+                      })()}</p>
                     </div>
                   </div>
                 </div>
@@ -903,6 +952,24 @@ export default function MoldexPage() {
                       {t("pg_mx_sin_advertencias")}
                     </div>
                   )}
+                  {/* La auditoría de preparación vive en su pestaña: necesita el CASO que produjo
+                      la corrida (sus inputs, su comprobación previa y sus decisiones), y Moldex
+                      guarda corridas. Se pide por `task_id` y Preparación busca su caso. */}
+                  <div className="border border-[var(--border)] bg-[var(--bg-secondary)] p-3">
+                    {selectedTaskId ? (
+                      <Link
+                        href="/preparacion"
+                        onClick={() => pedirPreparacion({ taskId: selectedTaskId, etiqueta: selectedMolecule ? nombreDeLaFicha(selectedMolecule) : undefined })}
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--accent-strong)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
+                      >
+                        <ClipboardCheck size={13} aria-hidden="true" />
+                        {t("pg_mx_ver_preparacion")}
+                      </Link>
+                    ) : (
+                      <p className="text-xs leading-relaxed text-[var(--text-secondary)]">{t("pg_mx_preparacion_sin_corrida")}</p>
+                    )}
+                    <p className="mt-1 text-[11px] leading-5 text-[var(--text-dim)]">{t("pg_mx_preparacion_alcance")}</p>
+                  </div>
                 </div>
               </section>
 
@@ -926,7 +993,8 @@ export default function MoldexPage() {
                     { label: t("mx_lipofilia"),  value: selectedMolecule?.metrics?.log_p?.toFixed(2) ?? "—",                         unit: "LogP" },
                     { label: t("mx_masa"),       value: selectedMolecule?.metrics?.mw?.toFixed(0) ?? "—",                             unit: "Da" },
                     { label: t("mx_polaridad"),  value: selectedMolecule?.metrics?.tpsa?.toFixed(1) ?? "—",                            unit: "Å²" },
-                    { label: t("mx_hotspots"),   value: `${Array.isArray(selectedMolecule?.hotspots_hit) ? selectedMolecule.hotspots_hit.length : 0}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}`, unit: t("mx_hits_unidad") },
+                    // SCI-A-010: sin análisis no hay cero que enseñar.
+                    { label: t("mx_hotspots"),   value: Array.isArray(selectedMolecule?.hotspots_hit) ? `${selectedMolecule.hotspots_hit.length}/${Array.isArray(selectedMolecule?.target?.hotspots) ? selectedMolecule.target.hotspots.length : 0}` : "—", unit: Array.isArray(selectedMolecule?.hotspots_hit) ? t("mx_hits_unidad") : t("mx_hits_no_evaluado") },
                     // CL-GNN, no `gnn_score` (RTMScore, que la app instalada nunca produce).
                     // Cómo se enseña y por qué: `presentarClgnn` en lib/moldex.ts.
                     { label: t("mx_senal_clgnn"), value: presentarClgnn(selectedMolecule?.metrics?.clgnn_score).valor, unit: t(presentarClgnn(selectedMolecule?.metrics?.clgnn_score).condicion) },
@@ -947,7 +1015,7 @@ export default function MoldexPage() {
                   {/* MOLDEX-UX-008: el modal y el PDF ya decían esto; la ficha,
                       que es lo que se ve todo el tiempo, no lo decía. */}
                   <p className="mb-4 text-xs leading-relaxed text-[var(--text-secondary)]">
-                    {ALCANCE_DEL_SELLO}
+                    {t("mx_alcance_registro")}
                   </p>
                   {selectedMolecule?.blockchain?.tx_signature && (
                     <p className="mb-4 text-xs font-bold uppercase tracking-widest text-muted">
@@ -1066,7 +1134,7 @@ export default function MoldexPage() {
       )}
 
       {/* Modal Visor PDF */}
-      {showPdfViewer && selectedId && (
+      {showPdfViewer && selectedMolecule && (
         <div
           className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in"
           onClick={() => setShowPdfViewer(false)}
@@ -1094,7 +1162,8 @@ export default function MoldexPage() {
 
             <div className="flex-1 overflow-hidden p-4">
               <PDFReportViewer
-                moleculeId={selectedId}
+                moleculeId={selectedMolecule.id}
+                taskId={selectedMolecule.provenance?.task_id ?? null}
                 isCertified={!!selectedMolecule?.blockchain?.tx_signature}
                 onCertify={handleCertificationRecorded}
               />
@@ -1103,9 +1172,10 @@ export default function MoldexPage() {
         </div>
       )}
 
-      {showCertificationModal && selectedId && (
+      {showCertificationModal && selectedMolecule && (
         <CertificationModal
-          moleculeId={selectedId}
+          moleculeId={selectedMolecule.id}
+          taskId={selectedMolecule.provenance?.task_id ?? null}
           onClose={() => setShowCertificationModal(false)}
           onSuccess={handleCertificationRecorded}
         />

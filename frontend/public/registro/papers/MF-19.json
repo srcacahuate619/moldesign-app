@@ -553,6 +553,63 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-103. La comparación con ",
+      "m": null
+     },
+     {
+      "t": "MF-33",
+      "m": "codigo"
+     },
+     {
+      "t": " no aísla la flexibilidad: MF-19 parte del confórmero del cristal en los dos brazos y MF-33 ejecuta todos los confórmeros ETKDG generados. Cambian a la vez la fuente del confórmero y el número de candidatos. La relación entre ambos es una hipótesis, no una atribución causal.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-104. La corrida original quedó en scratch, sin manifiesto, y no se reconstruye desde las entradas selladas: «24 de 33 frente a 21» es un resultado reportado, no verificado de forma independiente.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-19.md"

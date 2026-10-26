@@ -341,6 +341,49 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-160. sampling_needed se interpreta como fallo no recuperable dentro del presupuesto top-k evaluado. La etiqueta no demuestra que falte una pose correcta en el resto del conjunto ni que generar poses nuevas sea necesario. Se sustituye la acción obligatoria de nueva generación por revisión del presupuesto y del material disponible; el experimento no comparó esas alternativas.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/RS-08.md"

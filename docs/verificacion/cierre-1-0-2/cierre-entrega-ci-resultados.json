@@ -1,0 +1,74 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:10:30.7637109Z",
+    "segundos": 205.11,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:13:55.9360087Z",
+    "segundos": 2.75,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-02.log"
+  },
+  {
+    "paso": "03",
+    "comando": "npm run check:csp",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:13:58.7015915Z",
+    "segundos": 0.54,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-03.log"
+  },
+  {
+    "paso": "04",
+    "comando": "npm run typecheck",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:13:59.2644535Z",
+    "segundos": 24.73,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-04.log"
+  },
+  {
+    "paso": "05",
+    "comando": "npm run test:run",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:14:24.0091382Z",
+    "segundos": 160.45,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-05.log"
+  },
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:17:04.4742827Z",
+    "segundos": 89.65,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-06.log"
+  },
+  {
+    "paso": "07",
+    "comando": "npm run test:ux",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:18:34.1344240Z",
+    "segundos": 57.55,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-07.log"
+  },
+  {
+    "paso": "08",
+    "comando": "npm run build:desktop",
+    "commit": "33be61bebc013adef4fbb09190f798fcd3bfcafa",
+    "inicio_utc": "2026-10-10T03:19:31.6958896Z",
+    "segundos": 68.75,
+    "salida": 0,
+    "registro": "cierre-entrega-ci-08.log"
+  }
+]

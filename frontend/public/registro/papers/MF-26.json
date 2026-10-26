@@ -280,25 +280,10 @@
       "m": "codigo"
      },
      {
-      "t": " es más difícil que PDBBind**: 77.6% frente a 83.9% de",
+      "t": " es más difícil que PDBBind**: 77.6% frente a 83.9% de cobertura conformacional.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "cobertura conformacional.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "RC-F0-V2",
@@ -329,27 +314,18 @@
       "m": "codigo"
      },
      {
-      "t": " — 79.3 / 87.5 / 97.9 — porque",
+      "t": " — 79.3 / 87.5 / 97.9 — porque la división por scaffold concentró los scaffolds difíciles en ",
+      "m": null
+     },
+     {
+      "t": "train",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "la división por scaffold concentró los scaffolds difíciles en ",
-     "m": null
-    },
-    {
-     "t": "train",
-     "m": "codigo"
-    },
-    {
-     "t": ".",
-     "m": null
-    }
    ]
   },
   {
@@ -504,6 +480,57 @@
      "t": "No es un acantilado ni una especificación. Es una asociación estable, que es bastante más de lo que se puede decir del hallazgo con el que este experimento empezó.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-164. En la banda de 9–12 torsiones, los intervalos de Wilson citados para train y val+test sí se solapan: la intersección con los extremos almacenados es [0,3421; 0,4190], de longitud 0,0769; al redondeo de la prosa es [0,342; 0,419]. Se retira la justificación por intervalos disjuntos. Las tasas observadas se conservan; el solapamiento no demuestra igualdad ni sustituye un contraste directo de la diferencia. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_falsas.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
    ]
   }
  ],

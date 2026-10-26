@@ -177,12 +177,14 @@ def test_las_dianas_recuperadas_siguen_disponibles():
 
     4NY4 (CYP3A4) y 2NNJ/4EJJ/4O1Z por el hemo; 6GUE y 4E4N por fosfo-residuos;
     5TGZ por el FMN de su proteína de fusión; 1AJ6, 1BN1 y 1GPK por cadenas
-    laterales incompletas. Medido con el barrido real de Meeko.
+    laterales incompletas. Medido con el barrido real de Meeko. 3KK6 y 6S1Z,
+    desde el 2026-10-11, por los hidrógenos depositados que contradecían su
+    estructura (`test_hidrogenos_depositados.py`).
     """
     from services.targets.disponibilidad import motivo_no_disponible
 
     for pdb_id in ("4NY4", "2NNJ", "4EJJ", "4O1Z", "6GUE", "4E4N", "5TGZ",
-                   "1AJ6", "1BN1", "1GPK", "5VA1", "4NC3"):
+                   "1AJ6", "1BN1", "1GPK", "5VA1", "4NC3", "3KK6", "6S1Z"):
         assert motivo_no_disponible(pdb_id) is None, pdb_id
 
 
@@ -241,7 +243,7 @@ def test_panel_por_defecto_sin_cyp3a4_y_las_44_aparte():
     )
 
     por_defecto = {t["pdb_id"] for t in ANTI_TARGET_PANEL}
-    assert por_defecto == {"5VA1", "4NC3"}, "CYP3A4 no está entre las 44 de Bowes 2012"
+    assert por_defecto == {"5VA1", "7SRQ"}, "CYP3A4 no está entre las 44 de Bowes 2012"
 
     panel = panel_bowes_2012()
     assert len(panel) == 44, f"el panel mínimo de Bowes 2012 son 44 dianas, hay {len(panel)}"
@@ -377,25 +379,20 @@ def test_prepare_target_usa_la_funcion_compartida():
     assert fuente.count("truncar_cadenas_laterales_incompletas(") >= 2
 
 
-def test_la_interfaz_no_pide_por_defecto_anti_dianas_retiradas():
-    """La fase 1 sacó 6MVW (NavAb) y 1SO2 (PDE3B) del panel, pero la interfaz
-    las seguía enviando por defecto y el backend las acoplaba como «anti-diana
-    del usuario». El valor por defecto de la interfaz es el panel del backend."""
-    import re
-
+def test_la_interfaz_resuelve_el_panel_del_backend_y_no_fija_ids_en_frontend():
+    """El modal lee el panel vigente; los ids por defecto no se copian en la interfaz."""
     from services.docking.selectivity import ANTI_TARGET_PANEL
 
     esperado = sorted(t["pdb_id"] for t in ANTI_TARGET_PANEL)
     front = RAIZ / "frontend" / "components"
-    for rel in ("evaluation/CaseEvaluationRunner.tsx", "interfaces/pro/ProEvaluation.tsx",
-                "interfaces/pro/ProOptionsModal.tsx"):
+    for rel in ("interfaces/pro/ProEvaluation.tsx", "interfaces/pro/ProOptionsModal.tsx"):
         fuente = (front / rel).read_text(encoding="utf-8")
-        listas = re.findall(r"(?:pro_anti_targets|selectedAntiTargets)[^\[]*\[([^\]]*)\]", fuente)
-        assert listas, rel
-        for lista in listas:
-            ids = sorted(re.findall(r'"([0-9A-Z]{4})"', lista))
-            if ids:
-                assert ids == esperado, (rel, ids)
+        assert "antiDianasPorDefecto(" in fuente, rel
+        assert "[\"5VA1\", \"4NC3\"]" not in fuente, rel
+    runner = (front / "evaluation/CaseEvaluationRunner.tsx").read_text(encoding="utf-8")
+    assert "pro_anti_targets: []" not in runner
+    assert "5VA1" not in runner and "4NC3" not in runner
+    assert esperado  # La lista canónica la suministra el API y el selector valida disponibilidad.
 
 
 # ── Organismo declarado en el catálogo ─────────────────────────────────

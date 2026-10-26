@@ -25,6 +25,7 @@ import argparse
 import fnmatch
 import hashlib
 import json
+import importlib.util
 import os
 import shutil
 import subprocess
@@ -91,6 +92,25 @@ RESCORING_FUERA_DEL_RUNTIME_FILES = (
     "generate_gpu_dataset.py",
     "extract_pocket_prody.py",
 )
+
+#: Directorios de `rescoring/` que NO viajan en el instalador, en cualquier nivel.
+#: Es la lista que usa el paso [3/7] y la que `check_openbabel_boundary.py` lee
+#: para comprobar que cada excepción de su guarda G1 está de verdad fuera del
+#: artefacto: autorizar un script sin que el empaquetado lo excluya no pasa.
+RESCORING_DIRS_FUERA_DEL_RUNTIME = frozenset(
+    {"tests", "data", "deprecated", "scripts", "feature_cache_v4"}
+)
+
+#: Herramientas de terceros cuyo directorio `tools/<x>/` viaja ENTERO en el
+#: instalador. Es la lista que recorre el paso [4/7] y la que el SBOM
+#: (`generate_sbom.py`) inventaría: una sola fuente, porque con dos copias el
+#: SBOM callaba lo que el instalador llevaba (el guardado decía 2 binarios y
+#: se empaquetaban 4).
+HERRAMIENTAS_EMPAQUETADAS = ("vina", "xtb", "llama", "openbabel", "molcy")
+
+#: Sin estas el instalador no se construye. Las demás se omiten si no están, y
+#: el SBOM lo declara en vez de callarlo.
+HERRAMIENTAS_CRITICAS = frozenset({"vina", "openbabel", "molcy"})
 
 COMMON_FILE_PATTERNS = (
     "*.pyc", "*.pyo", "*.log", "*.err", "*.out", "*.tmp",
@@ -318,6 +338,13 @@ def _programas_externos(root: Path, resources: Path) -> list[dict]:
                 "sha256": sha256(vina),
             }
         )
+        trace_file = vina.parent / "vina-trace-manifest.json"
+        if trace_file.is_file():
+            trace = json.loads(trace_file.read_text(encoding="utf-8"))
+            entradas[-1]["instrumentacion"] = {"ejecutable": "tools/vina/vina_trace.exe",
+                "sha256": sha256(vina.parent / "vina_trace.exe"),
+                "fuente_commit": trace["upstream_commit"], "licencia_spdx": trace["license"],
+                "dependencias_estaticas": trace.get("static_dependencies", [])}
     return entradas
 
 
@@ -441,7 +468,7 @@ def build_bundle(root: Path) -> Path:
         root,
         root / "rescoring",
         resources / "rescoring",
-        extra_dirs={"tests", "data", "deprecated", "scripts", "feature_cache_v4"},
+        extra_dirs=set(RESCORING_DIRS_FUERA_DEL_RUNTIME),
         extra_files=(
             "*.bak",
             "*.bak*",
@@ -454,25 +481,44 @@ def build_bundle(root: Path) -> Path:
     print(f"      {rescoring_tracked_count} archivos reproducibles desde Git")
 
     print("[4/7] Motores científicos y herramientas externas")
+    spec = importlib.util.spec_from_file_location("vina_trace_build", root / "scripts/build_vina_trace.py")
+    verifier = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(verifier)
+    problems = verifier.check(root)
+    if problems:
+        raise RuntimeError("Vina trace cannot be packaged: " + "; ".join(problems))
     # `openbabel` es CRÍTICO, no opcional: viaja en el instalador y el respaldo
     # de conversión estructural del docking depende de él. Su ausencia aquí
     # significa que nadie ejecutó `scripts/stage_openbabel_tool.py`, y dejarlo
     # pasar produciría un instalador cuyo respaldo no puede funcionar.
-    CRITICOS = {"vina", "openbabel"}
-    for tool in ("vina", "xtb", "llama", "openbabel"):
+    for tool in HERRAMIENTAS_EMPAQUETADAS:
         source = root / "tools" / tool
         if source.is_dir():
             copy_tree(source, resources / "tools" / tool, ignore=ignore_factory())
-        elif tool in CRITICOS:
-            pista = (
-                "\nEjecuta `python scripts/stage_openbabel_tool.py` para "
-                "materializarlo desde el wheel `openbabel-wheel`."
-                if tool == "openbabel"
-                else ""
-            )
+        elif tool in HERRAMIENTAS_CRITICAS:
+            pista = {
+                "openbabel": ("\nEjecuta `python scripts/stage_openbabel_tool.py` para "
+                              "materializarlo desde el wheel `openbabel-wheel`."),
+                "molcy": ("\nEjecuta `python scripts/stage_molcy_motor.py --fuente <repositorio del motor> --write` "
+                          "para vendorizarlo desde un commit (docs/95_ADR_MOTOR_MOLCY_EN_EL_INSTALADOR.md)."),
+            }.get(tool, "")
             raise FileNotFoundError(f"Motor crítico ausente: {source}{pista}")
         else:
             print(f"  opcional ausente: {tool}")
+    # El runtime de Visual C++ viaja también ENTERO, con su manifiesto, y no sólo repartido junto a los binarios del paquete
+    # (paso 6a2): el Python que lanza Blender —descargado después, fuera de este árbol— lo necesita, y el backend se lo da
+    # sólo si cada byte coincide con el manifiesto (VM-MOLCY-01, `services/molcy/runtime_vc.py`). Sale de la misma fuente
+    # verificada; no es una herramienta del SBOM, sino las bibliotecas de Microsoft ya declaradas en los avisos legales.
+    origen_vc = validated_vc_runtime_dir(root).parent
+    destino_vc = resources / "tools" / "vc-runtime"
+    for nombre in ("vc-runtime-manifest.json", "README-PROCEDENCIA.md"):
+        copy_file(origen_vc / nombre, destino_vc / nombre)
+    for dll in sorted((origen_vc / "x64").glob("*.dll")):
+        copy_file(dll, destino_vc / "x64" / dll.name)
+    print(f"  vc-runtime: {len(list((destino_vc / 'x64').glob('*.dll')))} DLL con su manifiesto")
+    problems = verifier.check(resources, sources=False)
+    if problems:
+        raise RuntimeError("Staged Vina trace verification failed: " + "; ".join(problems))
 
     print("[4b/7] Tokenizer de los motores descargables")
     # Los PESOS se descargan bajo demanda (8.4 GB); los archivos pequenos que
@@ -762,6 +808,11 @@ def build_bundle(root: Path) -> Path:
         # instalación dañada, y el manifiesto es lo que permite decirlo.
         Path("tools/openbabel/bin/obabel.exe"),
         Path("tools/openbabel/openbabel-manifest.json"),
+        # Sin ellos, el Python de Blender no arranca en un Windows sin Visual C++ y Molecular Nodes no se instala (VM-MOLCY-01).
+        Path("tools/vc-runtime/vc-runtime-manifest.json"),
+        Path("tools/vc-runtime/x64/vcruntime140.dll"),
+        Path("tools/vc-runtime/x64/vcruntime140_1.dll"),
+        Path("tools/vc-runtime/x64/msvcp140.dll"),
         Path("curated_targets.json"),
         # Sin él, las dianas que hoy no se pueden preparar se ofrecerían como
         # disponibles y fallarían al evaluar (DOCK-003).

@@ -1,0 +1,326 @@
+{
+  "experimento": "ABS-TR-01-VALIDEZ-R1",
+  "analizado_en": "2026-10-25T01:38:38+00:00",
+  "protocolo_sha256": "91d83522fc9215b5b8f4a186c2ca41047fabd5e220f5b7c449e3d38865f9a2f7",
+  "producto": "d6f9fb99e4fd429f9c437d9469b7e66de670af62",
+  "n_sistemas": 29,
+  "n_auditados": 28,
+  "fallos": [
+    {
+      "pdb": "8WTW",
+      "intentos": [
+        {
+          "n": 1,
+          "error": "RuntimeError: la corrida no terminó en SUCCESS: {'task_id': 'a467f3e5-a158-4248-9bb2-68f445093567', 'status': 'FAILURE', 'progress': 0, 'error': \"ProteinPreparationError: Error preparando proteína '8WTW' en el paso 'mk_prepare_receptor'\", 'started_at': '2026-10-25T01:30:49.192609Z', 'finished_at': '2026-10-25T01:30:54.877283Z'}",
+          "segundos": 6.4
+        },
+        {
+          "n": 2,
+          "error": "RuntimeError: la corrida no terminó en SUCCESS: {'task_id': '8c8a1ee7-064e-400e-a77e-fae13d60bc71', 'status': 'FAILURE', 'progress': 0, 'error': \"ProteinPreparationError: Error preparando proteína '8WTW' en el paso 'mk_prepare_receptor'\", 'started_at': '2026-10-25T01:30:55.549203Z', 'finished_at': '2026-10-25T01:31:00.820725Z'}",
+          "segundos": 6.3
+        }
+      ]
+    }
+  ],
+  "decision_del_producto": {
+    "AVISAR": 21,
+    "DETENER": 7
+  },
+  "estado_preparacion": {
+    "REVISION": 21,
+    "BLOQUEADO": 6,
+    "DETENIDO_EN_PREFLIGHT": 1
+  },
+  "referencia": {
+    "mayoria_5": {
+      "NO_DETENER": 18,
+      "DETENER": 10
+    },
+    "unanime_5": {
+      "NO_DETENER": 16,
+      "DETENER": 7,
+      "DISPUTADO": 5
+    },
+    "mayoria_r2": {
+      "NO_DETENER": 18,
+      "DETENER": 10
+    }
+  },
+  "primario_mayoria_5": {
+    "falso_bloqueo": {
+      "k": 1,
+      "n": 18,
+      "tasa": 0.05555555555555555,
+      "limite_inferior_95": 0.0028455711315563976,
+      "limite_superior_95": 0.2376609150746397
+    },
+    "falsa_autorizacion": {
+      "k": 0,
+      "n": 10,
+      "tasa": 0.0,
+      "limite_inferior_95": 0.0,
+      "limite_superior_95": 0.2588655508930522
+    },
+    "aviso_sin_bloqueo": {
+      "k": 4,
+      "n": 10,
+      "tasa": 0.4,
+      "limite_inferior_95": 0.15002824080667998,
+      "limite_superior_95": 0.6964627874359576
+    },
+    "bloqueo_correcto": {
+      "k": 6,
+      "n": 10,
+      "tasa": 0.6,
+      "limite_inferior_95": 0.3035372125640424,
+      "limite_superior_95": 0.84997175919332
+    },
+    "matriz": {
+      "DETENER→DETENER": 6,
+      "DETENER→AVISAR": 4,
+      "DETENER→SEGUIR": 0,
+      "NO_DETENER→DETENER": 1,
+      "NO_DETENER→AVISAR": 17,
+      "NO_DETENER→SEGUIR": 0,
+      "DISPUTADO→DETENER": 0,
+      "DISPUTADO→AVISAR": 0,
+      "DISPUTADO→SEGUIR": 0
+    },
+    "falsos_bloqueos": [
+      "4JVB"
+    ],
+    "falsas_autorizaciones": [],
+    "avisos_sin_bloqueo": [
+      "6HW5",
+      "4NY4",
+      "6SXC",
+      "3G0E"
+    ]
+  },
+  "sensibilidad_unanime_5": {
+    "falso_bloqueo": {
+      "k": 1,
+      "n": 16,
+      "tasa": 0.0625,
+      "limite_inferior_95": 0.0032006977101884967,
+      "limite_superior_95": 0.2639573972885686
+    },
+    "falsa_autorizacion": {
+      "k": 0,
+      "n": 7,
+      "tasa": 0.0,
+      "limite_inferior_95": 0.0,
+      "limite_superior_95": 0.34816365513116077
+    },
+    "aviso_sin_bloqueo": {
+      "k": 2,
+      "n": 7,
+      "tasa": 0.2857142857142857,
+      "limite_inferior_95": 0.05337550047023718,
+      "limite_superior_95": 0.658738563844664
+    },
+    "bloqueo_correcto": {
+      "k": 5,
+      "n": 7,
+      "tasa": 0.7142857142857143,
+      "limite_inferior_95": 0.341261436155336,
+      "limite_superior_95": 0.9466244995297628
+    },
+    "matriz": {
+      "DETENER→DETENER": 5,
+      "DETENER→AVISAR": 2,
+      "DETENER→SEGUIR": 0,
+      "NO_DETENER→DETENER": 1,
+      "NO_DETENER→AVISAR": 15,
+      "NO_DETENER→SEGUIR": 0,
+      "DISPUTADO→DETENER": 1,
+      "DISPUTADO→AVISAR": 4,
+      "DISPUTADO→SEGUIR": 0
+    },
+    "falsos_bloqueos": [
+      "4JVB"
+    ],
+    "falsas_autorizaciones": [],
+    "avisos_sin_bloqueo": [
+      "4NY4",
+      "6SXC"
+    ]
+  },
+  "sensibilidad_r2_sin_opus": {
+    "falso_bloqueo": {
+      "k": 1,
+      "n": 18,
+      "tasa": 0.05555555555555555,
+      "limite_inferior_95": 0.0028455711315563976,
+      "limite_superior_95": 0.2376609150746397
+    },
+    "falsa_autorizacion": {
+      "k": 0,
+      "n": 10,
+      "tasa": 0.0,
+      "limite_inferior_95": 0.0,
+      "limite_superior_95": 0.2588655508930522
+    },
+    "aviso_sin_bloqueo": {
+      "k": 4,
+      "n": 10,
+      "tasa": 0.4,
+      "limite_inferior_95": 0.15002824080667998,
+      "limite_superior_95": 0.6964627874359576
+    },
+    "bloqueo_correcto": {
+      "k": 6,
+      "n": 10,
+      "tasa": 0.6,
+      "limite_inferior_95": 0.3035372125640424,
+      "limite_superior_95": 0.84997175919332
+    },
+    "matriz": {
+      "DETENER→DETENER": 6,
+      "DETENER→AVISAR": 4,
+      "DETENER→SEGUIR": 0,
+      "NO_DETENER→DETENER": 1,
+      "NO_DETENER→AVISAR": 17,
+      "NO_DETENER→SEGUIR": 0,
+      "DISPUTADO→DETENER": 0,
+      "DISPUTADO→AVISAR": 0,
+      "DISPUTADO→SEGUIR": 0
+    },
+    "falsos_bloqueos": [
+      "4JVB"
+    ],
+    "falsas_autorizaciones": [],
+    "avisos_sin_bloqueo": [
+      "6HW5",
+      "4NY4",
+      "6SXC",
+      "3G0E"
+    ]
+  },
+  "por_control": {
+    "C01": {
+      "requisitos": [
+        "receptor.huecos"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 15,
+        "ACEPTABLE→REVISAR": 9,
+        "ACEPTABLE→SIN_AUDITORIA": 1,
+        "CRITICO→CRITICO": 1,
+        "INDETERMINADO→CRITICO": 1,
+        "INDETERMINADO→REVISAR": 1
+      }
+    },
+    "C02": {
+      "requisitos": [
+        "receptor.cadenas_truncadas"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 19,
+        "ACEPTABLE→REVISAR": 7,
+        "ACEPTABLE→SIN_AUDITORIA": 1,
+        "REVISAR→REVISAR": 1
+      }
+    },
+    "C03": {
+      "requisitos": [
+        "receptor.altlocs"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 19,
+        "ACEPTABLE→NO_LO_MIRA": 1,
+        "ACEPTABLE→REVISAR": 2,
+        "ACEPTABLE→SIN_AUDITORIA": 1,
+        "REVISAR→REVISAR": 5
+      }
+    },
+    "C04": {
+      "requisitos": [
+        "receptor.cadenas",
+        "receptor.cadenas_excluidas"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 22,
+        "ACEPTABLE→REVISAR": 3,
+        "ACEPTABLE→SIN_AUDITORIA": 1,
+        "CRITICO→ACEPTABLE": 1,
+        "CRITICO→REVISAR": 1
+      }
+    },
+    "C05": {
+      "requisitos": [
+        "entorno.metales_cofactores",
+        "entorno.otras_especies"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 18,
+        "ACEPTABLE→REVISAR": 1,
+        "CRITICO→CRITICO": 4,
+        "CRITICO→REVISAR": 1,
+        "CRITICO→SIN_AUDITORIA": 1,
+        "REVISAR→ACEPTABLE": 1,
+        "REVISAR→REVISAR": 2
+      }
+    },
+    "C06": {
+      "requisitos": [
+        "entorno.aguas"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 12,
+        "ACEPTABLE→REVISAR": 3,
+        "REVISAR→ACEPTABLE": 2,
+        "REVISAR→REVISAR": 10,
+        "REVISAR→SIN_AUDITORIA": 1
+      }
+    },
+    "C07": {
+      "requisitos": [
+        "ligando.covalente"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 21,
+        "CRITICO→ACEPTABLE": 1,
+        "CRITICO→REVISAR": 1,
+        "REVISAR→ACEPTABLE": 4,
+        "REVISAR→SIN_AUDITORIA": 1
+      }
+    },
+    "C08": {
+      "requisitos": [
+        "ligando.identidad",
+        "ligando.estereoquimica",
+        "ligando.tautomero"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 21,
+        "ACEPTABLE→REVISAR": 6,
+        "ACEPTABLE→SIN_AUDITORIA": 1
+      }
+    },
+    "C09": {
+      "requisitos": [
+        "receptor.protonacion"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 11,
+        "REVISAR→ACEPTABLE": 9,
+        "REVISAR→REVISAR": 7,
+        "REVISAR→SIN_AUDITORIA": 1
+      }
+    },
+    "C10": {
+      "requisitos": [
+        "receptor.caja"
+      ],
+      "revisores→producto": {
+        "ACEPTABLE→ACEPTABLE": 22,
+        "ACEPTABLE→SIN_AUDITORIA": 1,
+        "REVISAR→ACEPTABLE": 5
+      }
+    }
+  },
+  "cpu_core_h": 1.66,
+  "decision": "INCONCLUSIVE",
+  "razon": "falso bloqueo 1/18 (límite superior 95 % 0.238): dentro del objetivo en la estimación puntual, sin potencia para concluir con 18 negativos"
+}

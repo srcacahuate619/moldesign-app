@@ -5,10 +5,12 @@ comprobaba es que una conversación funcione. Este gate sí:
 
 * carga el modelo local (`llama-server.exe` + Qwen2.5-1.5B) y habla con él;
 * hace una pregunta que **necesita** una herramienta y verifica que se ejecutó;
-* lanza una evaluación desde el chat y comprueba que entró por
-  `registrar_corrida` —la misma puerta que `POST /evaluation/submit`—
-  observando que la corrida existe, tiene protocolo y receptor sellado, y se
-  recupera por su `task_id`;
+* pide un docking desde el chat y comprueba que el chat sólo PROPONE (LUNA-05):
+  la propuesta muestra receptor, motor y protocolo y no hay `task_id`; un «sí»
+  escrito no la lanza; otra cuenta no puede aprobarla; y la aprueba la cuenta con
+  `POST /ai/proposals/{id}/approve`, que entra por `registrar_corrida` —la misma
+  puerta que `POST /evaluation/submit`—, una sola vez, observando que la corrida
+  existe, tiene protocolo y receptor sellado, y se recupera por su `task_id`;
 * reinicia el backend y vuelve a preguntar: la respuesta cita la corrida
   persistida, no la reconstruye;
 * comprueba la abstención cuando la herramienta falla;
@@ -134,19 +136,16 @@ def main() -> int:
                 "El guard marcó los valores como fabricados: la herramienta no corrió."
             )
 
-        # ── 3. Lanzar una evaluación desde el chat ───────────────────
-        # Se llama a la herramienta por su camino real, el mismo que usaría el
-        # modelo, para comprobar `registrar_corrida` y no una ruta de prueba.
+        # ── 3. Pedir un docking desde el chat: el chat PROPONE ───────
+        # LUNA-05. Se llama por el camino real del chat. El turno trae una
+        # propuesta —receptor, motor, protocolo, coste— y NINGUNA corrida: la
+        # aprobación es otro acto, con la sesión de la cuenta.
+        pedido = f"haz un docking de {SMILES} contra {TARGET}"
         lanzar = _json(
             base, "POST", "/ai/chat",
             token=alice,
             body={
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": f"haz un docking de {SMILES} contra {TARGET}",
-                    }
-                ],
+                "messages": [{"role": "user", "content": pedido}],
                 "stream": False,
                 "mode": "speed",
                 "allow_web": False,
@@ -155,21 +154,73 @@ def main() -> int:
             timeout=600,
         )
         texto_lanzamiento = lanzar.get("content", "") or ""
-        _decir("investigador", f"haz un docking de {SMILES} contra {TARGET}")
+        _decir("investigador", pedido)
         _decir("molchat", texto_lanzamiento)
-        resumen["texto_lanzamiento"] = texto_lanzamiento[:500]
+        resumen["texto_propuesta"] = texto_lanzamiento[:700]
 
-        task_id = ""
-        for pieza in texto_lanzamiento.replace("\n", " ").split():
-            if pieza.startswith("task_id="):
-                task_id = pieza.split("=", 1)[1].strip().rstrip(",.")
-                break
-        if not task_id:
+        import re
+
+        marcador = re.search(
+            r"<!--__DOCKING_PROPOSAL__\s+id=(\w+)\s+hash=(sha256:[0-9a-f]{64})-->",
+            texto_lanzamiento,
+        )
+        if not marcador:
             raise GateFailure(
-                "El chat no devolvió el task_id de la evaluación lanzada: "
+                "El chat no devolvió una propuesta de docking con su marcador: "
                 f"{texto_lanzamiento[:300]!r}"
             )
+        propuesta_id, propuesta_hash = marcador.group(1), marcador.group(2)
+        if "task_id=" in texto_lanzamiento:
+            raise GateFailure(
+                "El chat devolvió un task_id al PROPONER: encoló la corrida sin "
+                "aprobación humana."
+            )
+        for visible in (TARGET, "Vina", "exhaustividad", "Coste aproximado"):
+            if visible not in texto_lanzamiento:
+                raise GateFailure(f"La propuesta no muestra {visible!r} antes de aprobar.")
+        resumen["propuesta_id"] = propuesta_id
+
+        # Un «sí» escrito NO la lanza.
+        _decir("investigador", "sí")
+        respuesta_si = _chat(base, alice, "sí")
+        _decir("molchat", respuesta_si)
+        if "task_id=" in respuesta_si:
+            raise GateFailure("Un «sí» escrito lanzó la corrida: la aprobación es el botón.")
+        # Y tampoco puede devolver OTRA propuesta: la primera versión de la guarda sólo
+        # miraba mensajes del asistente y, por el camino del clasificador determinista
+        # (donde la propuesta vive en el mensaje del sistema), un «sí» generó una segunda
+        # propuesta. Lo encontró este gate; la aserción lo mantiene encontrable.
+        if "no lanza" not in respuesta_si.lower() or "__DOCKING_PROPOSAL__" in respuesta_si:
+            raise GateFailure(
+                "Un «sí» escrito no recibió el aviso de que la aprobación es el botón "
+                f"(o generó otra propuesta): {respuesta_si[:300]!r}"
+            )
+        resumen["respuesta_a_un_si"] = respuesta_si[:300]
+
+        # Otra cuenta no puede ni aprobarla ni verla.
+        estado_ajeno, _, _ = _request(
+            base, "POST", f"/ai/proposals/{propuesta_id}/approve", token=bob,
+            body={"proposal_hash": propuesta_hash}, expected={404},
+        )
+        resumen["aprobacion_ajena"] = estado_ajeno
+
+        # La aprobación, con la sesión de la cuenta, lanza.
+        aprobada = _json(
+            base, "POST", f"/ai/proposals/{propuesta_id}/approve", token=alice,
+            body={"proposal_hash": propuesta_hash}, expected={200},
+        )
+        task_id = aprobada.get("task_id", "")
+        if not task_id:
+            raise GateFailure(f"La aprobación no devolvió un task_id: {aprobada!r}")
         resumen["task_id"] = task_id
+        texto_lanzamiento = aprobada.get("message", "")
+
+        # Una segunda aprobación de la misma propuesta no encola otra corrida.
+        estado_doble, _, _ = _request(
+            base, "POST", f"/ai/proposals/{propuesta_id}/approve", token=alice,
+            body={"proposal_hash": propuesta_hash}, expected={410},
+        )
+        resumen["segunda_aprobacion"] = estado_doble
 
         # El turno NO puede traer un número: la corrida acaba de empezar.
         if "kcal/mol" in texto_lanzamiento.lower():

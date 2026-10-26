@@ -347,6 +347,73 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-057. El guard de la cuarentena en ",
+      "m": null
+     },
+     {
+      "t": "build_confirm_cohort.py",
+      "m": "codigo"
+     },
+     {
+      "t": " es ",
+      "m": null
+     },
+     {
+      "t": "opt-in",
+      "m": "fuerte"
+     },
+     {
+      "t": " (",
+      "m": null
+     },
+     {
+      "t": "--respect-denylist",
+      "m": "codigo"
+     },
+     {
+      "t": ", por defecto apagado): repetir el builder sin esa opción no excluye la denylist. DESIGN §17 y §19 lo daban por automático; el DESIGN sellado no se edita y esta nota lo corrige. Sigue sin haber aislamiento de acceso a nivel de máquina.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/FND-05.md"

@@ -1,0 +1,81 @@
+{
+  "projection_version": 1,
+  "case_id": "pfkfb3__hueco_lejano__0",
+  "name": "pfkfb3__hueco_lejano__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_68DED7",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21",
+      "canonical_smiles": "Cn1ccc2ccc(-c3cc(Nc4ccccc4S(C)(=O)=O)cc4nccnc34)cc21"
+    },
+    "config": {
+      "grid_center": [
+        91.858,
+        49.192,
+        267.512
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:d77a88fdaa684f0d2b69dbe8fc5f4a49b4fc86daec67410d1fe2d129b74bfe0c",
+    "generated_at": "2026-10-11T20:10:07.070466+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "e8689cb2-c3ec-4166-a8a3-70c99f808043",
+    "input_fingerprint": "sha256:d77a88fdaa684f0d2b69dbe8fc5f4a49b4fc86daec67410d1fe2d129b74bfe0c",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

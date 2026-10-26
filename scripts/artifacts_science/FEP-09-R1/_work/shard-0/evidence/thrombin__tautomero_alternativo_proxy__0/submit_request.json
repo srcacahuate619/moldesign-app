@@ -1,0 +1,40 @@
+{
+  "smiles": "NC(=[NH2+])c1ccc(CNC(O)=C2CCCN2C(O)=C([NH3+])Cc2ccccc2)cc1",
+  "target_pdb_id": "USR_C54DC5",
+  "chain": "H",
+  "molecule_name": "thrombin__tautomero_alternativo_proxy__0",
+  "grid_center": [
+    16.441,
+    -12.518,
+    22.646
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:498b6fa87790dad3874b80de868e52843a61ba5db23da038bd1699804f8aaec4"
+}

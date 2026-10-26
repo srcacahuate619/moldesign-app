@@ -1,0 +1,8 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "identifier": "dev.moldesign.productaudit",
+  "productName": "MolDesign Product Audit",
+  "build": { "beforeBuildCommand": "", "beforeDevCommand": "", "devUrl": "http://127.0.0.1:3014" },
+  "bundle": { "active": false },
+  "app": { "windows": [{ "create": false, "title": "MolDesign Product Audit", "width": 1400, "height": 900, "minWidth": 1024, "minHeight": 700 }] }
+}

@@ -1,0 +1,40 @@
+{
+  "smiles": "Cn1cc(-c2ccc(CC3=NN=C4C=CC(C(=O)N5CC[NH2+]CC5)C=C43)cc2)cn1",
+  "target_pdb_id": "USR_D6DBBD",
+  "chain": "A",
+  "molecule_name": "cdk8__tautomero_alternativo_proxy__0",
+  "grid_center": [
+    -4.508,
+    11.948,
+    -9.569
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:18dec8e1e66d13a847b070b9cf0702a04ed23d6324221121987f8b7e3b6487a9"
+}

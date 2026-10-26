@@ -1,0 +1,50 @@
+{
+ "experiment_id": "SUP-03-VALIDADOR-LIGANDO",
+ "tamanos": {
+  "A": 89,
+  "B": 57,
+  "C": 494,
+  "D": 3000,
+  "E": 6898
+ },
+ "con_actividad_medida": 640,
+ "por_conjunto": {
+  "A": {
+   "aceptadas": 89
+  },
+  "B": {
+   "aceptadas": 57
+  },
+  "C": {
+   "aceptadas": 494
+  },
+  "D": {
+   "aceptadas": 3000
+  },
+  "E": {
+   "aceptadas": 6824,
+   "R4": 6,
+   "otra": 68
+  }
+ },
+ "por_regla": {
+  "R1": {
+   "rechazadas_con_actividad": 0,
+   "decision": "GO"
+  },
+  "R2": {
+   "rechazadas_con_actividad": 0,
+   "decision": "GO"
+  },
+  "R3": {
+   "rechazadas_con_actividad": 0,
+   "decision": "GO"
+  },
+  "R4": {
+   "rechazadas_con_actividad": 0,
+   "decision": "GO"
+  }
+ },
+ "otras_con_actividad": 0,
+ "decision": "GO"
+}

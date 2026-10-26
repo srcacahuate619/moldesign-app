@@ -1,0 +1,89 @@
+{
+  "key": "es-dark-1024",
+  "controls": [
+    {
+      "name": "Mostrar historial",
+      "rect": {
+        "x": 621,
+        "y": 89,
+        "width": 24,
+        "height": 24,
+        "top": 89,
+        "right": 645,
+        "bottom": 113,
+        "left": 621
+      },
+      "inside": true
+    },
+    {
+      "name": "Rápido",
+      "rect": {
+        "x": 746.8125,
+        "y": 89,
+        "width": 54.5,
+        "height": 24,
+        "top": 89,
+        "right": 801.3125,
+        "bottom": 113,
+        "left": 746.8125
+      },
+      "inside": true
+    },
+    {
+      "name": "Razonamiento",
+      "rect": {
+        "x": 801.3125,
+        "y": 89,
+        "width": 92.046875,
+        "height": 24,
+        "top": 89,
+        "right": 893.359375,
+        "bottom": 113,
+        "left": 801.3125
+      },
+      "inside": true
+    },
+    {
+      "name": "Activar modo web",
+      "rect": {
+        "x": 621,
+        "y": 122,
+        "width": 102.25,
+        "height": 26,
+        "top": 122,
+        "right": 723.25,
+        "bottom": 148,
+        "left": 621
+      },
+      "inside": true
+    },
+    {
+      "name": "Abrir configuración de MolChat",
+      "rect": {
+        "x": 948,
+        "y": 88,
+        "width": 28,
+        "height": 28,
+        "top": 88,
+        "right": 976,
+        "bottom": 116,
+        "left": 948
+      },
+      "inside": true
+    },
+    {
+      "name": "Cerrar MolChat",
+      "rect": {
+        "x": 980,
+        "y": 88,
+        "width": 28,
+        "height": 28,
+        "top": 88,
+        "right": 1008,
+        "bottom": 116,
+        "left": 980
+      },
+      "inside": true
+    }
+  ]
+}

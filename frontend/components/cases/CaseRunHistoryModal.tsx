@@ -24,7 +24,8 @@
 // con los de ahora sobre el resultado de otra hipótesis sería exactamente la
 // atribución falsa que el resto del modelo se dedica a impedir.
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { InsigniaDelCatalogo } from "@/components/science/InsigniaDelCatalogo";
 import { useLanguage } from "../../context/LanguageContext";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import {
@@ -40,12 +41,18 @@ import { downloadCertificate, downloadComplexFile, getEvaluationResult } from ".
 import { numeroOGuion } from "../../lib/formatoNumerico";
 import type { EvaluationResult } from "../../lib/types";
 import {
+  NO_RUN_FILTER,
   describeRunProtocol,
+  filterRuns,
   runMatchesInputs,
+  runMode,
+  runProtocolDifferences,
   runProtocolRelation,
   type CaseRun,
   type CaseStructuralSystem,
   type RunExecutionState,
+  type RunFilter,
+  type RunModeFilter,
 } from "../../lib/cases/types";
 
 export interface CaseRunHistoryModalProps {
@@ -57,16 +64,20 @@ export interface CaseRunHistoryModalProps {
   /** `taskId` de la corrida que la pestaña de evaluación está mostrando. */
   readonly activeTaskId?: string;
   readonly onClose: () => void;
+  /** Selección efímera de un clic en Actividad; nunca cambia el libro. */
+  readonly requestedTaskId?: string;
+  readonly onRequestedRunSelected?: (taskId: string) => void;
 }
 
+// Claves, no textos: en castellano fijo, la etiqueta salía «TERMINADA» con la interfaz en inglés.
 const STATE_LABELS: Record<RunExecutionState, string> = {
-  idle: "Sin arrancar",
-  submitted: "Enviada",
-  running: "Ejecutando",
-  interrupted: "Seguimiento perdido",
-  completed: "Terminada",
-  failed: "Fallida",
-  cancelled: "Cancelada",
+  idle: "ca_estado_corrida_idle",
+  submitted: "ca_estado_corrida_submitted",
+  running: "ca_estado_corrida_running",
+  interrupted: "ca_estado_corrida_interrupted",
+  completed: "ca_estado_corrida_completed",
+  failed: "ca_estado_corrida_failed",
+  cancelled: "ca_estado_corrida_cancelled",
 };
 
 const STATE_TONES: Record<RunExecutionState, string> = {
@@ -80,10 +91,11 @@ const STATE_TONES: Record<RunExecutionState, string> = {
 };
 
 /** Fecha legible sin inventar zona: se muestra la local del equipo. */
-export function formatRunMoment(iso: string): string {
+/** En el idioma de la interfaz: con `undefined` mandaba el del sistema y salía «25 oct 2026, 05:15 p.m.» en inglés. */
+export function formatRunMoment(iso: string, locale?: string): string {
   const parsed = new Date(iso);
-  if (Number.isNaN(parsed.getTime())) return "Fecha no legible";
-  return parsed.toLocaleString(undefined, {
+  if (Number.isNaN(parsed.getTime())) return locale === "en" ? "Unreadable date" : "Fecha no legible";
+  return parsed.toLocaleString(locale === "en" ? "en-US" : locale === "es" ? "es-ES" : undefined, {
     year: "numeric",
     month: "short",
     day: "2-digit",
@@ -124,10 +136,14 @@ export default function CaseRunHistoryModal({
   currentFingerprint,
   activeTaskId,
   onClose,
+  requestedTaskId,
+  onRequestedRunSelected,
 }: CaseRunHistoryModalProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   useScrollLock(true);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
+  const rowElements = useRef(new Map<string, HTMLLIElement>());
+  const consumedRequest = useRef<string | null>(null);
   const [detail, setDetail] = useState<
     | { kind: "idle" }
     | { kind: "loading" }
@@ -143,40 +159,63 @@ export default function CaseRunHistoryModal({
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [onClose]);
 
-  const openRun = useCallback(
-    (run: CaseRun) => {
-      if (openTaskId === run.taskId) {
-        setOpenTaskId(null);
-        setDetail({ kind: "idle" });
-        return;
-      }
-      setOpenTaskId(run.taskId);
-      if (!run.moleculeId) {
-        setDetail({ kind: "idle" });
-        return;
-      }
-      setDetail({ kind: "loading" });
-      // El `taskId` viaja SIEMPRE. Sin él el backend devuelve la proyección más
-      // reciente de esa molécula, que puede ser la de otra corrida posterior:
-      // eso convertiría «ver la evaluación anterior» en ver otra cosa.
-      getEvaluationResult(run.moleculeId, run.taskId)
-        .then((result) => setDetail({ kind: "ready", result }))
-        .catch((cause: unknown) =>
-          setDetail({
-            kind: "error",
-            message:
-              cause instanceof Error
-                ? cause.message
-                : "El motor no devolvió el resultado guardado de esta corrida.",
-          }),
-        );
-    },
-    [openTaskId],
+  const openRun = useCallback((run: CaseRun) => {
+    setOpenTaskId(current => current === run.taskId ? null : run.taskId);
+  }, []);
+  useEffect(() => {
+    if (!requestedTaskId || consumedRequest.current === requestedTaskId || !runs.some(run => run.taskId === requestedTaskId)) return;
+    consumedRequest.current = requestedTaskId;
+    setOpenTaskId(requestedTaskId);
+    setFilter(NO_RUN_FILTER);
+  }, [requestedTaskId, runs]);
+  const openedRun = runs.find(run => run.taskId === openTaskId);
+  useEffect(() => {
+    if (!openedRun?.moleculeId || whyRunCannotOpen(openedRun)) {
+      setDetail({ kind: "idle" });
+      return;
+    }
+    let current = true;
+    setDetail({ kind: "loading" });
+    getEvaluationResult(openedRun.moleculeId, openedRun.taskId).then(result => {
+      if (current) setDetail({ kind: "ready", result });
+    }).catch((cause: unknown) => {
+      if (current) setDetail({ kind: "error", message: cause instanceof Error ? cause.message
+        : "El motor no devolvió el resultado guardado de esta corrida." });
+    });
+    return () => { current = false; };
+  }, [openedRun?.taskId, openedRun?.moleculeId, openedRun?.executionState]);
+  useEffect(() => {
+    if (!requestedTaskId || openTaskId !== requestedTaskId) return;
+    const row = rowElements.current.get(requestedTaskId);
+    if (!row) return;
+    row.scrollIntoView?.({ block: "nearest" });
+    row.focus();
+    onRequestedRunSelected?.(requestedTaskId);
+  }, [openTaskId, requestedTaskId, onRequestedRunSelected]);
+
+  // CAS-03. Con decenas de corridas del mismo ligando reconocer una fila por su
+  // SMILES truncado no alcanza: se filtra por modo (única/ensemble), por estado y
+  // por texto. El libro no cambia; sólo lo que se muestra.
+  const [filter, setFilter] = useState<RunFilter>(NO_RUN_FILTER);
+  const statesPresent = useMemo(
+    () => [...new Set(runs.map((run) => run.executionState))],
+    [runs],
   );
+  const counts = useMemo(
+    () => ({
+      all: runs.length,
+      single: runs.filter((run) => run.protocol && runMode(run.protocol).mode === "single").length,
+      ensemble: runs.filter((run) => run.protocol && runMode(run.protocol).mode === "ensemble").length,
+    }),
+    [runs],
+  );
+  const filtered = useMemo(() => filterRuns(runs, filter), [runs, filter]);
+  const filterActive =
+    filter.mode !== "all" || filter.state !== "all" || filter.query.trim() !== "";
 
   // Más reciente arriba: quien abre el historial viene a buscar lo último que
   // hizo. El libro se guarda en orden de arranque y ese orden no se toca.
-  const ordered = [...runs].reverse();
+  const ordered = [...filtered].reverse();
 
   return (
     <div
@@ -204,9 +243,7 @@ export default function CaseRunHistoryModal({
               </h2>
             </div>
             <p className="mt-1.5 text-xs leading-5 text-zinc-500">
-              {runs.length === 1
-                ? "1 corrida registrada."
-                : `${runs.length} corridas registradas.`}{" "}
+              {t(runs.length === 1 ? "ca_history_one_run" : "ca_history_many_runs", { n: runs.length })}{" "}
               {t("auto_4d2183484683")}
             </p>
           </div>
@@ -220,8 +257,80 @@ export default function CaseRunHistoryModal({
           </button>
         </header>
 
+        {runs.length > 1 && (
+          <div
+            role="search"
+            aria-label={t("ca_history_filtros")}
+            className="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-2 border-b border-surface-800 px-5 py-3"
+          >
+            <div role="group" aria-label={t("ca_history_filtro_modo")} className="flex items-center gap-1.5">
+              {(["all", "single", "ensemble"] as const).map((mode: RunModeFilter) => (
+                <button
+                  key={mode}
+                  type="button"
+                  aria-pressed={filter.mode === mode}
+                  onClick={() => setFilter({ ...filter, mode })}
+                  className={`rounded-md border px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
+                    filter.mode === mode
+                      ? "border-purple-500/40 bg-purple-500/[0.12] text-purple-100"
+                      : "border-zinc-700 bg-zinc-900 text-zinc-400 hover:text-white"
+                  }`}
+                >
+                  {t(
+                    mode === "all"
+                      ? "ca_history_modo_todas"
+                      : mode === "single"
+                        ? "ca_history_modo_unicas"
+                        : "ca_history_modo_ensembles",
+                    { n: counts[mode] },
+                  )}
+                </button>
+              ))}
+            </div>
+            <label className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-zinc-500">
+              {t("ca_history_filtro_estado")}
+              <select
+                value={filter.state}
+                onChange={(event) =>
+                  setFilter({ ...filter, state: event.target.value as RunFilter["state"] })
+                }
+                className="rounded-md border border-zinc-700 bg-zinc-900 px-2 py-1 text-[11px] normal-case tracking-normal text-zinc-200"
+              >
+                <option value="all">{t("ca_history_todos_estados")}</option>
+                {statesPresent.map((state) => (
+                  <option key={state} value={state}>
+                    {t(STATE_LABELS[state])}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <input
+              type="search"
+              value={filter.query}
+              onChange={(event) => setFilter({ ...filter, query: event.target.value })}
+              aria-label={t("ca_history_buscar")}
+              placeholder={t("ca_history_buscar")}
+              className="min-w-[10rem] flex-1 rounded-md border border-zinc-700 bg-zinc-900 px-2.5 py-1 font-mono text-[11px] text-zinc-200 placeholder:text-zinc-600"
+            />
+            <p role="status" className="font-mono text-[11px] text-zinc-500">
+              {t("ca_history_mostrando", { n: filtered.length, total: runs.length })}
+            </p>
+          </div>
+        )}
+
         <div className="min-h-0 flex-1 overflow-y-auto">
-          {ordered.length === 0 ? (
+          {ordered.length === 0 && runs.length > 0 && filterActive ? (
+            <div className="p-8 text-center text-xs leading-5 text-zinc-500">
+              <p>{t("ca_history_sin_coincidencias")}</p>
+              <button
+                type="button"
+                onClick={() => setFilter(NO_RUN_FILTER)}
+                className="mt-3 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-zinc-300 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
+              >
+                {t("ca_history_quitar_filtros")}
+              </button>
+            </div>
+          ) : ordered.length === 0 ? (
             <p className="p-8 text-center text-xs leading-5 text-zinc-500">
               {t("ca_sin_evaluaciones")}
             </p>
@@ -231,23 +340,27 @@ export default function CaseRunHistoryModal({
                 const blocked = whyRunCannotOpen(run);
                 const expanded = openTaskId === run.taskId;
                 const protocolRelation = runProtocolRelation(run, structuralSystem);
+                const differences = runProtocolDifferences(run, structuralSystem);
                 const inputsRelation = runMatchesInputs(run, currentFingerprint);
                 return (
-                  <li key={run.taskId} className="px-5 py-4">
+                  <li key={run.taskId} data-case-run-task={run.taskId}
+                    ref={element => { if (element) rowElements.current.set(run.taskId, element); else rowElements.current.delete(run.taskId); }}
+                    tabIndex={run.taskId === requestedTaskId ? -1 : undefined}
+                    className={`px-5 py-4 ${run.taskId === requestedTaskId ? "bg-purple-500/10 ring-1 ring-inset ring-purple-400/40" : ""}`}>
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
                           <span
                             className={`rounded-md border px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider ${STATE_TONES[run.executionState]}`}
                           >
-                            {STATE_LABELS[run.executionState]}
+                            {t(STATE_LABELS[run.executionState])}
                           </span>
                           <span className="font-mono text-[11px] text-zinc-400">
-                            {formatRunMoment(run.startedAt)}
+                            {formatRunMoment(run.startedAt, locale)}
                           </span>
                           {run.taskId === activeTaskId && (
                             <span className="rounded-md border border-purple-500/30 bg-purple-500/[0.07] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-200">
-                              En pantalla
+                              {t("ca_history_on_screen")}
                             </span>
                           )}
                           {inputsRelation === "corrida_anterior" && (
@@ -269,11 +382,30 @@ export default function CaseRunHistoryModal({
                         </p>
                         <p className="mt-1 font-mono text-[11px] text-zinc-500">
                           {run.protocol
-                            ? describeRunProtocol(run.protocol)
-                            : "Protocolo no registrado"}
+                            ? `${describeRunProtocol(run.protocol)} · ${t(
+                                runMode(run.protocol).mode === "ensemble"
+                                  ? "ca_history_modo_ensemble"
+                                  : "ca_history_modo_unico",
+                                { k: run.protocol.conformers },
+                              )}`
+                            : t("ca_history_protocol_unregistered")}
                           {" · "}
                           {run.taskId.slice(0, 12)}…
                         </p>
+                        {/* CAS-01: «Otro protocolo» decía que algo cambió sin
+                            decir qué. Aquí se nombra cada campo y el valor del
+                            sistema inicial. */}
+                        {protocolRelation === "otro_protocolo" && differences.length > 0 && (
+                          <p className="mt-1 font-mono text-[11px] text-amber-200/80">
+                            {t("ca_history_difiere", {
+                              detalle: differences
+                                .map((d) =>
+                                  t(`ca_history_dif_${d.field}`, { run: d.run, sistema: d.system }),
+                                )
+                                .join("; "),
+                            })}
+                          </p>
+                        )}
                       </div>
 
                       <div className="flex shrink-0 items-center gap-3">
@@ -294,7 +426,7 @@ export default function CaseRunHistoryModal({
                           className="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           <FileText size={13} aria-hidden="true" />
-                          {expanded ? "Ocultar" : "Ver resultado"}
+                          {expanded ? t("ca_history_hide") : t("ca_history_view_result")}
                         </button>
                       </div>
                     </div>
@@ -310,6 +442,8 @@ export default function CaseRunHistoryModal({
                       <RunDetail
                         detail={detail}
                         moleculeId={run.moleculeId ?? ""}
+                        taskId={run.taskId}
+                        pdbId={runMatchesInputs(run, structuralSystem?.inputFingerprint ?? null) === "corresponde" ? structuralSystem?.receptor.pdbId : undefined}
                       />
                     )}
                   </li>
@@ -326,6 +460,8 @@ export default function CaseRunHistoryModal({
 function RunDetail({
   detail,
   moleculeId,
+  taskId,
+  pdbId,
 }: {
   detail:
     | { kind: "idle" }
@@ -333,8 +469,23 @@ function RunDetail({
     | { kind: "ready"; result: EvaluationResult }
     | { kind: "error"; message: string };
   moleculeId: string;
+  /** La corrida abierta: sus descargas son las de ESTA evaluación, no las de la última. */
+  taskId: string;
+  pdbId?: string;
 }) {
   const { t } = useLanguage();
+  // CAS-06: la descarga puede fallar — el PDF de un ensemble reventaba la
+  // composición con HTTP 500 — y el rechazo de la promesa vivía en la
+  // consola: el botón parecía no responder. El fallo se declara junto al
+  // botón, sin destruir el resultado que ya está abierto, y reintentar
+  // limpia el error anterior.
+  const [descargaError, setDescargaError] = useState<string | null>(null);
+  const descargar = (accion: () => Promise<unknown>) => {
+    setDescargaError(null);
+    void accion().catch((cause: unknown) => {
+      setDescargaError(cause instanceof Error ? cause.message : String(cause));
+    });
+  };
   if (detail.kind === "loading") {
     return (
       <div className="mt-3 flex items-center gap-2 rounded-xl border border-surface-800 bg-black/40 p-4 text-zinc-400" role="status">
@@ -360,10 +511,11 @@ function RunDetail({
   const { result } = detail;
   return (
     <div className="mt-3 rounded-xl border border-surface-800 bg-black/40 p-4">
+      <InsigniaDelCatalogo pdbId={pdbId} corrida={result} />
       <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
         <Field label={t("se_cmp_affinity")} value={numeroOGuion(result.affinity_kcal, 2, " kcal/mol")} />
-        <Field label="Poses" value={String(result.docking_poses?.length ?? 0)} />
-        <Field label="Receptor" value={result.target_name ?? t("c_no_definido")} />
+        <Field label={t("ca_history_poses")} value={String(result.docking_poses?.length ?? 0)} />
+        <Field label={t("ca_history_receptor")} value={result.target_name ?? t("c_no_definido")} />
         <Field label={t("c_motor")} value={result.vina_version ?? t("c_no_registrado")} />
       </dl>
       {/* La regresión de ML NO se presenta junto a la afinidad como si fueran
@@ -381,21 +533,30 @@ function RunDetail({
       <div className="mt-4 flex flex-wrap gap-2">
         <button
           type="button"
-          onClick={() => void downloadCertificate(moleculeId)}
+          onClick={() => descargar(() => downloadCertificate(moleculeId, "general", taskId))}
           className="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
         >
           <Download size={13} aria-hidden="true" />
-          Dossier PDF
+          {t("ca_history_informe")}
         </button>
         <button
           type="button"
-          onClick={() => void downloadComplexFile(moleculeId)}
+          onClick={() => descargar(() => downloadComplexFile(moleculeId, "general", taskId))}
           className="inline-flex min-h-9 items-center gap-1.5 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
         >
           <Download size={13} aria-hidden="true" />
-          Complejo 3D
+          {t("ca_history_3d_complex")}
         </button>
       </div>
+      {descargaError && (
+        <p
+          role="alert"
+          className="mt-3 flex items-start gap-2 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] p-3 text-amber-100"
+        >
+          <AlertTriangle size={13} className="mt-0.5 shrink-0 text-amber-300" aria-hidden="true" />
+          <span className="text-xs leading-5">{descargaError}</span>
+        </p>
+      )}
     </div>
   );
 }

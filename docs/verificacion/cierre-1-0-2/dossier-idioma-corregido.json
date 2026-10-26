@@ -1,0 +1,16 @@
+{
+  "before": "blob:http://localhost:13013/c703d8a2-38a6-4ba6-b4a1-a97319dd2bf0#toolbar=0&view=FitH",
+  "after": "blob:http://localhost:13013/d26b2721-9574-403d-bf9e-1a4a5a2eafb2#toolbar=0&view=FitH",
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18013/evaluation/dossier/e5655ee8-fa0b-4c1a-aebe-995548b0281b/preview",
+      "lang": "es",
+      "time": "2026-10-10T01:50:55.421Z"
+    },
+    {
+      "url": "http://127.0.0.1:18013/evaluation/dossier/e5655ee8-fa0b-4c1a-aebe-995548b0281b/preview",
+      "lang": "en",
+      "time": "2026-10-10T01:51:10.984Z"
+    }
+  ]
+}

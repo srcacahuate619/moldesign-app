@@ -1,0 +1,192 @@
+# npm audit report
+
+brace-expansion  4.0.0 - 5.0.11
+Severity: high
+brace-expansion: Quadratic-time expansion of the `{a},b}` rewrite causes CPU denial of service - https://github.com/advisories/GHSA-q2hr-2g5m-vwhr
+brace-expansion: DoS via uncontrolled recursion on nested brace groups causing stack exhaustion - https://github.com/advisories/GHSA-qhr7-859c-m2p7
+brace-expansion: DoS via uncontrolled recursion in parseCommaParts causing stack exhaustion - https://github.com/advisories/GHSA-6j4f-fj2g-mc7p
+fix available via `npm audit fix`
+node_modules/brace-expansion
+
+braces  *
+Severity: high
+braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
+No fix available
+node_modules/braces
+  micromatch  >=0.2.0
+  Depends on vulnerable versions of braces
+  node_modules/micromatch
+    metro-file-map  *
+    Depends on vulnerable versions of micromatch
+    node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/metro-file-map
+    node_modules/@solana-mobile/wallet-standard-mobile/node_modules/metro-file-map
+    node_modules/metro-file-map
+      metro  >=0.71.0
+      Depends on vulnerable versions of metro-config
+      Depends on vulnerable versions of metro-file-map
+      Depends on vulnerable versions of metro-transform-worker
+      node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/metro
+      node_modules/@solana-mobile/wallet-standard-mobile/node_modules/metro
+      node_modules/metro
+        @react-native/community-cli-plugin  *
+        Depends on vulnerable versions of metro
+        Depends on vulnerable versions of metro-config
+        node_modules/@react-native/community-cli-plugin
+        node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/@react-native/community-cli-plugin
+        node_modules/@solana-mobile/wallet-standard-mobile/node_modules/@react-native/community-cli-plugin
+          react-native  >=0.73.0-nightly-20230506-1af868c52
+          Depends on vulnerable versions of @react-native/community-cli-plugin
+          Depends on vulnerable versions of @react-native/virtualized-lists
+          node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/react-native
+          node_modules/@solana-mobile/wallet-standard-mobile/node_modules/react-native
+          node_modules/@solana/wallet-adapter-react/node_modules/react-native
+            @react-native/virtualized-lists  >=0.85.0-nightly-20260108-1236b6be4
+            Depends on vulnerable versions of react-native
+            node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/@react-native/virtualized-lists
+            node_modules/@solana-mobile/wallet-standard-mobile/node_modules/@react-native/virtualized-lists
+            node_modules/@solana/wallet-adapter-react/node_modules/react-native/node_modules/@react-native/virtualized-lists
+            @solana-mobile/mobile-wallet-adapter-protocol  <=0.0.0-canary-20260910202749 || >=2.2.6
+            Depends on vulnerable versions of react-native
+            node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/@solana-mobile/mobile-wallet-adapter-protocol
+            node_modules/@solana-mobile/wallet-standard-mobile/node_modules/@solana-mobile/mobile-wallet-adapter-protocol
+            node_modules/@solana/wallet-adapter-react/node_modules/@solana-mobile/mobile-wallet-adapter-protocol
+              @solana-mobile/mobile-wallet-adapter-protocol-web3js  *
+              Depends on vulnerable versions of @solana-mobile/mobile-wallet-adapter-protocol
+              Depends on vulnerable versions of @solana/web3.js
+              node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js
+                @solana-mobile/wallet-adapter-mobile  *
+                Depends on vulnerable versions of @solana-mobile/mobile-wallet-adapter-protocol
+                Depends on vulnerable versions of @solana-mobile/mobile-wallet-adapter-protocol-web3js
+                Depends on vulnerable versions of @solana-mobile/wallet-standard-mobile
+                Depends on vulnerable versions of @solana/wallet-adapter-base
+                Depends on vulnerable versions of @solana/web3.js
+                Depends on vulnerable versions of react-native
+                node_modules/@solana/wallet-adapter-react/node_modules/@solana-mobile/wallet-adapter-mobile
+                  @solana/wallet-adapter-react  *
+                  Depends on vulnerable versions of @solana-mobile/wallet-adapter-mobile
+                  Depends on vulnerable versions of @solana/wallet-adapter-base
+                  Depends on vulnerable versions of @solana/wallet-standard-wallet-adapter-react
+                  Depends on vulnerable versions of @solana/web3.js
+                  node_modules/@solana/wallet-adapter-react
+                    @solana/wallet-adapter-base-ui  *
+                    Depends on vulnerable versions of @solana/wallet-adapter-react
+                    Depends on vulnerable versions of @solana/web3.js
+                    node_modules/@solana/wallet-adapter-base-ui
+                      @solana/wallet-adapter-react-ui  *
+                      Depends on vulnerable versions of @solana/wallet-adapter-base
+                      Depends on vulnerable versions of @solana/wallet-adapter-base-ui
+                      Depends on vulnerable versions of @solana/wallet-adapter-react
+                      Depends on vulnerable versions of @solana/web3.js
+                      node_modules/@solana/wallet-adapter-react-ui
+              @solana-mobile/wallet-standard-mobile  <=0.0.0-canary-20260910202749 || >=0.5.0-beta1
+              Depends on vulnerable versions of @solana-mobile/mobile-wallet-adapter-protocol
+              node_modules/@solana-mobile/wallet-standard-mobile
+        metro-config  >=0.71.0
+        Depends on vulnerable versions of metro
+        node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/metro-config
+        node_modules/@solana-mobile/wallet-standard-mobile/node_modules/metro-config
+        node_modules/metro-config
+        metro-transform-worker  >=0.71.0
+        Depends on vulnerable versions of metro
+        node_modules/@solana-mobile/mobile-wallet-adapter-protocol-web3js/node_modules/metro-transform-worker
+        node_modules/@solana-mobile/wallet-standard-mobile/node_modules/metro-transform-worker
+        node_modules/metro-transform-worker
+
+compression  <1.8.2
+Severity: high
+compression vulnerable to Denial of Service via memory leak on premature response close - https://github.com/advisories/GHSA-vc2v-76pw-4v95
+fix available via `npm audit fix`
+node_modules/compression
+
+fast-uri  3.0.0 - 3.1.7
+Severity: moderate
+fast-uri vulnerable to inconsistent host case normalization via percent-encoded octets - https://github.com/advisories/GHSA-hrr3-gc8f-f4qj
+fix available via `npm audit fix`
+node_modules/fast-uri
+
+image-size  0.6.3 - 2.0.2
+Severity: high
+image-size: JXL and HEIF parsers allow denial of service through infinite loops - https://github.com/advisories/GHSA-5p2g-fcmc-qvqq
+image-size: ICNS parser allows denial of service through an infinite loop - https://github.com/advisories/GHSA-w3rx-r6r6-pgpr
+fix available via `npm audit fix`
+node_modules/image-size
+
+next  16.0.0 - 16.3.7
+Severity: critical
+Next.js: Remote Code Execution in next/og ImageResponse - https://github.com/advisories/GHSA-vcvr-r3jv-pc5j
+Next.js: Pending `use cache` fill can leak Draft Mode content into regular responses and persisted pages - https://github.com/advisories/GHSA-3w37-wq28-93x7
+Next.js has cache poisoning of SSG and ISR pages in self-hosted applications - https://github.com/advisories/GHSA-4jqv-mc3x-m676
+Next.js has information disclosure in development server's Model Context Protocol endpoint - https://github.com/advisories/GHSA-39w2-rjm5-chcv
+Next.js has information disclosure in App Router metadata image routes via dynamicParams bypass - https://github.com/advisories/GHSA-f87g-xv8r-7p7x
+Next.js has cache poisoning in SSG/ISR rendering that leads to cross-user content substitution and persistent denial of service - https://github.com/advisories/GHSA-mcj8-r9mp-w47p
+Next.js has Server-Side Request Forgery in Image Optimization - https://github.com/advisories/GHSA-cjq9-62q9-8jv4
+fix available via `npm audit fix --force`
+Will install next@16.4.0, which is outside the stated dependency range
+node_modules/next
+
+proxy-addr  1.1.0 - 2.0.7
+Severity: critical
+proxy-addr vulnerable to IP spoofing via IPv4-mapped IPv6 trust subnet - https://github.com/advisories/GHSA-jqcg-44mw-7w3h
+fix available via `npm audit fix`
+node_modules/proxy-addr
+
+sharp  <0.35.5
+Severity: high
+sharp : Vulnerability in librsvg dependency CVE-2026-96889 - https://github.com/advisories/GHSA-wq5f-xc86-pv6w
+fix available via `npm audit fix`
+node_modules/sharp
+
+shell-quote  1.8.4 - 1.10.0
+Severity: critical
+shell-quote: `quote()` command injection via a line terminator in a token after a `{ comment }` token - https://github.com/advisories/GHSA-pqg4-j6r4-53mv
+fix available via `npm audit fix`
+node_modules/shell-quote
+
+source-map-js  1.0.0 - 1.2.1
+Severity: high
+source-map-js allows event-loop denial of service through indexed source-map section offsets - https://github.com/advisories/GHSA-68fv-2mgg-jv7q
+fix available via `npm audit fix`
+node_modules/source-map-js
+
+stream-json  <=3.5.0
+Severity: moderate
+stream-json: pick/ignore/filter/replace filters are O(depth²) on nested input — small crafted JSON blocks the event loop for seconds→minutes (DoS) - https://github.com/advisories/GHSA-528h-pc64-c93x
+stream-json: JSONC parser and verifier re-scan the whole accumulated comment on every input chunk - https://github.com/advisories/GHSA-hqr4-qq8f-hg3x
+stream-json has a prototype pollution issue: Assembler writes this.current[this.key] on plain objects - https://github.com/advisories/GHSA-mjw6-4jj6-33hc
+No fix available
+node_modules/stream-json
+  jayson  2.0.6 - 4.3.0
+  Depends on vulnerable versions of stream-json
+  Depends on vulnerable versions of uuid
+  node_modules/jayson
+    @solana/web3.js  <=0.0.0-pr-29130 || 0.0.4 - 1.99.0
+    Depends on vulnerable versions of jayson
+    node_modules/@solana/web3.js
+      @solana/wallet-adapter-base  *
+      Depends on vulnerable versions of @solana/web3.js
+      node_modules/@solana/wallet-adapter-base
+        @solana/wallet-standard-wallet-adapter-base  *
+        Depends on vulnerable versions of @solana/wallet-adapter-base
+        Depends on vulnerable versions of @solana/web3.js
+        node_modules/@solana/wallet-standard-wallet-adapter-base
+          @solana/wallet-standard-wallet-adapter-react  *
+          Depends on vulnerable versions of @solana/wallet-adapter-base
+          Depends on vulnerable versions of @solana/wallet-standard-wallet-adapter-base
+          node_modules/@solana/wallet-standard-wallet-adapter-react
+
+uuid  <11.1.1
+Severity: moderate
+uuid: Missing buffer bounds check in v3/v5/v6 when buf is provided - https://github.com/advisories/GHSA-w5hq-g745-h8pq
+No fix available
+node_modules/uuid
+
+32 vulnerabilities (11 moderate, 18 high, 3 critical)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible, run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.

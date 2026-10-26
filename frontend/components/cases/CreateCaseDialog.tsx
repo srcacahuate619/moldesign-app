@@ -20,7 +20,7 @@ import { FolderOpen, X } from "lucide-react";
 
 import {
   CASE_STUDY_KINDS,
-  CASE_STUDY_KIND_LABELS,
+  CASE_STUDY_KIND_LABEL_KEYS,
   type CaseStudyKind,
 } from "../../lib/cases/types";
 import { isSafeFolderName, sanitizeFolderName } from "../../lib/cases/schema";
@@ -50,6 +50,20 @@ export interface CreateCaseDialogProps {
    * token donde debía ir la ubicación.
    */
   readonly onPickDirectory?: () => Promise<{ token: string; displayPath: string } | null>;
+  /**
+   * Carpeta contenedora propuesta por defecto (`Documentos\MolDesign\Casos`), ya autorizada.
+   *
+   * Se pide al abrir el diálogo: así crear un caso sólo exige nombrarlo (decisión del
+   * propietario, 2026-10-04). Si falla o no hay, se vuelve a exigir elegir una carpeta.
+   */
+  readonly onDefaultDirectory?: () => Promise<{ token: string; displayPath: string } | null>;
+}
+
+/** Carpeta contenedora elegida o propuesta. `porDefecto` sólo es presentación. */
+interface CarpetaContenedora {
+  readonly token: string;
+  readonly displayPath: string;
+  readonly porDefecto?: boolean;
 }
 
 const FOCUSABLE =
@@ -62,11 +76,13 @@ export function CreateCaseDialog({
   requiresDirectory,
   storageLabel,
   onPickDirectory,
+  onDefaultDirectory,
 }: CreateCaseDialogProps) {
   const { t } = useLanguage();
   const [name, setName] = useState("");
   const [studyKind, setStudyKind] = useState<CaseStudyKind>("explore-hypothesis");
-  const [directory, setDirectory] = useState<{ token: string; displayPath: string } | null>(null);
+  const [directory, setDirectory] = useState<CarpetaContenedora | null>(null);
+  const [defaultFailed, setDefaultFailed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -85,6 +101,7 @@ export function CreateCaseDialog({
       setName("");
       setStudyKind("explore-hypothesis");
       setDirectory(null);
+      setDefaultFailed(false);
       setError(null);
       setSubmitting(false);
       // El foco va al primer campo, no al contenedor: quien navega con teclado
@@ -95,6 +112,25 @@ export function CreateCaseDialog({
       openerRef.current = null;
     }
   }, [open]);
+
+  // La carpeta por defecto se pide al abrir. Crear un caso sólo exige nombrarlo; la persona puede
+  // cambiarla, y si la propuesta falla se vuelve a exigir elegir una (nunca se crea «en ningún sitio»).
+  useEffect(() => {
+    if (!open || !requiresDirectory || !onDefaultDirectory) return;
+    let vigente = true;
+    onDefaultDirectory()
+      .then((propuesta) => {
+        if (!vigente || !propuesta) return;
+        // No pisa una carpeta que la persona ya haya elegido mientras tanto.
+        setDirectory((actual) => actual ?? { ...propuesta, porDefecto: true });
+      })
+      .catch(() => {
+        if (vigente) setDefaultFailed(true);
+      });
+    return () => {
+      vigente = false;
+    };
+  }, [open, requiresDirectory, onDefaultDirectory]);
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -135,7 +171,7 @@ export function CreateCaseDialog({
     trimmed.length === 0
       ? null
       : !isSafeFolderName(trimmed) && requiresDirectory
-        ? "Ese nombre no puede convertirse en una carpeta válida. Evita caracteres reservados del sistema."
+        ? t("ca_nombre_carpeta_invalido")
         : null;
 
   // Nombre REAL de la carpeta, no el visible sin transformar. Enseñar
@@ -181,7 +217,7 @@ export function CreateCaseDialog({
     setError(null);
     try {
       const picked = await onPickDirectory();
-      if (picked) setDirectory(picked);
+      if (picked) setDirectory({ ...picked, porDefecto: false });
     } catch (err) {
       setError(err instanceof Error ? err.message : String(err));
     }
@@ -203,7 +239,7 @@ export function CreateCaseDialog({
         <div className="flex items-start justify-between gap-4">
           <div>
             <h2 id={titleId} className="text-base font-semibold tracking-tight text-zinc-100">
-              Nuevo caso
+              {t("ca_sidebar_new_case")}
             </h2>
             <p id={descriptionId} className="mt-1 text-xs leading-relaxed text-zinc-500">
               {t("ca_solo_lo_minimo")}
@@ -244,7 +280,7 @@ export function CreateCaseDialog({
 
           <fieldset>
             <legend className="block text-xs font-medium uppercase tracking-wider text-zinc-400">
-              Tipo aproximado
+              {t("ca_approximate_type")}
             </legend>
             <div className="mt-2 space-y-1.5">
               {CASE_STUDY_KINDS.map((kind) => (
@@ -260,7 +296,7 @@ export function CreateCaseDialog({
                     onChange={() => setStudyKind(kind)}
                     className="h-3.5 w-3.5 accent-brand-500"
                   />
-                  {CASE_STUDY_KIND_LABELS[kind]}
+                  {t(CASE_STUDY_KIND_LABEL_KEYS[kind])}
                 </label>
               ))}
             </div>
@@ -278,13 +314,24 @@ export function CreateCaseDialog({
                   className="inline-flex items-center gap-2 rounded-md border border-surface-700 px-3 py-1.5 text-xs text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
                 >
                   <FolderOpen className="h-3.5 w-3.5" aria-hidden="true" />
-                  {t("auto_47126a480945")}
+                  {directory ? t("ca_cambiar_carpeta") : t("auto_47126a480945")}
                 </button>
                 <p className="mt-2 break-all font-mono text-[11px] text-zinc-500">
                   {directory
                     ? `${directory.displayPath}${folderPreview ? ` › ${folderPreview}` : ""}`
                     : t("auto_440fc8f92285")}
                 </p>
+                {directory?.porDefecto && (
+                  <p className="mt-1 text-[11px] text-zinc-500">{t("ca_carpeta_por_defecto")}</p>
+                )}
+                {directory && /onedrive/i.test(directory.displayPath) && (
+                  <p role="note" className="mt-1 text-[11px] leading-relaxed text-amber-400">
+                    {t("ca_aviso_onedrive")}
+                  </p>
+                )}
+                {!directory && defaultFailed && (
+                  <p className="mt-1 text-[11px] leading-relaxed text-amber-400">{t("ca_carpeta_por_defecto_fallo")}</p>
+                )}
                 {folderPreview && folderPreview !== trimmed && (
                   <p className="mt-1 text-[11px] leading-relaxed text-zinc-500">
                     {t("ca_carpeta_se_llamara")} <span className="font-mono">{folderPreview}</span>{t("ca_nombre_visible_conserva")}
@@ -316,7 +363,7 @@ export function CreateCaseDialog({
               disabled={!canSubmit}
               className="rounded-md border border-brand-500/40 bg-brand-600 px-4 py-1.5 text-sm font-medium text-white dark:text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40"
             >
-              {submitting ? t("auto_60e8763517ba") : "Crear caso"}
+              {submitting ? t("auto_60e8763517ba") : t("ca_crear_boton")}
             </button>
           </div>
         </form>

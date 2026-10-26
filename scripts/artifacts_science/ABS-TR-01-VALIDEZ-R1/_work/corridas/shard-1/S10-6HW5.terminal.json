@@ -1,0 +1,16 @@
+{
+  "id_r2": "S10",
+  "pdb": "6HW5",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 115.0,
+      "crudo": "S10-6HW5-intento1.json.gz",
+      "crudo_sha256": "c707e3f750d2ce39a60397fae7198cf472bf354dd799859f2ef847cf960e5c42"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S10-6HW5-intento1.json.gz",
+  "crudo_sha256": "c707e3f750d2ce39a60397fae7198cf472bf354dd799859f2ef847cf960e5c42",
+  "registrado_en": "2026-10-25T01:29:21+00:00"
+}

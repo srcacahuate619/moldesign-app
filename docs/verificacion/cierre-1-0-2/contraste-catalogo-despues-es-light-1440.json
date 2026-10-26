@@ -1,0 +1,48 @@
+{
+  "label": "catalogo-despues-es-light-1440",
+  "commit": "873d23071ebb2979c5dc66e663e10267792d541f",
+  "export": "2d33c69db02b00596f35fa621414e91d6998c82010ccb8e4c3e6ca0fa1e270ab",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "es",
+  "theme": "light",
+  "readings": [
+    {
+      "tag": "H2",
+      "id": "target-selector-title",
+      "text": "Catálogo de Receptores",
+      "foreground": [
+        9,
+        9,
+        11
+      ],
+      "background": [
+        240,
+        240,
+        243
+      ],
+      "ratio": 17.492,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "",
+      "text": "8HFI",
+      "foreground": [
+        9,
+        9,
+        11
+      ],
+      "background": [
+        250,
+        250,
+        250
+      ],
+      "ratio": 19.061,
+      "passes": true
+    }
+  ],
+  "passes": true
+}

@@ -1,0 +1,16 @@
+{
+  "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+  "start": 1791601130079,
+  "end": 1791601462145,
+  "elapsedMs": 332066,
+  "requests": [
+    {
+      "url": "http://127.0.0.1:18013/targets/",
+      "time": 1791601457072
+    }
+  ],
+  "warning": "Las cadenas del sitio anotado no están todas en la unidad biológica del depósito: el sitio podría ser un contacto del cristal. Pendiente de reanotar.",
+  "attempt": "Experimento sellado: CAL-8HFI-01 (2026-10-09).",
+  "sameMountedPage": true,
+  "dateNowUnmodified": true
+}

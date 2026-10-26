@@ -59,14 +59,16 @@ const ESTILO: Record<Severidad, EstiloDeAviso> = {
     badge: "NOTA CIENTÍFICA",
     badgeStyle: "bg-indigo-500/25 text-indigo-300 border-indigo-500/40",
   },
-  // Sin color: una corrida anterior a la severidad declarada no dice cuánto
-  // importa su aviso, y pintarlo de azul sería volver a decidirlo por ella.
+  // Sin color: un aviso sin severidad declarada no dice cuánto importa, y
+  // pintarlo de azul sería volver a decidirlo por él. No implica que la corrida
+  // sea antigua: el runner actual todavía emite algunos avisos como texto suelto
+  // (SCI-A-035), así que el pie no puede fecharlo.
   heredada: {
     cardStyle: "bg-white/[0.03] border-white/10 text-zinc-300",
-    icon: <HelpCircle size={18} className="text-zinc-500 shrink-0 mt-0.5" />,
-    badge: "Sin severidad declarada",
+    icon: <HelpCircle size={18} className="text-zinc-400 shrink-0 mt-0.5" />,
+    badge: "z_no_severity",
     badgeStyle: "bg-white/[0.06] text-zinc-400 border-white/15",
-    pie: "Corrida anterior a la etapa que declara la severidad de cada aviso. El texto es el que emitió el motor; su importancia no se dedujo de él.",
+    pie: "ev_aviso_sin_severidad_pie",
   },
 };
 
@@ -98,27 +100,27 @@ export function ProAlertsTab({ warnings, inApplicabilityDomain, modelUsed }: Pro
     return (
       <div
         key={`${aviso.codigo}-${idx}`}
-        className={`rounded-xl border p-4 leading-relaxed flex gap-3.5 items-start transition-all ${estilo.cardStyle}`}
+        className={`rounded-xl border p-4 leading-6 flex gap-3.5 items-start transition-all ${estilo.cardStyle}`}
       >
         {estilo.icon}
         <div className="space-y-1.5 flex-1 min-w-0">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`text-[11px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${estilo.badgeStyle}`}
+              className={`text-sm font-sans font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${estilo.badgeStyle}`}
             >
               {t(estilo.badge)}
             </span>
             {/* El código va a la vista: es lo que permite reconocer el mismo
                 aviso entre versiones aunque cambie su redacción. */}
             {aviso.codigo !== "HEREDADO" && aviso.codigo !== "SIN_CODIGO" && (
-              <span className="font-mono text-[10px] text-white/25">{aviso.codigo}</span>
+              <span className="min-w-0 break-all font-mono text-sm text-zinc-400">{aviso.codigo}</span>
             )}
           </div>
-          <p className="text-xs sm:text-sm font-medium leading-relaxed text-slate-200 break-words font-sans">
+          <p className="text-base sm:text-base font-medium leading-6 text-slate-200 break-words font-sans">
             {aviso.mensaje}
           </p>
           {estilo.pie && (
-            <p className="text-[11px] leading-relaxed text-zinc-500 font-sans">{t(estilo.pie)}</p>
+            <p className="text-base leading-6 text-zinc-300 font-sans">{t(estilo.pie)}</p>
           )}
         </div>
       </div>
@@ -126,11 +128,11 @@ export function ProAlertsTab({ warnings, inApplicabilityDomain, modelUsed }: Pro
   };
 
   return (
-    <div className="space-y-3 animate-in fade-in duration-200 font-sans text-xs">
+    <div className="space-y-3 animate-in fade-in duration-200 font-sans text-sm">
       {avisos.length > 0 ? (
         avisos.map(renderAviso)
       ) : (
-        <div className="text-center text-slate-400 text-xs py-12 font-mono">
+        <div className="text-center text-slate-400 text-sm py-12 font-mono">
           {t("pn_sin_advertencias_simulacion")}
         </div>
       )}

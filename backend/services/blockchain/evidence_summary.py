@@ -10,8 +10,33 @@ import hashlib
 import json
 from typing import Any
 
+from core.i18n import translate_text
 from services.avisos import normalizar_avisos, textos
 from services.chemistry.mmgbsa_contrato import MMGBSA_CONDICION
+
+_CAMPOS_DE_TEXTO_VISIBLE = frozenset({
+    "label", "summary", "detail", "note", "nota", "assumptions",
+    "uncertainties", "warnings", "reason", "motivo", "status_label", "missing",
+})
+
+
+def _localizar_textos_visibles(valor: Any, traducir: bool = False) -> Any:
+    """Translate declared report copy while retaining codes and serialized data."""
+    if isinstance(valor, str):
+        return translate_text(valor) if traducir else valor
+    if isinstance(valor, list):
+        return [_localizar_textos_visibles(item, traducir) for item in valor]
+    if isinstance(valor, tuple):
+        return tuple(_localizar_textos_visibles(item, traducir) for item in valor)
+    if isinstance(valor, dict):
+        return {
+            clave: _localizar_textos_visibles(
+                contenido,
+                traducir or (isinstance(clave, str) and clave in _CAMPOS_DE_TEXTO_VISIBLE),
+            )
+            for clave, contenido in valor.items()
+        }
+    return valor
 
 
 def _value(item: Any, key: str, default: Any = None) -> Any:
@@ -75,6 +100,14 @@ def build_provenance(
     smiles = _value(ligand_state, "smiles_acoplado")
     receptor_ref = getattr(eval_result, "receptor_path", None)
     box = getattr(eval_result, "docking_box", None) or {}
+    if not box:
+        # La caja EJECUTADA vive en la procedencia de la ejecución; `docking_box` no lo rellena la
+        # evaluación individual. Sin esto `protocol.json` del paquete daba `grid_center: null` y ningún
+        # hash de configuración, con la caja escrita dos líneas más arriba (FEP-06-PRE, 2026-10-24).
+        ejecucion = _value(protocol, "execution_provenance") or {}
+        centro, lado = _value(ejecucion, "box_center"), _value(ejecucion, "box_size")
+        if centro and lado:
+            box = {"grid_center": list(centro), "grid_size": list(lado)}
     config = {
         "vina_version": getattr(eval_result, "vina_version", None),
         "random_seed": _value(protocol, "seed") if protocol else getattr(eval_result, "vina_random_seed", None),
@@ -107,12 +140,115 @@ def build_provenance(
         "completo": not faltan,
         "campos_ausentes": faltan,
         "nota": (
+            # SCI-A-006: el memo no lleva ningún hash del documento, así que no
+            # puede certificar cuándo se emitió esta revisión.
             "Estos hashes permiten a un tercero comprobar que las conclusiones de este "
-            "dossier se calcularon sobre las entradas que declara. Un registro en cadena "
-            "certifica CUANDO se emitio el documento; no certifica SOBRE QUE se calculo. "
-            "Los dos son necesarios y no se sustituyen."
+            "dossier se calcularon sobre las entradas que declara. El registro en devnet, "
+            "si existe, guarda en su memo el hash del SMILES, el score redondeado, el PDB, "
+            "una fecha declarada por quien firma y la wallet: no identifica la revisión de "
+            "este documento, no acredita su fecha de emisión ni certifica sobre qué se "
+            "calculó. Ninguno de los dos sustituye al otro."
         ),
     }
+
+
+def frase_de_muestreo(eval_result: Any) -> str:
+    """Qué dice el registro de la corrida del ensemble y de las réplicas (SCI-A-023).
+
+    Se escribía siempre «No se registraron réplicas ni ensemble», también en un
+    dossier cuyo protocolo registra un ensemble de K conformaciones. El ensemble
+    sale del protocolo sellado; las réplicas independientes (corridas repetidas
+    con otra semilla) no las registra ninguna corrida hoy, y se dice. Sin
+    protocolo no se sabe si hubo ensemble, y también se dice.
+    """
+    protocolo = _value(eval_result, "docking_protocol")
+    generadas = _value(protocolo, "conformers_generated") if isinstance(protocolo, dict) else None
+    if not isinstance(generadas, int) or isinstance(generadas, bool):
+        return "El protocolo no informa si hubo ensemble; no se registraron réplicas."
+    if generadas > 1:
+        return f"Las poses salen de un ensemble de {generadas} conformaciones; no se registraron réplicas."
+    return "Confórmero único; no se registraron réplicas."
+
+
+# ── Reproducibilidad (SOL-06) ──────────────────────────────────────────
+#
+# Antes bastaban tres metadatos —versión del motor, semilla y parser— para
+# rotular la dimensión «COMPLETA» y, con ella, para que el resumen dijera que la
+# corrida conserva «parámetros suficientes para reproducción técnica». Un
+# resultado sin caja, sin hashes ni preparación recibía la misma etiqueta.
+#
+# Tres escalones que no se confunden:
+#   1. trazas mínimas (motor, semilla, parser);
+#   2. elementos de reconstrucción REGISTRADOS por la corrida (los mide ella
+#      misma en `docking_protocol.execution_provenance`);
+#   3. reconstrucción DEMOSTRADA: que un tercero reproduzca el paquete. Esta
+#      dimensión nunca puede afirmarla —sólo una prueba de transferencia
+#      (FEP-06)—, así que dice «no demostrada» siempre.
+#
+# Espejo de `frontend/lib/evaluationEvidence.ts` (mismas etiquetas, mismo orden).
+TRAZAS_MINIMAS = 3
+
+
+def _lleno(valor: Any) -> bool:
+    return valor not in (None, "") and not (isinstance(valor, (list, tuple)) and not valor)
+
+
+def _terna(valor: Any) -> bool:
+    return isinstance(valor, (list, tuple)) and len(valor) == 3
+
+
+def _elementos_de_reconstruccion(eval_result: Any) -> list[tuple[str, bool]]:
+    """(etiqueta, presente) de lo que la corrida registró para poder reconstruirse."""
+    protocolo = getattr(eval_result, "docking_protocol", None) or {}
+    procedencia = _value(protocolo, "execution_provenance") or {}
+    estado_ligando = getattr(eval_result, "ligand_state", None) or {}
+    return [
+        ("caja de búsqueda efectiva",
+         _terna(_value(procedencia, "box_center")) and _terna(_value(procedencia, "box_size"))),
+        ("protocolo de búsqueda",
+         _value(protocolo, "exhaustiveness") is not None and _value(protocolo, "num_poses") is not None),
+        ("hash del receptor",
+         _lleno(_value(procedencia, "receptor_sha256")) or _lleno(getattr(eval_result, "receptor_sha256", None))),
+        ("hashes de entrada del ligando",
+         _lleno(_value(procedencia, "ligand_input_sha256")) and _lleno(_value(procedencia, "ligand_pdbqt_sha256"))),
+        ("hashes de salida (poses y registro)",
+         _lleno(_value(procedencia, "poses_sha256")) and _lleno(_value(procedencia, "log_sha256"))),
+        ("preparación del ligando",
+         _lleno(_value(estado_ligando, "smiles_acoplado")) and _value(estado_ligando, "protonacion") is not None),
+        ("versión de la aplicación", _lleno(_value(procedencia, "app_version"))),
+    ]
+
+
+#: Lo que se supone de las aguas cuando el receptor salió de la receta del catálogo.
+SUPUESTO_DESOLVATADO = (
+    "Preparación en condición desolvatada: se eliminaron todas las aguas "
+    "cristalográficas del receptor. Si esta diana requiere aguas puente "
+    "conservadas para el reconocimiento molecular, los contactos y las "
+    "afinidades de esta corrida no las incluyen."
+)
+
+#: Lo que se supone cuando el receptor lo preparó quien lo subió (camino B o C).
+SUPUESTO_AGUAS_DEL_ARCHIVO = (
+    "Las aguas del receptor son las del archivo que se subió: MolDesign no las retiró "
+    "ni decidió cuáles conservar, y Vina trata las que haya como parte rígida del "
+    "receptor. Si esta diana requiere aguas puente, la corrida sólo las incluye si "
+    "las traía ese archivo."
+)
+
+
+def _supuesto_de_aguas(eval_result: Any) -> str:
+    """El supuesto de desolvatación, según el camino por el que se preparó el receptor.
+
+    La receta del catálogo (y la subida «cruda») retira todas las aguas. Un receptor
+    propio ya preparado (camino B, `respetar`) o un PDBQT listo para Vina (camino C)
+    trae las que decidió quien lo preparó, y decir «se eliminaron todas» era falso
+    justo ahí (FEP-09, 2026-10-11). Sin el modo registrado se mantiene el supuesto
+    de siempre: es el de toda corrida anterior a los receptores propios.
+    """
+    protocolo = getattr(eval_result, "docking_protocol", None) or {}
+    preparacion = _value(_value(protocolo, "execution_provenance") or {}, "receptor_prep") or {}
+    modo = str(_value(preparacion, "modo_de_preparacion") or "")
+    return SUPUESTO_AGUAS_DEL_ARCHIVO if modo.startswith(("respetar", "pdbqt")) else SUPUESTO_DESOLVATADO
 
 
 def build_evidence_summary(
@@ -138,6 +274,14 @@ def build_evidence_summary(
     random_seed = (_value(protocol_stub, "seed") if protocol_stub else getattr(eval_result, "vina_random_seed", None))
     parsing_source = getattr(eval_result, "parsing_source", None)
     reproducibility_count = sum(value not in (None, "") for value in (vina_version, random_seed, parsing_source))
+    elementos = _elementos_de_reconstruccion(eval_result)
+    elementos_faltantes = [etiqueta for etiqueta, presente in elementos if not presente]
+    elementos_faltantes_visibles = [translate_text(etiqueta) for etiqueta in elementos_faltantes]
+    elementos_presentes = len(elementos) - len(elementos_faltantes)
+    reproducible_con_registro = (
+        reproducibility_count == TRAZAS_MINIMAS and not elementos_faltantes
+    )
+    registros_presentes = reproducibility_count + elementos_presentes
     # `str(item)` sobre un aviso nuevo imprimiría el diccionario entero. Los
     # avisos completos viajan aparte en `avisos_declarados`; aquí van sólo los
     # mensajes, que es lo que este resumen lleva como prosa.
@@ -190,9 +334,14 @@ def build_evidence_summary(
             "failed": (
                 "Al menos la pose principal falla los controles de química o geometría."
             ),
+            # SCI-A-007. `review` tiene DOS causas en `_estado_de_etapa`: que la
+            # batería no cubriera todas las poses, o que la principal pase y una
+            # alternativa falle. El texto nombraba sólo la primera, así que
+            # negaba un fallo que el propio agregador había registrado.
             "review": (
-                "La batería no corrió entera sobre todas las poses. «Revisión necesaria» "
-                "describe una comprobación incompleta, NO una pose aprobada."
+                "La batería no corrió entera sobre todas las poses, o la pose principal "
+                "pasa y alguna alternativa falla. «Revisión necesaria» describe una "
+                "comprobación que hay que mirar, NO una pose aprobada."
             ),
         }
         physical_validity = {
@@ -338,12 +487,19 @@ def build_evidence_summary(
         })
 
     incomplete = getattr(eval_result, "affinity_kcal", None) is None or not affinities
+    # SCI-A-059. Los controles físicos NO entraban aquí: una corrida con poses,
+    # procedencia y dominio en orden salía «EVIDENCIA DISPONIBLE» en verde
+    # aunque su pose principal fallara los controles de química o geometría. El
+    # estado global tiene que conservar la reserva que la matriz del mismo
+    # documento ya registra. El frontend (`lib/evaluationEvidence.ts`) ya lo
+    # hacía y su prueba SOL-05 lo fijaba; el backend no tenía el espejo.
     needs_review = any((
         warnings,
         target_readiness != "listo",
         getattr(eval_result, "in_applicability_domain", None) is False,
         bool(getattr(eval_result, "fallback_reason", None)),
-        reproducibility_count < 3,
+        not reproducible_con_registro,
+        physical_validity["status"] in {"failed", "review"},
     ))
     status = "incomplete" if incomplete else "review" if needs_review else "ready"
 
@@ -353,7 +509,10 @@ def build_evidence_summary(
         "incomplete": "EVIDENCIA INCOMPLETA",
     }
     summaries = {
-        "ready": "La corrida conserva poses, procedencia y parámetros suficientes para revisión y reproducción técnica.",
+        "ready": (
+            "La corrida conserva poses, procedencia y los elementos registrados para intentar "
+            "reconstruirla; la reconstrucción por un tercero no está demostrada."
+        ),
         "review": "La corrida produjo evidencia útil, pero contiene reservas que deben revisarse antes de continuar.",
         "incomplete": "Faltan afinidad o poses; esta corrida no debe usarse para priorizar el ligando.",
     }
@@ -368,17 +527,18 @@ def build_evidence_summary(
         sampling_status, sampling_label = "review", "AMBIGUO"
         sampling_detail = (
             f"{near_tie_count} poses quedan a <=1 kcal/mol; diferencia pose 1-2 "
-            f"{pose_gap:.2f} kcal/mol. No se registraron réplicas ni ensemble."
+            f"{pose_gap:.2f} kcal/mol. {frase_de_muestreo(eval_result)}"
         )
     else:
         sampling_status, sampling_label = "available", "DESCRIPTIVO"
         sampling_detail = (
             f"Diferencia pose 1-2 {pose_gap:.2f} kcal/mol. "
-            "No se registraron réplicas ni ensemble."
+            f"{frase_de_muestreo(eval_result)}"
         )
 
     model_in_domain = getattr(eval_result, "in_applicability_domain", None)
     fallback_reason = getattr(eval_result, "fallback_reason", None)
+    fallback_reason_visible = translate_text(str(fallback_reason)) if fallback_reason else None
 
     # DOC 71, DEFECTO A6. Aqui se leia `engine_used` y se imprimia como si fuera
     # el motor de docking, produciendo «motor no informado / universal» en un
@@ -398,6 +558,8 @@ def build_evidence_summary(
         "family": "modelo de familia",
         "universal": "modelo universal",
     }.get(modelo, modelo or "modelo no informado")
+    if modelo in {None, "family", "universal"}:
+        model_name = translate_text(model_name)
     engine_name = (
         _value(protocol_stub, "engine")
         or getattr(eval_result, "engine_used", None)
@@ -442,14 +604,32 @@ def build_evidence_summary(
         {
             "id": "reproducibility",
             "label": "Reproducibilidad técnica",
-            "status": "available" if reproducibility_count == 3 else "review" if reproducibility_count else "missing",
-            "status_label": "COMPLETA" if reproducibility_count == 3 else "PARCIAL" if reproducibility_count else "INSUFICIENTE",
-            "detail": f"{reproducibility_count}/3 trazas: versión del motor, semilla y parser.",
+            "status": (
+                "available" if reproducible_con_registro
+                else "review" if registros_presentes else "missing"
+            ),
+            "status_label": (
+                "REGISTRADA" if reproducible_con_registro
+                else "PARCIAL" if registros_presentes else "INSUFICIENTE"
+            ),
+            "detail": (
+                f"Trazas mínimas {reproducibility_count}/{TRAZAS_MINIMAS} (versión del motor, semilla y parser); "
+                f"elementos de reconstrucción {elementos_presentes}/{len(elementos)}"
+                + (f" — faltan: {', '.join(elementos_faltantes_visibles)}" if elementos_faltantes else "")
+                + ". Reconstrucción por un tercero: no demostrada."
+            ),
         },
         {
             "id": "physical",
             "label": "Validez física de poses",
-            "status": "available" if physical_validity["status"] == "passed" else "not_evaluated" if physical_validity["status"] == "not_evaluated" else "review",
+            # SCI-A-059: `failed` viaja como `failed`. Antes se aplanaba a
+            # `review`, que en el PDF es ámbar: un fallo medido se pintaba del
+            # mismo color que una comprobación pendiente.
+            "status": {
+                "passed": "available",
+                "not_evaluated": "not_evaluated",
+                "failed": "failed",
+            }.get(physical_validity["status"], "review"),
             "status_label": physical_validity["label"],
             "detail": physical_validity["detail"],
         },
@@ -460,7 +640,7 @@ def build_evidence_summary(
             "status_label": "DENTRO DEL DOMINIO DECLARADO" if model_in_domain is True else "FUERA DEL DOMINIO" if model_in_domain is False else "NO INFORMADO",
             "detail": (
                 f"{model_name}"
-                + (f"; fallback: {fallback_reason}." if fallback_reason else ".")
+                + (f"; fallback: {fallback_reason_visible}." if fallback_reason_visible else ".")
                 + " El motor de acoplamiento y su version se declaran en la traza de"
                   " reproducibilidad, no aqui: son identidades distintas."
             ),
@@ -500,11 +680,9 @@ def build_evidence_summary(
         # acoplar contra el bolsillo seco cambia los contactos disponibles.
         #
         # Un dossier que no declara esta condición describe un sistema que no
-        # es el que se acopló.
-        "Preparación en condición desolvatada: se eliminaron todas las aguas "
-        "cristalográficas del receptor. Si esta diana requiere aguas puente "
-        "conservadas para el reconocimiento molecular, los contactos y las "
-        "afinidades de esta corrida no las incluyen.",
+        # es el que se acopló. Y uno que la declara sin serlo, tampoco: ver
+        # `_supuesto_de_aguas`.
+        _supuesto_de_aguas(eval_result),
     ]
     # DOC 71, DEFECTOS A2 y A5. El stacking por familia reparte pesos ANTES de
     # correr: la proteasa da 0,60 a CL-GNN porque asi lo midio el diagnostico de
@@ -555,8 +733,15 @@ def build_evidence_summary(
         )
     if physical_validity["status"] == "review":
         uncertainties.append(
-            "Los controles físicos no corrieron enteros sobre todas las poses; «revisión "
-            "necesaria» no equivale a pose aprobada."
+            "Los controles físicos no corrieron enteros sobre todas las poses, o una pose "
+            "alternativa falla; «revisión necesaria» no equivale a pose aprobada."
+        )
+    # SCI-A-059: un fallo medido no tenía entrada propia en las incertidumbres,
+    # así que podía no aparecer en ninguna parte del resumen que lee el usuario.
+    if physical_validity["status"] == "failed":
+        uncertainties.append(
+            "Al menos la pose principal falla los controles de química o geometría: la "
+            "afinidad de esta corrida no sostiene una priorización del ligando."
         )
     if 0 < physical_validity["poses_evaluated"] < physical_validity["poses_produced"]:
         uncertainties.append(
@@ -588,8 +773,12 @@ def build_evidence_summary(
             "La pose sugerida no está confirmada como físicamente válida, y NO se sustituye "
             "por otra: elegir «la siguiente que pase» sería una decisión que nadie tomó."
         )
-    if reproducibility_count < 3:
+    if reproducibility_count < TRAZAS_MINIMAS:
         uncertainties.append("La traza de reproducibilidad está incompleta.")
+    if elementos_faltantes:
+        uncertainties.append(
+            "Faltan elementos para reconstruir la corrida: " + ", ".join(elementos_faltantes_visibles) + "."
+        )
     if model_in_domain is False:
         uncertainties.append("La salida derivada está fuera del dominio de aplicabilidad declarado.")
     elif model_in_domain is None:
@@ -623,7 +812,7 @@ def build_evidence_summary(
 
     provenance = build_provenance(eval_result, target, molecule)
 
-    return {
+    resumen = {
         "status": status,
         "label": labels[status],
         "summary": summaries[status],
@@ -635,10 +824,18 @@ def build_evidence_summary(
         "target_readiness": target_readiness,
         "reproducibility": {
             "available_count": reproducibility_count,
-            "total_count": 3,
+            "total_count": TRAZAS_MINIMAS,
             "vina_version": vina_version,
             "random_seed": random_seed,
             "parsing_source": parsing_source,
+            "reconstruction": {
+                "present_count": elementos_presentes,
+                "total_count": len(elementos),
+                "missing": elementos_faltantes,
+                # Sólo una prueba de transferencia puede demostrarla; esta
+                # dimensión no.
+                "demonstrated": False,
+            },
         },
         # DOC 71, DEFECTO A1. El frontend leia `xgb_score`, `shap_values` y
         # `clgnn_score` DIRECTAMENTE del ORM, mientras el dossier construia su
@@ -720,3 +917,4 @@ def build_evidence_summary(
         #: severidad ya no se deduce de la redacción en ningún lector.
         "avisos_declarados": avisos_declarados,
     }
+    return _localizar_textos_visibles(resumen)

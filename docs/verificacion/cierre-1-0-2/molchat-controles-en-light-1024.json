@@ -1,0 +1,89 @@
+{
+  "key": "en-light-1024",
+  "controls": [
+    {
+      "name": "Show history",
+      "rect": {
+        "x": 621,
+        "y": 89,
+        "width": 24,
+        "height": 24,
+        "top": 89,
+        "right": 645,
+        "bottom": 113,
+        "left": 621
+      },
+      "inside": true
+    },
+    {
+      "name": "Fast",
+      "rect": {
+        "x": 746.8125,
+        "y": 89,
+        "width": 37.40625,
+        "height": 24,
+        "top": 89,
+        "right": 784.21875,
+        "bottom": 113,
+        "left": 746.8125
+      },
+      "inside": true
+    },
+    {
+      "name": "Reasoning",
+      "rect": {
+        "x": 784.21875,
+        "y": 89,
+        "width": 70.890625,
+        "height": 24,
+        "top": 89,
+        "right": 855.109375,
+        "bottom": 113,
+        "left": 784.21875
+      },
+      "inside": true
+    },
+    {
+      "name": "Enable web mode",
+      "rect": {
+        "x": 864.109375,
+        "y": 88,
+        "width": 70.4375,
+        "height": 26,
+        "top": 88,
+        "right": 934.546875,
+        "bottom": 114,
+        "left": 864.109375
+      },
+      "inside": true
+    },
+    {
+      "name": "Open MolChat settings",
+      "rect": {
+        "x": 948,
+        "y": 88,
+        "width": 28,
+        "height": 28,
+        "top": 88,
+        "right": 976,
+        "bottom": 116,
+        "left": 948
+      },
+      "inside": true
+    },
+    {
+      "name": "Close MolChat",
+      "rect": {
+        "x": 980,
+        "y": 88,
+        "width": 28,
+        "height": 28,
+        "top": 88,
+        "right": 1008,
+        "bottom": 116,
+        "left": 980
+      },
+      "inside": true
+    }
+  ]
+}

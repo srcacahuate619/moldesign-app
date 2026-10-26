@@ -316,6 +316,12 @@ def format_tool_results(results: list[dict]) -> str:
     redacta la respuesta. Ahora cada bloque lleva su clase y su fuente, y un
     error se presenta como abstención —no hay número— en lugar de como una
     línea más.
+
+    Un resultado puede traer `etiqueta`: de qué molécula es («aspirina»,
+    «A=aspirina | B=ibuprofeno»). Va entre paréntesis tras la herramienta,
+    `compute_properties (aspirina): …`, que es lo que leen el guardián de
+    asignaciones nombre→valor y las respuestas deterministas. Antes ese camino
+    escribía su propio bloque sin clase ni fuente, y la interfaz lo descartaba.
     """
     if not results:
         return ""
@@ -329,11 +335,13 @@ def format_tool_results(results: list[dict]) -> str:
         nombre = r.get("tool", "?")
         tool = registry.get(nombre)
         if tool is not None and tool.clase in CLASES_EPISTEMICAS:
-            etiqueta = CLASES_EPISTEMICAS[tool.clase]
+            clase = CLASES_EPISTEMICAS[tool.clase]
             fuente = tool.procedencia or "sin fuente declarada"
-            cabecera = f"[{etiqueta} · {fuente}] {nombre}"
+            cabecera = f"[{clase} · {fuente}] {nombre}"
         else:
             cabecera = f"[sin clasificar — trátalo como no verificado] {nombre}"
+        if r.get("etiqueta"):
+            cabecera = f"{cabecera} ({r['etiqueta']})"
         if "error" in r:
             lines.append(
                 f"{cabecera}: no se obtuvo dato ({r['error']}). "
@@ -342,6 +350,20 @@ def format_tool_results(results: list[dict]) -> str:
         else:
             lines.append(f"{cabecera}: {r['result']}")
     return "\n".join(lines)
+
+
+# Cierra el bloque de evidencia en el texto que llega a la interfaz. Sin él, lo
+# que sigue al bloque —la respuesta determinista o la del modelo— no tenía
+# frontera: la interfaz lo tomaba por evidencia y, en el camino con nombre de
+# molécula, la respuesta llegaba pegada a la última línea («…Rings: 1Propiedades
+# de aspirina:»). El modelo no lo ve: al historial va el bloque sin el marcador.
+# El frontend lo reconoce en `components/ai/BloqueDeEvidencia.tsx`.
+FIN_DE_EVIDENCIA = "<!--__FIN_DE_EVIDENCIA__-->"
+
+
+def bloque_para_el_flujo(texto: str, prefijo: str = "") -> str:
+    """El bloque de resultados tal como se emite al flujo, cerrado por el marcador."""
+    return f"\n\n{prefijo}{texto}\n{FIN_DE_EVIDENCIA}\n"
 
 
 _registry: ToolRegistry | None = None

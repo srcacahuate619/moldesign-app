@@ -293,6 +293,57 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-162. Los seis complejos marginales frente a flexible_redock los aporta molflex: cuatro tienen 0–4 enlaces rotables; 1a99 tiene 5 y 1a4r tiene 12. La distribución es 4, 1, 1 y 0 en los estratos 0–4, 5–9, 10–14 y ≥15. Se conserva la aportación de seis y se retira que todos sean de flexibilidad baja; no hay ganancia marginal observada en el estrato ≥15. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_cohortes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-01.md"

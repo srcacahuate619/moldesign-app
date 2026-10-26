@@ -545,7 +545,8 @@ FUENTES_DE_VERSION = {
     "frontend/src-tauri/tauri.conf.json": r'"version"\s*:\s*"([^"]+)"',
     "frontend/src-tauri/Cargo.toml": r'^version\s*=\s*"([^"]+)"',
     "frontend/package.json": r'"version"\s*:\s*"([^"]+)"',
-    "backend/api/main.py": r'^APP_VERSION\s*=\s*"([^"]+)"',
+    # `main.py` la importa de aquí: buscarla en `main.py` hacía fallar esta prueba.
+    "backend/core/version.py": r'^APP_VERSION\s*=\s*"([^"]+)"',
     "frontend/lib/softwareCatalog.ts": r'version:\s*"([^"]+)"',
     "frontend/package-lock.json": r'"version"\s*:\s*"([^"]+)"',
     "CITATION.cff": r'^version:\s*"([^"]+)"',
@@ -578,8 +579,8 @@ def test_la_version_del_store_sale_de_la_version_del_producto():
     version, detalle = version_del_store(
         conf["version"], cfg["version_del_store"].get("store_build_override"))
 
-    assert version == "1.0.1.0", (
-        f"La version del Store es {version}. Se decidio 1.0.1.0 para el segundo "
+    assert version == "1.0.4.0", (
+        f"La version del Store es {version}. Se decidio 1.0.4.0 para el quinto "
         "envio; cambiarlo es politica de publicacion y no admite retroceso una "
         "vez publicado."
     )

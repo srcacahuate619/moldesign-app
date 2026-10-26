@@ -81,6 +81,10 @@ class Settings(BaseSettings):
         description="Carpeta donde se guardan poses, PDFs y el SQLite en modo DESKTOP.",
     )
 
+    # Renderizador GPL externo: se detecta sólo cuando se abre Molcy.
+    molcy_blender_path: str | None = None
+    molcy_engine_dir: str | None = None
+
     # ── Estado efímero local ─────────────────────────────────────────────────
     # Nunca es fuente de verdad: se pierde al reiniciar y se puede recalcular.
     runtime_cache_docking_ttl: int = Field(default=86400, ge=60)
@@ -105,7 +109,7 @@ class Settings(BaseSettings):
     meeko_prepare_ligand_path: str = "mk_prepare_ligand"
     meeko_export_path: str = "mk_export"
     meeko_default_altloc: str = "A"
-    vina_exhaustiveness: int = Field(default=8, ge=1, le=128)  # 8 = sweet spot, >16 no mejora ranking
+    vina_exhaustiveness: int = Field(default=8, ge=1, le=128)  # 8: el defecto de AutoDock Vina; su efecto en el ranking no está medido (SUPUESTOS-01)
     vina_calibration_exhaustiveness: int = Field(default=32, ge=8, le=64)
     vina_num_poses: int = Field(default=5, ge=1, le=20)
     vina_seed: int = Field(default=42, ge=0)  # 42 = reproducible (cambio a 0 para random)

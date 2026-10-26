@@ -160,19 +160,33 @@ def revisar(detalle: bool = False) -> tuple[Counter, dict]:
 def _activos_de_texto_fuera() -> list[str]:
     """Rutas selladas y versionadas que no cubre `scripts/artifacts_science/** -text`.
 
+    Incluye las copias conservadas de `divergencias_declaradas`: su hash es el sellado, así
+    que tampoco pueden cambiar de fin de línea. La de PREP-01 (`scripts/historical_sources/`)
+    estaba en git con LF y sólo validaba donde git la desprotegía con CRLF (2026-10-22).
     Declarar `-text` un binario es inocuo, así que no se distingue.
     """
     rastreadas = set(subprocess.run(["git", "-C", str(RAIZ), "ls-files"], capture_output=True, text=True,
                                     encoding="utf-8").stdout.splitlines())
-    rutas = set()
+    candidatas = set()
     for manifest_path in ARTEFACTOS.glob("*/manifest.json"):
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
         for campo in CAMPOS:
-            for guardada in manifest.get(campo) or {}:
-                r = guardada.replace("\\", "/")
-                if r in rastreadas and not r.startswith("scripts/artifacts_science/"):
-                    rutas.add(r)
-    return sorted(rutas)
+            candidatas.update(guardada.replace("\\", "/") for guardada in manifest.get(campo) or {})
+    declaracion = json.loads(TABLA.read_text(encoding="utf-8"))
+    candidatas.update(d["copia_conservada"].replace("\\", "/") for d in declaracion.get("divergencias_declaradas", []))
+    return sorted(r for r in candidatas if r in rastreadas and not r.startswith("scripts/artifacts_science/"))
+
+
+def con_conversion(rutas: list[str]) -> list[str]:
+    """Las rutas a las que git todavía puede cambiar el fin de línea (atributo `text` no desactivado)."""
+    if not rutas:
+        return []
+    # -z y bytes: en Windows, una tubería en modo texto le mandaría a git «ruta\r».
+    salida = subprocess.run(["git", "-C", str(RAIZ), "check-attr", "-z", "--stdin", "text"],
+                            input="".join(r + "\0" for r in rutas).encode("utf-8"), capture_output=True,
+                            check=True).stdout.decode("utf-8").split("\0")
+    ternas = zip(salida[0::3], salida[1::3], salida[2::3])
+    return [ruta for ruta, _, valor in ternas if valor != "unset"]
 
 
 def escribir_gitattributes() -> int:
@@ -206,6 +220,9 @@ def main() -> int:
         return escribir_gitattributes()
     totales, info = revisar()
     fallos = info["fallos"]
+    # Un fichero sellado que git convierte valida aquí y falla en un clon con otro core.autocrlf.
+    for ruta in con_conversion(_activos_de_texto_fuera()):
+        fallos.setdefault("(.gitattributes)", []).append(f"SIN_-text: {ruta} (python scripts/validar_sellos.py --gitattributes)")
     print(f"sellados {totales['sellados']} (sin sellar {totales['sin_sellar']}); ficheros: "
           f"verificados {totales['VERIFICADO']}, mantenidos {totales['MANTENIDO']} "
           f"({totales['eventos_mantenimiento']} eventos en {info['experimentos_mantenidos']} experimentos), "

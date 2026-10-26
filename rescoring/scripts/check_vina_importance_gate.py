@@ -14,11 +14,19 @@ Uso:
     python rescoring/scripts/check_vina_importance_gate.py --threshold 0.15
 
 Salida: reporte JSON con grupo Vina, share y veredicto. Exit 0 = PASS,
-1 = FAIL, 2 = datos insuficientes.
+1 = FAIL, 2 = datos insuficientes, 3 = NO_VERIFICABLE.
+
+SCI-A-056 (auditoría científica, 2026-10-20): la cuota sólo describe el modelo
+distribuido si el SHAP dice de qué modelo es. `shap_analysis.json` no lleva el
+SHA-256 de `model_a_universal.json` y se calculó sobre 692/173 muestras, cuando el
+modelo distribuido se entrenó con 429/108: daba PASS sobre otro modelo. Sin ese
+vínculo el veredicto es NO_VERIFICABLE, no PASS. `--permitir-no-verificable` sale
+con 0 diciéndolo, para la CI mientras no se recalcule el SHAP.
 """
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -27,6 +35,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 ARTIFACTS = REPO_ROOT / "rescoring" / "artifacts"
 SHAP_PATH = ARTIFACTS / "shap_analysis.json"
 TRAINING_REPORT_PATH = ARTIFACTS / "training_report.json"
+MODEL_PATH = ARTIFACTS / "model_a_universal.json"
 
 VINA_GROUP_KEY = "Vina (B)"
 DEFAULT_THRESHOLD = 0.10  # 10% de la importancia global total
@@ -66,6 +75,21 @@ def check_regime(training_report: dict) -> dict:
     }
 
 
+def check_binding(shap: dict, model_sha256: str, training_report: dict) -> dict:
+    """Si el SHAP declara el modelo que explica, y si es el distribuido (SCI-A-056)."""
+    universal = (training_report.get("models") or {}).get("model_a_universal") or {}
+    declarado = shap.get("model_sha256")
+    return {
+        "model_sha256": model_sha256,
+        "shap_model_sha256": declarado,
+        "bound": declarado == model_sha256,
+        "samples": {
+            "shap_train_val": [shap.get("n_samples_train"), shap.get("n_samples_val")],
+            "model_train_val": [universal.get("n_train"), universal.get("n_val")],
+        },
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -73,6 +97,11 @@ def main() -> int:
         type=float,
         default=DEFAULT_THRESHOLD,
         help=f"share máximo permitido para el grupo Vina (default {DEFAULT_THRESHOLD})",
+    )
+    parser.add_argument(
+        "--permitir-no-verificable",
+        action="store_true",
+        help="sale con 0 si el SHAP no está ligado al modelo, pero lo dice (NO_VERIFICABLE)",
     )
     args = parser.parse_args()
 
@@ -85,6 +114,9 @@ def main() -> int:
     try:
         shap = load_json(SHAP_PATH)
         training_report = load_json(TRAINING_REPORT_PATH)
+        if not MODEL_PATH.exists():
+            raise FileNotFoundError(f"artefacto requerido no encontrado: {MODEL_PATH}")
+        model_sha256 = hashlib.sha256(MODEL_PATH.read_bytes()).hexdigest()
     except FileNotFoundError as e:
         report["verdict"] = "INSUFFICIENT_DATA"
         report["error"] = str(e)
@@ -93,9 +125,20 @@ def main() -> int:
 
     report.update(compute_vina_share(shap))
     report["regime"] = check_regime(training_report)
+    report["binding"] = check_binding(shap, model_sha256, training_report)
 
     share = report["vina_share"]
-    if share >= args.threshold:
+    if not report["binding"]["bound"]:
+        muestras = report["binding"]["samples"]
+        report["verdict"] = "NO_VERIFICABLE"
+        report["reason"] = (
+            f"{SHAP_PATH.name} no declara el SHA-256 del modelo distribuido "
+            f"({model_sha256[:12]}…); se calculó sobre {muestras['shap_train_val']} muestras "
+            f"(entrenamiento/validación) y el modelo, con {muestras['model_train_val']}. "
+            f"Su cuota Vina ({share:.1%}) no describe el modelo que se distribuye."
+        )
+        exit_code = 0 if args.permitir_no_verificable else 3
+    elif share >= args.threshold:
         report["verdict"] = "FAIL"
         report["reason"] = (
             f"el grupo Vina concentra {share:.1%} de la importancia global "

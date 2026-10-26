@@ -1,0 +1,19 @@
+{
+  "id": "panel-4-67",
+  "smiles": "COc1cc2c(cc1OCC13CC(C(F)(F)F)(C1)C3)CCN1C[C@@H](CC(C)(C)C)[C@H](O)C[C@H]21",
+  "semilla": 42,
+  "intentos": [
+    {
+      "n": 1,
+      "error": "RuntimeError: la corrida no terminó en SUCCESS: {'task_id': 'f96e7e15-409e-450b-a7db-0b29105e042b', 'status': 'FAILURE', 'progress': 0, 'result': None, 'error': 'Timeout: evaluación excedió 1200s de ejecución.', 'started_at': '2026-10-22T04:14:41.809329Z', 'finished_at': '2026-10-22T04:34:44.647901Z'}",
+      "segundos": 1204.6
+    },
+    {
+      "n": 2,
+      "error": "RuntimeError: la corrida no terminó en SUCCESS: {'task_id': '1985937f-ce12-4c35-8345-2cbd94ea3a90', 'status': 'FAILURE', 'progress': 0, 'result': None, 'error': 'Timeout: evaluación excedió 1200s de ejecución.', 'started_at': '2026-10-22T04:34:52.031959Z', 'finished_at': '2026-10-22T04:54:52.086017Z'}",
+      "segundos": 1209.1
+    }
+  ],
+  "estado": "FALLO",
+  "registrado_en": "2026-10-22T04:54:53+00:00"
+}

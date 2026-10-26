@@ -291,19 +291,10 @@
       "m": "fuerte"
      },
      {
-      "t": " — la caja no contiene ni un solo",
+      "t": " — la caja no contiene ni un solo átomo del sitio de unión real.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "átomo del sitio de unión real.",
-     "m": null
-    }
    ]
   },
   {
@@ -462,6 +453,71 @@
      "t": "Sin docking, sin red, y cero escrituras fuera del directorio del experimento.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-148. El productor histórico no agrega correctamente las tres rutas E6/E7 de PDB ausente o no parseable: sus retornos omiten es_excepcion y el agregador lo exige. Las 387 filas selladas sí conservan ese campo y no contienen E6/E7; la limitación del instrumento no cambia sus recuentos publicados. Un adaptador externo deriva el campo de la lista explícita de excepciones y reproduce esos agregados. Las pruebas de ausencia y parser son abstractas; no se han reauditado estructuras ni modificado el productor sellado. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_rec01_agregacion.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-149. G5 comparó los hashes anteriores y posteriores de curated_targets.json y curated_targets.csv y esos dos pares coinciden. El registro fija esa comprobación del catálogo; no fija una comparación anterior/posterior de la base de datos y rescoring que el PRE también exigía. Se limita el PASS al perímetro efectivamente medido, sin certificar aislamiento completo. La exigencia de sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_procedencia.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
    ]
   }
  ],

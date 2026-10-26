@@ -182,10 +182,25 @@ class TestEnMolChat:
         assert corrida.aviso_de_calibracion
         assert "⚠️" in corrida.aviso_de_calibracion
 
-    def test_un_receptor_calibrado_no_ensucia_la_respuesta(self):
+    def test_un_receptor_calibrado_no_ensucia_la_respuesta(self, monkeypatch, tmp_path):
+        import json
+        from services.docking.preparer import RECEPTOR_RECIPE_VERSION
         from services.evaluation_submission import CorridaRegistrada
+        from services.targets import seccion_catalogo as sc
 
-        calibrado = SimpleNamespace(**{**SIN_CALIBRAR.__dict__, "spearman_rho": 0.71})
+        # SCI-D-001: «calibrado» exige la medida de Verificados, no una ρ suelta.
+        ruta = tmp_path / "verificados.json"
+        ruta.write_text(json.dumps({"verificados": {"7E2Y": {
+            "receta_receptor": RECEPTOR_RECIPE_VERSION, "receptor_sha256": "0" * 64,
+            "pose": {"semillas": 5, "semillas_rmsd_ok": 4, "posebusters_valida": True},
+            "calibracion": {"rho": 0.71, "ic95": [0.4, 0.86], "n": 40, "endpoint": "Ki",
+                            "panel": "CHEMBL0"},
+            "protocolo": {"exhaustiveness": 8, "num_poses": 9, "semilla": 42},
+            "condiciones": [],
+        }}}), encoding="utf-8")
+        monkeypatch.setattr(sc, "RUTA_VERIFICADOS", ruta)
+        sc._leer.cache_clear()
+        calibrado = SimpleNamespace(**{**SIN_CALIBRAR.__dict__, "spearman_rho": None})
         corrida = CorridaRegistrada(
             task_id="t-1",
             target_pdb_id="7E2Y",
@@ -195,14 +210,46 @@ class TestEnMolChat:
         )
 
         assert corrida.aviso_de_calibracion == ""
+        sc._leer.cache_clear()
 
-    def test_la_herramienta_antepone_el_aviso_al_lanzar(self):
+    def test_un_receptor_con_rho_suelta_si_avisa(self):
+        """La ρ de la fila no basta para callar la advertencia (SCI-D-001)."""
+        from services.evaluation_submission import CorridaRegistrada
+
+        con_rho = SimpleNamespace(**{**SIN_CALIBRAR.__dict__, "spearman_rho": 0.71})
+        corrida = CorridaRegistrada(
+            task_id="t-1", target_pdb_id="7E2Y", smiles_hash="h", canonical_smiles="CCO",
+            calibracion=estado_de_calibracion(con_rho).to_dict(),
+        )
+        assert corrida.aviso_de_calibracion
+
+    def test_el_mensaje_de_lanzamiento_antepone_el_aviso(self):
+        """LUNA-05: `run_docking` ya no lanza —propone—; el lanzamiento lo hace la
+        aprobación, y es ese mensaje el que tiene que llevar el aviso de calibración."""
+        from services.ai import propuestas_de_docking
+        from services.evaluation_submission import CorridaRegistrada
+
+        corrida = CorridaRegistrada(
+            task_id="t-1",
+            target_pdb_id="7E2Y",
+            smiles_hash="h",
+            canonical_smiles="CCO",
+            calibracion=estado_de_calibracion(SIN_CALIBRAR).to_dict(),
+        )
+        mensaje = propuestas_de_docking.mensaje_de_lanzamiento(corrida)
+
+        assert "⚠️" in mensaje
+        assert mensaje.index("⚠️") < mensaje.index("Todavía no hay afinidad")
+
+    def test_la_propuesta_muestra_la_calibracion_antes_de_aprobar(self):
+        """Y antes de aprobar: el control de calibración del preflight es una
+        advertencia, y la propuesta lista las advertencias para leerlas."""
         import inspect
 
-        from services.ai.tools import docking_tools
+        from services.ai import propuestas_de_docking
 
-        fuente = inspect.getsource(docking_tools.run_docking)
-        assert "aviso_de_calibracion" in fuente
+        fuente = inspect.getsource(propuestas_de_docking._texto_de_la_propuesta)
+        assert '("advertencia",)' in fuente and "no_evaluado" in fuente
 
 
 class TestLaPalabraValidado:

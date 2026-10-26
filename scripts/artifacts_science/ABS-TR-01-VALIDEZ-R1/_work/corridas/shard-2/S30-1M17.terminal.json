@@ -1,0 +1,16 @@
+{
+  "id_r2": "S30",
+  "pdb": "1M17",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 34.8,
+      "crudo": "S30-1M17-intento1.json.gz",
+      "crudo_sha256": "4c6334f57273ad5170f36f063aef62f19754e0f9113171e118c07cfea28cef78"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S30-1M17-intento1.json.gz",
+  "crudo_sha256": "4c6334f57273ad5170f36f063aef62f19754e0f9113171e118c07cfea28cef78",
+  "registrado_en": "2026-10-25T01:33:12+00:00"
+}

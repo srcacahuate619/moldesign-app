@@ -89,33 +89,18 @@
       "m": "fuerte"
      },
      {
-      "t": " — las que aportan algún residuo con un átomo a ≤ 8 Å de",
+      "t": " — las que aportan algún residuo con un átomo a ≤ 8 Å de algún átomo pesado del ligando cristalográfico, medido sobre el PDB ",
+      "m": null
+     },
+     {
+      "t": "original",
+      "m": "fuerte"
+     },
+     {
+      "t": ".",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "algún átomo pesado del ligando cristalográfico, medido sobre el PDB ",
-     "m": null
-    },
-    {
-     "t": "original",
-     "m": "fuerte"
-    },
-    {
-     "t": ".",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "Cadenas presentes en el receptor preparado",
@@ -130,25 +115,10 @@
       "m": "codigo"
      },
      {
-      "t": ", que es el que Vina",
+      "t": ", que es el que Vina realmente usa.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "realmente usa.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "Pérdida",

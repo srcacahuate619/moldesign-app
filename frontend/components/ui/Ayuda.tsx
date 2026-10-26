@@ -2,6 +2,7 @@
 
 
 import { useLanguage } from "@/context/LanguageContext";
+import { createPortal } from "react-dom";
 // =====================================================================
 // Ayuda — el "?" que desactiva una lectura equivocada
 // =====================================================================
@@ -42,9 +43,51 @@ export interface AyudaProps {
 export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps) {
   const { t } = useLanguage();
   const [abierto, setAbierto] = useState(false);
+  const [posicion, setPosicion] = useState<{ top: number; left: number } | null>(null);
   const panelId = useId();
   const botonRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!abierto) {
+      setPosicion(null);
+      return;
+    }
+
+    const recolocar = () => {
+      const boton = botonRef.current;
+      const panel = panelRef.current;
+      if (!boton || !panel) return;
+
+      const rectBoton = boton.getBoundingClientRect();
+      const rectPanel = panel.getBoundingClientRect();
+      const anchoViewport = document.documentElement.clientWidth || window.innerWidth;
+      const altoViewport = document.documentElement.clientHeight || window.innerHeight;
+      const margen = 12;
+      const separacion = 8;
+
+      let left = rectBoton.left + rectBoton.width / 2 - rectPanel.width / 2;
+      left = Math.max(margen, Math.min(left, anchoViewport - rectPanel.width - margen));
+
+      let top = rectBoton.bottom + separacion;
+      const maxTop = Math.max(margen, altoViewport - rectPanel.height - margen);
+      if (top > maxTop && rectBoton.top - rectPanel.height - separacion >= margen) {
+        top = rectBoton.top - rectPanel.height - separacion;
+      } else {
+        top = Math.max(margen, Math.min(top, maxTop));
+      }
+
+      setPosicion({ top, left });
+    };
+
+    recolocar();
+    window.addEventListener("resize", recolocar);
+    document.addEventListener("scroll", recolocar, true);
+    return () => {
+      window.removeEventListener("resize", recolocar);
+      document.removeEventListener("scroll", recolocar, true);
+    };
+  }, [abierto]);
 
   useEffect(() => {
     if (!abierto) return;
@@ -80,21 +123,26 @@ export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps
         aria-expanded={abierto}
         aria-controls={panelId}
         aria-label={etiqueta ?? `Qué significa: ${titulo}`}
-        className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-zinc-500 transition-colors hover:text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+        className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors hover:text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
       >
         <HelpCircle className="h-3.5 w-3.5" aria-hidden="true" />
       </button>
 
-      {abierto && (
+      {abierto && typeof document !== "undefined" && createPortal(
         <div
           ref={panelRef}
           id={panelId}
           role="dialog"
           aria-label={titulo}
-          className="absolute left-1/2 top-6 z-50 w-[min(22rem,80vw)] -translate-x-1/2 rounded-lg border border-surface-700 bg-surface-900 p-3 shadow-xl"
+          style={{
+            top: posicion?.top ?? 0,
+            left: posicion?.left ?? 0,
+            visibility: posicion ? "visible" : "hidden",
+          }}
+          className="fixed z-[120] max-h-[calc(100dvh-24px)] w-[min(22rem,calc(100vw-24px))] overflow-y-auto rounded-lg border border-surface-700 bg-surface-900 p-3 shadow-xl"
         >
           <div className="flex items-start justify-between gap-2">
-            <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+            <p className="font-sans text-sm font-bold uppercase tracking-wider text-zinc-400">
               {titulo}
             </p>
             <button
@@ -104,13 +152,14 @@ export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps
                 botonRef.current?.focus();
               }}
               aria-label={t("z_cerrar_ayuda")}
-              className="shrink-0 rounded text-zinc-500 transition-colors hover:text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+              className="shrink-0 rounded text-zinc-400 transition-colors hover:text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
             >
               <X className="h-3.5 w-3.5" aria-hidden="true" />
             </button>
           </div>
-          <div className="mt-1.5 text-xs leading-relaxed text-zinc-300">{children}</div>
-        </div>
+          <div className="mt-1.5 text-base leading-6 text-zinc-300 font-sans">{children}</div>
+        </div>,
+        document.body,
       )}
     </span>
   );

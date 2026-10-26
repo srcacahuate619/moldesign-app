@@ -206,18 +206,18 @@ export function ScoreCard({
                 />
               )}
               <ScoreBar 
-                label="ADME" 
+                label={t("pn_score_adme")}
                 value={adme} 
                 weight="30%" 
                 color="#71717a" // zinc-500
                 onClick={() => setSelectedEducationalMetric({
-                  title: "Perfil ADME",
+                  title: t("pn_score_adme_profile"),
                   icon: "🩸",
                   desc: t("auto_29368dd6d018")
                 })}
               />
               <ScoreBar 
-                label="Drug-likeness" 
+                label={t("pn_score_drug_likeness")}
                 value={druglikeness} 
                 weight="25%" 
                 color="#a1a1aa" // zinc-400
@@ -230,7 +230,7 @@ export function ScoreCard({
               />
               {specificity !== null && specificity !== undefined && (
                 <ScoreBar 
-                  label="Especificidad" 
+                  label={t("pn_score_specificity")}
                   value={specificity} 
                   color="#d4d4d8" // zinc-300
                   onClick={() => setSelectedEducationalMetric({
@@ -243,7 +243,7 @@ export function ScoreCard({
             </>
           ) : (
             <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-4 text-center">
-              <div className="text-xs font-bold text-zinc-900 dark:text-white uppercase tracking-widest mb-1.5">Control Mode</div>
+              <div className="text-xs font-bold text-zinc-900 dark:text-white uppercase tracking-widest mb-1.5">{t("pn_score_control_mode")}</div>
               <p className="text-[11px] text-zinc-500 leading-relaxed max-w-xs mx-auto">
                 {t("auto_c2644ddf403e")}
               </p>
@@ -255,7 +255,7 @@ export function ScoreCard({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-900">
           {affinityKcal !== null && affinityKcal !== undefined && (
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Afinidad Bruta</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{t("pn_score_raw_affinity")}</span>
               <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{affinityKcal.toFixed(3)} kcal/mol</span>
             </div>
           )}
@@ -267,25 +267,25 @@ export function ScoreCard({
           )}
           {lipophilicEfficiency !== null && lipophilicEfficiency !== undefined && (
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Lipophilic Eff.</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{t("pn_score_lipophilic_efficiency")}</span>
               <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{lipophilicEfficiency.toFixed(3)}</span>
             </div>
           )}
           {gnnScore !== null && gnnScore !== undefined && (
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">GNN RTMScore</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{t("pn_score_rtmscore")}</span>
               <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{gnnScore.toFixed(2)}</span>
             </div>
           )}
           {quantumScore !== null && quantumScore !== undefined && (
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">QUANTUM (xTB)</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{t("pn_score_quantum")}</span>
               <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{quantumScore.toFixed(2)}</span>
             </div>
           )}
           {saScore !== null && saScore !== undefined && (
             <div className="flex flex-col gap-1">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Synth. Access</span>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">{t("pn_score_synthetic_accessibility")}</span>
               <span className="text-sm font-mono text-zinc-900 dark:text-zinc-300">{saScore.toFixed(2)} {saScore > 6.0 ? t("auto_9ed23929f2df") : ""}</span>
             </div>
           )}
@@ -296,7 +296,7 @@ export function ScoreCard({
           <div className="space-y-3 pt-4 border-t border-zinc-100 dark:border-zinc-900">
             {saScore && saScore > 6.0 && saReasons && saReasons.length > 0 && (
               <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-3">
-                <div className="text-[10px] font-bold text-zinc-900 dark:text-white uppercase tracking-widest mb-2">Synth Invalid</div>
+                <div className="text-[10px] font-bold text-zinc-900 dark:text-white uppercase tracking-widest mb-2">{t("pn_score_synthesis_warning")}</div>
                 <ul className="space-y-1.5">
                   {saReasons.map((reason, idx) => (
                     <li key={idx} className="text-[11px] text-zinc-600 dark:text-zinc-400">• {reason}</li>
@@ -306,7 +306,7 @@ export function ScoreCard({
             )}
             {bloodSystemicReactivity && bloodSystemicReactivity.length > 0 && (
               <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-3">
-                <div className="text-[10px] font-bold text-zinc-900 dark:text-white uppercase tracking-widest mb-2">Tox Alert</div>
+                <div className="text-[10px] font-bold text-zinc-900 dark:text-white uppercase tracking-widest mb-2">{t("pn_score_toxicity_alert")}</div>
                 <ul className="space-y-1.5">
                   {bloodSystemicReactivity.map((reason, idx) => (
                     <li key={idx} className="text-[11px] text-zinc-600 dark:text-zinc-400">• {reason}</li>
@@ -323,12 +323,12 @@ export function ScoreCard({
         {isSavingPrompt ? (
           <div className="space-y-4">
             <div>
-              <label className="block text-[11px] font-bold uppercase tracking-widest text-zinc-500 mb-2">Identifier</label>
+              <label className="block text-[11px] font-bold uppercase tracking-widest text-zinc-500 mb-2">{t("pn_score_identifier")}</label>
               <input 
                 type="text" 
                 value={customName}
                 onChange={(e) => setCustomName(e.target.value)}
-                placeholder="MDX-7E2Y-51D1"
+                placeholder={t("pn_score_identifier_placeholder")}
                 className="w-full rounded-xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 px-4 py-2.5 text-sm text-zinc-900 dark:text-white focus:border-zinc-900 dark:focus:border-zinc-100 focus:outline-none focus:ring-1 focus:ring-zinc-900 dark:focus:ring-zinc-100 transition-colors"
               />
             </div>
@@ -346,7 +346,7 @@ export function ScoreCard({
                 }}
                 className="flex-1 rounded-xl bg-zinc-900 dark:bg-white py-3 text-xs font-semibold text-white dark:text-zinc-900 transition-transform active:scale-[0.98]"
               >
-                Save Protocol
+                {t("pn_score_save_protocol")}
               </button>
             </div>
           </div>

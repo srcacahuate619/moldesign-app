@@ -1,0 +1,74 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T01:57:48.7933661Z",
+    "segundos": 137.29,
+    "salida": 0,
+    "registro": "final-v6-ci-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T02:00:06.1271546Z",
+    "segundos": 2.37,
+    "salida": 0,
+    "registro": "final-v6-ci-02.log"
+  },
+  {
+    "paso": "03",
+    "comando": "npm run check:csp",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T02:00:08.5136774Z",
+    "segundos": 0.49,
+    "salida": 0,
+    "registro": "final-v6-ci-03.log"
+  },
+  {
+    "paso": "04",
+    "comando": "npm run typecheck",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T02:00:09.0203308Z",
+    "segundos": 24.92,
+    "salida": 0,
+    "registro": "final-v6-ci-04.log"
+  },
+  {
+    "paso": "05",
+    "comando": "npm run test:run",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T02:00:33.9497473Z",
+    "segundos": 131.78,
+    "salida": 0,
+    "registro": "final-v6-ci-05.log"
+  },
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T02:02:45.7348531Z",
+    "segundos": 74.81,
+    "salida": 0,
+    "registro": "final-v6-ci-06.log"
+  },
+  {
+    "paso": "07",
+    "comando": "npm run test:ux",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T02:04:00.5524233Z",
+    "segundos": 44.61,
+    "salida": 0,
+    "registro": "final-v6-ci-07.log"
+  },
+  {
+    "paso": "08",
+    "comando": "npm run build:desktop",
+    "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+    "inicio_utc": "2026-10-10T02:04:45.1722824Z",
+    "segundos": 39.79,
+    "salida": 0,
+    "registro": "final-v6-ci-08.log"
+  }
+]

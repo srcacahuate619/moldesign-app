@@ -39,6 +39,12 @@ def estado_aspirina():
     return asyncio.run(generate_conformer(ASPIRINA))["estado_del_ligando"]
 
 
+@pytest.fixture(scope="module")
+def estado_aspirina_canonica():
+    """El canónico de RDKit, que hasta `039d9858` era el modo por defecto y ahora se pide explícitamente."""
+    return asyncio.run(generate_conformer(ASPIRINA, tautomero="canonico"))["estado_del_ligando"]
+
+
 def test_se_registra_lo_que_entro_y_lo_que_se_acopla(estado_aspirina):
     assert estado_aspirina["smiles_entrada"] == ASPIRINA
     assert estado_aspirina["smiles_acoplado"]
@@ -54,14 +60,23 @@ def test_la_aspirina_se_acopla_desprotonada(estado_aspirina):
     )
 
 
-def test_se_cuentan_las_alternativas_descartadas(estado_aspirina):
-    """«Tautómero canónico» suena a que sólo había uno. Había dos."""
+def test_por_defecto_se_acopla_el_tautomero_escrito_y_se_dice(estado_aspirina):
+    """Decisión del propietario (`039d9858`): por defecto se respeta el tautómero de la entrada."""
     taut = estado_aspirina["tautomeria"]
+    assert taut["modo"] == "entrada"
+    assert taut["aplicada"] is False
+    assert "entrada" in taut["motivo"]
+
+
+def test_se_cuentan_las_alternativas_descartadas(estado_aspirina_canonica):
+    """«Tautómero canónico» suena a que sólo había uno. Había dos."""
+    taut = estado_aspirina_canonica["tautomeria"]
+    assert taut["modo"] == "canonico"
     assert taut["aplicada"] is True
     assert taut["motor"].startswith("RDKit")
     assert taut["alternativas"] is not None and taut["alternativas"] >= 1
 
-    prot = estado_aspirina["protonacion"]
+    prot = estado_aspirina_canonica["protonacion"]
     if prot["aplicada"]:
         assert prot["ph"] == 7.4
         assert prot["motor"] == "dimorphite-dl"

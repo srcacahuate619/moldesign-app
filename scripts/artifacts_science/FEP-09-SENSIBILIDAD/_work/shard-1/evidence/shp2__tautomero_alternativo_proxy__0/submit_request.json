@@ -1,0 +1,40 @@
+{
+  "smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(=N)[nH]2)CC1",
+  "target_pdb_id": "USR_DDE17D",
+  "chain": "A",
+  "molecule_name": "shp2__tautomero_alternativo_proxy__0",
+  "grid_center": [
+    22.625,
+    41.267,
+    4.664
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:08d7ab23bb86e29c14e8a34f8e6820fbdd5048c06529ab795c39ca5e3caafe6d"
+}

@@ -394,6 +394,49 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-169. La falta de asociación monotónica entre el cambio de ocupación y el cambio de oráculo no demuestra ausencia de respuesta causal ni convierte la ocupación en un marcador sin posibilidad de intervención. El ajuste de caja se eligió por complejo y puede interactuar con su dificultad. Se limita la conclusión a la relación monotónica estudiada. Con volumen del ligando fijo, reducir la caja aumenta la ocupación definida; se corrige la dirección descrita en el texto.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-31.md"

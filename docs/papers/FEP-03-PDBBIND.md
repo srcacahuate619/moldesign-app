@@ -57,3 +57,19 @@ fallaron— y se conserva como evidencia.
   permiso escrito. El artefacto guarda identificadores PDB, recuentos y
   agregados por diana; un paquete para terceros construido sobre esta cohorte
   tendría que reconstruirse desde los identificadores.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-006. Igual que en FEP-03: el conteo de parejas es de candidatas con sesgos en las dos direcciones, no una cota superior demostrada.
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-008. «Ligandos conectados» contaba los extremos de todas las parejas aptas de una
+  diana: dos parejas sueltas A–B y C–D sumaban 4 aunque no haya camino entre A y D. Contando el
+  **mayor componente conexo**, que es lo que necesita una red de FEP relativo, hay **11** dianas
+  con 10 o más ligandos (no 28) y **4** con 20 o más (no 12); 73 de las 313 dianas tienen más de
+  un componente. Un componente conexo tampoco es todavía una red parametrizable. Productor:
+  `scripts/analisis_fep03pdbbind_componentes.py`.

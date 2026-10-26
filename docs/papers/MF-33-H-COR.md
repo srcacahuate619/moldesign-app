@@ -163,3 +163,25 @@ lo que funcionó no permite juzgar lo que funcionó; uno que corrige en silencio
 Y no demuestra exactitud de pose, ni unión, ni ventaja de ningún brazo. Este corrigendum no
 toca el protocolo de docking: sólo dice que lo que se estaba midiendo no era lo que se creía
 medir.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-017. El IC de Wilson de 99,30 a 99,61 % trata las 8224 poses como independientes, y vienen de 48 complejos: no es la incertidumbre para complejos nuevos. Las 8181 de 8224 bajo este protocolo de hidrógenos siguen en pie como censo.
+
+## PROD-PV-H-01: el proxy energético y el control oficial producen veredictos distintos
+
+**GO de conformidad de medición.** Añade un contraste de procedimientos en el ámbito top-1 rígido ya definido en este paper. No modifica las tasas de batería física.
+
+El control oficial aislado fue `energy_ratio` de PoseBusters 0.6.5, configuración dock con UFF, 50 conformaciones y umbral 100,0. Divide energía de pose por energía media del ensemble; el proxy propio de RDKit usa otro procedimiento.
+
+| Contraste archivado | Registros |
+|---|---:|
+| Proxy FALLA y oficial PASA, representación mixta | 33 |
+| Proxy PASA y oficial PASA, misma representación | 199 |
+| Discrepancias del control oficial, mixta frente a canónica | 0 |
+
+Lector y canonicalización tienen cobertura completa en la salida; el evaluador oficial entrega razón finita en todos los registros. Esas coberturas se informan separadas en el artefacto. La reparación del lector se observó antes del sello; no se presenta como descubrimiento ciego de la corrida final.
+
+**SCI-B-016** impide leer PASA como batería completa. Aquí el productor llama directamente a `check_energy_ratio` y clasifica NaN como NO_EVALUADO; no usa para ese control el wrapper histórico de batería. El proxy conserva su autoría y no debe llamarse `internal_energy` de PoseBusters por concordancia observada. El límite por pose de SCI-B-017 sigue en Correcciones del padre. No comprobado por mí: ejecutar lector, reconstrucción de H o control energético. Fuente: `PROD-PV-H-01`.

@@ -1,0 +1,634 @@
+{
+ "herramienta": "scripts/medir_metales_del_sitio.py",
+ "criterio": "ion metálico no declarado en cofactors_whitelist a <= 6 Å de algún átomo del ligando del cristal (la instancia de site_ligand más cercana al centro de la caja); lo coordina el ligando si un N, O o S suyo está a <= 2.8 Å del ion. Geométrico, sobre el depósito sin preparar: no distingue coordinación directa de mediada por agua ni mide energía.",
+ "resumen": {
+  "entradas": 41,
+  "iones": 52,
+  "iones_coordinados_por_el_ligando": 43,
+  "entradas_con_algun_ion_coordinado": 35,
+  "entradas_sin_ningun_ion_coordinado": [
+   "4PHL",
+   "4QGE",
+   "5A2R",
+   "5I3T",
+   "6KE5",
+   "8WGR"
+  ],
+  "por_elemento": {
+   "CA": {
+    "iones": 5,
+    "coordinados": 4
+   },
+   "K": {
+    "iones": 3,
+    "coordinados": 1
+   },
+   "MG": {
+    "iones": 16,
+    "coordinados": 13
+   },
+   "ZN": {
+    "iones": 28,
+    "coordinados": 25
+   }
+  }
+ },
+ "filas": [
+  {
+   "pdb_id": "1BN1",
+   "metal": "ZN",
+   "metal_id": "A:262",
+   "ligando": "AL5",
+   "d_ligando_A": 1.91,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N21"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1C3R",
+   "metal": "ZN",
+   "metal_id": "A:501",
+   "ligando": "TSN",
+   "d_ligando_A": 2.24,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1C3S",
+   "metal": "ZN",
+   "metal_id": "A:951",
+   "ligando": "SHH",
+   "d_ligando_A": 1.84,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1J36",
+   "metal": "ZN",
+   "metal_id": "A:701",
+   "ligando": "LPR",
+   "d_ligando_A": 1.94,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2",
+    "O3"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1J37",
+   "metal": "ZN",
+   "metal_id": "A:701",
+   "ligando": "X8Z",
+   "d_ligando_A": 1.99,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "S"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1T69",
+   "metal": "ZN",
+   "metal_id": "A:378",
+   "ligando": "SHH",
+   "d_ligando_A": 1.95,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1VKG",
+   "metal": "ZN",
+   "metal_id": "B:400",
+   "ligando": "CRI",
+   "d_ligando_A": 1.91,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N",
+    "O",
+    "OH"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1W22",
+   "metal": "ZN",
+   "metal_id": "B:1375",
+   "ligando": "NHB",
+   "d_ligando_A": 2.14,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N24",
+    "O25",
+    "O26"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "1ZZ1",
+   "metal": "ZN",
+   "metal_id": "A:2451",
+   "ligando": "SHH",
+   "d_ligando_A": 1.9,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2A3W",
+   "metal": "CA",
+   "metal_id": "A:301",
+   "ligando": "CPJ",
+   "d_ligando_A": 2.18,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O8"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2A3W",
+   "metal": "CA",
+   "metal_id": "A:302",
+   "ligando": "CPJ",
+   "d_ligando_A": 2.29,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O9"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2A3W",
+   "metal": "CA",
+   "metal_id": "J:319",
+   "ligando": "CPJ",
+   "d_ligando_A": 2.31,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O30"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2A3W",
+   "metal": "CA",
+   "metal_id": "J:320",
+   "ligando": "CPJ",
+   "d_ligando_A": 2.32,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O31"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2AW1",
+   "metal": "ZN",
+   "metal_id": "A:262",
+   "ligando": "COX",
+   "d_ligando_A": 1.91,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2GH6",
+   "metal": "ZN",
+   "metal_id": "A:9451",
+   "ligando": "CF3",
+   "d_ligando_A": 1.77,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2JDI",
+   "metal": "MG",
+   "metal_id": "A:1512",
+   "ligando": "ANP",
+   "d_ligando_A": 2.16,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2B",
+    "O2G"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2X8Z",
+   "metal": "ZN",
+   "metal_id": "A:1616",
+   "ligando": "X8Z",
+   "d_ligando_A": 2.14,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "S"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "2X90",
+   "metal": "ZN",
+   "metal_id": "A:1618",
+   "ligando": "EAL",
+   "d_ligando_A": 2.0,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2",
+    "O3"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "3QXX",
+   "metal": "MG",
+   "metal_id": "A:223",
+   "ligando": "GDP",
+   "d_ligando_A": 2.01,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1B"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "3QXX",
+   "metal": "MG",
+   "metal_id": "A:224",
+   "ligando": "GDP",
+   "d_ligando_A": 2.01,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O3B"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "4CA7",
+   "metal": "ZN",
+   "metal_id": "A:1616",
+   "ligando": "3EF",
+   "d_ligando_A": 2.23,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "OAD",
+    "OAG"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "4CA8",
+   "metal": "ZN",
+   "metal_id": "A:1620",
+   "ligando": "3ES",
+   "d_ligando_A": 2.28,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "OAD",
+    "OAG"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "4CVL",
+   "metal": "MG",
+   "metal_id": "A:1453",
+   "ligando": "ACP",
+   "d_ligando_A": 1.9,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2B",
+    "O3G"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "4CVL",
+   "metal": "MG",
+   "metal_id": "A:1454",
+   "ligando": "ACP",
+   "d_ligando_A": 2.19,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1A",
+    "O2B",
+    "O3G"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "4PHL",
+   "metal": "MG",
+   "metal_id": "A:1002",
+   "ligando": "PIL",
+   "d_ligando_A": 4.36,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "4PHL",
+   "metal": "ZN",
+   "metal_id": "A:1001",
+   "ligando": "PIL",
+   "d_ligando_A": 5.51,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "4QA0",
+   "metal": "ZN",
+   "metal_id": "A:401",
+   "ligando": "SHH",
+   "d_ligando_A": 2.27,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "4QGE",
+   "metal": "MG",
+   "metal_id": "A:603",
+   "ligando": "35O",
+   "d_ligando_A": 5.71,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "4QGE",
+   "metal": "ZN",
+   "metal_id": "A:602",
+   "ligando": "35O",
+   "d_ligando_A": 5.79,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "4WUD",
+   "metal": "MG",
+   "metal_id": "A:402",
+   "ligando": "ANP",
+   "d_ligando_A": 2.04,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1A",
+    "O2B",
+    "O2G"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "5A2R",
+   "metal": "ZN",
+   "metal_id": "A:1616",
+   "ligando": "MLT",
+   "d_ligando_A": 4.38,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "5E92",
+   "metal": "MG",
+   "metal_id": "A:602",
+   "ligando": "ANP",
+   "d_ligando_A": 1.82,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N3B",
+    "O2A",
+    "O2G"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "5E92",
+   "metal": "MG",
+   "metal_id": "A:603",
+   "ligando": "ANP",
+   "d_ligando_A": 1.94,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1G",
+    "O2B"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "5I3T",
+   "metal": "K",
+   "metal_id": "A:503",
+   "ligando": "BU2",
+   "d_ligando_A": 4.0,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "5TY1",
+   "metal": "ZN",
+   "metal_id": "A:301",
+   "ligando": "7QV",
+   "d_ligando_A": 1.98,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N3"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "5Z2R",
+   "metal": "MG",
+   "metal_id": "A:602",
+   "ligando": "TD6",
+   "d_ligando_A": 2.01,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2A",
+    "O3B"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "6E53",
+   "metal": "MG",
+   "metal_id": "A:601",
+   "ligando": "HUV",
+   "d_ligando_A": 2.11,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1A",
+    "O1G",
+    "O2B"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "6E53",
+   "metal": "MG",
+   "metal_id": "A:602",
+   "ligando": "HUV",
+   "d_ligando_A": 3.61,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "6HSK",
+   "metal": "ZN",
+   "metal_id": "A:401",
+   "ligando": "GOK",
+   "d_ligando_A": 2.13,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O3",
+    "O4"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "6KE5",
+   "metal": "CA",
+   "metal_id": "C:1303",
+   "ligando": "D6C",
+   "d_ligando_A": 4.06,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "6S1Y",
+   "metal": "ZN",
+   "metal_id": "A:709",
+   "ligando": "KSN",
+   "d_ligando_A": 1.9,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O14",
+    "O15"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "6S1Z",
+   "metal": "ZN",
+   "metal_id": "A:705",
+   "ligando": "KS8",
+   "d_ligando_A": 2.18,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O01"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "6USR",
+   "metal": "K",
+   "metal_id": "A:605",
+   "ligando": "G2P",
+   "d_ligando_A": 2.74,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1A"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "6USR",
+   "metal": "MG",
+   "metal_id": "A:602",
+   "ligando": "G2P",
+   "d_ligando_A": 2.27,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1B",
+    "O1G"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "6USR",
+   "metal": "MG",
+   "metal_id": "A:603",
+   "ligando": "G2P",
+   "d_ligando_A": 2.3,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O1A"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "7JVU",
+   "metal": "ZN",
+   "metal_id": "B:401",
+   "ligando": "SHH",
+   "d_ligando_A": 2.03,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "7JVW",
+   "metal": "ZN",
+   "metal_id": "A:502",
+   "ligando": "B3N",
+   "d_ligando_A": 2.06,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2",
+    "O4"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "7SGG",
+   "metal": "ZN",
+   "metal_id": "A:703",
+   "ligando": "SHH",
+   "d_ligando_A": 2.1,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "8UBR",
+   "metal": "MG",
+   "metal_id": "A:1501",
+   "ligando": "ATP",
+   "d_ligando_A": 2.1,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O2B",
+    "O3G"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "8WGR",
+   "metal": "K",
+   "metal_id": "A:704",
+   "ligando": "DSM",
+   "d_ligando_A": 3.67,
+   "atomos_del_ligando_que_lo_coordinan": [],
+   "lo_coordina_el_ligando": false
+  },
+  {
+   "pdb_id": "9GKV",
+   "metal": "ZN",
+   "metal_id": "B:402",
+   "ligando": "SHH",
+   "d_ligando_A": 2.15,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "N1",
+    "O1",
+    "O2"
+   ],
+   "lo_coordina_el_ligando": true
+  },
+  {
+   "pdb_id": "9RJE",
+   "metal": "ZN",
+   "metal_id": "A:407",
+   "ligando": "6NA",
+   "d_ligando_A": 2.14,
+   "atomos_del_ligando_que_lo_coordinan": [
+    "O",
+    "OXT"
+   ],
+   "lo_coordina_el_ligando": true
+  }
+ ]
+}

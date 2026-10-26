@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "experiment_id": "SUP-02-TOTAL-SCORE",
+  "hypothesis": "El total_score 0-100 que el producto muestra como indice de calidad (SAR, Comunidad, score certificado de Moldex) ordena las afinidades experimentales mejor que el score de Vina sin transformar",
+  "protocol": "scripts/artifacts_science/SUP-02-TOTAL-SCORE/entrada/REGISTRO_PREVIO.md",
+  "created_at": "2026-10-25T18:34:51.700590+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "52cfa4523854c7c09187d30fd444872a555f2aa6",
+    "dirty": false
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Dif. de Spearman total_score menos Vina con IC95 bootstrap pareado: GO si el IC excluye el cero por encima en las dos series; DANO si lo excluye por debajo en alguna; si no, NO_GO (no demuestra valor anadido)"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/SUP-02-TOTAL-SCORE/entrada/REGISTRO_PREVIO.md": "d0f895431b2816e93cb895a954c4c2a34101108adc142d433da5aa294b76bb03",
+    "scripts/artifacts_science/CAL-D-01-R4-2-VMAT2-8T69/per_complex.jsonl": "9442b3d1d77a03c099640856912f1e0588cad9b4657362fffda2ff44ba5fdc2c",
+    "scripts/artifacts_science/CAL-8HFI-01/per_complex.jsonl": "8ad5c2bf4c9d6ce33bcebaffe5b93fcf6256bfc33f955c9cbdf875f1089a44a2"
+  },
+  "assets_hashes": {
+    "scripts/sup02_total_score/medir.py": "0baa1629971ab3ebb9426ad975783379e0c6401955df5ed9aa90b72351c109d9",
+    "scripts/artifacts_science/SUP-02-TOTAL-SCORE/RESULTADOS.md": "d55e6c17733e0f368e5abfa8eadc9bba27afe2091d6f0ed93bcd2612b952fed5"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-25T18:40:30.452362+00:00",
+  "decision_rationale": "El total_score 0-100 no ordena mejor que Vina sin transformar: 8T69 rho 0,397 frente a 0,392 (dif. +0,005, IC95 -0,058 a +0,061; rho total_score~Vina 0,97); 8HFI rho 0,029 frente a 0,129 (dif. -0,101, IC95 -0,334 a +0,134). Sin dano demostrado; no demuestra valor anadido.",
+  "finished_at": "2026-10-25T18:40:31.052171+00:00"
+}

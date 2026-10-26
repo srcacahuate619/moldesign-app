@@ -75,11 +75,11 @@ export function PropertiesPanel({ result }: Props) {
 
       <div className="grid grid-cols-2 gap-x-6 gap-y-0.5">
         <Row
-          label="Peso molecular"
+          label={t("pn_prop_peso_molecular")}
           value={result.molecular_weight}
           unit="Da"
           onClick={() => setSelectedProperty({
-            title: "Peso Molecular",
+            title: t("pn_prop_peso_molecular_titulo"),
             icon: "⚖️",
             desc: t("auto_ec0377945f92")
           })}
@@ -94,7 +94,7 @@ export function PropertiesPanel({ result }: Props) {
           })}
         />
         <Row
-          label="TPSA"
+          label={t("pr_param_tpsa")}
           value={result.tpsa}
           unit="Å²"
           onClick={() => setSelectedProperty({
@@ -104,7 +104,7 @@ export function PropertiesPanel({ result }: Props) {
           })}
         />
         <Row
-          label="HBD"
+          label={t("pn_prop_hbd")}
           value={result.hbd}
           onClick={() => setSelectedProperty({
             title: t("auto_411c9577cc23"),
@@ -113,7 +113,7 @@ export function PropertiesPanel({ result }: Props) {
           })}
         />
         <Row
-          label="HBA"
+          label={t("pn_prop_hba")}
           value={result.hba}
           onClick={() => setSelectedProperty({
             title: t("auto_0d82ae16ddd4"),
@@ -122,36 +122,36 @@ export function PropertiesPanel({ result }: Props) {
           })}
         />
         <Row
-          label="Rot. bonds"
+          label={t("pn_prop_rotatable_bonds")}
           value={result.rotatable_bonds}
           onClick={() => setSelectedProperty({
-            title: "Enlaces Rotables",
+            title: t("pn_prop_rotatable_bonds"),
             icon: "🔄",
             desc: t("auto_062fc71dfbbf")
           })}
         />
         <Row label={t("pn_atomos_pesados")} value={result.heavy_atom_count} />
-        <Row label="Anillos" value={result.ring_count} />
+        <Row label={t("pr_param_rings")} value={result.ring_count} />
         <Row
           label="QED"
           value={result.qed}
           onClick={() => setSelectedProperty({
-            title: "Quantitative Estimate of Drug-likeness (QED)",
+            title: t("pn_prop_qed_titulo"),
             icon: "🌟",
             desc: t("auto_a0adb4d99412")
           })}
         />
         <Row
-          label="LogS (Solubilidad)"
+          label={t("pn_prop_logs")}
           value={result.blood_solubility_logs}
           onClick={() => setSelectedProperty({
-            title: "Solubilidad Acuosa (LogS)",
+            title: t("pn_prop_solubilidad_acuosa_titulo"),
             icon: "💧",
             desc: t("auto_0310df6f0be2")
           })}
         />
         <Row
-          label="PPB"
+          label={t("pr_param_ppb")}
           value={etiquetaPPB(result.blood_ppb_category)}
           onClick={() => setSelectedProperty({
             title: t("auto_81f1389c8e3d"),
@@ -169,7 +169,7 @@ export function PropertiesPanel({ result }: Props) {
           })}
         />
         <Row
-          label="Llega al Cerebro"
+          label={t("pn_prop_llega_cerebro")}
           value={result.blood_bbb_permeable != null ? (result.blood_bbb_permeable ? t("auto_c4bcead81aba") : t("auto_3963e4218261")) : null}
           onClick={() => setSelectedProperty({
             title: t("auto_df4596705f22"),

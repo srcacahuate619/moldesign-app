@@ -1,0 +1,450 @@
+{
+  "35O": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/35O.cif",
+      "downloaded_at": "2026-10-11T21:23:37+00:00",
+      "sha256": "125bb87a8d28c4164f3a4009c1f67fc14a2fa69b11af62dda36baf29b497421e"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.7.6",
+      "smiles": "C[C@H](C(=O)Nc1ccc(cc1)OC)NC2=NC(=O)c3cnn(c3N2)C4CCCC4"
+    },
+    "smiles": "COc1ccc(NC(=O)[C@@H](C)Nc2nc(=O)c3cnn(C4CCCC4)c3[nH]2)cc1"
+  },
+  "3EF": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/3EF.cif",
+      "downloaded_at": "2026-10-11T21:23:37+00:00",
+      "sha256": "85d330a7f5e538f289250c06be149d664e91c59f06c50d817a6ff40068a49958"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.7.6",
+      "smiles": "c1ccc(cc1)C[C@H](NC(=O)OCc2ccccc2)P(=O)(C[C@@H](Cc3cc(no3)c4ccccc4)C(=O)N[C@@H](Cc5ccc(cc5)O)C(=O)O)O"
+    },
+    "smiles": "O=C(N[C@@H](Cc1ccccc1)P(=O)(O)C[C@@H](Cc1cc(-c2ccccc2)no1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)O)OCc1ccccc1"
+  },
+  "3ES": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/3ES.cif",
+      "downloaded_at": "2026-10-11T21:23:37+00:00",
+      "sha256": "0b25fcbfe9066c2b78f0d9c5a0f247fbdecd5ed6af080ee8d968cc4fea1fba57"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.6.1",
+      "smiles": "c1ccc(cc1)C[C@H](NC(=O)OCc2ccccc2)[P@](=O)(C[C@H](Cc3cc(no3)c4ccccc4)C(=O)N[C@@H](Cc5ccc(cc5)O)C(=O)O)O"
+    },
+    "smiles": "O=C(N[C@@H](Cc1ccccc1)[P@@](=O)(O)C[C@H](Cc1cc(-c2ccccc2)no1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)O)OCc1ccccc1"
+  },
+  "6NA": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/6NA.cif",
+      "downloaded_at": "2026-10-11T21:23:38+00:00",
+      "sha256": "731011e0ee6d4e9e197c274cf144702a42b39ef6ac8f93d9e90f1c2c684f8ddc"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "CCCCCC(=O)O"
+    },
+    "smiles": "CCCCCC(=O)O"
+  },
+  "7QV": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/7QV.cif",
+      "downloaded_at": "2026-10-11T21:23:38+00:00",
+      "sha256": "9a0b500d64558ed8cd82a7231c4541925b615c223a2889a3118084f4d5daac88"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "2.0.6",
+      "smiles": "COc1ccc(c(c1)OC)[C@@H]2C(=O)NC(=O)O2"
+    },
+    "smiles": "COc1ccc([C@H]2OC(=O)NC2=O)c(OC)c1"
+  },
+  "ACP": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/ACP.cif",
+      "downloaded_at": "2026-10-11T21:23:39+00:00",
+      "sha256": "a16e0c798deb52172df76f5bc264e7346fa53cb6a8b9b68d998aac1ef9545a45"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "c1nc(c2c(n1)n(cn2)[C@H]3[C@@H]([C@@H]([C@H](O3)CO[P@@](=O)(O)O[P@](=O)(CP(=O)(O)O)O)O)O)N"
+    },
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)(O)O)[C@@H](O)[C@H]1O"
+  },
+  "AL5": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/AL5.cif",
+      "downloaded_at": "2026-10-11T21:23:39+00:00",
+      "sha256": "a737df95ae8128d2c00efefd81773f482c5affa13a5799f0b15ac7a4ccb2e0ef"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "Cc1ccc(cc1)CNS(=O)(=O)c2ccc(s2)S(=O)(=O)N"
+    },
+    "smiles": "Cc1ccc(CNS(=O)(=O)c2ccc(S(N)(=O)=O)s2)cc1"
+  },
+  "ANP": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/ANP.cif",
+      "downloaded_at": "2026-10-11T21:23:39+00:00",
+      "sha256": "de8b6a2cf7cc2f88b9b62f16944b934ef36ca24b45eac145360dffaf15bc8624"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.7.0",
+      "smiles": "c1nc(c2c(n1)n(cn2)[C@H]3[C@@H]([C@@H]([C@H](O3)CO[P@](=O)(O)O[P@@](=O)(NP(=O)(O)O)O)O)O)N"
+    },
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@](=O)(O)O[P@](=O)(O)NP(=O)(O)O)[C@@H](O)[C@H]1O"
+  },
+  "ATP": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/ATP.cif",
+      "downloaded_at": "2026-10-11T21:23:40+00:00",
+      "sha256": "06d876e9fe28b6981725288cd03943818ef6faf4839782c2a0a8929d65c85336"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "c1nc(c2c(n1)n(cn2)[C@H]3[C@@H]([C@@H]([C@H](O3)CO[P@@](=O)(O)O[P@](=O)(O)OP(=O)(O)O)O)O)N"
+    },
+    "smiles": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]1O"
+  },
+  "B3N": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/B3N.cif",
+      "downloaded_at": "2026-10-11T21:23:40+00:00",
+      "sha256": "21f168dcbaf983be50d13f62e201cb8302edc0f7bd79d0579e43a617eaf59270"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.7.0",
+      "smiles": "CN(C)c1ccc(cc1)C(=O)NCCCCCCC(=O)NO"
+    },
+    "smiles": "CN(C)c1ccc(C(=O)NCCCCCCC(=O)NO)cc1"
+  },
+  "BU2": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/BU2.cif",
+      "downloaded_at": "2026-10-11T21:23:41+00:00",
+      "sha256": "e4d75cd9784ae6cdd4787e54cf3caa7eb10d98627c3014976b3859c572d6a70f"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "C[C@@H](CCO)O"
+    },
+    "smiles": "C[C@H](O)CCO"
+  },
+  "CF3": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/CF3.cif",
+      "downloaded_at": "2026-10-11T21:23:41+00:00",
+      "sha256": "62e46d04ff42065fdfabe46bace32c4190dcab47a18da4799e03f7951d08d686"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "c1ccc(cc1)NC(=O)CCCCCCC(=O)C(F)(F)F"
+    },
+    "smiles": "O=C(CCCCCCC(=O)C(F)(F)F)Nc1ccccc1"
+  },
+  "COX": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/COX.cif",
+      "downloaded_at": "2026-10-11T21:23:41+00:00",
+      "sha256": "d07764679fb47bef5df11c0284b63373b6e5cf7c1d5cfc0c13e9ab67756fc2c5"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "Cc1c(c(no1)c2ccccc2)c3ccc(cc3)S(=O)(=O)N"
+    },
+    "smiles": "Cc1onc(-c2ccccc2)c1-c1ccc(S(N)(=O)=O)cc1"
+  },
+  "CPJ": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/CPJ.cif",
+      "downloaded_at": "2026-10-11T21:23:42+00:00",
+      "sha256": "03a70d0b7ed1b1aca43c16f8ba40d11c5882ddfbb298117c03aeddce8df674aa"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "CC1(OCC(CO1)OC(=O)NCCNC(=O)OC2COC(OC2)(C)C(=O)O)C(=O)O"
+    },
+    "smiles": "CC1(C(=O)O)OCC(OC(=O)NCCNC(=O)OC2COC(C)(C(=O)O)OC2)CO1"
+  },
+  "CRI": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/CRI.cif",
+      "downloaded_at": "2026-10-11T21:23:42+00:00",
+      "sha256": "6ba89aee648c096586a79f43f3a1d33303b8ed0195d3faad1e915416f87c72f9"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "Cc1ccc(cc1)C(=O)Nc2cc(cc(c2)C(=O)N(C)C)c3ccc(cc3)C(=O)NO"
+    },
+    "smiles": "Cc1ccc(C(=O)Nc2cc(C(=O)N(C)C)cc(-c3ccc(C(=O)NO)cc3)c2)cc1"
+  },
+  "D6C": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/D6C.cif",
+      "downloaded_at": "2026-10-11T21:23:42+00:00",
+      "sha256": "e8ec6ebc5f23cce6579fd46499ffbd58708b65666a1929a3aa86aa7b47e66fea"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "2.0.7",
+      "smiles": "CC(=O)O[C@H]1[C@@H](Sc2ccccc2N(C1=O)CCN(C)C)c3ccc(cc3)OC"
+    },
+    "smiles": "COc1ccc([C@@H]2Sc3ccccc3N(CCN(C)C)C(=O)[C@H]2OC(C)=O)cc1"
+  },
+  "DSM": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/DSM.cif",
+      "downloaded_at": "2026-10-11T21:23:43+00:00",
+      "sha256": "2d555cbe36299b33f2e97e332e3b4547689e769675e3497613d5202e6341e1fa"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "CNCCCN1c2ccccc2CCc3c1cccc3"
+    },
+    "smiles": "CNCCCN1c2ccccc2CCc2ccccc21"
+  },
+  "EAL": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/EAL.cif",
+      "downloaded_at": "2026-10-11T21:23:43+00:00",
+      "sha256": "1b90631c5cda5cb64fff95d8efabe1a6fd4d4f20240535e8995a2ef307bb10f8"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "C[C@@H](C(=O)N1CCC[C@H]1C(=O)O)N[C@@H](CCc2ccccc2)C(=O)O"
+    },
+    "smiles": "C[C@H](N[C@@H](CCc1ccccc1)C(=O)O)C(=O)N1CCC[C@H]1C(=O)O"
+  },
+  "G2P": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/G2P.cif",
+      "downloaded_at": "2026-10-11T21:23:44+00:00",
+      "sha256": "bf3eb1c11e3d6d0e3124f619ed65fbcc7e0f9a067df7702554ec34d0ef1ef4fd"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "c1nc2c(n1[C@H]3[C@@H]([C@@H]([C@H](O3)CO[P@](=O)(C[P@@](=O)(O)OP(=O)(O)O)O)O)O)N=C(NC2=O)N"
+    },
+    "smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@@](=O)(O)C[P@@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1"
+  },
+  "GDP": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/GDP.cif",
+      "downloaded_at": "2026-10-11T21:23:44+00:00",
+      "sha256": "aea95821c9e8b2b302640f6356e183623cb068537bed3c68f867d1d685d439b3"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.7.6",
+      "smiles": "c1nc2c(n1[C@H]3[C@@H]([C@@H]([C@H](O3)CO[P@](=O)(O)OP(=O)(O)O)O)O)N=C(NC2=O)N"
+    },
+    "smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1"
+  },
+  "GOK": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/GOK.cif",
+      "downloaded_at": "2026-10-11T21:23:44+00:00",
+      "sha256": "1ed84648fd85429c4b01f77c9c73dbd18d9f4e2e95f31954283f40b0665be8fc"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "2.0.6",
+      "smiles": "Cn1cc(c2c1cccc2)CNCC3CCN(CC3)c4ncc(cn4)C(=O)NO"
+    },
+    "smiles": "Cn1cc(CNCC2CCN(c3ncc(C(=O)NO)cn3)CC2)c2ccccc21"
+  },
+  "HUV": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/HUV.cif",
+      "downloaded_at": "2026-10-11T21:23:45+00:00",
+      "sha256": "306e7c058d0c5755358067d42cf07ce2aa3e76ee668c5ae2b848eb57aa3014c4"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "2.0.6",
+      "smiles": "COC(=O)c1ccc2c(c1)ccn2[C@@H]3C[C@@H]([C@H](O3)COP(=O)(O)OP(=O)(O)OP(=O)(O)O)O"
+    },
+    "smiles": "COC(=O)c1ccc2c(ccn2[C@@H]2C[C@H](O)[C@@H](COP(=O)(O)OP(=O)(O)OP(=O)(O)O)O2)c1"
+  },
+  "KS8": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/KS8.cif",
+      "downloaded_at": "2026-10-11T21:23:45+00:00",
+      "sha256": "a85a8be669ba0c9cc15a64d8a099254c98c9f13466cd335875525e642b6cacdc"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "2.0.7",
+      "smiles": "c1ccc(cc1)CCCCP(=O)(CC(=O)N2C[C@@H](C[C@H]2C(=O)O)C3CCCCC3)O"
+    },
+    "smiles": "O=C(O)[C@@H]1C[C@@H](C2CCCCC2)CN1C(=O)CP(=O)(O)CCCCc1ccccc1"
+  },
+  "KSN": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/KSN.cif",
+      "downloaded_at": "2026-10-11T21:23:46+00:00",
+      "sha256": "fbeca0c06b8319140a9802775109885487c4708672f18a99e7a8e0d3bf295dbf"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "2.0.7",
+      "smiles": "C(CC(=O)N[C@@H](CCC(=O)O)C(=O)O)[C@@H](C(=O)O)N"
+    },
+    "smiles": "N[C@@H](CCC(=O)N[C@@H](CCC(=O)O)C(=O)O)C(=O)O"
+  },
+  "LPR": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/LPR.cif",
+      "downloaded_at": "2026-10-11T21:23:46+00:00",
+      "sha256": "34b90220b0b961b841bb6f8e8535ba5cb54c2728eefe6a34db45823bfe956a1e"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "c1ccc(cc1)CC[C@@H](C(=O)O)N[C@@H](CCCCN)C(=O)N2CCC[C@H]2C(=O)O"
+    },
+    "smiles": "NCCCC[C@H](N[C@@H](CCc1ccccc1)C(=O)O)C(=O)N1CCC[C@H]1C(=O)O"
+  },
+  "MLT": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/MLT.cif",
+      "downloaded_at": "2026-10-11T21:23:46+00:00",
+      "sha256": "3744f7a2e1c46d9b68114c0549128cfc8b5fec41e3c6b8510d4856adb3e34def"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.7.6",
+      "smiles": "C([C@H](C(=O)O)O)C(=O)O"
+    },
+    "smiles": "O=C(O)C[C@@H](O)C(=O)O"
+  },
+  "NHB": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/NHB.cif",
+      "downloaded_at": "2026-10-11T21:23:47+00:00",
+      "sha256": "48bee525b89dce6588cb68e3db65d1069ec252e04d7e5845cee76311a72ec37f"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "CN(c1ccc(cc1)C(=O)NO)S(=O)(=O)c2ccc(s2)c3ccccn3"
+    },
+    "smiles": "CN(c1ccc(C(=O)NO)cc1)S(=O)(=O)c1ccc(-c2ccccn2)s1"
+  },
+  "PIL": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/PIL.cif",
+      "downloaded_at": "2026-10-11T21:23:47+00:00",
+      "sha256": "c4ac1e6e51f3258ae5e5227b4baba622e69367f0aedb0012e41a1e4a341fad9e"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "COc1ccc(cc1OC2CCCC2)C(=O)Nc3c(cncc3Cl)Cl"
+    },
+    "smiles": "COc1ccc(C(=O)Nc2c(Cl)cncc2Cl)cc1OC1CCCC1"
+  },
+  "SHH": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/SHH.cif",
+      "downloaded_at": "2026-10-11T21:23:48+00:00",
+      "sha256": "dbeb2b4e6d97dad69c240356696a434b0394cfc4b5eeffc6f08075358a709fcd"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "c1ccc(cc1)NC(=O)CCCCCCC(=O)NO"
+    },
+    "smiles": "O=C(CCCCCCC(=O)Nc1ccccc1)NO"
+  },
+  "TD6": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/TD6.cif",
+      "downloaded_at": "2026-10-11T21:23:48+00:00",
+      "sha256": "fb6f3c7faef0a0f310c0ef00b5ae1aea02c5f176b2da598f052fe57e47bebcef"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.7.6",
+      "smiles": "Cc1c(sc([n+]1Cc2cnc(nc2N)C)[C@H](CCC(=O)O)O)CCOP(=O)(O)OP(=O)(O)O"
+    },
+    "smiles": "Cc1ncc(C[n+]2c([C@@H](O)CCC(=O)O)sc(CCOP(=O)(O)OP(=O)(O)O)c2C)c(N)n1"
+  },
+  "TSN": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/TSN.cif",
+      "downloaded_at": "2026-10-11T21:23:48+00:00",
+      "sha256": "9ed4c9e684c28b91ddbdae4ebff58066ba10223cd3c1aade8b95a6d1d84896a0"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.5.0",
+      "smiles": "C[C@H](\\C=C(/C)\\C=C\\C(=O)NO)C(=O)c1ccc(cc1)N(C)C"
+    },
+    "smiles": "CC(/C=C/C(=O)NO)=C\\[C@@H](C)C(=O)c1ccc(N(C)C)cc1"
+  },
+  "X8Z": {
+    "source": {
+      "url": "https://files.rcsb.org/ligands/download/X8Z.cif",
+      "downloaded_at": "2026-10-11T21:23:49+00:00",
+      "sha256": "6193339362c0d11f55701d4f360cea4ce25e4b1775cd4eaeb11989a11aebf3d7"
+    },
+    "descriptor": {
+      "type": "SMILES_CANONICAL",
+      "program": "OpenEye OEToolkits",
+      "version": "1.6.1",
+      "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O"
+    },
+    "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O"
+  }
+}

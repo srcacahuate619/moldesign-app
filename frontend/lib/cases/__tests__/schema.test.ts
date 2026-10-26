@@ -26,6 +26,7 @@ import {
   migrateManifest,
   parseCaseManifest,
   parseCaseManifestText,
+  MAX_FOLDER_NAME_LENGTH,
   sanitizeFolderName,
   serializeCaseManifest,
   touchCase,
@@ -281,6 +282,43 @@ describe("sanitizeFolderName — frontera de seguridad", () => {
 
   it("recorta a un largo manejable", () => {
     expect(sanitizeFolderName("x".repeat(300)).length).toBeLessThanOrEqual(64);
+  });
+
+  // QA1-001. La lista blanca era `[a-zA-Z0-9]`: cada tilde y cada «ñ» se volvía «-»,
+  // así que un caso «Inhibición de ACE» vivía en la carpeta «Inhibici-n de ACE».
+  it("conserva las letras acentuadas y la eñe (el producto es en español)", () => {
+    expect(sanitizeFolderName("Prueba de cápsula")).toBe("Prueba de cápsula");
+    expect(sanitizeFolderName("Inhibición de ACE — cribado inicial")).toBe("Inhibición de ACE - cribado inicial");
+    expect(sanitizeFolderName("Diseño de piñón")).toBe("Diseño de piñón");
+    expect(sanitizeFolderName("Über ÁÉÍÓÚ üñ")).toBe("Über ÁÉÍÓÚ üñ");
+  });
+
+  it("admite otros alfabetos y números", () => {
+    expect(sanitizeFolderName("阿尔茨海默 2026")).toBe("阿尔茨海默 2026");
+    expect(sanitizeFolderName("Серия 3")).toBe("Серия 3");
+  });
+
+  it("normaliza a NFC: letra + marca combinada queda como la letra compuesta", () => {
+    const descompuesto = "Inhibicio\u0301n";
+    expect(descompuesto).not.toBe("Inhibición");
+    expect(sanitizeFolderName(descompuesto)).toBe("Inhibición");
+  });
+
+  it("sigue sustituyendo lo que Windows no admite aunque vaya junto a letras", () => {
+    expect(sanitizeFolderName("caña<>:\"|?*")).toBe("caña");
+    expect(sanitizeFolderName("a/b\\c")).toBe("a-b-c");
+    expect(sanitizeFolderName("ácido\u0000nítrico")).toBe("ácido-nítrico");
+    expect(sanitizeFolderName("molécula 🧪")).toBe("molécula");
+  });
+
+  // Rust mide `trimmed.len()`: BYTES. 64 caracteres de dos bytes serían 128.
+  it("el largo máximo es de 64 BYTES de UTF-8, como lo exige Rust", () => {
+    const largo = sanitizeFolderName("ñ".repeat(300));
+    expect(new TextEncoder().encode(largo).length).toBeLessThanOrEqual(MAX_FOLDER_NAME_LENGTH);
+    expect(largo.length).toBe(32);
+    const mezcla = sanitizeFolderName("Inhibición de la acetilcolinesterasa — serie ñandú ".repeat(4));
+    expect(new TextEncoder().encode(mezcla).length).toBeLessThanOrEqual(MAX_FOLDER_NAME_LENGTH);
+    expect(mezcla.endsWith("-")).toBe(false);
   });
 });
 

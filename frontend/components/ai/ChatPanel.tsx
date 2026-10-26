@@ -15,7 +15,7 @@ import {
   Globe,
   ShieldAlert,
 } from "lucide-react";
-import { useAI } from "@/context/AIContext";
+import { FALLBACK_PROVIDER, useAI } from "@/context/AIContext";
 import { ChatMessage } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 import { ProviderBadge } from "./ProviderBadge";
@@ -39,7 +39,6 @@ export function ChatPanel() {
     otorgarConsentimiento,
   } = useAI();
   const { models, startDownload } = useDownload();
-  const llmMissing = models["llm-qwen15"] === "missing" || models["llm-qwen15"] === "error";
   // El aviso se puede cerrar. Antes no: si el estado del modelo se quedaba
   // desfasado, la banda se quedaba fija encima de la conversacion para siempre.
   const [avisoLlmCerrado, setAvisoLlmCerrado] = React.useState(false);
@@ -130,6 +129,20 @@ export function ChatPanel() {
     (p) => p.id === state.activeProviderId
   );
 
+  // «Modelo LLM no descargado» lo decide el backend: la lista de `.gguf` que
+  // encuentra donde busca, que son los que puede cargar. Antes se decidía con la
+  // comprobación de Tauri del archivo de Qwen2.5 1.5B en el destino de su
+  // descarga, que en `tauri dev` no es donde busca el backend y que ignora
+  // cualquier otro modelo: el aviso salía con el modelo en disco y MolChat
+  // respondiendo. Mientras el backend no conteste (proveedor de respaldo) no se
+  // afirma nada.
+  const sinModeloLocal =
+    activeProvider?.id === "local" &&
+    activeProvider !== FALLBACK_PROVIDER &&
+    activeProvider.available_models.length === 0;
+  const descargandoModeloLocal =
+    models["llm-qwen15"] === "downloading" || models["llm-qwen15"] === "extracting";
+
   // MOLCHAT-NET-005: a dónde salen los datos con el proveedor activo. Lo calcula
   // el backend; la interfaz sólo lo declara.
   const destinoActivo =
@@ -162,7 +175,7 @@ export function ChatPanel() {
         className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         style={{
           position: "fixed",
-          bottom: 24,
+          bottom: "calc(24px + var(--evaluation-actions-height, 0px) + env(safe-area-inset-bottom, 0px))",
           right: 24,
           zIndex: 50,
           width: 52,
@@ -237,18 +250,19 @@ export function ChatPanel() {
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
+                  alignItems: "flex-start",
                   justifyContent: "space-between",
+                  gap: 12,
                   padding: "12px 16px",
                   borderBottom: "1px solid var(--border)",
                   flexShrink: 0,
                 }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div style={{ display: "flex", flexWrap: "wrap", flex: 1, minWidth: 0, alignItems: "center", gap: 8 }}>
                   <button
                     type="button"
                     onClick={() => setShowSidebar(!showSidebar)}
-                    aria-label={showSidebar ? "Ocultar historial" : "Mostrar historial"}
+                    aria-label={showSidebar ? t("ia_chat_hide_history") : t("ia_chat_show_history")}
                     aria-expanded={showSidebar}
                     className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
                     style={{
@@ -281,7 +295,7 @@ export function ChatPanel() {
                       border: "1px solid var(--border)",
                       borderRadius: 8,
                       overflow: "hidden",
-                      marginLeft: 12,
+                      flexShrink: 0,
                     }}
                   >
                     <button
@@ -352,7 +366,7 @@ export function ChatPanel() {
                         ? t("auto_a3fa6f75da44")
                         : t("auto_4e5f58ee4e09")
                     }
-                    aria-label={state.allowWeb ? "Desactivar modo web" : "Activar modo web"}
+                    aria-label={state.allowWeb ? t("ia_chat_deactivate_web_mode") : t("ia_chat_activate_web_mode")}
                     aria-pressed={state.allowWeb}
                     style={{
                       background: state.allowWeb
@@ -367,7 +381,8 @@ export function ChatPanel() {
                       alignItems: "center",
                       gap: 4,
                       cursor: "pointer",
-                      marginLeft: 8,
+                      flexShrink: 0,
+                      whiteSpace: "nowrap",
                       color: state.allowWeb ? "#3B82F6" : "var(--text-dim)",
                       fontSize: "0.75rem",
                       fontWeight: state.allowWeb ? 600 : 400,
@@ -375,10 +390,10 @@ export function ChatPanel() {
                     }}
                   >
                     <Globe size={13} aria-hidden="true" />
-                    {state.allowWeb ? "Web" : "Offline"}
+                    {state.allowWeb ? t("ia_chat_web_mode") : t("ia_chat_offline")}
                   </button>
                 </div>
-                <div style={{ display: "flex", gap: 4 }}>
+                <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
                   <button
                     type="button"
                     onClick={() =>
@@ -441,7 +456,7 @@ export function ChatPanel() {
                           letterSpacing: "0.05em",
                         }}
                       >
-                        Historial
+                        {t("ia_chat_history")}
                       </div>
                       {state.conversations.length === 0 ? (
                         <div
@@ -508,7 +523,7 @@ export function ChatPanel() {
                                 gap: 8,
                               }}
                             >
-                              <span>{conv.message_count} mensajes</span>
+                              <span>{t(conv.message_count === 1 ? "ia_chat_message_count_one" : "ia_chat_message_count_many", { count: conv.message_count })}</span>
                               <span>
                                 ·{" "}
                                 {new Date(conv.updated_at * 1000).toLocaleDateString(undefined, {
@@ -565,7 +580,7 @@ export function ChatPanel() {
                   }}
                 >
                   <Plus size={14} aria-hidden="true" />
-                  Nuevo chat
+                  {t("ia_chat_new")}
                 </button>
               </div>
 
@@ -610,7 +625,7 @@ export function ChatPanel() {
                       padding: "2px 8px",
                     }}
                   >
-                    Autorizar
+                    {t("ia_chat_authorize")}
                   </button>
                 </div>
               )}
@@ -702,7 +717,7 @@ export function ChatPanel() {
                       flexShrink: 0,
                       padding: 2,
                     }}
-                    aria-label="Ocultar aviso"
+                    aria-label={t("ia_chat_hide_notice")}
                   >
                     <X size={12} aria-hidden="true" />
                   </button>
@@ -710,12 +725,10 @@ export function ChatPanel() {
               )}
 
               {/* Download model banner */}
-              {/* El aviso solo aparece si ese modelo es el que hace falta.
-                  `llm-qwen15` es el checkpoint del interprete LOCAL: con un
-                  proveedor online activo, MolChat responde perfectamente y
-                  anunciar «modelo no descargado» es ruido que ademas no se
-                  podia quitar. Se conserva el aviso donde SI bloquea. */}
-              {llmMissing && activeProvider?.id === "local" && !avisoLlmCerrado && (
+              {/* Sólo con el motor local activo y sin ningún modelo que pueda
+                  cargar: con un proveedor online MolChat responde igual, y
+                  anunciar «modelo no descargado» sería ruido. */}
+              {sinModeloLocal && !avisoLlmCerrado && (
                 <div
                   style={{
                     padding: "10px 16px",
@@ -729,10 +742,11 @@ export function ChatPanel() {
                     color: "var(--text)",
                   }}
                 >
-                  <span>{t("ia_modelo_no_descargado")}</span>
+                  <span>{descargandoModeloLocal ? t("ia_modelo_descargandose") : t("ia_modelo_no_descargado")}</span>
                   <button
                     type="button"
                     onClick={() => startDownload("llm-qwen15")}
+                    disabled={descargandoModeloLocal}
                     style={{
                       background: "#FF6B35",
                       color: "#fff",
@@ -741,7 +755,8 @@ export function ChatPanel() {
                       padding: "4px 12px",
                       fontSize: "0.75rem",
                       fontWeight: 600,
-                      cursor: "pointer",
+                      cursor: descargandoModeloLocal ? "default" : "pointer",
+                      opacity: descargandoModeloLocal ? 0.6 : 1,
                       flexShrink: 0,
                     }}
                   >

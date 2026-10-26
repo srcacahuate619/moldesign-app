@@ -427,6 +427,137 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-096. El manifiesto de este experimento sella ",
+      "m": null
+     },
+     {
+      "t": "scripts/run_mf16_embudo_ff.py",
+      "m": "codigo"
+     },
+     {
+      "t": ", que es el runner de punto único de MF-16: no minimiza, no lee la salida de MF-10 y no emite los campos de esta tabla. El sello, por tanto, no acreditaba el productor de estas cifras. Ahora lo hace ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_mf16_r1_desde_mf10.py",
+      "m": "codigo"
+     },
+     {
+      "t": ", que las recalcula desde ",
+      "m": null
+     },
+     {
+      "t": "MF-10/per_complex.jsonl",
+      "m": "codigo"
+     },
+     {
+      "t": " (cada pose construida y minimizada por separado) y reproduce las 38 filas y el resumen sellado exactamente. La ρ relajada usa el RMSD ",
+      "m": null
+     },
+     {
+      "t": "después",
+      "m": "fuerte"
+     },
+     {
+      "t": " de relajar; la de punto único y la de Vina, el de antes. Es la advertencia de arriba, ahora con su productor.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-097. Ese mismo runner reutiliza los hidrógenos de la primera pose al puntuar las demás. El defecto está en el código, pero ",
+      "m": null
+     },
+     {
+      "t": "no toca ninguna cifra de este texto",
+      "m": "fuerte"
+     },
+     {
+      "t": ": todas salen de MF-10, que construye el sistema pose a pose. Sí afectaba a las energías de punto único de la corrida original de MF-16, que no están selladas y cuya conclusión este corrigendum ya invalidaba.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-098. El runner que sella el manifiesto escribe en ",
+      "m": null
+     },
+     {
+      "t": "MF-16",
+      "m": "codigo"
+     },
+     {
+      "t": ", no en ",
+      "m": null
+     },
+     {
+      "t": "MF-16-R1",
+      "m": "codigo"
+     },
+     {
+      "t": " (ver SCI-B-096 arriba: las cifras de R1 las reproduce ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_mf16_r1_desde_mf10.py",
+      "m": "codigo"
+     },
+     {
+      "t": ").",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-099. README y manifiesto dicen «sin gates», pero el productor define G1 y G2. Ninguno de los dos se preregistró: no se usan como decisión.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-100. «16 de 25» y «6 de 13» son los complejos con las dos correlaciones disponibles, no todos los del estrato (33 y 15): es un análisis de casos completos, sin intervalo para el efecto pareado.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-16-R1.md"

@@ -33,7 +33,7 @@
 
 import { chromium } from "playwright";
 import { createServer } from "node:http";
-import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
+import { mkdtemp, readdir, readFile, rm, stat } from "node:fs/promises";
 import { createRequire } from "node:module";
 import { spawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
@@ -41,6 +41,7 @@ import net from "node:net";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { comprobarIpcCsp } from "./smoke-ipc-csp.mjs";
 
 const require_ = createRequire(import.meta.url);
 const AQUI = path.dirname(fileURLToPath(import.meta.url));
@@ -126,6 +127,9 @@ async function arrancarBackend() {
       env: {
         ...process.env,
         APP_MODE: "DESKTOP",
+        // Rust comunica la carpeta del programa, pero el Blender administrado de Molcy ya
+        // NO vive allí (WindowsApps es de sólo lectura): vive en LOCAL_DATA_DIR.
+        MOLDESIGN_INSTALL_DIR: RECURSOS,
         ENVIRONMENT: "production",
         PYTHONPATH: backend,
         // Igual que en la instalacion: los recursos son inmutables y Python no
@@ -139,6 +143,8 @@ async function arrancarBackend() {
         // (Que la resolucion por defecto tambien funcione lo comprueba
         // `verify_desktop_bundle.validate_open_babel`, que la borra a proposito.)
         MOLDESIGN_OPENBABEL_DIR: path.join(RECURSOS, "tools", "openbabel"),
+        // El motor Molcy, igual que `backend.rs` (molcy_dir). Sólo es un lugar donde mirar: el backend lo usa si coincide con su manifiesto.
+        MOLDESIGN_MOLCY_DIR: path.join(RECURSOS, "tools", "molcy"),
         TABPFN_NO_BROWSER: "true",
         PYTHONIOENCODING: "utf-8",
         LOCAL_DATA_DIR: datos,
@@ -233,6 +239,25 @@ async function servirExport(csp) {
   return { puerto, servidor };
 }
 
+/** Rutas navegables del export: cada `<ruta>.html` / `<ruta>/index.html` de `out/`. */
+async function rutasExportadas() {
+  const rutas = new Set();
+  const recorrer = async (dir, prefijo) => {
+    for (const e of await readdir(dir, { withFileTypes: true })) {
+      if (e.isDirectory()) {
+        if (e.name === "_next" || e.name.startsWith("__next")) continue;
+        await recorrer(path.join(dir, e.name), `${prefijo}/${e.name}`);
+      } else if (e.name.endsWith(".html")) {
+        const base = e.name === "index.html" ? prefijo : `${prefijo}/${e.name.slice(0, -5)}`;
+        if (/(^|\/)(404|_not-found|_global-error)$/.test(base)) continue;
+        rutas.add(base || "/");
+      }
+    }
+  };
+  await recorrer(OUT, "");
+  return [...rutas];
+}
+
 // --- 3. La prueba ------------------------------------------------------------
 async function main() {
   console.log("=".repeat(72));
@@ -276,6 +301,49 @@ async function main() {
   });
   comprobar("login de escritorio acepta secreto de este arranque", conSecreto.status === 200,
     String(conSecreto.status));
+  if (conSecreto.ok) {
+    const login = await conSecreto.json();
+    const molcy = await fetch(`http://127.0.0.1:${back.puerto}/molcy/blender`, {
+      headers: { Authorization: `Bearer ${login.access_token}` },
+    });
+    comprobar("Molcy responde desde el runtime empaquetado", molcy.status === 200,
+      String(molcy.status));
+    if (molcy.ok) {
+      const instalacion = await molcy.json();
+      const esperada = path.join(back.datos, "molcy", "blender",
+        `blender-${instalacion.version}-windows-x64`, "blender.exe");
+      comprobar("Molcy instala su Blender en la carpeta de datos, no junto al programa (sólo lectura en la Store)",
+        instalacion.ruta === esperada, instalacion.ruta ?? "sin ruta");
+    }
+    // El motor Molcy viaja en el runtime y el backend empaquetado lo encuentra (aunque aquí no haya Blender que sondear).
+    const motor = await fetch(`http://127.0.0.1:${back.puerto}/molcy/renderizador`, {
+      headers: { Authorization: `Bearer ${login.access_token}` },
+    });
+    if (motor.ok) {
+      const cuerpo = await motor.json();
+      comprobar("El motor Molcy viaja en el runtime y el backend empaquetado lo encuentra",
+        cuerpo.motor_incluido === true, JSON.stringify({ motor_incluido: cuerpo.motor_incluido, motivo: cuerpo.motivo }));
+      comprobar("El motor Molcy incluido no se declara alterado", cuerpo.motivo_codigo !== "motor_alterado",
+        String(cuerpo.motivo_codigo ?? "íntegro o sin Blender que sondear"));
+      comprobar("El backend empaquetado declara gestión automática de VRAM", cuerpo.gpu_memoria === "automatica",
+        String(cuerpo.gpu_memoria ?? "sin política de memoria"));
+    } else {
+      comprobar("El motor Molcy viaja en el runtime y el backend empaquetado lo encuentra", false, String(motor.status));
+    }
+    const recursos = await fetch(`http://127.0.0.1:${back.puerto}/molcy/recursos`, {
+      headers: { Authorization: `Bearer ${login.access_token}` },
+    });
+    comprobar("El runtime empaquetado consulta recursos de Molcy sin Blender", recursos.status === 200,
+      String(recursos.status));
+    if (recursos.ok) {
+      const r = await recursos.json();
+      comprobar("Molcy conserva margen CPU y declara si puede vigilar VRAM",
+        Number.isInteger(r.cpu_hilos_maximos) && r.cpu_hilos_maximos >= 1 &&
+        r.cpu_hilos_maximos <= Math.max(1, Math.floor(r.cpu_hilos_disponibles * 0.75)) &&
+        r.cpu_hilos >= 1 && r.cpu_hilos <= r.cpu_hilos_maximos && typeof r.gpu_vram_monitorizable === "boolean",
+        JSON.stringify({maximos:r.cpu_hilos_maximos,disponibles:r.cpu_hilos_disponibles,monitor_vram:r.gpu_vram_monitorizable}));
+    }
+  }
 
   console.log("[2/3] Sirviendo el export con la CSP de produccion...");
   const web = await servirExport(csp);
@@ -296,6 +364,9 @@ async function main() {
     process.exit(1);
   }
 
+  for (const result of await comprobarIpcCsp(navegador)) {
+    comprobar(result.nombre, result.ok, result.detalle);
+  }
   const contexto = await navegador.newContext({ viewport: { width: 1400, height: 900 } });
   await contexto.addInitScript(({ puerto, launchToken }) => {
     window.__TAURI_INTERNALS__ = {};
@@ -319,6 +390,7 @@ async function main() {
   const erroresConsola = [];
   const peticionesRemotas = [];
   const fallosDeRed = [];
+  const fallosHttpBackend = [];
 
   pagina.on("console", (m) => {
     const texto = m.text();
@@ -337,7 +409,24 @@ async function main() {
   });
   pagina.on("requestfailed", (r) => {
     const u = r.url();
-    if (!u.includes(`:${back.puerto}`)) fallosDeRed.push(`${u.slice(-70)} :: ${r.failure()?.errorText}`);
+    // Navegar cancela prefetch y streams. Un fallo de conexión con el motor,
+    // en cambio, tiene que invalidar el smoke aunque ocurra fuera de Inicio.
+    const error = r.failure()?.errorText;
+    if (error !== "net::ERR_ABORTED") fallosDeRed.push(`${u.slice(-100)} :: ${error}`);
+  });
+  // SOL-11. Todo lo que el export pide a SU PROPIO origen tiene que existir en
+  // `out/`. Los 404 de prefetch RSC (`/<ruta>/__next.<ruta>.__PAGE__.txt`) ya
+  // salían en la consola, pero la comprobación de consola se pierde en el
+  // ruido; esta lista los nombra uno por uno.
+  const origenDelExport = `http://localhost:${web.puerto}`;
+  const recursosInexistentes = new Set();
+  pagina.on("response", (r) => {
+    if (r.status() >= 500 && r.url().startsWith(`http://127.0.0.1:${back.puerto}/`)) {
+      fallosHttpBackend.push(`${r.status()} ${new URL(r.url()).pathname}`);
+    }
+    if (r.status() === 404 && r.url().startsWith(origenDelExport)) {
+      recursosInexistentes.add(r.url().replace(origenDelExport, "").split("?")[0]);
+    }
   });
 
   await pagina.goto(`http://localhost:${web.puerto}/index.html`, {
@@ -424,9 +513,155 @@ async function main() {
   comprobar("sin errores de consola inesperados", erroresConsola.length === 0,
     erroresConsola.slice(0, 2).join(" | "));
 
-  if (fallosDeRed.length) {
-    console.log(`\n  (peticiones fallidas, informativo: ${fallosDeRed.slice(0, 3).join(" | ")})`);
+  // Regresión 2026-10-05: una corrida con Búsqueda hacía que el validador del
+  // frontend rechazara TODAS las fuentes, incluidos los receptores. La base
+  // temporal vacía no lo veía. Estas respuestas de prueba atraviesan el código
+  // REAL del export; no requieren Blender ni generan un vídeo. Las comprobaciones
+  // de API anteriores siguen usando el backend empaquetado sin interceptar.
+  const cpuMolcy = { cpu_hilos:4, cpu_hilos_disponibles:8, cpu_hilos_maximos:6, gpu_vram_monitorizable:false };
+  const espacioMolcy = Object.fromEntries(["biblioteca", "social_vertical", "previsualizacion"].map(
+    key => [key, { libre_bytes:20e9, necesario_bytes:8e9, disponible:true }]));
+  const respuestasMolcy = {
+    fuentes: {
+      moldex:[{id:"smoke-molecule", task_id:"smoke-search-run", nombre:"Corrida QA con traza", receptor:"4CA8",
+        disponible:true, motivo:null, escenas_disponibles:["resultado","receptor","busqueda"]}],
+      receptores:[{id:"QA_RECEPTOR", nombre:"Receptor QA", propio:true, disponible:true, motivo:null}],
+    },
+    renderizador:{...cpuMolcy, disponible:true, motivo:null, cpu_disponible:true, gpu_disponible:true,
+      gpu_memoria:"automatica", espacio:espacioMolcy},
+    recursos:{...cpuMolcy, espacio:espacioMolcy, espacio_task_id:"smoke-search-run", espacio_salida_id:null},
+  };
+  const rutasMolcy = Object.keys(respuestasMolcy).map(key => `**/molcy/${key}*`);
+  for (const [key, value] of Object.entries(respuestasMolcy)) {
+    await pagina.route(`**/molcy/${key}*`, route => route.fulfill({contentType:"application/json", body:JSON.stringify(value)}));
   }
+  try {
+    await pagina.goto(`${origenDelExport}/molcy`, {waitUntil:"networkidle", timeout:60000});
+    const fuente = pagina.locator("#molcy-source");
+    await fuente.locator('option[value="smoke-search-run"]').waitFor({state:"attached", timeout:15000});
+    comprobar("Molcy del export carga Moldex cuando una corrida incluye Búsqueda", true);
+    await fuente.selectOption("smoke-search-run");
+    const busqueda = pagina.getByRole("button", {name:/Búsqueda.*03|Search.*03/});
+    comprobar("El export ofrece Búsqueda para la corrida con traza", await busqueda.isEnabled());
+    const generarVideo = pagina.getByRole("button", {name:/^Generar video$|^Generate video$/});
+    await generarVideo.waitFor({state:"visible"});
+    await pagina.waitForFunction(() => [...document.querySelectorAll("button")].some(button =>
+      /^(Generar video|Generate video)$/.test(button.textContent?.trim() ?? "") && !button.disabled));
+    comprobar("El export permite vídeo con GPU aunque no haya telemetría VRAM",
+      await generarVideo.isEnabled() &&
+      await pagina.getByText(/^(El vídeo se genera con la GPU|Video is rendered on the GPU)/).isVisible() &&
+      await pagina.getByRole("button", {name:/^CPU$/}).count() === 0);
+    comprobar("La VRAM automática se muestra sin selector de presupuesto",
+      await pagina.getByText(/^(Gestión automática de VRAM|Automatic VRAM management)$/).isVisible() &&
+      await pagina.getByRole("slider").count() === 0);
+    await pagina.getByRole("button", {name:/^Receptores$|^Receptors$/}).click();
+    comprobar("El catálogo de Molcy abre en Demostración",
+      await pagina.getByRole("tab", {name:/^Demostración$|^Demo$/}).getAttribute("aria-selected") === "true");
+    await pagina.getByRole("tab", {name:/^Mis Receptores$|^My receptors$/}).click();
+    comprobar("El export conserva el catálogo de receptores junto a la corrida con traza",
+      await pagina.getByRole("button", {name:/Receptor QA.*QA_RECEPTOR/}).isEnabled());
+  } catch (error) {
+    comprobar("Las fuentes y GPU de Molcy funcionan en el export poblado", false, String(error).slice(0,300));
+  } finally {
+    for (const ruta of rutasMolcy) await pagina.unroute(ruta);
+  }
+
+  // El input nativo de archivos hereda el idioma del SO. El export debe
+  // cubrirlo con textos del idioma de la app sin perder foco ni carga real.
+  for (const [locale, label, choose, empty] of [
+    ["en", "Molecule file", "Choose file", "No file selected"],
+    ["es", "Archivo de moléculas", "Elegir archivo", "No se eligió ningún archivo"],
+  ]) {
+    try {
+      await pagina.evaluate((language) => {
+        const auth = JSON.parse(localStorage.getItem("moldesign_auth") || "{}");
+        if (!auth.user?.user_id) throw new Error("No desktop session for locale preference");
+        localStorage.setItem(`moldesign_locale:user:${auth.user.user_id}`, language);
+      }, locale);
+      await pagina.goto(`${origenDelExport}/evaluation/batch`, { waitUntil: "networkidle", timeout: 60000 });
+      const file = pagina.getByLabel(label, { exact: true });
+      await file.waitFor({ state: "attached", timeout: 15000 });
+      await pagina.getByText(choose, { exact: true }).waitFor({ state: "visible" });
+      const translated = await pagina.getByText(empty, { exact: true }).isVisible();
+      await file.focus();
+      const nativeHiddenAndFocusable = await file.evaluate(el =>
+        getComputedStyle(el).opacity === "0" && document.activeElement === el);
+      await file.setInputFiles({ name: "translation-smoke.csv", mimeType: "text/csv", buffer: Buffer.from("smiles,name\nCCO,Ethanol\n") });
+      const selected = await pagina.getByText("translation-smoke.csv", { exact: true }).isVisible();
+      comprobar(`Batch: selector traducido y operable en ${locale}`, translated && nativeHiddenAndFocusable && selected);
+
+      // No fijar Accept-Language aquí: debe añadirlo el LanguageProvider REAL
+      // del export recién cargado. Esto ejercita fetch, autenticación, CORS y
+      // traducción del backend empaquetado, con los headers del cliente JSON.
+      const api = await pagina.evaluate(async (puerto) => {
+        const auth = JSON.parse(localStorage.getItem("moldesign_auth") || "{}");
+        const headers = {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true",
+          Authorization: `Bearer ${auth.token}`,
+        };
+        const probes = [
+          ["/health"], ["/targets/"], ["/evaluation/engines"],
+          ["/pro/anti-targets"], ["/moldex"], ["/history/stats"],
+          ["/molcy/fuentes"], ["/molcy/trabajos"],
+          ["/ai/providers"], ["/ai/conversations"],
+          ["/chem/validate", { smiles: "CC(=O)Oc1ccccc1C(=O)O" }],
+          ["/evaluation/preflight", {
+            smiles: "CC(=O)Oc1ccccc1C(=O)O", target_pdb_id: "3F75", chain: "A",
+          }],
+        ];
+        const results = [];
+        for (const [endpoint, body] of probes) {
+          try {
+            const r = await fetch(`http://127.0.0.1:${puerto}${endpoint}`, {
+              headers, method: body ? "POST" : "GET",
+              ...(body ? { body: JSON.stringify(body) } : {}),
+              signal: AbortSignal.timeout(15000),
+            });
+            const json = await r.json();
+            results.push({ endpoint, ok: r.ok && json !== null,
+              status: r.status, language: r.headers.get("content-language") });
+          } catch (error) {
+            results.push({ endpoint, ok: false, error: String(error) });
+          }
+        }
+        return results;
+      }, back.puerto);
+      for (const probe of api) {
+        comprobar(`API ${locale}: ${probe.endpoint}`, probe.ok && probe.language === locale,
+          probe.error ?? `HTTP ${probe.status}, idioma=${probe.language}`);
+      }
+    } catch (error) {
+      comprobar(`Batch: selector traducido y operable en ${locale}`, false, String(error).slice(0, 300));
+    }
+  }
+
+  // Barrido de rutas: cada ruta exportada se carga directa (no sólo la
+  // portada), porque el prefetch de Next sólo pide los segmentos de las rutas
+  // que SU página enlaza. Las páginas internas de Next (`_not-found`, `404`) no
+  // son destinos de navegación.
+  const rutas = (await rutasExportadas()).sort();
+  for (const locale of ["en", "es"]) {
+    await pagina.evaluate((language) => {
+      const auth = JSON.parse(localStorage.getItem("moldesign_auth") || "{}");
+      localStorage.setItem(`moldesign_locale:user:${auth.user.user_id}`, language);
+    }, locale);
+    for (const ruta of rutas) {
+      await pagina.goto(`${origenDelExport}${ruta}`, { waitUntil: "networkidle", timeout: 60000 });
+      await pagina.waitForFunction(language => document.documentElement.lang === language, locale);
+      await pagina.waitForTimeout(1500);
+    }
+    console.log(`  (barrido: ${rutas.length} rutas en ${locale})`);
+  }
+  comprobar(`el export no pide recursos inexistentes (${rutas.length} rutas recorridas)`,
+    recursosInexistentes.size === 0, [...recursosInexistentes].slice(0, 4).join(" | "));
+
+  comprobar("sin fallos de red en todas las pestañas y ambos idiomas",
+    fallosDeRed.length === 0, fallosDeRed.slice(0, 4).join(" | "));
+  comprobar("sin errores HTTP 5xx del backend en todas las pestañas",
+    fallosHttpBackend.length === 0, fallosHttpBackend.slice(0, 4).join(" | "));
+  comprobar("sin violaciones de CSP al recorrer todas las pestañas",
+    erroresCsp.length === 0, erroresCsp.slice(0, 2).join(" | "));
 
   await navegador.close();
   back.proc.kill();

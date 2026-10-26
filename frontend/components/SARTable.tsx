@@ -7,7 +7,7 @@ import {
   TrendingUp, TrendingDown, Minus, Trophy, AlertTriangle,
   CheckCircle2, XCircle, ArrowUp, ArrowDown, Zap,
 } from "lucide-react";
-import { getApiUrl } from "../lib/config";
+import { fetchBackend } from "../lib/backendFetch";
 
 interface SARResult {
   molecule_id: string;
@@ -53,8 +53,7 @@ export function SARTable({ moleculeId, compact }: Props) {
     const controller = new AbortController();
     // La base se resuelve antes de pedir: en escritorio el puerto lo elige
     // Rust y una constante congelada apuntaría al puerto equivocado.
-    getApiUrl()
-      .then((base) => fetch(`${base}/sar/${moleculeId}`, { signal: controller.signal }))
+    fetchBackend(`/sar/${moleculeId}`, { signal: controller.signal })
       .then((r) => r.json())
       .then((d) => {
         if (cancelled) return;
@@ -94,7 +93,10 @@ export function SARTable({ moleculeId, compact }: Props) {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-sm font-semibold text-zinc-200">
-            SAR: {data.total_analogs} analogos contra {data.target_pdb_id}
+            {t("pn_sar_analogos_contra", {
+              count: data.total_analogs,
+              target: data.target_pdb_id,
+            })}
           </h3>
           <p className="text-[11px] text-zinc-500">
             {data.target_name} {t("auto_988351833ce1")}
@@ -116,17 +118,17 @@ export function SARTable({ moleculeId, compact }: Props) {
           <thead>
             <tr className="bg-zinc-800/50 text-zinc-400">
               <th className="px-3 py-2 text-left font-medium w-6">#</th>
-              <th className="px-3 py-2 text-left font-medium">Molecula</th>
+              <th className="px-3 py-2 text-left font-medium">{t("pn_sar_molecula")}</th>
               <th className="px-3 py-2 text-right font-medium">{t("c_score")}</th>
               <th className="px-3 py-2 text-right font-medium">&Delta;</th>
               <th className="px-3 py-2 text-right font-medium">{t("c_afinidad")}</th>
               <th className="px-3 py-2 text-right font-medium">&Delta;</th>
               {!compact && (
                 <>
-                  <th className="px-3 py-2 text-right font-medium">MW</th>
+                  <th className="px-3 py-2 text-right font-medium">{t("pr_param_mw")}</th>
                   <th className="px-3 py-2 text-right font-medium">LogP</th>
-                  <th className="px-3 py-2 text-center font-medium">Drug</th>
-                  <th className="px-3 py-2 text-center font-medium">PAINS</th>
+                  <th className="px-3 py-2 text-center font-medium">{t("pn_sar_drug")}</th>
+                  <th className="px-3 py-2 text-center font-medium">{t("pr_param_pains")}</th>
                 </>
               )}
             </tr>
@@ -151,7 +153,7 @@ export function SARTable({ moleculeId, compact }: Props) {
                   <td className="px-3 py-2 text-zinc-500 font-mono">
                     {i + 1}
                     {r.is_base && (
-                      <span className="ml-1 text-[9px] text-violet-400 font-sans">base</span>
+                      <span className="ml-1 text-[9px] text-violet-400 font-sans">{t("pn_sar_base")}</span>
                     )}
                   </td>
                   <td className="px-3 py-2 text-zinc-300 max-w-[160px] truncate">
@@ -226,16 +228,16 @@ export function SARTable({ moleculeId, compact }: Props) {
       {/* Legend */}
       <div className="flex items-center gap-4 text-[10px] text-zinc-500">
         <span className="flex items-center gap-1">
-          <div className="w-3 h-3 rounded bg-violet-500/20 border border-violet-500/20" /> Baseline
+          <div className="w-3 h-3 rounded bg-violet-500/20 border border-violet-500/20" /> {t("pn_sar_baseline")}
         </span>
         <span className="flex items-center gap-1">
-          <Trophy className="w-3 h-3 text-amber-400" /> Best in class
+          <Trophy className="w-3 h-3 text-amber-400" /> {t("pn_sar_best_in_class")}
         </span>
         <span className="flex items-center gap-1 text-emerald-400">
-          <ArrowUp className="w-2.5 h-2.5" /> Mejora vs baseline
+          <ArrowUp className="w-2.5 h-2.5" /> {t("pn_sar_mejora_baseline")}
         </span>
         <span className="flex items-center gap-1 text-red-400">
-          <ArrowUp className="w-2.5 h-2.5 rotate-180" /> Empeora vs baseline
+          <ArrowUp className="w-2.5 h-2.5 rotate-180" /> {t("pn_sar_empeora_baseline")}
         </span>
       </div>
     </div>

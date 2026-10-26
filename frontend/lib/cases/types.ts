@@ -272,6 +272,82 @@ export function describeRunProtocol(protocol: CaseRunProtocol): string {
   return `${protocol.dockingEngine} · exh ${protocol.exhaustiveness} · ${protocol.numPoses} poses`;
 }
 
+/**
+ * Único o ensemble, y con cuántos confórmeros (CAS-01).
+ *
+ * La fila describía el protocolo con motor, exhaustividad y poses, pero no K: con
+ * 40 corridas de la misma molécula —20 únicas y 20 ensemble— la marca «Otro
+ * protocolo» decía que algo era distinto sin decir qué. K es lo que más
+ * distingue dos corridas del mismo SMILES, así que se nombra aparte.
+ */
+export type RunMode = "single" | "ensemble";
+
+export function runMode(protocol: CaseRunProtocol): { readonly mode: RunMode; readonly k: number } {
+  return { mode: protocol.conformers > 1 ? "ensemble" : "single", k: protocol.conformers };
+}
+
+/** Qué campo del protocolo cambió, con el valor de la corrida y el del sistema. */
+export interface RunProtocolDifference {
+  readonly field: "dockingEngine" | "exhaustiveness" | "numPoses" | "conformers";
+  readonly run: string | number;
+  readonly system: string | number;
+}
+
+/**
+ * Qué cambió esta corrida frente al sistema inicial del caso. Vacío si no hay
+ * con qué comparar (corrida migrada sin protocolo, o caso sin sistema fijado):
+ * no se inventa una diferencia ni una igualdad.
+ */
+export function runProtocolDifferences(
+  run: CaseRun,
+  system: CaseStructuralSystem | undefined,
+): readonly RunProtocolDifference[] {
+  if (!run.protocol || !system) return [];
+  const differences: RunProtocolDifference[] = [];
+  const fields = ["dockingEngine", "exhaustiveness", "numPoses", "conformers"] as const;
+  for (const field of fields) {
+    if (run.protocol[field] !== system[field]) {
+      differences.push({ field, run: run.protocol[field], system: system[field] });
+    }
+  }
+  return differences;
+}
+
+// ── Filtros del libro de corridas (CAS-03) ───────────────────────────
+
+export type RunModeFilter = "all" | RunMode;
+
+export interface RunFilter {
+  readonly mode: RunModeFilter;
+  /** `all` o un estado de ejecución. */
+  readonly state: "all" | RunExecutionState;
+  /** Texto libre: se busca en el SMILES enviado y en el identificador de la corrida. */
+  readonly query: string;
+}
+
+export const NO_RUN_FILTER: RunFilter = { mode: "all", state: "all", query: "" };
+
+/**
+ * Las corridas que cumplen el filtro, en el mismo orden.
+ *
+ * Una corrida sin protocolo registrado (migrada de v6) sólo cumple el modo
+ * `all`: no se afirma que sea única ni ensemble sin saberlo.
+ */
+export function filterRuns(runs: readonly CaseRun[], filter: RunFilter): readonly CaseRun[] {
+  const query = filter.query.trim().toLowerCase();
+  return runs.filter((run) => {
+    if (filter.mode !== "all" && (!run.protocol || runMode(run.protocol).mode !== filter.mode)) {
+      return false;
+    }
+    if (filter.state !== "all" && run.executionState !== filter.state) return false;
+    if (query) {
+      const haystack = `${run.ligandSmiles ?? ""} ${run.taskId}`.toLowerCase();
+      if (!haystack.includes(query)) return false;
+    }
+    return true;
+  });
+}
+
 // ── Disposicion de la EVIDENCIA ──────────────────────────────────────
 // La decide una persona, nunca el backend.
 
@@ -316,6 +392,13 @@ export const CASE_STUDY_KIND_LABELS: Record<CaseStudyKind, string> = {
   "compare-series": "Comparar una serie",
   "review-pose": "Revisar una pose",
   "prepare-evidence": "Preparar evidencia para un cálculo posterior",
+};
+
+export const CASE_STUDY_KIND_LABEL_KEYS: Record<CaseStudyKind, string> = {
+  "explore-hypothesis": "ca_kind_explore",
+  "compare-series": "ca_kind_compare",
+  "review-pose": "ca_kind_review",
+  "prepare-evidence": "ca_kind_prepare",
 };
 
 // ── Modos del caso ───────────────────────────────────────────────────
@@ -448,6 +531,34 @@ export const CASE_CONTEXT_FIELDS = [
 export type CaseContextField = (typeof CASE_CONTEXT_FIELDS)[number];
 
 /**
+ * Máximo de caracteres de cada texto del contexto que el dossier acepta.
+ *
+ * Espejo de `ContextoCientifico` en `backend/services/dossier/schemas.py`
+ * (`max_length=4000`); `limiteDelContexto.test.ts` lee ese archivo. AMP-06: el
+ * formulario guardaba 4 366 caracteres sin límite visible y el dossier lo
+ * rechazaba después con un 422 técnico en inglés.
+ */
+export const CASE_CONTEXT_MAX_CHARS = 4000;
+
+export interface ContextFieldOverLimit {
+  readonly field: CaseContextField;
+  readonly length: number;
+  readonly excess: number;
+}
+
+/** Textos del contexto que el dossier no aceptaría. Vacío = todos caben. */
+export function contextOverLimit(context: CaseContext): ContextFieldOverLimit[] {
+  const out: ContextFieldOverLimit[] = [];
+  for (const field of CASE_CONTEXT_FIELDS) {
+    const length = (context[field] ?? "").length;
+    if (length > CASE_CONTEXT_MAX_CHARS) {
+      out.push({ field, length, excess: length - CASE_CONTEXT_MAX_CHARS });
+    }
+  }
+  return out;
+}
+
+/**
  * Severidad de un campo pendiente.
  *
  * En este sprint SOLO existen `warning` e `info`. No hay `blocker` porque no se
@@ -505,7 +616,7 @@ export const CASE_CONTEXT_SPECS: readonly CaseContextFieldSpec[] = [
     field: "notes",
     question: "Notas",
     severity: "info",
-    hint: "Contexto libre. No entra en ningún cálculo.",
+    hint: "Contexto libre. Aparece en el dossier; no entra en ningún cálculo.",
   },
 ];
 
@@ -789,6 +900,48 @@ export function inputsForStructuralSystem(
   };
 }
 
+/** JSON con las claves ordenadas: dos objetos iguales dan el mismo texto, se escribieran como se escribieran. */
+function canonico(valor: unknown): string {
+  if (Array.isArray(valor)) return `[${valor.map(canonico).join(",")}]`;
+  if (valor && typeof valor === "object") {
+    const o = valor as Record<string, unknown>;
+    return `{${Object.keys(o).filter((k) => o[k] !== undefined).sort().map((k) => `${JSON.stringify(k)}:${canonico(o[k])}`).join(",")}}`;
+  }
+  return JSON.stringify(valor ?? null);
+}
+
+/**
+ * ¿Describen `a` y `b` el mismo sistema estructural (receptor, caja y residuos)?
+ *
+ * Compara valores, no texto: `inputsForStructuralSystem` reconstruye el receptor desde el
+ * ancla y sus claves pueden salir en otro orden que las de los inputs. Comparar los dos
+ * `JSON.stringify` hacía que el primer cambio de ligando tras una corrida avisara de que
+ * «no se puede cambiar el receptor» sin que nadie lo hubiera tocado (vídeo de Preparación,
+ * 2026-10-25).
+ */
+export function mismoSistemaEstructural(a: CaseInputs, b: CaseInputs): boolean {
+  const sistema = (x: CaseInputs) => canonico({ receptor: x.receptor, grid: x.grid, customHotspots: x.customHotspots ?? [] });
+  return sistema(a) === sistema(b);
+}
+
+/**
+ * ¿Pide `patch` cambiar el sistema de un caso ya sellado, cuyos inputs restituidos son `restituidos`?
+ *
+ * Sólo cuenta lo que el cambio trae: un campo estructural ausente no es una petición. Medido al
+ * grabar (2026-10-25): el primer cambio de ligando tras la corrida llegaba con los inputs sin
+ * `customHotspots`, la restitución añadía los 15 residuos de referencia del ancla y el caso
+ * avisaba de que no se podían cambiar los residuos, que nadie había tocado.
+ */
+export function pideOtroSistema(patch: Partial<CaseInputs>, restituidos: CaseInputs): boolean {
+  const pedidos: CaseInputs = {
+    ...restituidos,
+    ...(patch.receptor !== undefined ? { receptor: patch.receptor } : {}),
+    ...(patch.grid !== undefined ? { grid: patch.grid } : {}),
+    ...(patch.customHotspots !== undefined ? { customHotspots: patch.customHotspots } : {}),
+  };
+  return !mismoSistemaEstructural(restituidos, pedidos);
+}
+
 /**
  * Decision humana explicita sobre un control, atada a un fingerprint.
  *
@@ -898,6 +1051,17 @@ export interface CaseRecord {
   readonly decisions?: readonly HumanDecision[];
   /** Disposición científica final, separada de los acuses de controles. */
   readonly disposition?: CaseDisposition;
+  /**
+   * Historial durable de disposiciones, con su huella y fecha (AMP-01).
+   *
+   * `disposition` es la VIGENTE: la que corresponde a los inputs actuales.
+   * Al invalidar los inputs se retira —describiría otra hipótesis— pero la
+   * decisión con su justificación NO se pierde: queda aquí, reconstruible
+   * desde el caso. La auditoría ampliada midió que «la justificación queda
+   * guardada junto a la huella de inputs» no se cumplía como historial: el
+   * PDF exportado la conservaba y el caso no.
+   */
+  readonly dispositions?: readonly CaseDisposition[];
 }
 
 export type CaseDispositionKind = "accept" | "limit" | "abstain";

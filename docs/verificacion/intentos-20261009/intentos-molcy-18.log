@@ -1,0 +1,12 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run app/molcy/__tests__/page.test.tsx --maxWorkers=1
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  1 passed (1)
+      Tests  47 passed (47)
+   Start at  13:06:29
+   Duration  16.22s (tests 75%, import 12%, environment 8%, setup 3%, transform 3%)

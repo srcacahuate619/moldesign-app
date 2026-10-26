@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth } from "../lib/auth";
 import { getUserItem, setUserItem } from "../lib/userStorage";
+import { apiUrlSnapshot, subscribeApiUrl } from "../lib/config";
 import { TRADUCCIONES_POR_SUPERFICIE } from "./traducciones";
 
 export type Locale = "es" | "en";
@@ -232,6 +233,7 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     se_reason_MAPA_SIN_HIDROGENOS_POLARES: "El mapa atómico no cubre los hidrógenos polares de la pose.",
     se_reason_VALIDADOR_NO_DISPONIBLE: "El validador físico no está disponible en este equipo.",
     se_reason_EVIDENCIA_AUSENTE: "Esta evaluación es anterior a la etapa de validación física.",
+    se_reason_VALIDADOR_EXCEDIO_EL_PLAZO: "La validación física no terminó en su plazo y se detuvo; el acoplamiento no se ve afectado.",
 
     // ── Controles de PoseBusters, dichos en español ───────────────────────
     //
@@ -544,12 +546,13 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     se_reason_UNA_SOLA_POSE: "A single pose: there is no margin to measure.",
     se_reason_SELECCION_AUSENTE: "This evaluation predates the pose selection stage.",
     se_reason_RECEPTOR_AUSENTE: "The prepared receptor for this run is not available.",
-    se_reason_RECEPTOR_NO_COINCIDE: "The catalogue receptor is no longer the one that was docked; validating against another would judge a different system.",
+    se_reason_RECEPTOR_NO_COINCIDE: "The catalog receptor is no longer the one that was docked; validating against another would judge a different system.",
     se_reason_RECEPTOR_SIN_HUELLA: "The run did not record the receptor hash, so there is no proof of which one was used.",
     se_reason_SIN_PLANTILLA: "No chemical template is declared to rebuild the pose; the graph is never guessed.",
     se_reason_MAPA_SIN_HIDROGENOS_POLARES: "The atom map does not cover the polar hydrogens of the pose.",
     se_reason_VALIDADOR_NO_DISPONIBLE: "The physical validator is not available on this machine.",
     se_reason_EVIDENCIA_AUSENTE: "This evaluation predates the physical validation stage.",
+    se_reason_VALIDADOR_EXCEDIO_EL_PLAZO: "Physical validation did not finish within its time limit and was stopped; the docking is not affected.",
 
     // PoseBusters column names, spelled out. English readers get the same
     // treatment as Spanish ones: a sentence, not an identifier.
@@ -728,16 +731,32 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const originalFetch = window.fetch;
+    // Incidente 2026-10-07: se informó de un fallo tras arrancar en inglés,
+    // pero el wrapper añadía Accept-Language a TODOS los fetch en ambos idiomas,
+    // incluidos los del IPC de Tauri. La correlación exclusiva con inglés no
+    // se reprodujo: el límite correcto es el origen del backend confirmado.
+    // Ver docs/auditorias/arranque_idioma_ipc_2026-10-07.md.
+    // Resolver fuera del interceptor: ensure_backend también usa fetch para
+    // su IPC. Consultar config dentro del wrapper podría volver a entrar aquí.
+    let backendUrl = apiUrlSnapshot();
+    const unsubscribe = subscribeApiUrl((url) => { backendUrl = url; });
     document.documentElement.lang = locale;
     document.title = TRANSLATIONS[locale].z_document_title;
     const localizedFetch: typeof window.fetch = (input, init) => {
+      const url = new URL(input instanceof Request ? input.url : String(input), window.location.href);
+      // El idioma pertenece a FastAPI. IPC, assets locales, WASM y servicios
+      // externos conservan exactamente su petición original.
+      if (!backendUrl || url.origin !== new URL(backendUrl).origin) {
+        return originalFetch.call(window, input, init);
+      }
       const headers = new Headers(input instanceof Request ? input.headers : undefined);
       new Headers(init?.headers).forEach((value, key) => headers.set(key, value));
       headers.set("Accept-Language", locale);
-      return originalFetch(input, { ...init, headers });
+      return originalFetch.call(window, input, { ...init, headers });
     };
     window.fetch = localizedFetch;
     return () => {
+      unsubscribe();
       if (window.fetch === localizedFetch) window.fetch = originalFetch;
     };
   }, [locale]);

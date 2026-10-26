@@ -1,0 +1,69 @@
+{
+  "success": true,
+  "message": "Target personalizado USR_40DC0D curado e ingestado exitosamente.",
+  "target": {
+    "pdb_id": "USR_40DC0D",
+    "name": "FEP09 syk__agua_puente_retirada__0",
+    "chain": "A",
+    "grid_center_x": -1.1664,
+    "grid_center_y": 2.2652,
+    "grid_center_z": 13.2216,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0,
+    "requires_cns": false,
+    "is_prepared": true,
+    "prepared_file_path": "targets/USR_40DC0D/prepared-ea76afc7bafe267ebab66c87de22d5553d0a495e9b220d2a4fb3347d75e018f7.pdbqt",
+    "is_hot": false,
+    "is_private": true,
+    "is_community": false,
+    "is_anti_target": false,
+    "anti_target_risk": null,
+    "creator_id": "96ea9386-a8d9-4a2e-be52-9358b58caac2",
+    "creator_username": "Desktop User",
+    "preparation_parent_id": null,
+    "receptor_source_sha256": "f2eb0cad4adbb5650b2fe4582259baea9906ad8c963c73d8fcc049ed9c46a527",
+    "prepared_receptor_sha256": "60ef13e3d86ab4cdb34b2a51dcfb8a4c62c4e72660d230a7c9dc1a1f17742d08",
+    "preparation_fingerprint": "c0014c132aba08fcade19074b2b3c4accda143e35f41ec513c3882f30ed3bb3a",
+    "preparation_recipe": {
+      "schema_version": 1,
+      "mode": "respect_user_preparation",
+      "chain": "A",
+      "grid_center": [
+        -1.1664,
+        2.2652,
+        13.2216
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "protonation": "declared_by_user",
+      "waters": "kept_as_uploaded",
+      "altloc": "majority_or_default"
+    },
+    "preparation_toolchain": {
+      "moldesign_preparation_policy": "1",
+      "meeko": "0.7.1"
+    },
+    "hotspots": [],
+    "site_chains": [
+      "A"
+    ],
+    "site_chain_atoms": {
+      "A": 495
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": null,
+    "cofactors_whitelist": [],
+    "organism": null,
+    "resolution": 2.0,
+    "spearman_rho": null,
+    "id": "cdec8153-441b-4878-9f45-fca9cb420690",
+    "created_at": "2026-10-11T22:52:23",
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5
+  }
+}

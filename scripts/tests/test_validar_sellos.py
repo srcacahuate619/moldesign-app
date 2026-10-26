@@ -64,6 +64,7 @@ def arbol(tmp_path, monkeypatch):
     monkeypatch.setattr(vs, "ARTEFACTOS", tmp_path / "artifacts")
     monkeypatch.setattr(vs, "TABLA", tmp_path / "tabla.json")
     monkeypatch.setattr(vs, "RAIZ", tmp_path)
+    monkeypatch.setattr(vs, "GITATTRIBUTES", tmp_path / ".gitattributes")
     return vs
 
 
@@ -125,3 +126,23 @@ def test_pdb_comprimido_solo_valida_si_bytes_descomprimidos_coinciden(arbol):
     totales, info = arbol.revisar()
     assert totales["VERIFICADO_GZ"] == 0
     assert f"GZ_DISTINTO: {ruta}" in info["fallos"]["EXP-1"]
+
+
+def test_una_copia_conservada_que_git_convierte_es_un_fallo(arbol):
+    """La copia de PREP-01 estaba en git con LF y sólo validaba donde git la desprotegía con CRLF."""
+    import subprocess
+    raiz = arbol.RAIZ
+
+    def git(*args):
+        subprocess.run(["git", "-C", str(raiz), *args], check=True, capture_output=True)
+
+    git("init", "-q")
+    git("add", "-A")
+    copia = "artifacts/EXP-1/sellado_original/datos/vivo.txt"
+    assert copia in arbol._activos_de_texto_fuera()
+    assert copia in arbol.con_conversion(arbol._activos_de_texto_fuera())
+
+    (raiz / ".gitattributes").write_bytes(b"*.bin binary\n")
+    arbol.escribir_gitattributes()
+    assert f"{copia} -text" in (raiz / ".gitattributes").read_text(encoding="utf-8")
+    assert arbol.con_conversion(arbol._activos_de_texto_fuera()) == []

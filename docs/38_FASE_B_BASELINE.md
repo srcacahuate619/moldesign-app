@@ -5,6 +5,28 @@
 el modelo reentrenado de Fase B. Este documento es la referencia de comparación
 inmutable.
 
+> **Corrección (2026-10-20, auditoría científica, SCI-A-054, 055 y 056).** Las cifras de
+> abajo se conservan; tres de sus rótulos no se sostienen.
+>
+> - **Lo que se llama «CV» no es una validación cruzada.** `train_families.py` usa una
+>   sola partición aleatoria 80/20 del pool (`split = max(5, int(n * 0.8))`; su propio
+>   docstring lo dice). El 0,7731 de Spearman, el 0,7418 de Pearson, el NDCG y la tabla
+>   de modelos familiares son de **una** validación de 108 complejos (429 de
+>   entrenamiento), sin folds ni predicciones guardadas. No se citan como CV hasta
+>   reproducir folds con sus IDs.
+> - **El split guardado no reconstruye el pool de 537.** `split_config.json` guarda el
+>   holdout de 328 y cinco folds, pero los folds cubren otros 328 complejos (262–263 de
+>   entrenamiento y 65–66 de validación cada uno): 209 del pool no están en ninguno. Con
+>   ese archivo no se puede repetir el entrenamiento que dio estas cifras.
+> - **El SHAP no es de este modelo.** `shap_analysis.json` no lleva el SHA-256 del
+>   modelo, se calculó sobre 692/173 muestras (el modelo se entrenó con 429/108) y da una
+>   ρ de validación de 0,7191. La cuota Vina del 2,8 % y el PASS de la puerta describen
+>   otro modelo: `check_vina_importance_gate.py` dice ahora `NO_VERIFICABLE` mientras el
+>   SHAP no declare el hash del modelo distribuido.
+>
+> El holdout de 328 (ρ 0,6094, IC 95 % [0,5282; 0,6791]) no es objeto de estas
+> correcciones. Ver `docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md`.
+
 ---
 
 ## Identidad del modelo actual (Fase A)
@@ -25,7 +47,7 @@ inmutable.
 
 ## Métricas baseline (LAS que Fase B debe superar)
 
-### Modelo universal — validación (CV)
+### Modelo universal — validación (una partición aleatoria 80/20, no CV; ver la corrección)
 
 | Métrica | Valor |
 |---|---|
@@ -83,7 +105,8 @@ inmutable.
 | Vina (B) | 0.0907 |
 | 1D/2D (A_EXT) | 0.0 |
 
-Gate Vina: share 2.8% < 10% → PASS (régimen train/inference documentado).
+Gate Vina: share 2.8% < 10% → PASS (régimen train/inference documentado). **No
+verificable desde el 2026-10-20:** este SHAP no es del modelo distribuido (ver la corrección).
 
 ---
 

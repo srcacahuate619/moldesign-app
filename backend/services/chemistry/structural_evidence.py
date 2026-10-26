@@ -95,6 +95,12 @@ SIN_PLANTILLA = "SIN_PLANTILLA"
 MAPA_SIN_HIDROGENOS_POLARES = "MAPA_SIN_HIDROGENOS_POLARES"
 VALIDADOR_NO_DISPONIBLE = "VALIDADOR_NO_DISPONIBLE"
 EVIDENCIA_AUSENTE = "EVIDENCIA_AUSENTE"
+#: La validación no terminó en su plazo y se detuvo. Ocurre con el `energy_ratio` de PoseBusters, cuyo embebido ETKDG no
+#: termina con algunos sistemas tensos (el biciclo[1.1.1]pentano del compuesto 4-67 de CAL-D-01-R4).
+VALIDADOR_EXCEDIO_EL_PLAZO = "VALIDADOR_EXCEDIO_EL_PLAZO"
+#: Tiempo de pared de toda la etapa, en un proceso hijo que se puede matar. Un hilo no se puede: el embebido de RDKit
+#: es C++ y seguía calculando después del Timeout de la evaluación (CAL-D-01-R4, `DESVIACIONES.md` punto 2).
+PLAZO_EVIDENCIA_S = 300.0
 
 ABSTENTION_REASONS = (
     SIN_POSES,
@@ -106,6 +112,7 @@ ABSTENTION_REASONS = (
     MAPA_SIN_HIDROGENOS_POLARES,
     VALIDADOR_NO_DISPONIBLE,
     EVIDENCIA_AUSENTE,
+    VALIDADOR_EXCEDIO_EL_PLAZO,
 )
 
 _REMARK_SMILES = re.compile(r"^REMARK\s+SMILES\s+(?!IDX)(\S.*)$", re.MULTILINE)
@@ -673,3 +680,104 @@ def _invariantes_de(veredicto: dict[str, Any]) -> dict[str, Any] | None:
     )
     seleccion.update({k: canon[k] for k in nombres_canonicos if k in canon})
     return seleccion or None
+
+
+# ── Ejecución aislada, con plazo ─────────────────────────────────────
+
+
+def _pose_serializable(pose: Any) -> Any:
+    if isinstance(pose, dict):
+        return pose
+    import dataclasses
+    if dataclasses.is_dataclass(pose):
+        return dataclasses.asdict(pose)
+    return dict(vars(pose))
+
+
+async def construir_evidencia_aislada(
+    *,
+    poses: list[Any],
+    target_pdb_id: str | None,
+    receptor_sha256: str | None,
+    smiles: str | None = None,
+    receptor_bytes: bytes | None = None,
+    task_id: str | None = None,
+    plazo_s: float = PLAZO_EVIDENCIA_S,
+) -> dict[str, Any]:
+    """`build_structural_evidence` en un proceso hijo con plazo de pared.
+
+    Si el hijo no termina en `plazo_s`, se mata su árbol de procesos y la etapa se declara no evaluada: el docking ya
+    terminó y se conserva. Si el hijo falla, también se abstiene. NUNCA lanza.
+    """
+    import asyncio
+    import json
+    import sys
+
+    from services.docking.desktop_process_registry import register_process, unregister_process
+    from utils.procesos import BANDERAS_SIN_VENTANA, communicate_managed, kill_process_tree
+
+    if not poses:
+        return _abstencion_de_etapa(SIN_POSES, "La evaluación no conservó ninguna pose.")
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True, prefix="moldesign_se_") as directorio:
+        carpeta = Path(directorio)
+        if receptor_bytes:
+            (carpeta / "receptor.bin").write_bytes(bytes(receptor_bytes))
+        (carpeta / "entrada.json").write_text(json.dumps({
+            "poses": [_pose_serializable(p) for p in poses], "target_pdb_id": target_pdb_id,
+            "receptor_sha256": receptor_sha256, "smiles": smiles,
+        }, default=str), encoding="utf-8")
+        # Con `-c` y la ruta del backend por delante: el Python embebido fija `sys.path` con su `._pth` y no añade la
+        # carpeta de un script, así que lanzar este fichero directamente no encontraría `utils` ni `services`.
+        arranque = ("import sys; sys.path.insert(0, sys.argv[1]); "
+                    "from services.chemistry.structural_evidence import _main_hijo; "
+                    "raise SystemExit(_main_hijo(sys.argv[2]))")
+        proceso = await asyncio.create_subprocess_exec(
+            sys.executable, "-c", arranque, str(Path(__file__).resolve().parents[2]), str(carpeta),
+            stdout=asyncio.subprocess.DEVNULL, stderr=asyncio.subprocess.PIPE,
+            creationflags=BANDERAS_SIN_VENTANA,
+        )
+        if task_id:
+            register_process(task_id, "structural_evidence", proceso)
+        try:
+            _, error = await communicate_managed(proceso, timeout=plazo_s)
+        except asyncio.TimeoutError:
+            kill_process_tree(proceso)
+            await proceso.wait()
+            log.warning("structural_evidence_plazo_excedido", plazo_s=plazo_s, task_id=task_id)
+            return _abstencion_de_etapa(
+                VALIDADOR_EXCEDIO_EL_PLAZO,
+                f"La validación física de las poses no terminó en {plazo_s:g} s y se detuvo. "
+                "El acoplamiento de esta evaluación NO se ve afectado.",
+                poses_produced=len(poses),
+            )
+        finally:
+            if task_id:
+                unregister_process(task_id, "structural_evidence", proceso)
+        salida = carpeta / "salida.json"
+        if proceso.returncode != 0 or not salida.exists():
+            detalle = (error or b"").decode("utf-8", "replace").strip().splitlines()[-1:] or ["sin salida"]
+            log.warning("structural_evidence_hijo_fallo", codigo=proceso.returncode, detalle=detalle[0][:300])
+            return _abstencion_de_etapa(
+                VALIDADOR_NO_DISPONIBLE,
+                f"La etapa de validación estructural terminó con código {proceso.returncode}. "
+                "El acoplamiento de esta evaluación NO se ve afectado.",
+                poses_produced=len(poses),
+            )
+        return json.loads(salida.read_text(encoding="utf-8"))
+
+
+def _main_hijo(carpeta: str) -> int:
+    import json
+
+    base = Path(carpeta)
+    datos = json.loads((base / "entrada.json").read_text(encoding="utf-8"))
+    receptor = base / "receptor.bin"
+    resultado = build_structural_evidence(
+        poses=datos["poses"], target_pdb_id=datos["target_pdb_id"], receptor_sha256=datos["receptor_sha256"],
+        smiles=datos["smiles"], receptor_bytes=receptor.read_bytes() if receptor.exists() else None,
+    )
+    temporal = base / "salida.json.tmp"
+    temporal.write_text(json.dumps(resultado, default=str), encoding="utf-8")
+    temporal.replace(base / "salida.json")
+    return 0
+

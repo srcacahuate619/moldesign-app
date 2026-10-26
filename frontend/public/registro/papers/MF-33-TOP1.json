@@ -809,60 +809,36 @@
       "m": "fuerte"
      },
      {
-      "t": " — 31 complejos que contienen una solución correcta y no la entregan en",
+      "t": " — 31 complejos que contienen una solución correcta y no la entregan en top-1, nominalmente identificados en ",
+      "m": null
+     },
+     {
+      "t": "per_complex.jsonl",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "top-1, nominalmente identificados en ",
-     "m": null
-    },
-    {
-     "t": "per_complex.jsonl",
-     "m": "codigo"
-    },
-    {
-     "t": ".",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "Validez física",
       "m": "fuerte"
      },
      {
-      "t": " — que aquí se midió mal y se corrigió después. Con las tasas",
+      "t": " — que aquí se midió mal y se corrigió después. Con las tasas corregidas de ",
+      "m": null
+     },
+     {
+      "t": "MF-33-H-COR",
+      "m": "codigo"
+     },
+     {
+      "t": " el cuello no es el que este artefacto creyó ver, y el residuo real está caracterizado allí.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "corregidas de ",
-     "m": null
-    },
-    {
-     "t": "MF-33-H-COR",
-     "m": "codigo"
-    },
-    {
-     "t": " el cuello no es el que este artefacto creyó ver, y el residuo real está caracterizado allí.",
-     "m": null
-    }
    ]
   },
   {
@@ -880,6 +856,49 @@
      "t": " Optimizar una métrica intermedia sin mirar la física es la forma estándar de mejorar un número y empeorar el resultado.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-020. «De los 31 complejos ganados sobreviven 18 al top-5 y 13 al top-1» confunde saldos netos con identidades. Según el flujo por complejo que reconstruyó la auditoría, de esos 31 siguen 20 en el top-5 y 9 en el top-1. Los saldos +18 y +13 siguen siendo correctos como saldos.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

@@ -6,18 +6,31 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, Eye, EyeOff, RefreshCw, Zap, AlertTriangle, Monitor, Package, Wrench, Star, Download, CheckCircle2, XCircle, Globe, Server } from "lucide-react";
 import { useAI, type AIProviderInfo, type CambioDeDestino } from "@/context/AIContext";
-import { getApiUrl } from "../../lib/config";
-import { getAuthHeaders } from "../../lib/api";
+import { fetchBackend } from "../../lib/backendFetch";
+import { authorizeNetworkDestination, getAuthHeaders } from "../../lib/api";
+import { motivoDeRespuesta } from "@/context/motivoDeTurno";
 import { FALLBACK_PROVIDER } from "@/context/AIContext";
 
 function mensajeDeError(error: unknown, fallback: string): string {
   return error instanceof Error ? error.message : fallback;
 }
 
+/** Temperatura por defecto de los paneles que la muestran (el local no la muestra). */
+function temperaturaPorDefecto(providerId: string): number {
+  return providerId === "ollama" ? 0.1 : 0.5;
+}
+
 export function AISettingsModal() {
   const { t } = useLanguage();
   const { state, dispatch, setActiveProvider, updateProviderConfig, loadProviders, detectStartup, setKeepLoaded } = useAI();
-  const [selectedProvider, setSelectedProvider] = useState<AIProviderInfo | null>(null);
+  // Se guarda el id, no el objeto. El chat sondea `/ai/status` cada 8 s y cada
+  // sondeo trae una lista de proveedores nueva; un efecto que reinicializaba la
+  // selección con cada lista devolvía el modal a llama.cpp al elegir Ollama o
+  // Clave de API, y borraba lo que se estuviera escribiendo.
+  const [selectedProviderId, setSelectedProviderId] = useState<string | null>(null);
+  const selectedProvider: AIProviderInfo | null =
+    state.providers.find((p) => p.id === selectedProviderId)
+    ?? (selectedProviderId === "local" ? FALLBACK_PROVIDER : null);
   const [apiKey, setApiKey] = useState("");
   const [baseUrl, setBaseUrl] = useState("");
   const [model, setModel] = useState("");
@@ -41,6 +54,10 @@ export function AISettingsModal() {
   const [downloading, setDownloading] = useState<Record<string, { status: string; progress: number }>>(
     {}
   );
+  /** Descarga parada porque la cuenta no autorizó el destino (huggingface.co). */
+  const [permisoDescarga, setPermisoDescarga] = useState<
+    { modelId: string; filename: string; mensaje: string; servicio: string; host: string } | null
+  >(null);
 
   useEffect(() => {
     if (state.isSettingsOpen) {
@@ -89,29 +106,44 @@ export function AISettingsModal() {
     };
   }, [state.isSettingsOpen, dispatch]);
 
-  // Initialize selection when opening modal or changing active provider globally
+  // Proveedor cuyos campos ya se cargaron en esta apertura del modal.
+  const camposDeRef = useRef<string | null>(null);
+
+  // Al abrir, el modal parte del proveedor activo. Sólo al abrir: el proveedor
+  // activo no cambia mientras se elige otro en el modal (se aplica al guardar).
   useEffect(() => {
     if (state.isSettingsOpen) {
-      const active = state.providers.find((p) => p.id === state.activeProviderId);
-      setSelectedProvider(active || null);
+      setSelectedProviderId(state.activeProviderId);
+      camposDeRef.current = null;
     }
-  }, [state.isSettingsOpen, state.activeProviderId, state.providers]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- sólo en la apertura
+  }, [state.isSettingsOpen]);
 
-  // Sync config fields when selectedProvider or global config loads
+  // Los campos se cargan una vez por proveedor elegido, no con cada sondeo. Si
+  // la lista de proveedores llega después de abrir, se cargan cuando llega.
   useEffect(() => {
-    if (selectedProvider) {
-      const p = state.providers.find((prov) => prov.id === selectedProvider.id) || selectedProvider;
-      const cfg = state.providerConfigs[p.id];
-      setApiKey(cfg?.api_key || "");
-      setBaseUrl(cfg?.base_url || p.default_base_url);
-      setModel(cfg?.model || p.default_model);
-      setTemperature(cfg?.temperature ?? 0.5);
-    }
-  }, [selectedProvider, state.providers, state.providerConfigs]);
+    if (!state.isSettingsOpen || !selectedProvider) return;
+    if (camposDeRef.current === selectedProvider.id) return;
+    camposDeRef.current = selectedProvider.id;
+    const cfg = state.providerConfigs[selectedProvider.id];
+    // Lo que la cuenta tiene aplicado, no el valor por defecto: al reabrir, el
+    // modal enseñaba `localhost` en vez del Ollama guardado, y «Guardar»
+    // proponía cambiar el destino de vuelta. Para Ollama, el backend sugiere un
+    // modelo instalado si el aplicado no lo está.
+    const modeloAplicado = selectedProvider.id === "ollama"
+      ? selectedProvider.default_model
+      : selectedProvider.model || selectedProvider.default_model;
+    setApiKey(cfg?.api_key || "");
+    setBaseUrl(cfg?.base_url || selectedProvider.base_url || selectedProvider.default_base_url);
+    setModel(cfg?.model || modeloAplicado);
+    setTemperature(cfg?.temperature ?? temperaturaPorDefecto(selectedProvider.id));
+    setShowKey(false);
+    setCambioDestino(null);
+  }, [state.isSettingsOpen, selectedProvider, state.providerConfigs]);
 
   async function loadLocalModels() {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/models/local`, {
+      const res = await fetchBackend(`/ai/models/local`, {
         headers: getAuthHeaders(),
       });
       if (!res.ok) {
@@ -129,8 +161,8 @@ export function AISettingsModal() {
     setSearching(true);
     setSettingsError(null);
     try {
-      const res = await fetch(
-        `${await getApiUrl()}/ai/models/search?q=${encodeURIComponent(searchQuery.trim())}&limit=12`,
+      const res = await fetchBackend(
+        `/ai/models/search?q=${encodeURIComponent(searchQuery.trim())}&limit=12`,
         { headers: getAuthHeaders() }
       );
       if (!res.ok) {
@@ -155,7 +187,7 @@ export function AISettingsModal() {
   function pollDownload(dlId: string, dlKey: string) {
     const interval = setInterval(async () => {
       try {
-        const res = await fetch(`${await getApiUrl()}/ai/models/download/${dlId}`, {
+        const res = await fetchBackend(`/ai/models/download/${dlId}`, {
           headers: getAuthHeaders(),
         });
         if (!res.ok) {
@@ -173,7 +205,7 @@ export function AISettingsModal() {
             setModel(dl.filename || filenameFromKey(dlKey));
             void loadLocalModels();
           } else {
-            setSettingsError("La descarga del modelo falló.");
+            setSettingsError(dl.error ? `La descarga del modelo falló: ${dl.error}` : "La descarga del modelo falló.");
           }
         }
       } catch (error) {
@@ -195,13 +227,30 @@ export function AISettingsModal() {
     setDownloading((prev) => ({ ...prev, [dlKey]: { status: "starting", progress: 0 } }));
     setSettingsError(null);
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/models/download`, {
+      const res = await fetchBackend(`/ai/models/download`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: JSON.stringify({ model_id: modelId, filename }),
       });
+      if (res.status === 403) {
+        // Descargar sale a huggingface.co, y eso lo autoriza la cuenta. Antes
+        // sólo se leía «HTTP 403» y ninguna pantalla de MolChat permitía
+        // autorizarlo: estos botones no podían funcionar.
+        const cuerpo = await res.json().catch(() => null);
+        const d = cuerpo?.detail;
+        setDownloading((prev) => {
+          const resto = { ...prev };
+          delete resto[dlKey];
+          return resto;
+        });
+        if (d && typeof d === "object" && d.motivo === "sin_permiso" && d.servicio && d.host) {
+          setPermisoDescarga({ modelId, filename, mensaje: d.mensaje, servicio: d.servicio, host: d.host });
+          return;
+        }
+        throw new Error(typeof d === "string" ? d : d?.mensaje || "No se pudo iniciar la descarga (HTTP 403).");
+      }
       if (!res.ok) {
-        throw new Error(`No se pudo iniciar la descarga (HTTP ${res.status}).`);
+        throw new Error(`No se pudo iniciar la descarga: ${await motivoDeRespuesta(res)}`);
       }
       const dl = await res.json();
       pollDownload(dl.id, dlKey);
@@ -211,10 +260,24 @@ export function AISettingsModal() {
     }
   }
 
+  async function autorizarYDescargar() {
+    if (!permisoDescarga) return;
+    const { modelId, filename, servicio, host } = permisoDescarga;
+    setSettingsError(null);
+    try {
+      await authorizeNetworkDestination(servicio, host);
+    } catch (error) {
+      setSettingsError(mensajeDeError(error, "No se pudo autorizar el destino."));
+      return;
+    }
+    setPermisoDescarga(null);
+    await handleDownload(modelId, filename);
+  }
+
   async function openModelsFolder() {
     setSettingsError(null);
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/models/open-folder`, {
+      const res = await fetchBackend(`/ai/models/open-folder`, {
         method: "POST",
         headers: getAuthHeaders(),
       });
@@ -231,15 +294,16 @@ export function AISettingsModal() {
   }
 
   useEffect(() => {
-    if (state.isSettingsOpen && selectedProvider?.id === "local") {
+    if (state.isSettingsOpen && selectedProviderId === "local") {
       loadLocalModels();
       loadQuantRecommendation();
     }
-  }, [state.isSettingsOpen, selectedProvider]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- una vez por apertura y modo, no por sondeo
+  }, [state.isSettingsOpen, selectedProviderId]);
 
   async function loadQuantRecommendation() {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/models/recommend-quant`, {
+      const res = await fetchBackend(`/ai/models/recommend-quant`, {
         headers: getAuthHeaders(),
       });
       if (!res.ok) {
@@ -264,13 +328,19 @@ export function AISettingsModal() {
   async function handleSave(confirmarDestino = false) {
     if (!selectedProvider) return;
     setSettingsError(null);
+    // Sólo se envía lo que el panel enseña. Una clave vacía no se envía: el
+    // campo sale vacío al reabrir (la clave no vuelve del backend), y enviarlo
+    // así sobrescribía la clave guardada con una vacía. El modo local no tiene
+    // temperatura en pantalla, y enviar la del deslizador oculto le imponía 0,5.
+    const muestraTemperatura = selectedProvider.id !== "local";
+    const claveEscrita = apiKey.trim();
     try {
       const cambio = await updateProviderConfig({
         provider_id: selectedProvider.id,
-        api_key: apiKey,
-        base_url: baseUrl,
-        model: model,
-        temperature: temperature,
+        ...(selectedProvider.requires_api_key && claveEscrita ? { api_key: claveEscrita } : {}),
+        ...(selectedProvider.requires_base_url ? { base_url: baseUrl.trim() } : {}),
+        model: model.trim(),
+        ...(muestraTemperatura ? { temperature } : {}),
         ...(confirmarDestino ? { confirmar_destino: true } : {}),
       });
 
@@ -393,15 +463,13 @@ export function AISettingsModal() {
               )}
               {/* Modo: Local vs Online */}
               <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 6 }}>
-                Modo
+                {t("ia_cfg_mode")}
               </label>
               <div style={{ display: "flex", gap: 1, marginBottom: 20, padding: 2, background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, width: "fit-content" }}>
                 <button
-                  onClick={() => {
-                    const local = state.providers.find(p => p.id === "local") || FALLBACK_PROVIDER;
-                    setSelectedProvider(local);
-                    setModel(localModels[0]?.filename || local.default_model);
-                  }}
+                  type="button"
+                  aria-pressed={selectedProvider?.id === "local"}
+                  onClick={() => setSelectedProviderId("local")}
                   style={{
                     padding: "8px 16px", borderRadius: 6, border: "none", cursor: "pointer",
                     fontSize: "0.82em", fontWeight: 600,
@@ -414,17 +482,10 @@ export function AISettingsModal() {
                   llama.cpp
                 </button>
                 <button
-                  onClick={() => {
-                    const ollama = state.providers.find(p => p.id === "ollama");
-                    if (ollama) {
-                      setSelectedProvider(ollama);
-                      const cfg = state.providerConfigs[ollama.id];
-                      setApiKey("");
-                      setBaseUrl(cfg?.base_url || ollama.default_base_url);
-                      setModel(cfg?.model || ollama.default_model);
-                      setTemperature(cfg?.temperature ?? 0.1);
-                    }
-                  }}
+                  type="button"
+                  aria-pressed={selectedProvider?.id === "ollama"}
+                  disabled={!state.providers.some((p) => p.id === "ollama")}
+                  onClick={() => setSelectedProviderId("ollama")}
                   style={{
                     padding: "8px 16px", borderRadius: 6, border: "none", cursor: "pointer",
                     fontSize: "0.82em", fontWeight: 600,
@@ -434,17 +495,17 @@ export function AISettingsModal() {
                   }}
                 >
                   <Server size={14} className="inline-block mr-1.5" style={{ verticalAlign: "middle" }} />
-                  Ollama
+                  {t("ia_cfg_ollama")}
                 </button>
                 <button
+                  type="button"
+                  aria-pressed={!!selectedProvider && selectedProvider.id !== "local" && selectedProvider.id !== "ollama"}
+                  disabled={!state.providers.some((p) => p.requires_api_key)}
                   onClick={() => {
-                    const online = state.providers.find(p => p.id !== "local" && p.id !== "ollama") || state.providers[0] || FALLBACK_PROVIDER;
-                    setSelectedProvider(online);
-                    const cfg = state.providerConfigs[online.id];
-                    setApiKey(cfg?.api_key || "");
-                    setBaseUrl(cfg?.base_url || online.default_base_url);
-                    setModel(cfg?.model || online.default_model);
-                    setTemperature(cfg?.temperature ?? 0.5);
+                    // El configurado primero; si no hay ninguno, el primero de la lista.
+                    const nube = state.providers.filter((p) => p.requires_api_key);
+                    const elegido = nube.find((p) => p.configured) || nube[0];
+                    if (elegido) setSelectedProviderId(elegido.id);
                   }}
                   style={{
                     padding: "8px 16px", borderRadius: 6, border: "none", cursor: "pointer",
@@ -455,7 +516,7 @@ export function AISettingsModal() {
                   }}
                 >
                   <Globe size={14} className="inline-block mr-1.5" style={{ verticalAlign: "middle" }} />
-                  API Key
+                  {t("ia_cfg_api_key")}
                 </button>
               </div>
 
@@ -463,8 +524,29 @@ export function AISettingsModal() {
               {/* OLLAMA MODE — local server, no API key */}
               {selectedProvider && selectedProvider.id === "ollama" && (
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                  <div style={{ padding: "8px 12px", borderRadius: 8, background: "rgba(245,158,11,0.06)", border: "1px solid rgba(245,158,11,0.15)", fontSize: "0.8em", color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                    <span><Server size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> Ollama debe estar instalado y corriendo en {baseUrl || "http://localhost:11434"}{t("auto_a6cdeb7c5844")}</span>
+                  {/* Estado medido por el backend sobre la URL guardada, no un
+                      texto fijo: antes decía «debe estar en ejecución en …»
+                      tanto si respondía como si no. */}
+                  <div
+                    data-testid="estado-ollama"
+                    role="status"
+                    style={{
+                      padding: "8px 12px", borderRadius: 8, fontSize: "0.8em", lineHeight: 1.5,
+                      background: selectedProvider.configured ? "rgba(34,197,94,0.06)" : "rgba(245,158,11,0.06)",
+                      border: `1px solid ${selectedProvider.configured ? "rgba(34,197,94,0.25)" : "rgba(245,158,11,0.25)"}`,
+                      color: "var(--text-secondary)",
+                    }}
+                  >
+                    <Server size={14} className="inline-block mr-1" style={{ verticalAlign: "middle", color: selectedProvider.configured ? "#22C55E" : "#F59E0B" }} />
+                    {selectedProvider.configured
+                      ? t(selectedProvider.available_models.length === 1 ? "ia_ollama_responde_uno" : "ia_ollama_responde_varios", {
+                          url: selectedProvider.base_url || selectedProvider.default_base_url,
+                          n: selectedProvider.available_models.length,
+                        })
+                      : selectedProvider.estado || t("ia_ollama_sin_comprobar")}
+                    {baseUrl.trim() && baseUrl.trim() !== (selectedProvider.base_url || selectedProvider.default_base_url) && (
+                      <div style={{ marginTop: 4 }}>{t("ia_ollama_url_sin_guardar")}</div>
+                    )}
                   </div>
                   {selectedProvider.requires_base_url && (
                     <div>
@@ -476,8 +558,24 @@ export function AISettingsModal() {
                     </div>
                   )}
                   <div>
-                    <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("se_sel_model")}</label>
-                    <input type="text" value={model} onChange={(e) => setModel(e.target.value)}
+                    <label htmlFor="modelo-ollama" style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("se_sel_model")}</label>
+                    {selectedProvider.available_models.length > 0 && (
+                      <div role="group" aria-label={t("ia_ollama_instalados")} style={{ display: "flex", flexWrap: "wrap", gap: 4, marginBottom: 6 }}>
+                        {selectedProvider.available_models.map((m) => (
+                          <button key={m} type="button" aria-pressed={model === m} onClick={() => setModel(m)}
+                            style={{
+                              padding: "4px 10px", borderRadius: 6, fontSize: "0.78em", cursor: "pointer",
+                              border: model === m ? "2px solid var(--accent)" : "1px solid var(--border)",
+                              background: model === m ? "var(--accent)" : "var(--bg)",
+                              color: model === m ? "#fff" : "var(--text)",
+                            }}
+                          >
+                            {m}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <input id="modelo-ollama" type="text" value={model} onChange={(e) => setModel(e.target.value)}
                       placeholder={selectedProvider.default_model}
                       style={{ width: "100%", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", color: "var(--text)", fontSize: "0.9em", outline: "none" }}
                     />
@@ -494,18 +592,11 @@ export function AISettingsModal() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                   <div>
                     <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 6 }}>
-                      Proveedor cloud
+                      {t("ia_cfg_cloud_provider")}
                     </label>
                     <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                       {state.providers.filter(p => p.id !== "local" && p.id !== "ollama").map((p) => (
-                        <button key={p.id} onClick={() => {
-                          setSelectedProvider(p);
-                          const cfg = state.providerConfigs[p.id];
-                          setApiKey(cfg?.api_key || "");
-                          setBaseUrl(cfg?.base_url || p.default_base_url);
-                          setModel(cfg?.model || p.default_model);
-                          setTemperature(cfg?.temperature ?? 0.5);
-                        }}
+                        <button key={p.id} type="button" aria-pressed={selectedProvider?.id === p.id} onClick={() => setSelectedProviderId(p.id)}
                           style={{
                             padding: "6px 12px", borderRadius: 6, border: selectedProvider?.id === p.id ? "2px solid var(--accent)" : "1px solid var(--border)",
                             background: selectedProvider?.id === p.id ? "var(--accent)" : "var(--bg)",
@@ -521,13 +612,13 @@ export function AISettingsModal() {
                   </div>
                   {selectedProvider.requires_api_key && (
                     <div>
-                      <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>API Key</label>
+                      <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("ia_cfg_api_key")}</label>
                       <div style={{ position: "relative" }}>
                         <input type={showKey ? "text" : "password"} value={apiKey} onChange={(e) => setApiKey(e.target.value)}
-                          placeholder={selectedProvider.env_key || "sk-..."}
+                          placeholder={selectedProvider.configured ? t("ia_cfg_api_key_guardada") : selectedProvider.env_key || t("ia_cfg_api_key_example")}
                           style={{ width: "100%", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 36px 10px 12px", color: "var(--text)", fontSize: "0.9em", outline: "none" }}
                         />
-                        <button type="button" onClick={() => setShowKey(!showKey)} aria-label={showKey ? "Ocultar API key" : "Mostrar API key"} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-secondary)", cursor: "pointer" }}>
+                        <button type="button" onClick={() => setShowKey(!showKey)} aria-label={showKey ? t("ia_cfg_hide_api_key") : t("ia_cfg_show_api_key")} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", color: "var(--text-secondary)", cursor: "pointer" }}>
                           {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
                         </button>
                       </div>
@@ -535,7 +626,7 @@ export function AISettingsModal() {
                   )}
                   {selectedProvider.requires_base_url && (
                     <div>
-                      <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>Base URL</label>
+                      <label style={{ display: "block", fontSize: "0.85em", color: "var(--text-secondary)", marginBottom: 4 }}>{t("ia_cfg_base_url")}</label>
                       <input type="text" value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)}
                         placeholder={selectedProvider.default_base_url}
                         style={{ width: "100%", background: "var(--bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 12px", color: "var(--text)", fontSize: "0.9em", outline: "none" }}
@@ -563,16 +654,16 @@ export function AISettingsModal() {
                   <div style={{ padding: "8px 12px", borderRadius: 8, background: "rgba(59,130,246,0.06)", border: "1px solid rgba(59,130,246,0.15)", fontSize: "0.8em", color: "var(--text-secondary)", lineHeight: 1.5 }}>
                     {state.resourceStatus?.gpu_name ? (
                       state.resourceStatus.using_gpu ? (
-                        <span><Zap size={14} className="inline-block mr-1 text-amber-400" style={{ verticalAlign: "middle" }} /> GPU: {state.resourceStatus.gpu_name} ({state.resourceStatus.gpu_vram_total_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}GB, {state.resourceStatus.vram_free_gb >= 0 ? state.resourceStatus.vram_free_gb.toFixed(1) + "GB libre" : t("auto_5bab61eb5317")})</span>
+                        <span><Zap size={14} className="inline-block mr-1 text-amber-400" style={{ verticalAlign: "middle" }} /> GPU: {state.resourceStatus.gpu_name} ({state.resourceStatus.gpu_vram_total_gb?.toFixed(1) ?? t("auto_5bab61eb5317")} GB, {state.resourceStatus.vram_free_gb >= 0 ? `${state.resourceStatus.vram_free_gb.toFixed(1)} ${t("ia_cfg_vram_free")}` : t("auto_5bab61eb5317")})</span>
                       ) : state.resourceStatus.llm_state === "loaded" ? (
                         <span style={{ color: "#F59E0B" }}><AlertTriangle size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> GPU ({state.resourceStatus.gpu_name}{t("auto_0ce6ec21b144")}</span>
                       ) : (
                         <span><Monitor size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> GPU: {state.resourceStatus.gpu_name} ({state.resourceStatus.gpu_vram_total_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}{t("auto_ce040e015442")}</span>
                       )
                     ) : state.resourceStatus?.vram_free_gb !== undefined && state.resourceStatus.vram_free_gb >= 0 && state.resourceStatus.vram_free_gb < 2 ? (
-                      <span>VRAM insuficiente ({state.resourceStatus.vram_free_gb.toFixed(1)}GB). CPU: {state.resourceStatus?.ram_free_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}GB RAM.</span>
+                      <span>{t("ia_cfg_vram_insufficient", { vram: state.resourceStatus.vram_free_gb.toFixed(1), ram: state.resourceStatus?.ram_free_gb?.toFixed(1) ?? t("auto_5bab61eb5317") })}</span>
                     ) : (
-                      <span><Monitor size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> {t("auto_94135ee04adb")} {state.resourceStatus?.ram_free_gb?.toFixed(1) ?? t("auto_5bab61eb5317")}GB RAM libre.</span>
+                      <span><Monitor size={14} className="inline-block mr-1" style={{ verticalAlign: "middle" }} /> {t("auto_94135ee04adb")} {t("ia_cfg_ram_free", { gb: state.resourceStatus?.ram_free_gb?.toFixed(1) ?? t("auto_5bab61eb5317") })}</span>
                     )}
                   </div>
 
@@ -619,23 +710,27 @@ export function AISettingsModal() {
                         {
                           id: "Qwen/Qwen2.5-1.5B-Instruct-GGUF",
                           filename: "qwen2.5-1.5b-instruct-q4_k_m.gguf",
-                          name: "Qwen2.5 1.5B (Recomendado)",
+                          name: `${t("ia_cfg_qwen15_model")} (${t("ia_cfg_recommended")})`,
                           size: "1.1 GB",
                           desc: t("auto_7786e423c133"),
                         },
                         {
                           id: "Qwen/Qwen2.5-0.5B-Instruct-GGUF",
                           filename: "qwen2.5-0.5b-instruct-q4_k_m.gguf",
-                          name: "Qwen2.5 0.5B (Ligero)",
+                          name: `${t("ia_cfg_qwen05_model")} (${t("ia_cfg_lightweight")})`,
                           size: "398 MB",
                           desc: t("auto_3c11e2b8db88"),
                         },
                         {
-                          id: "azure/Phi-3.5-mini-instruct-Q4_K_M",
-                          filename: "Phi-3.5-mini-instruct-Q4_K_M.gguf",
-                          name: "Phi-3.5 Mini 3.8B (Avanzado)",
-                          size: "2.2 GB",
-                          desc: t("auto_dabe6e993bad"),
+                          // Sustituye a Phi-3.5 Mini (decisión del propietario,
+                          // 2026-10-10): el Qwen más reciente de tamaño parecido
+                          // con uso de herramientas. Apache-2.0. Piensa por
+                          // defecto y MolChat se lo apaga (`local_llm.py`).
+                          id: "unsloth/Qwen3.5-4B-GGUF",
+                          filename: "Qwen3.5-4B-Q4_K_M.gguf",
+                          name: `${t("ia_cfg_qwen35_4b_model")} (${t("ia_cfg_advanced")})`,
+                          size: "2.7 GB",
+                          desc: t("ia_cfg_qwen35_4b_desc"),
                         }
                       ].map((m) => {
                         const isDownloaded = localModels.some((lm) => lm.filename === m.filename);
@@ -651,7 +746,7 @@ export function AISettingsModal() {
                               </div>
                               {isDownloaded ? (
                                 <span style={{ color: "#22C55E", fontSize: "0.78em", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
-                                  <CheckCircle2 size={12} /> Disponible
+                                  <CheckCircle2 size={12} /> {t("ia_cfg_available")}
                                 </span>
                               ) : dl ? (
                                 dl.status === "downloading" || dl.status === "starting" ? (
@@ -660,11 +755,11 @@ export function AISettingsModal() {
                                   </span>
                                 ) : dl.status === "completed" ? (
                                   <span style={{ color: "#22C55E", fontSize: "0.78em", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
-                                    <CheckCircle2 size={12} /> Listo
+                                    <CheckCircle2 size={12} /> {t("pn_prep_listo")}
                                   </span>
                                 ) : (
                                   <span style={{ color: "#EF4444", fontSize: "0.78em", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
-                                    <XCircle size={12} /> Error
+                                    <XCircle size={12} /> {t("error")}
                                   </span>
                                 )
                               ) : (
@@ -689,6 +784,32 @@ export function AISettingsModal() {
                       })}
                     </div>
                   </div>
+
+                  {permisoDescarga && (
+                    <div
+                      data-testid="permiso-descarga"
+                      role="alert"
+                      style={{
+                        padding: "10px 12px", borderRadius: 8, fontSize: "0.8em", lineHeight: 1.5,
+                        background: "rgba(245,158,11,0.08)", border: "1px solid rgba(245,158,11,0.35)",
+                        color: "var(--text)", display: "flex", flexDirection: "column", gap: 8,
+                      }}
+                    >
+                      <span>{permisoDescarga.mensaje}</span>
+                      <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
+                        <button type="button" onClick={() => setPermisoDescarga(null)}
+                          style={{ padding: "4px 10px", borderRadius: 6, border: "1px solid var(--border)", background: "var(--bg)", color: "var(--text)", cursor: "pointer" }}
+                        >
+                          {t("c_cancelar")}
+                        </button>
+                        <button type="button" onClick={() => void autorizarYDescargar()}
+                          style={{ padding: "4px 10px", borderRadius: 6, border: "none", background: "var(--accent)", color: "#fff", cursor: "pointer", fontWeight: 600 }}
+                        >
+                          {t("ia_autorizar_y_descargar", { host: permisoDescarga.host })}
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Open models directory explorer */}
                   <div style={{ marginTop: 6, borderTop: "1px solid var(--border)", paddingTop: 14 }}>
@@ -732,21 +853,27 @@ export function AISettingsModal() {
                       </label>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                         {quantInfo.options?.map((opt: any) => {
-                          const localFile = localModels.find((m: any) => m.filename.includes(opt.quant.replace("_", "_")));
-                          const isSelected = model.includes(opt.quant) || (localFile && model === localFile.filename);
+                          // El botón elige TU modelo de esa cuantización. No
+                          // descarga: el backend no dice qué archivo sería, y el
+                          // botón lanzaba una descarga con nombre vacío (400).
+                          // Antes además buscaba «Q4_K_M» en nombres en minúscula
+                          // y nunca encontraba el archivo que sí estaba.
+                          const conEsta = localModels.filter((m: any) => m.quant === opt.quant);
+                          const unico = conEsta.length === 1 ? conEsta[0] : null;
+                          const isSelected = localModels.find((m: any) => m.filename === model)?.quant === opt.quant;
+                          const porQue = conEsta.length === 0 ? t("ia_cuant_sin_modelo") : conEsta.length > 1 ? t("ia_cuant_varios") : "";
                           return (
-                            <button key={opt.quant} onClick={() => {
-                              if (localFile) selectLocalModel(localFile.filename);
-                              else if (opt.fits) handleDownload(opt.model_id || "Qwen/Qwen2.5-1.5B-Instruct-GGUF", opt.filename || "");
+                            <button key={opt.quant} type="button" aria-pressed={isSelected} onClick={() => {
+                              if (unico) selectLocalModel(unico.filename);
                             }}
-                              disabled={!opt.fits}
-                              title={`${opt.description}\n~${opt.model_size_gb}GB · ≥${opt.min_ram_gb}GB`}
+                              disabled={!unico}
+                              title={`${opt.description}\n~${opt.model_size_gb}GB · ≥${opt.min_ram_gb}GB${porQue ? `\n${porQue}` : ""}`}
                               style={{
                                 padding: "5px 10px", borderRadius: 6, border: `1.5px solid ${opt.is_recommended ? "#22C55E" : "var(--border)"}`,
                                 background: isSelected ? "var(--accent)" : opt.is_recommended ? "rgba(34,197,94,0.08)" : "var(--bg)",
                                 color: isSelected ? "#fff" : opt.is_recommended ? "#22C55E" : opt.fits ? "var(--text-secondary)" : "var(--text-dim)",
-                                cursor: opt.fits ? "pointer" : "default", fontSize: "0.75rem", whiteSpace: "nowrap",
-                                opacity: opt.fits ? 1 : 0.4, fontWeight: isSelected || opt.is_recommended ? 600 : 400,
+                                cursor: unico ? "pointer" : "default", fontSize: "0.75rem", whiteSpace: "nowrap",
+                                opacity: unico || isSelected ? 1 : 0.4, fontWeight: isSelected || opt.is_recommended ? 600 : 400,
                               }}
                             >
                               {opt.label}
@@ -772,7 +899,7 @@ export function AISettingsModal() {
                       style={{ accentColor: "var(--accent)" }}
                     />
                     <label htmlFor="keep-loaded" style={{ fontSize: "0.8em", color: "var(--text-secondary)", cursor: "pointer", lineHeight: 1.4 }}>
-                      Mantener MolChat cargado durante evaluaciones
+                      {t("ia_cfg_keep_loaded")}
                     </label>
                   </div>
                 </div>
@@ -868,7 +995,7 @@ export function AISettingsModal() {
               >
                 {saved ? (
                   <>
-                    <Check size={14} /> Guardado
+                    <Check size={14} /> {t("ia_cfg_saved")}
                   </>
                 ) : (
                   t("auto_ca034f0fac8f")

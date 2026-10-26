@@ -1,0 +1,27 @@
+{
+  "pdb": "5TY1",
+  "semilla": 2026,
+  "inicio": "2026-10-23T04:44:26+00:00",
+  "resultado": "auditada",
+  "task_id": "8cc3a752-5443-438b-9464-6b0d1ecfffd6",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:301 (1.98 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal 7QV A:302",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "36bcae649928ea617772e4d97854eb4db074566504136abf7e928d6cd7b257c0",
+  "afinidad_top1": -6.751,
+  "microestado": "COc1ccc([C@H]2OC(=O)NC2=O)c(OC)c1",
+  "microestado_coincide": true,
+  "semilla_declarada": 2026,
+  "vina": "1.2.7",
+  "receptor_sha256": "9e5ee095dd69cb96ea85c0bc843a23dd916ed614def6ac2b1b40de07cdcd998b",
+  "segundos": 10.6,
+  "fin": "2026-10-23T04:44:37+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

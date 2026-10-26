@@ -113,11 +113,17 @@ class _Entorno:
         await self.apagar()
         await self.arrancar()
 
-    def app(self, usuario: UserORM | None = None) -> TestClient:
+    def app(
+        self, usuario: UserORM | None = None, *, localization_middleware: bool = False
+    ) -> TestClient:
         aplicacion = FastAPI()
         aplicacion.include_router(cohorts_router.router, prefix="/evaluation")
         aplicacion.include_router(runs_router.cohort_router, prefix="/evaluation")
         aplicacion.include_router(runs_router.router, prefix="/evaluation")
+        if localization_middleware:
+            from api.middleware import register_middleware
+
+            register_middleware(aplicacion)
 
         async def _db():
             async with self.factory() as session:

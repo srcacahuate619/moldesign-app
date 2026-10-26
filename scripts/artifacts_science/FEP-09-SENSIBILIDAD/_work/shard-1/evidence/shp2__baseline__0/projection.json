@@ -1,0 +1,81 @@
+{
+  "projection_version": 1,
+  "case_id": "shp2__baseline__0",
+  "name": "shp2__baseline__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_CC6E46",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1",
+      "canonical_smiles": "CC1(C[NH3+])CCN(c2cnc(-c3cccc(Cl)c3Cl)c(N)n2)CC1"
+    },
+    "config": {
+      "grid_center": [
+        22.625,
+        41.267,
+        4.664
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:6dbffa4543a5c49a45882a221e3e7ca66ee241849c48401ceeec411bb6deb086",
+    "generated_at": "2026-10-11T20:13:56.898663+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "8b8412ff-85d8-4cb0-87cc-fd48cccf8eff",
+    "input_fingerprint": "sha256:6dbffa4543a5c49a45882a221e3e7ca66ee241849c48401ceeec411bb6deb086",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

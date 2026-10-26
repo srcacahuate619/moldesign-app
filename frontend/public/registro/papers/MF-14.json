@@ -453,6 +453,151 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-083. El «radio» de la tabla es la norma de una traslación nominal, a la que el runner suma una rotación aleatoria de hasta 30° alrededor del centroide. El RMSD de partida de cada réplica, que sí se guardó, es otro: con r = 0.5 Å su mediana es ",
+      "m": null
+     },
+     {
+      "t": "0.935 Å",
+      "m": "fuerte"
+     },
+     {
+      "t": " en el estrato difícil (de 0.5 a 2.65 Å) y 0.635 Å en el control. «Partiendo prácticamente de la pose correcta» y «a media angstrom del mínimo» no describen esa fila.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Reagrupadas las mismas réplicas por su RMSD de partida real, ",
+      "m": null
+     },
+     {
+      "t": "por debajo de 0.75 Å",
+      "m": "fuerte"
+     },
+     {
+      "t": " no vuelven 14 de 74 en el estrato difícil (19 %) frente a 3 de 58 en el control (5 %). Pero esos 14 fallos salen de ",
+      "m": null
+     },
+     {
+      "t": "5 de 30 complejos",
+      "m": "fuerte"
+     },
+     {
+      "t": ". Lo que se sostiene es que en algunos complejos difíciles una minimización local desde muy cerca no recupera la pose; no que la cuenca sea rugosa en general, ni dónde están las barreras. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_mf14_por_rmsd_inicial.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-084. Las medianas de r50 (2.0 y 3.0 Å) son sólo sobre los complejos que ",
+      "m": null
+     },
+     {
+      "t": "alcanzan",
+      "m": "fuerte"
+     },
+     {
+      "t": " r50: los cuatro del estrato difícil que no lo alcanzan quedan fuera. Es una mediana condicionada, no la del estrato.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-085. El ligando entra rígido (",
+      "m": null
+     },
+     {
+      "t": "TORSDOF 0",
+      "m": "codigo"
+     },
+     {
+      "t": "): lo medido es la captura local de un ligando rígido, no la del docking flexible.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-086. La semilla de cada complejo es ",
+      "m": null
+     },
+     {
+      "t": "SEED + abs(hash(pid)) % 100000",
+      "m": "codigo"
+     },
+     {
+      "t": ", y el ",
+      "m": null
+     },
+     {
+      "t": "hash",
+      "m": "codigo"
+     },
+     {
+      "t": " de cadenas de Python cambia entre procesos si no se fija ",
+      "m": null
+     },
+     {
+      "t": "PYTHONHASHSEED",
+      "m": "codigo"
+     },
+     {
+      "t": ", que no se registró. Las perturbaciones por complejo no se pueden regenerar.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-087. El sello es retroactivo y fija el runner, no los datos ni la salida: MF-14 queda como evidencia exploratoria post hoc.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-14.md"

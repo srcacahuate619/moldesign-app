@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { getAuthHeaders } from "../lib/api";
-import { getApiUrl } from "../lib/config";
+import { fetchBackend } from "../lib/backendFetch";
 
 type SpeechState = "idle" | "listening" | "processing" | "error" | "unsupported";
 
@@ -24,7 +24,7 @@ export function useSpeechRecognition(options: UseSpeechRecognitionOptions = {}) 
 
     async function detect() {
       try {
-        const res = await fetch(`${await getApiUrl()}/ai/speech-to-text/status`, {
+        const res = await fetchBackend(`/ai/speech-to-text/status`, {
           headers: getAuthHeaders(),
         });
         if (!res.ok) {
@@ -76,8 +76,8 @@ export function useSpeechRecognition(options: UseSpeechRecognitionOptions = {}) 
 
         try {
           const langCode = lang.startsWith("es") ? "es" : "en";
-          const res = await fetch(
-            `${await getApiUrl()}/ai/speech-to-text?lang=${langCode}`,
+          const res = await fetchBackend(
+            `/ai/speech-to-text?lang=${langCode}`,
             { method: "POST", body: blob, headers: getAuthHeaders() }
           );
           if (!res.ok) {

@@ -8,6 +8,9 @@
   "permissions": [
     "core:default",
     "log:default",
+    "notification:allow-is-permission-granted",
+    "notification:allow-register-listener",
+    "notification:allow-remove-listener",
     "dialog:allow-open",
     {
       "identifier": "opener:allow-open-url",

@@ -65,3 +65,12 @@ de eso habría sido posible sin poder mirar las tres fuentes en el mismo marco d
 coordenadas y con el mismo esquema de índices.
 
 La plomería no da resultados. Da la posibilidad de tenerlos.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-060. «Acceso al conjunto de test: ninguno» se precisa: no se leyeron poses ni etiquetas
+  de test, pero `build_pose_union.py` carga el sidecar de procedencia completo, con metadatos de
+  113 registros que sólo son de test. No es una fuga de etiquetas.

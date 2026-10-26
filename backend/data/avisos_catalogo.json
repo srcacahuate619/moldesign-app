@@ -1,0 +1,54 @@
+{
+  "_doc": "Avisos medidos por receptor del catálogo. SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA: las cadenas del sitio anotado no están todas en la unidad biológica 1 del depósito (REMARK 350). Fuente: auditoría de ensamblajes del 2026-10-08, worktree receptores-20261008, docs/auditorias/receptores-continuacion-20261008/ensamblajes_validacion_resumen.json, campo entries_needing_site_chain_reannotation, referencia de código 7b16531e.",
+  "schema": 1,
+  "avisos": {
+    "1UZJ": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "1W22": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "2B2A": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "3KD2": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "3KDA": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "3V94": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4DLN": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4DM7": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4DMF": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4I04": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4LMO": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4YNQ": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "5DIY": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "5YWV": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "7JVU": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "7JVW": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ]
+  }
+}

@@ -72,3 +72,11 @@ una lista de objetivos rotos. Sin este experimento se habrían "reparado" grids 
 funcionaban, con el riesgo de romper los que estaban bien — que es exactamente lo que
 midió después `REC-03`, donde la reparación automática perdió dos objetivos sanos de forma
 catastrófica.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-022. El contacto con Cys25 se midió contra su SG, y ese átomo **no está** en el receptor acoplado: el filtro de altloc dejó del residuo sólo N, C y O. Las distancias (0,773 Å, 5 de 5) no validan el contacto catalítico ni el grid funcional de 5TUN. Se retira esa lectura; la geometría de las cajas se conserva y el arreglo del código es aparte.
+- SCI-B-024. G3 comprueba que Vina terminó y que su salida se pudo leer. No detecta químicamente el defecto de conservar las aguas.
+- 2026-10-22, SCI-B-022 (parte C1). Repetido con la Cys25 dentro del receptor en [REC-07-R1](REC-07-R1.md): el grid recomendado, `G_ADAPT`, deja el E64c a 13 Å de Cys25 SG en las cinco semillas (0 de 5). La recomendación de este experimento queda refutada; la geometría de las cajas no cambia.

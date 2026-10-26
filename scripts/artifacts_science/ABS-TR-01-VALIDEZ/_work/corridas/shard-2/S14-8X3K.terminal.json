@@ -1,0 +1,16 @@
+{
+  "id_r2": "S14",
+  "pdb": "8X3K",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 21.1,
+      "crudo": "S14-8X3K-intento1.json.gz",
+      "crudo_sha256": "345813ff9fe74e7558dd7ad3815b94436eca2d33e5287a9b1285a5b2b09bce60"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S14-8X3K-intento1.json.gz",
+  "crudo_sha256": "345813ff9fe74e7558dd7ad3815b94436eca2d33e5287a9b1285a5b2b09bce60",
+  "registrado_en": "2026-10-22T16:45:15+00:00"
+}

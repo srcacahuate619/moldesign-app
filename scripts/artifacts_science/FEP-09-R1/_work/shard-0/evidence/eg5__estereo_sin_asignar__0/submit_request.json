@@ -1,0 +1,40 @@
+{
+  "smiles": "C[NH2+]CCS(=O)(=O)NC[C@H]1CC[C@H]2C(c3ccccc3)Nc3ccc(C(F)(F)F)cc3[C@H]2O1",
+  "target_pdb_id": "USR_BECE22",
+  "chain": "A",
+  "molecule_name": "eg5__estereo_sin_asignar__0",
+  "grid_center": [
+    27.332,
+    9.213,
+    15.207
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:47024fff4e87d2e221b1755cd376d59b067179f216f8e08adf170601ea726b50"
+}

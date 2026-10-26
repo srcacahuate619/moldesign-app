@@ -617,6 +617,63 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-115. El sello fija la cohorte declarada y el runner de MF-28; no fija por hash el receptor, el centro, el ligando, los conformeros, los mapas, el helper ni el ejecutable usados. El anclaje previo del protocolo no subsana esa falta. El contraste conserva valor bajo la receta documentada y los resultados guardados, sin afirmar reconstrucción exacta de los insumos físicos de la ejecución. La exigencia de sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_procedencia.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-167. El roadmap uniforme probado no superó al protocolo Vina comparado bajo el presupuesto utilizado. Los brazos difieren en movilidad torsional y en el filtro geométrico de configuraciones admisibles además de la exploración, por lo que el contraste no identifica cuál de esos cambios explica la diferencia. El NO_GO se limita a esta implementación y condiciones; no falsifica la utilidad general de otras estrategias de búsqueda.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-28.md"

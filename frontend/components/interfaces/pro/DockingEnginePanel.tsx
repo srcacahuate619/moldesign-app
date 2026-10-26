@@ -46,11 +46,11 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
             </h3>
             {/* Subtitle: matches ScoreCard disclaimer — text-[11px] */}
             <p className="text-[11px] text-zinc-500 mt-0.5">
-              {config.engine === "vina" ? "AutoDock Vina (FP64)" : config.engine === "qvina2" ? "QuickVina 2 (FP64)" : "DiffDock (FP32)"}
+              {config.engine === "vina" ? t("pr_engine_vina_fp64") : config.engine === "qvina2" ? t("pr_engine_quickvina_fp64") : t("pr_engine_diffdock_fp32")}
               {config.peptideEngine && isPeptide
                 ? ` · ${config.peptideEngine === "esmfold" ? "ESMFold" : config.peptideEngine === "esmfold-pro" ? "ESMFold Pro" : config.peptideEngine === "esmfold-experimental" ? "RFdiffusion" : "ColabFold"}`
                 : ""}
-              {!isPeptide && ` · GNN: ${config.gnnPrecision === "fp32" ? "FP32" : "FP16"}`}
+              {!isPeptide && ` · GNN: ${config.gnnPrecision === "fp32" ? t("pr_engine_fp32") : t("pr_engine_fp16")}`}
             </p>
           </div>
         </div>
@@ -126,7 +126,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
-                          QuickVina 2
+                          {t("pr_cfg_quickvina")}
                         </span>
                         <span className="text-[11px] px-1.5 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono font-bold flex items-center gap-1">
                           <Zap className="w-2.5 h-2.5" />
@@ -185,7 +185,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                   {t("auto_7987f4801c2c")}
                   {/* Auto-detect badge */}
                   <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 font-mono">
-                    auto-detecta
+                    {t("pr_engine_auto_detect")}
                   </span>
                   {!isPeptide && (
                     <span className="relative group/tip ml-auto">
@@ -217,15 +217,15 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                     {
                       id: "esmfold-pro",
                       label: "ESMFold Pro",
-                      badge: "PRECISO",
+                      badge: t("pr_cfg_preciso"),
                       badgeStyle: { bg: "rgba(168,85,247,0.12)", text: "#a78bfa" },
-                      desc: "Plegamiento completo + refinamiento OpenMM.",
+                      desc: t("pr_engine_folding_refinement"),
                       gpu: false,
                     },
                     {
                       id: "colabfold",
                       label: "ColabFold",
-                      badge: "PREDICTIVO",
+                      badge: t("pr_cfg_predictivo"),
                       badgeStyle: { bg: "rgba(52,211,153,0.12)", text: "#34d399" },
                       desc: t("auto_0ec637ca2747"),
                       gpu: false,
@@ -233,7 +233,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                     {
                       id: "esmfold-experimental",
                       label: "RFdiffusion",
-                      badge: "EXPERIMENTAL",
+                      badge: t("pr_cfg_experimental"),
                       badgeStyle: { bg: "rgba(251,191,36,0.12)", text: "#fbbf24" },
                       desc: t("auto_9331807fc431"),
                       gpu: true,
@@ -307,7 +307,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                       {t("op_precision_gnn")}
                     </h4>
                     {!gpuAvailable && (
-                      <span className="text-[11px] text-zinc-500 ml-auto font-mono">Requiere GPU</span>
+                      <span className="text-[11px] text-zinc-500 ml-auto font-mono">{t("pr_engine_requires_gpu")}</span>
                     )}
                   </div>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -320,7 +320,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                           : "border-zinc-200 dark:border-zinc-700/30 text-zinc-500 hover:border-zinc-400 dark:hover:border-zinc-600"
                       } disabled:opacity-30 disabled:cursor-not-allowed`}
                     >
-                      <div className="font-mono mb-1">FP32</div>
+                      <div className="font-mono mb-1">{t("pr_engine_fp32")}</div>
                       <div className="text-xs text-zinc-500 font-normal">{t("pr_mot_precision_completa")}</div>
                     </button>
                     <button
@@ -333,7 +333,7 @@ export function DockingEnginePanel({ config, onChange, gpuAvailable, gpuCuda, is
                       } disabled:opacity-30 disabled:cursor-not-allowed`}
                     >
                       <div className="flex items-center gap-1 font-mono mb-1">
-                        FP16 <Zap className="w-3 h-3 text-amber-400" />
+                        {t("pr_engine_fp16")} <Zap className="w-3 h-3 text-amber-400" />
                       </div>
                       <div className="text-xs text-zinc-500 font-normal">{t("pr_mot_precision_media")}</div>
                     </button>

@@ -44,6 +44,7 @@ from core.models import (
     CohortRunRowORM,
     EvaluationResultORM,
     EvaluationRunORM,
+    MoleculeORM,
 )
 from services.cohort import execution as ex
 
@@ -128,26 +129,34 @@ async def collect_rows(
     ids = {fila.result_id for fila in filas if fila.result_id}
     if not ids:
         return filas, {}
+    owner = (await db.get(CohortRunORM, run_id)).user_id
     snapshots = (
-        (await db.execute(select(EvaluationRunORM).where(EvaluationRunORM.id.in_(ids))))
+        (await db.execute(select(EvaluationRunORM).join(MoleculeORM, EvaluationRunORM.molecule_id == MoleculeORM.id).where(
+            EvaluationRunORM.id.in_(ids), MoleculeORM.user_id == owner,
+        )))
         .scalars()
         .all()
     )
     encontrados: dict[uuid.UUID, Any] = {
-        r.id: SimpleNamespace(**dict(r.snapshot_json or {})) for r in snapshots
+        r.id: SimpleNamespace(**{**dict(r.snapshot_json or {}), "task_id": r.task_id, "molecule_id": r.molecule_id}) for r in snapshots
     }
     faltantes = ids.difference(encontrados)
     if faltantes:
         # Compatibilidad con filas creadas antes de schema v11.
         resultados = (
             (await db.execute(
-                select(EvaluationResultORM).where(EvaluationResultORM.id.in_(faltantes))
+                select(EvaluationResultORM).join(MoleculeORM, EvaluationResultORM.molecule_id == MoleculeORM.id).where(
+                    EvaluationResultORM.id.in_(faltantes), MoleculeORM.user_id == owner,
+                )
             ))
             .scalars()
             .all()
         )
         encontrados.update({r.id: r for r in resultados})
-    return filas, encontrados
+    return filas, {
+        rid: result for rid, result in encontrados.items()
+        if any(f.result_id == rid and f.molecule_id == result.molecule_id for f in filas)
+    }
 
 
 def build_coverage(
@@ -288,14 +297,18 @@ def build_coverage(
 
 
 def build_molecule_evidence(
-    filas: list[CohortRunRowORM], resultados: dict[uuid.UUID, EvaluationResultORM]
+    filas: list[CohortRunRowORM], resultados: dict[uuid.UUID, EvaluationResultORM],
+    *, effective_config: dict[str, Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Una entrada por FILA del trabajo. Ninguna se resume ni se agrupa."""
     from services.chemistry.pose_selection import pose_selection_para_lectura
 
     evidencia: list[dict[str, Any]] = []
+    frozen = effective_config or {}
     for fila in filas:
         resultado = resultados.get(fila.result_id) if fila.result_id else None
+        if resultado is not None and str(getattr(resultado, "molecule_id", fila.molecule_id)) != str(fila.molecule_id):
+            resultado = None
         afinidad = _observed_affinity(resultado)
         # Una fila que reutiliza hereda la afinidad de la que acopló: es la
         # misma molécula y el mismo cálculo, no uno nuevo.
@@ -309,10 +322,27 @@ def build_molecule_evidence(
                 None,
             )
             if hermana is not None and hermana.result_id:
-                afinidad = _observed_affinity(resultados.get(hermana.result_id))
+                resultado = resultados.get(hermana.result_id)
+                if resultado is not None and str(getattr(resultado, "molecule_id", fila.molecule_id)) != str(fila.molecule_id):
+                    resultado = None
+                afinidad = _observed_affinity(resultado)
+        seed = (frozen.get("row_seeds") or {}).get(str(fila.source_row_index), frozen.get("seed"))
+        # No se infiere una semilla nueva al leer historia. Se exporta también
+        # la observada en el resultado exacto, si se conservó.
+        observed_seed = getattr(resultado, "vina_random_seed", None) if resultado else None
+        legacy_zero = frozen.get("seed") == 0
+        seed_valid = isinstance(seed, int) and seed > 0 and not legacy_zero
         evidencia.append(
             {
                 "source_row_index": fila.source_row_index,
+                "effective_vina_seed": seed if seed_valid else None,
+                "observed_vina_seed": observed_seed,
+                "seed_origin": frozen.get("seed_origin", "recorded" if seed_valid else "unknown"),
+                "seed_status": (
+                    "not_reconstructible" if legacy_zero else
+                    "mismatch" if seed_valid and observed_seed is not None and seed != observed_seed else
+                    "frozen" if seed_valid else "unknown"
+                ),
                 "source_name": fila.source_name,
                 "canonical_smiles": fila.canonical_smiles,
                 "status": fila.status,
@@ -321,6 +351,7 @@ def build_molecule_evidence(
                 "observed_vina_affinity_kcal_mol": afinidad,
                 "molecule_id": str(fila.molecule_id) if fila.molecule_id else None,
                 "result_id": str(fila.result_id) if fila.result_id else None,
+                "task_id": getattr(resultado, "task_id", None) if resultado else None,
                 "active_label": fila.active_label,
                 "control_role": fila.control_role,
                 "duplicate_of_row": fila.duplicate_of_row,
@@ -474,8 +505,15 @@ def build_labeled_metrics(
         e for e in por_canonico.values() if e["active_label"] is not None
     ]
     if not etiquetadas:
+        # Los controles se apartan de la población. Si sólo ellos llevan etiqueta,
+        # decir «la cohorte no declara etiquetas» era falso (QA de 1.0.2, B04).
+        solo_controles = any(c["active_label"] is not None for c in controles)
         return _abstencion(
             SIN_ETIQUETAS,
+            "Las únicas moléculas con etiqueta `active` son controles, y los controles no "
+            "entran en la métrica: no queda población etiquetada contra la que medir "
+            "enriquecimiento."
+            if solo_controles else
             "La cohorte no declara etiquetas `active`. Sin etiquetas no hay nada "
             "contra lo que medir enriquecimiento.",
             n_total=len(por_canonico),
@@ -577,9 +615,12 @@ async def build_run_evidence(
 ) -> dict[str, Any]:
     """El resumen completo. Determinista salvo por lo que ya guardó la corrida."""
     filas, resultados = await collect_rows(db, run.id)
-    evidencia = build_molecule_evidence(filas, resultados)
+    evidencia = build_molecule_evidence(filas, resultados, effective_config=run.effective_config_json)
     if sort == SORT_BY_OBSERVED_AFFINITY:
         evidencia = sort_by_observed_affinity(evidencia)
+    # SCI-A-004: los límites necesitan los veredictos de esta corrida, así que
+    # la cobertura se calcula antes y se reutiliza en vez de llamarla inline.
+    cobertura = build_coverage(run, filas, resultados)
 
     snapshot = cohort.preflight_snapshot_json or {}
     return {
@@ -593,7 +634,7 @@ async def build_run_evidence(
         "run_fingerprint": run.run_fingerprint,
         "effective_config": run.effective_config_json,
         "receptor": run.receptor_provenance_json,
-        "coverage": build_coverage(run, filas, resultados),
+        "coverage": cobertura,
         "molecules": evidencia,
         "labeled_metrics": build_labeled_metrics(evidencia, run_status=run.status),
         "provenance": {
@@ -603,15 +644,64 @@ async def build_run_evidence(
             "evidence_contract": EVIDENCE_CONTRACT,
             "stages": list(ex.COHORT_RUN_STAGES),
         },
-        "limits": [
-            "Completar un acoplamiento no demuestra actividad ni afinidad experimental.",
-            "Las poses de esta cohorte no han superado todavía una validación geométrica/física "
-            "automática; una afinidad sólo es interpretable después de revisar la pose.",
-            "La afinidad Vina observada es una señal de ranking dentro de este protocolo, "
-            "no una medida de energía libre.",
-            "No hay puntuación agregada ni ranking de candidatos: este resumen no ordena "
-            "moléculas por mérito farmacológico.",
-            "Las filas `failed` y `not_evaluated` no son evidencia negativa sobre sus "
-            "moléculas: describen lo que le pasó al motor.",
-        ],
+        "limits": limites_de_la_evidencia(
+            (cobertura.get("structural_funnel") or {}).get("physical_verdicts")
+        ),
     }
+
+
+#: Lo que el resumen de un lote NO permite concluir; va a la interfaz y al PDF.
+#: Son los límites que valen SIEMPRE, independientes de lo que midió la corrida.
+LIMITES_DE_LA_EVIDENCIA = (
+    "Completar un acoplamiento no demuestra actividad ni afinidad experimental.",
+    "La afinidad Vina observada es una señal de ranking dentro de este protocolo, "
+    "no una medida de energía libre.",
+    "No hay puntuación agregada ni ranking de candidatos: este resumen no ordena "
+    "moléculas por mérito farmacológico.",
+    "Las filas `failed` y `not_evaluated` no son evidencia negativa sobre sus "
+    "moléculas: describen lo que le pasó al motor.",
+)
+
+
+def limite_de_validez_fisica(veredictos: dict[str, int] | None) -> str:
+    """El límite de validez física de ESTA cohorte, no el de cualquiera.
+
+    SCI-A-004. Antes era una frase fija —«las poses de esta cohorte no han
+    superado todavía una validación geométrica/física automática»— que el PDF
+    imprimía siempre, incluso debajo de su propio recuento de «controles
+    superados: 1». El documento se contradecía a sí mismo y firmaba la
+    contradicción con su SHA-256.
+
+    Las tres ramas corresponden a lo que el embudo registra: nadie recibió
+    veredicto, todas las que lo recibieron pasaron, o hay fallos y revisiones
+    que el lector tiene que ver. Lo que NO cambia es la reserva de fondo:
+    superar la batería no es actividad ni afinidad experimental.
+    """
+    veredictos = veredictos or {}
+    passed = int(veredictos.get("passed") or 0)
+    failed = int(veredictos.get("failed") or 0)
+    review = int(veredictos.get("review") or 0)
+    con_veredicto = passed + failed + review
+
+    if con_veredicto == 0:
+        return (
+            "Ninguna pose de esta cohorte recibió un veredicto geométrico/físico "
+            "automático; una afinidad sólo es interpretable después de revisar la pose."
+        )
+    if failed == 0 and review == 0:
+        return (
+            "Las poses evaluadas de esta cohorte superaron los controles geométricos y "
+            "químicos de esta batería; superarlos no demuestra actividad ni afinidad "
+            "experimental."
+        )
+    return (
+        "Parte de esta cohorte no superó los controles geométricos/físicos automáticos: "
+        "el desglose por veredicto está arriba, y una afinidad sólo es interpretable "
+        "después de revisar la pose."
+    )
+
+
+def limites_de_la_evidencia(veredictos: dict[str, int] | None) -> list[str]:
+    """Los límites del lote, con el de validez física ajustado a la corrida."""
+    primero, *resto = LIMITES_DE_LA_EVIDENCIA
+    return [primero, limite_de_validez_fisica(veredictos), *resto]

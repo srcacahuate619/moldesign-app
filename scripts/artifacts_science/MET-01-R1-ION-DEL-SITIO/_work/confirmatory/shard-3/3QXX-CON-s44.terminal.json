@@ -1,0 +1,2422 @@
+{
+  "id": "3QXX-CON-s44",
+  "entry": "3QXX",
+  "arm": "CON",
+  "seed": 44,
+  "outcome": "SUCCESS",
+  "cofactors_whitelist": [
+    "MG"
+  ],
+  "receptor_sha256": "93a644b79086dbae3218e685130a5fb9685f58242db7327ad77bfc615d923d85",
+  "recipe": 7,
+  "receptor_prep": {
+    "source": "meeko_report",
+    "recipe_hash": "dbb28f99dbe157b0b6fce400171c2a22d8b4b5a669a3822b49a84bb040936d63",
+    "species_diff": {
+      "near_site": {
+        "margin_A": 6.0,
+        "preserved": [
+          {
+            "category": "metal",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "MG",
+            "residue_number": "223"
+          },
+          {
+            "category": "metal",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "MG",
+            "residue_number": "224"
+          }
+        ],
+        "protein_residues_removed": {
+          "B": 44
+        },
+        "removed": [
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "8AC",
+            "residue_number": "221"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "GDP",
+            "residue_number": "222"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "PO4",
+            "residue_number": "225"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 0.888,
+            "insertion_code": "",
+            "name": "EDO",
+            "residue_number": "226"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 2.963,
+            "insertion_code": "",
+            "name": "EDO",
+            "residue_number": "228"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 2.015,
+            "insertion_code": "",
+            "name": "EDO",
+            "residue_number": "229"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "EDO",
+            "residue_number": "230"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 4.488,
+            "insertion_code": "",
+            "name": "EDO",
+            "residue_number": "231"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.924,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "233"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.611,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "239"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "240"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "242"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.069,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "243"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.071,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "247"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "249"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "250"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.707,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "252"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "253"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "255"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "256"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "257"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.044,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "258"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "259"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.296,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "260"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "261"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "263"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "265"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "267"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "269"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.017,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "270"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.951,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "271"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "272"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.585,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "273"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.727,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "275"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "277"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.347,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "278"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.763,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "279"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.623,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "280"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.637,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "282"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.485,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "283"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "286"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "287"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "289"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "290"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "291"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "293"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "295"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "298"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "300"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "302"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "303"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.08,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "304"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.079,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "305"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.401,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "306"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "307"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.576,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "308"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 1.347,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "309"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "310"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.827,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "311"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.379,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "312"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.122,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "314"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.018,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "316"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "317"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.464,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "319"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "321"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.937,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "322"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "325"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 1.683,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "328"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.74,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "331"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.248,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "332"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.816,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "334"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.695,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "337"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.682,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "339"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "341"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "343"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.013,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "344"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "345"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "347"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.173,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "349"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.635,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "351"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "352"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.327,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "354"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "355"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "360"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "361"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "364"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "365"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.2,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "366"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.088,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "368"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.589,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "369"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "370"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.123,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "373"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "374"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "376"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "377"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "378"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.86,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "380"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "382"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.527,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "385"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.732,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "391"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "394"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.978,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "398"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.923,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "401"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "403"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.289,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "405"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.857,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "407"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "413"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "416"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.946,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "420"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.726,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "421"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.266,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "422"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.203,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "423"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.097,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "426"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.161,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "427"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 1.397,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "428"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "429"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.259,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "431"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "432"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.37,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "434"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.391,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "436"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.85,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "439"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "441"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.358,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "444"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.733,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "446"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.465,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "451"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.729,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "453"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.076,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "455"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 1.829,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "456"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "458"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "462"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.433,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "465"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.866,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "466"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.311,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "470"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "471"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.157,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "474"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.867,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "481"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.145,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "486"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.899,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "488"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.06,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "492"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "493"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "496"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "498"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.129,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "500"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "501"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "502"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.608,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "505"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.575,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "509"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.594,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "511"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.606,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "512"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "513"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "515"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.362,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "516"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "517"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "518"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "519"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "521"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.419,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "524"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 5.993,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "525"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.267,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "526"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "527"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "528"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "530"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "534"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 1.72,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "535"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.797,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "537"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.498,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "543"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "544"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "545"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.733,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "546"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.222,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "547"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.979,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "548"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.382,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "549"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.038,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "550"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.355,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "551"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.246,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "555"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 1.416,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "556"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "557"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.464,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "559"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.6,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "561"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 1.526,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "562"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.996,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "564"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "566"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.01,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "567"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 3.487,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "568"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 2.832,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "569"
+          },
+          {
+            "category": "water",
+            "chain": "A",
+            "distance_to_box_A": 4.709,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "571"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "B",
+            "distance_to_box_A": 2.136,
+            "insertion_code": "",
+            "name": "8AC",
+            "residue_number": "221"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "B",
+            "distance_to_box_A": 4.595,
+            "insertion_code": "",
+            "name": "GDP",
+            "residue_number": "222"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 3.977,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "239"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "240"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "242"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 5.211,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "243"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 1.996,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "252"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "253"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.7,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "256"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "259"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 1.244,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "263"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "265"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 5.493,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "270"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.024,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "272"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 3.095,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "275"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 4.189,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "277"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 2.493,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "280"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 5.949,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "285"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 1.796,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "302"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 5.864,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "303"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 3.755,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "310"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 3.522,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "334"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 1.8,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "341"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "343"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 5.078,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "354"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 1.743,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "365"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "370"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 3.493,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "377"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 5.86,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "380"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "394"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "416"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.624,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "462"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "471"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 4.012,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "496"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.634,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "509"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 2.652,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "515"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 5.677,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "526"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 0.528,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "528"
+          },
+          {
+            "category": "water",
+            "chain": "B",
+            "distance_to_box_A": 4.882,
+            "insertion_code": "",
+            "name": "HOH",
+            "residue_number": "530"
+          }
+        ]
+      },
+      "preserved": {
+        "atom_records": 1740,
+        "metals": 2,
+        "organic_cofactors": 0,
+        "waters": 0
+      },
+      "reason": "La fuente incluye 2 cadena(s); el receptor de la corrida sólo conserva 'A'.",
+      "removed": {
+        "metals": 2,
+        "organic_cofactors": 0,
+        "other_hetatm": 148,
+        "waters": 692
+      },
+      "removed_species": [
+        {
+          "atom_count": 22,
+          "category": "other_heteroatom",
+          "residue_code": "8AC"
+        },
+        {
+          "atom_count": 48,
+          "category": "other_heteroatom",
+          "residue_code": "EDO"
+        },
+        {
+          "atom_count": 56,
+          "category": "other_heteroatom",
+          "residue_code": "GDP"
+        },
+        {
+          "atom_count": 12,
+          "category": "other_heteroatom",
+          "residue_code": "GOL"
+        },
+        {
+          "atom_count": 692,
+          "category": "water",
+          "residue_code": "HOH"
+        },
+        {
+          "atom_count": 2,
+          "category": "metal",
+          "residue_code": "MG"
+        },
+        {
+          "atom_count": 10,
+          "category": "other_heteroatom",
+          "residue_code": "PO4"
+        }
+      ],
+      "route_input": {
+        "atom_records": 1740,
+        "chains": [
+          "A"
+        ],
+        "hetatm_records": 2,
+        "metals": 2,
+        "organic_cofactors": 0,
+        "other_hetatm": 0,
+        "waters": 0
+      },
+      "site_ligand": null,
+      "source": {
+        "atom_records": 3650,
+        "chains": [
+          "A",
+          "B"
+        ],
+        "hetatm_records": 844,
+        "metals": 4,
+        "organic_cofactors": 0,
+        "other_hetatm": 148,
+        "waters": 692
+      },
+      "state": "evaluado"
+    },
+    "meeko_parameterized_json_sha256": "688b1ebe07006119e5e5e7c7caee0aae3ebff41a26f731bf26fd990ce365685e",
+    "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+    "removed_residues": [],
+    "cofactors_outside_site": [],
+    "truncated_sidechains": [
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "NE2",
+          "OE1"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 7.315,
+        "insertion_code": "",
+        "name": "GLN",
+        "residue_number": "101",
+        "site_critical": false
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "OE1",
+          "OE2"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 8.546,
+        "insertion_code": "",
+        "name": "GLU",
+        "residue_number": "128",
+        "site_critical": false
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CD",
+          "CG",
+          "NE2",
+          "OE1"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 13.45,
+        "insertion_code": "",
+        "name": "GLN",
+        "residue_number": "167",
+        "site_critical": false
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CG",
+          "ND2",
+          "OD1"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 0.0,
+        "insertion_code": "",
+        "name": "ASN",
+        "residue_number": "179",
+        "site_critical": true
+      },
+      {
+        "action": "truncado a ALA",
+        "atoms_missing": [
+          "CE",
+          "NZ"
+        ],
+        "chain": "A",
+        "distance_to_box_A": 0.494,
+        "insertion_code": "",
+        "name": "LYS",
+        "residue_number": "210",
+        "site_critical": true
+      }
+    ],
+    "backbone_gaps": [],
+    "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+    "chain": "A",
+    "prepared_chains": [
+      "A"
+    ],
+    "site_chains": [
+      "A"
+    ],
+    "cofactors_whitelist": [
+      "MG"
+    ],
+    "modo_de_preparacion": "automatico",
+    "entrada": {
+      "archivo": "3QXX.pdb",
+      "bytes": 385317,
+      "bytes_descomprimidos": 385317,
+      "comprimido": false,
+      "formato": "pdb",
+      "sha256": "109b43a4a24f52015565b15148008a11ff5b7f1de951e3b815f4dc239e161ed1",
+      "sha256_contenido": "109b43a4a24f52015565b15148008a11ff5b7f1de951e3b815f4dc239e161ed1"
+    },
+    "prediccion": {
+      "convencion": null,
+      "es_predicha": false,
+      "evidencia": [],
+      "fuente": null,
+      "metodo_declarado": "X-RAY DIFFRACTION",
+      "no_disponible": null,
+      "plddt": null
+    }
+  },
+  "microstate_smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+  "microstate_sha256": "160888d0d3797ea05c3d5dfd44e3b50686473cc6a6aad09a7b4c309f9e0d97ec",
+  "ligand_state": {
+    "smiles_entrada": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+    "identidad_entrada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+      "sha256": "cab24875bc4d95bd770b934b1bcd1699243583f378e6375d9ef5adaa95596073"
+    },
+    "tautomeria": {
+      "aplicada": false,
+      "motor": null,
+      "alternativas": null,
+      "motivo": "se respeta el tautómero de la entrada (tautomero=entrada)",
+      "modo": "entrada",
+      "aviso_de_modo": null,
+      "declaracion_entrada": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+        "smiles_canonico": "Nc1nc(=O)c2ncn([C@@H]3O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]3O)c2[nH]1",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "N=c1[nH]c(=O)c2ncn([C@@H]3O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]3O)c2[nH]1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "N=c1nc(O)c2ncn([C@@H]3O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]3O)c2[nH]1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T2",
+            "smiles": "N=c1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(O)[nH]1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T3",
+            "smiles": "Nc1nc(=O)c2ncn([C@@H]3O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]3O)c2[nH]1",
+            "es_canonico": true,
+            "es_entrada": false
+          },
+          {
+            "id": "T4",
+            "smiles": "Nc1nc(O)c2ncn([C@@H]3O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]3O)c2n1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T5",
+            "smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)(O)OP(=O)(O)O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+            "es_canonico": false,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 6,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          0,
+          2,
+          26,
+          27
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "6 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante.",
+        "tautomero_acoplado": "entrada"
+      },
+      "declaracion": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+        "smiles_canonico": "Nc1nc(=O)c2ncn([C@@H]3O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]3O)c2[nH]1",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "N=c1[nH]c(=O)c2ncn([C@@H]3O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]3O)c2[nH]1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "N=c1nc(O)c2ncn([C@@H]3O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]3O)c2[nH]1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T2",
+            "smiles": "N=c1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(O)[nH]1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T3",
+            "smiles": "Nc1nc(=O)c2ncn([C@@H]3O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]3O)c2[nH]1",
+            "es_canonico": true,
+            "es_entrada": false
+          },
+          {
+            "id": "T4",
+            "smiles": "Nc1nc(O)c2ncn([C@@H]3O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]3O)c2n1",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T5",
+            "smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+            "es_canonico": false,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 6,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          0,
+          2,
+          26,
+          27
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "6 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante."
+      }
+    },
+    "protonacion": {
+      "aplicada": true,
+      "motor": "dimorphite-dl",
+      "ph": 7.4,
+      "ph_solicitado": null,
+      "aviso_de_ph": null,
+      "alternativas": 4,
+      "seleccion": {
+        "criterio": "cargas_esperadas_ph_7.4",
+        "ph": 7.4,
+        "cationes_esperados": 0,
+        "aniones_esperados": 2,
+        "desajuste": 0,
+        "clases_sin_pka": [],
+        "quimica_resuelta": true,
+        "revision_biguanida": false,
+        "empatados": 1,
+        "motivo": "Se comparan los recuentos de carga formal de cada microestado con los centros que Henderson-Hasselbalch predice ionizados a pH 7.4, usando los pKa por clase de este módulo. Los empates se rompen por orden alfabético del SMILES, no por el orden de dimorphite-dl, que no es reproducible entre corridas."
+      },
+      "motivo": null,
+      "version_motor": "2.0.2",
+      "parametros": {
+        "ph_min": 7.4,
+        "ph_max": 7.4,
+        "precision": 1.0,
+        "max_variants": 128
+      },
+      "candidatos_sha256": "09b68f6f0cc04b3913d81036a0d90891c2def475fae066b5f3257b3b11fee410",
+      "recortado": false
+    },
+    "smiles_acoplado": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+    "identidad_acoplada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+      "sha256": "b45b4546e240b685475daf0a52fbdecb2a41d49c4527c33731d3ba5c6d8fa9e7"
+    },
+    "cambio_respecto_a_la_entrada": true,
+    "carga_formal_neta": -2,
+    "formula_acoplada": "C10H13N5O11P2-2",
+    "conformero": {
+      "rdkit_version": "2025.09.6",
+      "semilla": 42,
+      "estrategia_embebido": "ETKDGv3",
+      "intentos_etkdg": 1,
+      "mitigaciones": [],
+      "campo_fuerza_final": "MMFF94",
+      "optimizacion_convergida": true,
+      "sdf_sha256": "0869aca1f91a46b24a275f4bbe7abf8c48ef672fee4601d494892c625de1cf8c"
+    },
+    "estereoquimica": {
+      "centros_sin_asignar": 0,
+      "dobles_sin_asignar": 0,
+      "declarada_por_el_usuario": true,
+      "smiles_3d_efectivo": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])O[P@](=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+      "dobles_sin_clasificar_3d": 0,
+      "motor": "RDKit AssignStereochemistryFrom3D 2025.09.6",
+      "semilla": 42,
+      "perdida_en_la_especie_acoplada": {
+        "centros": 0,
+        "dobles": 0
+      }
+    }
+  },
+  "task_id": "b5a10385-b49f-455c-8ddb-4dbca7898c0c",
+  "molecule_id": "185634a5-6b1c-4590-8bb7-32c3691172a5",
+  "rmsd_top1_A": 10.784435563745163,
+  "rmsd_poses_A": [
+    10.784435563745163,
+    11.861187283982758,
+    12.439927497491981,
+    9.084863278317087,
+    11.601981902736643,
+    12.034816348233749,
+    10.760881814636354,
+    10.732538892146097,
+    7.980716115379979
+  ],
+  "best_of_returned_poses_A": 7.980716115379979,
+  "returned_poses": 9,
+  "physical_status": "passed",
+  "physical_evidence": {
+    "rank": 1,
+    "observed_vina_affinity_kcal_mol": -7.601,
+    "status": "passed",
+    "label": "CONTROLES SUPERADOS",
+    "engine": "posebusters:0.6.5:dock",
+    "checks": [
+      {
+        "check": "mol_pred_loaded",
+        "estado": "PASA"
+      },
+      {
+        "check": "mol_cond_loaded",
+        "estado": "PASA"
+      },
+      {
+        "check": "sanitization",
+        "estado": "PASA"
+      },
+      {
+        "check": "inchi_convertible",
+        "estado": "PASA"
+      },
+      {
+        "check": "all_atoms_connected",
+        "estado": "PASA"
+      },
+      {
+        "check": "no_radicals",
+        "estado": "PASA"
+      },
+      {
+        "check": "bond_lengths",
+        "estado": "PASA"
+      },
+      {
+        "check": "bond_angles",
+        "estado": "PASA"
+      },
+      {
+        "check": "internal_steric_clash",
+        "estado": "PASA"
+      },
+      {
+        "check": "aromatic_ring_flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "non-aromatic_ring_non-flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "double_bond_flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "internal_energy",
+        "estado": "PASA"
+      },
+      {
+        "check": "protein-ligand_maximum_distance",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_protein",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_organic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_inorganic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_waters",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_protein",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_organic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_inorganic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_waters",
+        "estado": "PASA"
+      }
+    ],
+    "checks_que_fallan": [],
+    "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+    "reason_code": null,
+    "canonicalization_invariants": {
+      "mapa_biyectivo": true,
+      "carga_formal_identica": true,
+      "n_enlaces_pesados_identico": true,
+      "n_atomos_pesados_identico": true,
+      "smiles_isomerico_identico": true,
+      "n_coordenadas_aplicadas": 28,
+      "h_sin_coordenada_eliminados": 0,
+      "n_atomos_en_pdbqt": 34,
+      "h_polares_declarados_descartados": 6,
+      "desplazamiento_pesado_max_A": 0.0,
+      "pesados_invariantes": true,
+      "n_h_heredados": 0,
+      "n_h_canonicos": 13
+    },
+    "provenance": {
+      "pose_pdbqt": "docking_poses[].pdbqt_block",
+      "template": "meeko_remark_smiles_idx_sin_h_polares",
+      "index_map": "meeko_remark_smiles_idx",
+      "receptor": "cohort_runs.receptor_prepared_bytes",
+      "reader_route": "mapa_atomico_canonico"
+    }
+  },
+  "failed_checks": [],
+  "ion_distances": [
+    {
+      "metal": "MG",
+      "metal_id": "A:223",
+      "top1_donor_A": 2.2803547969559457,
+      "crystal_donor_A": 2.0126472616929187,
+      "within_2_8_A": true
+    },
+    {
+      "metal": "MG",
+      "metal_id": "A:224",
+      "top1_donor_A": 2.4480230799565588,
+      "crystal_donor_A": 2.0085166168095294,
+      "within_2_8_A": true
+    }
+  ],
+  "vina_energy_kcal": -7.601,
+  "preparation_requirements": [
+    {
+      "clave": "receptor.protonacion",
+      "etiqueta": "Protonación del receptor",
+      "valor": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+      "estado": "REVISAR",
+      "razon": "Asignación por plantilla, sin pH experimental: el estado de histidinas, ácidos y bases del sitio no está validado. His a 8 Å o menos del ligando: A:52 HIE (6.93 Å), A:76 HIE (7.09 Å), A:47 HIE (7.7 Å).",
+      "valor_es_clasificacion": true,
+      "fuente": "receptor_prep.protonation_method",
+      "imprescindible": false,
+      "rutinaria": {
+        "motivo": "La pide toda corrida protonada por plantilla, y ninguna histidina tiene un nitrógeno del anillo a 3.5 Å o menos del ligando."
+      }
+    },
+    {
+      "clave": "entorno.metales_cofactores",
+      "etiqueta": "Metales y cofactores junto al sitio",
+      "valor": "Ninguno retirado a 6 Å o menos del ligando; conservados: MG A:223 (2.28 Å), MG A:224 (2.45 Å)",
+      "estado": "REGISTRADO",
+      "razon": null,
+      "valor_es_clasificacion": false,
+      "fuente": "receptor_prep.species_diff.near_site",
+      "imprescindible": true
+    },
+    {
+      "clave": "entorno.referencia",
+      "etiqueta": "Referencia de las distancias",
+      "valor": "Pose top-1",
+      "estado": "REGISTRADO",
+      "razon": "Metales, cofactores y otras especies cuentan a 6 Å o menos del ligando; aguas, a 4 Å; huecos y residuos, a 8 Å.",
+      "valor_es_clasificacion": false,
+      "fuente": "pose top-1 · estructura de origen comprobada por la receta del receptor",
+      "imprescindible": false
+    }
+  ],
+  "histidine_warning": false,
+  "product_commit": "9ce8b10490fcdd1c21b5dc0cf1efa8f3eae76d70",
+  "seconds": 28.6,
+  "raw": "_work/confirmatory/shard-3/3QXX-CON-s44-attempt1.json.gz",
+  "raw_sha256": "97d209f640984c32755cfaa25bc6c43a445d426298b131d71a0fde927fc6cf5f",
+  "attempts": 1,
+  "microstate_expected": "Nc1nc2c(ncn2[C@@H]2O[C@H](CO[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]2O)c(=O)[nH]1",
+  "phase": "confirmatory",
+  "total_seconds": 29.20300000000134
+}

@@ -117,6 +117,11 @@ bases. Ninguna es un arreglo de una línea.
   `/evaluation/submit`, y eso está cubierto por prueba; lo que falta es lanzar
   una desde el chat con el motor real y leerla después con
   `check_docking_status`. Se cubre al ejecutar el gate runtime de la pestaña.
+  **Actualización 2026-10-03 (LUNA-05, `docs/86`):** `run_docking` ya no entra por
+  `registrar_corrida` en el turno del chat: **propone**, y la corrida entra por esa puerta
+  cuando el investigador la aprueba con `POST /ai/proposals/{id}/approve`. El gate runtime
+  real (`accept_molchat_runtime.py`: modelo local Qwen2.5-1.5B y Vina reales) se ejecutó
+  y pasa con ese flujo, incluida la lectura posterior de la corrida citada por su `task_id`.
 - **El reintento idempotente se prueba por estructura, no por render.**
   `AIContextTurnoFallido.test.ts` fija que `retryLastTurn` reejecuta el mismo
   snapshot y que ni él ni `ejecutarTurno` añaden el mensaje del investigador —lo

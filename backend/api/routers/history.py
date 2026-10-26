@@ -15,11 +15,11 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
 
 from api.dependencies import get_current_user
 from core.database import get_db
 from core.models import (
+    EvaluationRunORM,
     EvaluationResultORM,
     MoleculeORM,
     MoleculeStatus,
@@ -27,6 +27,9 @@ from core.models import (
     UserORM,
 )
 from services.docking.protocolo_de_producto import describir_protocolo
+from services.history import history_rows, render_history_receipt
+from db.repository import Repository
+from utils.instantes import instante_utc
 from utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -143,158 +146,66 @@ async def list_evaluations(
     Filtros combinables: receptor, rangos de score/afinidad/MW/logP/TPSA,
     Lipinski, PAINS, QED, ADME, drug-likeness, nombre, SMILES, estado.
     """
-    # Base query — TODAS las moléculas del usuario (sin gate de is_saved)
-    base_query = (
-        select(MoleculeORM)
-        .options(
-            selectinload(MoleculeORM.target),
-            selectinload(MoleculeORM.evaluation_result),
-        )
-        .where(MoleculeORM.user_id == current_user.id)
+    rows = history_rows(current_user.id)
+    columns = rows.c
+    query = select(rows)
+    if status_filter:
+        query = query.where(columns.status == status_filter.value)
+    for key, value in (("target_pdb_id", target_pdb_id), ("name", name_contains), ("smiles", smiles_contains)):
+        if value:
+            query = query.where(columns[key].ilike(f"%{value}%"))
+    bounds = (
+        ("total_score", min_score, max_score), ("molecular_weight", min_mw, max_mw),
+        ("log_p", min_logp, max_logp), ("tpsa", min_tpsa, max_tpsa),
+        ("qed", qed_min, None), ("adme_score", adme_min, None),
+        ("druglikeness_score", druglikeness_min, None),
     )
-
-    if status_filter is not None:
-        base_query = base_query.where(MoleculeORM.status == status_filter)
-
-    # ── Filtros por receptor (join a targets) ──
-    if target_pdb_id:
-        base_query = base_query.join(MoleculeORM.target).where(
-            TargetORM.pdb_id.ilike(f"%{target_pdb_id.strip()}%")
-        )
-
-    # ── Filtros por nombre / SMILES ──
-    if name_contains:
-        base_query = base_query.where(MoleculeORM.name.ilike(f"%{name_contains.strip()}%"))
-    if smiles_contains:
-        base_query = base_query.where(MoleculeORM.smiles.ilike(f"%{smiles_contains.strip()}%"))
-
-    # ── Filtros sobre evaluation_result (join outer para no perder sin resultado) ──
-    _result_filters = any([
-        min_score is not None, max_score is not None,
-        min_affinity is not None, max_affinity is not None,
-        min_mw is not None, max_mw is not None,
-        min_logp is not None, max_logp is not None,
-        min_tpsa is not None, max_tpsa is not None,
-        lipinski_pass is not None, is_pains is not None,
-        qed_min is not None, adme_min is not None,
-        druglikeness_min is not None,
-    ])
-    if _result_filters:
-        base_query = base_query.outerjoin(EvaluationResultORM)
-
-    if min_score is not None:
-        base_query = base_query.where(EvaluationResultORM.total_score >= min_score)
-    if max_score is not None:
-        base_query = base_query.where(EvaluationResultORM.total_score <= max_score)
+    for key, lower, upper in bounds:
+        if lower is not None:
+            query = query.where(columns[key] >= lower)
+        if upper is not None:
+            query = query.where(columns[key] <= upper)
+    # Se conserva el contrato de afinidad: 'min' exige energía <= al umbral.
     if min_affinity is not None:
-        base_query = base_query.where(EvaluationResultORM.affinity_kcal <= min_affinity)
+        query = query.where(columns.affinity_kcal <= min_affinity)
     if max_affinity is not None:
-        base_query = base_query.where(EvaluationResultORM.affinity_kcal >= max_affinity)
-    if min_mw is not None:
-        base_query = base_query.where(EvaluationResultORM.molecular_weight >= min_mw)
-    if max_mw is not None:
-        base_query = base_query.where(EvaluationResultORM.molecular_weight <= max_mw)
-    if min_logp is not None:
-        base_query = base_query.where(EvaluationResultORM.log_p >= min_logp)
-    if max_logp is not None:
-        base_query = base_query.where(EvaluationResultORM.log_p <= max_logp)
-    if min_tpsa is not None:
-        base_query = base_query.where(EvaluationResultORM.tpsa >= min_tpsa)
-    if max_tpsa is not None:
-        base_query = base_query.where(EvaluationResultORM.tpsa <= max_tpsa)
-    if lipinski_pass is not None:
-        base_query = base_query.where(EvaluationResultORM.lipinski_pass == lipinski_pass)
-    if is_pains is not None:
-        base_query = base_query.where(EvaluationResultORM.is_pains == is_pains)
-    if qed_min is not None:
-        base_query = base_query.where(EvaluationResultORM.qed >= qed_min)
-    if adme_min is not None:
-        base_query = base_query.where(EvaluationResultORM.adme_score >= adme_min)
-    if druglikeness_min is not None:
-        base_query = base_query.where(EvaluationResultORM.druglikeness_score >= druglikeness_min)
-
-    # Count total
-    count_query = select(func.count()).select_from(
-        base_query.with_only_columns(MoleculeORM.id).subquery()
-    )
-    total = (await db.execute(count_query)).scalar() or 0
-
-    # ── Sorting ampliado ──
-    _SORT_COLUMNS = {
-        "created_at": MoleculeORM.created_at,
-        "total_score": EvaluationResultORM.total_score,
-        "affinity_kcal": EvaluationResultORM.affinity_kcal,
-        "affinity_score": EvaluationResultORM.affinity_score,
-        "molecular_weight": EvaluationResultORM.molecular_weight,
-        "log_p": EvaluationResultORM.log_p,
-        "tpsa": EvaluationResultORM.tpsa,
-        "qed": EvaluationResultORM.qed,
-        "adme_score": EvaluationResultORM.adme_score,
-        "druglikeness_score": EvaluationResultORM.druglikeness_score,
-        "gnn_score": EvaluationResultORM.gnn_score,
-        "sa_score": EvaluationResultORM.sa_score,
-    }
-    if sort_by not in _SORT_COLUMNS:
-        sort_by = "created_at"
-
-    needs_join = _SORT_COLUMNS[sort_by] != MoleculeORM.created_at
-    if needs_join and not _result_filters:
-        base_query = base_query.outerjoin(EvaluationResultORM)
-
-    sort_column = _SORT_COLUMNS[sort_by]
-    if sort_order == "asc":
-        base_query = base_query.order_by(sort_column.asc().nullslast())
-    else:
-        base_query = base_query.order_by(sort_column.desc().nullslast())
-
-    # Pagination
+        query = query.where(columns.affinity_kcal >= max_affinity)
+    for key, value in (("lipinski_pass", lipinski_pass), ("is_pains", is_pains)):
+        if value is not None:
+            query = query.where(columns[key] == value)
+    total = (await db.scalar(select(func.count()).select_from(query.subquery()))) or 0
+    sortable = {"created_at", "total_score", "affinity_kcal", "molecular_weight", "log_p", "tpsa",
+                "qed", "adme_score", "druglikeness_score", "affinity_score", "gnn_score", "sa_score"}
+    sort_column = columns[sort_by if sort_by in sortable else "created_at"]
+    order = sort_column.asc() if sort_order == "asc" else sort_column.desc()
     offset = (page - 1) * page_size
-    base_query = base_query.offset(offset).limit(page_size)
-
-    result = await db.execute(base_query)
-    molecules = list(result.scalars().all())
-
+    query = query.order_by(order.nullslast(), columns.task_id.asc(), columns.molecule_id.asc()).offset(offset).limit(page_size)
+    page_rows = (await db.execute(query)).mappings().all()
+    # Los recibos añadidos posteriormente también pertenecen a su task_id.
+    run_ids = [row["run_id"] for row in page_rows if row["run_id"] is not None]
+    receipts = {}
+    if run_ids:
+        runs = (await db.execute(select(EvaluationRunORM).where(EvaluationRunORM.id.in_(run_ids)))).scalars()
+        repo = Repository(db)
+        for run in runs:
+            receipts[run.id] = (await repo.materialize_run_snapshot(run)).get("blockchain_tx_id")
     items = []
-    for mol in molecules:
-        ev = mol.evaluation_result
-        items.append(EvaluationSummary(
-            molecule_id=str(mol.id),
-            smiles=mol.smiles,
-            name=mol.name,
-            status=mol.status.value if hasattr(mol.status, "value") else str(mol.status),
-            target_pdb_id=mol.target.pdb_id if mol.target else "unknown",
-            total_score=ev.total_score if ev else None,
-            affinity_kcal=ev.affinity_kcal if ev else None,
-            affinity_score=ev.affinity_score if ev else None,
-            adme_score=ev.adme_score if ev else None,
-            druglikeness_score=ev.druglikeness_score if ev else None,
-            molecular_weight=ev.molecular_weight if ev else None,
-            log_p=ev.log_p if ev else None,
-            lipinski_pass=ev.lipinski_pass if ev else None,
-            qed=ev.qed if ev else None,
-            sa_score=ev.sa_score if ev else None,
-            blockchain_tx_id=ev.blockchain_tx_id if ev else None,
-            evaluated_at=ev.evaluated_at.isoformat() if ev and ev.evaluated_at else None,
-            created_at=mol.created_at.isoformat() if mol.created_at else "",
-            task_id=ev.task_id if ev else None,
-            is_saved=bool(mol.is_saved),
-            protocolo_vigente=(
-                describir_protocolo(
-                    ev.docking_protocol,
-                    ev.weights_calibration_id,
-                    ev.target_family or (mol.target.structural_family if mol.target else None),
-                )["vigente"]
-                if ev else None
-            ),
-        ))
-
-    return HistoryResponse(
-        items=items,
-        total=total,
-        page=page,
-        page_size=page_size,
-        has_next=(offset + page_size) < total,
-    )
+    for row in page_rows:
+        data = {key: row[key] for key in EvaluationSummary.model_fields if key not in {"protocolo_vigente"}}
+        data["molecule_id"] = str(data["molecule_id"])
+        # Con su zona (UTC): sin ella el Historial enseñaba la hora desplazada
+        # (B03). `evaluated_at` viene escrito en la instantánea, sin zona.
+        for key in ("created_at", "evaluated_at"):
+            data[key] = instante_utc(data[key])
+        data["created_at"] = data["created_at"] or ""
+        if row["run_id"] is not None:
+            data["blockchain_tx_id"] = receipts.get(row["run_id"])
+        data["protocolo_vigente"] = describir_protocolo(
+            row["docking_protocol"], row["weights_calibration_id"], row["target_family"],
+        )["vigente"]
+        items.append(EvaluationSummary(**data))
+    return HistoryResponse(items=items, total=total, page=page, page_size=page_size,
+                           has_next=(offset + page_size) < total)
 
 
 @router.get(
@@ -308,55 +219,19 @@ async def get_stats(
 ) -> StatsResponse:
     """Devuelve estadísticas agregadas de las evaluaciones del usuario."""
 
-    # HIST-BE-001. La poblacion es la MISMA que lista /history/evaluations: todas las
-    # moleculas de la cuenta. Estos agregados filtraban ademas por `is_saved`, que es el
-    # filtro de Moldex (db/repository.py) y no el del historial, de modo que el marcador
-    # contaba una poblacion y la tabla de debajo otra: veinte filas bajo un "Total 0".
-    total_q = select(func.count()).where(MoleculeORM.user_id == current_user.id)
-    total = (await db.execute(total_q)).scalar() or 0
-
-    # Completed
-    completed_q = select(func.count()).where(
-        MoleculeORM.user_id == current_user.id,
-        MoleculeORM.status == MoleculeStatus.EVALUATED,
-    )
-    completed = (await db.execute(completed_q)).scalar() or 0
-
-    # Failed
-    failed_q = select(func.count()).where(
-        MoleculeORM.user_id == current_user.id,
-        MoleculeORM.status == MoleculeStatus.FAILED,
-    )
-    failed = (await db.execute(failed_q)).scalar() or 0
-
-    # Best and avg score
-    score_q = (
-        select(
-            func.max(EvaluationResultORM.total_score),
-            func.avg(EvaluationResultORM.total_score),
-        )
-        .join(MoleculeORM, EvaluationResultORM.molecule_id == MoleculeORM.id)
-        .where(MoleculeORM.user_id == current_user.id)
-        .where(EvaluationResultORM.total_score.isnot(None))
-    )
-    score_result = (await db.execute(score_q)).one()
-    best_score = float(score_result[0]) if score_result[0] is not None else None
-    avg_score = round(float(score_result[1]), 2) if score_result[1] is not None else None
-
-    # Unique targets
-    targets_q = (
-        select(func.count(func.distinct(MoleculeORM.target_id)))
-        .where(MoleculeORM.user_id == current_user.id)
-    )
-    unique_targets = (await db.execute(targets_q)).scalar() or 0
-
+    rows = history_rows(current_user.id)
+    c = rows.c
+    from sqlalchemy import case
+    result = (await db.execute(select(
+        func.count(), func.sum(case((c.status == "evaluated", 1), else_=0)),
+        func.sum(case((c.status == "failed", 1), else_=0)),
+        func.max(c.total_score), func.avg(c.total_score), func.count(func.distinct(c.target_id)),
+    ))).one()
     return StatsResponse(
-        total_evaluations=total,
-        completed_evaluations=completed,
-        failed_evaluations=failed,
-        best_score=best_score,
-        avg_score=avg_score,
-        unique_targets=unique_targets,
+        total_evaluations=result[0], completed_evaluations=result[1] or 0,
+        failed_evaluations=result[2] or 0, best_score=result[3],
+        avg_score=round(result[4], 2) if result[4] is not None else None,
+        unique_targets=result[5],
     )
 
 
@@ -384,13 +259,84 @@ async def save_molecule(
     name: str | None = Query(None, description="Nombre personalizado"),
     current_user: UserORM = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
+    task_id: str | None = Query(
+        None,
+        description=(
+            "Corrida que se guarda. Una molécula se reevalúa muchas veces y cada "
+            "evaluación guardada es una ficha propia en Moldex. Sin él se guarda "
+            "la evaluación vigente de la molécula."
+        ),
+    ),
 ):
-    """Marca una molécula como 'guardada' para que aparezca en el listado de Guardado."""
+    """Guarda una evaluación en Moldex sin tocar las demás de la misma molécula."""
     mol = await db.get(MoleculeORM, molecule_id)
     _require_molecule_owner(mol, current_user)
 
-    mol.is_saved = True
-    if name:
-        mol.name = name
+    try:
+        run = await Repository(db).save_evaluation_run(molecule_id, task_id, name)
+    except LookupError:
+        raise HTTPException(status_code=404, detail="Evaluación no encontrada.") from None
+    except ValueError:
+        raise HTTPException(
+            status_code=409,
+            detail="Sólo puede guardarse una evaluación terminada con éxito",
+        ) from None
     await db.commit()
-    return {"status": "saved", "molecule_id": str(molecule_id), "name": mol.name}
+    return {
+        "status": "saved",
+        "molecule_id": str(molecule_id),
+        "task_id": run.task_id if run is not None else None,
+        "name": (run.saved_name if run is not None else None) or mol.name,
+    }
+
+class RunReceiptResponse(BaseModel):
+    filename: str
+    pdf_base64: str
+
+
+@router.get('/receipts/{task_id}', response_model=RunReceiptResponse,
+            summary='Recibo PDF de una corrida conservada')
+async def get_run_receipt(task_id: str, current_user: UserORM = Depends(get_current_user),
+                          db: AsyncSession = Depends(get_db)) -> RunReceiptResponse:
+    import asyncio
+    import base64
+    from sqlalchemy.orm import selectinload
+    pair = (await db.execute(select(EvaluationRunORM, MoleculeORM).join(
+        MoleculeORM, EvaluationRunORM.molecule_id == MoleculeORM.id,
+    ).options(selectinload(MoleculeORM.target)).where(
+        EvaluationRunORM.task_id == task_id, MoleculeORM.user_id == current_user.id,
+    ))).first()
+    if pair is None:
+        pair = (await db.execute(select(EvaluationRunORM, MoleculeORM).join(
+            MoleculeORM, EvaluationRunORM.molecule_id == MoleculeORM.id,
+        ).options(selectinload(MoleculeORM.target)).where(
+            EvaluationRunORM.task_id.like('projection-archive:%'),
+            EvaluationRunORM.snapshot_json['task_id'].as_string() == task_id,
+            MoleculeORM.user_id == current_user.id,
+        ).order_by(EvaluationRunORM.created_at.desc()))).first()
+    if pair is None:
+        # Una corrida heredada puede no tener snapshot. Sólo sirve su proyección
+        # cuando ésta conserva exactamente el task_id solicitado y el dueño.
+        legacy = (await db.execute(select(EvaluationResultORM, MoleculeORM).join(
+            MoleculeORM, EvaluationResultORM.molecule_id == MoleculeORM.id,
+        ).options(selectinload(MoleculeORM.target)).where(
+            EvaluationResultORM.task_id == task_id, MoleculeORM.user_id == current_user.id,
+        ))).first()
+        if legacy is None:
+            raise HTTPException(404, detail='Corrida no encontrada')
+        evaluation, molecule = legacy
+        snapshot = {}
+        for column in EvaluationResultORM.__table__.columns:
+            value = getattr(evaluation, column.name)
+            snapshot[column.name] = value.isoformat() if hasattr(value, 'isoformat') else str(value) if isinstance(value, uuid.UUID) else value
+        receipt_id = evaluation.id
+    else:
+        run, molecule = pair
+        snapshot = await Repository(db).materialize_run_snapshot(run)
+        receipt_id = run.id
+    if not snapshot.get('blockchain_tx_id'):
+        raise HTTPException(409, detail='Esta corrida no conserva un recibo')
+    snapshot['task_id'] = task_id
+    raw = await asyncio.to_thread(render_history_receipt, molecule, snapshot)
+    return RunReceiptResponse(filename=f'MolDesign_Recibo_{receipt_id}.pdf',
+                              pdf_base64=base64.b64encode(raw).decode('ascii'))

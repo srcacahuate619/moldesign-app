@@ -1,0 +1,47 @@
+{
+  "key": "en-light-1024",
+  "actions": [
+    {
+      "text": "Evaluation parameters",
+      "rect": {
+        "x": 321,
+        "y": 273.5,
+        "width": 258.640625,
+        "height": 44,
+        "top": 273.5,
+        "right": 579.640625,
+        "bottom": 317.5,
+        "left": 321
+      },
+      "inside": true
+    },
+    {
+      "text": "Previous evaluations1",
+      "rect": {
+        "x": 591.640625,
+        "y": 272.5,
+        "width": 271.953125,
+        "height": 46,
+        "top": 272.5,
+        "right": 863.59375,
+        "bottom": 318.5,
+        "left": 591.640625
+      },
+      "inside": true
+    },
+    {
+      "text": "Run evaluation",
+      "rect": {
+        "x": 321,
+        "y": 330.5,
+        "width": 201.84375,
+        "height": 44,
+        "top": 330.5,
+        "right": 522.84375,
+        "bottom": 374.5,
+        "left": 321
+      },
+      "inside": true
+    }
+  ]
+}

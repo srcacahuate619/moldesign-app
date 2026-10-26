@@ -83,6 +83,7 @@ describe("corridaDelCaso", () => {
     );
     expect(resultado).toEqual({
       kind: "auditable",
+      run: corrida(),
       reportable: { taskId: "task-abcdef123456", moleculeId: MOLECULA, certified: false },
       relation: "corresponde",
     });
@@ -96,6 +97,14 @@ describe("corridaDelCaso", () => {
     expect(corridaDelCaso(caso({ activeRun: corrida({ moleculeId: undefined }) })).kind).toBe(
       "sin_molecula",
     );
+  });
+
+  it("una corrida cancelada o fallida terminó: no se dice que no ha terminado", () => {
+    for (const executionState of ["cancelled", "failed"] as const) {
+      expect(corridaDelCaso(caso({ activeRun: corrida({ executionState }) })).kind).toBe(
+        "sin_completar",
+      );
+    }
   });
 
   it("una corrida de inputs anteriores se audita, pero con su relación", () => {
@@ -127,6 +136,53 @@ describe("relacionDeLaCorridaActiva", () => {
 describe("esAuditoriaPreparacion", () => {
   it("acepta el contrato preparacion/v1", () => {
     expect(esAuditoriaPreparacion(auditoria())).toBe(true);
+  });
+
+  it.each([{ accion_recomendada: 42 }, { ubicacion: "A:197" }, { ubicacion: [{}] }, { ubicacion: [{ chain: "A", after: "THR 197", before: "VAL 199", c_n_distance_A: 4.79, distance_to_box_A: -1, missing_declared: null, site_critical: true }] }])("rechaza metadatos de reparación malformados: %j", (metadata) => {
+    const value = auditoria();
+    (value.bloques[0] as { requisitos: unknown }).requisitos = [{ clave: "receptor.huecos", estado: "ABSTENCION", ...metadata }] as unknown as RequisitoPreparacion[];
+    expect(esAuditoriaPreparacion(value)).toBe(false);
+  });
+
+  describe("contexto de ensayo (C-GAP-02)", () => {
+    const comparacion = {
+      contrato: "moldesign.contexto_ensayo/1", campo: "ph", ensayo: 5.5, corrida: 7.4,
+      estado: "discrepancia", fuente_ensayo: "case.context.assay.ph", fuente_corrida: "receptor.ph",
+    };
+    const resumen = {
+      contrato: "moldesign.contexto_ensayo/1",
+      declarados_sin_contraparte: { temperature_c: 25, endpoint: "Ki", source: "CHEMBL853189" },
+    };
+    const con = (ensayo: unknown) => {
+      const value = auditoria();
+      (value.bloques[0] as { requisitos: unknown }).requisitos =
+        [{ clave: "entorno.ensayo", estado: "REGISTRADO", ensayo }] as unknown as RequisitoPreparacion[];
+      return value;
+    };
+
+    it("acepta la comparación de un campo y el resumen de lo declarado, que no son huecos", () => {
+      expect(esAuditoriaPreparacion(con(comparacion))).toBe(true);
+      expect(esAuditoriaPreparacion(con(resumen))).toBe(true);
+    });
+
+    it("sigue rechazando esas formas dentro de `ubicacion`: era el defecto que impedía abrir Preparación", () => {
+      for (const forma of [comparacion, resumen]) {
+        const value = auditoria();
+        (value.bloques[0] as { requisitos: unknown }).requisitos =
+          [{ clave: "entorno.ensayo", estado: "REGISTRADO", ubicacion: [forma] }] as unknown as RequisitoPreparacion[];
+        expect(esAuditoriaPreparacion(value)).toBe(false);
+      }
+    });
+
+    it.each([
+      null, [], "ph", {}, { contrato: "" },
+      { ...comparacion, estado: "similar" }, { ...comparacion, campo: undefined },
+      { ...comparacion, fuente_corrida: 3 },
+      { contrato: "moldesign.contexto_ensayo/1", declarados_sin_contraparte: [] },
+      { contrato: "moldesign.contexto_ensayo/1", declarados_sin_contraparte: { temperature_c: { x: 1 } } },
+    ])("rechaza un `ensayo` malformado: %j", (ensayo) => {
+      expect(esAuditoriaPreparacion(con(ensayo))).toBe(false);
+    });
   });
 
   it("rechaza otro esquema, otro estado o bloques fuera de orden", () => {
@@ -209,5 +265,29 @@ describe("requestPreparacion", () => {
     const reportable = { taskId: "t", moleculeId: MOLECULA, certified: false };
     const promesa = requestPreparacion(MOLECULA, buildCaseProjection(caso(), reportable, "desconocida"));
     await expect(promesa).rejects.toMatchObject({ status: 409 });
+  });
+});
+
+describe("última corrida completada (QA-035)", () => {
+  it("tres completas y una cancelada: audita la tercera y su huella", () => {
+    const runs = [1, 2, 3].map((n) => corrida({ taskId: `completa-${n}`, inputFingerprint: `huella-${n}` }));
+    const cancelled = corrida({ taskId: "cancelada", executionState: "cancelled", inputFingerprint: "huella-4" });
+    const record = caso({ runs, activeRun: cancelled, preflight: { fingerprint: "huella-4" } as CaseRecord["preflight"] });
+    const selected = corridaDelCaso(record);
+    expect(selected.kind).toBe("auditable");
+    if (selected.kind !== "auditable") return;
+    expect(selected.reportable.taskId).toBe("completa-3");
+    expect(selected.relation).toBe("corrida_anterior");
+    const snapshot = { ...record, activeRun: (selected as typeof selected & { run: ActiveRun }).run };
+    expect(buildCaseProjection(snapshot, selected.reportable, selected.relation).run?.task_id).toBe("completa-3");
+    expect(record.activeRun?.taskId).toBe("cancelada");
+  });
+  it("una única completa en el libro se audita aun sin activeRun", () => {
+    const result = corridaDelCaso(caso({ runs: [corrida()] }));
+    expect(result.kind).toBe("auditable");
+    if (result.kind === "auditable") expect(result.reportable.taskId).toBe("task-abcdef123456");
+  });
+  it("ninguna completa: una fallida y una cancelada se declaran sin completar", () => {
+    expect(corridaDelCaso(caso({ runs: [corrida({ executionState: "failed" }), corrida({ executionState: "cancelled", taskId: "cancelada" })] })).kind).toBe("sin_completar");
   });
 });

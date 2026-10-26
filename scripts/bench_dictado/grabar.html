@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grabar el guion de dictado</title>
+<style>
+  :root { --fondo: #fafaf8; --texto: #1d1d1b; --suave: #6b6b66; --linea: #dcdcd6; --acento: #6d4fa3; --ok: #2e7d4f; }
+  @media (prefers-color-scheme: dark) { :root { --fondo: #17171a; --texto: #ececea; --suave: #9a9a94; --linea: #33333a; --acento: #a48bd6; --ok: #6cc28f; } }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 16px/1.5 system-ui, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 32px 16px; }
+  h1 { font-size: 1.3rem; margin: 0 0 8px; }
+  p.nota { color: var(--suave); margin: 0 0 24px; }
+  .frase { font-size: 1.5rem; margin: 24px 0; min-height: 3em; }
+  .contador { color: var(--suave); font-variant-numeric: tabular-nums; }
+  button { font: inherit; padding: 10px 18px; border-radius: 8px; border: 1px solid var(--linea); background: transparent; color: var(--texto); cursor: pointer; margin-right: 8px; }
+  button.principal { background: var(--acento); border-color: var(--acento); color: #fff; }
+  button:disabled { opacity: .4; cursor: default; }
+  ol { color: var(--suave); padding-left: 1.2em; }
+  li.hecha { color: var(--ok); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Grabar el guion de dictado de MolChat</h1>
+  <p class="nota">Lee cada frase con tu voz normal, como se la dirías a MolChat. Cada grabación se descarga como
+    <code>fNN.wav</code> (16 kHz, mono). Al terminar, deja las 20 en una carpeta y pásame la ruta.
+    Nada sale de tu equipo: la página no envía datos a ningún sitio.</p>
+  <div class="contador" id="contador"></div>
+  <div class="frase" id="frase"></div>
+  <button class="principal" id="grabar">Grabar</button>
+  <button id="parar" disabled>Parar y guardar</button>
+  <button id="saltar">Siguiente</button>
+  <ol id="lista"></ol>
+</main>
+<script>
+const FRASES = [
+  ["f01", "Calcula las propiedades del paracetamol."],
+  ["f02", "Acopla la cafeína contra el receptor 5-HT2A."],
+  ["f03", "¿Qué significa que el receptor esté en revisión?"],
+  ["f04", "Muéstrame las corridas de esta semana con exhaustividad alta."],
+  ["f05", "Compara el ibuprofeno con el naproxeno."],
+  ["f06", "Predice la toxicidad y la absorción de la metformina."],
+  ["f07", "¿Por qué la preparación del receptor está bloqueada?"],
+  ["f08", "Genera análogos de la nicotina con menor peso molecular."],
+  ["f09", "Explica el esqueleto de Murcko de la aspirina."],
+  ["f10", "¿Cuál fue la mejor afinidad contra el transportador de serotonina?"],
+  ["f11", "Valida este SMILES antes de evaluarlo."],
+  ["f12", "¿El sitio de unión tiene metales o aguas estructurales?"],
+  ["f13", "Ordena las moléculas de la sesión por afinidad de Vina."],
+  ["f14", "¿Qué tautómero se usó para el ligando?"],
+  ["f15", "Busca compuestos similares a la teobromina."],
+  ["f16", "Resume la evidencia de la última evaluación."],
+  ["f17", "¿Cuántos enlaces rotables tiene el diazepam?"],
+  ["f18", "Lanza un docking del haloperidol contra el receptor de dopamina D2."],
+  ["f19", "¿Qué advertencias tiene el dossier de esta corrida?"],
+  ["f20", "Explícame la diferencia entre ligando y receptor en Moldex."],
+];
+const DESTINO_HZ = 16000;
+let actual = 0, ctx = null, fuente = null, nodo = null, flujo = null, trozos = [];
+const $ = (id) => document.getElementById(id);
+
+function pintar() {
+  const [id, texto] = FRASES[Math.min(actual, FRASES.length - 1)];
+  $("contador").textContent = actual < FRASES.length ? `${actual + 1} de ${FRASES.length} · ${id}` : "Terminado";
+  $("frase").textContent = actual < FRASES.length ? texto : "Las 20 están grabadas. Gracias.";
+  $("lista").innerHTML = FRASES.map(([fid, t], i) => `<li class="${i < actual ? "hecha" : ""}">${fid} · ${t}</li>`).join("");
+  $("grabar").disabled = actual >= FRASES.length;
+}
+
+function remuestrear(muestras, origenHz) {
+  const razon = origenHz / DESTINO_HZ, n = Math.floor(muestras.length / razon), salida = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const ini = Math.floor(i * razon), fin = Math.min(muestras.length, Math.floor((i + 1) * razon));
+    let suma = 0; for (let j = ini; j < fin; j++) suma += muestras[j];
+    salida[i] = suma / Math.max(1, fin - ini);
+  }
+  return salida;
+}
+
+function wav(muestras) {
+  const buf = new ArrayBuffer(44 + muestras.length * 2), v = new DataView(buf);
+  const txt = (o, s) => [...s].forEach((c, i) => v.setUint8(o + i, c.charCodeAt(0)));
+  txt(0, "RIFF"); v.setUint32(4, 36 + muestras.length * 2, true); txt(8, "WAVE"); txt(12, "fmt ");
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, DESTINO_HZ, true);
+  v.setUint32(28, DESTINO_HZ * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true); txt(36, "data");
+  v.setUint32(40, muestras.length * 2, true);
+  muestras.forEach((m, i) => v.setInt16(44 + i * 2, Math.max(-1, Math.min(1, m)) * 0x7fff, true));
+  return new Blob([buf], { type: "audio/wav" });
+}
+
+$("grabar").onclick = async () => {
+  flujo = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, echoCancellation: true, noiseSuppression: false } });
+  ctx = new AudioContext();
+  fuente = ctx.createMediaStreamSource(flujo);
+  nodo = ctx.createScriptProcessor(4096, 1, 1);
+  trozos = [];
+  nodo.onaudioprocess = (e) => trozos.push(new Float32Array(e.inputBuffer.getChannelData(0)));
+  fuente.connect(nodo); nodo.connect(ctx.destination);
+  $("grabar").disabled = true; $("parar").disabled = false;
+};
+
+$("parar").onclick = async () => {
+  nodo.disconnect(); fuente.disconnect(); flujo.getTracks().forEach((t) => t.stop());
+  const total = trozos.reduce((s, t) => s + t.length, 0), todo = new Float32Array(total);
+  let o = 0; for (const t of trozos) { todo.set(t, o); o += t.length; }
+  const enlace = document.createElement("a");
+  enlace.href = URL.createObjectURL(wav(remuestrear(todo, ctx.sampleRate)));
+  enlace.download = `${FRASES[actual][0]}.wav`;
+  enlace.click();
+  await ctx.close();
+  actual++; $("parar").disabled = true; pintar();
+};
+
+$("saltar").onclick = () => { actual = Math.min(actual + 1, FRASES.length); pintar(); };
+pintar();
+</script>
+</body>
+</html>

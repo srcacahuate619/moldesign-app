@@ -151,7 +151,7 @@ Un solo módulo puede nombrar a Open Babel:
 
 | Prohibido | Guarda que lo detiene |
 |---|---|
-| `import openbabel` / `pybel` / `_openbabel` en producción | `check_openbabel_boundary.py` G1 |
+| `import openbabel` / `pybel` / `_openbabel` en cualquier `.py` de `backend/` o `rescoring/` (también `tests/`, `scripts/`, `data/`; imports dinámicos con nombre constante incluidos), salvo las cuatro excepciones de §5.1 | `check_openbabel_boundary.py` G1 (+ G1b) |
 | Que los bindings aparezcan en el `site-packages` distribuido | G2 |
 | Resolver `obabel` por `PATH`, `shutil.which` o nombre suelto | G3 |
 | Que falte el ejecutable empaquetado | G4 + `bundled_layout` en Rust |
@@ -168,19 +168,50 @@ dos. Las que miran el disco se prueban desde
 que rompe **copias** del árbol —nunca el árbol— y exige que se detecte cada
 rotura. Es la regla 2 de `AGENTS.md`: un guardián tiene que demostrar que ve.
 
-### 5.1 Lo que sí sigue permitido
+### 5.1 Lo que sí sigue permitido — y el alcance real de la regla
 
-Los scripts científicos y los generadores de datasets pueden usar los bindings:
-son **dependencias de desarrollo** y no se distribuyen. Hoy son dos, declarados
-en su propia cabecera:
+> **Corrección del 2026-10-03 (auditoría LUNA, `docs/86`, LUNA-01).** Esta sección
+> decía que «los scripts científicos y los generadores de datasets pueden usar los
+> bindings» y que hoy eran **dos**. Eran siete imports en **cuatro** archivos, y la
+> guarda no veía dos de ellos porque filtraba por nombre de directorio
+> (`scripts/`, `tests/`, `data/`...): un AST sobre todo el árbol encontró los que
+> el filtro callaba. Mientras tanto `AGENTS.md` prohibía el import **sin
+> excepción**: la regla escrita y la regla comprobada habían dejado de ser la
+> misma. El propietario decidió dejarlas iguales **nombrando la excepción**, no
+> ocultándola.
 
-- `rescoring/generate_gpu_dataset.py`
-- `rescoring/RTMScore/feats/extract_pocket_prody.py` (terceros, MIT)
+La regla se lee así: ningún `.py` de `backend/` ni `rescoring/` importa los
+bindings, **con cuatro excepciones**, scripts de desarrollo que no viajan en el
+instalador:
 
-La autorización **no se cree a ciegas**: la lista que la concede es la misma que
-`bundle_helper.py` usa para excluirlos del instalador, y G2 comprueba **sobre el
-bundle real** que no viajan. Si alguien autoriza un módulo sin excluirlo, la
-guarda lo caza en el artefacto.
+| Archivo | Por qué sigue importándolos |
+|---|---|
+| `rescoring/generate_gpu_dataset.py` | genera los datasets de entrenamiento; nunca fue runtime |
+| `rescoring/RTMScore/feats/extract_pocket_prody.py` (terceros, MIT) | ayudante de bolsillos que ningún módulo del producto importa |
+| `rescoring/scripts/redock_pdbbind.py` | prepara el receptor con los bindings; respalda la procedencia sellada de cinco artefactos (1414 registros «openbabel_pdb2pdbqt_rigido»; 470 en FND-06 lo citan como código de preparación) y lo importan scripts por ruta: reescribirlo cambiaría lo medido |
+| `rescoring/scripts/test_crystal_vs_docked.py` | experimento de desarrollo; nadie lo importa |
+
+La lista vive en `EXCEPCIONES_DEV_ONLY` (`scripts/check_openbabel_boundary.py`), cada
+entrada con su motivo escrito. **Una quinta excepción es decisión del propietario,
+no un parche de la guarda.** La autorización no se cree a ciegas, y ahora tiene tres
+candados en vez de uno:
+
+1. **G1b**: cada excepción existe, lleva motivo y `bundle_helper` la excluye del
+   empaquetado (por nombre o por directorio; la lista de directorios es la misma
+   constante que usa el empaquetado, `RESCORING_DIRS_FUERA_DEL_RUNTIME`).
+2. **G2**: ninguna de las cuatro está en el bundle real, ni ningún binding en su
+   `site-packages`.
+3. **G1 sobre el bundle**: allí **no hay ninguna exención**; el mismo AST corre sin
+   excepciones sobre `resources/backend` y `resources/rescoring`.
+
+Y una prueba compara la lista con la verdad de fondo: lo que el AST encuentra en el
+árbol real, sin exenciones, es **exactamente** la lista — ni un import más (una
+violación nueva) ni uno menos (una excepción obsoleta que autorizaría el próximo
+import en ese camino).
+
+Límites declarados del análisis: un nombre de módulo calculado en tiempo de
+ejecución (`importlib.import_module(nombre)`) no se ve, y un archivo que no puede
+analizarse es un **fallo**, no un «limpio».
 
 ## 6. Los dos defectos que esto arregló de paso
 

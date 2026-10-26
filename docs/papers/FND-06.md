@@ -67,3 +67,13 @@ histórica documentada con desconocidos honestos, y determinismo verificado.
 Es uno de los cimientos sobre los que descansa que el resto del registro signifique algo, y
 también uno de los pocos activos del proyecto que un tercero puede evaluar en cinco minutos
 sin entender nada de docking: o cada pose dice de dónde vino, o no.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-058. El validador de procedencia sólo falla con lo desconocido si se pasa
+  `--strict-unknown`, y la ingesta no lo exige. Lo cableado en 3 de 3 generadores es que la
+  procedencia se escribe; la «trazabilidad completa garantizada» de poses futuras no es
+  automática hasta que el builder falle cerrado.

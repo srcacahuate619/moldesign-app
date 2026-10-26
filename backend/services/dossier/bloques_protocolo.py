@@ -151,8 +151,13 @@ def campos_de_m5_zn(Campo, campo_dato, leer, eval_result, resumen, target) -> li
     from services.pipeline.protocols.m5.zinc import perfil_para
 
     familia = leer(eval_result, "target_family") or ""
-    if normalizar_familia(familia) != "metalloenzyme":
-        return []  # No es un caso de metal: el bloque no aplica.
+    # El bloque aplica si la corrida EJECUTÓ M5-Zn (dejó `m5_scientific_status`: hubo zinc observado, o la
+    # familia curada lo respalda) o, en corridas anteriores a esa columna, si la familia es metaloenzima.
+    # Antes sólo miraba la familia, y la tarjeta de la pantalla se guiaba por otra cosa: un receptor con
+    # zinc observado y familia distinta enseñaba el bloque en pantalla y no en el dossier (2026-10-04).
+    ejecutada = leer(eval_result, "m5_scientific_status") is not None
+    if not ejecutada and normalizar_familia(familia) != "metalloenzyme":
+        return []  # No es un caso de zinc: el bloque no aplica.
 
     # ── El PDB sale del OBJETIVO, no del resultado ───────────────────
     #
@@ -211,7 +216,7 @@ def campos_de_m5_zn(Campo, campo_dato, leer, eval_result, resumen, target) -> li
                 "REVIEW_OUT_OF_VALIDATED_TARGET",
                 Estado.ABSTENCION,
                 f"El PDB «{pdb or 'sin declarar'}» no es ninguno de los tres "
-                "perfiles validados (3DC3/CA2, 1GKC/MMP9, 1O86/ACE). M5-Zn "
+                "perfiles de M5-Zn (3DC3/CA2, 1GKC/MMP9, 1O86/ACE). M5-Zn "
                 "prepara el receptor, conserva el zinc, ejecuta Vina y calcula "
                 "señales diagnósticas, pero NO hereda los pesos de otra diana.",
                 valor_es_clasificacion=True,
@@ -220,7 +225,7 @@ def campos_de_m5_zn(Campo, campo_dato, leer, eval_result, resumen, target) -> li
                 "Score compuesto M5-Zn",
                 None,
                 Estado.NO_EVALUADO,
-                "Sin perfil validado no hay fórmula que aplicar. Las señales "
+                "Sin un perfil de M5-Zn no hay fórmula que aplicar. Las señales "
                 "individuales sí están disponibles y se muestran por separado.",
             ),
             campo_ums,
@@ -401,12 +406,12 @@ _MOTIVOS = {
     ),
     "REVIEW_OUT_OF_VALIDATED_TARGET": (
         "Es una metaloenzima de zinc, pero su PDB no es ninguno de los tres "
-        "perfiles validados. M5-Zn prepara el receptor, conserva el zinc, "
+        "perfiles de M5-Zn. M5-Zn prepara el receptor, conserva el zinc, "
         "ejecuta Vina y calcula señales diagnósticas, y NO hereda los pesos de "
         "otra diana (§7.2)."
     ),
     "REVIEW_OUT_OF_VALIDATED_STRUCTURE": (
-        "El PDB corresponde a un perfil validado pero no se confirmó el zinc en "
+        "El PDB corresponde a un perfil de M5-Zn pero no se confirmó el zinc en "
         "la estructura. Un carboxilato, tiol o sulfonamida en el ligando es una "
         "feature del ligando, no un centro metálico (§8)."
     ),
@@ -428,7 +433,7 @@ _MOTIVOS = {
         "sitio sea incorrecto: en ACE/1O86 el zinc está dentro de la caja —es su "
         "centro exacto— y las poses también. Lo que no se puede verificar es la "
         "procedencia: falta el complejo cristalográfico para comprobar el "
-        "bolsillo del inhibidor, ningún artefacto registra la caja efectiva, y "
+        "bolsillo del inhibidor, ningún artefacto registra la caja de búsqueda efectiva, y "
         "el checkpoint tiene 44 registros sin pose y 21 sin features. El "
         "componente que depende de la pose pesa 0.60. «No se puede comprobar que "
         "esté bien» no es «está mal», y tampoco es «está validado». Ver "

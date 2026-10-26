@@ -1,16 +1,63 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from fastapi import APIRouter, Depends, Query
 from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from api.dependencies import get_db, get_current_user_optional
+from api.dependencies import get_current_user, get_db, get_current_user_optional
 from core.models import UserORM
 from db.repository import Repository
 from services.avisos import textos
 from services.docking.protocolo_de_producto import describir_protocolo
+from services.targets.calibracion import estado_de_calibracion
+
+
+#: Tolerancia al comparar la afinidad guardada con la de la pose top-1 (redondeo a 2 decimales).
+_TOLERANCIA_AFINIDAD = 0.005
+
+
+def _origen_de_la_afinidad(res: Any) -> str | None:
+    """«vina» si la afinidad guardada es, comprobado, la de la pose top-1 de Vina.
+
+    SCI-A-011: antes de la v16 del esquema `affinity_kcal` podía contener la
+    regresión de XGBoost convertida a kcal/mol, escrita encima del score de Vina
+    y sin nada que lo distinguiera (`core/database.py`). La ficha la rotulaba
+    «Afinidad calculada (Vina)» igual. Sólo se acredita Vina cuando la corrida
+    guarda versión de Vina y poses, y la afinidad coincide con la mejor de ellas;
+    si no, «no_acreditado». ``None`` sin afinidad.
+    """
+    afinidad = getattr(res, "affinity_kcal", None)
+    if not isinstance(afinidad, (int, float)) or isinstance(afinidad, bool):
+        return None
+    poses = getattr(res, "docking_poses", None)
+    if isinstance(poses, str):
+        import json
+        try:
+            poses = json.loads(poses)
+        except ValueError:
+            poses = None
+    afinidades = [p.get("affinity") for p in poses or [] if isinstance(p, dict)]
+    afinidades = [a for a in afinidades if isinstance(a, (int, float)) and not isinstance(a, bool)]
+    if getattr(res, "vina_version", None) and afinidades \
+            and abs(float(afinidad) - min(afinidades)) <= _TOLERANCIA_AFINIDAD:
+        return "vina"
+    return "no_acreditado"
+
+
+def _hotspots_tocados(valor: Any) -> list[str] | None:
+    """La lista evaluada (también vacía) o ``None`` si nadie la evaluó."""
+    if valor is None:
+        return None
+    if isinstance(valor, str):
+        import json
+        try:
+            valor = json.loads(valor)
+        except ValueError:
+            return None
+    return [str(v) for v in valor] if isinstance(valor, list) else None
+from utils.instantes import instante_utc
 from utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -33,12 +80,17 @@ class MoldexTargetRead(BaseModel):
     name: str | None = None
     family: str | None = None
     hotspots: list[Any] = Field(default_factory=list)
+    #: Sólo la ρ respaldada por una medida con n, IC y protocolo (SCI-A-005).
     spearman_rho: float | None = None
+    #: El estado de `services/targets/calibracion.py` (nivel, respaldo, ρ sin respaldo).
+    calibracion: dict[str, Any] | None = None
 
 
 class MoldexMetricsRead(BaseModel):
     #: kcal/mol. Más negativo = mejor.
     affinity: float | None = None
+    #: «vina» si se comprobó que es la de la pose top-1 de Vina; si no, «no_acreditado» (SCI-A-011).
+    affinity_origin: Literal["vina", "no_acreditado"] | None = None
     log_p: float | None = None
     #: Daltons.
     mw: float | None = None
@@ -83,7 +135,16 @@ class MoldexSealRead(BaseModel):
 
 
 class MoldexMoleculeRead(BaseModel):
+    #: Id de la MOLÉCULA (receptor + ligando). Es el que esperan los endpoints de
+    #: archivos, certificado y render; varias fichas pueden compartirlo.
     id: str
+    #: Identidad única de la FICHA: una corrida guardada. Una molécula se evalúa
+    #: muchas veces y cada evaluación guardada es una ficha propia, así que `id`
+    #: ya no basta para seleccionar, ordenar ni pintar una lista. En fichas
+    #: heredadas (sin snapshot de corrida) coincide con `id`.
+    entry_id: str
+    #: Nombre con el que se guardó ESTA evaluación, si se le puso uno.
+    saved_name: str | None = None
     name: str
     smiles: str
     smiles_hash: str
@@ -93,7 +154,8 @@ class MoldexMoleculeRead(BaseModel):
     metrics: MoldexMetricsRead
     provenance: MoldexProvenanceRead
     scientific_warnings: list[str] = Field(default_factory=list)
-    hotspots_hit: list[str] = Field(default_factory=list)
+    #: `None` = no evaluado; `[]` = evaluado sin aciertos (SCI-A-010).
+    hotspots_hit: list[str] | None = None
     blockchain: MoldexSealRead
 
 
@@ -196,17 +258,19 @@ async def get_moldex(
         mol = res.molecule
         target = mol.target
 
+        saved_name = getattr(res, "saved_name", None)
         catalog.append({
             "id": str(mol.id),
-            "name": mol.name or f"Ligando {mol.smiles_hash[:8]}",
+            "entry_id": f"{mol.id}:{res.task_id}" if res.task_id else str(mol.id),
+            "saved_name": saved_name,
+            "name": saved_name or mol.name or f"Ligando {mol.smiles_hash[:8]}",
             "smiles": mol.smiles,
             "smiles_hash": mol.smiles_hash,
-            "created_at": mol.created_at.isoformat(),
+            # Con su zona (UTC): sin ella el navegador leía hora local.
+            "created_at": instante_utc(mol.created_at),
             # Fecha de la evaluación, distinta de la creación de la molécula.
             # El cliente ya ordenaba por este campo; nunca se emitía.
-            "evaluated_at": (
-                res.evaluated_at.isoformat() if res.evaluated_at is not None else None
-            ),
+            "evaluated_at": instante_utc(res.evaluated_at),
             # MOLDEX-INT-007. Sin esto una ficha no puede decir de qué corrida
             # salió su número, y ni el sello (MOLDEX-SCI-001) ni la comparación
             # (MOLDEX-SCI-004) pueden comprobar contra qué se están midiendo.
@@ -231,10 +295,16 @@ async def get_moldex(
                 "name": target.name,
                 "family": target.structural_family,
                 "hotspots": target.hotspots or [],
-                "spearman_rho": target.spearman_rho,
+                # SCI-A-005: los dos `spearman_rho` del catálogo valen 0.0, el
+                # valor por defecto, y Moldex los publicaba como «correlación del
+                # benchmark». Sale la ρ sólo si está respaldada (n, IC, protocolo);
+                # el estado completo viaja con ella.
+                "spearman_rho": estado_de_calibracion(target).spearman_rho,
+                "calibracion": estado_de_calibracion(target).to_dict(),
             },
             "metrics": {
                 "affinity": res.affinity_kcal,
+                "affinity_origin": _origen_de_la_afinidad(res),
                 "log_p": res.log_p,
                 "mw": res.molecular_weight,
                 "tpsa": res.tpsa,
@@ -245,7 +315,9 @@ async def get_moldex(
                 "veber_pass": res.veber_pass,
             },
             "scientific_warnings": textos(res.scientific_warnings),
-            "hotspots_hit": res.hotspots_hit or [],
+            # SCI-A-010: `None` = no evaluado, `[]` = evaluado sin aciertos. `or []`
+            # publicaba los dos como «0 tocados».
+            "hotspots_hit": _hotspots_tocados(res.hotspots_hit),
             "blockchain": _estado_del_sello(res),
         })
 
@@ -259,3 +331,39 @@ async def get_moldex(
         "has_next": has_next,
         "results": catalog,
     }
+
+
+class MoldexUbicacionRead(BaseModel):
+    """Dónde vive lo que Moldex guarda. Moldex no guarda archivos sueltos: guarda FILAS."""
+
+    carpeta_datos: str
+    base_de_datos: str
+
+
+def _ubicacion() -> MoldexUbicacionRead:
+    from utils.local_storage import data_dir
+
+    datos = data_dir()
+    return MoldexUbicacionRead(carpeta_datos=str(datos), base_de_datos=str(datos / "moldesign_local.db"))
+
+
+@router.get("/ubicacion", response_model=MoldexUbicacionRead)
+async def ubicacion_de_moldex(_user: UserORM = Depends(get_current_user)):
+    """Carpeta de datos y base SQLite donde se guardan las fichas de Moldex y los archivos de sus corridas."""
+    return _ubicacion()
+
+
+@router.post("/ubicacion/abrir", response_model=MoldexUbicacionRead)
+async def abrir_ubicacion_de_moldex(_user: UserORM = Depends(get_current_user)):
+    """Abre la carpeta de datos en el explorador. Sólo ésa: nunca una ruta que llegue en la petición."""
+    import subprocess
+    import sys
+
+    from utils.procesos import BANDERAS_SIN_VENTANA
+
+    destino = _ubicacion()
+    ruta = destino.carpeta_datos
+    comando = (["explorer.exe", ruta] if sys.platform == "win32"
+               else ["open", ruta] if sys.platform == "darwin" else ["xdg-open", ruta])
+    subprocess.Popen(comando, creationflags=BANDERAS_SIN_VENTANA)
+    return destino

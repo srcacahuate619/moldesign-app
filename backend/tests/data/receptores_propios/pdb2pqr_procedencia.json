@@ -1,0 +1,34 @@
+{
+  "herramienta": "PDB2PQR 3.7.1 con PROPKA 3.5.1 (pip install pdb2pqr propka, venv aparte, Python 3.12, 2026-10-09)",
+  "entrada": {
+    "archivo": "8hfi_recortado.pdb",
+    "sha256": "a5ac66166143765de8046b9825ae12b78a24b3da0860544b850e07311b0baf91",
+    "nota": "el recorte de ±10 Å de 8HFI del repositorio; sin hidrógenos de origen"
+  },
+  "salidas": {
+    "8hfi_recortado_amber.pqr": {
+      "orden": "python -m pdb2pqr --ff=AMBER --ffout=AMBER --titration-state-method=propka --with-ph=7.4 --keep-chain --drop-water 8hfi_recortado.pdb 8hfi_recortado_amber.pqr",
+      "sha256": "d9bda9e5c98a73c3336c4397accdeba8f6d303e3725b7a84a8bcfe9ebb227137"
+    },
+    "8hfi_recortado_charmm.pqr": {
+      "orden": "python -m pdb2pqr --ff=CHARMM --ffout=CHARMM --keep-chain --drop-water 8hfi_recortado.pdb 8hfi_recortado_charmm.pqr",
+      "sha256": "2ca55fec77133d468487bedc1b89fb5183d95bec70901de9e4fa515779d55238",
+      "hallazgo": "el carboxilo C-terminal (C, OT1, OT2) sale como un residuo aparte llamado TER"
+    },
+    "charmm_disu_extracto.pqr": {
+      "orden": "python -m pdb2pqr --ff=CHARMM --ffout=CHARMM --keep-chain --drop-water 8HFI.pdb 8hfi_completo_charmm.pqr   (extracto: las 10 primeras líneas ATOM del residuo 176)",
+      "entrada_completa": {
+        "archivo": "8HFI.pdb (data/targets/8HFI.pdb.gz descomprimido)",
+        "sha256": "3a45109bd5ccb4be555548623e3c92ea04be9ffbf54517561058de8245d5b1e8"
+      },
+      "sha256_de_la_salida_completa": "d25a35445b57d417ac76fddff0470ce7884e6f98ddbb1142ba1017283caa3392",
+      "sha256": "7c47d2dc323064da5c951ccda6472a796a81ad3fff7f2d96e0ac02e38e1b0ccf",
+      "hallazgo": "CB y SG de la cistina salen como «1CB» y «1SG» pegados al residuo «DISU» (1CBDISU)"
+    }
+  },
+  "otras_corridas_no_versionadas": {
+    "8hfi_completo_amber_ph74.pqr": "8fa936cbb9527db419679760cf62c52c55f31704a725d229b362ba351bbb10bd",
+    "8hfi_completo_parse.pqr": "eae8975d38031561f01a6f02310b7a266df358a57c628008beec00a65df58f50",
+    "8hfi_completo_charmm.pqr": "d25a35445b57d417ac76fddff0470ce7884e6f98ddbb1142ba1017283caa3392"
+  }
+}

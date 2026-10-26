@@ -1,0 +1,17 @@
+{
+  "catalog_version": "referencias-del-sitio-3n8y-2026-10-11",
+  "based_on_commit": "920fc4a0",
+  "supersedes": {
+    "curated_targets_json_sha256": "1f1a7096e41b47cd558a3ae09a418f6bdc3f7652458e8492c6ad50bb7e919538",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "active": {
+    "curated_targets_json_sha256": "21e807af380b71a62b0172f519415ed9130ca46986b6cd5543418dac950c1839",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "cambio": "3N8Y (COX-1 ovina tratada con aspirina, con diclofenaco) declaraba el hemo como ligando del sitio y tenía la caja centrada en él, a 18 Å del canal de la ciclooxigenasa. La versión anterior la dejó fuera porque lleva una serina acetilada (OAS), que parecía pedir una preparación covalente. Medido: la OAS sólo está en la cadena B, como microheterogeneidad y a 34,8 Å del diclofenaco A:701; la cadena A del catálogo tiene la Ser530 sin modificar y el carboxilato del diclofenaco le da un puente de hidrógeno (2,53 Å). Se recentra en DIF A:701 con el mismo criterio que las otras trece (centroide de sus átomos pesados, mismo lado de caja, ligando a 12 Å de cada cara, sitio por anotar_sitio, hotspots por contacto). El hemo se conserva. Cambian sólo grid_center, site_ligand, site_chain_atoms, hotspots y hotspots_source de 3N8Y. No equivale a validación del receptor ni readiness FEP.",
+  "corregidas": ["3N8Y"],
+  "pendientes": {},
+  "herramienta": "scripts/corregir_referencias_cofactor.py --solo 3N8Y --aplicar",
+  "evidencia": "docs/auditorias/referencias_del_sitio_2026-10-11.json"
+}

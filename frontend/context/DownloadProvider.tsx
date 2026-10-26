@@ -12,6 +12,8 @@ type UnlistenFn = () => void;
 // tenia una copia del mismo mecanismo roto. Ahora hay uno solo y comprobable.
 import { invoke, isTauriAvailable, listen } from "../lib/tauri";
 import { resetApiUrl, setApiUrlFromPort, type BackendStatusPayload } from "../lib/config";
+import { dismissActivityNotification, emitActivityNotification } from "../lib/activityNotifications";
+import { avisosPorTransicion } from "../lib/avisosDeModulos";
 
 // =====================================================================
 // Estado del MOTOR — distinguible, no un «faltan modelos» para todo
@@ -143,6 +145,61 @@ export type DownloadContextValue = {
 
 export const DownloadContext = createContext<DownloadContextValue | null>(null);
 
+/** Lo que dice Rust (`downloader.rs`, `YA_EN_CURSO`) si el módulo ya se está descargando. */
+const YA_EN_CURSO = "descarga en curso";
+
+/** Un estado que sólo puede cerrar la descarga misma, nunca una comprobación de disco. */
+function enVuelo(status: ModelStatus | undefined): boolean {
+  return status === "downloading" || status === "extracting";
+}
+
+/** Rust rechaza con un texto; el resto, con un `Error`. Aquí da igual cuál. */
+function textoDelError(err: unknown): string {
+  if (typeof err === "string") return err;
+  if (err instanceof Error) return err.message;
+  return String((err as { message?: unknown } | null)?.message ?? err ?? "");
+}
+
+function bytesDe(event: DownloadProgressEvent | undefined): number {
+  return event ? event.bytes_downloaded ?? event.downloaded_bytes ?? 0 : 0;
+}
+
+/**
+ * Funde una comprobación de disco con el estado vivo.
+ *
+ * La comprobación mira el archivo FINAL, que no existe hasta que la descarga
+ * termina y se verifica. Pisar un «descargando» con su «falta» devolvía el botón
+ * «Descargar» mientras Rust seguía bajando, y un segundo clic arrancaba otra
+ * descarga del mismo archivo: la barra saltaba entre las dos (avanzaba y
+ * retrocedía). Pasaba con «Verificar instalación» y cuando la comprobación del
+ * arranque terminaba después de empezar una descarga. Lo que Rust dice estar
+ * descargando (`active_downloads`) manda sobre el disco.
+ */
+export function fundirComprobacion(
+  actual: Record<string, ModelStatus>,
+  comprobado: Record<string, ModelStatus>,
+  activos: readonly string[] = [],
+): Record<string, ModelStatus> {
+  const siguiente = { ...actual };
+  for (const [id, status] of Object.entries(comprobado)) {
+    if (!enVuelo(actual[id])) siguiente[id] = status;
+  }
+  for (const id of activos) {
+    if (!enVuelo(siguiente[id])) siguiente[id] = "downloading";
+  }
+  return siguiente;
+}
+
+/** Los módulos que Rust está bajando. Un contenedor sin el comando no baja ninguno. */
+async function descargasActivas(): Promise<string[]> {
+  try {
+    const ids = await invoke<unknown>("active_downloads");
+    return Array.isArray(ids) ? ids.filter((id): id is string => typeof id === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
 const NOTA_REVISION =
   "Commit inmutable. Antes decia 'main', que es un puntero movil: el dia que upstream lo mueva, el SHA-256 fijado deja de coincidir y la descarga falla sin que nadie lo haya decidido.";
 
@@ -216,6 +273,13 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
   const [resourceDir, setResourceDir] = useState<string | null>(null);
   const [engine, setEngine] = useState<EngineStatus>(ENGINE_IDLE);
   const unlistenRef = useRef<UnlistenFn[]>([]);
+  const modelsRef = useRef(models);
+  modelsRef.current = models;
+  // Descargas que ESTA ventana pidió y aún esperan su respuesta. Su final lo da
+  // la promesa; el evento `download:complete` es para las que la ventana no
+  // pidió (se recargó a mitad de descarga) y, si llegara uno de una descarga
+  // cancelada justo antes, pisaría a la nueva.
+  const pendientesRef = useRef(new Set<string>());
 
   /**
    * Aplica el estado del motor Y propaga su puerto.
@@ -267,7 +331,18 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
   const startDownload = useCallback(async (moduleId: string) => {
     const entry = manifest.find((m) => m.id === moduleId);
     if (!entry || !resourceDir) return;
+    // Una descarga en curso no se arranca otra vez: es el segundo clic que
+    // ponía a dos tareas a escribir el mismo archivo.
+    if (enVuelo(modelsRef.current[moduleId]) || pendientesRef.current.has(moduleId)) return;
+    // «Descargar de nuevo» sobre un modelo instalado: el archivo bueno sigue en
+    // disco hasta que el nuevo pase el SHA-256 (Rust baja a `.part`).
+    const estabaInstalado = modelsRef.current[moduleId] === "ready";
+    pendientesRef.current.add(moduleId);
+    modelsRef.current = { ...modelsRef.current, [moduleId]: "downloading" };
     setModels((prev) => ({ ...prev, [moduleId]: "downloading" }));
+    // Cada descarga empieza su barra de cero; lo que quedara de un intento
+    // anterior no cuenta como progreso de éste.
+    setProgress((prev) => { const n = { ...prev }; delete n[moduleId]; return n; });
     try {
       const filename = entry.filename || "";
       const destination = entry.destination || ".";
@@ -299,10 +374,12 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
               console.info(`[descargas] ${entry.id}: la fuente ${i + 1} de ${urls.length} funcionó`);
             }
             return;
-          } catch (err: any) {
+          } catch (err: unknown) {
             // Cancelar es una decisión del investigador, no un fallo de la
             // fuente: pasar a la siguiente sería reanudar lo que acaba de parar.
-            if (err?.message?.includes?.("cancelada")) throw err;
+            // Si el módulo ya se está bajando, otra fuente tampoco lo arregla.
+            const motivo = textoDelError(err);
+            if (motivo.includes("cancelada") || motivo.includes(YA_EN_CURSO)) throw err;
             ultimoError = err;
             if (i < urls.length - 1) {
               console.warn(`[descargas] ${entry.id}: la fuente ${i + 1} falló, probando la siguiente`);
@@ -325,29 +402,78 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
         if (!dest) return;
         await descargarCon(dest);
       }
+      pendientesRef.current.delete(moduleId);
       setModels((prev) => ({ ...prev, [moduleId]: "ready" }));
-    } catch (err: any) {
-      setModels((prev) => ({ ...prev, [moduleId]: err?.message?.includes?.("cancelada") ? "missing" : "error" }));
+    } catch (err: unknown) {
+      pendientesRef.current.delete(moduleId);
+      const motivo = textoDelError(err);
+      if (motivo.includes(YA_EN_CURSO)) {
+        // Rust ya baja este módulo y la ventana no lo sabía: se engancha a esa
+        // descarga, cuyo final llegará por `download:complete`. Si acaba de
+        // terminar, manda el disco.
+        if ((await descargasActivas()).includes(moduleId)) {
+          setModels((prev) => ({ ...prev, [moduleId]: "downloading" }));
+        } else {
+          const comprobado = await checkModules(resourceDir, [entry]);
+          setModels((prev) => ({ ...prev, ...comprobado }));
+        }
+        return;
+      }
+      const cancelada = motivo.includes("cancelada");
+      setModels((prev) => ({ ...prev, [moduleId]: cancelada ? "missing" : "error" }));
+      // Cancelar una descarga «de nuevo» no desinstala nada: el archivo
+      // anterior sigue intacto, y el disco lo dice.
+      if (cancelada && estabaInstalado) {
+        const comprobado = await checkModules(resourceDir, [entry]);
+        setModels((prev) => fundirComprobacion(prev, comprobado));
+      }
     }
-  }, [manifest, resourceDir, applyEngine]);
+  }, [manifest, resourceDir, checkModules]);
+
+  // Cada descarga de un modelo es un aviso de la campana: empieza, avanza y
+  // termina (o falla) en la misma entrada. Ver `lib/avisosDeModulos.ts`.
+  const estadosAvisadosRef = useRef<Record<string, ModelStatus>>({});
+  useEffect(() => {
+    const acciones = avisosPorTransicion(estadosAvisadosRef.current, models);
+    estadosAvisadosRef.current = models;
+    for (const accion of acciones) {
+      if (accion.tipo === "emitir") emitActivityNotification(accion.aviso);
+      else dismissActivityNotification(accion.id, accion.soloSi);
+    }
+  }, [models]);
 
   const cancelDownload = useCallback(async (moduleId: string) => {
     try { await invoke("cancel_download", { modelId: moduleId }); setModels((prev) => ({ ...prev, [moduleId]: "missing" })); } catch {}
   }, []);
 
   useEffect(() => {
+    let desmontado = false;
     const setup = async () => {
       try {
-        const u1 = await listen("download:progress", (e: any) => setProgress((prev) => ({ ...prev, [e.payload.model_id]: e.payload })));
-        const u2 = await listen("download:complete", (e: any) => {
-          setModels((prev) => ({ ...prev, [e.payload.model_id]: e.payload.success ? "ready" : "error" }));
-          setProgress((prev) => { const n = { ...prev }; delete n[e.payload.model_id]; return n; });
+        // Una descarga sólo avanza: un evento con menos bytes que el último
+        // no puede ser de la misma descarga, y no mueve la barra hacia atrás.
+        const u1 = await listen("download:progress", (e: { payload: unknown }) => {
+          const evento = e.payload as DownloadProgressEvent;
+          setProgress((prev) => (
+            bytesDe(evento) < bytesDe(prev[evento.model_id]) ? prev : { ...prev, [evento.model_id]: evento }
+          ));
         });
+        const u2 = await listen("download:complete", (e: { payload: unknown }) => {
+          const { model_id: id, success, error } = e.payload as { model_id: string; success: boolean; error?: string | null };
+          // La que pidió esta ventana la cierra su promesa (ver `pendientesRef`).
+          if (pendientesRef.current.has(id)) return;
+          setModels((prev) => ({ ...prev, [id]: success ? "ready" : textoDelError(error).includes("cancelada") ? "missing" : "error" }));
+          setProgress((prev) => { const n = { ...prev }; delete n[id]; return n; });
+        });
+        // En desarrollo React monta, desmonta y vuelve a montar: si el
+        // desmontaje llegó antes que `listen`, se suelta aquí y no queda un
+        // segundo oyente vivo.
+        if (desmontado) { u1(); u2(); return; }
         unlistenRef.current = [u1, u2];
       } catch {}
     };
     setup();
-    return () => unlistenRef.current.forEach((u) => u());
+    return () => { desmontado = true; unlistenRef.current.forEach((u) => u()); unlistenRef.current = []; };
   }, []);
 
   useEffect(() => {
@@ -421,7 +547,8 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
           applyEngine(status);
         }
 
-        if (!cancelled) setModels((prev) => ({ ...prev, ...statuses }));
+        const activos = await descargasActivas();
+        if (!cancelled) setModels((prev) => fundirComprobacion(prev, statuses, activos));
       } catch (err) {
         // El fallo se DICE. El `catch` mudo anterior convertía cualquier
         // problema de arranque en «faltan modelos».
@@ -433,7 +560,7 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
           });
           const s: Record<string, ModelStatus> = {};
           manifest.forEach((m) => (s[m.id] = "missing"));
-          setModels((prev) => ({ ...prev, ...s }));
+          setModels((prev) => fundirComprobacion(prev, s));
         }
       } finally {
         if (!cancelled) setInitialized(true);
@@ -456,7 +583,7 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
       startDownload, cancelDownload,
       checkModules: async () => {
         const statuses = await checkModules(resourceDir, manifest);
-        setModels((prev) => ({ ...prev, ...statuses }));
+        setModels((prev) => fundirComprobacion(prev, statuses));
       },
     }}>
       {children}

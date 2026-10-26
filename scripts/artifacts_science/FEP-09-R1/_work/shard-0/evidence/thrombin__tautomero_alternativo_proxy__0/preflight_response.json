@@ -1,0 +1,339 @@
+{
+  "schema_version": 4,
+  "generated_at": "2026-10-11T23:04:09.277412+00:00",
+  "execution_route": "docking_vina",
+  "input_fingerprint": "sha256:498b6fa87790dad3874b80de868e52843a61ba5db23da038bd1699804f8aaec4",
+  "input_document": "{\"chain\":\"H\",\"cofactors_whitelist\":[],\"custom_hotspots\":[],\"docking_engine\":\"vina\",\"exhaustiveness\":8,\"grid_center\":[16.441,-12.518,22.646],\"grid_size\":[20.0,20.0,20.0],\"num_poses\":9,\"pipeline_config\":{\"docking_engine\":\"vina\",\"enabled_stages\":[\"validation\",\"properties\",\"sa_filter\",\"conformer\",\"docking\",\"xgb\",\"clgnn\"],\"stage_params\":{\"conformer\":{\"conformers\":1,\"ph\":7.4,\"tautomero\":\"entrada\"},\"docking\":{\"exhaustiveness\":8,\"num_poses\":9,\"seed\":42}}},\"prepared_sha256\":null,\"receptor_recipe_hash\":\"4d6235ba32f7c8fb1837a8b6dc82dd9d08d6a9c6a4e08595fe09a3fdd98c5d11\",\"route\":\"docking_vina\",\"schema\":4,\"seed\":42,\"site_chains\":null,\"smiles\":\"NC(=[NH2+])c1ccc(CNC(O)=C2CCCN2C(O)=C([NH3+])Cc2ccccc2)cc1\",\"source_sha256\":\"sha256:eb4ea18bef9c4c71dcdc922616d6719ee918112be87a0bd6b274c856eff1dd59\",\"target_pdb_id\":\"USR_C54DC5\"}",
+  "receptor": {
+    "reference": "498039b0-a156-4e19-bebc-00298ece4ca4",
+    "pdb_id": "USR_C54DC5",
+    "chain": "H",
+    "origin": "privado",
+    "source_available": true,
+    "source_sha256": "sha256:eb4ea18bef9c4c71dcdc922616d6719ee918112be87a0bd6b274c856eff1dd59",
+    "prepared_available": true,
+    "prepared_sha256": "sha256:373f6a7618077eb6d2cb5430eb3ea04a07c5634d9ea411bbe5bb65c84b55268c",
+    "recipe_hash": "4d6235ba32f7c8fb1837a8b6dc82dd9d08d6a9c6a4e08595fe09a3fdd98c5d11",
+    "site_chains": [
+      "H"
+    ],
+    "site_ligand_removed": null,
+    "cofactor_template_check": {
+      "state": "no_evaluado"
+    },
+    "prepared_compatible": true,
+    "prepared_chains": [
+      "H"
+    ],
+    "calibracion": {
+      "nivel": "sin_curar",
+      "spearman_rho": null,
+      "structural_family": null,
+      "tiene_pipeline_de_familia": false,
+      "resumen": "Sin curar: sin familia estructural conocida",
+      "advertencia": "Este receptor no está curado: no se le conoce familia estructural ni preparación verificada, y no tiene Spearman ρ. El pipeline corre con el contrato alpha conservador común y sin family-gating. Cualquier score de esta corrida es orientativo; no lo cites como evidencia de afinidad.",
+      "motivo": "falta curar el receptor: familia estructural, preparación y Spearman ρ",
+      "requiere_advertencia": true
+    },
+    "modo_de_preparacion": "respetar"
+  },
+  "ligand": {
+    "input_smiles": "NC(=[NH2+])c1ccc(CNC(O)=C2CCCN2C(O)=C([NH3+])Cc2ccccc2)cc1",
+    "canonical_smiles": "NC(=[NH2+])c1ccc(CNC(O)=C2CCCN2C(O)=C([NH3+])Cc2ccccc2)cc1",
+    "smiles_hash": "f313509af725aeb15644a25e8c3c783c49f829ed87a66f63417bfaa07c41cd21",
+    "molecular_formula": "C22H29N5O2+2",
+    "heavy_atom_count": 29,
+    "error": null,
+    "vina_atom_compatibility": {
+      "evaluated": true,
+      "supported": true,
+      "unsupported_elements": []
+    }
+  },
+  "effective_config": {
+    "grid_center": [
+      16.441,
+      -12.518,
+      22.646
+    ],
+    "grid_size": [
+      20.0,
+      20.0,
+      20.0
+    ],
+    "grid_center_origin": "catalogo_target",
+    "grid_size_origin": "catalogo_target",
+    "derived_box": null,
+    "hotspots": [],
+    "hotspots_origin": "ninguno",
+    "docking_engine": "vina",
+    "exhaustiveness": 8,
+    "num_poses": 9,
+    "seed": 42,
+    "conformers": 1,
+    "heteroatom_policy": {
+      "route": "docking_vina",
+      "waters": "eliminadas",
+      "metals": "conservados_solo_whitelist",
+      "organic_cofactors": "bloqueados_sin_plantilla_local",
+      "organic_cofactors_kept": [
+        "ADP",
+        "ATP",
+        "F3S",
+        "FAD",
+        "FES",
+        "FMN",
+        "HEC",
+        "HEM",
+        "NAD",
+        "NAP",
+        "SAM",
+        "SF4"
+      ],
+      "cofactors_whitelist_declared": [],
+      "cofactors_whitelist_applied": true,
+      "source": "Política de preparación aplicada a la estructura de esta corrida."
+    },
+    "pipeline_config": {
+      "enabled_stages": [
+        "validation",
+        "properties",
+        "sa_filter",
+        "conformer",
+        "docking",
+        "xgb",
+        "clgnn"
+      ],
+      "stage_params": {
+        "conformer": {
+          "conformers": 1,
+          "ph": 7.4
+        },
+        "docking": {
+          "exhaustiveness": 8,
+          "num_poses": 9,
+          "seed": 42
+        }
+      },
+      "docking_engine": "vina"
+    }
+  },
+  "preparation_diff": {
+    "state": "evaluado",
+    "reason": "La fuente incluye 2 cadena(s); el receptor de la corrida sólo conserva 'H'.",
+    "source": {
+      "atom_records": 4602,
+      "hetatm_records": 33,
+      "waters": 9,
+      "metals": 0,
+      "organic_cofactors": 0,
+      "other_hetatm": 24,
+      "chains": [
+        "H",
+        "L"
+      ]
+    },
+    "route_input": {
+      "atom_records": 4142,
+      "hetatm_records": 21,
+      "waters": 9,
+      "metals": 0,
+      "organic_cofactors": 0,
+      "other_hetatm": 12,
+      "chains": [
+        "H"
+      ]
+    },
+    "removed": {
+      "waters": 0,
+      "metals": 0,
+      "organic_cofactors": 0,
+      "other_hetatm": 12
+    },
+    "removed_species": [
+      {
+        "residue_code": "ACE",
+        "atom_count": 6,
+        "category": "other_heteroatom"
+      },
+      {
+        "residue_code": "NME",
+        "atom_count": 6,
+        "category": "other_heteroatom"
+      }
+    ],
+    "preserved": {
+      "atom_records": 4142,
+      "organic_cofactors": 0,
+      "metals": 0,
+      "waters": 9
+    }
+  },
+  "controls": [
+    {
+      "code": "LIGANDO_SMILES_VALIDO",
+      "state": "pasa",
+      "title": "Forma química del ligando",
+      "observation": "SMILES canónico NC(=[NH2+])c1ccc(CNC(O)=C2CCCN2C(O)=C([NH3+])Cc2ccccc2)cc1 · fórmula C22H29N5O2+2 · 29 átomos pesados.",
+      "reason": "La corrida se ejecuta sobre el SMILES canónico, no sobre el texto introducido.",
+      "provenance": "chem.validator.validate_smiles (mismo validador que /evaluation/submit)"
+    },
+    {
+      "code": "LIGANDO_ATOMOS_VINA",
+      "state": "pasa",
+      "title": "Átomos soportados por el campo de fuerza",
+      "observation": "Todos los elementos tienen parámetros en el campo de fuerza de Vina.",
+      "reason": "Un elemento sin parámetros produce una energía que no se puede comparar con las demás.",
+      "provenance": "chem.validator._check_atoms"
+    },
+    {
+      "code": "LIGANDO_REVISION_QUIMICA",
+      "state": "advertencia",
+      "title": "Revisión química del ligando",
+      "observation": "Se detectaron 2 doble(s) enlace(s) estereogenico(s) sin E/Z definida. El conformero 3D representara una geometria concreta; usa '/' y '\\' en el SMILES para declarar el isomero deseado.",
+      "reason": "El validador de producción lo señaló sin impedir la ejecución.",
+      "provenance": "chem.validator.validate_smiles (warnings)"
+    },
+    {
+      "code": "RECEPTOR_FUENTE_DISPONIBLE",
+      "state": "pasa",
+      "title": "Fuente del receptor",
+      "observation": "USR_C54DC5: 4602 registros ATOM y 33 HETATM · cadenas H, L.",
+      "reason": "Es el archivo exacto que leerá la preparación de la corrida.",
+      "provenance": "raw.pdb · sha256:eb4ea18bef9c4c71dcdc922616d6719ee918112be87a0bd6b274c856eff1dd59"
+    },
+    {
+      "code": "RECEPTOR_CADENA_PRESENTE",
+      "state": "pasa",
+      "title": "Cadena del receptor",
+      "observation": "La cadena 'H' aporta 4142 átomos de proteína al receptor de la corrida.",
+      "reason": "Es la cadena que se acoplará; el resto de la estructura no entra.",
+      "provenance": "preparer.filter_pdb_content (la función que ejecuta la corrida)"
+    },
+    {
+      "code": "POLITICA_HETEROATOMOS",
+      "state": "pasa",
+      "title": "Política de heteroátomos de esta ruta",
+      "observation": "Receptor ya preparado por el usuario: se conservan las aguas, los metales y los cofactores que trae el archivo (sin lista blanca). Sólo se retiran, y se declaran, las especies de otras cadenas y las que Meeko no puede representar lejos del sitio.",
+      "reason": "Un resultado no se puede comparar con otro sin declarar la política de cada ruta.",
+      "provenance": "preparer_respetando.filtrar_respetando (la función que ejecuta la corrida)"
+    },
+    {
+      "code": "ESPECIES_DEL_SITIO_RETIRADAS",
+      "state": "advertencia",
+      "title": "Especies retiradas de la estructura",
+      "observation": "La preparación retira 12 otros heteroátomos (ligandos, lípidos, aditivos).",
+      "reason": "Si alguna de esas especies pertenece al sitio de unión, la corrida acopla contra un sitio distinto del cristalográfico. La decisión es tuya; el sistema no la toma ni la corrige.",
+      "provenance": "preparer.filter_pdb_content sobre el PDB de origen"
+    },
+    {
+      "code": "GRID_EFECTIVO",
+      "state": "pasa",
+      "title": "Caja de búsqueda",
+      "observation": "Centro (16.44, -12.52, 22.65) · origen: catálogo del receptor; tamaño (20.00, 20.00, 20.00) Å · origen: catálogo del receptor.",
+      "reason": "Es la caja exacta que recibirá el acoplamiento.",
+      "provenance": "PipelineParams.effective_grid_center/size"
+    },
+    {
+      "code": "CAJA_VS_RECEPTOR",
+      "state": "pasa",
+      "title": "Caja y receptor",
+      "observation": "La caja abarca volumen con átomos del receptor (extensión (-6.19, -29.05, -6.86) a (36.72, 21.48, 44.41) Å).",
+      "reason": "La búsqueda tiene estructura delante; la pertinencia del sitio se lee en los residuos de referencia.",
+      "provenance": "PDB filtrado de la ruta real · geometría de la caja de búsqueda efectiva"
+    },
+    {
+      "code": "HOTSPOTS_EFECTIVOS",
+      "state": "no_evaluado",
+      "title": "Residuos de referencia",
+      "observation": "El receptor no declara residuos de referencia y no has seleccionado ninguno.",
+      "reason": "Los hotspots no restringen el acoplamiento; se usan para describir el sitio y para el análisis posterior.",
+      "provenance": "PipelineParams.effective_hotspots"
+    },
+    {
+      "code": "RECEPTOR_PREPARADO_DISPONIBLE",
+      "state": "pasa",
+      "title": "Receptor preparado",
+      "observation": "Existe un receptor preparado compatible con la cadena 'H' y 2575 átomos.",
+      "reason": "La corrida lo reutilizará tal cual; su hash entra en la huella.",
+      "provenance": "prepared.pdbqt · sha256:373f6a7618077eb6d2cb5430eb3ea04a07c5634d9ea411bbe5bb65c84b55268c"
+    },
+    {
+      "code": "RECEPTOR_PROTONACION_DECLARADA",
+      "state": "advertencia",
+      "title": "Protonación del receptor",
+      "observation": "La declara quien preparó el archivo: 0 residuo(s) con protonación en el nombre, y Meeko aplicó exactamente esas plantillas. Plantillas de histidina: H:119=HIE, H:230=HIE, H:57=HID, H:71=HIE, H:91=HIE.",
+      "reason": "MolDesign no fija un pH ni decide la protonación: la responsabilidad es de quien preparó el receptor.",
+      "provenance": "informe Meeko del receptor preparado"
+    },
+    {
+      "code": "MOTOR_DOCKING_DISPONIBLE",
+      "state": "pasa",
+      "title": "Motor de docking",
+      "observation": "AutoDock Vina disponible.",
+      "reason": "Sin el ejecutable solicitado no se puede afirmar que la corrida corresponde al motor inspeccionado. El fallback silencioso no forma parte del contrato del caso.",
+      "provenance": "core.config.settings.vina_executable_path"
+    },
+    {
+      "code": "PREPARADOR_RECEPTOR_DISPONIBLE",
+      "state": "pasa",
+      "title": "Preparador del receptor",
+      "observation": "Meeko (mk_prepare_receptor) disponible.",
+      "reason": "La corrida reutiliza el receptor preparado sólo cuando la cadena coincide; si debe regenerarlo, exige Meeko en vez de inventar la preparación.",
+      "provenance": "core.config.settings.meeko_prepare_receptor_path"
+    },
+    {
+      "code": "CONVERSOR_ESTRUCTURAL_DISPONIBLE",
+      "state": "pasa",
+      "title": "Herramienta estructural incluida",
+      "observation": "Open Babel 3.1.1.23 presente con el hash declarado (tools/openbabel/bin/obabel.exe, sha256 c76d669a0b55…). No se ejecutó para comprobarlo: esta comprobación previa no lanza procesos.",
+      "reason": "Open Babel viaja como programa independiente (GPL-2.0-only) y se conserva para operaciones y artefactos históricos. La ruta de docking actual exige el SDF exportado por Meeko: si falla, se abstiene sin reconstruir química desde el PDBQT de Vina. La inspección de este control no busca ejecutables en PATH.",
+      "provenance": "services.external_tools.open_babel · tools/openbabel/openbabel-manifest.json"
+    },
+    {
+      "code": "LIGANDO_PROTONACION_TAUTOMERO",
+      "state": "no_evaluado",
+      "title": "Protonación y tautómero del ligando",
+      "observation": "No evaluado antes de ejecutar.",
+      "reason": "La forma protonada y el tautómero los fija la etapa de conformación durante la corrida. Anticiparlos aquí sería inventar una decisión que todavía no se ha tomado.",
+      "provenance": "deuda declarada · docs/53 §6.1"
+    },
+    {
+      "code": "ASSEMBLY_BIOLOGICA",
+      "state": "no_evaluado",
+      "title": "Unidad asimétrica frente a assembly biológica",
+      "observation": "No evaluado: el catálogo no registra qué assembly representa el archivo.",
+      "reason": "Acoplar contra la unidad asimétrica cuando el sitio se forma entre cadenas produce un sitio incompleto. El dato no existe todavía en el modelo.",
+      "provenance": "deuda declarada · docs/53 §6.1"
+    },
+    {
+      "code": "HUECOS_CERCA_DEL_SITIO",
+      "state": "no_evaluado",
+      "title": "Residuos faltantes cerca del sitio",
+      "observation": "No evaluado: la ruta no conserva un mapa de huecos del receptor preparado.",
+      "reason": "Un hueco junto al sitio cambia la forma del bolsillo. Requiere un análisis que esta comprobación previa todavía no hace.",
+      "provenance": "deuda declarada · docs/53 §6.1"
+    },
+    {
+      "code": "CALIBRACION_RECEPTOR",
+      "state": "advertencia",
+      "title": "Respaldo científico del receptor",
+      "observation": "Sin curar: sin familia estructural conocida",
+      "reason": "Este receptor no está curado: no se le conoce familia estructural ni preparación verificada, y no tiene Spearman ρ. El pipeline corre con el contrato alpha conservador común y sin family-gating. Cualquier score de esta corrida es orientativo; no lo cites como evidencia de afinidad.",
+      "provenance": "targets.spearman_rho + familia estructural (sin_curar); services/targets/calibracion.py"
+    }
+  ],
+  "technical_blockers": [],
+  "warnings": [
+    "LIGANDO_REVISION_QUIMICA",
+    "ESPECIES_DEL_SITIO_RETIRADAS",
+    "RECEPTOR_PROTONACION_DECLARADA",
+    "CALIBRACION_RECEPTOR"
+  ],
+  "not_evaluated": [
+    "HOTSPOTS_EFECTIVOS",
+    "LIGANDO_PROTONACION_TAUTOMERO",
+    "ASSEMBLY_BIOLOGICA",
+    "HUECOS_CERCA_DEL_SITIO"
+  ]
+}

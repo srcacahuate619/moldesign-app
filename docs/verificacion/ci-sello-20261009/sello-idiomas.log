@@ -1,0 +1,12 @@
+
+> moldesign-frontend@1.0.1 test:run
+> vitest run lib/__tests__/idiomasCompletos.test.ts lib/__tests__/interfazSinTextoFijo.test.ts
+
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  2 passed (2)
+      Tests  13 passed (13)
+   Start at  18:01:11
+   Duration  4.85s (tests 42%, environment 35%, setup 12%, import 5%, transform 5%)

@@ -39,6 +39,8 @@ export interface SitioDelReceptor {
 /** Cuántas cadenas se nombran antes de pasar a contarlas. */
 const MAX_CADENAS_NOMBRADAS = 3;
 
+export type IdiomaSitio = "es" | "en";
+
 function frase(cadenas: string[]): string {
   if (cadenas.length === 1) return `Cadena ${cadenas[0]}`;
   if (cadenas.length <= MAX_CADENAS_NOMBRADAS) return `Interfaz ${cadenas.join("·")}`;
@@ -50,8 +52,10 @@ function frase(cadenas: string[]): string {
  * NADA que decir; ausencia de medida es una respuesta, no un vacío.
  */
 export function describirSitio(target: Pick<Target,
-  "site_chains" | "site_chain_atoms" | "site_evidence" | "site_ligand" | "chain">
+  "site_chains" | "site_chain_atoms" | "site_evidence" | "site_ligand" | "chain">,
+  idioma: IdiomaSitio = "es",
 ): SitioDelReceptor {
+  if (idioma === "en") return describirSitioEn(target);
   const cadenas = (target.site_chains ?? []).filter(Boolean);
 
   if (cadenas.length === 0) {
@@ -74,7 +78,7 @@ export function describirSitio(target: Pick<Target,
   const conLigando = target.site_evidence === "cocrystal_ligand";
   const evidencia = conLigando
     ? `Medido por contacto con el ligando co-cristalizado${target.site_ligand ? ` (${target.site_ligand})` : ""}, a 4,5 Å o menos.`
-    : "Sin ligando co-cristalizado: las cadenas del sitio se dedujeron del volumen dentro de la caja de docking, "
+    : "Sin ligando co-cristalizado: las cadenas del sitio se dedujeron del volumen dentro de la caja de búsqueda, "
       + "que no distingue el bolsillo de la vecindad.";
 
   const reparto = target.site_chain_atoms
@@ -100,6 +104,48 @@ export function describirSitio(target: Pick<Target,
   };
 }
 
+function describirSitioEn(target: Pick<Target,
+  "site_chains" | "site_chain_atoms" | "site_evidence" | "site_ligand" | "chain">
+): SitioDelReceptor {
+  const chains = (target.site_chains ?? []).filter(Boolean);
+  if (chains.length === 0) {
+    return {
+      etiqueta: "Site not measured",
+      tono: "sin_medir",
+      detalle: "We have not measured which chains form this receptor's binding site. Docking will prepare only the declared chain.",
+      interfazNoPreparada: false,
+    };
+  }
+
+  const prepared = (target.chain ?? "").trim().toUpperCase();
+  const interfaceSite = chains.length > 1;
+  const interfaceNotPrepared = interfaceSite && prepared.length > 0;
+  const label = chains.length === 1
+    ? `Chain ${chains[0]}`
+    : chains.length <= MAX_CADENAS_NOMBRADAS
+      ? `Interface ${chains.join("·")}`
+      : `${chains.length}-chain interface`;
+  const evidence = target.site_evidence === "cocrystal_ligand"
+    ? `Measured by contact with the co-crystallized ligand${target.site_ligand ? ` (${target.site_ligand})` : ""}, at 4.5 Å or less.`
+    : target.site_evidence === "box_volume"
+      ? "No co-crystallized ligand: the site chains were inferred from the volume inside the search box, which cannot distinguish the pocket from its surroundings."
+      : "The evidence used to annotate this site's chains is not recorded.";
+  const atoms = target.site_chain_atoms;
+  const split = atoms
+    ? " Chain contributions: " + Object.entries(atoms).map(([chain, count]) => `${chain} ${count}`).join(", ") + " atoms."
+    : "";
+  const consequence = interfaceNotPrepared
+    ? ` The site is formed by ${chains.length} chains, but preparation keeps only '${prepared}': docking will use part of the cavity.`
+    : "";
+
+  return {
+    etiqueta: label,
+    tono: interfaceNotPrepared ? "aviso" : "neutro",
+    detalle: evidence + split + consequence,
+    interfazNoPreparada: interfaceNotPrepared,
+  };
+}
+
 /**
  * Procedencia de los hotspots. NINGUNO viene del RCSB: los generó este
  * repositorio, y el usuario tiene derecho a saberlo antes de leer un dossier
@@ -111,16 +157,35 @@ export function describirSitio(target: Pick<Target,
  * tampoco sean oficiales se dice en el texto, para los 385, en vez de poner
  * una etiqueta idéntica en cada tarjeta que nadie leería después de la tercera.
  */
-export function describirHotspots(target: Pick<Target, "hotspots_source" | "site_ligand">): {
+export function describirHotspots(target: Pick<Target, "hotspots_source" | "site_ligand">, idioma: IdiomaSitio = "es"): {
   etiqueta: string | null;
   detalle: string;
 } {
+  if (idioma === "en") {
+    const common = "No hotspot in this catalog comes from the RCSB; MolDesign derives them from the structure.";
+    if (target.hotspots_source === "box_ligand_contacts") {
+      return {
+        etiqueta: "Hotspots rederived",
+        detalle: common
+          + ` For this receptor, they were rederived from the ligand in the search box`
+          + `${target.site_ligand ? ` (${target.site_ligand})` : ""}, using residues within 4.5 Å,`
+          + " because the previous hotspots described a different pocket in the same protein.",
+      };
+    }
+    if (target.hotspots_source === "auto_pocket_top15") {
+      return {
+        etiqueta: null,
+        detalle: common + " For this receptor, they are the 15 residues nearest the co-crystallized ligand found by automatic detection.",
+      };
+    }
+    return { etiqueta: null, detalle: common + " The source of this receptor's hotspots is not recorded." };
+  }
   const comun = "Ningún hotspot de este catálogo procede del RCSB: los deriva MolDesign de la estructura.";
   if (target.hotspots_source === "box_ligand_contacts") {
     return {
       etiqueta: "Hotspots re-derivados",
       detalle: comun
-        + ` Los de este receptor se rederivaron a partir del ligando que ocupa la caja de docking`
+        + ` Los de este receptor se rederivaron a partir del ligando que ocupa la caja de búsqueda`
         + `${target.site_ligand ? ` (${target.site_ligand})` : ""}, tomando los residuos a 4,5 Å o menos,`
         + " porque los anteriores describían otro bolsillo de la misma proteína.",
     };
@@ -136,8 +201,8 @@ export function describirHotspots(target: Pick<Target, "hotspots_source" | "site
 }
 
 /** El chip corto de evidencia, sólo cuando hay algo que advertir. */
-export function avisoDeEvidencia(target: Pick<Target, "site_evidence">): string | null {
-  if (target.site_evidence === "box_volume") return "Sin ligando co-cristalizado";
+export function avisoDeEvidencia(target: Pick<Target, "site_evidence">, idioma: IdiomaSitio = "es"): string | null {
+  if (target.site_evidence === "box_volume") return idioma === "en" ? "No co-crystallized ligand" : "Sin ligando co-cristalizado";
   return null;
 }
 
@@ -207,8 +272,10 @@ function calidadDeLaEstructura(resolucion: number): string {
  */
 export function explicarSitio(target: Pick<Target,
   "pdb_id" | "name" | "organism" | "resolution" | "chain" | "site_chains"
-  | "site_chain_atoms" | "site_evidence" | "site_ligand" | "hotspots" | "hotspots_source">
+  | "site_chain_atoms" | "site_evidence" | "site_ligand" | "hotspots" | "hotspots_source">,
+  idioma: IdiomaSitio = "es",
 ): ExplicacionDelSitio {
+  if (idioma === "en") return explicarSitioEn(target);
   const cadenas = (target.site_chains ?? []).filter(Boolean);
   const preparada = (target.chain ?? "").trim().toUpperCase();
   const secciones: SeccionDelSitio[] = [];
@@ -295,7 +362,7 @@ export function explicarSitio(target: Pick<Target,
       respuesta:
         "Esta estructura NO trae ninguna molécula encajada en el hueco, así que no hay "
         + "nada que señale el sitio directamente. Dedujimos las cadenas mirando qué queda "
-        + "dentro de la caja de acoplamiento — y eso no distingue la pared del bolsillo de "
+        + "dentro de la caja de búsqueda — y eso no distingue la pared del bolsillo de "
         + "lo que simplemente pasa cerca. Es una pista razonable, no una medida.",
       tono: "aviso",
     });
@@ -324,7 +391,13 @@ export function explicarSitio(target: Pick<Target,
     pregunta: "¿Y los residuos marcados?",
     respuesta:
       (cuantos > 0 ? `Este receptor trae ${cuantos} residuos marcados. ` : "")
-      + "Son los aminoácidos que forman el bolsillo y que guían la búsqueda. "
+      // SOL-09: los hotspots NO guían la búsqueda — la inspección del
+      // comando real de Vina no muestra restraints ni mapas derivados de
+      // ellos; la región la define la caja. Son referencias para describir
+      // el sitio y para el análisis de contactos de las poses.
+      + "Son los aminoácidos que forman el bolsillo. No guían la búsqueda: la región "
+      + "la define la caja de búsqueda, y estos residuos son referencias para "
+      + "describir el sitio y analizar los contactos de las poses. "
       + "Ninguno viene del Protein Data Bank: los deriva MolDesign de la estructura, y por "
       + "eso puedes verlos y desmarcarlos. "
       + origen,
@@ -346,4 +419,136 @@ export function explicarSitio(target: Pick<Target,
   });
 
   return { titular, secciones };
+}
+
+function explicarSitioEn(target: Pick<Target,
+  "pdb_id" | "name" | "organism" | "resolution" | "chain" | "site_chains"
+  | "site_chain_atoms" | "site_evidence" | "site_ligand" | "hotspots" | "hotspots_source">
+): ExplicacionDelSitio {
+  const chains = (target.site_chains ?? []).filter(Boolean);
+  const prepared = (target.chain ?? "").trim().toUpperCase();
+  const sections: SeccionDelSitio[] = [];
+  const chainIntro = "A protein can consist of several pieces called chains, and each is named with a letter. ";
+  let title: string;
+
+  if (chains.length === 0) {
+    title = "We have not measured which part of this protein forms the binding site.";
+    sections.push({
+      pregunta: "Which part of the protein will be used?",
+      respuesta: chainIntro
+        + "We have not measured this for this receptor: you may have uploaded it, or it may predate this annotation. "
+        + (prepared
+          ? `Docking will prepare chain '${prepared}', as declared by the receptor, but we cannot say it is the only chain forming the pocket.`
+          : "Docking will prepare the chain declared by the receptor."),
+      tono: "aviso",
+    });
+  } else if (chains.length === 1) {
+    title = `The binding site lies within a single chain, ${chains[0]}.`;
+    sections.push({
+      pregunta: "Which part of the protein will be used?",
+      respuesta: chainIntro
+        + `Here, the pocket where the ligand fits lies entirely within a single chain, '${chains[0]}'. `
+        + "This is the simplest case: that chain is prepared, and the ligand sees the full pocket.",
+    });
+  } else {
+    const atomCounts = target.site_chain_atoms ?? null;
+    const split = atomCounts
+      ? " Each chain contributes to the pocket wall: "
+        + Object.entries(atomCounts).map(([chain, count]) => `chain '${chain}' contributes ${count} atoms`).join(", ")
+        + "."
+      : "";
+    const chainList = chains.length <= 3 ? enumerateEnglish(chains) : "";
+    title = chains.length <= 3
+      ? `The binding site lies at the junction of ${chains.length} chains: ${chainList}.`
+      : `The binding site is formed by ${chains.length} chains at once.`;
+    sections.push({
+      pregunta: "Which part of the protein will be used?",
+      respuesta: chainIntro
+        + `Here, the pocket is NOT within a single chain: it forms at the junction of ${chains.length}`
+        + (chainList ? ` (${chainList})` : "")
+        + ". We call that junction an interface."
+        + split,
+    });
+  }
+
+  if (chains.length > 1 && prepared.length > 0) {
+    sections.push({
+      pregunta: "What does this mean for your result?",
+      respuesta:
+        `Preparation of this receptor keeps only chain '${prepared}'. `
+        + "Because multiple chains form the pocket, docking uses only PART of the cavity, not the full pocket. "
+        + "The affinity describes this incomplete cavity: it is still useful for comparing molecules within "
+        + "this same receptor, but do not compare it with affinity from a receptor whose site is complete.",
+      tono: "aviso",
+    });
+  }
+
+  if (target.site_evidence === "cocrystal_ligand") {
+    sections.push({
+      pregunta: "How do we know?",
+      respuesta:
+        "This structure was deposited with a molecule already fitted into the pocket"
+        + (target.site_ligand ? ` (code '${target.site_ligand}')` : "")
+        + ". That identifies the site directly: we check which chains have atoms within 4.5 Å of it. "
+        + "This is the strongest evidence available without a new experiment.",
+    });
+  } else if (target.site_evidence === "box_volume") {
+    sections.push({
+      pregunta: "How do we know?",
+      respuesta:
+        "This structure has NO molecule fitted into the pocket, so nothing identifies the site directly. "
+        + "We inferred the chains from what lies inside the search box—but that cannot distinguish the pocket wall "
+        + "from nearby structure. This is a reasonable clue, not a measurement.",
+      tono: "aviso",
+    });
+  } else {
+    sections.push({
+      pregunta: "How do we know?",
+      respuesta: "This receptor does not record the evidence used to annotate its site, so we cannot tell you how much to trust that annotation.",
+      tono: "aviso",
+    });
+  }
+
+  const hotspotCount = target.hotspots?.length ?? 0;
+  const hotspotSource = target.hotspots_source === "box_ligand_contacts"
+    ? "For this receptor, they were rederived from the ligand in the search box"
+      + (target.site_ligand ? ` ('${target.site_ligand}')` : "")
+      + ", using residues within 4.5 Å, because the previous hotspots described a different pocket in the same protein."
+    : target.hotspots_source === "auto_pocket_top15"
+      ? "For this receptor, they are the 15 residues nearest the co-crystallized ligand found by automatic detection."
+      : "The source of this receptor's hotspots is not recorded.";
+  sections.push({
+    pregunta: "What about the marked residues?",
+    respuesta:
+      (hotspotCount > 0 ? `This receptor has ${hotspotCount} marked residues. ` : "")
+      + "These amino acids form the pocket. They do not guide the search: the search box defines the region. "
+      + "The residues are references for describing the site and analyzing pose contacts. None come from the "
+      + "Protein Data Bank; MolDesign derives them from the structure, so you can inspect and uncheck them. "
+      + hotspotSource,
+  });
+
+  const resolution = typeof target.resolution === "number" && target.resolution > 0
+    ? `It was resolved at ${target.resolution.toFixed(1)} Å, with ${qualityOfStructureEnglish(target.resolution)} detail: in crystallography, smaller numbers mean sharper-looking atoms.`
+    : "Its resolution is not recorded.";
+  sections.push({
+    pregunta: "Which structure is this?",
+    respuesta:
+      `This is entry '${target.pdb_id}' in the Protein Data Bank, the public repository of protein structures`
+      + (target.organism ? `, from ${target.organism}` : "")
+      + `. ${resolution}`,
+  });
+
+  return { titular: title, secciones: sections };
+}
+
+function enumerateEnglish(chains: readonly string[]): string {
+  if (chains.length <= 1) return chains[0] ?? "";
+  return `${chains.slice(0, -1).join(", ")} and ${chains[chains.length - 1]}`;
+}
+
+function qualityOfStructureEnglish(resolution: number): string {
+  if (resolution <= 1.5) return "high";
+  if (resolution <= 2.5) return "good";
+  if (resolution <= 3.0) return "moderate";
+  return "low";
 }

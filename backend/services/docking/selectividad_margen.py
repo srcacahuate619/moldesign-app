@@ -84,7 +84,8 @@ class MargenDeSelectividad:
     delta_delta_g: float
     #: Anti-diana que define el margen (la que une más fuerte de todas).
     anti_diana: str | None
-    #: Factor de selectividad implicado, y su intervalo por la dispersión de Vina.
+    #: Aritmética 10^(ΔΔG / RT·ln10): la razón que implicaría SI el score fuera una
+    #: energía libre medida. No lo es y no está validada (SCI-A-037): no se muestra.
     factor: float
     factor_min: float
     factor_max: float
@@ -129,14 +130,20 @@ def factor_de_selectividad(delta_delta_g: float) -> float:
 # anti-dianas es justo donde no se puede insinuar.
 
 #: (ΔΔG mínimo, veredicto). En orden descendente; el primero que se cumple gana.
+#:
+#: SCI-A-037: las etiquetas decían «une ~100x más fuerte» y «unas 10x»: eso es leer
+#: una diferencia de scores de Vina entre receptores distintos como una razón de
+#: afinidades medida, y nadie lo ha validado. Los cortes siguen en 2.73 y 1.36
+#: kcal/mol (lo que sería 100x y 10x SI el score fuera una ΔG), pero el rótulo
+#: dice lo que es: un margen de score.
 ESCALA_DE_MARGEN: tuple[tuple[float, str], ...] = (
-    (2.73, "MARGEN AMPLIO — la diana principal une ~100x más fuerte que la peor anti-diana"),
-    (1.36, "MARGEN MODERADO — unas 10x a favor de la diana principal"),
-    (0.41, "MARGEN ESTRECHO — menos de 10x; el orden puede invertirse dentro del error del método"),
-    (0.00, "SIN MARGEN — afinidades indistinguibles entre diana y anti-diana"),
+    (2.73, "MARGEN DE SCORE AMPLIO — la diana principal puntúa al menos 2.73 kcal/mol mejor que la peor anti-diana"),
+    (1.36, "MARGEN DE SCORE MODERADO — entre 1.36 y 2.73 kcal/mol a favor de la diana principal"),
+    (0.41, "MARGEN DE SCORE ESTRECHO — menos de 1.36 kcal/mol, dentro de la dispersión del score de Vina"),
+    (0.00, "SIN MARGEN DE SCORE — scores indistinguibles entre diana y anti-diana"),
 )
 
-VEREDICTO_INVERTIDO = "MARGEN NEGATIVO — la molécula une más fuerte a una anti-diana que a su diana"
+VEREDICTO_INVERTIDO = "MARGEN DE SCORE NEGATIVO — la molécula puntúa mejor contra una anti-diana que contra su diana"
 VEREDICTO_SIN_DATOS = "Sin datos suficientes"
 
 

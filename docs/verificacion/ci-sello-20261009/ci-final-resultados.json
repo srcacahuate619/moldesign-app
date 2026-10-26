@@ -1,0 +1,74 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:06:50.0242477Z",
+    "segundos": 89.29,
+    "salida": 0,
+    "registro": "ci-final-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:08:19.3748113Z",
+    "segundos": 2.23,
+    "salida": 0,
+    "registro": "ci-final-02.log"
+  },
+  {
+    "paso": "03",
+    "comando": "npm run check:csp",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:08:21.6130030Z",
+    "segundos": 0.51,
+    "salida": 0,
+    "registro": "ci-final-03.log"
+  },
+  {
+    "paso": "04",
+    "comando": "npm run typecheck",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:08:22.1303939Z",
+    "segundos": 29.33,
+    "salida": 0,
+    "registro": "ci-final-04.log"
+  },
+  {
+    "paso": "05",
+    "comando": "npm run test:run",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:08:51.4665862Z",
+    "segundos": 143.45,
+    "salida": 0,
+    "registro": "ci-final-05.log"
+  },
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:11:14.9227517Z",
+    "segundos": 82.27,
+    "salida": 0,
+    "registro": "ci-final-06.log"
+  },
+  {
+    "paso": "07",
+    "comando": "npm run test:ux",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:12:37.2029078Z",
+    "segundos": 48.83,
+    "salida": 0,
+    "registro": "ci-final-07.log"
+  },
+  {
+    "paso": "08",
+    "comando": "npm run build:desktop",
+    "commit": "112a8476f92ec250e16699bf0f58485f7a41e837",
+    "inicio_utc": "2026-10-10T00:13:26.0455978Z",
+    "segundos": 45.54,
+    "salida": 0,
+    "registro": "ci-final-08.log"
+  }
+]

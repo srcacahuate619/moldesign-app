@@ -30,6 +30,12 @@ from pathlib import Path
 
 from core.config import get_settings
 from core.exceptions import ProteinPreparationError
+from services.targets.perfil_receptor import (
+    MODO_PDBQT,
+    MODO_RESPETAR,
+    distinto_del_automatico,
+    extras_del_informe,
+)
 from utils.file_handlers import (
     StoragePath,
     download_pdb_from_rcsb,
@@ -86,6 +92,21 @@ def _catalog_site_ligands() -> dict[str, str]:
 
 def catalog_site_ligand(pdb_id: str) -> str | None:
     return _catalog_site_ligands().get(pdb_id.upper())
+
+
+def ligando_del_sitio(pdb_id: str) -> str | None:
+    """El ligando del cristal que la preparación retira: el del catálogo o, en un receptor propio, el que guarda su perfil.
+
+    Una variante de un receptor del catálogo hereda el del padre (8UBR: sin él, la variante conservaba como cofactor
+    los dos ATP del sitio, MET-01).
+    """
+    del_catalogo = catalog_site_ligand(pdb_id)
+    if del_catalogo:
+        return del_catalogo
+    from services.targets import perfil_receptor
+    perfil = perfil_receptor.cargar(pdb_id) if perfil_receptor.es_propio(pdb_id) else None
+    valor = (perfil or {}).get("site_ligand")
+    return str(valor).upper() if valor else None
 
 
 @lru_cache(maxsize=1)
@@ -605,6 +626,24 @@ def get_target_pdb_path(pdb_id: str) -> str:
     return str(local)
 
 
+def pdb_para_rescoring(pdb_id: str) -> str:
+    """El PDB que puntúan Model A y el selector de pose: la copia que escribe `prepare_target`.
+
+    Esa copia sale del ensamblaje, filtrada como el receptor que se acopla (sin el ligando del cristal ni las aguas).
+    `get_target_pdb_path` puede devolver antes el depósito entero de `data/target_library`, que no viaja en el
+    instalador: en el árbol de desarrollo el rescoring veía otro receptor que el de la aplicación instalada.
+    """
+    from services.targets.access import is_safe_local_target_id
+    pdb_id_clean = pdb_id.strip()
+    if not is_safe_local_target_id(pdb_id_clean):
+        raise ValueError("Identificador de receptor inválido")
+    raiz = (Path(settings.local_data_dir) / "targets").resolve()
+    local = Path(settings.local_data_dir) / "targets" / f"{pdb_id_clean.upper()}.pdb"
+    if local.exists() and local.resolve().is_relative_to(raiz):
+        return str(local)
+    return get_target_pdb_path(pdb_id_clean)
+
+
 def prepared_receptor_chains(pdbqt_content: str) -> set[str]:
     """Devuelve las cadenas proteicas declaradas por un receptor PDBQT.
 
@@ -763,7 +802,7 @@ def resolve_effective_docking_box(
     site = {str(c).strip() for c in (site_chains or []) if str(c).strip()}
     chains = site if len(site) > 1 else {chain_id.strip()}
     source_with_ligand = source_for_dynamic_box(
-        assembled, chains, catalog_site_ligand(pdb_id), catalog_site_center(pdb_id)
+        assembled, chains, ligando_del_sitio(pdb_id), catalog_site_center(pdb_id)
     )
     derived = derive_dynamic_box(source_with_ligand)
     if derived is None:
@@ -846,6 +885,10 @@ def receptor_recipe_hash(
             "box_size": box_size,
         },
     }
+    if hidrogenos_depositados_contradictorios(source_content):
+        # Sólo cuando la regla actúa: la identidad de los receptores a los que no
+        # afecta -todos los que ya se preparaban- no cambia.
+        recipe["contradictory_deposited_h"] = "removed"
     canonical = json.dumps(recipe, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
     return hashlib.sha256(canonical.encode("ascii")).hexdigest()
 
@@ -1007,6 +1050,111 @@ def truncar_cadenas_laterales_incompletas(
     return "".join(salida), truncados
 
 
+#: El hidrógeno de cada nitrógeno del anillo de la His (y el deuterio, en una
+#: estructura de neutrones), y el del tiol de la Cys.
+_H_DEL_ANILLO_HIS = frozenset({"HD1", "HE2", "DD1", "DE2"})
+_H_DEL_TIOL = frozenset({"HG", "DG"})
+
+#: Un enlace S–S mide ≈2,05 Å: dos SG de cisteína a 2,5 Å o menos forman un puente disulfuro.
+UMBRAL_PUENTE_DISULFURO_A = 2.5
+
+
+def _es_hidrogeno(linea: str) -> bool:
+    elemento = linea[76:78].strip().upper() if len(linea) >= 78 else ""
+    if not elemento:
+        elemento = linea[12:16].strip().lstrip("0123456789")[:1].upper()
+    return elemento in ("H", "D")
+
+
+def _clave_de_residuo(linea: str) -> str:
+    return f"{linea[21:22].strip() or 'A'}:{linea[22:26].strip()}{linea[26:27].strip()}"
+
+
+def hidrogenos_depositados_contradictorios(pdb_text: str) -> list[dict[str, str]]:
+    """Hidrógenos depositados que contradicen la propia estructura, residuo a residuo.
+
+    Algunos depósitos traen los hidrógenos del refinamiento: PHENIX los coloca
+    sobre los átomos pesados (en 3KK6, con ocupación 0). Meeko los toma como
+    datos y con ellos elige la plantilla de cada residuo, así que unos
+    hidrógenos incoherentes le impiden preparar el receptor. Dos casos, medidos
+    el 2026-10-11 sobre los depósitos de las 381 entradas del catálogo:
+
+    * **His con hidrógenos y ninguno en ND1 ni NE2.** El depósito no dice si es
+      HID, HIE o HIP; HIE y HID empatan y Meeko se niega («tied for fewest
+      missing and excess H: HIE HID»). Sólo 3KK6 (36) y 6S1Z (1). Sólo cuenta
+      una His con el anillo entero: la que no lo tiene se trunca.
+    * **Cys de un puente disulfuro con su HG.** Una cisteína unida por S–S no
+      tiene hidrógeno en el tiol; Meeko lee el HG como un segundo enlace entre
+      los dos residuos («Expected 4 paddings … but got 0»). Sólo 3KK6 (5).
+
+    Las dos entradas estaban fuera del catálogo disponible por esto. Devuelve
+    una fila por residuo, en el orden del archivo: `residue` (`cadena:número`
+    con el código de inserción), `name`, `removed` (`all_h` o `HG`) y `reason`.
+    """
+    nombres: dict[str, set[str]] = {}
+    con_h: dict[str, bool] = {}
+    tipo: dict[str, str] = {}
+    azufres: dict[str, list[tuple[float, float, float]]] = {}
+    for linea in pdb_text.splitlines():
+        if linea.startswith("ENDMDL"):
+            break
+        if not linea.startswith(("ATOM", "HETATM")) or len(linea) < 54:
+            continue
+        residuo = linea[17:20].strip()
+        if residuo not in ("HIS", "CYS"):
+            continue
+        clave = _clave_de_residuo(linea)
+        tipo.setdefault(clave, residuo)
+        nombres.setdefault(clave, set()).add(linea[12:16].strip())
+        con_h[clave] = con_h.get(clave, False) or _es_hidrogeno(linea)
+        if residuo == "CYS" and linea[12:16].strip() == "SG":
+            try:
+                azufres.setdefault(clave, []).append(tuple(float(linea[i:i + 8]) for i in (30, 38, 46)))
+            except ValueError:
+                pass
+    filas: list[dict[str, str]] = []
+    for clave, residuo in tipo.items():
+        atomos = nombres[clave]
+        if residuo == "HIS":
+            if con_h[clave] and {"ND1", "NE2"} <= atomos and not atomos & _H_DEL_ANILLO_HIS:
+                filas.append({"residue": clave, "name": "HIS", "removed": "all_h",
+                              "reason": "hidrógenos depositados sin ninguno en ND1 ni NE2"})
+            continue
+        if not atomos & _H_DEL_TIOL:
+            continue
+        pareja = next((otra for otra, puntos in azufres.items() if otra != clave and any(
+            math.dist(p, q) <= UMBRAL_PUENTE_DISULFURO_A for p in azufres.get(clave, []) for q in puntos)), None)
+        if pareja is not None:
+            filas.append({"residue": clave, "name": "CYS", "removed": "HG",
+                          "reason": f"HG en una cisteína con puente disulfuro con {pareja}"})
+    return filas
+
+
+def retirar_hidrogenos_depositados_contradictorios(pdb_text: str) -> tuple[str, list[dict[str, str]]]:
+    """Retira los hidrógenos de `hidrogenos_depositados_contradictorios`.
+
+    De una His se retiran todos sus hidrógenos: Meeko la trata entonces como a
+    cualquier His de un depósito sin hidrógenos -la mayoría del catálogo-, elige
+    la plantilla HIE y los añade él. De una Cys de un puente disulfuro sólo se
+    retira el HG. No se mueve ni se inventa ningún átomo pesado, el resto de los
+    hidrógenos depositados se conserva, el informe de la preparación lo declara
+    (`deposited_h_removed`) y Preparación sigue pidiendo revisar la protonación,
+    que es por plantilla.
+    """
+    filas = hidrogenos_depositados_contradictorios(pdb_text)
+    if not filas:
+        return pdb_text, []
+    quitar = {(f["residue"], f["name"]): f["removed"] for f in filas}
+
+    def sobra(linea: str) -> bool:
+        if not linea.startswith(("ATOM", "HETATM", "ANISOU")) or len(linea) < 27 or not _es_hidrogeno(linea):
+            return False
+        que = quitar.get((_clave_de_residuo(linea), linea[17:20].strip()))
+        return que == "all_h" or (que == "HG" and linea[12:16].strip() in _H_DEL_TIOL)
+
+    return "".join(l for l in pdb_text.splitlines(keepends=True) if not sobra(l)), filas
+
+
 #: El enlace peptídico C–N mide ≈1,33 Å. Por encima de 2,0 Å entre dos residuos
 #: consecutivos la cadena está rota: faltan residuos que el cristal no observó.
 UMBRAL_ENLACE_PEPTIDICO_A = 2.0
@@ -1051,8 +1199,11 @@ def huecos_del_esqueleto(
     dominio—; la distancia C(i)–N(i+1) sí. Se mide ANTES de recortar el receptor
     al bolsillo, que abriría cortes artificiales. Los residuos modificados que el
     PDB escribe como HETATM (SEP, TPO, MSE…) cuentan como parte de la cadena si
-    tienen N, CA y C, y el orden sale de la numeración, no de la posición en el
-    archivo (hay depósitos que los escriben al final).
+    tienen N, CA y C. El orden es el del archivo, que es el de la secuencia: la
+    numeración no sirve para ordenar (1KLI deposita 184A antes de 184, 1M6D numera
+    152B detrás de 156A y los GPCR con una proteína de fusión la numeran 1001+ en
+    mitad de la cadena). Sólo los HETATM escritos detrás del último ATOM de la
+    cadena se recolocan por número: hay depósitos que los escriben al final.
     """
     residuos: dict[str, dict[tuple[int, str], dict[str, object]]] = {}
     for line in contenido.splitlines():
@@ -1076,10 +1227,18 @@ def huecos_del_esqueleto(
     ausentes = _residuos_no_observados(fuente)
     huecos: list[dict[str, object]] = []
     for cadena, por_clave in residuos.items():
-        cadena_polimero = [
-            (clave, fila) for clave, fila in sorted(por_clave.items())
-            if not fila["hetatm"] or {"N", "CA", "C"} <= set(fila["atomos"])
-        ]
+        filas = [(clave, fila) for clave, fila in por_clave.items()
+                 if not fila["hetatm"] or {"N", "CA", "C"} <= set(fila["atomos"])]
+        # El orden del polímero es el del archivo: el de la secuencia, también con códigos de inserción o
+        # numeraciones que no crecen (1M6D numera 152B después de 156A, con C–N de 1,33 Å en todo el tramo).
+        # Sólo los residuos modificados escritos como HETATM detrás del último ATOM de la cadena se
+        # recolocan por número.
+        ultimo_atom = max((i for i, (_, fila) in enumerate(filas) if not fila["hetatm"]), default=-1)
+        cadena_polimero = filas[:ultimo_atom + 1]
+        for clave, fila in filas[ultimo_atom + 1:]:
+            sitio = next((i for i, (otra, _) in enumerate(cadena_polimero) if otra[0] > clave[0]),
+                         len(cadena_polimero))
+            cadena_polimero.insert(sitio, (clave, fila))
         for (clave_a, a), (clave_b, b) in zip(cadena_polimero, cadena_polimero[1:]):
             c, n = a["atomos"].get("C"), b["atomos"].get("N")
             if c is None or n is None:
@@ -1235,6 +1394,11 @@ def receptor_source_path_no_network(pdb_id: str) -> Path | None:
     raw = path_for(StoragePath.target_raw(pdb_id))
     if raw.exists():
         return raw
+    perfil = distinto_del_automatico(pdb_id)
+    if perfil is not None and perfil["modo"] == MODO_PDBQT:
+        # La copia en PDB de un PDBQT sin origen se reconstruye desde el propio PDBQT: ofrecerla como
+        # «fuente» haría pasar la ausencia de origen por una auditoría sin diferencias.
+        return None
     shared = Path(get_target_pdb_path(pdb_id))
     if shared.exists():
         return shared
@@ -1279,7 +1443,24 @@ async def prepare_target(
     settings.local_data_dir).
     """
     pdb_id = pdb_id.upper()
-    site_ligand = site_ligand or catalog_site_ligand(pdb_id)
+
+    # Un receptor propio que la persona subió ya preparado no usa la receta del
+    # catálogo: se evalúa lo que trae el archivo. El catálogo no tiene perfil
+    # (`distinto_del_automatico` devuelve None sin tocar el disco para él), así
+    # que esta rama nunca cambia su preparación.
+    perfil_propio = distinto_del_automatico(pdb_id)
+    if perfil_propio is not None:
+        if perfil_propio["modo"] == MODO_PDBQT:
+            from services.docking.preparer_propio import preparar_pdbqt
+            return await preparar_pdbqt(pdb_id, perfil_propio, center=center, size=size)
+        if perfil_propio["modo"] == MODO_RESPETAR:
+            from services.docking.preparer_respetando import preparar_respetando
+            return await preparar_respetando(
+                pdb_id, perfil_propio, chain_id=chain_id, center=center, size=size,
+                site_chains=site_chains,
+            )
+
+    site_ligand = site_ligand or ligando_del_sitio(pdb_id)
 
     # Las cadenas a conservar. `site_chains` con una sola —o ausente— deja el
     # comportamiento histórico intacto, byte a byte.
@@ -1300,19 +1481,18 @@ async def prepare_target(
     # anteriores de esa funcion no encuentran nada.
     shared_pdb_path = Path(get_target_pdb_path(pdb_id))
     compartido_local = Path(settings.local_data_dir) / "targets" / f"{pdb_id}.pdb"
+    # La copia del rescoring es SIEMPRE la nuestra, aunque `data/target_library` adelante otra. Aquella es el
+    # depósito entero, con el ligando del cristal y las aguas: el filtro de poses de Model A contaba sus átomos
+    # como choques y rechazaba las nueve poses, y el selector de pose calculaba sus rasgos contra un sitio
+    # ocupado. Sólo en el árbol de desarrollo, que es donde se generan los paquetes de los experimentos
+    # (FEP-06-PRE, 2026-10-24: 1BN1, 1HSG, 6HW5 y 6SXC).
     cadenas_compartidas = (
-        prepared_receptor_chains(shared_pdb_path.read_text(encoding="utf-8", errors="replace"))
-        if shared_pdb_path.exists()
+        prepared_receptor_chains(compartido_local.read_text(encoding="utf-8", errors="replace"))
+        if compartido_local.exists()
         else set()
     )
-    # Pendiente = falta, o le falta una cadena del sitio Y es nuestra, la del
-    # usuario. Una copia del bundle a la que le falte algo no se toca: no se
-    # puede escribir ahi, y colgar de eso el camino rapido dejaria a esta
-    # maquina -donde `target_library` resuelve catorce de los quince- volviendo
-    # a preparar el receptor en cada corrida.
-    copia_pendiente = not shared_pdb_path.exists() or (
-        not cadenas <= cadenas_compartidas and shared_pdb_path == compartido_local
-    )
+    # Pendiente = falta, o le falta una cadena del sitio.
+    copia_pendiente = not compartido_local.exists() or not cadenas <= cadenas_compartidas
 
     # ── El origen: el crudo depositado, y su unidad biologica ───────────────
     #
@@ -1380,7 +1560,8 @@ async def prepare_target(
     # devuelve la entrada intacta, que es el caso de 341 de los 380.
     from services.chemistry.ensamblaje_biologico import generar_unidad_biologica
 
-    raw_content = generar_unidad_biologica(origen, pdb_id=pdb_id).pdb
+    unidad_biologica = generar_unidad_biologica(origen, pdb_id=pdb_id)
+    raw_content = unidad_biologica.pdb
     # El diff de heteroátomos parte de aquí, antes de retirar nada.
     ensamblaje = raw_content
 
@@ -1389,6 +1570,9 @@ async def prepare_target(
     # el cofactor cambiaría la química de la cavidad. Fuera del margen se aplica
     # la misma regla que a los residuos que pierde Meeko: se declara y se sigue
     # (el FMN de la flavodoxina fusionada a CB1 en 5TGZ está a 30 Å del sitio).
+    # La primera vez, `residuos_con_plantilla` importa meeko (≈1 s, más con el disco frío): se calienta en un hilo
+    # para que ese import no congele el bucle de eventos (2026-10-10). Después es una caché.
+    await asyncio.to_thread(residuos_con_plantilla)
     cofactores_en_sitio, cofactores_fuera = cofactores_sin_plantilla(
         raw_content, cadenas=cadenas, site_ligand=site_ligand,
         cofactors_whitelist=cofactors_whitelist, center=center, size=size,
@@ -1436,6 +1620,7 @@ async def prepare_target(
         )
         # El rescoring puntúa el mismo receptor que se acopla, con el mismo truncado.
         compartido = truncar_cadenas_laterales_incompletas(compartido, center, size)[0]
+        compartido = retirar_hidrogenos_depositados_contradictorios(compartido)[0]
         compartido_local.write_text(compartido, encoding="utf-8")
         log.info("pdb_persisted_for_rescoring", path=str(compartido_local))
 
@@ -1465,6 +1650,11 @@ async def prepare_target(
         if cadenas_truncadas:
             log.info("cadenas_laterales_truncadas", pdb_id=pdb_id, total=len(cadenas_truncadas),
                      en_el_sitio=sum(1 for f in cadenas_truncadas if f["site_critical"]))
+        # Con ellos Meeko no puede elegir la plantilla y no prepara el receptor (3KK6, 6S1Z).
+        filtered_content, h_contradictorios = retirar_hidrogenos_depositados_contradictorios(filtered_content)
+        if h_contradictorios:
+            log.info("hidrogenos_depositados_contradictorios", pdb_id=pdb_id,
+                     residuos=[f"{f['residue']} {f['name']}" for f in h_contradictorios])
         # Huecos del esqueleto sobre las cadenas enteras: después del recorte al
         # bolsillo cada corte del recorte parecería un residuo ausente.
         huecos = huecos_del_esqueleto(filtered_content, raw_content, center, size)
@@ -1772,6 +1962,23 @@ async def prepare_target(
                 )
             )),
         }
+        if h_contradictorios:
+            # Sólo cuando la regla actuó: el informe de los demás receptores no cambia.
+            report["deposited_h_removed"] = h_contradictorios
+        if unidad_biologica.generado:
+            # Igual: sólo los receptores con cadenas generadas por simetría (6SXC, NavAb…) llevan el campo.
+            report["biological_assembly"] = {
+                "biomolecule": 1,
+                "operators": unidad_biologica.operadores,
+                "source_chains": list(unidad_biologica.cadenas_originales),
+                "generated_chains": [
+                    {"chain": nueva, "from_chain": origen_c, "biomt_operator": operador}
+                    for nueva, origen_c, operador in unidad_biologica.generadas
+                ],
+            }
+        # Un receptor propio añade cómo llegó (formato, conversión, confianza del
+        # modelo); para el catálogo `extras_del_informe` es {} y el informe no cambia.
+        report.update(extras_del_informe(pdb_id, texto=raw_content, center=center, size=size))
         await write_text(_meeko_report_path(prepared_path), json.dumps(report, sort_keys=True))
         await write_file(output_pdbqt, prepared_path)
 

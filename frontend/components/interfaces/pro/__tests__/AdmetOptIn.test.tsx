@@ -26,7 +26,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
 // El modal monta un `Canvas` de react-three-fiber para previsualizar la caja
@@ -89,7 +89,7 @@ describe("defecto de ADMET-AI", () => {
     abrirOpciones();
     expect(screen.queryByRole("switch", { name: "Refinamiento MM-GBSA" })).not.toBeInTheDocument();
     expect(
-      screen.getByRole("switch", { name: "Selectividad Anti-Target" }),
+      screen.getByRole("switch", { name: "Selectividad anti-diana" }),
     ).toHaveAttribute("aria-checked", "false");
   });
 });
@@ -124,6 +124,11 @@ describe("configuración explícita de ADMET-AI", () => {
 describe("lo que Opciones dice antes de encender ADMET", () => {
   it("advierte: experimental, local, primera carga lenta (VM) y no necesaria para docking", () => {
     abrirOpciones();
+
+    // El aviso ya no ocupa sitio en el diálogo: se lee con el «?» del módulo
+    // (decisión del 2026-10-07). Cambia dónde se lee, no lo que dice.
+    expect(screen.queryByText(/Módulo experimental/i)).not.toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Más información sobre Perfil ADMET" }));
     const aviso = screen.getByText(/Módulo experimental/i);
 
     // Cada afirmación se comprueba por separado: un aviso al que se le cae
@@ -137,7 +142,10 @@ describe("lo que Opciones dice antes de encender ADMET", () => {
     expect(aviso).toHaveTextContent(/docking/i);
 
     // Y la etiqueta lo marca como experimental sin tener que leer el párrafo.
-    expect(screen.getByText(/Experimental · activación manual/)).toBeInTheDocument();
+    // La insignia va dentro de la etiqueta de ADMET; ESMFold también dice «Experimental», así
+    // que se busca sólo dentro de la fila de ADMET.
+    const filaAdmet = admetSwitch().closest("div.justify-between") as HTMLElement;
+    expect(within(filaAdmet).getByText("Experimental")).toBeInTheDocument();
   });
 });
 

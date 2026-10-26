@@ -19,6 +19,7 @@ import {
   describeRunBlock,
   inputsAffectRun,
   inputsAreComplete,
+  localizeReceptorLabel,
   requestPreflight,
   summarizePreflight,
   type PreflightReport,
@@ -26,6 +27,25 @@ import {
 import { resetApiUrl, setApiUrlFromPort } from "../config";
 import { mockFetch } from "../../vitest.setup";
 import type { CaseInputs, PreflightSummary } from "../cases/types";
+import { casos } from "../../context/traducciones/casos";
+import { comun } from "../../context/traducciones/comun";
+
+const translateEnglish = (key: string, values: Record<string, string | number> = {}) => {
+  let text = casos.en[key] ?? comun.en[key] ?? key;
+  for (const [name, value] of Object.entries(values)) {
+    text = text.replaceAll(`{${name}}`, String(value));
+  }
+  return text;
+};
+
+describe("localización de los rótulos completos del receptor", () => {
+  it("traduce sólo los formatos generados y conserva los identificadores", () => {
+    expect(localizeReceptorLabel("1HSG · cadena A", translateEnglish)).toBe("1HSG · chain A");
+    expect(localizeReceptorLabel("1HSG · cadenas A+B", translateEnglish)).toBe("1HSG · chains A+B");
+    expect(localizeReceptorLabel("USER_target-17", translateEnglish)).toBe("USER_target-17");
+    expect(localizeReceptorLabel("No definido", translateEnglish)).toBe("Not defined");
+  });
+});
 
 const BASE_INPUTS: CaseInputs = {
   receptor: { pdbId: "7E2Y", chain: "A", origin: "curado" },
@@ -284,8 +304,43 @@ describe("describeRunBlock", () => {
     expect(describeRunBlock({ receptor: BASE_INPUTS.receptor }, undefined)).toMatch(/ligando/i);
   });
 
-  it("exige un preflight vigente", () => {
-    expect(describeRunBlock(BASE_INPUTS, undefined)).toMatch(/comprobar preparación/i);
+  it("no pide una comprobación previa hecha a mano: «Evaluar» la hace sola", () => {
+    // Antes devolvía «Ejecuta «Comprobar preparación»…» y dejaba «Evaluar» deshabilitado en cualquier caso nuevo.
+    expect(describeRunBlock(BASE_INPUTS, undefined)).toBeNull();
+  });
+
+  it("un resumen guardado sin configuración efectiva (versión anterior) no bloquea: se reemplaza comprobando de nuevo", () => {
+    const { executionConfig: _sin, ...antiguo } = preflight;
+    expect(describeRunBlock(BASE_INPUTS, antiguo)).toBeNull();
+  });
+
+  it("sigue pidiendo receptor y ligando aunque no haya comprobación", () => {
+    expect(describeRunBlock({ ligand: BASE_INPUTS.ligand }, undefined)).toMatch(/receptor/i);
+    expect(describeRunBlock({ receptor: BASE_INPUTS.receptor, ligand: { inputSmiles: "  " } }, undefined)).toMatch(/ligando/i);
+  });
+
+  it("traduce los bloqueos visibles cuando la pantalla está en inglés", () => {
+    const english: Record<string, string> = {
+      ev_elige_receptor_ejecutar: "Choose a receptor before running.",
+      ev_elige_ligando_ejecutar: "Enter or draw a ligand before running.",
+      ev_bloqueantes_tecnicos: "Preflight found {count} technical blockers: {items}. The run would fail later anyway.",
+    };
+    const translate = (key: string, values?: Record<string, string | number>) =>
+      Object.entries(values ?? {}).reduce(
+        (text, [name, value]) => text.replaceAll(`{${name}}`, String(value)),
+        english[key] ?? key,
+      );
+
+    expect(describeRunBlock(undefined, undefined, translate)).toBe("Choose a receptor before running.");
+    expect(describeRunBlock({ receptor: BASE_INPUTS.receptor }, undefined, translate))
+      .toBe("Enter or draw a ligand before running.");
+    expect(describeRunBlock(BASE_INPUTS, undefined, translate)).toBeNull();
+    expect(describeRunBlock(BASE_INPUTS, {
+      ...preflight,
+      blockers: ["RECEPTOR_CADENA_PRESENTE", "CAJA_SIN_ATOMOS"],
+    }, translate)).toBe(
+      "Preflight found 2 technical blockers: RECEPTOR_CADENA_PRESENTE, CAJA_SIN_ATOMOS. The run would fail later anyway.",
+    );
   });
 
   it("las advertencias científicas NO bloquean", () => {

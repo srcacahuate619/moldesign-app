@@ -1,0 +1,67 @@
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: miew-react@0.11.0
+npm warn Found: react@19.2.8
+npm warn node_modules/react
+npm warn   react@"19.2.8" from the root project
+npm warn   52 more (@emotion/react, @emotion/styled, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react@"^18.2.0" from miew-react@0.11.0
+npm warn node_modules/ketcher-react/node_modules/miew-react
+npm warn   miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn   node_modules/ketcher-react
+npm warn
+npm warn Conflicting peer dependency: react@18.3.1
+npm warn node_modules/react
+npm warn   peer react@"^18.2.0" from miew-react@0.11.0
+npm warn   node_modules/ketcher-react/node_modules/miew-react
+npm warn     miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn     node_modules/ketcher-react
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: miew-react@0.11.0
+npm warn Found: react-dom@19.2.8
+npm warn node_modules/react-dom
+npm warn   react-dom@"19.2.8" from the root project
+npm warn   23 more (@floating-ui/react, @floating-ui/react-dom, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react-dom@"^18.2.0" from miew-react@0.11.0
+npm warn node_modules/ketcher-react/node_modules/miew-react
+npm warn   miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn   node_modules/ketcher-react
+npm warn
+npm warn Conflicting peer dependency: react-dom@18.3.1
+npm warn node_modules/react-dom
+npm warn   peer react-dom@"^18.2.0" from miew-react@0.11.0
+npm warn   node_modules/ketcher-react/node_modules/miew-react
+npm warn     miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn     node_modules/ketcher-react
+npm warn deprecated intersection-observer@0.12.2: The Intersection Observer polyfill is no longer needed and can safely be removed. Intersection Observer has been Baseline since 2019.
+npm warn deprecated deep-diff@0.3.8: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+npm warn deprecated eslint@9.39.2: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 1511 packages, and audited 1512 packages in 2m
+
+369 packages are looking for funding
+  run `npm fund` for details
+
+32 vulnerabilities (11 moderate, 21 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.
+npm warn install-scripts 4 packages have install scripts not yet covered by allowScripts:
+npm warn install-scripts   @scarf/scarf@1.4.0 (postinstall: node ./report.js)
+npm warn install-scripts   bufferutil@4.1.0 (install: node-gyp-build)
+npm warn install-scripts   unrs-resolver@1.12.2 (postinstall: node postinstall.js)
+npm warn install-scripts   utf-8-validate@6.0.6 (install: node-gyp-build)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.

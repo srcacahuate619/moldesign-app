@@ -1,0 +1,176 @@
+{
+  "SIN": {
+    "state": "PREPARED",
+    "target": {
+      "id": "296e3a94-9342-47b6-b1db-77fe10d353e9",
+      "pdb_id": "USR_71BF20",
+      "name": "MET01R1-confirmatory-5Z2R-SIN",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Escherichia Coli (Strain K12)",
+      "resolution": 2.3,
+      "hotspots": [],
+      "site_chains": [
+        "A",
+        "B"
+      ],
+      "site_chain_atoms": {
+        "A": 82,
+        "B": 19
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "TD6",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": -16.27,
+      "grid_center_y": -18.46,
+      "grid_center_z": 22.07,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "35ebd263-d16f-468e-bab2-c0ebe307299c",
+      "receptor_source_sha256": "3dee3e04559014f4a5519dcc2aaf8d3a1d037845063bc175f3741898ef7e15e1",
+      "prepared_receptor_sha256": "b607bd9a887270072a0beb7c4cec13fcf45f7facd0a7224a7b7031dd051136f3",
+      "preparation_fingerprint": "f35ddac274ab445a33cf54acb8cec2dab9f9b549a9c940395c22fae7c7b2a1fa",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "5Z2R",
+        "chain": "A",
+        "grid_center": [
+          -16.27,
+          -18.46,
+          22.07
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": []
+  },
+  "CON": {
+    "state": "PREPARED",
+    "target": {
+      "id": "c8388791-557d-4852-b929-7b898b29dc4e",
+      "pdb_id": "USR_7B63F9",
+      "name": "MET01R1-confirmatory-5Z2R-CON",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Escherichia Coli (Strain K12)",
+      "resolution": 2.3,
+      "hotspots": [],
+      "site_chains": [
+        "A",
+        "B"
+      ],
+      "site_chain_atoms": {
+        "A": 82,
+        "B": 19
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "TD6",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": -16.27,
+      "grid_center_y": -18.46,
+      "grid_center_z": 22.07,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [
+        "MG"
+      ],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "35ebd263-d16f-468e-bab2-c0ebe307299c",
+      "receptor_source_sha256": "3dee3e04559014f4a5519dcc2aaf8d3a1d037845063bc175f3741898ef7e15e1",
+      "prepared_receptor_sha256": "66405d2b9a5cd44eff8cc14c64e62f752de1a6e030b907887164fb41c035886a",
+      "preparation_fingerprint": "89d46cd8c6ab6b8b0b1ae4b3102949e760e7324fad40c0d247144bacb5e63813",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "5Z2R",
+        "chain": "A",
+        "grid_center": [
+          -16.27,
+          -18.46,
+          22.07
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [
+          "MG"
+        ],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": [
+      "MG"
+    ]
+  }
+}

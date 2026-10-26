@@ -1,0 +1,81 @@
+{
+  "projection_version": 1,
+  "case_id": "p38__baseline_estereo__3",
+  "name": "p38__baseline_estereo__3",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_42504E",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "C[C@H](Cn1ncnn1)Nc1ncc2cc(Oc3ccc(F)cc3F)c(=O)n(C)c2n1",
+      "canonical_smiles": "C[C@H](Cn1ncnn1)Nc1ncc2cc(Oc3ccc(F)cc3F)c(=O)n(C)c2n1"
+    },
+    "config": {
+      "grid_center": [
+        22.089,
+        10.799,
+        31.522
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:22013cd5d22dca085eec0d2ab189f9c74ec4ef08f101e10c4cb28fb86979c8f8",
+    "generated_at": "2026-10-11T23:11:55.655777+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "95978c7b-0e36-4d3d-b430-2186d0d6bdb8",
+    "input_fingerprint": "sha256:22013cd5d22dca085eec0d2ab189f9c74ec4ef08f101e10c4cb28fb86979c8f8",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

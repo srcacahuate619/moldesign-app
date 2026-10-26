@@ -1,8 +1,13 @@
 {
-  "condiciones": "Windows x64; Python embebido 3.11.9; Vina 1.2.7; Meeko 0.7.1; RDKit 2025.9.6; dimorphite_dl 2.0.2; 3F75; semilla 42 en PRO; receta del receptor v7 (2026-09-28); huecos del esqueleto medidos.",
-  "golden_version": 3,
+  "condiciones": "Windows x64; Python embebido 3.11.9; Vina 1.2.7; Meeko 0.7.1; RDKit 2025.9.6; dimorphite_dl 2.0.2; 3F75; semilla 42 en PRO; receta del receptor v7 (2026-09-28); huecos del esqueleto medidos. Vina 1.2.7 instrumentado, GCC 16.1.0 -O2, Boost 1.91.0; traza observacional aislada; binario 0e0125909e6db01f7a9ca54ff310409151bf9132c08239dcd1970e10e0aac386 (2026-10-10: lee como vina.exe los ligandos CRLF de 4096 bytes o más; con este ligando, mismos bytes que el binario anterior 8637f522…). Cambio de compilación medido en docs/TRAZA_BUSQUEDA_MOLCY.md.",
+  "golden_version": 4,
+  "instrumentacion": {
+    "binary_sha256": "0e0125909e6db01f7a9ca54ff310409151bf9132c08239dcd1970e10e0aac386",
+    "reference_binary_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "upstream_commit": "8eb40404f4f45608acb3b01427587ac049f27c1f"
+  },
   "normal": {
-    "affinity_kcal": -4.879,
+    "affinity_kcal": -4.886,
     "execution": {
       "box_center": [
         43.21,
@@ -17,7 +22,7 @@
       "cpu": 0,
       "ligand_input_sha256": "f6493b28b606f2e45d15aea0e4ac825514d743b0ccfe26098fd2c2bafb86f31b",
       "ligand_pdbqt_sha256": "af05479941ee22d8858eabb2deb1fccb4bc11aeeb283ad0529138ae43e4316d4",
-      "poses_sha256": "247d014c61abf3e7f6ef9250e19160e8b10884d892f9470e5c8026bc24d345e9",
+      "poses_sha256": "0982e5f82b77eefdf8ec66712926f7d78ae44c2f97c1bc2e9144759586f62748",
       "receptor_prep": {
         "backbone_gaps": [],
         "chain": "A",
@@ -25,6 +30,10 @@
         "cofactors_outside_site": [],
         "cofactors_whitelist": [],
         "meeko_parameterized_json_sha256": "3f0c71cd96e6768e492280778cf8fefeb9fc16478622847b8e12fdb6db118441",
+        "prepared_chains": [
+          "A",
+          "P"
+        ],
         "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
         "recipe_hash": "86e30876a085d1c05f5f0e0a5567601c0bd419b5a955850bba38a4a51863d590",
         "removed_residues": [],
@@ -697,7 +706,7 @@
     "vina_version": "1.2.7"
   },
   "pro": {
-    "affinity_kcal": -5.656,
+    "affinity_kcal": -5.634,
     "execution": {
       "box_center": [
         43.21,
@@ -712,7 +721,7 @@
       "cpu": 0,
       "ligand_input_sha256": "0f06b8e3d194de6f0c085b6f0439a4b8095b4015992c6c1d32a2b237593b46d6",
       "ligand_pdbqt_sha256": "d0f85a7e391d170b1ee9388b2f6da7ce1a4050aa766afdf7cc85bb9917a0f69d",
-      "poses_sha256": "c1052df4e9898bb3071d609fb25c1eac106e1155d1c54bcd80244d768c00eb5e",
+      "poses_sha256": "042a6f7d3e73890c0a093953f020acfabc4e69bab3c2967e9f4c84aab6cd3213",
       "receptor_prep": {
         "backbone_gaps": [],
         "chain": "A",
@@ -720,6 +729,10 @@
         "cofactors_outside_site": [],
         "cofactors_whitelist": [],
         "meeko_parameterized_json_sha256": "3f0c71cd96e6768e492280778cf8fefeb9fc16478622847b8e12fdb6db118441",
+        "prepared_chains": [
+          "A",
+          "P"
+        ],
         "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
         "recipe_hash": "86e30876a085d1c05f5f0e0a5567601c0bd419b5a955850bba38a4a51863d590",
         "removed_residues": [],
@@ -1391,5 +1404,15 @@
     "receptor_sha256": "8b945aba2292c92ef32ff2c7a6ae3cdcf5ccd7a0d7041d4a5995bbd3d69189ff",
     "vina_version": "1.2.7"
   },
-  "protocolo": "evaluation_e2e_vina/1"
+  "protocolo": "evaluation_e2e_vina/1",
+  "referencia_anterior_compilacion": {
+    "normal": {
+      "affinity_kcal": -4.879,
+      "poses_sha256": "247d014c61abf3e7f6ef9250e19160e8b10884d892f9470e5c8026bc24d345e9"
+    },
+    "pro": {
+      "affinity_kcal": -5.656,
+      "poses_sha256": "c1052df4e9898bb3071d609fb25c1eac106e1155d1c54bcd80244d768c00eb5e"
+    }
+  }
 }

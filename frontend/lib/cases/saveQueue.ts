@@ -72,6 +72,9 @@ interface QueueState {
   lastError: unknown;
 }
 
+/** Tope de vueltas de un drenaje: más allá, el caso no deja de cambiar y se corta. */
+const MAX_VUELTAS_DE_DRENAJE = 8;
+
 export class CaseSaveQueue {
   private readonly queues = new Map<string, QueueState>();
   private readonly options: Required<Pick<SaveQueueOptions, "write" | "delayMs">> &
@@ -145,14 +148,35 @@ export class CaseSaveQueue {
       cancel(state.timer);
       state.timer = null;
     }
-    await this.flush(caseId);
-    await state.chain;
-    // La comprobacion que importa: si queda pendiente o hubo error, el drenaje
-    // NO tuvo exito y quien llame debe abortar su transicion.
-    if (state.pending !== null || state.lastError !== null) {
-      return { ok: false, caseId, error: state.lastError };
+    return this.settle(caseId, state);
+  }
+
+  /**
+   * Escribe hasta que no quede nada pendiente, y dice si TODO se escribió.
+   *
+   * Una edición puede entrar MIENTRAS se escribe la anterior: al registrar la
+   * primera corrida de un caso el contexto encola varias veces seguidas, y la
+   * segunda llega a los ~34 ms, dentro del drenaje. Eso no es un fallo, es más
+   * trabajo: se vuelca también. Antes se devolvía `ok: false` con `error: null`
+   * en cuanto quedaba algo pendiente al terminar la primera escritura, y la
+   * interfaz avisaba de que el identificador de la corrida no se había guardado
+   * cuando sí lo estaba (QA1-008).
+   *
+   * Sólo hacen fallar el drenaje un error de escritura o un caso que no deja de
+   * cambiar: en ese segundo caso se corta para no esperar eternamente.
+   */
+  private async settle(caseId: string, state: QueueState): Promise<DrainResult> {
+    for (let vuelta = 0; vuelta < MAX_VUELTAS_DE_DRENAJE; vuelta += 1) {
+      await this.flush(caseId);
+      await state.chain;
+      if (state.lastError !== null) return { ok: false, caseId, error: state.lastError };
+      if (state.pending === null) return { ok: true, caseId };
     }
-    return { ok: true, caseId };
+    return {
+      ok: false,
+      caseId,
+      error: new Error("El caso no dejó de cambiar mientras se guardaba."),
+    };
   }
 
   /** Vuelca TODOS los casos con algo pendiente. */
@@ -164,12 +188,7 @@ export class CaseSaveQueue {
   async retry(caseId: string): Promise<DrainResult> {
     const state = this.queues.get(caseId);
     if (!state || state.pending === null) return { ok: true, caseId };
-    await this.flush(caseId);
-    await state.chain;
-    if (state.pending !== null || state.lastError !== null) {
-      return { ok: false, caseId, error: state.lastError };
-    }
-    return { ok: true, caseId };
+    return this.settle(caseId, state);
   }
 
   private flush(caseId: string): Promise<void> {

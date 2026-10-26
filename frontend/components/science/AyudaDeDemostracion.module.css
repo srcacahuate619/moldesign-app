@@ -1,0 +1,6 @@
+.trigger { display: inline-flex; align-items: center; max-width: 100%; min-height: 44px; padding: 6px 0; border: 0; background: transparent; color: var(--text); font: 600 13px/1.5 var(--font-sans); cursor: help; text-align: left; }
+.chip { display: inline-flex; padding: 4px 8px; border: 1px solid var(--border-light); border-radius: 4px; }
+.trigger:hover .chip { background: var(--bg-secondary); border-color: var(--accent-strong); }
+.trigger:focus-visible { outline: 0; }
+.trigger:focus-visible .chip { outline: 2px solid var(--accent-strong); outline-offset: 3px; }
+.tip { position: fixed; z-index: 145; width: max-content; max-width: min(360px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); overflow: auto; overscroll-behavior: contain; padding: 12px 14px; border: 1px solid var(--border-light); border-radius: 8px; background: var(--bg-card); color: var(--text); font: 14px/1.65 var(--font-sans); white-space: normal; overflow-wrap: anywhere; box-shadow: 0 8px 28px rgb(0 0 0 / .2); }

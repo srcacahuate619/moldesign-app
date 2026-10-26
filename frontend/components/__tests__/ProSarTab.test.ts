@@ -91,6 +91,40 @@ describe("mapSarAnalog — adapter SAR (null-safe)", () => {
     expect(mapSarAnalog({}, 0).highlight).toBe("—");
   });
 
+  // ── SOL-04/AMP-02: la abstención de comparabilidad viaja hasta la fila ──
+
+  it("mapea comparison_state y comparison_reason del contrato SAR", () => {
+    const abstenido = mapSarAnalog(
+      {
+        comparison_state: "abstained",
+        comparison_reason:
+          "condiciones de comparación distintas — pH de protonación: 7.4 en la base, 2 en el análogo",
+        highlight:
+          "condiciones de comparación distintas — pH de protonación: 7.4 en la base, 2 en el análogo",
+      },
+      0,
+    );
+    expect(abstenido.comparisonState).toBe("abstained");
+    expect(abstenido.comparisonReason).toContain("pH de protonación");
+    // El motivo es la línea que la fila enseña: la abstención no es decorativa.
+    expect(abstenido.highlight).toContain("pH de protonación");
+  });
+
+  it("comparison_state descriptivo pasa tal cual", () => {
+    const comparable = mapSarAnalog(
+      { comparison_state: "descriptive", comparison_reason: null },
+      0,
+    );
+    expect(comparable.comparisonState).toBe("descriptive");
+    expect(comparable.comparisonReason).toBeNull();
+  });
+
+  it("comparison_state ausente (respuestas viejas) queda en null, no inventa", () => {
+    const viejo = mapSarAnalog({}, 0);
+    expect(viejo.comparisonState).toBeNull();
+    expect(viejo.comparisonReason).toBeNull();
+  });
+
   it("no conserva análogos ficticios ni lenguaje de modo demo", () => {
     const source = readFileSync(
       resolve(process.cwd(), "components/interfaces/pro/ProSarTab.tsx"),

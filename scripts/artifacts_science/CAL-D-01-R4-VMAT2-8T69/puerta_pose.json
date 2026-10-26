@@ -1,0 +1,51 @@
+{
+  "experimento": "CAL-D-01-R4-VMAT2-8T69",
+  "analizado_en": "2026-10-22T03:28:25+00:00",
+  "semillas": [
+    {
+      "semilla": 42,
+      "estado": "SUCCESS",
+      "rmsd_A": 0.714,
+      "E_kcal": -10.557,
+      "valida": true,
+      "estado_fisico": "passed"
+    },
+    {
+      "semilla": 43,
+      "estado": "SUCCESS",
+      "rmsd_A": 0.679,
+      "E_kcal": -10.608,
+      "valida": true,
+      "estado_fisico": "passed"
+    },
+    {
+      "semilla": 44,
+      "estado": "SUCCESS",
+      "rmsd_A": 0.697,
+      "E_kcal": -10.541,
+      "valida": true,
+      "estado_fisico": "passed"
+    },
+    {
+      "semilla": 45,
+      "estado": "SUCCESS",
+      "rmsd_A": 0.671,
+      "E_kcal": -10.6,
+      "valida": true,
+      "estado_fisico": "passed"
+    },
+    {
+      "semilla": 46,
+      "estado": "SUCCESS",
+      "rmsd_A": 0.678,
+      "E_kcal": -10.599,
+      "valida": true,
+      "estado_fisico": "passed"
+    }
+  ],
+  "semillas_rmsd_ok": 5,
+  "posebusters_valida_en_las_que_cumplen": true,
+  "desviaciones": [],
+  "decision": "GO",
+  "si_falla": "NO_GO; no se acopla el panel ni se prueba otra estructura"
+}

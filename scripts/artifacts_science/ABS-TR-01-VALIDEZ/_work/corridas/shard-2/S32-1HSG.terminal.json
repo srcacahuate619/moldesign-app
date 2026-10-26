@@ -1,0 +1,16 @@
+{
+  "id_r2": "S32",
+  "pdb": "1HSG",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 125.5,
+      "crudo": "S32-1HSG-intento1.json.gz",
+      "crudo_sha256": "e36e1fc39f5d516769807701147800a20781c30860f339e5b761737a7a5ac04d"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S32-1HSG-intento1.json.gz",
+  "crudo_sha256": "e36e1fc39f5d516769807701147800a20781c30860f339e5b761737a7a5ac04d",
+  "registrado_en": "2026-10-22T16:51:22+00:00"
+}

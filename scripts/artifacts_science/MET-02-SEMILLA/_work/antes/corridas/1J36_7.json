@@ -1,0 +1,27 @@
+{
+  "pdb": "1J36",
+  "semilla": 7,
+  "inicio": "2026-10-23T03:07:00+00:00",
+  "resultado": "auditada",
+  "task_id": "676b6159-af4a-42d2-a24f-726231cb503a",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:701 (1.94 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal LPR A:801",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "b800d582fe1c0e1c7bedd673230c0d1159e25005a50a2892b1366656dd5b4516",
+  "afinidad_top1": -8.449,
+  "microestado": "NCCCC[C@H]([NH2+][C@@H](CCc1ccccc1)C(=O)[O-])C(=O)[NH+]1CCC[C@H]1C(=O)[O-]",
+  "microestado_coincide": true,
+  "semilla_declarada": 7,
+  "vina": "1.2.7",
+  "receptor_sha256": "4b9d918f972d5c5bc17891fd64a333ba6adeb545c2ae0c654fe639dcc6579843",
+  "segundos": 41.8,
+  "fin": "2026-10-23T03:07:42+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

@@ -129,17 +129,47 @@ const ATTENTION_LABEL: Record<NonNullable<LicenseHighlight["attention"]>, string
 const LINKAGE_LABEL: Record<NonNullable<LicenseHighlight["linkage"]>, string> = {
   subproceso: "lg_programa_independiente",
   biblioteca: "lg_enlazado",
+  metodo: "lg_metodo_adaptado",
+};
+
+/**
+ * Rol y versión de cada fila, traducidos. El catálogo los guarda en castellano y la fila los enseñaba tal cual,
+ * también con la interfaz en inglés. Una prueba exige una clave por fila.
+ */
+export const TEXTOS_DE_LA_FILA: Record<string, { rol: string; version?: string }> = {
+  "Open Babel": { rol: "lg_rol_open_babel" },
+  "Motor Molcy": { rol: "lg_rol_molcy" },
+  Blender: { rol: "lg_rol_blender" },
+  "Molecular Nodes": { rol: "lg_rol_molecular_nodes", version: "lg_version_molecular_nodes" },
+  Meeko: { rol: "lg_rol_meeko" },
+  MDAnalysis: { rol: "lg_rol_mdanalysis" },
+  GridDataFormats: { rol: "lg_rol_griddataformats" },
+  paramiko: { rol: "lg_rol_paramiko" },
+  gemmi: { rol: "lg_rol_gemmi" },
+  xTB: { rol: "lg_rol_xtb" },
+  "rpc-websockets": { rol: "lg_rol_rpc_websockets" },
+  TabPFN: { rol: "lg_rol_tabpfn" },
+  ReportLab: { rol: "lg_rol_reportlab" },
+  "Microsoft Visual C++ Runtime": { rol: "lg_rol_vcruntime" },
+  ESMFold: { rol: "lg_rol_esmfold" },
+  "llama.cpp": { rol: "lg_rol_llama" },
+  "AutoDock Vina": { rol: "lg_rol_vina" },
+  RTMScore: { rol: "lg_rol_rtmscore", version: "lg_version_rtmscore" },
+  "RCSB Protein Data Bank / wwPDB": { rol: "lg_rol_rcsb", version: "lg_version_rcsb" },
+  UniProtKB: { rol: "lg_rol_uniprot", version: "lg_version_uniprot" },
+  MolTalk: { rol: "lg_rol_moltalk" },
 };
 
 function LicenseRow({ item }: { item: LicenseHighlight }) {
   const { t } = useLanguage();
   const blocked = item.attention === "blocked";
+  const textos = TEXTOS_DE_LA_FILA[item.name];
   return (
     <article className={`rounded-lg border p-3 ${blocked ? "border-red-500/30 bg-red-500/[0.05]" : "border-white/[0.08] bg-white/[0.02]"}`}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h4 className="text-[12px] font-semibold text-white/85">{item.name} <span className="font-mono text-[10px] font-normal text-white/45">{item.version}</span></h4>
-          <p className="mt-0.5 text-[10px] text-white/45">{item.role}</p>
+          <h4 className="text-[12px] font-semibold text-white/85">{item.name} <span className="font-mono text-[10px] font-normal text-white/45">{textos?.version ? t(textos.version) : item.version}</span></h4>
+          <p className="mt-0.5 text-[10px] text-white/45">{textos ? t(textos.rol) : item.role}</p>
         </div>
         <span className={`rounded border px-1.5 py-0.5 font-mono text-[9px] ${blocked ? "border-red-500/30 text-red-300" : "border-purple-500/25 text-purple-200"}`}>{item.license}</span>
       </div>
@@ -148,7 +178,7 @@ function LicenseRow({ item }: { item: LicenseHighlight }) {
       ) : null}
       <div className="mt-2 flex items-center justify-between gap-3">
         <span className={`text-[10px] ${blocked ? "font-semibold text-red-300" : "text-white/45"}`}>{item.attention ? t(ATTENTION_LABEL[item.attention]) : t("lg_aviso_incluido")}</span>
-        <EnlaceExterno href={item.sourceUrl} className="flex items-center gap-1 whitespace-nowrap text-[10px] text-purple-300 hover:text-purple-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">Fuente <ExternalLink size={9} aria-hidden="true" /></EnlaceExterno>
+        <EnlaceExterno href={item.sourceUrl} className="flex items-center gap-1 whitespace-nowrap text-[10px] text-purple-300 hover:text-purple-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">{t("pr_preflight_source")} <ExternalLink size={9} aria-hidden="true" /></EnlaceExterno>
       </div>
     </article>
   );
@@ -250,7 +280,7 @@ export function LegalModal({ isOpen, onClose, initialTab = "terms" }: LegalModal
       <div ref={backdropRef} className="absolute inset-0 bg-black/75 backdrop-blur-sm" onClick={handleClose} />
       <section ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="legal-title" className="relative z-10 flex max-h-[92vh] w-full max-w-[680px] flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0d0e12] shadow-2xl" style={{ opacity: 0 }}>
         <header className="flex shrink-0 items-center justify-between px-4 pb-3 pt-4 sm:px-5 sm:pt-5">
-          <div className="flex items-center gap-2.5"><div className="rounded-lg border border-purple-500/25 bg-purple-500/[0.07] p-1.5"><Scale size={15} className="text-purple-300" aria-hidden="true" /></div><div><h2 id="legal-title" className="text-sm font-bold text-white/90">Legal y privacidad</h2><p className="font-mono text-[10px] text-white/45">{PRODUCT.name} · v{PRODUCT.version}</p></div></div>
+          <div className="flex items-center gap-2.5"><div className="rounded-lg border border-purple-500/25 bg-purple-500/[0.07] p-1.5"><Scale size={15} className="text-purple-300" aria-hidden="true" /></div><div><h2 id="legal-title" className="text-sm font-bold text-white/90">{t("lg_privacy_legal_title")}</h2><p className="font-mono text-[10px] text-white/45">{PRODUCT.name} · v{PRODUCT.version}</p></div></div>
           <button ref={closeButtonRef} type="button" onClick={handleClose} aria-label={t("lg_cerrar")} className="rounded-lg border border-white/[0.08] p-2 text-white/55 hover:border-white/20 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"><X size={15} aria-hidden="true" /></button>
         </header>
         <div className="shrink-0 px-3 pb-3 sm:px-4"><div className="grid grid-cols-3 gap-1 rounded-xl border border-white/[0.06] bg-white/[0.02] p-1" role="tablist" aria-label={t("lg_titulo")}>{TABS.map((tab) => <button key={tab.id} type="button" role="tab" aria-selected={activeTab === tab.id} onClick={() => setActiveTab(tab.id)} className={`flex min-h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-lg border px-2 text-[11px] font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-purple-400 ${activeTab === tab.id ? "border-purple-500/25 bg-purple-500/10 text-purple-200" : "border-transparent text-white/50 hover:text-white/80"}`}>{tab.icon}<span>{t(tab.label)}</span></button>)}</div></div>

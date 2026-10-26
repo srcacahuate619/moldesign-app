@@ -129,7 +129,7 @@
      "m": "fuerte"
     },
     {
-     "t": ". Multiplicar por 29 las poses conservadas desde el mismo confórmero no mueve un solo complejo.  La etiqueta ",
+     "t": ". Multiplicar por 29 las poses conservadas desde el mismo confórmero deja el mismo saldo, 19 contra 19, aunque dentro de él cambian dos complejos (SCI-B-013).  La etiqueta ",
      "m": null
     },
     {
@@ -1101,6 +1101,209 @@
     },
     {
      "t": ". Los tres brazos son, para él, el mismo experimento: dan 1.383 Å los tres, en 3 segundos. No contribuye a la comparación pareada y queda registrado como tal en lugar de contarse como un empate informativo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-126. El join posterior verifica los 48 miembros de MF-33 en MF-14, REC-08-EXT y REC-09 y en la salida de CRUCES, con identificadores únicos. Las fuentes de mayor alcance se restringen a esos miembros; no se exige que sus universos completos tengan el mismo tamaño. El análisis lee MF-33 y reutiliza sus resultados; no ejecuta de nuevo sus corridas. La expresión «no relee» se sustituye por esta descripción. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_cohortes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-127. El contraste agrupado es 4/7 frente a 2/41, cociente descriptivo 11,71. Dentro de COLOCACION es 4/7 frente a 2/26, cociente 7,43; CONTROL aporta 15 éxitos y ningún cristal marcado, sin fallos con los que comparar. Se informa la tabla estratificada. Ambas asociaciones son descriptivas y no identifican la causa de los fallos ni validan una política de preparación. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_cohortes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "MF-33-CRUCES: los cruces locales y de aguas son asociaciones descriptivas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de medición sin gate causal.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade los otros cruces del artefacto; la tabla estratificada de cristales con score marcado ya está en Correcciones y no se repite.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Cantidad archivada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "B convierte",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "B no convierte",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Mediana de fracción que regresa desde perturbación nominal de 0.5 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1,0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,6667",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mediana de aguas del sitio, radio 8 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "19",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mediana de registros de agua bloqueantes, corte 2.6 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los grupos mezclan estratos y tienen tamaños distintos. Presencia de agua y choque frente al cristal son indicadores diferentes; ninguna mediana identifica qué intervención mejoraría el docking. Aplican ",
+     "m": null
+    },
+    {
+     "t": "SCI-B-126 y SCI-B-127",
+     "m": "fuerte"
+    },
+    {
+     "t": ", ya desarrolladas, sobre join, relectura y confusión por estrato. No comprobado por mí: recalcular perturbaciones o políticas de aguas desde estructuras. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "MF-33-CRUCES",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
      "m": null
     }
    ]

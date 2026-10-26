@@ -1,0 +1,74 @@
+[
+    {
+        "paso":  "01",
+        "comando":  "npm ci",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:46:13.9620310Z",
+        "segundos":  78.79,
+        "salida":  0,
+        "registro":  "final-v10-ci-01.log"
+    },
+    {
+        "paso":  "02",
+        "comando":  "npm audit --omit=dev --audit-level=critical",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:47:32.8058458Z",
+        "segundos":  2.1,
+        "salida":  0,
+        "registro":  "final-v10-ci-02.log"
+    },
+    {
+        "paso":  "03",
+        "comando":  "npm run check:csp",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:47:34.9215382Z",
+        "segundos":  0.46,
+        "salida":  0,
+        "registro":  "final-v10-ci-03.log"
+    },
+    {
+        "paso":  "04",
+        "comando":  "npm run typecheck",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:47:35.3833403Z",
+        "segundos":  21.15,
+        "salida":  0,
+        "registro":  "final-v10-ci-04.log"
+    },
+    {
+        "paso":  "05",
+        "comando":  "npm run test:run",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:47:56.5344880Z",
+        "segundos":  125.96,
+        "salida":  0,
+        "registro":  "final-v10-ci-05.log"
+    },
+    {
+        "paso":  "06",
+        "comando":  "npm run test:e2e",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:50:02.4969248Z",
+        "segundos":  76.28,
+        "salida":  0,
+        "registro":  "final-v10-ci-06.log"
+    },
+    {
+        "paso":  "07",
+        "comando":  "npm run test:ux",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:51:18.7814423Z",
+        "segundos":  45.14,
+        "salida":  0,
+        "registro":  "final-v10-ci-07.log"
+    },
+    {
+        "paso":  "08",
+        "comando":  "npm run build:desktop",
+        "commit":  "ba2f8f9c8af7a24058975fde78172e98a5d288fc",
+        "inicio_utc":  "2026-10-10T02:52:03.9228317Z",
+        "segundos":  51.68,
+        "salida":  0,
+        "registro":  "final-v10-ci-08.log"
+    }
+]

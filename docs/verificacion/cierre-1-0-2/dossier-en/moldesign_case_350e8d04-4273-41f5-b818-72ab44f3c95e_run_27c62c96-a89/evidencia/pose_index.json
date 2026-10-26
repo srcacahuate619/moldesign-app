@@ -1,0 +1,101 @@
+{
+  "alternativas_fisicamente_validas": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "archivo_sdf_de_coleccion": "outputs/poses.sdf",
+  "contrato": "pose_index/v2",
+  "nota": "Índice de referencia. Cada pose apunta a su bloque PDBQT exacto; `outputs/poses.sdf` se declara además cuando la corrida produjo un archivo único que representa la colección.",
+  "pose_sugerida_rank": null,
+  "poses": [
+    {
+      "affinity_kcal_mol": -6.954,
+      "archivo_pdbqt": "outputs/pose_rank_001.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": true,
+      "physical_status": "passed",
+      "rank": 1
+    },
+    {
+      "affinity_kcal_mol": -6.764,
+      "archivo_pdbqt": "outputs/pose_rank_002.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 2
+    },
+    {
+      "affinity_kcal_mol": -6.644,
+      "archivo_pdbqt": "outputs/pose_rank_003.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 3
+    },
+    {
+      "affinity_kcal_mol": -6.544,
+      "archivo_pdbqt": "outputs/pose_rank_004.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 4
+    },
+    {
+      "affinity_kcal_mol": -6.408,
+      "archivo_pdbqt": "outputs/pose_rank_005.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 5
+    },
+    {
+      "affinity_kcal_mol": -6.364,
+      "archivo_pdbqt": "outputs/pose_rank_006.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 6
+    },
+    {
+      "affinity_kcal_mol": -6.304,
+      "archivo_pdbqt": "outputs/pose_rank_007.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 7
+    },
+    {
+      "affinity_kcal_mol": -6.261,
+      "archivo_pdbqt": "outputs/pose_rank_008.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 8
+    },
+    {
+      "affinity_kcal_mol": -6.25,
+      "archivo_pdbqt": "outputs/pose_rank_009.pdbqt",
+      "es_alternativa": true,
+      "es_sugerida": false,
+      "es_vina_top1": false,
+      "physical_status": "passed",
+      "rank": 9
+    }
+  ],
+  "vina_top1_rank": 1
+}

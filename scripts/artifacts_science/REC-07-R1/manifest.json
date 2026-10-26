@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "experiment_id": "REC-07-R1",
+  "hypothesis": "Con la Cys25 dentro del receptor acoplado (altloc coherente), el control de docking de REC-07 sigue colocando E64c a <= 5 A de Cys25 SG en el grid recomendado: el resultado de REC-07 no dependia de la ausencia de la cisteina",
+  "protocol": "scripts/artifacts_science/REC-07-R1/PREREGISTRO.md (repeticion de REC-07 con altloc coherente y aborto sin ancla; SCI-B-022)",
+  "created_at": "2026-10-22T17:38:35.213916+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "claude/fase-1b",
+    "commit": "422b89316a8c1fbde233e3f816fe45bd8876a6be",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "G0 ancla en el receptor + G1-G7 de REC-07 sin cambios; GO = los ocho pasan"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/REC-07-R1/entrada/5TUN.pdb": "f5187b041efb58d28cb0258f6f12bdd8600b1d139a2945931b56747e962815ea",
+    "scripts/artifacts_science/REC-07-R1/entrada/E6C.pdbqt": "e82cbe4e3b62dcdf81fd8c5a51541c9f3e2761f97628aadd130b64272b7805d1"
+  },
+  "binary_hashes": {
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+  },
+  "assets_hashes": {
+    "scripts/run_rec07r1_grid_5tun.py": "18003fc7021eec34f7d9623e0686bcda9254b7bbcf0f4b6f38a80933c22a708c",
+    "scripts/run_rec07_grid_5tun.py": "78831e2a455be602a2e733066bafafd5abdc3faa45adac6eb25092c697bcde44",
+    "scripts/artifacts_science/REC-07-R1/5TUN_filtrado.pdb": "67284fe96fc83ef76ae88616e835a9235e5ad96c3920a7c8914863a512fb0493",
+    "scripts/artifacts_science/REC-07-R1/5TUN_receptor.pdbqt": "6bb4830667c49d97c2edaba45c564b549c2e6266f9e0d24e48514bbfc0d69286",
+    "scripts/artifacts_science/REC-07-R1/per_complex.jsonl": "8a9b02570a2db752a2164fdae819a7be02b85bd93007e6d9fc390c1f939a324c",
+    "scripts/artifacts_science/REC-07-R1/metrics.json": "53ae11793336a90dd19e99b6a73bba291bbf03f8bd80da138d9fefd860f58523"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-22T17:53:05.526344+00:00",
+  "decision_rationale": "Con la Cys25 dentro del receptor (G0 PASS: SG, NE2 y ND2 a 0,0 A del PDB), el grid recomendado G_ADAPT no coloca E64c en contacto con Cys25 SG en ninguna de 5 semillas (top-1 a 12,95-13,06 A, score mediano -5,30); G_MP igual (12,91-13,06 A). Fallan G4 (0 de 5) y G5 (G_DB 4 de 5). Solo la caja actual del catalogo G_DB llega a <=5 A (2,46-5,89 A, mediana 3,09) con scores pobres (-0,94 a -3,17) y 7-8 modos; dos de sus distancias bajan de 3 A, lo que el preregistro advertia como posible choque. G0, G1, G2, G3, G6 (3 repeticiones identicas) y G7 pasan. El contacto 5/5 de REC-07 era el ligando en el hueco de la Cys25 ausente: su recomendacion de G_ADAPT queda refutada, y la geometria de cajas (G1, G2) no cambia. Corrige SCI-B-022.",
+  "finished_at": "2026-10-22T17:53:05.676591+00:00",
+  "duration_seconds": 778.12
+}

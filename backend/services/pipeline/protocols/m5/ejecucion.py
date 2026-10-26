@@ -79,7 +79,7 @@ from services.pipeline.protocols.m5.zinc import (
 class SalidaM5Zn:
     """Lo que la corrida persiste. Todo puede ser `None`, y eso significa algo."""
 
-    #: `None` cuando el PDB no es ninguno de los tres perfiles validados.
+    #: `None` cuando el PDB no es ninguno de los tres perfiles de M5-Zn.
     protocol_id: str | None
     #: `None` en estados sin score; en REVIEW puede conservarse como evidencia.
     score: float | None
@@ -159,15 +159,21 @@ def ejecutar(
 ) -> SalidaM5Zn | None:
     """Ejecuta M5-Zn si el caso es metálico. `None` si el bloque no aplica.
 
-    `None` significa «esta corrida no es un caso de metal», que es distinto de
-    «es un caso de metal y no se pudo puntuar»: lo segundo devuelve una salida
+    `None` significa «esta corrida no es un caso de zinc», que es distinto de
+    «es un caso de zinc y no se pudo puntuar»: lo segundo devuelve una salida
     con su estado y su motivo.
+
+    APLICABILIDAD (decisión del propietario, 2026-10-04): el protocolo sólo existe
+    para zinc, así que sólo se ejecuta si hay zinc OBSERVADO en la estructura, la
+    familia curada lo respalda o la persona lo declaró. Un Na, Mg o Ca de tampón
+    ya no dispara el bloque: con la regla anterior lo recibían 137 de los 380
+    receptores del catálogo y en 90 no había ningún zinc.
 
     `gnn_d_prob` se acepta por parámetro y hoy llega siempre `None`: no hay
     productor. Está en la firma para que, el día que lo haya, conectarlo sea
     pasar un argumento y no reescribir esto.
     """
-    from services.pipeline.protocols.m5.base import detectar_contexto_metalico
+    from services.pipeline.protocols.m5.base import FuenteDelContexto, detectar_contexto_metalico
 
     contexto = detectar_contexto_metalico(
         ruta_pdb=ruta_receptor or _estructura_original(target_pdb_id),
@@ -176,8 +182,17 @@ def ejecutar(
     if not contexto.es_metalica:
         return None
 
-    ums = ums_autorizado(smiles)
     hay_zinc = "ZN" in contexto.elementos
+    respaldo_declarado = (
+        FuenteDelContexto.FAMILIA_CURADA in contexto.fuentes
+        or FuenteDelContexto.DECLARADO_POR_INVESTIGADOR in contexto.fuentes
+    )
+    if not (hay_zinc or respaldo_declarado):
+        # Metal observado, pero ni es zinc ni nadie lo declara metaloenzima: es un ion estructural o
+        # de tampón. Se abstiene el bloque entero: no es «REVIEW», es que M5-Zn no aplica.
+        return None
+
+    ums = ums_autorizado(smiles)
 
     perfil = perfil_para(target_pdb_id)
     if perfil is None:

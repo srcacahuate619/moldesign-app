@@ -1,0 +1,16 @@
+{
+  "id_r2": "S12",
+  "pdb": "3S43",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 59.3,
+      "crudo": "S12-3S43-intento1.json.gz",
+      "crudo_sha256": "b33453bb38e107dc863f646bbf556fde42f474a36f43f95ecc2c6ea7d1b00168"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S12-3S43-intento1.json.gz",
+  "crudo_sha256": "b33453bb38e107dc863f646bbf556fde42f474a36f43f95ecc2c6ea7d1b00168",
+  "registrado_en": "2026-10-25T01:30:21+00:00"
+}

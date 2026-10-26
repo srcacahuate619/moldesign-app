@@ -216,8 +216,35 @@ def test_fingerprint_changes_when_pipeline_configuration_changes():
         {"grid_size": (30.0, 30.0, 30.0)},
         {"custom_hotspots": ["TYR123"]},
         {"docking_engine": "qvina2"},
-        {"exhaustiveness": 16},
-        {"num_poses": 12},
+        # SOL-02: el protocolo que cambia la corrida viaja en
+        # `pipeline_config.stage_params` — es lo único que el submit puede
+        # re-transmitir y lo único que el runner ejecuta. Los casos
+        # `{"exhaustiveness": 16}` / `{"num_poses": 12}` de nivel superior sin
+        # pipeline_config vivían aquí y firmaban huellas de corridas que
+        # ninguna puerta de ejecución podía realizar: ver
+        # `test_configuracion_efectiva_docking.py` y el control
+        # PROTOCOLO_DECLARADO_CONFLICTIVO.
+        {
+            "pipeline_config": {
+                "enabled_stages": ["validation", "docking"],
+                "stage_params": {"docking": {"exhaustiveness": 16}},
+                "docking_engine": "vina",
+            }
+        },
+        {
+            "pipeline_config": {
+                "enabled_stages": ["validation", "docking"],
+                "stage_params": {"docking": {"num_poses": 12}},
+                "docking_engine": "vina",
+            }
+        },
+        {
+            "pipeline_config": {
+                "enabled_stages": ["validation", "conformer", "docking"],
+                "stage_params": {"conformer": {"conformers": 30}},
+                "docking_engine": "vina",
+            }
+        },
     ],
 )
 def test_fingerprint_changes_when_the_run_would_change(override):
@@ -242,6 +269,18 @@ def test_fingerprint_ignores_what_cannot_change_the_run():
         _build(smiles="CC(=O)Oc1ccccc1C(=O)O")["input_fingerprint"]
         == _build(smiles="O=C(C)Oc1ccccc1C(=O)O")["input_fingerprint"]
     )
+
+    # SOL-02: exhaustividad y poses de NIVEL SUPERIOR sin `pipeline_config`
+    # tampoco cambian la corrida. Ninguna puerta de ejecución las lleva — el
+    # runner sólo ve `pipeline_config.stage_params` y settings —, así que
+    # firmarlas como efectivas produjo el 409 espurio de la auditoría: la
+    # revalidación del submit (que sólo puede derivarlas de los anidados)
+    # firmaba un documento distinto del preflight original. Ahora el
+    # informe las declara como conflicto si contradicen lo ejecutable, pero
+    # la huella sólo firma lo que de verdad va a correr.
+    base = _build()["input_fingerprint"]
+    assert _build(exhaustiveness=16)["input_fingerprint"] == base
+    assert _build(num_poses=12)["input_fingerprint"] == base
 
 
 @rdkit_available

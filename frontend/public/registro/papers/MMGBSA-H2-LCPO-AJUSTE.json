@@ -51,41 +51,26 @@
       "m": "fuerte"
      },
      {
-      "t": " Con los coeficientes elegidos en validación —casi los del cloro",
+      "t": " Con los coeficientes elegidos en validación —casi los del cloro publicado—, validación ",
+      "m": null
+     },
+     {
+      "t": "pasa",
+      "m": "fuerte"
+     },
+     {
+      "t": " (mediana 0,94 Å², p90 4,85) y prueba ",
+      "m": null
+     },
+     {
+      "t": "falla",
+      "m": "fuerte"
+     },
+     {
+      "t": " (mediana 2,96, p90 9,70). La cola de la prueba aparece con cualquier juego de coeficientes: 9,44 con los de H1, 9,83 con el ajuste completo. Reajustar no la toca.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "publicado—, validación ",
-     "m": null
-    },
-    {
-     "t": "pasa",
-     "m": "fuerte"
-    },
-    {
-     "t": " (mediana 0,94 Å², p90 4,85) y prueba ",
-     "m": null
-    },
-    {
-     "t": "falla",
-     "m": "fuerte"
-    },
-    {
-     "t": " (mediana 2,96, p90 9,70). La cola de la prueba aparece con cualquier juego de coeficientes: 9,44 con los de H1, 9,83 con el ajuste completo. Reajustar no la toca.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "Yodo.",
@@ -108,44 +93,20 @@
       "m": "fuerte"
      },
      {
-      "t": " sólo",
+      "t": " sólo por el intervalo del sesgo, con 6 átomos.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "por el intervalo del sesgo, con 6 átomos.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "H10.",
       "m": "fuerte"
      },
      {
-      "t": " El bromo generaliza por scaffold; el yodo falla por 0,05 Å² sobre el",
+      "t": " El bromo generaliza por scaffold; el yodo falla por 0,05 Å² sobre el margen, con 8 átomos.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "margen, con 8 átomos.",
-     "m": null
-    }
    ]
   },
   {

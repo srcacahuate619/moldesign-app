@@ -114,3 +114,66 @@ programa con su propio re-sellado y el triaje de todos los consumidores del conj
 - los confórmeros **no se regeneran**: si el techo fuese conformacional, esto no lo mueve;
 - parte del techo puede ser **preparación** y no generador, que es justo lo que sugieren los
   nueve, y este experimento no los separa.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-128. La relectura por identificador encuentra 116 unidades evaluables, coincidentes con
+  MF-13, y 107 cubiertas: 0,9224 frente al listón 0,90. El resultado conservado supera ese
+  umbral sobre la cohorte completa. La guarda original no exigía todos los miembros y podía leer
+  un subconjunto; este reanálisis rechaza miembros ausentes, duplicados o etiquetas
+  incoherentes. La cobertura sigue siendo de oráculo y no evalúa un selector. Productor:
+  `scripts/analisis_fase1b_cohortes.py`.
+- SCI-B-129. El sello fija el runner y referencias a MF-33 y MF-02D, mientras la selección
+  ejecutada se lee de MF-13. No fija por hash esa selección efectiva ni las entradas
+  estructurales, los mapas, el helper y el ejecutable Vina. El conteo posterior de las salidas
+  confirma su denominador observado, pero no completa el grafo histórico de entradas ni la
+  reproducción física de la corrida. La exigencia de sellado de SCI-B-045 se aplica a
+  experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente. Productor:
+  `scripts/analisis_fase1b_procedencia.py`.
+- SCI-B-130. Cruce exploratorio añadido después del protocolo: entre los cristales marcados por
+  REC-09 hay 4 fallos de 6, frente a 5 de 110 en los no marcados; cociente descriptivo 14,67 y
+  Fisher unilateral p = 0,0002454. En COLOCACION la tabla es 4/6 frente a 3/27, cociente 6,00.
+  Los otros estratos no tienen cristales marcados. El contraste no estaba prerregistrado, no se
+  ajusta aquí por las exploraciones del programa y no acredita causalidad ni independencia de
+  los conjuntos solapados. Productor: `scripts/analisis_fase1b_cohortes.py`.
+- SCI-B-131. El bloque externo no evaluó torsiones, enlaces rotables, diversidad y tamaño: sus
+  valores están ausentes en las 68 unidades fuera de la cohorte inicial. El único predictor
+  disponible, número de confórmeros, está ligado al presupuesto desigual de SINGLE y ENSEMBLE.
+  Se mantiene INCONCLUSIVE para la política prospectiva; no se habilita una regla adaptativa ni
+  se interpreta ausencia de medición como resultado negativo. Productor:
+  `scripts/analisis_fase1b_limites.py`.
+- SCI-B-132. El PRE fija por hash la lista de miembros de MF-33 y ese hash coincide con el
+  archivo conservado hoy. El sello final de MOD fija MF-33-EXT y MF-33-DOSIS, pero no declara
+  que consumiera exactamente aquella lista. Se puede reconstruir la partición conservada con el
+  PRE; no se certifica por ello el vínculo omitido de la ejecución final. La exigencia de
+  sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este
+  registro retroactivamente. Productor: `scripts/analisis_fase1b_procedencia.py`.
+- SCI-B-133. MF-33-EXT-MOD estimó 0,5815 como inversa de la media del primer acierto entre los
+  107 cubiertos. No es la máxima verosimilitud con censura derecha de las 116 unidades. Una
+  relectura posterior, bajo un modelo homogéneo de intentos independientes con K observado por
+  unidad, incorpora los 193 intentos de los nueve casos censurados: 107/377 = 0,2838. La curva
+  usa min(k, K_i). El ajuste es descriptivo y posterior: no valida independencia ni
+  homogeneidad, no reproduce el chi-cuadrado añadido ni identifica una mezcla causal de
+  poblaciones. Se mantiene INCONCLUSIVE. Productor: `scripts/analisis_fase1b_falsas.py`.
+- SCI-B-134. El sello fija el analizador MOD y sus tablas; no fija un productor del
+  chi-cuadrado y su p-valor añadidos después. Ese contraste tampoco quedó especificado
+  formalmente en el PRE. Se retira su uso como rechazo confirmatorio de un proceso geométrico y
+  la inferencia de poblaciones refractarias. El reanálisis con censura se presenta por separado
+  como posterior, sin heredar el contraste ni el carácter prospectivo. La exigencia de sellado
+  de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro
+  retroactivamente. Productor: `scripts/analisis_fase1b_procedencia.py`.
+- SCI-B-135. El sello fija el script principal de MOD; no fija estadistica_fnd04.py ni
+  versiones de las bibliotecas que determinan MDE, correlaciones y ajuste de multiplicidad. El
+  campo de paquetes está vacío. Las versiones del entorno actual de reanálisis se registran
+  ahora y no se atribuyen a la ejecución histórica. La exigencia de sellado de SCI-B-045 se
+  aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente.
+  Productor: `scripts/analisis_fase1b_procedencia.py`.
+- MF-33-EXT-MOD-R1 (2026-10-22, GO preregistrado) ejecutó el BLOQUE 3 que faltaba (SCI-B-131).
+  En los 68 externos, `torsdof`, `rot_bonds`, `diversidad` y `n_heavy` sobreviven a BH contra el
+  beneficio del ensemble (ρ 0.33–0.43), y pasan a ser candidatos según el PRE. Pero los cuatro
+  van con el número de confórmeros (ρ 0.80–0.95), que es la dosis del ensemble: controlando por
+  él, ninguno conserva asociación (ρ parcial −0.17 a −0.09, diagnóstico posterior declarado). No
+  hay todavía un descriptor estático que prediga el beneficio más allá de K.

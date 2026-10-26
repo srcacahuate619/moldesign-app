@@ -1,0 +1,42 @@
+{
+  "smiles": "NC(=[NH2+])c1ccc(CNC(=O)[C@@H]2CCCN2C(=O)[C@H]([NH3+])Cc2ccccc2)cc1",
+  "target_pdb_id": "USR_574374",
+  "chain": "H",
+  "grid_center": [
+    16.441,
+    -12.5175,
+    22.6462
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "docking_engine": "vina",
+  "exhaustiveness": 8,
+  "num_poses": 9,
+  "conformers": 1,
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  }
+}

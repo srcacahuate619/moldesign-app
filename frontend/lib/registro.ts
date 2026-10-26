@@ -174,11 +174,11 @@ export function duracionLegible(s: number | null): string | null {
   return m ? `${h} h ${m} min` : `${h} h`;
 }
 
-export function fechaLegible(iso: string | null): string | null {
+export function fechaLegible(iso: string | null, locale = "es"): string | null {
   if (!iso) return null;
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return null;
-  return d.toLocaleDateString("es", {
+  return d.toLocaleDateString(locale === "en" ? "en-US" : "es", {
     year: "numeric",
     month: "short",
     day: "numeric",

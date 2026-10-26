@@ -49,3 +49,40 @@ def test_el_doble_sin_ez_declara_el_isomero_3d_y_que_no_se_evaluaron_otros():
     assert estereo["dobles_sin_clasificar_3d"] == 0
     assert "/" in estereo["smiles_3d_efectivo"] or "\\" in estereo["smiles_3d_efectivo"]
     assert any(a["codigo"] == "ESTEREOQUIMICA_NO_DECLARADA" for a in avisos_estado_ligando(estado))
+
+
+GELDANAMICINA = (
+    r"COC1=C2C[C@@H](C)C[C@H](OC)[C@H](O)[C@@H](C)/C=C(\C)[C@H](OC(N)=O)"
+    r"[C@@H](OC)/C=C\C=C(\C)C(=O)NC(=CC1=O)C2=O"
+)
+
+
+def test_la_estereo_declarada_que_el_tautomero_destruye_se_declara():
+    """QA-032: el canónico de RDKit aromatiza la quinona y el C6 deja de ser quiral.
+
+    La entrada lo declaraba todo, así que `declarada_por_el_usuario` es cierto,
+    pero lo acoplado no es el estereoisómero escrito, y eso tiene que decirse.
+    """
+    # Desde el 2026-10-10 el canónico hay que pedirlo: por defecto se respeta la entrada.
+    estado = _construir_conformero(GELDANAMICINA, tautomero="canonico")["estado_del_ligando"]
+    perdida = estado["estereoquimica"]["perdida_en_la_especie_acoplada"]
+    assert perdida == {"centros": 1, "dobles": 0}
+    avisos = avisos_estado_ligando(estado)
+    critico = [a for a in avisos if a["codigo"] == "ESTEREOQUIMICA_PERDIDA_AL_NORMALIZAR"]
+    assert critico and critico[0]["severidad"] == "critica"
+    campo = _campo_de_estado_quimico(SimpleNamespace(ligand_state=estado))
+    assert campo.estado == Estado.REVISAR
+
+
+def test_por_defecto_la_geldanamicina_conserva_su_estereo():
+    """Respetar el tautómero escrito (valor por defecto desde el 2026-10-10) no aromatiza la quinona."""
+    estado = _construir_conformero(GELDANAMICINA)["estado_del_ligando"]
+    assert estado["tautomeria"]["modo"] == "entrada"
+    assert estado["estereoquimica"]["perdida_en_la_especie_acoplada"] == {"centros": 0, "dobles": 0}
+
+
+def test_sin_perdida_no_hay_aviso_de_estereo_perdida():
+    estado = _construir_conformero(r"C[C@H](N)C(=O)O")["estado_del_ligando"]
+    assert estado["estereoquimica"]["perdida_en_la_especie_acoplada"] == {"centros": 0, "dobles": 0}
+    assert not [a for a in avisos_estado_ligando(estado)
+                if a["codigo"] == "ESTEREOQUIMICA_PERDIDA_AL_NORMALIZAR"]

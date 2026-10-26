@@ -55,10 +55,10 @@ def main() -> int:
         num_workers = int(sys.argv[6])
     except ValueError:
         num_workers = 2
-    anti_targets_csv = sys.argv[7] if len(sys.argv) > 7 else ""
+    anti_targets_csv = sys.argv[7] if len(sys.argv) > 7 else None
     task_id = sys.argv[8] if len(sys.argv) > 8 else None
     docking_protocol = json.loads(sys.argv[9]) if len(sys.argv) > 9 else None
-    anti_ids = [a.strip() for a in anti_targets_csv.split(",") if a.strip()] or None
+    anti_ids = [a.strip() for a in anti_targets_csv.split(",") if a.strip()] if anti_targets_csv is not None else None
 
     import asyncio
     from uuid import UUID
@@ -74,15 +74,30 @@ def main() -> int:
         from db.repository import Repository
         from core.database import get_db_session, flush_with_retry
 
-        result = await run_selectivity_panel(
-            smiles=smiles,
-            smiles_hash=smiles_hash,
-            on_target_pdb=target_pdb_id,
-            on_target_affinity=on_affinity,
-            num_workers=num_workers,
-            anti_targets=anti_ids,
-            docking_protocol=docking_protocol,
-        )
+        # AMP-03: el panel resuelve la composición del sitio de cada
+        # anti-diana contra el catálogo — hERG (5VA1) declara cuatro cadenas —
+        # y también las anti-dianas subidas por el usuario. La ruta manual ya
+        # le entregaba su repositorio; este proceso lo llamaba SIN él, la
+        # anti-diana cardíaca caía al fallback monomérico (`chain="A"`,
+        # `site_chains=None`) y el panel automático terminaba `status: "ok"`
+        # con un número de seguridad sobre media cavidad.
+        #
+        # La sesión vive lo que dura el panel, igual que la sesión de la
+        # petición en la ruta manual. En WAL una lectura no bloquea escritores
+        # (core/database.py), y el gestor de `get_db_session` hace el
+        # commit/rollback: no hay fuga.
+        async with get_db_session() as db:
+            repository = Repository(db)
+            result = await run_selectivity_panel(
+                smiles=smiles,
+                smiles_hash=smiles_hash,
+                on_target_pdb=target_pdb_id,
+                on_target_affinity=on_affinity,
+                num_workers=num_workers,
+                anti_targets=anti_ids,
+                repository=repository,
+                docking_protocol=docking_protocol,
+            )
 
         payload = {
             "molecule_id": molecule_id,

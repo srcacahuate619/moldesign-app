@@ -57,6 +57,21 @@ router = APIRouter(prefix="/pro", tags=["PRO Features"])
 settings = get_settings()
 
 
+def estructura_del_panel_por_defecto(pdb_id: str) -> dict | None:
+    """Medida de la estructura acoplada; nunca de la alternativa histórica."""
+    fila = next((f for f in panel_bowes_2012() if f.get("pdb_id") == pdb_id), {})
+    redock = fila.get("redock") or {}
+    if not redock:
+        return None
+    return {"pdb_id": pdb_id, "metodo": fila.get("metodo"),
+            "resolucion_A": fila.get("resolucion_A"), "ligando_de_referencia": fila.get("site_ligand"),
+            "distancia_centroides_A": redock.get("distancia_centroides_A"),
+            "pose_reproducida": redock.get("pose_reproducida"),
+            "rmsd_pose1_A": redock.get("rmsd_pose1_A"),
+            "truncadas_en_sitio": fila.get("truncadas_en_sitio"),
+            "sitio_adjudicado": fila.get("sitio_adjudicado", False)}
+
+
 @router.get("/anti-targets")
 async def list_anti_targets(
     current_user: UserORM | None = Depends(get_current_user_optional),
@@ -76,6 +91,7 @@ async def list_anti_targets(
             "threshold_kcal": t["affinity_threshold"],
             "source": "default",
             "por_defecto": True,
+            "estructura": estructura_del_panel_por_defecto(t["pdb_id"]),
         }
         for t in ANTI_TARGET_PANEL
     ]
@@ -591,6 +607,7 @@ async def dock_single_anti_target(
     target_pdb_id: str = Query(..., description="Anti-target PDB ID"),
     current_user: UserORM | None = Depends(get_current_user_optional),
     db: AsyncSession = Depends(get_db),
+    task_id: str | None = None,
 ) -> dict[str, Any]:
     """
     Dock molecule against a single anti-target for progressive modal updates.
@@ -618,6 +635,8 @@ async def dock_single_anti_target(
     evaluation = await repository.get_evaluation_result(mol_uuid)
     if evaluation is None or evaluation.molecule is None:
         raise HTTPException(status_code=404, detail="Evaluation or molecule missing")
+    if task_id is not None and task_id != evaluation.task_id:
+        raise HTTPException(409, "La corrida seleccionada ya no es la vigente; no se calcula sobre otra evaluación.")
 
     smiles = evaluation.molecule.smiles
     smiles_hash = evaluation.molecule.smiles_hash
@@ -1009,6 +1028,7 @@ async def run_admet_endpoint(
     ),
     current_user: UserORM | None = Depends(get_current_user_optional),
     db: AsyncSession = Depends(get_db),
+    task_id: str | None = None,
 ) -> dict[str, Any]:
     """Calcula el perfil ADMET de una molecula ya evaluada, y lo guarda."""
     from uuid import UUID
@@ -1030,6 +1050,8 @@ async def run_admet_endpoint(
     evaluation = await repository.get_evaluation_result(mol_uuid)
     if evaluation is None:
         raise HTTPException(status_code=404, detail="Evaluation not found")
+    if task_id is not None and task_id != evaluation.task_id:
+        raise HTTPException(409, "La corrida seleccionada ya no es la vigente; no se calcula sobre otra evaluación.")
     if evaluation.molecule is None:
         raise HTTPException(status_code=404, detail="Molecule missing")
 

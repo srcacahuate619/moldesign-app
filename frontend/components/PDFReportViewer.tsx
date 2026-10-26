@@ -9,14 +9,19 @@ import { CertificationModal, type CertificationSuccess } from "./CertificationMo
 
 interface PDFReportViewerProps {
   moleculeId: string;
+  /**
+   * Corrida cuyo dossier se muestra. Una molécula se evalúa varias veces; sin ella
+   * el backend usaría la última, que puede no ser la que el investigador abrió.
+   */
+  taskId?: string | null;
   isCertified: boolean;
   /** Actualiza el resultado local con una firma que el modal ya publicó. */
   onCertify?: (result: CertificationSuccess) => void | Promise<void>;
   isCertifying?: boolean;
 }
 
-export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifying = false }: PDFReportViewerProps) {
-  const { t } = useLanguage();
+export function PDFReportViewer({ moleculeId, taskId, isCertified, onCertify, isCertifying = false }: PDFReportViewerProps) {
+  const { t, locale } = useLanguage();
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -49,7 +54,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
       setIsLoading(true);
       setError(null);
       try {
-        const url = await fetchCertificateBlobUrl(moleculeId, control.signal);
+        const url = await fetchCertificateBlobUrl(moleculeId, control.signal, taskId);
         if (!activo) {
           // Llegó después de que nadie la esperara: se libera aquí, que es el
           // único sitio donde todavía se conoce.
@@ -72,7 +77,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
       activo = false;
       control.abort();
     };
-  }, [moleculeId, isCertified]);
+  }, [moleculeId, taskId, isCertified, locale]);
 
   // La última URL viva se libera al desmontar de verdad, no en cada re-efecto.
   useEffect(() => () => {
@@ -105,7 +110,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
         <div className="flex items-center justify-between px-4 py-3 bg-surface-900 border-b border-surface-800 z-10 shadow-sm relative">
           <div className="flex items-center gap-3">
             <FileText className="w-4 h-4 text-brand-400" />
-            <span className="font-mono text-xs text-surface-300 tracking-wider">DOSSIER_{moleculeId.split('-')[0].toUpperCase()}.PDF</span>
+            <span className="font-mono text-xs text-surface-300 tracking-wider">{t("pn_pdf_dossier_name", { id: moleculeId.split('-')[0].toUpperCase() })}</span>
           </div>
           
           <div className="flex items-center gap-2">
@@ -120,7 +125,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
                 }
               }}
               className="grid h-11 w-11 place-items-center rounded text-surface-400 transition-colors hover:bg-surface-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400"
-              title="Pantalla completa"
+              title={t("pn_pdf_fullscreen")}
             >
               <Maximize className="w-4 h-4" />
             </button>
@@ -128,11 +133,11 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
             <div className="w-px h-4 bg-surface-700 mx-1" />
             
             <button
-              onClick={() => downloadCertificate(moleculeId)}
+              onClick={() => downloadCertificate(moleculeId, "general", taskId)}
               className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-mono text-xs font-bold text-surface-300 transition-colors hover:bg-brand-500 hover:text-surface-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400"
             >
               <Download className="w-3 h-3" />
-              <span className="hidden sm:inline">DESCARGAR</span>
+              <span className="hidden sm:inline">{t("pn_pdf_download")}</span>
             </button>
           </div>
         </div>
@@ -152,7 +157,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
                   className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded bg-amber-500 px-3 font-mono text-xs font-bold uppercase text-surface-950 transition-colors hover:bg-amber-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-200 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <ShieldCheck className="w-3 h-3" />
-                  Registrar integridad
+                  {t("pn_pdf_register_integrity")}
                 </button>
               )}
             </div>
@@ -161,7 +166,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
           <div className="absolute inset-0 z-10 pt-[40px]">
             {blobUrl && (
               <iframe 
-                src={`${blobUrl}#toolbar=0`} 
+                src={`${blobUrl}#toolbar=0&view=FitH`} 
                 className="w-full h-full border-none bg-transparent"
                 title={t("pn_dossier_vista_previa")}
               />
@@ -173,6 +178,7 @@ export function PDFReportViewer({ moleculeId, isCertified, onCertify, isCertifyi
       {showModal && (
         <CertificationModal 
           moleculeId={moleculeId} 
+          taskId={taskId}
           onClose={() => setShowModal(false)}
           onSuccess={(result) => {
             void onCertify?.(result);

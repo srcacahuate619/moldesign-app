@@ -1,0 +1,262 @@
+{
+ "id": "VISION-MOLECULAR-01",
+ "meta": {
+  "titulo": "Levantar el dibujo a 3D en moléculas grandes: seis alternativas medidas, ninguna mejora lo que ya hace el producto",
+  "entradilla": "Cuando una molécula grande y flexible se dibuja en 2D, ninguna geometría 3D se le parece del todo, y el producto se abstiene en 8 de 37. Se midieron seis formas de arreglarlo, cada una con su criterio escrito antes. Ninguna lo consigue sin pagar en otra cosa."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "NO_GO.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Ninguna de las seis alternativas cumple su registro previo, así que el producto se queda como está: enseña la pose en 3D aunque no pueda levantarla desde el dibujo, y declara la energía del conformador que enseña.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La «visión molecular» levanta el dibujo plano de una molécula a una geometría 3D que se le parezca, para que el químico vea en 3D lo que dibujó. En moléculas grandes y flexibles el dibujo extendido no se parece a ningún 3D real. Con 37 moléculas de 35 a 51 átomos pesados, el producto se abstiene en 8, y el conformador que elige está una mediana de 11,5 kcal/mol por encima del más estable que encuentra.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se probaron seis ideas. Cada una tenía su criterio escrito y guardado antes de medirla:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Idea",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "E1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Que el dibujo se ajuste al 3D, y no al revés",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Rescata 10 de 25 abstenciones; hacía falta el 75 %",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "E2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Medir la energía con xTB y disolvente, no con MMFF en fase gas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Parcial: la cifra baja un 31 %, pero el problema sigue",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "E3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Plegar la molécula con los anillos fijos donde están en el dibujo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5 abstenciones de 37 (hacían falta 4 o menos) y 11 moléculas imposibles",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "E4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Elegir sólo entre conformadores a menos de 5 kcal/mol del mínimo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "La abstención sube de 8 a 23",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "E5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Enderezar cadenas y girar colas, como hace MolTalk",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Baja de 8 a 7; hacía falta 4 o menos",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "E6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Animar el paso de 2D a 3D girando enlaces y no en línea recta",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "La línea recta casi nunca cruza átomos (2 de 29), y las torsiones cruzan más",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Parecerse al dibujo y ser estable son objetivos opuestos",
+      "m": "fuerte"
+     },
+     {
+      "t": " en moléculas flexibles. Cada kcal/mol que se le quita al conformador se paga en parecido, y ninguna de las alternativas consigue las dos cosas.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La energía declarada exagera, pero no engaña.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Con xTB y disolvente, el conformador elegido sigue por encima de 5 kcal/mol en 27 de 37 moléculas.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No mide poses de Vina.",
+      "m": "fuerte"
+     },
+     {
+      "t": " E1 usa como «pose» un conformador sin elegir, que es una aproximación a lo que ve Moldex.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No es ciencia de afinidad:",
+      "m": "fuerte"
+     },
+     {
+      "t": " la elevación es una vista. No cambia ninguna corrida, ningún score ni ninguna decisión de Preparación.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Se selló al cerrar.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Los seis se registraron y se midieron por separado el 2026-10-24 y 25, y se reunieron en un solo experimento. Lo que garantiza que cada criterio precede a su dato es el orden de los commits.",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/VISION-MOLECULAR-01.md"
+}

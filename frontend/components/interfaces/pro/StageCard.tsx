@@ -71,7 +71,7 @@ export function StageCard({
               </span>
               {stage.required && (
                 <span className="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-indigo-950/40 border border-indigo-500/20 text-indigo-400">
-                  Obligatorio
+                  {t("pr_stage_required")}
                 </span>
               )}
             </div>
@@ -87,7 +87,7 @@ export function StageCard({
             <button
               onClick={onMoveUp}
               disabled={isFirst}
-              title="Mover arriba"
+              title={t("pr_stage_move_up")}
               className={`p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 disabled:opacity-20 disabled:hover:bg-transparent transition-all cursor-pointer`}
             >
               <ChevronUp size={12} />
@@ -95,7 +95,7 @@ export function StageCard({
             <button
               onClick={onMoveDown}
               disabled={isLast}
-              title="Mover abajo"
+              title={t("pr_stage_move_down")}
               className={`p-1 rounded text-zinc-400 hover:text-white hover:bg-zinc-800 disabled:opacity-20 disabled:hover:bg-transparent transition-all cursor-pointer`}
             >
               <ChevronDown size={12} />
@@ -113,17 +113,17 @@ export function StageCard({
           </span>
           {status === 'running' && (
             <span className="flex items-center gap-1 text-xs font-mono text-indigo-400 font-bold animate-pulse">
-              <Loader2 size={10} className="animate-spin" /> PROCESANDO
+              <Loader2 size={10} className="animate-spin" /> {t("pr_stage_running")}
             </span>
           )}
           {status === 'done' && (
             <span className="flex items-center gap-1 text-xs font-mono text-emerald-400 font-bold">
-              <CheckCircle2 size={10} /> {durationMs ? `${(durationMs/1000).toFixed(1)}s` : 'OK'}
+              <CheckCircle2 size={10} /> {durationMs ? `${(durationMs/1000).toFixed(1)}s` : t("pr_stage_done")}
             </span>
           )}
           {status === 'error' && (
             <span className="flex items-center gap-1 text-xs font-mono text-red-400 font-bold">
-              <AlertCircle size={10} /> FALLO
+              <AlertCircle size={10} /> {t("pr_stage_failed")}
             </span>
           )}
         </div>

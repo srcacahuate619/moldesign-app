@@ -31,6 +31,8 @@ eso es peor que no entregar nada.
 
 from __future__ import annotations
 
+import asyncio
+
 import hashlib
 import uuid
 from datetime import datetime, timezone
@@ -45,9 +47,11 @@ from sqlalchemy.orm import selectinload
 from api.dependencies import get_current_user_optional
 from api.routers.evaluation_access import require_owned_molecule
 from core.database import get_db
+from core.i18n import current_locale
 from core.models import EvaluationResultORM, EvaluationRunORM, MoleculeORM, UserORM
 from db.repository import Repository
 from services.dossier.model import Artefacto, build_case_dossier
+from services.dossier.localization import traducir_dossier
 from services.dossier.package import construir_paquete, raiz_paquete, sanitizar
 from services.dossier.pdf import render_dossier_pdf
 from services.dossier.preparacion import build_preparacion
@@ -221,6 +225,7 @@ async def _artefactos(eval_result, target, molecule) -> list[Artefacto]:
 
     # ── Receptor preparado ───────────────────────────────────────────
     pdb_id = getattr(target, "pdb_id", None) if target else None
+
     preparado = await leer_sellado(
         getattr(eval_result, "receptor_path", None),
         getattr(eval_result, "receptor_sha256", None), "runs/receptors/",
@@ -233,6 +238,22 @@ async def _artefactos(eval_result, target, molecule) -> list[Artefacto]:
         contenido=preparado,
         razon=None if preparado else
             "La corrida no conserva receptor inmutable con SHA-256 verificable.",
+    ))
+
+    # ── Estructura de origen ─────────────────────────────────────────
+    # El archivo depositado del que salió el receptor. Va sólo si recalculando la
+    # receta con él sale la de la corrida: sin esa comprobación sería «un PDB con
+    # el mismo nombre», y el paquete afirmaría una procedencia que no tiene. Un
+    # cálculo con disolvente explícito parte de aquí, no del PDBQT recortado.
+    comprobado = await asyncio.to_thread(_origen_del_receptor, eval_result, pdb_id)
+    artefactos.append(Artefacto(
+        rol="inputs",
+        nombre=f"{sanitizar(pdb_id or 'receptor')}_source{_extension(comprobado)}",
+        media_type="chemical/x-pdb",
+        fuente="preparer.receptor_source_path_no_network · receptor_prep.recipe_hash",
+        estado=Estado.REGISTRADO if not isinstance(comprobado, str) else Estado.NO_DISPONIBLE,
+        contenido=None if isinstance(comprobado, str) else comprobado.datos,
+        razon=comprobado if isinstance(comprobado, str) else None,
     ))
 
     # Los dos SMILES se toman de la corrida, nunca de la fila mutable.
@@ -439,11 +460,17 @@ async def dossier_preview(
 ):
     """Genera el dossier y lo devuelve para leer en pantalla."""
     molecule, eval_result, target = await _reunir(molecule_id, projection, current_user, db)
+    # Las especies del sitio las decide la auditoría de Preparación; el PDF copia sus campos. Mide en un hilo (restricción 7).
+    contexto = await asyncio.to_thread(_contexto_estructural, eval_result, getattr(target, "pdb_id", None))
     dossier = build_case_dossier(
         projection=projection, molecule=molecule, eval_result=eval_result, target=target,
-        generated_at=datetime.now(timezone.utc),
+        generated_at=datetime.now(timezone.utc), contexto=contexto,
     )
+    dossier = traducir_dossier(dossier, current_locale())
     pdf = render_dossier_pdf(dossier)
+    # ReportLab leaves the BytesIO cursor at EOF; StreamingResponse iterates
+    # from the current position, so rewind before handing over the PDF.
+    pdf.seek(0)
     nombre = f"dossier_{sanitizar(projection.name, maximo=60)}.pdf"
     log.info("dossier_preview", molecule_id=str(molecule_id), case_id=projection.case_id)
     return StreamingResponse(
@@ -454,6 +481,34 @@ async def dossier_preview(
             "Access-Control-Expose-Headers": "Content-Disposition",
         },
     )
+
+
+def _origen_del_receptor(eval_result, pdb_id: str | None):
+    """El crudo depositado comprobado por la receta, o la razón por la que no va al paquete."""
+    from services.dossier.contexto_estructural import origen_comprobado
+
+    try:
+        return origen_comprobado(eval_result, pdb_id)
+    except Exception as exc:  # noqa: BLE001 — se declara ausente; nunca se incluye sin comprobar
+        log.warning("dossier_origen_no_comprobado", error=f"{type(exc).__name__}: {exc}")
+        return "No se pudo comprobar la estructura de origen del receptor"
+
+
+def _extension(comprobado) -> str:
+    """La del archivo depositado (`.pdb` o `.cif`); `.pdb` cuando no hay archivo."""
+    from pathlib import Path
+
+    return Path(getattr(comprobado, "nombre", "receptor.pdb")).suffix or ".pdb"
+
+
+def _contexto_estructural(eval_result, pdb_id: str | None):
+    from services.dossier.contexto_estructural import medir, no_medido
+
+    try:
+        return medir(eval_result, pdb_id)
+    except Exception as exc:  # noqa: BLE001 — se declara en la auditoría; nunca un «cumple» por omisión
+        log.warning("preparacion_contexto_no_medido", error=f"{type(exc).__name__}: {exc}")
+        return no_medido("No se pudieron medir las distancias al ligando: las distancias se miden desde la caja.")
 
 
 @router.post(
@@ -472,11 +527,17 @@ async def dossier_preparacion(
     ver `services/dossier/preparacion.py`.
     """
     molecule, eval_result, target = await _reunir(molecule_id, projection, current_user, db)
+    # Distancias al ligando: lee el origen y el receptor del disco y recalcula la
+    # receta, así que va en un hilo (AGENTS.md, restricción 7). Si no se puede medir,
+    # el contexto lo dice y la auditoría mide desde la caja, como antes.
+    contexto = await asyncio.to_thread(_contexto_estructural, eval_result, getattr(target, "pdb_id", None))
     dossier = build_case_dossier(
         projection=projection, molecule=molecule, eval_result=eval_result, target=target,
-        generated_at=datetime.now(timezone.utc),
+        generated_at=datetime.now(timezone.utc), contexto=contexto,
     )
-    auditoria = build_preparacion(dossier, eval_result, projection)
+    auditoria = traducir_dossier(
+        build_preparacion(dossier, eval_result, projection, contexto), current_locale()
+    )
     log.info(
         "dossier_preparacion",
         molecule_id=str(molecule_id),
@@ -501,17 +562,27 @@ async def dossier_package(
     """Genera el paquete verificable: PDF, manifiesto, hashes y artefactos reales."""
     molecule, eval_result, target = await _reunir(molecule_id, projection, current_user, db)
     ahora = datetime.now(timezone.utc)
+    # Un solo contexto para las dos salidas: el PDF copia de la auditoría las especies del sitio, así que el paquete no puede
+    # llevar un PDF que diga «REVISAR» y un `audit.json` que diga «ABSTENCIÓN» del mismo metal.
+    contexto = await asyncio.to_thread(_contexto_estructural, eval_result, getattr(target, "pdb_id", None))
     dossier = build_case_dossier(
         projection=projection, molecule=molecule, eval_result=eval_result, target=target,
-        generated_at=ahora,
+        generated_at=ahora, contexto=contexto,
     )
+    dossier = traducir_dossier(dossier, current_locale())
     pdf = render_dossier_pdf(dossier).getvalue()
     artefactos = await _artefactos(eval_result, target, molecule)
+    # La MISMA auditoría que enseña la pestaña, dentro del paquete: quien lo reciba
+    # tiene que poder leer qué bloqueaba y qué se decidió sin recalcular nada.
+    auditoria = traducir_dossier(
+        build_preparacion(dossier, eval_result, projection, contexto), current_locale()
+    )
     datos, entradas, raiz = construir_paquete(
         dossier=dossier,
         pdf_bytes=pdf,
         projection_json=projection.model_dump_json(indent=2),
         artefactos=artefactos,
+        preparacion=auditoria,
     )
     log.info(
         "dossier_package",

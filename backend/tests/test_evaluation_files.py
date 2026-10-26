@@ -3,11 +3,16 @@
 from __future__ import annotations
 
 import uuid
+import hashlib
 from types import SimpleNamespace
 
 import pytest
 
 from api.routers import evaluation_files
+
+
+RECEPTOR = "ATOM      1  N   ALA A   1      20.000  20.000  20.000  1.00 20.00     0.000 N\n"
+RECEPTOR_PATH = "runs/receptors/example.pdbqt"
 
 
 class _Database:
@@ -41,14 +46,17 @@ def _files_fixture(monkeypatch):
         user_id=owner_id,
         target=SimpleNamespace(pdb_id="7E2Y"),
     )
-    result = SimpleNamespace(poses_file_path="poses/example/7E2Y/poses.sdf")
+    result = SimpleNamespace(poses_file_path="poses/example/7E2Y/poses.sdf",
+        receptor_path=RECEPTOR_PATH, receptor_sha256=hashlib.sha256(RECEPTOR.encode()).hexdigest())
     repository = _Repository(
         result=result,
         molecule=molecule,
         demo_user=SimpleNamespace(id=uuid.uuid4()),
     )
     monkeypatch.setattr(evaluation_files, "Repository", lambda _db: repository)
-    return molecule_id, SimpleNamespace(id=owner_id), _Database(molecule)
+    db = _Database(molecule)
+    db.result = result
+    return molecule_id, SimpleNamespace(id=owner_id), db
 
 
 @pytest.mark.asyncio
@@ -78,7 +86,7 @@ async def test_complex_file_preserves_pdb_response_contract_after_extraction(mon
     import services.docking.pdb_assembly as pdb_assembly
     import utils.local_storage as local_storage
 
-    raw_path = "targets/7E2Y/raw.pdb"
+    raw_path = RECEPTOR_PATH
     sdf_path = "poses/example/7E2Y/poses.sdf"
 
     async def exists(object_name):
@@ -86,12 +94,12 @@ async def test_complex_file_preserves_pdb_response_contract_after_extraction(mon
 
     async def read_text(object_name):
         return {
-            raw_path: "ATOM      1  N   ALA A   1\nEND\n",
+            raw_path: RECEPTOR,
             sdf_path: "pose-1\nM  END\n",
         }[object_name]
 
     async def write_text(_object_name, _content):
-        raise AssertionError("No debe escribirse cuando el PDB raw ya está en cache")
+        raise AssertionError("La entrega del snapshot no escribe receptor ni consulta el catálogo")
 
     monkeypatch.setattr(local_storage, "exists", exists)
     monkeypatch.setattr(local_storage, "read_text", read_text)

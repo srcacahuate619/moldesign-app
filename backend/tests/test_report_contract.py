@@ -330,8 +330,11 @@ class TestPdfReportContract:
             from pypdf import PdfReader
 
             text = "\n".join(page.extract_text() or "" for page in PdfReader(io.BytesIO(data)).pages)
-            assert "DOSSIER DE EVIDENCIA COMPUTACIONAL" in text
-            assert "Propósito del dossier" in text
+            # AMP-07: este documento es el INFORME de la corrida; el «dossier»
+            # es el del caso, y ya no comparten título.
+            assert "INFORME DE EVALUACIÓN" in text
+            assert "DOSSIER DE EVIDENCIA COMPUTACIONAL" not in text
+            assert "Propósito del informe" in text
             assert "SIGUIENTE ACCIÓN JUSTIFICABLE" in text
             assert "Matriz de evidencia por dimensión" in text
             assert "Validez física de poses" in text

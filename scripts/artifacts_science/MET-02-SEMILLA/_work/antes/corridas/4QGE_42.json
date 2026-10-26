@@ -1,0 +1,27 @@
+{
+  "pdb": "4QGE",
+  "semilla": 42,
+  "inicio": "2026-10-23T02:51:30+00:00",
+  "resultado": "auditada",
+  "task_id": "ee9d0ee1-3f59-4706-98b5-aceaa4736271",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:602 (5.2 Å), MG A:603 (2.82 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal 35O A:601",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "f0fb337376312902ef1f6e37208c39e82b41260fc551e43c819284f47d1865bc",
+  "afinidad_top1": -10.066,
+  "microestado": "COc1ccc(NC(=O)[C@@H](C)Nc2nc(=O)c3cnn(C4CCCC4)c3[nH]2)cc1",
+  "microestado_coincide": true,
+  "semilla_declarada": 42,
+  "vina": "1.2.7",
+  "receptor_sha256": "688c1d0f0768212752135853debf6e6c6b320c9e36f5e394fd7d38d035094f81",
+  "segundos": 33.7,
+  "fin": "2026-10-23T02:52:04+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

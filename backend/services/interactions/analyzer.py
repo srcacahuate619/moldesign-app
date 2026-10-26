@@ -25,6 +25,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+import hashlib
+import math
 
 import numpy as np
 
@@ -51,6 +53,11 @@ class Interaction:
     prot_x: float = 0.0
     prot_y: float = 0.0
     prot_z: float = 0.0
+    # Full groups from the detector, never inferred from an atom label or proximity.
+    ligand_atom_indices: tuple[int, ...] = ()
+    protein_atom_indices: tuple[int, ...] = ()
+    definition: str | None = None
+    geometry: dict[str, float] = field(default_factory=dict)
 
 
 @dataclass
@@ -63,6 +70,8 @@ class InteractionReport:
     pharmacophore_features: dict[str, list[tuple[float, float, float]]] = field(default_factory=dict)
     engine: str = "no_evaluado"
     hydrogen_model: str | None = None
+    ligand_source_sha256: str | None = None
+    coverage: str = "not_declared"
 
 
 def analyze_complex(
@@ -77,6 +86,7 @@ def analyze_complex(
         molecule_id=molecule_id, target_pdb_id=target_pdb_id, pose_rank=pose_rank,
     )
     try:
+        report.ligand_source_sha256 = hashlib.sha256(Path(ligand_sdf_path).read_bytes()).hexdigest()
         import prolif
         from rdkit import Chem
 
@@ -96,6 +106,7 @@ def analyze_complex(
         ligand_mol = Chem.SDMolSupplier(str(ligand_sdf_path), removeHs=False)[0]
         if ligand_mol is None:
             raise ValueError("RDKit no pudo interpretar la pose")
+        numeros_originales = _renumerar_residuos_negativos(protein_mol)
         # H geométricos de RDKit: no implica estado de protonación a pH 7.4.
         protein_mol = Chem.AddHs(protein_mol, addCoords=True)
         ligand_mol = Chem.AddHs(ligand_mol, addCoords=True)
@@ -105,7 +116,7 @@ def analyze_complex(
             "HBDonor", "HBAcceptor", "Hydrophobic", "PiStacking",
             "PiCation", "CationPi", "Anionic", "Cationic",
             "XBAcceptor", "XBDonor",
-        ])
+        ], count=False)
         ifp = fingerprint.generate(ligand, protein, metadata=True)
         nombres = {
             "HBDonor": "hbond", "HBAcceptor": "hbond",
@@ -131,7 +142,8 @@ def analyze_complex(
                     report.interactions.append(Interaction(
                         type=tipo,
                         residue_name=prot_res.name,
-                        residue_number=prot_res.number,
+                        residue_number=numeros_originales.get(
+                            ((prot_res.chain or "").strip(), int(prot_res.number)), int(prot_res.number)),
                         residue_chain=prot_res.chain or "",
                         ligand_atom=f"{ligand_mol.GetAtomWithIdx(li).GetSymbol()}{li}",
                         protein_atom=f"{protein_mol.GetAtomWithIdx(pi).GetSymbol()}{pi}",
@@ -140,15 +152,52 @@ def analyze_complex(
                         strength="strong" if tipo == "salt_bridge" else "moderate" if tipo == "hbond" else "weak",
                         lig_x=round(lp.x, 2), lig_y=round(lp.y, 2), lig_z=round(lp.z, 2),
                         prot_x=round(pp.x, 2), prot_y=round(pp.y, 2), prot_z=round(pp.z, 2),
+                        ligand_atom_indices=tuple(int(i) for i in evidencia["parent_indices"]["ligand"]),
+                        protein_atom_indices=tuple(int(i) for i in evidencia["parent_indices"]["protein"]),
+                        definition=nombre,
+                        geometry={key: float(value) for key, value in evidencia.items()
+                                  if isinstance(value, (int, float, np.number)) and not isinstance(value, bool)
+                                  and math.isfinite(float(value))},
                     ))
                     report.summary[tipo] = report.summary.get(tipo, 0) + 1
         report.pharmacophore_features = _extract_pharmacophore_features(ligand_mol)
         report.engine = f"prolif:{prolif.__version__}"
         report.hydrogen_model = "rdkit_add_hs_coordinates"
+        report.coverage = "first_match_per_type_and_residue"
         return report
     except Exception as exc:
         log.warning("prolif_analysis_unavailable", error=str(exc))
         return _fallback_analysis(protein_pdb_path, ligand_sdf_path, report)
+
+
+def _renumerar_residuos_negativos(mol) -> dict[tuple[str, int], int]:
+    """Da un número positivo a cada residuo con número negativo, sólo para ProLIF.
+
+    ProLIF guarda el número de residuo como entero sin signo (`ResidueGroup`,
+    uint32) y con un residuo en -1 lanza OverflowError. La receta del catálogo
+    retira los cierres ACE/NME, que es donde más se ve, pero un receptor ya
+    preparado (camino B o C) los conserva —cdk2 de OpenFF trae ACE A:-1— y
+    entonces toda la corrida caía al análisis por distancias, sin química
+    (FEP-09, 2026-10-11). Devuelve {(cadena, número provisional): número
+    original} para que el informe diga el residuo del archivo, no el provisional.
+    """
+    infos = [a.GetPDBResidueInfo() for a in mol.GetAtoms()]
+    infos = [i for i in infos if i is not None]
+    if not any(i.GetResidueNumber() < 0 for i in infos):
+        return {}
+    siguiente = max(i.GetResidueNumber() for i in infos)
+    provisional: dict[tuple[str, int, str], int] = {}
+    for info in infos:
+        numero = info.GetResidueNumber()
+        if numero >= 0:
+            continue
+        clave = (info.GetChainId(), numero, info.GetInsertionCode())
+        if clave not in provisional:
+            siguiente += 1
+            provisional[clave] = siguiente
+        info.SetResidueNumber(provisional[clave])
+    # La cadena en blanco es " " en RDKit y "" en ProLIF.
+    return {(cadena.strip(), nuevo): numero for (cadena, numero, _), nuevo in provisional.items()}
 
 
 def _parse_prolif_key(key: str) -> dict[str, Any]:
@@ -358,7 +407,9 @@ def _fallback_analysis(protein_pdb_path, ligand_sdf_path, report):
     """Contactos por distancias, sin inferir enlaces H ni química no medida."""
     report.engine = "distancias_sin_quimica"
     report.hydrogen_model = None
+    report.coverage = "atom_pairs_within_cutoffs"
     try:
+        report.ligand_source_sha256 = hashlib.sha256(Path(ligand_sdf_path).read_bytes()).hexdigest()
         from rdkit import Chem
 
         protein_atoms = []
@@ -414,6 +465,10 @@ def _fallback_analysis(protein_pdb_path, ligand_sdf_path, report):
                     prot_x=round(float(prot["xyz"][0]), 2),
                     prot_y=round(float(prot["xyz"][1]), 2),
                     prot_z=round(float(prot["xyz"][2]), 2),
+                    ligand_atom_indices=(atom.GetIdx(),),
+                    definition=f"{lig_element}_{prot['element']}_distance",
+                    geometry={"distance": dist, "minimum_inclusive_distance": 1.5,
+                              "maximum_exclusive_distance": 4.0 if tipo == "hydrophobic" else 3.5},
                 ))
     except Exception as exc:
         log.warning("fallback_analysis_failed", error=str(exc))

@@ -169,8 +169,12 @@ class PipelineParams:
         Si el usuario seleccionó un subconjunto, devuelve ESE subconjunto con
         los `importance` values de los hotspots base (si no existen, default 1.0).
         Si no, devuelve todos los del target (base).
+
+        `[]` es una selección —«no quiero residuos de referencia», SOL-08— y
+        devuelve CERO; sólo `None` («nunca se abrió Opciones») hereda el catálogo.
+        Preguntar por la veracidad de la lista confundía las dos cosas (QA1-007).
         """
-        if self.custom_hotspots:
+        if self.custom_hotspots is not None:
             hotspot_map: dict[str, float] = {
                 h["name"]: h.get("importance", 1.0)
                 for h in self.target_hotspots_base

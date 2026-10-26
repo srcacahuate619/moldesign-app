@@ -1,0 +1,127 @@
+{
+  "projection_version": 1,
+  "case_id": "350e8d04-4273-41f5-b818-72ab44f3c95e",
+  "case_schema_version": 7,
+  "name": "QA cierre 8HFI",
+  "created_at": "2026-10-10T00:47:17.930Z",
+  "context": {
+    "study_kind": "explore-hypothesis",
+    "question": null,
+    "decision": null,
+    "system_rationale": null,
+    "controls": null,
+    "assumptions": null,
+    "uncertainties": null,
+    "notes": null
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "8HFI",
+      "chain": "A",
+      "origin": "curado",
+      "name": "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+      "target_id": "77ce7881-30b0-4ec4-a883-aae0c549f6ac"
+    },
+    "ligand": {
+      "input_smiles": "c1ccccc1CNCC(F)(F)F",
+      "canonical_smiles": "FC(F)(F)CNCc1ccccc1",
+      "name": null
+    },
+    "config": {
+      "grid_center": [
+        100.281,
+        100.843,
+        101.442
+      ],
+      "grid_size": [
+        30.0,
+        30.0,
+        30.0
+      ],
+      "custom_hotspots": [
+        "A:ALA145",
+        "A:ASP75",
+        "A:GLY149",
+        "A:GLY320",
+        "A:GLY423",
+        "A:LEU319",
+        "A:PHE317",
+        "A:PHE323",
+        "A:PHE72",
+        "A:SER318",
+        "A:SER419",
+        "A:SER420",
+        "A:TYR152",
+        "A:VAL148",
+        "A:VAL325"
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "docking_engine": "vina",
+        "gnn_precision": "fp32",
+        "pro_workers": 4,
+        "pro_parallel_docks": 2,
+        "pro_mmgbsa_steps": 1000,
+        "pro_selectivity": true,
+        "pro_mmgbsa": false,
+        "pro_anti_targets": [],
+        "stage_params": {
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9
+          },
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "properties": {
+            "run_admet_ai": false
+          }
+        }
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:f5434a08d18f4ae81fa2791292d093caf2769638797d0149fafa660121e34e74",
+    "generated_at": "2026-10-10T00:51:44.585650+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "ESPECIES_DEL_SITIO_RETIRADAS",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "RECEPTOR_PREPARADO_DISPONIBLE",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ],
+    "receptor_label": "8HFI · cadena A",
+    "ligand_label": "FC(F)(F)CNCc1ccccc1",
+    "grid_label": "(100.28, 100.84, 101.44) · (30.00, 30.00, 30.00) Å"
+  },
+  "run": {
+    "task_id": "27c62c96-a890-47f6-b0c1-095dc6801edb",
+    "input_fingerprint": "sha256:f5434a08d18f4ae81fa2791292d093caf2769638797d0149fafa660121e34e74",
+    "execution_state": "completed",
+    "started_at": "2026-10-10T00:51:44.801136Z",
+    "last_error": null
+  },
+  "decisions": [],
+  "disposition": null,
+  "run_inputs_relation": "corresponde"
+}

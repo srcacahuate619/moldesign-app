@@ -37,12 +37,15 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.platypus import KeepTogether, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
+from core.i18n import current_locale, translate_text
 from services.dossier.package import (
     ArchivoPaquete,
     _json_canonico,
     empaquetar,
     sanitizar,
 )
+from services.cohort.schemas import modo_tautomero_de
+from services.dossier.localization import traducir_dossier
 from services.dossier.pdf import _Chrome, _escapar, _estilos, _romper_largo
 from services.dossier.taxonomy import Estado
 
@@ -63,7 +66,13 @@ def raiz_paquete_cohorte(cohort_name: str, run_id: uuid.UUID) -> str:
 
 
 def _tabla(datos: list[list[Any]], est, anchos: list[float]) -> Table:
-    tabla = Table(datos, colWidths=anchos, repeatRows=1, hAlign="LEFT")
+    filas = [list(fila) for fila in datos]
+    if filas:
+        filas[0] = [translate_text(celda) if isinstance(celda, str) else celda for celda in filas[0]]
+        for fila in filas[1:]:
+            if fila and isinstance(fila[0], str):
+                fila[0] = translate_text(fila[0])
+    tabla = Table(filas, colWidths=anchos, repeatRows=1, hAlign="LEFT")
     tabla.setStyle(
         TableStyle(
             [
@@ -82,6 +91,23 @@ def _tabla(datos: list[list[Any]], est, anchos: list[float]) -> Table:
     return tabla
 
 
+def _tautomero_label(config: dict[str, Any]) -> str:
+    if modo_tautomero_de(config) == "entrada":
+        return translate_text("El escrito en el archivo")
+    return translate_text("Canónico de RDKit")
+
+
+def _seed_origin_label(row: dict[str, Any]) -> str:
+    labels = {"default": "predeterminada", "explicit": "elegida por el usuario", "recorded": "registrada"}
+    return translate_text(labels.get(row.get("seed_origin"), "NO DECLARADA"))
+
+
+def _observed_seed_label(row: dict[str, Any]) -> str:
+    label = translate_text("Semilla observada")
+    seed = row.get("observed_vina_seed")
+    return f"{label}: {seed if seed is not None else translate_text('NO DECLARADA')}"
+
+
 def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
     """
     Dossier de cohorte en PDF. Determinista salvo por lo que ya trae la corrida.
@@ -91,6 +117,7 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
     los números — nunca al revés, porque una tabla de afinidades al principio se
     lee como un ranking de candidatos.
     """
+    evidencia = traducir_dossier(evidencia, current_locale())
     est = _estilos()
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -100,9 +127,9 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
         rightMargin=1.8 * cm,
         topMargin=2.0 * cm,
         bottomMargin=2.0 * cm,
-        title=f"Dossier de cohorte · {evidencia['cohort_name']}",
+        title=f"{translate_text('Dossier de cohorte')} · {evidencia['cohort_name']}",
         author="MolDesign",
-        subject="Evidencia computacional de una cohorte",
+        subject=translate_text("Evidencia computacional de una cohorte"),
     )
 
     cobertura = evidencia["coverage"]
@@ -112,14 +139,19 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
     historia: list[Any] = []
 
     def parrafo(texto: str, estilo: str = "cuerpo") -> Paragraph:
-        return Paragraph(_escapar(texto), est[estilo])
+        return Paragraph(_escapar(translate_text(texto)), est[estilo])
+
+    def negrita(texto: str) -> Paragraph:
+        # El énfasis es marcado de reportlab: el texto se traduce y se escapa, la etiqueta no. Con `parrafo("<b>…</b>")`
+        # el PDF imprimía las etiquetas tal cual, en los dos idiomas.
+        return Paragraph(f"<b>{_escapar(translate_text(texto))}</b>", est["cuerpo"])
 
     def seccion(titulo: str) -> None:
         historia.append(Spacer(1, 0.45 * cm))
-        historia.append(Paragraph(_escapar(titulo), est["seccion"]))
+        historia.append(Paragraph(_escapar(translate_text(titulo)), est["seccion"]))
 
     # ── 1. Identidad y pregunta computacional ────────────────────────
-    historia.append(Paragraph(_escapar(f"Dossier de cohorte · {evidencia['cohort_name']}"), est["titulo"]))
+    historia.append(Paragraph(_escapar(f"{translate_text('Dossier de cohorte')} · {evidencia['cohort_name']}"), est["titulo"]))
     historia.append(parrafo(
         "Este documento responde una pregunta computacional y sólo una: qué entró en "
         "esta cohorte, qué se pudo acoplar bajo una configuración común, y qué quedó "
@@ -143,9 +175,9 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
     historia.append(_tabla(
         [
             ["Campo", "Valor"],
-            ["PDB ID", receptor.get("pdb_id", "NO DECLARADO")],
-            ["Cadena", receptor.get("chain") or "NO DECLARADA"],
-            ["SHA-256 del preparado", _romper_largo(str(receptor.get("prepared_sha256", "NO DISPONIBLE")))],
+            ["PDB ID", receptor.get("pdb_id") or translate_text("NO DECLARADO")],
+            ["Cadena", receptor.get("chain") or translate_text("NO DECLARADA")],
+            ["SHA-256 del preparado", _romper_largo(str(receptor.get("prepared_sha256", translate_text("NO DISPONIBLE"))))],
             ["Tamaño (bytes)", str(receptor.get("prepared_size_bytes", "—"))],
             ["Objeto", receptor.get("prepared_object", "—")],
         ],
@@ -168,13 +200,27 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
             ["Caja (tamaño)", str(config.get("grid_size"))],
             ["Origen de la caja", str(config.get("grid_origin"))],
             ["Motor", str(config.get("docking_engine"))],
-            ["Versión del motor", str(config.get("engine_version") or "NO DISPONIBLE")],
+            ["Versión del motor", str(config.get("engine_version") or translate_text("NO DISPONIBLE"))],
             ["Exhaustividad", str(config.get("exhaustiveness"))],
             ["Poses", str(config.get("num_poses"))],
-            ["Semilla", str(config.get("seed") if config.get("seed") is not None else "NO DECLARADA")],
+            ["Semilla", str(config.get("seed")) if config.get("seed") else translate_text("semilla no reconstruible")],
+            ["Tautómero del ligando", _tautomero_label(config)],
         ],
         est, [4.5 * cm, 12.0 * cm],
     ))
+
+    historia.append(parrafo("Semilla efectiva por fila"))
+    seed_header = ["Fila", "Semilla efectiva", "Semilla observada", "Origen de la semilla"]
+    historia.append(_tabla(
+        [seed_header] + [
+            [str(r["source_row_index"] + 1),
+             str(r["effective_vina_seed"]) if r.get("effective_vina_seed") else translate_text("semilla no reconstruible"),
+             str(r["observed_vina_seed"]) if r.get("observed_vina_seed") is not None else translate_text("NO DECLARADA"),
+             _seed_origin_label(r)]
+            for r in evidencia["molecules"][:MAX_PDF_ROWS]
+        ], est, [1.2 * cm, 6 * cm, 4 * cm, 5.3 * cm],
+    ))
+    historia.append(parrafo("La semilla identifica el protocolo; no garantiza reproducción bit a bit. Todas las filas constan en rows.csv."))
 
     # ── 4. Cobertura y excepciones ───────────────────────────────────
     seccion("4 · Cobertura y excepciones")
@@ -208,7 +254,7 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
     embudo = cobertura.get("structural_funnel")
     if embudo:
         historia.append(Spacer(1, 0.3 * cm))
-        historia.append(parrafo("<b>Embudo estructural</b>"))
+        historia.append(negrita("Embudo estructural"))
         veredictos = embudo["physical_verdicts"]
         selector = embudo["selector_states"]
         total = embudo["input_rows"]
@@ -238,16 +284,20 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
             est, [7.0 * cm, 9.5 * cm],
         ))
         historia.append(parrafo(_escapar(embudo["note"])))
+        # SCI-A-007: `review` significa que la batería no cubrió todas las poses
+        # O que la principal pasa y una alternativa falla. Decir sólo lo primero
+        # negaba un fallo que el propio desglose de arriba ya cuenta.
         historia.append(parrafo(
-            "«Requiere revisión» significa que la batería no corrió entera: NO es una pose "
-            "aprobada. Sólo «controles superados» autoriza llamar válida a una pose."
+            "«Requiere revisión» significa que la batería no corrió entera, o que la pose "
+            "principal pasa y alguna alternativa falla: NO es una pose aprobada. Sólo "
+            "«controles superados» autoriza llamar válida a una pose."
         ))
 
     # ── Exclusiones: ninguna fila desaparece del recuento ────────────
     exclusiones = cobertura.get("exclusions")
     if exclusiones and exclusiones.get("by_cause"):
         historia.append(Spacer(1, 0.3 * cm))
-        historia.append(parrafo("<b>Exclusiones y sus causas</b>"))
+        historia.append(negrita("Exclusiones y sus causas"))
         filas_ex = [["Causa", "Filas"]]
         for causa, cuenta in exclusiones["by_cause"].items():
             filas_ex.append([_escapar(str(causa)), str(cuenta)])
@@ -279,8 +329,8 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
             str(entrada["source_row_index"]),
             _escapar(entrada["source_name"] or "—"),
             entrada["status"],
-            f"{afinidad:.2f}" if afinidad is not None else "NO DISPONIBLE",
-            {True: "activa", False: "inactiva", None: "—"}[entrada["active_label"]],
+            f"{afinidad:.2f}" if afinidad is not None else translate_text("NO DISPONIBLE"),
+            {True: translate_text("activa"), False: translate_text("inactiva"), None: "—"}[entrada["active_label"]],
             entrada["control_role"],
         ])
     historia.append(_tabla(filas_pdf, est, [1.2 * cm, 5.0 * cm, 3.2 * cm, 3.6 * cm, 1.7 * cm, 1.8 * cm]))
@@ -296,8 +346,8 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
                 str(c["source_row_index"]),
                 _escapar(c["source_name"] or "—"),
                 c["control_role"],
-                {True: "activa", False: "inactiva", None: "—"}[c["active_label"]],
-                f"{afinidad:.2f}" if afinidad is not None else "NO DISPONIBLE",
+                {True: translate_text("activa"), False: translate_text("inactiva"), None: "—"}[c["active_label"]],
+                f"{afinidad:.2f}" if afinidad is not None else translate_text("NO DISPONIBLE"),
             ])
         historia.append(_tabla(filas_c, est, [1.2 * cm, 5.5 * cm, 3.0 * cm, 2.5 * cm, 4.3 * cm]))
         historia.append(parrafo(
@@ -321,7 +371,7 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
             valor = ef["value"]
             filas_m.append([
                 f"EF@{int(ef['fraction'] * 100)}%",
-                f"{valor:.3f}" if valor is not None else "NO DISPONIBLE",
+                f"{valor:.3f}" if valor is not None else translate_text("NO DISPONIBLE"),
                 f"{ef['n_actives_selected']}/{ef['n_selected']}",
             ])
         historia.append(_tabla(filas_m, est, [5.0 * cm, 6.0 * cm, 5.5 * cm]))
@@ -383,8 +433,8 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
             ["Contrato de fingerprint", str(cohorte_prov.get("fingerprint_contract", "—"))],
             ["Contrato de ejecución", str(procedencia.get("execution_contract", "—"))],
             ["Contrato de evidencia", str(procedencia.get("evidence_contract", "—"))],
-            ["Versión de MolDesign", str(cohorte_prov.get("moldesign_version") or "NO DISPONIBLE")],
-            ["Versión de RDKit", str(cohorte_prov.get("rdkit_version") or "NO DISPONIBLE")],
+            ["Versión de MolDesign", str(cohorte_prov.get("moldesign_version") or translate_text("NO DISPONIBLE"))],
+            ["Versión de RDKit", str(cohorte_prov.get("rdkit_version") or translate_text("NO DISPONIBLE"))],
             ["Etapas ejecutadas", ", ".join(procedencia.get("stages") or [])],
         ],
         est, [5.5 * cm, 11.0 * cm],
@@ -402,9 +452,9 @@ def _rows_csv(moleculas: list[dict[str, Any]]) -> bytes:
     salida = io.StringIO(newline="")
     campos = [
         "source_row_index", "source_name", "canonical_smiles", "status",
-        "observed_vina_affinity_kcal_mol", "molecule_id", "result_id",
+        "observed_vina_affinity_kcal_mol", "molecule_id", "result_id", "task_id",
         "active_label", "control_role", "duplicate_of_row", "reused_from_row",
-        "error_code",
+        "error_code", "effective_vina_seed", "observed_vina_seed", "seed_origin", "seed_status",
     ]
     escritor = csv.DictWriter(salida, fieldnames=campos, extrasaction="ignore", lineterminator="\n")
     escritor.writeheader()
@@ -417,72 +467,106 @@ def _readme_cohorte(evidencia: dict[str, Any], raiz: str) -> bytes:
     cobertura = evidencia["coverage"]
     metricas = evidencia["labeled_metrics"]
     estado_metricas = (
-        "evaluadas"
+        translate_text("evaluadas")
         if metricas["status"] == "evaluated"
-        else f"NO EVALUADAS ({metricas['reason_code']})"
+        else f"{translate_text('NO EVALUADAS')} ({metricas['reason_code']})"
     )
-    return f"""# Paquete reproducible de cohorte · {evidencia['cohort_name']}
+    contraparte = translate_text(
+        "La contraparte verificable de `dossier.pdf`. Permite comprobar que la lectura\n"
+        "del PDF se hizo sobre estos archivos y no sobre otros."
+    )
+    mismo_verificador = translate_text(
+        "Es el MISMO verificador que valida los paquetes de caso: un solo protocolo de\n"
+        "manifiesto y checksums para todo el producto."
+    )
+    resultado_invalido = translate_text(
+        "Si el resultado no es `VÁLIDO`, no uses el contenido: el paquete no describe lo\n"
+        "que dice describir."
+    )
+    ciclo_zip = translate_text("el ZIP no se contiene a sí mismo;")
+    ciclo_checksums = translate_text("`checksums.sha256` no se hashea a sí mismo;")
+    ciclo_manifest = translate_text(
+        "`manifest.json` no se declara a sí mismo dentro de `files` — su integridad la\n"
+        "  cubre `checksums.sha256`, que se calcula después."
+    )
+    artefactos_ausentes = translate_text(
+        f"Los artefactos que NO estaban disponibles aparecen en el manifiesto con estado\n"
+        f"`{Estado.NO_DISPONIBLE.value}` y su razón. No se omiten y no se fabrican."
+    )
+    validez_no_garantizada = translate_text(
+        "No garantiza validez científica. Completar un acoplamiento no demuestra\n"
+        "  actividad."
+    )
+    sin_ranking = translate_text("No contiene ranking de candidatos ni puntuación agregada.")
+    sin_reproducibilidad = translate_text(
+        "No garantiza reproducibilidad bit a bit: eso depende de la versión del motor y\n"
+        "  del hardware."
+    )
+    semillas = "\n".join(
+        f"- {r['source_row_index'] + 1}: " +
+        (str(r["effective_vina_seed"]) if r.get("effective_vina_seed") else translate_text("semilla no reconstruible")) +
+        " · " + _seed_origin_label(r) + " · " + _observed_seed_label(r)
+        for r in evidencia["molecules"]
+    )
+    return f"""# {translate_text('Paquete de evidencia auditada de cohorte')} · {evidencia['cohort_name']}
 
-Paquete: `{raiz}`
-Corrida: `{evidencia['run_id']}`  ·  estado: `{evidencia['run_status']}`
-Huella de cohorte: `{evidencia['cohort_fingerprint']}`
-Huella de corrida: `{evidencia['run_fingerprint']}`
+{translate_text('Paquete')}: `{raiz}`
+{translate_text('Corrida')}: `{evidencia['run_id']}`  ·  {translate_text('estado')}: `{evidencia['run_status']}`
+{translate_text('Huella de cohorte')}: `{evidencia['cohort_fingerprint']}`
+{translate_text('Huella de corrida')}: `{evidencia['run_fingerprint']}`
 
-## Qué es esto
+## {translate_text('Qué es esto')}
 
-La contraparte verificable de `dossier.pdf`. Permite comprobar que la lectura
-del PDF se hizo sobre estos archivos y no sobre otros.
+{contraparte}
 
-## Cómo verificarlo
+## {translate_text('Cómo verificarlo')}
 
 ```
 python scripts/verify_dossier_package.py <este-archivo>.zip
 ```
 
-Es el MISMO verificador que valida los paquetes de caso: un solo protocolo de
-manifiesto y checksums para todo el producto.
+{mismo_verificador}
 
-Si el resultado no es `VÁLIDO`, no uses el contenido: el paquete no describe lo
-que dice describir.
+{resultado_invalido}
 
-## Los tres ciclos de hash
+## {translate_text('Los tres ciclos de hash')}
 
-- el ZIP no se contiene a sí mismo;
-- `checksums.sha256` no se hashea a sí mismo;
-- `manifest.json` no se declara a sí mismo dentro de `files` — su integridad la
-  cubre `checksums.sha256`, que se calcula después.
+- {ciclo_zip}
+- {ciclo_checksums}
+- {ciclo_manifest}
 
-## Qué hay dentro
+## {translate_text('Qué hay dentro')}
 
-- `dossier.pdf` — la lectura humana.
-- `cohort.json` — la cohorte congelada (definición normalizada y procedencia).
-- `preflight.json` — el veredicto de comprobación previa, con TODAS las filas.
-- `run.json` — la corrida: configuración efectiva, receptor, estado, contadores.
-- `evidence.json` — este resumen científico completo.
-- `rows.csv` — una línea por fila de trabajo.
-- `inputs/` — el archivo original tal como se subió, y el receptor preparado.
+- {translate_text('`dossier.pdf` — la lectura humana.')}
+- {translate_text('`cohort.json` — la cohorte congelada (definición normalizada y procedencia).')}
+- {translate_text('`preflight.json` — el veredicto de comprobación previa, con TODAS las filas.')}
+- {translate_text('`run.json` — la corrida: configuración efectiva, receptor, estado, contadores.')}
+- {translate_text('`evidence.json` — este resumen científico completo.')}
+- {translate_text('`rows.csv` — una línea por fila de trabajo.')}
+- {translate_text('`inputs/` — el archivo original tal como se subió, y el receptor preparado.')}
 - `manifest.json` · `checksums.sha256`
 
-Los artefactos que NO estaban disponibles aparecen en el manifiesto con estado
-`{Estado.NO_DISPONIBLE.value}` y su razón. No se omiten y no se fabrican.
+{artefactos_ausentes}
 
-## Cobertura
+## {translate_text('Cobertura')}
 
-- Filas en el archivo: {cobertura['source_rows']}
-- Elegibles: {cobertura['eligible_rows']}
-- Moléculas únicas acopladas: {cobertura['unique_molecules_executed']}
-- Completadas: {cobertura['completed_rows']} · fallidas: {cobertura['failed_rows']} ·
-  no evaluadas: {cobertura['not_evaluated_rows']} · duplicados reutilizados:
+- {translate_text('Filas en el archivo')}: {cobertura['source_rows']}
+- {translate_text('Elegibles')}: {cobertura['eligible_rows']}
+- {translate_text('Moléculas únicas acopladas')}: {cobertura['unique_molecules_executed']}
+- {translate_text('Completadas')}: {cobertura['completed_rows']} · {translate_text('fallidas')}: {cobertura['failed_rows']} ·
+  {translate_text('no evaluadas')}: {cobertura['not_evaluated_rows']} · {translate_text('duplicados reutilizados')}:
   {cobertura['duplicate_reused_rows']}
 - Métricas etiquetadas: {estado_metricas}
 
-## Qué NO garantiza
+## {translate_text('Semilla efectiva por fila')}
 
-- No garantiza validez científica. Completar un acoplamiento no demuestra
-  actividad.
-- No contiene ranking de candidatos ni puntuación agregada.
-- No garantiza reproducibilidad bit a bit: eso depende de la versión del motor y
-  del hardware.
+{semillas}
+
+## {translate_text('Qué NO garantiza')}
+
+- {validez_no_garantizada}
+- {sin_ranking}
+- {sin_reproducibilidad}
 """.encode("utf-8")
 
 
@@ -500,6 +584,7 @@ def construir_paquete_cohorte(
     Decide QUÉ va dentro; el CÓMO —manifiesto, checksums, escritura
     determinista— lo pone `empaquetar`, el mismo que usa el dossier de caso.
     """
+    evidencia = traducir_dossier(evidencia, current_locale())
     raiz = raiz_paquete_cohorte(cohort.name, run.id)
 
     archivos: list[ArchivoPaquete] = [

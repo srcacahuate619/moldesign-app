@@ -66,3 +66,33 @@ async def require_owned_molecule(
     if not puede_operar(molecule, current_user, demo_user.id):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=forbidden_detail)
     return molecule
+
+
+async def result_for_task(
+    repository: Repository, molecule_id: uuid.UUID, task_id: str | None,
+    *, projection: Any | None = None,
+) -> Any:
+    """Lee la corrida pedida sin sustituirla por la proyección mutable."""
+    if task_id is None:
+        result = projection if projection is not None else await repository.get_evaluation_result(molecule_id)
+        if result is None:
+            raise HTTPException(404, "No existe resultado para esta molécula.")
+        return result
+
+    run = await repository.get_evaluation_run(task_id, molecule_id)
+    if run is None:
+        raise HTTPException(404, "No existe una corrida guardada con ese identificador.")
+    if (run.status or "SUCCESS") != "SUCCESS":
+        raise HTTPException(409, "La corrida solicitada no conserva un resultado válido.")
+    try:
+        data = dict(await repository.materialize_run_snapshot(run))
+    except Exception as exc:
+        raise HTTPException(500, "No se pudo leer el snapshot verificable de la corrida.") from exc
+    if data.get("task_id") not in (None, str(task_id)):
+        raise HTTPException(409, "El snapshot no corresponde a la corrida solicitada.")
+    if data.get("molecule_id") is not None and str(data["molecule_id"]) != str(molecule_id):
+        raise HTTPException(409, "El snapshot no corresponde a esta molécula.")
+    from types import SimpleNamespace
+
+    data["task_id"] = str(task_id)
+    return SimpleNamespace(**data)

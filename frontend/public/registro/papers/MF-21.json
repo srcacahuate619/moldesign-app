@@ -249,17 +249,12 @@
      {
       "t": "0.014 Å",
       "m": "fuerte"
+     },
+     {
+      "t": " del bioactivo, cifra que habría sido notable. Era una pose relajada, no un confórmero.",
+      "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "del bioactivo, cifra que habría sido notable. Era una pose relajada, no un confórmero.",
-     "m": null
-    }
    ]
   },
   {
@@ -339,6 +334,77 @@
      "t": "Esa acotación es la que orientó el resto del programa hacia la posición y la orientación, y no hacia el generador de confórmeros.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-105. MF-21 midió el RMSD alineado de las moléculas leídas por el helper. El productor no elimina explícitamente todos los hidrógenos antes de comparar y puede conservar hidrógenos cristalográficos al mover sólo los pesados. Por ello no se interpreta este resultado como un suelo conformacional exclusivamente pesado. El alcance del sesgo en esta corrida queda sin medir; una medición corregida requeriría recuperar e identificar las entradas y emitir un análisis independiente.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-106. El cruce posterior por identificador recupera los 48 miembros previstos en MF-02F tanto en MF-21 como en MF-09, sin duplicados ni discrepancias de desenlace: 18 cubiertos y 30 no cubiertos. El productor no imponía esa correspondencia; la comprobación pertenece a este reanálisis. No acredita que el RMSD de MF-21 sea exclusivamente de átomos pesados. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_cohortes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-107. El sello fija el analizador principal de MF-21; no fija el SDF cristalográfico, los conformeros, los mapas, la cohorte, los desenlaces ni el helper que usó. Las salidas permiten volver a contar sus grupos, pero no reconstruir el RMSD desde las mismas entradas moleculares. Se mantiene esta limitación histórica y no se presenta un hash calculado hoy como prueba de lo ejecutado entonces. La exigencia de sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_procedencia.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
    ]
   }
  ],

@@ -1,0 +1,27 @@
+{
+  "pdb": "4NY4",
+  "semilla": 2026,
+  "inicio": "2026-10-23T04:53:44+00:00",
+  "resultado": "auditada",
+  "task_id": "37447939-8e64-4851-bb0b-087f4525eccd",
+  "estado_global": "REVISION",
+  "metales": {
+    "estado": "REGISTRADO",
+    "valor": "Ninguno retirado a 6 Å o menos del ligando; conservados: HEM A:601 (2.58 Å)",
+    "razon": null,
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal 2QH A:602",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "b9f71e9a3b211a0827fff77b35bd4463adbddb9e8ea3df0c5415a390c320b364",
+  "afinidad_top1": -11.726,
+  "microestado": "COc1ccc([C@]2(c3ccc(F)c(-c4cccnc4)c3)[NH+]=C(N)N3CC(F)(F)C[NH+]=C32)cc1C",
+  "microestado_coincide": true,
+  "semilla_declarada": 2026,
+  "vina": "1.2.7",
+  "receptor_sha256": "1e450736a8696043679acb4cf88743481bb16269e6ddba437b2bd6d1c2abe19c",
+  "segundos": 25.8,
+  "fin": "2026-10-23T04:54:10+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

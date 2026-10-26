@@ -653,6 +653,192 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-038. De los 684 errores de la extensión a PDBBind, 673 son ",
+      "m": null
+     },
+     {
+      "t": "KekulizeException",
+      "m": "codigo"
+     },
+     {
+      "t": ", 2 ",
+      "m": null
+     },
+     {
+      "t": "AtomValenceException",
+      "m": "codigo"
+     },
+     {
+      "t": " y ",
+      "m": null
+     },
+     {
+      "t": "9 no son ligandos",
+      "m": "fuerte"
+     },
+     {
+      "t": ": son carpetas del directorio de datos (registros, cachés) que el recorrido tomó por complejos. Los 5325 «complejos» son 5316.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-039. El ",
+      "m": null
+     },
+     {
+      "t": "metrics.json",
+      "m": "codigo"
+     },
+     {
+      "t": " de ",
+      "m": null
+     },
+     {
+      "t": "FEP-01-EXT-PDBBIND",
+      "m": "codigo"
+     },
+     {
+      "t": " (y los de ",
+      "m": null
+     },
+     {
+      "t": "FEP-02-EXT-PDBBIND",
+      "m": "codigo"
+     },
+     {
+      "t": ", ",
+      "m": null
+     },
+     {
+      "t": "FEP-07-PDBBIND",
+      "m": "codigo"
+     },
+     {
+      "t": " y ",
+      "m": null
+     },
+     {
+      "t": "MF-02A-EXT",
+      "m": "codigo"
+     },
+     {
+      "t": ") conserva el ",
+      "m": null
+     },
+     {
+      "t": "experiment_id",
+      "m": "codigo"
+     },
+     {
+      "t": " del experimento base. La identidad es la del manifiesto; la lista está en ",
+      "m": null
+     },
+     {
+      "t": "scripts/identidad_de_metricas.json",
+      "m": "codigo"
+     },
+     {
+      "t": " y una prueba falla si aparece otro caso sin declarar.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "FEP-01-EXT-PDBBIND: el movimiento de protones se mide sólo en los casos procesables",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de medición sin gate de decisión.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade la consecuencia observada en PDBBind; no reemplaza la interpretación del canónico ni el desglose de errores ya corregido arriba.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Bajo RDKit 2025.09.6, cambió el número de H de algún átomo pesado en 1100 de 4641 casos procesables. Entre los previamente ambiguos ocurre en 1098 y entre los no ambiguos en 2. La ausencia de movimiento no resuelve el estado químico ni elimina todos los bloqueos FEP.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La procesabilidad archivada fue 0,8715, y el flag técnico G1 queda falso. Ese fallo se conserva junto al GO descriptivo del manifiesto; no se presenta la extensión como válida para toda la población. Para errores e identidad rigen ",
+     "m": null
+    },
+    {
+     "t": "SCI-B-038 y SCI-B-039",
+     "m": "fuerte"
+    },
+    {
+     "t": ", ya expuestas. No comprobado por mí: ejecutar de nuevo el canonicalizador. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "FEP-01-EXT-PDBBIND",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
   }
  ],
  "fuente": "docs/papers/FEP-01-EXT.md"

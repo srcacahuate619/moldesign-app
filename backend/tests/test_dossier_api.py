@@ -60,10 +60,16 @@ class _DbFalsa:
         return self._molecule
 
 
-def _app(molecule=None, eval_result=None, autorizado: bool = True) -> TestClient:
+def _app(
+    molecule=None, eval_result=None, autorizado: bool = True, *, localization_middleware: bool = False,
+) -> TestClient:
     """App mínima con sólo el router del dossier y sus dependencias falseadas."""
     aplicacion = FastAPI()
     aplicacion.include_router(router_mod.router, prefix="/evaluation")
+    if localization_middleware:
+        from api.middleware import register_middleware
+
+        register_middleware(aplicacion)
 
     db = _DbFalsa(molecule, eval_result)
     aplicacion.dependency_overrides[get_db] = lambda: db
@@ -140,6 +146,26 @@ class TestSalidas:
         assert respuesta.headers["content-disposition"].startswith("attachment;")
         assert respuesta.content[:2] == b"PK"
 
+    def test_el_paquete_de_la_ruta_lleva_la_auditoria_de_preparacion(self, proyeccion):
+        """Punto 3: quien reciba el ZIP lee el veredicto sin recalcularlo (necesita otro disco)."""
+        import io
+        import json
+        import zipfile
+
+        cliente = _app(molecula(), resultado_completo())
+        respuesta = cliente.post(f"/evaluation/dossier/{MOLECULE_ID}/package", json=proyeccion)
+
+        with zipfile.ZipFile(io.BytesIO(respuesta.content)) as zf:
+            raiz = zf.namelist()[0].split("/")[0]
+            auditoria = json.loads(zf.read(f"{raiz}/preparacion/audit.json"))
+            manifiesto = json.loads(zf.read(f"{raiz}/manifest.json"))
+        assert auditoria["schema"] == "preparacion/v1"
+        assert auditoria["estado"] in ("BLOQUEADO", "REVISION", "TRANSFERIBLE")
+        assert manifiesto["preparacion"]["estado"] == auditoria["estado"]
+        # Y el crudo depositado se declara: presente si la receta coincide, ausente con su razón.
+        origen = next(f for f in manifiesto["files"] if f["path"].endswith("_source.pdb"))
+        assert origen["estado"] == "REGISTRADO" or origen["razon"]
+
     def test_el_paquete_devuelto_verifica(self, proyeccion):
         """El extremo a extremo: lo que sale por HTTP es íntegro."""
         from services.dossier.verify import verificar_paquete
@@ -148,6 +174,55 @@ class TestSalidas:
         respuesta = cliente.post(f"/evaluation/dossier/{MOLECULE_ID}/package", json=proyeccion)
         resultado = verificar_paquete(respuesta.content)
         assert resultado.valido, resultado.errores
+
+    def test_accept_language_en_traduce_el_zip_pdf_y_modelo_sin_traducir_el_nombre(self, proyeccion):
+        import io
+        import json
+        import zipfile
+
+        pypdf = pytest.importorskip("pypdf", reason="extracción semántica del PDF")
+        PdfReader = pypdf.PdfReader
+        from services.dossier.verify import verificar_paquete
+
+        nombre = "2 elegidos de 8 del catálogo: Aspirina"
+        proyeccion["name"] = nombre
+        cliente = _app(molecula(), resultado_completo(), localization_middleware=True)
+        respuesta = cliente.post(
+            f"/evaluation/dossier/{MOLECULE_ID}/package",
+            json=proyeccion,
+            headers={"Accept-Language": "en"},
+        )
+
+        assert respuesta.status_code == 200
+        assert respuesta.headers["content-language"] == "en"
+        assert verificar_paquete(respuesta.content).valido
+        with zipfile.ZipFile(io.BytesIO(respuesta.content)) as archivo:
+            raiz = archivo.namelist()[0].split("/")[0]
+            readme = archivo.read(f"{raiz}/README.md").decode("utf-8")
+            receta = archivo.read(f"{raiz}/run/reproduce.md").decode("utf-8")
+            modelo = json.loads(archivo.read(f"{raiz}/case/dossier_model.json"))
+            manifiesto = json.loads(archivo.read(f"{raiz}/manifest.json"))
+            pdf = PdfReader(io.BytesIO(archivo.read(f"{raiz}/dossier.pdf")))
+            texto_pdf = "\n".join(pagina.extract_text() or "" for pagina in pdf.pages)
+        texto_pdf_plano = " ".join(texto_pdf.split())
+
+        assert "# Reproducible dossier" in readme
+        assert nombre in readme
+        assert modelo["case"]["name"] == nombre
+        assert modelo["glosario"]["NO_EVALUADO"] == "The control was not evaluated in this run."
+        assert "It does not declare itself" in manifiesto["exclusiones"]["manifest.json"]
+        assert "client (validated projection)" in next(
+            entrada["fuente"] for entrada in manifiesto["files"]
+            if entrada["path"] == "case/case_snapshot.json"
+        )
+        assert "COMPUTATIONAL EVIDENCE DOSSIER" in texto_pdf
+        assert nombre in texto_pdf
+        assert "The verifiable counterpart to `dossier.pdf`" in readme
+        assert "How to reproduce this run" in receta
+        assert "This document describes the evidence produced by a run" in texto_pdf_plano
+        assert "Technical status, scientific disposition, and human review" in texto_pdf_plano
+        assert "Este documento describe" not in texto_pdf_plano
+        assert "El estado técnico" not in texto_pdf_plano
 
     def test_el_nombre_de_archivo_va_saneado(self, proyeccion):
         """

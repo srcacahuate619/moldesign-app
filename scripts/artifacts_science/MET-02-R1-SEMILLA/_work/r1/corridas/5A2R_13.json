@@ -1,0 +1,27 @@
+{
+  "pdb": "5A2R",
+  "semilla": 13,
+  "inicio": "2026-10-23T06:12:04+00:00",
+  "resultado": "auditada",
+  "task_id": "87b71467-fe0c-495d-b4be-0f28e39bbcaa",
+  "estado_global": "REVISION",
+  "metales": {
+    "estado": "REVISAR",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:1616 (4.38 Å). El ligando del cristal no toca ninguno (ni un N, O o S a 2,8 Å de un metal ni un átomo a 4 Å de un cofactor).",
+    "razon": "El receptor no contiene especies que estaban cerca del sitio, pero el ligando del cristal no las toca. Si sólo ocupan la segunda esfera, retirarlas puede ser aceptable; decide y justifícalo antes de un cálculo posterior.",
+    "accion_recomendada": "Si la especie es estructural o catalítica para este ligando, vuelve a evaluar con ella en la lista de cofactores del receptor; si no, registra por qué se retira."
+  },
+  "referencia": "Pose top-1 y ligando del cristal MLT A:1615",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "edacfafae2ea6a541151f3de75b34ccba3397533942b52f428ab1351d6505105",
+  "afinidad_top1": -5.323,
+  "microestado": "O=C([O-])C[C@@H](O)C(=O)[O-]",
+  "microestado_coincide": true,
+  "semilla_declarada": 13,
+  "vina": "1.2.7",
+  "receptor_sha256": "1e11beb13ea08bd9592a5a5d075df11480ec32bad208ac117f98eedaab5638fe",
+  "segundos": 13.6,
+  "fin": "2026-10-23T06:12:17+00:00",
+  "brazo": "r1",
+  "commit": "f7c46736"
+}

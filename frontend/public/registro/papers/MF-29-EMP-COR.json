@@ -1056,7 +1056,7 @@
      "m": "codigo"
     },
     {
-     "t": "— como sistema probablemente mal montado, por su −2.181 rígido, y planteó que faltara un cofactor, un metal o una agua estructural, o que la protonación estuviese mal. Verlo cruzar a positivo ",
+     "t": "— como sistema probablemente mal montado, por su +2.064 en la pose del cristal sin optimizar (−2.181 tras la optimización local rígida), y planteó que faltara un cofactor, un metal o una agua estructural, o que la protonación estuviese mal. Verlo cruzar a positivo ",
      "m": null
     },
     {
@@ -1093,25 +1093,10 @@
       "m": "codigo"
      },
      {
-      "t": "** —masivo contra producción—, que ningún",
+      "t": "** —masivo contra producción—, que ningún resultado de aquí puede tocar.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "resultado de aquí puede tocar.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "No certifica optimalidad global.",
@@ -1148,7 +1133,94 @@
       "m": "codigo"
      },
      {
-      "t": " expiró, y eso lo recupera",
+      "t": " expiró, y eso lo recupera ",
+      "m": null
+     },
+     {
+      "t": "MF-29-EMP-EXT",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-118. Los tiempos internos del PRE preceden al resultado, pero el PRE y las salidas de COR aparecen por primera vez en el mismo commit Git. El sello fija el contenido conservado; ese anclaje no acredita independientemente que los umbrales estuvieran comprometidos antes de observar los resultados. No hay aquí evidencia de que se movieran ni de manipulación: la condición de anterioridad queda sin verificación externa. La exigencia de sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_procedencia.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-119. Las 48 unidades de COR conservan una deriva local: mediana 0,3425 Å y máximo 1,898 Å. No hay aquí ausencia de derivas por unidad. El RMSD procede del subconjunto pesado mapeado y la salida no registra cuántos átomos se esperaban ni cuántos se mapearon; por tanto este control no certifica correspondencia atómica completa ni identidad estructural del cristal relajado. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_cohortes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-120. El sello fija el runner COR y sus registros previos de referencia; no fija las entradas moleculares directas, el helper ni el ejecutable con que se preparó y puntuó el cristal flexible. Se documenta el cambio de rigidez declarado, pero no se certifica retrospectivamente que fuera el único cambio efectivo de la ejecución. La exigencia de sellado de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_procedencia.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
       "m": null
      }
     ]
@@ -1158,11 +1230,35 @@
    "tipo": "parrafo",
    "frag": [
     {
-     "t": "MF-29-EMP-EXT",
+     "t": "2026-10-22.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El hallazgo lateral atribuía a ",
+     "m": null
+    },
+    {
+     "t": "1ew8",
      "m": "codigo"
     },
     {
-     "t": ".",
+     "t": " un «−2.181 rígido» como señal de montaje defectuoso. Esa cifra es la de la optimización local; lo que MF-13 señaló fue el +2.064 de la pose del cristal sin optimizar (",
+     "m": null
+    },
+    {
+     "t": "MF-13/per_complex.jsonl",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "score_cristal",
+     "m": "codigo"
+    },
+    {
+     "t": "). Hallazgo PAP-SOL-007 de la revisión de papers de Sol, coherente con SCI-B-153.",
      "m": null
     }
    ]

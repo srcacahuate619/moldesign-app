@@ -79,7 +79,8 @@ consumidores por **qué miden**, porque no todos están igual de expuestos.
 
 Sus números **son** propiedades del régimen de generación. La curva de confórmeros, la
 comparación de brazos generadores, la cobertura del oráculo: todo eso se midió con docking
-rígido y se remediría distinto con flexible. Son los que habría que rehacer primero.
+rígido —salvo los comparadores `D-MF-HARD-EXH4` y `D-MF-HARD-EXH4-VAL`, con ligando flexible— y se
+remediría distinto con flexible. Son los que habría que rehacer primero.
 
 ### Categoría 2 — miden selección sobre casos ya cubiertos
 
@@ -130,3 +131,79 @@ el conjunto necesita saber que son 32,215 poses y 17 artefactos, no un par de ta
 La segunda es que las tres limitaciones de arriba tenían que quedar selladas **junto** al
 número. Un dato así, suelto y sin sus condiciones de uso, se convierte en «el 94% del
 programa está mal» en la primera conversación en que alguien lo repita de memoria.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-147. La lista obtenida por coincidencias de nombres y rutas es un inventario de
+  posibles referencias a la familia de datasets. Incluye versiones distintas y no constituye un
+  grafo de consumidores directos del material v2. No se usa su tamaño para fijar cuántas
+  corridas habría que repetir. Esa decisión exigiría enlazar ruta exacta, hash y dependencia
+  efectiva, sin invalidar automáticamente conclusiones previas.
+
+**2026-10-22.** La categoría 1 atribuía docking rígido también a los comparadores EXH4, que usan ligando flexible (hallazgo L2-SOL-001 de la revisión de papers de Sol).
+
+## D-MF-HARD: la cohorte de desarrollo separa flexibilidad y controles
+
+**GO operacional.** Define la población de los comparadores históricos citados arriba; no prueba eficacia del generador.
+
+Se seleccionaron 22 ligandos hard con al menos 15 torsiones y otros tantos controles con no más de 4. En cada estrato hay 17 de train y 5 de val. El emparejamiento sin reemplazo se hizo dentro del split, minimizando primero diferencia de átomos pesados y después masa y tamaño del receptor. No garantiza equilibrio químico.
+
+El universo conservado tiene 156 miembros de train+val; la intersección con test es 0. Oracle_gap es un indicador secundario dependiente de etiqueta; no decide pertenencia, emparejamiento ni parámetros. Val es piloto, no confirmatorio. Esto no convierte el inventario de SCI-B-147 en un grafo de dependencias directas.
+
+Fuente: `D-MF-HARD`. No comprobado por mí: regenerar las propiedades moleculares usadas en la selección.
+
+## D-MF-HARD-CURVE: el presupuesto elegido no rehabilita la cobertura hard
+
+**GO de elección de presupuesto para el piloto.** Añade el comparador de desarrollo sin cambiar la composición del conjunto descrito en este paper.
+
+Se compararon prefijos de confórmeros bajo el protocolo congelado. La cobertura es oráculo con RMSD de bolsillo de 2.0 Å o menos, no precisión de una pose seleccionada.
+
+| Train | Miembros | Cubiertos con K = 15 | Cubiertos con K = 30 |
+|---|---:|---:|---:|
+| Hard | 17 | 3 | 4 |
+| Control | 17 | 15 | 15 |
+
+La regla enmendada elige el menor presupuesto admisible por pérdida de cubiertos y degradación del RMSD mediano. El gate técnico también fue enmendado: acepta modelos efectivamente emitidos si el proceso termina bien y sus scores de REMARK VINA RESULT son finitos. No se atribuye esa enmienda al diseño original.
+
+No se demuestra saturación ni equivalencia entre presupuestos. La propia lectura califica NO_GO la cobertura hard del presupuesto elegido. No comprobado por mí: repetir las corridas. Fuente: `D-MF-HARD-CURVE`.
+
+## D-MF-HARD-CURVE-VAL: la validación del presupuesto es un piloto descriptivo
+
+**GO de ejecución piloto.** Añade val del presupuesto fijado sin reajustarlo ni convertir train en confirmación externa.
+
+Se conservó K = 15, configuración y métrica de bolsillo del ensayo de desarrollo. Los intervalos Wilson son los archivados.
+
+| Val | Cubiertos / miembros | IC 95 % de cobertura |
+|---|---:|---|
+| Hard | 2 / 5 | [0,118; 0,769] |
+| Control | 4 / 5 | [0,376; 0,964] |
+
+No hubo fallos ITT registrados. El tamaño limitado y los intervalos no prueban equivalencia con train. No comprobado por mí: reconstruir las corridas. Fuente: `D-MF-HARD-CURVE-VAL`.
+
+## D-MF-HARD-EXH4: el comparador flexible supera a MolFlex en esta cohorte de desarrollo
+
+**GO limitado al contraste de desarrollo.** Añade el comparador histórico, sin demostrar superioridad en sitios desconocidos ni modificar v2.
+
+Usó vina 1.2.7, ligando flexible, receptor rígido, exhaustividad 4, semilla 42 y caja cristalográfica de 25 Å. También la conformación inicial era cristalográfica. La cobertura es el oráculo sobre todas las poses del brazo, con el criterio de bolsillo, no el top-1.
+
+| Train hard | Resultado |
+|---|---:|
+| Cubiertos por el comparador flexible | 11 / 17 |
+| Cubiertos por MolFlex del presupuesto elegido | 3 / 17 |
+| Discordancias a favor / en contra del comparador | 8 / 0 |
+| McNemar exacto bilateral archivado | 0,0078125 |
+| CPU-h hard del comparador, medida | 0,67 |
+| CPU-h hard de MolFlex, estimación con P50 por corrida | 2,214 |
+
+El coste de referencia es un estimador, no una medición pareada. Los otros contrastes y control no establecen la misma superioridad. El ajuste de multiplicidad del registro es sensibilidad post-hoc, no parte del prerregistro. No comprobado por mí: repetir docking, inferencia o tiempos. Fuente: `D-MF-HARD-EXH4`.
+
+## D-MF-HARD-EXH4-VAL: la extensión a val no es confirmación ciega
+
+**GO de ejecución descriptiva.** Añade val sin modificar el presupuesto ni la decisión de train.
+
+Con la configuración del comparador flexible anterior se cubrieron 2 de 5 hard y 2 de 5 controles. Ambas fracciones tienen IC Wilson del 95 % archivado [0,118; 0,769]. No hubo fallos ITT registrados.
+
+Es la primera ejecución de este brazo sobre val, pero esa cohorte ya se examinó con MolFlex. El sello la declara no ciega ni confirmatoria. La igualdad observada entre estratos no demuestra equivalencia. No comprobado por mí: repetir corridas o intervalos. Fuente: `D-MF-HARD-EXH4-VAL`.

@@ -36,6 +36,7 @@ import zipfile
 from dataclasses import dataclass, field
 from typing import Any
 
+from core.i18n import translate_text
 from services.dossier.package import CHECKSUMS_NAME, MANIFEST_VERSION
 
 #: Archivos que el manifiesto no declara por construcción, porque no pueden
@@ -68,7 +69,7 @@ class ResultadoVerificacion:
 
     def error(self, mensaje: str) -> None:
         self.valido = False
-        self.errores.append(mensaje)
+        self.errores.append(translate_text(mensaje))
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -77,38 +78,38 @@ class ResultadoVerificacion:
             "manifest_version": self.manifest_version,
             "archivos_declarados": self.archivos_declarados,
             "archivos_presentes": self.archivos_presentes,
-            "errores": self.errores,
-            "avisos": self.avisos,
+            "errores": [translate_text(mensaje) for mensaje in self.errores],
+            "avisos": [translate_text(aviso) for aviso in self.avisos],
         }
 
     def informe(self) -> str:
-        cabecera = "VÁLIDO" if self.valido else "INVÁLIDO"
+        cabecera = translate_text("VÁLIDO" if self.valido else "INVÁLIDO")
         lineas = [
             f"{cabecera}",
-            f"  raíz:        {self.raiz or '(no determinada)'}",
-            f"  manifiesto:  v{self.manifest_version if self.manifest_version is not None else '?'}",
-            f"  archivos:    {self.archivos_presentes} presentes / {self.archivos_declarados} declarados",
+            translate_text(f"  raíz:        {self.raiz or translate_text('(no determinada)')}"),
+            translate_text(f"  manifiesto:  v{self.manifest_version if self.manifest_version is not None else '?'}"),
+            translate_text(f"  archivos:    {self.archivos_presentes} presentes / {self.archivos_declarados} declarados"),
         ]
         for aviso in self.avisos:
-            lineas.append(f"  aviso:   {aviso}")
+            lineas.append(translate_text(f"  aviso:   {translate_text(aviso)}"))
         for error in self.errores:
-            lineas.append(f"  ERROR:   {error}")
+            lineas.append(translate_text(f"  ERROR:   {translate_text(error)}"))
         return "\n".join(lineas)
 
 
 def _ruta_peligrosa(nombre: str) -> str | None:
     """Devuelve el motivo si la entrada no es segura, o `None` si lo es."""
     if nombre.startswith("/") or nombre.startswith("\\"):
-        return "ruta absoluta"
+        return translate_text("ruta absoluta")
     if len(nombre) > 1 and nombre[1] == ":":
-        return "ruta con unidad de disco"
+        return translate_text("ruta con unidad de disco")
     if "\\" in nombre:
-        return "separador de Windows en la entrada del ZIP"
+        return translate_text("separador de Windows en la entrada del ZIP")
     partes = nombre.split("/")
     if any(parte == ".." for parte in partes):
-        return "componente `..` (escape de directorio)"
+        return translate_text("componente `..` (escape de directorio)")
     if any(parte in ("", ".") for parte in partes[:-1]):
-        return "componente vacío o `.`"
+        return translate_text("componente vacío o `.`")
     return None
 
 

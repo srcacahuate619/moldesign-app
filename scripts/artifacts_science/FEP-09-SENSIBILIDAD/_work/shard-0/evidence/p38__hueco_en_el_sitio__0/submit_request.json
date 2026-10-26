@@ -1,0 +1,40 @@
+{
+  "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+  "target_pdb_id": "USR_98529E",
+  "chain": "A",
+  "molecule_name": "p38__hueco_en_el_sitio__0",
+  "grid_center": [
+    22.089,
+    10.799,
+    31.522
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:763f6c1a5ba99fa28a5e330a92454a679d7afd41c98d33b807d05f5c34357079"
+}

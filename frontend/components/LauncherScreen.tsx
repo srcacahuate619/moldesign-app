@@ -4,6 +4,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import { DownloadCard } from "@/components/DownloadCard";
+import { PaqueteMolcyCard } from "@/components/PaqueteMolcyCard";
 import { useDownload } from "@/hooks/useDownload";
 import { PRODUCT } from "@/lib/softwareCatalog";
 
@@ -32,6 +33,8 @@ export function LauncherScreen() {
 
         <section aria-label={t("pg_lanzador_componentes_disponibles")} className="space-y-4">
           {manifest.map((entry) => <DownloadCard key={entry.id} entry={entry} />)}
+          {/* Blender + Molecular Nodes para Molcy: lo instala el backend, no Rust (ver la tarjeta). */}
+          <PaqueteMolcyCard />
         </section>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-[1fr_auto]">

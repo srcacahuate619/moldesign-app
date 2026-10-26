@@ -364,78 +364,52 @@
       "m": "fuerte"
      },
      {
-      "t": " Las señales se observan sobre los mismos datos donde se",
+      "t": " Las señales se observan sobre los mismos datos donde se mide su utilidad. Un uso real exige calibrar en ",
+      "m": null
+     },
+     {
+      "t": "train",
+      "m": "codigo"
+     },
+     {
+      "t": " y medir en ",
+      "m": null
+     },
+     {
+      "t": "val",
+      "m": "codigo"
+     },
+     {
+      "t": "/",
+      "m": null
+     },
+     {
+      "t": "test",
+      "m": "codigo"
+     },
+     {
+      "t": ", y ese experimento todavía no se ha hecho.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "mide su utilidad. Un uso real exige calibrar en ",
-     "m": null
-    },
-    {
-     "t": "train",
-     "m": "codigo"
-    },
-    {
-     "t": " y medir en ",
-     "m": null
-    },
-    {
-     "t": "val",
-     "m": "codigo"
-    },
-    {
-     "t": "/",
-     "m": null
-    },
-    {
-     "t": "test",
-     "m": "codigo"
-    },
-    {
-     "t": ", y ese experimento todavía no se ha hecho.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "A cobertura del 25% quedan n=50",
       "m": "fuerte"
      },
      {
-      "t": ", con un intervalo de confianza de ±13 puntos. La",
+      "t": ", con un intervalo de confianza de ±13 puntos. La ",
+      "m": null
+     },
+     {
+      "t": "forma",
+      "m": "enfasis"
+     },
+     {
+      "t": " de la curva es sólida; el valor puntual de 0.620 no lo es.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "forma",
-     "m": "enfasis"
-    },
-    {
-     "t": " de la curva es sólida; el valor puntual de 0.620 no lo es.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "Las tres señales no se combinaron.",
@@ -482,6 +456,81 @@
      "t": "Porque es el único resultado del programa que se traduce directamente en algo que un usuario nota. No hace al motor mejor. Hace que el motor deje de mentir sobre lo que sabe.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-045. El sello de este experimento acredita el productor y deja recalcular los agregados desde los ",
+      "m": null
+     },
+     {
+      "t": "per_complex",
+      "m": "codigo"
+     },
+     {
+      "t": " guardados, pero no fija con hash los insumos de la extracción molecular (las poses ",
+      "m": null
+     },
+     {
+      "t": "conf*.out.pdbqt",
+      "m": "codigo"
+     },
+     {
+      "t": ", ",
+      "m": null
+     },
+     {
+      "t": "index_map.json",
+      "m": "codigo"
+     },
+     {
+      "t": ", el SDF cristalográfico ni las versiones de los paquetes). Lo que se reproduce son los agregados a partir de las filas por complejo, no las filas desde las fuentes crudas. Desde el 2026-10-23, los experimentos nuevos se sellan con ",
+      "m": null
+     },
+     {
+      "t": "scripts/sellar_experimento.py",
+      "m": "codigo"
+     },
+     {
+      "t": ", que exige entradas, salidas y versiones; este sello no se rehace.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

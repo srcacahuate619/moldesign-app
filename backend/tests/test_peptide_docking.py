@@ -62,6 +62,16 @@ async def test_un_motor_descargable_sin_instalar_dice_que_hay_que_descargarlo(mo
     Antes de esto, elegir ESMFold sin tenerlo instalado terminaba en una pose de
     Vina con un aviso. Ahora la corrida se detiene en el sitio correcto y el
     mensaje dice qué hacer: descargarlo, y cuánto pesa.
+
+    SOL-16: determinista en cualquier equipo. El camino que esta prueba
+    vigila depende de qué haya en disco y de si un sidecar está vivo: en una
+    máquina CON los pesos descargados, `estado()` clasificaba
+    «instalado_apagado», el helper intentaba encender el motor de verdad y
+    el mensaje final hablaba de «configurar el servicio» — el sitio
+    equivocado, por culpa del fixture, no del código. Los pesos se declaran
+    FALTANTES en los dos módulos (el guard del sidecar y `estado_de` de
+    `catalogo`) y la sonda no depende de la red: la prueba ejercita el
+    contrato, no el estado del equipo.
     """
     import utils.local_storage as local_storage
 
@@ -73,6 +83,19 @@ async def test_un_motor_descargable_sin_instalar_dice_que_hay_que_descargarlo(mo
     monkeypatch.setattr(peptide_docking, "calculate_properties", lambda _smiles: None)
     monkeypatch.setattr(peptide_docking, "cache", _Cache())
     monkeypatch.setattr(local_storage, "exists", unavailable_local_pdb)
+
+    # `sidecar_de` devuelve un singleton por motor: parchear la instancia
+    # alcanza al helper, que la pide él mismo.
+    import services.motores.catalogo as catalogo_de_motores
+    import services.motores.sidecar as modulo_sidecar
+    from services.motores import sidecar_de
+
+    sc_de_esmfold = sidecar_de("esmfold")
+    assert sc_de_esmfold is not None, "el catálogo dejó de declarar el sidecar de esmfold"
+    faltan_pesos = ["esmfold/models/pytorch_model.bin"]
+    monkeypatch.setattr(modulo_sidecar, "archivos_que_faltan", lambda _motor: faltan_pesos)
+    monkeypatch.setattr(catalogo_de_motores, "archivos_que_faltan", lambda _motor: faltan_pesos)
+    monkeypatch.setattr(sc_de_esmfold, "responde", lambda: False)
 
     with pytest.raises(RuntimeError) as error:
         await peptide_docking.run_peptide_docking_helper(

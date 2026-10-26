@@ -46,7 +46,8 @@ def register_middleware(app: FastAPI) -> None:
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
-        expose_headers=["X-Request-ID", "X-Process-Time", "Content-Disposition", "content-disposition"],
+        expose_headers=["X-Request-ID", "X-Process-Time", "Content-Disposition", "content-disposition",
+                        "X-Molcy-Fotograma", "X-Molcy-Orden", "X-Molcy-Total"],
     )
 
     @app.middleware("http")
@@ -72,7 +73,11 @@ def register_middleware(app: FastAPI) -> None:
         log.info("request iniciada")
         try:
             response = await call_next(request)
-            response = await localize_json_response(response)
+            response = await localize_json_response(
+                response,
+                openapi=request.url.path == getattr(request.app, "openapi_url", None),
+                endpoint=request.url.path,
+            )
         except Exception:
             log.exception("request falló con excepción no controlada")
             raise

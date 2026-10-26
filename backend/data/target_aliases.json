@@ -497,11 +497,11 @@
   },
   {
     "pdb_id": "2HZI",
-    "name": "ABL1 Kinase Imatinib",
+    "name": "ABL1 Kinase PD180970",
     "family": "kinase",
     "has_structure": true,
     "aliases": [
-      "ABL1 Kinase Imatinib",
+      "ABL1 Kinase PD180970",
       "C-ABL",
       "ABELSON MURINE LEUKEMIA VIRAL ONCOGENE HOMOLOG",
       "abl1",

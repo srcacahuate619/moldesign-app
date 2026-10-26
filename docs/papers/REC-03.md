@@ -73,3 +73,15 @@ este motor**. Los objetivos accionables siguen siendo deuda de curación manual,
 Es coherente con `REC-07`, que había llegado a lo mismo desde el otro lado: la geometría
 del grid no es buen predictor de la calidad del docking, ni para condenar un grid ni para
 reemplazarlo.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-150. La contención completa del ligando de referencia en una caja es un descriptor
+  geométrico, no una condición necesaria para obtener una pose dentro de la tolerancia RMSD del
+  endpoint. Se retira el techo de éxito derivado de esa contención y la imposibilidad atribuida
+  al resto de casos, también para la caja de catálogo. El umbral de reparación fijado antes del
+  experimento permanece como decisión operativa elegida; no se justifica como fracción de un
+  techo geométrico demostrado.

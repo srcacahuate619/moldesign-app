@@ -1,0 +1,42 @@
+{
+ "que_es": "Vídeo de Molcy recomprimido para la web: mismo contenido y cierre, menos píxeles.",
+ "generador": "scripts/preparar_demo_molcy.py",
+ "original": {
+  "archivo": "4FK3_x_social_vertical_4025dac279d1.mp4",
+  "sha256": "7ea1da36424ee7972d5d0da4079c91d1d6db346b91bd4328ab6a1688336a8765",
+  "bytes": 21118426
+ },
+ "molcy": {
+  "origen": "moldex",
+  "corrida": "381491c8-b90a-4ecb-a14d-f0f1afc42a49",
+  "escena": "busqueda",
+  "pdb_id": "4FK3",
+  "receptor": "BRAF V600E Kinase",
+  "receptor_sha256": "b54612a29c42dfdd6e5faef765db7858bb9741ddc12291c3a34a4f598ad08696",
+  "poses_sha256": "9128d0328d0d09a32bbe09a25ee28ac96fc5eb31bc5fe5b33cd652b286ee8fd5",
+  "formato": "social_vertical",
+  "ancho": 1080,
+  "alto": 1920,
+  "fps": 30,
+  "cierre_s": 3.6,
+  "poses": 9,
+  "pasos": 128520,
+  "replicas": 8
+ },
+ "web": {
+  "archivo": "molcy-demo.mp4",
+  "sha256": "18007e1d90a253ae6bcb4fab4ee212f088e904f290221491dfcce951721e1187",
+  "bytes": 2665295,
+  "ancho": 720,
+  "alto": 1280,
+  "duracion_s": 15.6,
+  "codec": "H.264 High, yuv420p, sin audio",
+  "crf": 27,
+  "ffmpeg": "ffmpeg version 7.1-essentials_build-www.gyan.dev Copyright (c) 2000-2024 the FFmpeg developers"
+ },
+ "reposo": {
+  "archivo": "molcy-demo.webp",
+  "sha256": "f45f87628a9aa8ba1a43302410c26dc16ac83490e3f998ab8c449b534d0a04bd",
+  "segundo": 6.0
+ }
+}

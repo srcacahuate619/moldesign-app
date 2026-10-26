@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { Microscope, ArrowLeftRight, Zap, AlertTriangle } from 'lucide-react';
 import {
   compararMoleculas,
+  compararIndices,
   filaComparativa,
   type MoldexMolecule,
 } from '../lib/moldex';
@@ -24,6 +25,7 @@ type Artefactos = {
   pose: string | null;
   prot: string | null;
   estado: EstadoArtefacto;
+  sinIdentidad?: boolean;
 };
 
 const INICIAL: Artefactos = { pose: null, prot: null, estado: "cargando" };
@@ -44,10 +46,12 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
       set: React.Dispatch<React.SetStateAction<Artefactos>>,
     ) => {
       if (!mol) return;
+      const taskId = mol.provenance?.task_id;
+      if (!taskId) { set({ pose: null, prot: null, estado: "error", sinIdentidad: true }); return; }
       set(INICIAL);
-      Promise.all([getPoseFile(mol.id), getProteinFile(mol.id)])
+      Promise.all([getPoseFile(mol.id, taskId), getProteinFile(mol.id, taskId)])
         .then(([pose, prot]) => {
-          if (activo) set({ pose, prot, estado: "listo" });
+          if (activo) set({ pose, prot, estado: pose && prot ? "listo" : "error" });
         })
         .catch(() => {
           if (activo) set({ pose: null, prot: null, estado: "error" });
@@ -62,10 +66,16 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
     };
   }, [molA, molB]);
 
+  // Comparar dos evaluaciones de la MISMA molécula es el caso principal de tener
+  // varias fichas por molécula: sin la marca de la corrida las dos columnas se
+  // titularían igual.
+  const mismaMolecula = !!molA && !!molB && molA.id === molB.id;
   const nombreDe = (mol: MoldexMolecule | undefined) => {
-    const porTarget = `MDX-${mol?.target?.pdb_id || "UKN"}-${mol?.smiles_hash?.substring(0, 4)?.toUpperCase() || "XXXX"}`;
+    const corrida = mol?.provenance?.task_id ? ` #${mol.provenance.task_id.slice(0, 6)}` : "";
+    const porTarget = `MDX-${mol?.target?.pdb_id || "UKN"}-${mol?.smiles_hash?.substring(0, 4)?.toUpperCase() || "XXXX"}${corrida}`;
     const esPorDefecto = !mol?.name || mol.name.startsWith("Ligando ");
-    return { porTarget, mostrado: esPorDefecto ? porTarget : mol!.name };
+    const base = esPorDefecto ? porTarget : mol!.name;
+    return { porTarget, mostrado: !esPorDefecto && mismaMolecula ? `${base}${corrida}` : base };
   };
 
   const nombreA = nombreDe(molA);
@@ -75,6 +85,12 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
   // comparar. Un score de docking sólo significa algo relativo al receptor y al
   // protocolo que lo produjeron.
   const veredicto = compararMoleculas(molA, molB);
+  const veredictoIndice = compararIndices(molA, molB);
+  const indice = filaComparativa("ÍNDICE COMPUESTO HISTÓRICO (0-100)", molA?.metrics?.score, molB?.metrics?.score);
+  if (!veredictoIndice.comparable) {
+    indice.delta = null;
+    indice.textoDelta = "—";
+  }
 
   // MOLDEX-SCI-003: `?? 0` convertía una métrica no calculada en un cero y
   // después restaba contra él. Ahora el faltante se conserva como faltante.
@@ -82,7 +98,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
     filaComparativa("LOG P", molA?.metrics?.log_p, molB?.metrics?.log_p),
     filaComparativa("PESO MOL. (Da)", molA?.metrics?.mw, molB?.metrics?.mw),
     filaComparativa("TPSA (Å²)", molA?.metrics?.tpsa, molB?.metrics?.tpsa),
-    filaComparativa("ÍNDICE COMPUESTO HISTÓRICO (0-100)", molA?.metrics?.score, molB?.metrics?.score),
+    indice,
   ];
 
   const panel = (
@@ -100,7 +116,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
           >
             <AlertTriangle size={20} className="text-amber-500" />
             <span>
-              <Translated id="z_comparador_no_cargo" />
+              <Translated id={datos.sinIdentidad ? "rx_sin_identidad_corrida" : "z_comparador_no_cargo"} />
             </span>
           </div>
         ) : (
@@ -118,7 +134,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
         <h3 className="text-xl font-bold text-white">{nombre.mostrado}</h3>
         <div className={`flex items-center gap-4 ${alineadoDerecha ? "justify-end" : ""}`}>
           {alineadoDerecha && (
-            <div className="text-xs text-slate-500 font-bold uppercase">{mol?.target?.pdb_id || "TARGET"}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{mol?.target?.pdb_id || t("pr_compare_target")}</div>
           )}
           <div className={`flex items-center gap-1 font-black ${alineadoDerecha ? "text-emerald-400" : "text-indigo-400"}`}>
             <Zap size={14} fill="currentColor" />
@@ -128,7 +144,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
               : t("auto_185e750ee009")}
           </div>
           {!alineadoDerecha && (
-            <div className="text-xs text-slate-500 font-bold uppercase">{mol?.target?.pdb_id || "TARGET"}</div>
+            <div className="text-xs text-slate-500 font-bold uppercase">{mol?.target?.pdb_id || t("pr_compare_target")}</div>
           )}
         </div>
       </div>
@@ -144,7 +160,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
       <div className="relative w-full max-w-6xl rounded-3xl border border-slate-800 bg-slate-900 p-8 shadow-2xl overflow-y-auto max-h-[92vh]">
         <button
           onClick={onClose}
-          aria-label="Cerrar comparador"
+          aria-label={t("pr_compare_close")}
           className="absolute top-6 right-6 rounded-full bg-slate-800 p-2 text-slate-400 hover:text-white transition-colors"
         >
           <Microscope size={20} className="rotate-45" />
@@ -159,9 +175,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
           {panel(molB, dataB, nombreB, true)}
         </div>
 
-        {/* MOLDEX-SCI-004: si no son comparables se explica por qué y no se
-            muestra ninguna diferencia. Una resta entre escalas distintas
-            parecería una mejora sin serlo. */}
+        {/* SCI-A-012: la abstención afecta al índice, no a los descriptores. */}
         {!veredicto.comparable && (
           <div
             role="alert"
@@ -181,17 +195,16 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
           </div>
         )}
 
-        {veredicto.comparable && (
           <div className="mt-12 overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/50">
             <table className="w-full text-sm text-left">
               <caption className="sr-only">
-                <Translated id="auto_9835328903b8" /> {nombreA.porTarget} y {nombreB.porTarget}
+                <Translated id="auto_9835328903b8" /> {nombreA.porTarget} {t("ca_and")} {nombreB.porTarget}
               </caption>
               <thead className="bg-slate-800/50 text-[10px] font-bold uppercase tracking-widest text-slate-500">
                 <tr>
-                  <th scope="col" className="px-6 py-3">PROPIEDAD</th>
+                  <th scope="col" className="px-6 py-3">{t("pr_compare_property")}</th>
                   <th scope="col" className="px-6 py-3 text-center">{nombreA.porTarget}</th>
-                  <th scope="col" className="px-6 py-3 text-center">DIFERENCIA</th>
+                  <th scope="col" className="px-6 py-3 text-center">{t("pr_compare_difference")}</th>
                   <th scope="col" className="px-6 py-3 text-center">{nombreB.porTarget}</th>
                 </tr>
               </thead>
@@ -205,14 +218,17 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
                         className={
                           fila.delta === null
                             ? 'text-slate-600'
-                            : fila.delta > 0
-                              ? 'text-emerald-400'
-                              : 'text-rose-400'
+                            : 'text-slate-300'
                         }
-                        title={fila.delta === null ? t("auto_7c3ae9bd54e6") : undefined}
+                        title={fila.delta === null && (fila !== indice || veredictoIndice.comparable) ? t("auto_7c3ae9bd54e6") : undefined}
                       >
                         {fila.textoDelta}
                       </span>
+                      {fila === indice && veredictoIndice.calibracionAusente && (
+                        <p className="mt-1 font-sans font-normal text-slate-400">
+                          {t("z_indice_calibracion_ausente")}
+                        </p>
+                      )}
                     </td>
                     <td className="px-6 py-4 text-center">{fila.textoB}</td>
                   </tr>
@@ -220,7 +236,6 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
               </tbody>
             </table>
           </div>
-        )}
       </div>
     </motion.div>
   );

@@ -1,0 +1,27 @@
+{
+  "pdb": "2X8Z",
+  "semilla": 13,
+  "inicio": "2026-10-23T03:36:25+00:00",
+  "resultado": "auditada",
+  "task_id": "e04a826b-8743-4e9e-b28a-317846cc87e0",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:1616 (2.14 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal X8Z A:1615",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "f2710c6ae93dabf5f417502f7bc7d5b9a6ce7b1df2156ae3070821cacc098f03",
+  "afinidad_top1": -5.909,
+  "microestado": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+  "microestado_coincide": true,
+  "semilla_declarada": 13,
+  "vina": "1.2.7",
+  "receptor_sha256": "439b69b6a49dc850f420104d7ce24c7ccb66263d2751c3b017ab54f081642536",
+  "segundos": 18.1,
+  "fin": "2026-10-23T03:36:43+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

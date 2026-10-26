@@ -584,7 +584,7 @@ Protocolo y evidencia: [63_GATE_RUNTIME_EVALUACION.md](63_GATE_RUNTIME_EVALUACIO
 La aceptación ejecutó una corrida real con Vina/Meeko, reinició el backend sobre la misma
 SQLite, recuperó por `task_id` el snapshot inmutable, comparó el resultado vivo/reabierto,
 generó el dossier y comprobó seis superficies con una segunda cuenta. El polling no
-transportó poses. Evidencia: `tmp/evaluation-runtime-20260830T180225Z/`; suite posterior:
+transportó poses. Evidencia: `tmp/evaluation-runtime-20260830T180225Z/` (no localizado en D: ni en F:); suite posterior:
 backend `933 passed, 3 skipped`.
 
 ### Gate runtime de Batch — APROBADO 2026-08-30
@@ -594,7 +594,7 @@ Protocolo y evidencia: [64_GATE_RUNTIME_BATCH.md](64_GATE_RUNTIME_BATCH.md).
 La aceptación ejecutó Vina/Meeko real, verificó semilla solicitada/observada/protocolizada,
 duplicados, preparación automática y SHA-256 del receptor, dossier PDF/ZIP, reinicio y
 recuperación de la última corrida desde backend. Una segunda cuenta recibió `404` en seis
-superficies. Evidencia: `tmp/batch-runtime-20260830T182915Z/`; suites completas: backend
+superficies. Evidencia: `tmp/batch-runtime-20260830T182915Z/` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\batch-runtime-20260830T182915Z); suites completas: backend
 `937 passed, 3 skipped`, frontend `548 passed`; TypeScript limpio.
 
 ### Moldex — 16 hallazgos implementados, gate pendiente
@@ -1014,9 +1014,9 @@ sobre si el invitado puede guardar y certificar.
 
 | Gate | Resultado | Evidencia |
 |---|---|---|
-| Evaluación runtime | **PASS** | `tmp/evaluation-runtime-20260901T061702Z` — Vina 1.2.7, afinidad −5.489 kcal/mol, reinicio del backend, reapertura por `task_id`, dossier, y 6 negativas a la segunda cuenta |
-| Batch runtime | **PASS** | `tmp/batch-runtime-20260901T061819Z` |
-| Moldex runtime | **PASS** | `tmp/moldex-runtime-20260901T062527Z` |
+| Evaluación runtime | **PASS** | `tmp/evaluation-runtime-20260901T061702Z` (no localizado en D: ni en F:) — Vina 1.2.7, afinidad −5.489 kcal/mol, reinicio del backend, reapertura por `task_id`, dossier, y 6 negativas a la segunda cuenta |
+| Batch runtime | **PASS** | `tmp/batch-runtime-20260901T061819Z` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\batch-runtime-20260901T061819Z) |
+| Moldex runtime | **PASS** | `tmp/moldex-runtime-20260901T062527Z` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\moldex-runtime-20260901T062527Z) |
 | Backend completo | **1289 passed** | intérprete de desarrollo |
 | Frontend | **652 passed** en 69 archivos | 2 fallos restantes en `DownloadNotifications.test.tsx`, trabajo en curso del §62 |
 | TypeScript | limpio | `tsc --noEmit` |

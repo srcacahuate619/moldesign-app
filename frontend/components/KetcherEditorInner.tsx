@@ -34,6 +34,12 @@ type Props = {
   initialSmiles?: string;
   onSmilesChange?: (smiles: string) => void;
   height?: number | string;
+  /**
+   * Recibe, al iniciarse Ketcher, cómo leer su dibujo (molfile). Se lee sólo
+   * cuando se pide —al abrir el visor 3D—, nunca en un temporizador: cada lectura
+   * pasa por el worker de Indigo (ver la fuga del sondeo en AGENTS.md).
+   */
+  onLectorDelDibujo?: (leer: () => Promise<string | null>) => void;
 };
 
 // Singleton service provider — reused across remounts
@@ -50,14 +56,46 @@ export default function KetcherEditorInner({
   initialSmiles,
   onSmilesChange,
   height = 750,
+  onLectorDelDibujo,
 }: Props) {
   const ketcherRef = useRef<Ketcher | null>(null);
   const [ready, setReady] = useState(false);
   const lastReportedSmiles = useRef<string | null>(null);
+  // Lo que Ketcher devuelve justo después de cargar un SMILES externo. No es una
+  // edición del usuario: es su reescritura del texto, y en un macrociclo cambia
+  // la molécula (`|c:…|` marca cis todos los dobles enlaces del anillo; la
+  // geldanamicina tecleada E,Z,Z volvía al campo como Z,Z,Z). QA-030.
+  const ecoDeKetcher = useRef<string | null>(null);
+
+  // Mientras se carga un SMILES de fuera, el «cambio» que anuncia Ketcher es esa carga, no una edición.
+  const cargando = useRef(false);
+
+  const cargarEnKetcher = async (ketcher: Ketcher, smiles: string) => {
+    lastReportedSmiles.current = smiles;
+    ecoDeKetcher.current = null;
+    cargando.current = true;
+    try {
+      await ketcher.setMolecule(smiles);
+      try {
+        ecoDeKetcher.current = await ketcher.getSmiles();
+      } catch {
+        ecoDeKetcher.current = null;
+      }
+    } finally {
+      cargando.current = false;
+    }
+  };
 
   // When Ketcher initializes, store the instance and load initial SMILES
   const handleInit = async (ketcher: Ketcher) => {
     ketcherRef.current = ketcher;
+    onLectorDelDibujo?.(async () => {
+      try {
+        return await ketcher.getMolfile();
+      } catch {
+        return null;
+      }
+    });
     
     // Enable valency error display and other "free" drawing settings
     ketcher.setSettings({
@@ -81,8 +119,7 @@ export default function KetcherEditorInner({
 
     if (initialSmiles) {
       try {
-        lastReportedSmiles.current = initialSmiles;
-        await ketcher.setMolecule(initialSmiles);
+        await cargarEnKetcher(ketcher, initialSmiles);
       } catch (e) {
         console.warn("Ketcher: could not load initial SMILES", e);
       }
@@ -90,27 +127,58 @@ export default function KetcherEditorInner({
     setReady(true);
   };
 
-  // Periodically sync SMILES from Ketcher to parent (debounced)
+  // Del lienzo al campo: sólo cuando Ketcher anuncia un cambio de la estructura.
+  //
+  // EL FALLO QUE ARREGLA (VM de 1.0.2, 2026-10-12). Esto era un `setInterval` de 500 ms que llamaba a `getSmiles()`
+  // para siempre, también con la aplicación quieta y con la pestaña oculta (no se desmonta). Cada `getSmiles()` de
+  // Ketcher 3.18 serializa su biblioteca de monómeros entera y la manda al worker de Indigo: 1,57 MB por mensaje, dos
+  // por segundo, y esa memoria se queda en el worker, que vive en el mismo proceso que la página. Medido en Edge con
+  // el export de producción: +377 MB en 2 min con la app quieta en Molcy tras una evaluación (≈11 GB por hora); con
+  // los mensajes al worker bloqueados, −1,6 MB. En la VM de 10 GiB, a la hora: «This page is having a problem · Out of
+  // Memory». Ketcher anuncia cada acción con historial (dibujar, borrar, pegar, abrir, deshacer y rehacer) por
+  // `editor.subscribe("change")`; quieto, no se le pregunta nada.
   useEffect(() => {
-    if (!ready || !ketcherRef.current || !onSmilesChange) return;
+    const ketcher = ketcherRef.current;
+    if (!ready || !ketcher || !onSmilesChange) return;
 
-    const interval = setInterval(async () => {
+    let vivo = true;
+    let espera: ReturnType<typeof setTimeout> | undefined;
+    const leer = async (reintentos: number) => {
+      if (!vivo || cargando.current) return;
       try {
-        if (ketcherRef.current) {
-          const smiles = await ketcherRef.current.getSmiles();
-          if (smiles !== undefined && smiles !== lastReportedSmiles.current) {
-            lastReportedSmiles.current = smiles;
-            onSmilesChange(smiles);
-          }
+        const smiles = await ketcher.getSmiles();
+        if (
+          vivo &&
+          smiles !== undefined &&
+          smiles !== lastReportedSmiles.current &&
+          smiles !== ecoDeKetcher.current
+        ) {
+          ecoDeKetcher.current = null;
+          lastReportedSmiles.current = smiles;
+          onSmilesChange(smiles);
         }
       } catch {
         // Una excepción no demuestra que el usuario vació el lienzo: también
         // ocurre mientras Ketcher recalcula o carga una estructura. El borrado
-        // real llega como una respuesta válida `""` de getSmiles().
+        // real llega como una respuesta válida `""` de getSmiles(). Como ya no
+        // hay un sondeo que vuelva a preguntar, se reintenta un par de veces.
+        if (vivo && reintentos > 0) espera = setTimeout(() => void leer(reintentos - 1), 500);
       }
-    }, 500); // Slightly slower interval to feel less "jittery"
+    };
+    // Un trazo genera varios cambios seguidos: se lee una vez, cuando paran.
+    const alCambiar = () => {
+      if (espera) clearTimeout(espera);
+      espera = setTimeout(() => void leer(2), 300);
+    };
+    const suscripcion = ketcher.editor.subscribe("change", alCambiar);
+    // Lo que cambió entre la carga inicial y la suscripción.
+    void leer(2);
 
-    return () => clearInterval(interval);
+    return () => {
+      vivo = false;
+      if (espera) clearTimeout(espera);
+      ketcher.editor.unsubscribe("change", suscripcion);
+    };
   }, [ready, onSmilesChange]);
 
   const isProcessing = useRef(false);
@@ -143,8 +211,7 @@ export default function KetcherEditorInner({
 
         if (isPotentiallyValid) {
             isProcessing.current = true;
-            lastReportedSmiles.current = smiles;
-            await ketcherRef.current.setMolecule(smiles);
+            await cargarEnKetcher(ketcherRef.current, smiles);
         }
       }
     } catch (e) {

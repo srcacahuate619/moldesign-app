@@ -1,0 +1,27 @@
+{
+  "pdb": "5A2R",
+  "semilla": 13,
+  "inicio": "2026-10-23T03:48:02+00:00",
+  "resultado": "auditada",
+  "task_id": "ed948d50-362c-47e9-94f8-27ff554c01e4",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:1616 (4.38 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal MLT A:1615",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "edacfafae2ea6a541151f3de75b34ccba3397533942b52f428ab1351d6505105",
+  "afinidad_top1": -5.323,
+  "microestado": "O=C([O-])C[C@@H](O)C(=O)[O-]",
+  "microestado_coincide": true,
+  "semilla_declarada": 13,
+  "vina": "1.2.7",
+  "receptor_sha256": "1e11beb13ea08bd9592a5a5d075df11480ec32bad208ac117f98eedaab5638fe",
+  "segundos": 18.5,
+  "fin": "2026-10-23T03:48:21+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

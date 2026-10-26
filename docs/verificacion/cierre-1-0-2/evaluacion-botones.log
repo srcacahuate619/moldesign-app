@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 D:/moldesign-build/.worktrees/catalogo-demostracion/frontend
+
+
+ Test Files  2 passed (2)
+      Tests  9 passed (9)
+   Start at  20:44:44
+   Duration  4.13s (environment 44%, import 30%, setup 15%, transform 6%, tests 4%)
+

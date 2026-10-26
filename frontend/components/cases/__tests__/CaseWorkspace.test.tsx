@@ -15,6 +15,7 @@
 // vivo, un resultado publicable o una recuperación fallida.
 
 import { useEffect } from "react";
+import { openNativeJobDestination } from "../../../lib/nativeJobNotifications";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 import { act, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 
@@ -23,6 +24,36 @@ import { CaseWorkspace } from "../CaseWorkspace";
 import { createBrowserCaseRepository } from "../../../lib/cases/browserCaseRepository";
 import { CASE_KEY_PREFIX, CASES_INDEX_KEY } from "../../../lib/cases/browserCaseRepository";
 import type { ReportableResult, ReportRecoveryState } from "../../../lib/cases/types";
+import { casos } from "../../../context/traducciones/casos";
+import { describePendingDetails } from "../CaseDetailsDrawer";
+import { olvidarPeticionesDeEvaluacion, pedirEvaluacion } from "../../../lib/peticionDeEvaluacion";
+
+const translateEnglish = (key: string, values: Record<string, string | number> = {}) => {
+  let text = casos.en[key] ?? key;
+  for (const [name, value] of Object.entries(values)) {
+    text = text.replaceAll(`{${name}}`, String(value));
+  }
+  return text;
+};
+
+describe("localización del recuento de detalles pendientes", () => {
+  it("traduce cero, singular y plural sin cambiar el fallback español", () => {
+    const allAnswered = {
+      question: "q",
+      decision: "d",
+      systemRationale: "s",
+      controls: "c",
+      assumptions: "a",
+      uncertainties: "u",
+      notes: "n",
+    };
+
+    expect(describePendingDetails(allAnswered)).toBe("Sin detalles pendientes");
+    expect(describePendingDetails(allAnswered, translateEnglish)).toBe("No pending details");
+    expect(describePendingDetails({ ...allAnswered, question: "" }, translateEnglish)).toBe("1 pending detail");
+    expect(describePendingDetails({}, translateEnglish)).toBe("7 pending details");
+  });
+});
 
 // ── Mock del runner ──────────────────────────────────────────────────
 // Guarda cada montaje para poder afirmar que hubo remonte (aislamiento).
@@ -37,8 +68,10 @@ vi.mock("../../evaluation/CaseEvaluationRunner", () => ({
     onLiveWorkChange,
     onReportableChange,
     onReportRecoveryChange,
+    peticion,
   }: {
     caseId: string;
+    peticion?: { smiles: string; tautomero: string };
     onLiveWorkChange?: (patch: { evaluation?: boolean; analysis?: boolean; taskId?: string | null }) => void;
     onReportableChange?: (result: ReportableResult | null) => void;
     onReportRecoveryChange?: (state: ReportRecoveryState) => void;
@@ -51,7 +84,7 @@ vi.mock("../../evaluation/CaseEvaluationRunner", () => ({
     declareLiveWork = onLiveWorkChange ?? null;
     declareReportable = onReportableChange ?? null;
     declareRecovery = onReportRecoveryChange ?? null;
-    return <div data-testid="runner">runner:{caseId}</div>;
+    return <div data-testid="runner" data-peticion={peticion ? `${peticion.tautomero} ${peticion.smiles}` : ""}>runner:{caseId}</div>;
   },
 }));
 
@@ -94,14 +127,17 @@ async function createCaseViaUi(name: string) {
   fireEvent.click(screen.getAllByRole("button", { name: /nuevo caso|crear caso/i })[0]);
   const dialog = await screen.findByRole("dialog");
   fireEvent.change(within(dialog).getByLabelText(/nombre/i), { target: { value: name } });
-  fireEvent.click(within(dialog).getByRole("button", { name: "Crear caso" }));
+  fireEvent.click(within(dialog).getByRole("button", { name: "Crear un caso" }));
   await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
 }
 
-/** Abre «Detalles del caso» y devuelve su diálogo. */
+/** Despliega «Preguntas del caso» en Evaluación y devuelve su sección plegable. */
 async function openDetails() {
-  fireEvent.click(screen.getByRole("button", { name: /detalles del caso/i }));
-  return screen.findByRole("dialog", { name: /detalles del caso/i });
+  const summary = await screen.findByText("Preguntas del caso", { selector: "summary span" });
+  const details = summary.closest("details")!;
+  if (!details.open) fireEvent.click(summary.closest("summary")!);
+  await waitFor(() => expect(details.open).toBe(true));
+  return details;
 }
 
 const REPORTABLE: ReportableResult = {
@@ -117,6 +153,7 @@ describe("Case Workspace", () => {
     declareLiveWork = null;
     declareReportable = null;
     declareRecovery = null;
+    olvidarPeticionesDeEvaluacion();
   });
 
   describe("estado vacío", () => {
@@ -126,7 +163,7 @@ describe("Case Workspace", () => {
       expect(
         screen.getByText(/Reúne una proteína, una hipótesis de sitio/i),
       ).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Crear caso" })).toBeEnabled();
+      expect(screen.getByRole("button", { name: "Crear un caso" })).toBeEnabled();
       expect(screen.getByRole("button", { name: /abrir carpeta existente/i })).toBeDisabled();
     });
 
@@ -200,9 +237,9 @@ describe("Case Workspace", () => {
     it("el diálogo no deja crear sin nombre", async () => {
       renderWorkspace();
       await screen.findByText("Crea un caso de estudio");
-      fireEvent.click(screen.getByRole("button", { name: "Crear caso" }));
+      fireEvent.click(screen.getByRole("button", { name: "Crear un caso" }));
       const dialog = await screen.findByRole("dialog");
-      expect(within(dialog).getByRole("button", { name: "Crear caso" })).toBeDisabled();
+      expect(within(dialog).getByRole("button", { name: "Crear un caso" })).toBeDisabled();
     });
   });
 
@@ -264,22 +301,18 @@ describe("Case Workspace", () => {
     );
   });
 
-  describe("detalles del caso", () => {
-    it("abre el contexto en un panel accesible y guarda sin bloquear", async () => {
+  describe("preguntas del caso", () => {
+    it("se despliegan dentro de Evaluación y guardan sin bloquear", async () => {
       renderWorkspace();
       await screen.findByText("Crea un caso de estudio");
       await createCaseViaUi("Con contexto");
       await screen.findByTestId("runner");
 
-      const opener = screen.getByRole("button", { name: /detalles del caso/i });
-      expect(opener).toHaveAttribute("aria-expanded", "false");
-      expect(opener).toHaveAttribute("aria-controls", "case-details-drawer");
-      // El recuento acompaña, sin alarma: son 7 preguntas sin responder.
-      expect(opener).toHaveAccessibleName(/7 detalles pendientes/);
-      expect(screen.getByText(/7 detalles pendientes/)).toBeInTheDocument();
+      // El recuento acompaña al resumen plegado, sin alarma: son 7 preguntas sin responder.
+      const summary = (await screen.findByText("Preguntas del caso", { selector: "summary span" })).closest("summary")!;
+      expect(summary).toHaveTextContent(/7 detalles pendientes/);
 
       const drawer = await openDetails();
-      expect(opener).toHaveAttribute("aria-expanded", "true");
 
       const field = within(drawer).getByLabelText("¿Qué intenta responder este caso?");
       fireEvent.change(field, { target: { value: "Si la serie discrimina" } });
@@ -297,21 +330,15 @@ describe("Case Workspace", () => {
       expect(screen.getByTestId("runner")).toBeInTheDocument();
     });
 
-    it("Escape cierra el panel y devuelve el foco a quien lo abrió", async () => {
+    it("empiezan plegadas: no tapan la evaluación ni abren un diálogo", async () => {
       renderWorkspace();
       await screen.findByText("Crea un caso de estudio");
-      await createCaseViaUi("Teclado");
+      await createCaseViaUi("Plegadas");
       await screen.findByTestId("runner");
 
-      const opener = screen.getByRole("button", { name: /detalles del caso/i });
-      opener.focus();
-      const drawer = await openDetails();
-
-      fireEvent.keyDown(drawer, { key: "Escape" });
-      await waitFor(() =>
-        expect(screen.queryByRole("dialog", { name: /detalles del caso/i })).not.toBeInTheDocument(),
-      );
-      await waitFor(() => expect(document.activeElement).toBe(opener));
+      const summary = await screen.findByText("Preguntas del caso", { selector: "summary span" });
+      expect(summary.closest("details")!.open).toBe(false);
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     });
 
     it("clasifica las preguntas por severidad y no inventa bloqueantes", async () => {
@@ -348,7 +375,7 @@ describe("Case Workspace", () => {
       await createCaseViaUi("Sin informe");
       await screen.findByTestId("runner");
 
-      expect(screen.queryByRole("tab", { name: "Informe" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Dossier" })).not.toBeInTheDocument();
       expect(screen.queryByRole("button", { name: /abrir informe/i })).not.toBeInTheDocument();
       // Un único destino no necesita conmutador.
       expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
@@ -362,20 +389,19 @@ describe("Case Workspace", () => {
 
       act(() => declareReportable?.(REPORTABLE));
 
-      // Aparece el segundo modo y la llamada explícita…
-      expect(await screen.findByRole("tab", { name: "Informe" })).toBeInTheDocument();
-      const cta = screen.getByRole("button", { name: /abrir informe/i });
+      // Aparece el segundo modo, como único acceso al informe…
+      expect(await screen.findByRole("button", { name: "Dossier" })).toBeInTheDocument();
+      const reportButton = screen.getByRole("button", { name: "Dossier" });
+      expect(screen.queryByRole("button", { name: /abrir informe/i })).not.toBeInTheDocument();
+      expect(screen.queryByText("La corrida terminó y su evidencia se puede recuperar.")).not.toBeInTheDocument();
       // …pero NADIE ha movido al usuario de pantalla.
-      expect(screen.getByRole("tab", { name: "Evaluación" })).toHaveAttribute(
-        "aria-selected",
-        "true",
-      );
+      expect(screen.getByTestId("runner")).toBeVisible();
       expect(screen.queryByTestId("case-dossier")).not.toBeInTheDocument();
 
-      fireEvent.click(cta);
+      fireEvent.click(reportButton);
 
       expect(await screen.findByTestId("case-dossier")).toHaveTextContent("dossier:mol-0001");
-      expect(screen.getByRole("tab", { name: "Informe" })).toHaveAttribute("aria-selected", "true");
+      expect(screen.getByRole("button", { name: /volver a evaluación/i })).toBeInTheDocument();
     });
 
     it("restaura una preferencia de Informe sólo después de recuperar evidencia real", async () => {
@@ -424,31 +450,25 @@ describe("Case Workspace", () => {
       expect(await screen.findByTestId("case-dossier")).toHaveTextContent(
         `dossier:${REPORTABLE.moleculeId}`,
       );
-      expect(screen.getByRole("tab", { name: "Informe" })).toHaveAttribute(
-        "aria-selected",
-        "true",
-      );
+      expect(screen.getByRole("button", { name: /volver a evaluación/i })).toBeInTheDocument();
     });
 
-    it("las dos vistas implementan navegación de pestañas con teclado", async () => {
+    it("el cambio de vista es un único botón nativo, sin pestañas a medias", async () => {
       renderWorkspace();
       await screen.findByText("Crea un caso de estudio");
       await createCaseViaUi("Teclado");
       await waitFor(() => expect(declareReportable).not.toBeNull());
       act(() => declareReportable?.(REPORTABLE));
 
-      const evaluationTab = await screen.findByRole("tab", { name: "Evaluación" });
-      fireEvent.keyDown(evaluationTab, { key: "ArrowRight" });
-      const reportTab = screen.getByRole("tab", { name: "Informe" });
-      await waitFor(() => expect(reportTab).toHaveAttribute("aria-selected", "true"));
-      expect(reportTab).toHaveFocus();
-
-      fireEvent.keyDown(reportTab, { key: "Home" });
-      await waitFor(() => expect(evaluationTab).toHaveAttribute("aria-selected", "true"));
-      expect(evaluationTab).toHaveFocus();
+      const toggle = await screen.findByRole("button", { name: "Dossier" });
+      // Un <button> se alcanza y se activa con el teclado sin código propio;
+      // un rol `tab` sin su `tablist` y sus flechas mentiría al lector de pantalla.
+      expect(toggle.tagName).toBe("BUTTON");
+      expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
+      expect(screen.queryByRole("tab")).not.toBeInTheDocument();
     });
 
-    it("el informe entrega el caso ENTERO al visor y no duplica su contexto", async () => {
+    it("el informe entrega el caso ENTERO al visor y edita su contexto en un solo sitio", async () => {
       renderWorkspace();
       await screen.findByText("Crea un caso de estudio");
       await createCaseViaUi("Con propósito");
@@ -458,21 +478,22 @@ describe("Case Workspace", () => {
       fireEvent.change(within(drawer).getByLabelText("¿Qué intenta responder este caso?"), {
         target: { value: "Si el andamio tolera el sustituyente" },
       });
-      fireEvent.click(within(drawer).getByRole("button", { name: /cerrar detalles/i }));
 
       act(() => declareReportable?.(REPORTABLE));
-      fireEvent.click(await screen.findByRole("button", { name: /abrir informe/i }));
+      fireEvent.click(await screen.findByRole("button", { name: "Dossier" }));
 
       // El visor recibe el caso abierto: es lo que necesita para proyectarlo.
       const viewer = await screen.findByTestId("case-dossier");
       expect(viewer.getAttribute("data-case")).toBeTruthy();
       expect(viewer).toHaveTextContent(`dossier:${REPORTABLE.moleculeId}`);
 
-      // El contexto científico NO se repite encima del visor: ya viaja en la
-      // proyección y se imprime dentro del PDF, que es el documento que
-      // circula. Mantener dos redacciones dejaría envejecer la de la pantalla.
-      expect(screen.queryByText("Propósito y contexto del caso")).not.toBeInTheDocument();
-      expect(screen.queryByText("Si el andamio tolera el sustituyente")).not.toBeInTheDocument();
+      // El contexto acompaña al dossier en su barra lateral, como el mismo dato
+      // editable: una sola copia en pantalla, no una segunda redacción.
+      const review = screen.getByRole("complementary", { name: "Disposición científica y contexto" });
+      const fields = within(review).getAllByLabelText("¿Qué intenta responder este caso?");
+      expect(fields).toHaveLength(1);
+      expect(fields[0]).toHaveValue("Si el andamio tolera el sustituyente");
+      expect(screen.getAllByLabelText("¿Qué intenta responder este caso?")).toHaveLength(1);
     });
 
     it("«Volver a Evaluación» devuelve al trabajo sin desmontar el runner", async () => {
@@ -481,18 +502,14 @@ describe("Case Workspace", () => {
       await createCaseViaUi("Ida y vuelta");
       await waitFor(() => expect(declareReportable).not.toBeNull());
       act(() => declareReportable?.(REPORTABLE));
-      fireEvent.click(await screen.findByRole("button", { name: /abrir informe/i }));
+      fireEvent.click(await screen.findByRole("button", { name: "Dossier" }));
       await screen.findByTestId("case-dossier");
 
       const mountsBefore = mounts.length;
       fireEvent.click(screen.getByRole("button", { name: /volver a evaluación/i }));
 
-      await waitFor(() =>
-        expect(screen.getByRole("tab", { name: "Evaluación" })).toHaveAttribute(
-          "aria-selected",
-          "true",
-        ),
-      );
+      await waitFor(() => expect(screen.getByRole("button", { name: "Dossier" })).toBeInTheDocument());
+      expect(screen.queryByTestId("case-dossier")).not.toBeInTheDocument();
       // El runner pesado no se ha vuelto a montar: estaba oculto, no desmontado.
       expect(mounts.length).toBe(mountsBefore);
     });
@@ -503,19 +520,19 @@ describe("Case Workspace", () => {
       await createCaseViaUi("Sesión cambiada");
       await waitFor(() => expect(declareReportable).not.toBeNull());
       act(() => declareReportable?.(REPORTABLE));
-      fireEvent.click(await screen.findByRole("button", { name: /abrir informe/i }));
+      fireEvent.click(await screen.findByRole("button", { name: "Dossier" }));
       await screen.findByTestId("case-dossier");
 
       // El runner limpia el resultado (cambio de sesión, corrida nueva…).
       act(() => declareReportable?.(null));
 
       await waitFor(() => expect(screen.queryByTestId("case-dossier")).not.toBeInTheDocument());
-      expect(screen.queryByRole("tab", { name: "Informe" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Dossier" })).not.toBeInTheDocument();
       expect(screen.getByTestId("runner")).toBeInTheDocument();
     });
 
     it("declara honestamente que no pudo recuperar el resultado de una corrida completada", async () => {
-      const { repository } = renderWorkspace();
+      const { repository, unmount } = renderWorkspace();
       await screen.findByText("Crea un caso de estudio");
       await createCaseViaUi("Irrecuperable");
       const [entry] = await repository.listCases();
@@ -534,11 +551,15 @@ describe("Case Workspace", () => {
         });
       });
       // Se reabre, como haría un reinicio.
+      // El workspace anterior debe dejar de publicar sus callbacks; esperar
+      // uno no nulo sin desmontarlo podía usar el de la sesión anterior.
+      unmount();
+      declareRecovery = null;
       const reopened = renderWorkspace();
       const nav = await within(reopened.container.ownerDocument.body).findAllByRole("navigation", {
         name: "Casos",
       });
-      fireEvent.click(within(nav[nav.length - 1]).getAllByText("Irrecuperable")[0]);
+      fireEvent.click((await within(nav[nav.length - 1]).findAllByText("Irrecuperable"))[0]);
       await waitFor(() => expect(declareRecovery).not.toBeNull());
 
       act(() => declareRecovery?.("unrecoverable"));
@@ -548,7 +569,7 @@ describe("Case Workspace", () => {
         await screen.findByText(/su resultado no se ha podido recuperar/i),
       ).toBeInTheDocument();
       expect(screen.getAllByText(/task-perdida-0001/).length).toBeGreaterThan(0);
-      expect(screen.queryByRole("tab", { name: "Informe" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Dossier" })).not.toBeInTheDocument();
     });
   });
 
@@ -579,15 +600,59 @@ describe("Case Workspace", () => {
       await createCaseViaUi("Con dossier");
       await waitFor(() => expect(declareReportable).not.toBeNull());
       act(() => declareReportable?.(REPORTABLE));
-      expect(await screen.findByRole("tab", { name: "Informe" })).toBeInTheDocument();
+      expect(await screen.findByRole("button", { name: "Dossier" })).toBeInTheDocument();
 
       await createCaseViaUi("Recién creado");
       await waitFor(() =>
         expect(screen.getByRole("heading", { name: "Recién creado" })).toBeInTheDocument(),
       );
       // El caso nuevo no hereda la evidencia del anterior.
-      expect(screen.queryByRole("tab", { name: "Informe" })).not.toBeInTheDocument();
+      expect(screen.queryByRole("button", { name: "Dossier" })).not.toBeInTheDocument();
       expect(screen.queryByTestId("case-dossier")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("petición de Preparación", () => {
+    it("abre el caso pedido y entrega la petición sólo a su runner", async () => {
+      renderWorkspace();
+      await screen.findByText("Crea un caso de estudio");
+      await createCaseViaUi("Auditado");
+      await waitFor(() => expect(screen.getByTestId("runner")).toBeInTheDocument());
+      const auditado = mounts[mounts.length - 1];
+      await createCaseViaUi("Otro");
+      await waitFor(() => expect(mounts[mounts.length - 1]).not.toBe(auditado));
+      expect(screen.getByTestId("runner")).toHaveAttribute("data-peticion", "");
+
+      act(() => pedirEvaluacion({ casoId: auditado, tautomero: "entrada", smiles: "O=c1cccc[nH]1" }));
+
+      await waitFor(() => expect(screen.getByTestId("runner")).toHaveTextContent(`runner:${auditado}`));
+      expect(screen.getByTestId("runner")).toHaveAttribute("data-peticion", "entrada O=c1cccc[nH]1");
+      expect(screen.getByRole("heading", { name: "Auditado" })).toBeInTheDocument();
+    });
+
+    it("con trabajo vivo en otro caso la petición se descarta, no espera", async () => {
+      renderWorkspace();
+      await screen.findByText("Crea un caso de estudio");
+      await createCaseViaUi("Auditado");
+      await waitFor(() => expect(screen.getByTestId("runner")).toBeInTheDocument());
+      const auditado = mounts[mounts.length - 1];
+      await createCaseViaUi("Ocupado");
+      await waitFor(() => expect(declareLiveWork).not.toBeNull());
+      act(() => declareLiveWork?.({ evaluation: true, taskId: "t-1" }));
+
+      await act(async () => {
+        pedirEvaluacion({ casoId: auditado, tautomero: "entrada", smiles: "O=c1cccc[nH]1" });
+      });
+      expect(screen.getByRole("heading", { name: "Ocupado" })).toBeInTheDocument();
+
+      // Terminado el trabajo, abrir el caso a mano no aplica una petición vieja.
+      act(() => declareLiveWork?.({ evaluation: false, taskId: null }));
+      const nav = screen.getByRole("navigation", { name: "Casos" });
+      const boton = within(nav).getByText("Auditado").closest("button")!;
+      await waitFor(() => expect(boton).toBeEnabled());
+      fireEvent.click(boton);
+      await waitFor(() => expect(screen.getByTestId("runner")).toHaveTextContent(`runner:${auditado}`));
+      expect(screen.getByTestId("runner")).toHaveAttribute("data-peticion", "");
     });
   });
 
@@ -651,7 +716,7 @@ describe("Case Workspace", () => {
       await createCaseViaUi("Archivable");
 
       const nav = screen.getByRole("navigation", { name: "Casos" });
-      fireEvent.click(within(nav).getByRole("button", { name: /archivar archivable/i }));
+      fireEvent.click(within(nav).getByRole("button", { name: /archivar \(reversible\) archivable/i }));
 
       await waitFor(async () => {
         const list = await repository.listCases();
@@ -743,7 +808,7 @@ describe("atribución del informe", () => {
 
     expect(screen.queryByRole("heading", { name: "Disposición científica" })).not.toBeInTheDocument();
 
-    fireEvent.click(await screen.findByRole("button", { name: /abrir informe/i }));
+    fireEvent.click(await screen.findByRole("button", { name: "Dossier" }));
 
     expect(await screen.findByRole("heading", { name: "Disposición científica" })).toBeInTheDocument();
     expect(screen.getByTestId("case-dossier")).toBeInTheDocument();
@@ -751,7 +816,9 @@ describe("atribución del informe", () => {
   it("con la misma huella, el informe se presenta sin salvedades", async () => {
     await caseWithRun("sha256:misma", "sha256:misma");
 
-    fireEvent.click(await screen.findByRole("button", { name: /abrir informe/i }));
+    expect(screen.queryByText("La corrida terminó y su evidencia se puede recuperar.")).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /abrir informe/i })).not.toBeInTheDocument();
+    fireEvent.click(await screen.findByRole("button", { name: "Dossier" }));
     await screen.findByTestId("case-dossier");
 
     expect(screen.queryByText(/corrida anterior/i)).not.toBeInTheDocument();
@@ -760,10 +827,10 @@ describe("atribución del informe", () => {
   it("si los inputs cambiaron, el informe se etiqueta como de una corrida anterior", async () => {
     await caseWithRun("sha256:vieja", "sha256:nueva");
 
-    // La llamada ya lo advierte antes de abrir nada.
+    // La advertencia permanece visible antes de abrir nada.
     expect(await screen.findByText(/corrida ANTERIOR/i)).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: /abrir informe/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Dossier" }));
     expect(await screen.findByText(/Este informe es de una corrida anterior/i)).toBeInTheDocument();
     // Y NO se retira: la trazabilidad se conserva.
     expect(screen.getByTestId("case-dossier")).toBeInTheDocument();
@@ -772,9 +839,42 @@ describe("atribución del informe", () => {
   it("una corrida sin huella no se atribuye a los inputs actuales", async () => {
     await caseWithRun(undefined, "sha256:nueva");
 
-    fireEvent.click(await screen.findByRole("button", { name: /abrir informe/i }));
+    fireEvent.click(await screen.findByRole("button", { name: "Dossier" }));
     expect(
       await screen.findByText(/No se puede afirmar a qué inputs corresponde/i),
     ).toBeInTheDocument();
+  });
+});
+
+
+describe("Activación nativa del caso y la corrida exactos", () => {
+  beforeEach(() => { window.localStorage.clear(); mounts.length = 0; });
+  async function fixture() {
+    const repository = createBrowserCaseRepository("test-owner");
+    const a = await repository.createCase({ name: "Destino A", studyKind: "review-pose" });
+    const old = { taskId: "old-a", moleculeId: "mol-a", executionState: "completed" as const,
+      startedAt: "2026-10-23T10:00:00Z", ligandSmiles: "CCO" };
+    const newer = { ...old, taskId: "new-a", moleculeId: "mol-new" };
+    await repository.updateCase({ ...a, runs: [old, newer], activeRun: newer });
+    render(<CaseProvider repository={repository} ownerUserId="test-owner"><CaseWorkspace /></CaseProvider>);
+    await screen.findByText("Destino A");
+    return { repository, a };
+  }
+  it("confirma sólo al seleccionar la fila correcta y no cambia el orden persistido", async () => {
+    const { repository, a } = await fixture();
+    let opening!: Promise<boolean>;
+    act(() => { opening = openNativeJobDestination({ ownerId: "test-owner", source: "evaluation", caseId: a.id, taskId: "old-a" },
+      { getOwnerId: () => "test-owner", navigate: vi.fn() }); });
+    await waitFor(() => expect(document.querySelector('[data-case-run-task="old-a"]')).toHaveFocus());
+    expect(await opening).toBe(true);
+    expect((await repository.readCase(a.id)).runs.map(run => run.taskId)).toEqual(["old-a", "new-a"]);
+  });
+  it("rechaza otro propietario y task no perteneciente sin montar otro caso", async () => {
+    const { a } = await fixture();
+    const options = { getOwnerId: () => "test-owner", navigate: vi.fn() };
+    expect(await openNativeJobDestination({ ownerId: "other", source: "evaluation", caseId: a.id, taskId: "old-a" }, options)).toBe(false);
+    expect(await openNativeJobDestination({ ownerId: "test-owner", source: "evaluation", caseId: a.id, taskId: "foreign-task" }, options)).toBe(false);
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("runner")).not.toBeInTheDocument();
   });
 });

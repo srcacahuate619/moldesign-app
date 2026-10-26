@@ -70,3 +70,26 @@ que nadie registre qué eligió.
 
 Es el elemento con más apalancamiento de la cartera: declarar tautómeros sube este 19% por
 encima del 80% de un solo golpe.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-004. Los **48** ligandos no «alcanzan el tope de 10»: el histograma agrupa en una clase «10 o más», y el enumerador corta en 32 (22 llegan a ese tope). Siguen valiendo los 164 ambiguos y los 39 que pasan el criterio.
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-003. Lo verificado es que la correspondencia de índices es **una permutación sin
+  repeticiones que cubre los átomos pesados**. No se comprobó que cada pareja una el mismo
+  elemento con la misma conectividad, ni se trató la simetría. «Biyectiva» describe los índices,
+  no la identidad química de la correspondencia, y no basta para acreditar los RMSD que se
+  apoyan en ella.
+
+## FEP-01-PDBBIND: la extensión cuenta química entre ligandos legibles sin exigir mapping propio
+
+**GO de auditoría descriptiva.** Amplía la población del instrumento, sin convertir el criterio parcial en readiness FEP.
+
+Con RDKit 2026.03.1 se archivaron 4641 ligandos legibles. De ellos, 3634 tienen ambigüedad enumerable y 48 activan la heurística de estéreo indefinido. Pasan ambos criterios parciales 989.
+
+El `index_map.json` de la preparación propia no existe en PDBBind. Por eso `listos_para_fep` resulta nulo por construcción y no se usa como porcentaje de sistemas utilizables. Se excluyeron SDF ilegibles y carpetas ajenas a complejos; **SCI-B-038** delimita el universo y **SCI-B-039** exige identificar cada artefacto por su manifiesto. No se presume que los legibles representen a los ausentes. Los conteos dependen de versión; el canónico no es una población validada. No comprobado por mí: relectura química de los SDF originales. Fuente: `FEP-01-PDBBIND`.

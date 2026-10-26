@@ -8,6 +8,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
+import { useKeepAliveActive } from "../../../context/KeepAliveContext";
 import {
   Activity,
   AlertTriangle,
@@ -29,7 +30,12 @@ import { ProSelectivityPanel } from "./ProSelectivityPanel";
 import { ProSarTab } from "./ProSarTab";
 import { ProDockingTab } from "./ProDockingTab";
 import { PosePhysicalDetails, StructuralEvidencePanel } from "./StructuralEvidencePanel";
+import { ResultAreaLayout } from "./ResultAreaLayout";
+import { ReadingHelp } from "./ResultReadingPresentation";
+import readingStyles from "./ResultReadingPresentation.module.css";
+import { RunDataExplorer } from "./RunDataExplorer";
 import type { JobStatus } from "../../../lib/types";
+import type { CaseRun } from "../../../lib/cases/types";
 import {
   deriveStructuralEvidence,
   type EvaluationResultWithEvidence,
@@ -37,7 +43,7 @@ import {
   type PoseComparisonRow,
 } from "../../../lib/structuralEvidence";
 
-type PrimaryTab = "structure" | "properties" | "advanced" | "compare" | "evidence";
+type PrimaryTab = "structure" | "properties" | "advanced" | "provenance";
 type AdvancedTab = "xai" | "selectivity" | "sar" | "mmgbsa" | "admet";
 
 const PHYSICAL_STATUS: Record<PhysicalStatus, { label: string; className: string }> = {
@@ -77,46 +83,46 @@ function PoseComparisonWorkspace({
     leftRank != null && rightRank != null && leftRank !== rightRank && rows.length >= 2 && onComparePoses != null;
 
   return (
-    <div id="analysis-panel-compare" role="tabpanel" aria-labelledby="analysis-tab-compare" className="space-y-5">
+    <div className="space-y-5">
       <header className="max-w-[78ch]">
         <h3 className="font-display text-lg font-bold tracking-tight text-zinc-100">{t("se_cmp_title")}</h3>
-        <p className="mt-1.5 text-xs leading-5 text-zinc-500">
+        <p className="mt-1.5 text-base leading-6 text-zinc-300 font-sans">
           {t("pr_comparar_explicacion")}
         </p>
       </header>
 
       {rows.length === 0 ? (
-        <p className="rounded-xl border border-white/[0.08] bg-black/20 p-4 text-xs leading-relaxed text-zinc-400">
+        <p className="rounded-xl border border-white/[0.08] bg-black/20 p-4 text-base leading-6 text-zinc-400 font-sans">
           {t("pr_sin_poses")}
         </p>
       ) : (
         <>
           <section aria-label={t("pr_elegir_poses")} className="rounded-xl border border-white/[0.08] bg-black/20 p-4">
             <div className="flex flex-wrap items-end gap-3">
-              <label className="grid min-w-[12rem] gap-1.5 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                Pose A
+              <label className="grid w-full min-w-0 gap-1.5 sm:w-auto sm:min-w-[12rem] font-sans text-sm uppercase tracking-wider text-zinc-400">
+                {t("pr_pose_a")}
                 <select
                   value={leftRank ?? ""}
                   onChange={(event) => setLeft(Number(event.target.value))}
-                  className="min-h-10 rounded-lg border border-white/[0.1] bg-surface-950 px-3 font-mono text-xs text-zinc-200 outline outline-2 outline-offset-1 outline-transparent transition-colors focus:border-purple-400 focus:outline-purple-400"
+                  className="min-h-10 w-full min-w-0 rounded-lg border border-white/[0.1] bg-surface-950 px-3 font-mono text-sm text-zinc-200 outline outline-2 outline-offset-1 outline-transparent transition-colors focus:border-purple-400 focus:outline-purple-400"
                 >
                   {rows.map((row) => (
                     <option key={row.rank} value={row.rank}>
-                      Pose #{row.rank} · {row.affinity?.toFixed(2) ?? "—"} kcal/mol
+                      {t("ev_mmgbsa_pose_numero", { rank: row.rank })} · {row.affinity?.toFixed(2) ?? "—"} kcal/mol
                     </option>
                   ))}
                 </select>
               </label>
-              <label className="grid min-w-[12rem] gap-1.5 font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                Pose B
+              <label className="grid w-full min-w-0 gap-1.5 sm:w-auto sm:min-w-[12rem] font-sans text-sm uppercase tracking-wider text-zinc-400">
+                {t("pr_pose_b")}
                 <select
                   value={rightRank ?? ""}
                   onChange={(event) => setRight(Number(event.target.value))}
-                  className="min-h-10 rounded-lg border border-white/[0.1] bg-surface-950 px-3 font-mono text-xs text-zinc-200 outline outline-2 outline-offset-1 outline-transparent transition-colors focus:border-purple-400 focus:outline-purple-400"
+                  className="min-h-10 w-full min-w-0 rounded-lg border border-white/[0.1] bg-surface-950 px-3 font-mono text-sm text-zinc-200 outline outline-2 outline-offset-1 outline-transparent transition-colors focus:border-purple-400 focus:outline-purple-400"
                 >
                   {rows.map((row) => (
                     <option key={row.rank} value={row.rank}>
-                      Pose #{row.rank} · {row.affinity?.toFixed(2) ?? "—"} kcal/mol
+                      {t("ev_mmgbsa_pose_numero", { rank: row.rank })} · {row.affinity?.toFixed(2) ?? "—"} kcal/mol
                     </option>
                   ))}
                 </select>
@@ -127,27 +133,27 @@ function PoseComparisonWorkspace({
                 onClick={() => {
                   if (canCompare && leftRank != null && rightRank != null) onComparePoses(leftRank, rightRank);
                 }}
-                className="inline-flex min-h-10 whitespace-nowrap items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/[0.1] px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-100 transition-colors hover:bg-purple-500/[0.18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-45"
+                className="inline-flex min-h-10 whitespace-nowrap items-center gap-2 rounded-lg border border-purple-500/30 bg-purple-500/[0.1] px-4 py-2 font-sans text-sm font-bold uppercase tracking-wider text-purple-100 transition-colors hover:bg-purple-500/[0.18] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-45"
               >
                 <ArrowLeftRight size={14} aria-hidden="true" />
                 {t("pr_abrir_comparacion")}
               </button>
             </div>
             {rows.length < 2 && (
-              <p className="mt-3 text-[11px] leading-relaxed text-zinc-500">
+              <p className="mt-3 text-base leading-6 text-zinc-300 font-sans">
                 {t("pr_minimo_dos_poses")}
               </p>
             )}
           </section>
 
           <div className="overflow-x-auto rounded-xl border border-white/[0.07]">
-            <table className="w-full min-w-[42rem] border-collapse text-xs">
+            <table className="w-full min-w-[42rem] border-collapse text-sm">
               <caption className="sr-only">{t("pr_resumen_poses")}</caption>
               <thead>
-                <tr className="border-b border-white/[0.08] text-left font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                  <th scope="col" className="px-3 py-2.5 font-normal">Pose</th>
+                <tr className="border-b border-white/[0.08] text-left font-sans text-sm uppercase tracking-wider text-zinc-400">
+                  <th scope="col" className="px-3 py-2.5 font-normal">{t("pr_pose_label")}</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">{t("se_cmp_affinity")}</th>
-                  <th scope="col" className="px-3 py-2.5 font-normal">Selector</th>
+                  <th scope="col" className="px-3 py-2.5 font-normal">{t("pr_selector_label")}</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">{t("pr_controles_fisicos")}</th>
                   <th scope="col" className="px-3 py-2.5 font-normal">{t("se_cmp_role")}</th>
                 </tr>
@@ -185,6 +191,7 @@ interface ProAnalysisTabsProps {
   selectivityResult: any;
   moleculeId: string | null;
   onUpdateSelectivityResult?: (res: any) => void;
+  onSelectivityWorkChange?: (active: boolean) => void;
   /** El pipeline lanzó el panel de selectividad en background. */
   enableSelectivity?: boolean;
   /** Abre el cálculo real de MM-GBSA en el contenedor que mantiene su estado. */
@@ -209,6 +216,13 @@ interface ProAnalysisTabsProps {
   physicalFocusRequest?: number;
   /** Abre una comparación 3D de los rangos elegidos por el usuario. */
   onComparePoses?: (leftRank: number, rightRank: number) => void;
+  /** Corrida que la evaluación muestra: base de una cohorte SAR explícita (CAS-02). */
+  taskId?: string | null;
+  /** Libro de corridas del caso: de aquí sale la cohorte histórica del SAR. */
+  caseRuns?: readonly CaseRun[];
+
+  signalsSlot?: React.ReactNode;
+  provenanceSlot?: React.ReactNode;
 }
 
 export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
@@ -216,6 +230,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   selectivityResult,
   moleculeId,
   onUpdateSelectivityResult,
+  onSelectivityWorkChange,
   enableSelectivity = false,
   onRequestMmgbsa,
   mmgbsaRunning = false,
@@ -227,15 +242,38 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   structuralEvidenceResult,
   physicalFocusRequest = 0,
   onComparePoses,
+  taskId = null,
+  caseRuns,
+
+  signalsSlot,
+  provenanceSlot,
 }) => {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<PrimaryTab>("structure");
+  const [physicalOpen, setPhysicalOpen] = useState(false);
   const [advancedTab, setAdvancedTab] = useState<AdvancedTab>("selectivity");
+  const evaluationKey = `${moleculeId ?? "sin-molecula"}:${taskId ?? "sin-corrida"}`;
+  const [openedSelectivityKey, setOpenedSelectivityKey] = useState<string | null>(null);
+  const selectivityActive = activeTab === "advanced" && advancedTab === "selectivity";
+  const evaluationVisible = useKeepAliveActive();
+  // Montar al abrirlo y conservarlo durante esta corrida: selección, scroll y tanda en curso.
+  // Una corrida distinta recibe una instancia nueva, incluso si comparte molécula.
+  useEffect(() => {
+    if (selectivityActive) setOpenedSelectivityKey(evaluationKey);
+  }, [evaluationKey, selectivityActive]);
   const [selectedPoseRank, setSelectedPoseRank] = useState<number | null>(null);
+  const [poseDetailsExpanded, setPoseDetailsExpanded] = useState(false);
   const result = (structuralEvidenceResult ?? status?.result ?? null) as EvaluationResultWithEvidence | null;
   const evidenceView = useMemo(() => deriveStructuralEvidence(result), [result]);
   const poseRanks = evidenceView.comparison.map((row) => row.rank);
   const poseRanksKey = poseRanks.join(",");
+  useEffect(() => { setPoseDetailsExpanded(false); }, [evaluationKey]);
+
+  const selectOrTogglePose = (rank: number) => {
+    setPoseDetailsExpanded(open => rank === selectedPoseRank ? !open : true);
+    setSelectedPoseRank(rank);
+  };
+
   // El badge contaba TODOS los avisos, así que una corrida con cinco notas de
   // procedencia y ninguna alerta enseñaba un «5» tan llamativo como una con
   // cinco fallos. Ahora cuenta las que exigen atención —crítica o precaución—;
@@ -248,10 +286,11 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   }, [poseRanksKey]);
 
   useEffect(() => {
-    if (physicalFocusRequest > 0) setActiveTab("evidence");
+    if (physicalFocusRequest > 0) { setActiveTab("structure"); setPhysicalOpen(true); }
   }, [physicalFocusRequest]);
 
   const openPoseDetails = (rank: number | null) => {
+    setPoseDetailsExpanded(true);
     setSelectedPoseRank(rank ?? poseRanks[0] ?? null);
     setActiveTab("structure");
   };
@@ -266,7 +305,8 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   const [focoEnEvidencia, setFocoEnEvidencia] = useState(0);
   const abrirControlesDeLaPose = () => {
     setFocoEnEvidencia((n) => n + 1);
-    setActiveTab("evidence");
+    setActiveTab("structure");
+    setPhysicalOpen(true);
   };
 
   /** El veredicto físico de la pose que se está mirando, si lo hay. */
@@ -289,7 +329,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
     admet: admetDone || result?.blood_viability_score != null,
     // SAR consulta la base por `moleculeId`; sin corrida no hay nada que
     // comparar, y con corrida el propio panel dice si encontró análogos.
-    sar: Boolean(moleculeId),
+    sar: false, // A consultation is available; it is not a recorded SAR result.
     xai:
       Boolean(result?.shap_values) ||
       Boolean(result?.gnn_attention) ||
@@ -298,111 +338,34 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   const avanzadoDisponibles = Object.values(avanzadoConDatos).filter(Boolean).length;
   const advancedTabsTotal = Object.keys(avanzadoConDatos).length;
 
-  const tabs: Array<{
-    id: PrimaryTab;
-    icon: typeof Boxes;
-    label: string;
-    badge?: number;
-    /** Qué significa el número, para quien no ve el color. */
-    badgeDescripcion?: string;
-    /** `alerta` (ámbar) o `disponible` (verde). El color no informa solo. */
-    badgeTono?: "alerta" | "disponible";
-  }> = [
-    { id: "structure", icon: Boxes, label: "Estructura y evidencia" },
-    {
-      id: "properties",
-      icon: Sliders,
-      label: "Propiedades",
-      badge: warningsCount || undefined,
-      badgeDescripcion:
-        warningsCount === 1 ? "1 aviso que atender" : `${warningsCount} avisos que atender`,
-      badgeTono: "alerta",
-    },
-    { id: "compare", icon: ArrowLeftRight, label: t("se_cmp_title") },
-    { id: "evidence", icon: ListChecks, label: t("se_title") },
-    {
-      id: "advanced",
-      icon: FlaskConical,
-      label: t("auto_1e9cff730be6"),
-      badge: avanzadoDisponibles || undefined,
-      badgeDescripcion: `${avanzadoDisponibles} de ${advancedTabsTotal} paneles con resultado`,
-      badgeTono: "disponible",
-    },
-  ];
   const advancedTabs: Array<{ id: AdvancedTab; icon: typeof Activity; label: string }> = [
-    { id: "selectivity", icon: ShieldCheck, label: "Selectividad" },
+    { id: "selectivity", icon: ShieldCheck, label: t("pn_flow_selectivity") },
     { id: "mmgbsa", icon: FlaskConical, label: "MM-GBSA" },
     { id: "admet", icon: Gauge, label: "ADMET" },
     { id: "sar", icon: GitFork, label: "SAR" },
-    { id: "xai", icon: Activity, label: "Explicabilidad" },
+    { id: "xai", icon: Activity, label: t("pr_tab_explainability") },
   ];
 
-  return (
-    <section className="space-y-5" aria-label={t("pr_analisis_corrida")}>
-      <div
-        className="flex flex-wrap items-center justify-center gap-1 rounded-xl border border-white/[0.06] bg-black/10 p-1"
-        role="tablist"
-        aria-label={t("pr_areas_analisis")}
-      >
-        {tabs.map((tab) => {
-          const active = activeTab === tab.id;
-          const Icon = tab.icon;
-          return (
-            <button
-              key={tab.id}
-              id={`analysis-tab-${tab.id}`}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              aria-label={tab.badge ? `${tab.label}: ${tab.badgeDescripcion}` : tab.label}
-              aria-controls={`analysis-panel-${tab.id}`}
-              onClick={() => setActiveTab(tab.id)}
-              tabIndex={active ? 0 : -1}
-              onKeyDown={(event) => {
-                const index = tabs.findIndex((entry) => entry.id === tab.id);
-                const next = event.key === "ArrowRight" ? (index + 1) % tabs.length : event.key === "ArrowLeft" ? (index - 1 + tabs.length) % tabs.length : event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : -1;
-                if (next < 0) return;
-                event.preventDefault();
-                const nextId = tabs[next].id;
-                setActiveTab(nextId);
-                document.getElementById(`analysis-tab-${nextId}`)?.focus();
-              }}
-              className={`relative inline-flex min-h-10 whitespace-nowrap items-center gap-2 rounded-lg px-3 py-2 font-mono text-[11px] font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
-                active
-                  ? "bg-purple-500/12 text-purple-200 shadow-[0_0_18px_rgba(139,92,246,0.12)]"
-                  : "text-zinc-500 hover:bg-white/[0.03] hover:text-zinc-300"
-              }`}
-            >
-              <Icon size={14} aria-hidden="true" />
-              <span>{tab.label}</span>
-              {/* El número es redundante para quien usa lector de pantalla: su
-                  significado ya va en el `aria-label` del botón. Repetirlo aquí
-                  haría que se leyera «Análisis avanzado 2 2». */}
-              {tab.badge && (
-                <span
-                  aria-hidden="true"
-                  className={`rounded border px-1.5 py-0.5 text-[9px] leading-none ${
-                    tab.badgeTono === "disponible"
-                      ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-                      : "border-amber-500/30 bg-amber-500/10 text-amber-300"
-                  }`}
-                >
-                  {tab.badge}
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
+  const areas = [
+    { id: "structure", label: t("rx_poses"), description: t("rx_poses_desc") },
+    { id: "properties", label: t("rx_propiedades"), description: t("rx_propiedades_desc"), badge: warningsCount || undefined },
+    { id: "advanced", label: t("rx_analisis"), description: t("rx_analisis_desc") },
+    { id: "provenance", label: t("rx_procedencia"), description: t("rx_procedencia_desc") },
+  ];
+  return <section className="min-w-0" aria-label={t("pr_analisis_corrida")}>
+    <ResultAreaLayout areas={areas} active={activeTab} onSelect={id => setActiveTab(id as PrimaryTab)}>
       {activeTab === "structure" && (
-        <div id="analysis-panel-structure" role="tabpanel" aria-labelledby="analysis-tab-structure" className="space-y-4">
+<div className="space-y-6">
+          <ReadingHelp area="structure"/>
           <ProDockingTab
             poses={result?.docking_poses}
+            poseSummary={evidenceView.comparison}
             hotspots={result?.target_hotspots}
             hotspots_hit={result?.hotspots_hit}
+            referenceResidues={result?.docking_protocol?.reference_residues ?? null}
             activePose={selectedPoseRank ?? undefined}
-            onSelectPose={setSelectedPoseRank}
+            onSelectPose={selectOrTogglePose}
+            detailsExpanded={poseDetailsExpanded}
             poseDetails={
               <div className="space-y-3">
                 <PosePhysicalDetails result={result} rank={selectedPoseRank} />
@@ -412,7 +375,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                     <button
                       type="button"
                       onClick={abrirControlesDeLaPose}
-                      className={`inline-flex min-h-10 items-center gap-2 rounded-lg border px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
+                      className={`inline-flex min-h-10 items-center gap-2 rounded-lg border px-3 py-2 font-sans text-sm font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
                         estadoDeLaPoseActiva.status === "failed"
                           ? "border-red-500/30 bg-red-500/[0.08] text-red-100 hover:bg-red-500/[0.16]"
                           : "border-amber-500/30 bg-amber-500/[0.08] text-amber-100 hover:bg-amber-500/[0.16]"
@@ -427,11 +390,23 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
               </div>
             }
           />
+          <details className="border-t border-white/10 pt-3">
+            <summary className="min-h-12 cursor-pointer py-3 text-base font-semibold text-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-400">{t("se_cmp_title")}</summary>
+            <PoseComparisonWorkspace rows={evidenceView.comparison} onComparePoses={onComparePoses} />
+          </details>
+          <details open={physicalOpen} onToggle={event => setPhysicalOpen(event.currentTarget.open)} className="border-t border-white/10 pt-3">
+            <summary className="min-h-12 cursor-pointer py-3 text-base font-semibold text-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-400">{t("se_title")}</summary>
+          <StructuralEvidencePanel
+            result={result}
+            physicalFocusRequest={physicalFocusRequest + focoEnEvidencia}
+            onOpenPoseDetails={openPoseDetails}
+          />
+          </details>
         </div>
       )}
-
       {activeTab === "properties" && (
-        <div id="analysis-panel-properties" role="tabpanel" aria-labelledby="analysis-tab-properties" className="space-y-7">
+<div className="space-y-4">
+          <ReadingHelp area="properties"/>
           {/* Va ANTES de los descriptores a propósito: MW, LogP y TPSA se
               calculan sobre la forma neutra que escribió el usuario, y la
               especie que se acopló puede ser otra. */}
@@ -440,11 +415,11 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
           <section className="border-t border-white/[0.07] pt-5" aria-labelledby="analysis-alerts-title">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <AlertTriangle size={15} className="text-amber-300" aria-hidden="true" />
-              <h3 id="analysis-alerts-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-300">
-                Alertas y reservas
+              <h3 id="analysis-alerts-title" className="font-sans text-base font-bold uppercase tracking-[0.14em] text-zinc-300">
+                {t("pr_analysis_alerts_reservations")}
               </h3>
               {warningsCount > 0 && (
-                <span className="rounded border border-amber-500/30 px-1.5 py-0.5 font-mono text-[10px] text-amber-300">
+                <span className="rounded border border-amber-500/30 px-1.5 py-0.5 font-mono text-sm text-amber-300">
                   {warningsCount}
                 </span>
               )}
@@ -457,17 +432,18 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
           </section>
         </div>
       )}
-
-      {activeTab === "advanced" && (
-        <div id="analysis-panel-advanced" role="tabpanel" aria-labelledby="analysis-tab-advanced" className="space-y-5">
+      <div hidden={activeTab !== "advanced"}>
+<div className="space-y-5">
+          <ReadingHelp area="advanced"/>
+          {signalsSlot && <details className="border-b border-white/10 pb-4"><summary className="min-h-12 cursor-pointer py-3 text-base font-semibold text-zinc-200">{t("rx_senales")}</summary>{signalsSlot}</details>}
           <header className="max-w-[78ch]">
             <h3 className="font-display text-lg font-bold tracking-tight text-zinc-100">{t("pr_post_docking")}</h3>
-            <p className="mt-1.5 text-xs leading-5 text-zinc-500">
+            <p className="mt-1.5 text-base leading-6 text-zinc-300 font-sans">
               {t("pr_post_docking_limite")}
             </p>
           </header>
 
-          <div className="flex flex-wrap gap-2" role="tablist" aria-label={t("pr_metodos_avanzados")}>
+          <div className={readingStyles.analysisTabs} role="tablist" aria-label={t("pr_metodos_avanzados")}>
             {advancedTabs.map((tab) => {
               const active = advancedTab === tab.id;
               const Icon = tab.icon;
@@ -478,7 +454,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   type="button"
                   role="tab"
                   aria-selected={active}
-                  aria-label={`${tab.label}: ${avanzadoConDatos[tab.id] ? t("auto_f24ed0ca4042") : t("auto_310c64678aed")}`}
+                  aria-label={`${tab.label}: ${t(avanzadoConDatos[tab.id] ? "ux_analysis_available" : "ux_analysis_absent")}${tab.id === "mmgbsa" ? ` · ${t("ux_method_unavailable")}` : ""}`}
                   aria-controls={`advanced-panel-${tab.id}`}
                   onClick={() => setAdvancedTab(tab.id)}
                   tabIndex={active ? 0 : -1}
@@ -491,33 +467,25 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                     setAdvancedTab(nextId);
                     document.getElementById(`advanced-tab-${nextId}`)?.focus();
                   }}
-                  className={`inline-flex min-h-9 items-center gap-2 rounded-lg border px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 ${
-                    active
-                      ? "border-purple-500/35 bg-purple-500/10 text-purple-200"
-                      : "border-white/[0.08] text-zinc-500 hover:border-white/15 hover:text-zinc-300"
-                  }`}
+                  className={readingStyles.analysisTab}
                 >
-                  <Icon size={13} aria-hidden="true" />
-                  {tab.label}
-                  {/* Un punto verde = este panel tiene resultado. Antes había
-                      que entrar en los cuatro para saber cuál tenía algo. */}
-                  {/* Decorativo: el estado va en el `aria-label` del botón, y
-                      repetirlo aquí lo haría leerse dos veces. */}
-                  <span
-                    aria-hidden="true"
-                    className={`h-1.5 w-1.5 shrink-0 rounded-full ${
-                      avanzadoConDatos[tab.id] ? "bg-emerald-400" : "bg-white/15"
-                    }`}
-                  />
+                  <Icon size={16} aria-hidden="true" />
+                  <span className="min-w-0"><span className={readingStyles.analysisTabName}>{tab.label}</span>
+                    <span className={readingStyles.analysisTabState} data-result={avanzadoConDatos[tab.id]}>{t(avanzadoConDatos[tab.id]?"ux_analysis_available":"ux_analysis_absent")}</span>
+                    {tab.id === "mmgbsa" && <span className={readingStyles.analysisTabState}>{t("ux_method_unavailable")}</span>}
+                  </span>
                 </button>
               );
             })}
           </div>
 
-          {advancedTab === "selectivity" && (
-            <div id="advanced-panel-selectivity" role="tabpanel" aria-labelledby="advanced-tab-selectivity">
+          {(selectivityActive || openedSelectivityKey === evaluationKey) && (
+            <div id="advanced-panel-selectivity" role="tabpanel" aria-labelledby="advanced-tab-selectivity" hidden={!selectivityActive}>
               <ProSelectivityPanel
+                key={evaluationKey}
+                isActive={evaluationVisible && selectivityActive}
                 moleculeId={moleculeId}
+                taskId={taskId}
                 // `result.best_affinity` estaba en esta cadena de respaldos y NO existe en
                 // `EvaluationResult`: el `as any` lo ocultaba, así que era un eslabón
                 // muerto que nunca aportó un valor. La afinidad de la diana principal
@@ -525,22 +493,23 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                 onTargetAffinity={result?.affinity_kcal ?? result?.docking_poses?.[0]?.affinity ?? null}
                 initialResult={selectivityResult}
                 onUpdateResult={onUpdateSelectivityResult}
+                onWorkStateChange={onSelectivityWorkChange}
                 autoPoll={enableSelectivity}
               />
             </div>
           )}
 
-          {advancedTab === "mmgbsa" && (
+          {activeTab === "advanced" && advancedTab === "mmgbsa" && (
             <section id="advanced-panel-mmgbsa" role="tabpanel" aria-labelledby="advanced-tab-mmgbsa" className="rounded-xl border border-emerald-500/20 bg-emerald-500/[0.035] p-4">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 max-w-[70ch]">
                   <div className="flex items-center gap-2">
                     <FlaskConical size={16} className="text-emerald-300" aria-hidden="true" />
-                    <h4 id="mmgbsa-post-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-emerald-200">
+                    <h4 id="mmgbsa-post-title" className="font-sans text-base font-bold uppercase tracking-[0.14em] text-emerald-200">
                       {t("pr_refinar_mmgbsa")}
                     </h4>
                   </div>
-                  <p className="mt-2 text-xs leading-5 text-amber-200/80">
+                  <p className="mt-2 text-base leading-6 text-amber-200 font-sans">
                     {t("pr_mmgbsa_retirado")}
                   </p>
                 </div>
@@ -548,46 +517,46 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   type="button"
                   onClick={onRequestMmgbsa}
                   disabled
-                  className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-emerald-400/30 bg-emerald-500/15 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-100 transition-colors hover:bg-emerald-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-emerald-400/30 bg-emerald-500/15 px-3 py-2 font-sans text-sm font-bold uppercase tracking-wider text-emerald-100 transition-colors hover:bg-emerald-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <FlaskConical size={14} aria-hidden="true" />
                   {t("pr_mmgbsa_indisponible")}
                 </button>
               </div>
               {!moleculeId && (
-                <p className="mt-3 text-[11px] leading-5 text-zinc-500">{t("ev_admet_requiere_corrida")}</p>
+                <p className="mt-3 text-base leading-6 text-zinc-300 font-sans">{t("ev_admet_requiere_corrida")}</p>
               )}
             </section>
           )}
 
-          {advancedTab === "admet" && (
+          {activeTab === "advanced" && advancedTab === "admet" && (
             <section id="advanced-panel-admet" role="tabpanel" aria-labelledby="advanced-tab-admet" className="rounded-xl border border-sky-500/20 bg-sky-500/[0.035] p-4">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0 max-w-[70ch]">
                   <div className="flex items-center gap-2">
                     <Gauge size={16} className="text-sky-300" aria-hidden="true" />
-                    <h4 id="admet-post-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-sky-200">
+                    <h4 id="admet-post-title" className="font-sans text-base font-bold uppercase tracking-[0.14em] text-sky-200">
                       {t("pr_calcular_admet")}
                     </h4>
                   </div>
-                  <p className="mt-2 text-xs leading-5 text-zinc-400">
+                  <p className="mt-2 text-base leading-6 text-zinc-400 font-sans">
                     {t("pr_admet_predice")}{" "}
                     <strong className="font-semibold text-zinc-300">{t("pr_solo_smiles")}</strong>{t("pr_admet_no_repite")}
                   </p>
                   {/* La misma advertencia que lleva el interruptor de Opciones.
                       Un modelo predictivo no es una medición, y el sitio donde
                       alguien pulsa el botón es donde tiene que leerlo. */}
-                  <p className="mt-1.5 text-[11px] leading-5 text-amber-200/70">
+                  <p className="mt-1.5 text-base leading-6 text-amber-200 font-sans">
                     {t("pr_admet_predicciones")}
                   </p>
                   {admetDone && !admetError && (
-                    <p className="mt-2 text-[11px] leading-5 text-sky-200/80">
+                    <p className="mt-2 text-base leading-6 text-sky-200 font-sans">
                       {t("auto_1171a79e25ba")}{" "}
-                      <strong className="font-semibold">Propiedades</strong> {t("pr_viaja_en_dossier")}
+                      <strong className="font-semibold">{t("pr_tab_properties")}</strong> {t("pr_viaja_en_dossier")}
                     </p>
                   )}
                   {admetError && (
-                    <p role="alert" className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-[11px] leading-5 text-amber-200">
+                    <p role="alert" className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-base leading-6 text-amber-200 font-sans">
                       {admetError}
                     </p>
                   )}
@@ -596,31 +565,31 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   type="button"
                   onClick={onRequestAdmet}
                   disabled={!moleculeId || admetRunning || admetDone}
-                  className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-sky-400/30 bg-sky-500/15 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-wider text-sky-100 transition-colors hover:bg-sky-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-sky-400/30 bg-sky-500/15 px-3 py-2 font-sans text-sm font-bold uppercase tracking-wider text-sky-100 transition-colors hover:bg-sky-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Gauge size={14} aria-hidden="true" />
-                  {admetRunning ? t("c_calculando") : admetDone ? "ADMET disponible" : "Calcular ADMET"}
+                  {admetRunning ? t("c_calculando") : admetDone ? t("pr_admet_available") : t("pr_admet_calculate")}
                 </button>
               </div>
               {!moleculeId && (
-                <p className="mt-3 text-[11px] leading-5 text-zinc-500">{t("ev_admet_requiere_corrida")}</p>
+                <p className="mt-3 text-base leading-6 text-zinc-300 font-sans">{t("ev_admet_requiere_corrida")}</p>
               )}
             </section>
           )}
 
-          {advancedTab === "sar" && (
+          {activeTab === "advanced" && advancedTab === "sar" && (
             <section id="advanced-panel-sar" role="tabpanel" aria-labelledby="advanced-tab-sar" className="space-y-3">
               <div>
-                <h4 id="sar-available-title" className="font-mono text-xs font-bold uppercase tracking-[0.14em] text-zinc-300">Evidencia SAR disponible</h4>
-                <p className="mt-1 text-xs leading-5 text-zinc-500">
+                <h4 id="sar-available-title" className="font-sans text-base font-bold uppercase tracking-[0.14em] text-zinc-300">{t("pr_sar_evidence_available")}</h4>
+                <p className="mt-1 text-base leading-6 text-zinc-300 font-sans">
                   {t("pr_sar_explicacion")}
                 </p>
               </div>
-              <ProSarTab moleculeId={moleculeId} />
+              <ProSarTab moleculeId={moleculeId} taskId={taskId} caseRuns={caseRuns} />
             </section>
           )}
 
-          {advancedTab === "xai" && (
+          {activeTab === "advanced" && advancedTab === "xai" && (
             <div id="advanced-panel-xai" role="tabpanel" aria-labelledby="advanced-tab-xai">
               <ProXaiTab
                 shapValues={result?.shap_values}
@@ -629,29 +598,15 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                 gnnPharmacophores={result?.gnn_pharmacophores}
                 moleculeId={moleculeId}
                 inApplicabilityDomain={result?.in_applicability_domain}
+                taskId={result?.task_id??taskId}
+                poses={result?.docking_poses}
                 fallbackReason={result?.fallback_reason}
               />
             </div>
           )}
         </div>
-      )}
-
-      {activeTab === "compare" && (
-        <PoseComparisonWorkspace rows={evidenceView.comparison} onComparePoses={onComparePoses} />
-      )}
-
-      {activeTab === "evidence" && (
-        <div id="analysis-panel-evidence" role="tabpanel" aria-labelledby="analysis-tab-evidence">
-          {/* Dos fuentes de foco, sumadas porque las dos son contadores que
-              solo crecen: el resumen global de la corrida y el botón de la
-              pose que se está mirando en «Estructura y evidencia». */}
-          <StructuralEvidencePanel
-            result={result}
-            physicalFocusRequest={physicalFocusRequest + focoEnEvidencia}
-            onOpenPoseDetails={openPoseDetails}
-          />
-        </div>
-      )}
-    </section>
-  );
+      </div>
+      {activeTab === "provenance" && <div className="space-y-8"><ReadingHelp area="provenance"/>{provenanceSlot}{result && <RunDataExplorer result={result} />}</div>}
+    </ResultAreaLayout>
+  </section>;
 };

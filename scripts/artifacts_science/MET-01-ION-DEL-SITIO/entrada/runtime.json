@@ -1,0 +1,32 @@
+{
+  "python": "3.11.9",
+  "packages": {
+    "rdkit": "2025.9.6",
+    "meeko": "0.7.1",
+    "posebusters": "0.6.5",
+    "dimorphite_dl": "2.0.2",
+    "scipy": "1.17.1"
+  },
+  "sources": [
+    {
+      "path": "scripts/calibracion_receptor.py",
+      "sha256": "fa01b80b3972d8f8cab641e2c135a0d08fac2f2d3ce5d37588aa849b64fd3b85",
+      "snapshot": "source/product_sources/calibracion_receptor.py"
+    },
+    {
+      "path": "scripts/accept_evaluation_runtime.py",
+      "sha256": "e48ff62bc3b88717b4e5ae17362a5a7e79441b4f2e520732cf9739bcfd427967",
+      "snapshot": "source/product_sources/accept_evaluation_runtime.py"
+    },
+    {
+      "path": "scripts/qa_sandbox/lib.mjs",
+      "sha256": "d00c911b0e3bdc68a1cf56034c8e0b7d0c5c536d997c8b878138fc595ea22ea0",
+      "snapshot": "source/product_sources/lib.mjs"
+    }
+  ],
+  "binaries": {
+    "python-embed/python.exe": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+    "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "tools/vina/vina_trace.exe": "0e0125909e6db01f7a9ca54ff310409151bf9132c08239dcd1970e10e0aac386"
+  }
+}

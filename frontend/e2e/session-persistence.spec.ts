@@ -22,7 +22,7 @@ async function createCase(page: Page, name: string) {
   await page.getByRole("button", { name: /crear caso|nuevo caso/i }).first().click();
   const dialog = page.getByRole("dialog", { name: "Nuevo caso" });
   await dialog.getByLabel("Nombre").fill(name);
-  await dialog.getByRole("button", { name: "Crear caso" }).click();
+  await dialog.getByRole("button", { name: "Crear un caso", exact: true }).click();
   await expect(dialog).toBeHidden();
   await expect(page.getByText(name, { exact: true }).first()).toBeVisible();
 }

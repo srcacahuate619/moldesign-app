@@ -1,0 +1,48 @@
+{
+  "label": "catalogo-antes-en-light-1024",
+  "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+  "export": "5b3a840cc2de9af0408fa29108c8f18fba8d9637200d192503b33716793f12b8",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "locale": "en",
+  "theme": "light",
+  "readings": [
+    {
+      "tag": "H2",
+      "id": "target-selector-title",
+      "text": "Receptor catalog",
+      "foreground": [
+        9,
+        9,
+        11
+      ],
+      "background": [
+        8.514509803921573,
+        8.514509803921573,
+        8.514509803921573
+      ],
+      "ratio": 1.004,
+      "passes": false
+    },
+    {
+      "tag": "INPUT",
+      "id": "",
+      "text": "1UZJ",
+      "foreground": [
+        9,
+        9,
+        11
+      ],
+      "background": [
+        0,
+        0,
+        0
+      ],
+      "ratio": 1.056,
+      "passes": false
+    }
+  ],
+  "passes": false
+}

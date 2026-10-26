@@ -1,28 +1,33 @@
 mod backend;
 mod cases;
 mod downloader;
+mod file_downloads;
+mod salidas;
+mod vigia_webview;
 
 use std::path::PathBuf;
 use std::{fs::OpenOptions, io::Write};
-use tauri::Manager;
+use tauri::{Emitter, Manager};
 
 use backend::{
     current_launch_token, current_status, ensure_backend_sync, reset_for_retry,
     shutdown_for_app_exit, BackendStatus,
 };
 use cases::{
-    case_create, case_forget, case_initialize, case_list_authorized, case_open_token,
-    case_pick_directory, case_pick_parent_directory, case_read, case_registry_health,
-    case_relocate, case_repair, case_reveal, case_write, CaseRegistry,
+    case_create, case_default_parent_directory, case_forget, case_initialize, case_list_authorized,
+    case_open_token, case_pick_directory, case_pick_parent_directory, case_read,
+    case_registry_health, case_relocate, case_repair, case_reveal, case_write, CaseRegistry,
 };
 use downloader::{
-    cancel_download, download_model, extract_archive, file_exists, get_resource_dir, verify_model,
-    DownloadState,
+    active_downloads, cancel_download, download_model, extract_archive, file_exists,
+    get_resource_dir, verify_model, DownloadState,
 };
+use salidas::molcy_pick_output_dir;
 
 /// Traza mínima de bootstrap para diagnosticar instalaciones donde la ventana
-/// termina antes de que el plugin de logs alcance a inicializarse.
-fn bootstrap_log(message: &str) {
+/// termina antes de que el plugin de logs alcance a inicializarse. También la
+/// usa `vigia_webview` para los procesos de WebView2 que mueren.
+pub(crate) fn bootstrap_log(message: &str) {
     let path = std::env::var_os("MOLDESIGN_BOOT_LOG")
         .map(PathBuf::from)
         .unwrap_or_else(|| std::env::temp_dir().join("moldesign-desktop-bootstrap.log"));
@@ -32,6 +37,76 @@ fn bootstrap_log(message: &str) {
     if let Ok(mut file) = OpenOptions::new().create(true).append(true).open(path) {
         let _ = writeln!(file, "{} {}", chrono::Local::now().to_rfc3339(), message);
     }
+}
+
+/// Atención nativa: una ruta web por sí sola no demuestra foco o visibilidad.
+#[tauri::command]
+fn job_notification_attention(app: tauri::AppHandle) -> Result<serde_json::Value, String> {
+    let window = app.get_webview_window("main").ok_or("Ventana principal no disponible")?;
+    Ok(serde_json::json!({
+        "focused": window.is_focused().map_err(|e| e.to_string())?,
+        "visible": window.is_visible().map_err(|e| e.to_string())?,
+        "minimized": window.is_minimized().map_err(|e| e.to_string())?,
+    }))
+}
+
+/// Sólo el contenido genérico se transmite al SO; la identidad queda en memoria JS.
+/// Ok significa solicitud preparada, no recepción de Windows ni banner observado.
+#[tauri::command]
+fn job_notification_send(app: tauri::AppHandle, id: i32, token: String, body: String) -> Result<(), String> {
+    use tauri_plugin_notification::NotificationExt;
+    if token.len() > 128 || token.is_empty() || body.len() > 400 {
+        return Err("Solicitud de notificación inválida".into());
+    }
+    app.notification().builder().id(id).title("MolDesign").body(body)
+        .extra("jobToken", token)
+        .show().map_err(|e| e.to_string())
+}
+
+#[tauri::command]
+fn job_notification_restore(app: tauri::AppHandle) -> Result<(), String> {
+    let window = app.get_webview_window("main").ok_or("Ventana principal no disponible")?;
+    window.unminimize().map_err(|e| e.to_string())?;
+    window.show().map_err(|e| e.to_string())?;
+    window.set_focus().map_err(|e| e.to_string())
+}
+
+/// Diagnóstico opt-in del worktree: ejercita los mismos comandos sin backend ni datos reales.
+/// No emite un toast y no acredita recepción o activación instalada de notificaciones.
+fn product_audit_attention_probe(app: tauri::AppHandle) {
+    std::thread::spawn(move || {
+        use std::time::Duration;
+        std::thread::sleep(Duration::from_millis(600));
+        let initial = job_notification_attention(app.clone());
+        let minimized = app.get_webview_window("main").ok_or("missing main window".to_string())
+            .and_then(|window| window.minimize().map_err(|e| e.to_string()));
+        std::thread::sleep(Duration::from_millis(400));
+        let while_minimized = job_notification_attention(app.clone());
+        let restored = job_notification_restore(app.clone());
+        std::thread::sleep(Duration::from_millis(400));
+        let after_restore = job_notification_attention(app.clone());
+        let report = serde_json::json!({
+            "identifier": app.config().identifier,
+            "timestamp": chrono::Utc::now().to_rfc3339(),
+            "initial": initial,
+            "minimize_request": minimized,
+            "minimized": while_minimized,
+            "restore_request": restored,
+            "restored": after_restore,
+            "backend_started": false,
+            "native_toast_requested": false,
+            "installed_notification_activation_verified": false,
+        });
+        let result = app.path().app_data_dir().map_err(|e| e.to_string()).and_then(|dir| {
+            std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+            let path = dir.join("native-attention-probe.json");
+            std::fs::write(&path, serde_json::to_vec_pretty(&report).map_err(|e| e.to_string())?)
+                .map_err(|e| e.to_string())?;
+            Ok(path)
+        });
+        bootstrap_log(&format!("productaudit_attention_probe:{result:?}"));
+        app.exit(if result.is_ok() { 0 } else { 1 });
+    });
 }
 
 /// Carpeta de recursos INSTALADA, si la hay.
@@ -87,6 +162,10 @@ pub(crate) fn is_packaged_app() -> bool {
 /// Directorio de datos persistente y no-virtualizado de MolDesign, para estado
 /// que debe sobrevivir a desinstalar (índice de casos, modelos descargados).
 pub(crate) fn persistent_data_dir(app: &tauri::AppHandle) -> Option<PathBuf> {
+    // El spike experimental nunca comparte registro de casos o modelos con producción.
+    if app.config().identifier == "dev.moldesign.productaudit" {
+        return app.path().app_data_dir().ok();
+    }
     app.path().home_dir().ok().map(|d| d.join("MolDesign"))
 }
 
@@ -334,6 +413,7 @@ pub fn run() {
         }));
 
     builder
+        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_shell::init())
         // Abre URLs en el navegador del sistema. Sin esto, `<a target="_blank">`
         // dentro del webview no hace nada y el clic se pierde sin error: era el
@@ -343,22 +423,25 @@ pub fn run() {
         // Selector nativo de carpetas. Solo se usa para elegir DONDE crear o
         // abrir un caso; la capability concede unicamente `dialog:allow-open`.
         .plugin(tauri_plugin_dialog::init())
-        .manage(DownloadState {
-            cancel_flags: tokio::sync::Mutex::new(std::collections::HashMap::new()),
-        })
+        .manage(DownloadState::new())
         .invoke_handler(tauri::generate_handler![
+            job_notification_attention,
+            job_notification_send,
+            job_notification_restore,
             ensure_backend,
             backend_status,
             backend_launch_token,
             restart_backend,
             download_model,
             cancel_download,
+            active_downloads,
             verify_model,
             file_exists,
             get_resource_dir,
             extract_archive,
             case_pick_directory,
             case_pick_parent_directory,
+            case_default_parent_directory,
             case_repair,
             case_registry_health,
             case_relocate,
@@ -370,9 +453,16 @@ pub fn run() {
             case_list_authorized,
             case_forget,
             case_reveal,
+            molcy_pick_output_dir,
+            file_downloads::file_download_reveal,
         ])
         .setup(|app| {
             bootstrap_log("setup:start");
+            let audit_probe_requested = std::env::var("MOLDESIGN_PRODUCTAUDIT_PROBE").as_deref() == Ok("1");
+            if audit_probe_requested && (!cfg!(debug_assertions) || app.config().identifier != "dev.moldesign.productaudit") {
+                return Err("El diagnóstico nativo exige debug e identidad productaudit separada".into());
+            }
+
             // Los recursos instalados no son un directorio de datos. Publicar
             // la ruta writable de Tauri antes de arrancar el backend mantiene
             // logs y punteros de diagnóstico fuera del payload firmado.
@@ -393,10 +483,12 @@ pub fn run() {
             // AppHandle para localizar app data. Sin persistencia, cada
             // reinicio obligaria a volver a elegir la carpeta de cada caso.
             app.manage(CaseRegistry::load(app.handle()));
+            app.manage(file_downloads::FileDownloads::load(app.handle())?);
+            backend::configure_case_registry(cases::registry_path(app.handle()));
 
             // Autotest instalado del registro de casos: inerte sin la variable
             // de entorno. Ver `run_case_self_test`.
-            run_case_self_test(app.handle());
+            if app.config().identifier != "dev.moldesign.productaudit" { run_case_self_test(app.handle()); }
 
             if let Err(e) = app.handle().plugin(
                 tauri_plugin_log::Builder::default()
@@ -422,6 +514,7 @@ pub fn run() {
             // arranque quedaba a merced de que un componente se montara. Aquí
             // se lanza en un hilo aparte para no bloquear la ventana: el probe
             // de salud puede tardar decenas de segundos en un arranque frío.
+            if !audit_probe_requested {
             let bootstrap_handle = app.handle().clone();
             std::thread::spawn(move || {
                 bootstrap_log("backend_thread:start");
@@ -438,8 +531,50 @@ pub fn run() {
                 log::info!("Arranque automático del motor: {:?}", status.state);
             });
 
+            }
+
             // Al cerrar se termina EL PROCESO PROPIO, y sólo ese.
+            // Crear desde la misma configuración permite observar la finalización
+            // real de las descargas del WebView, incluidas las de blob y MP4.
+            let mut window_config = app.config().app.windows[0].clone();
+            if audit_probe_requested {
+                window_config.url = tauri::WebviewUrl::External("about:blank".parse()?);
+            }
+            tauri::WebviewWindowBuilder::from_config(app, &window_config)?
+                .on_download(|webview, event| {
+                    if let tauri::webview::DownloadEvent::Finished { url, path, success } = event {
+                        let file_id = if success {
+                            path.and_then(|path| {
+                                match webview
+                                    .state::<file_downloads::FileDownloads>()
+                                    .record(path)
+                                {
+                                    Ok(id) => Some(id),
+                                    Err(error) => {
+                                        log::warn!("No se pudo registrar la descarga: {error}");
+                                        None
+                                    }
+                                }
+                            })
+                        } else {
+                            None
+                        };
+                        let _ = webview.emit(
+                            "file-download:finished",
+                            serde_json::json!({
+                                "url": url.as_str(),
+                                "success": success,
+                                "fileId": file_id,
+                            }),
+                        );
+                    }
+                    true
+                })
+                .build()?;
             if let Some(w) = app.get_webview_window("main") {
+                // Si WebView2 pierde el proceso de la página o una navegación acaba en su
+                // página de error, la ventana se recupera y lo deja escrito (ver el módulo).
+                vigia_webview::vigilar(&w);
                 w.on_window_event(|event| match event {
                     tauri::WindowEvent::CloseRequested { .. } => {
                         bootstrap_log("window_event:close_requested");
@@ -451,6 +586,8 @@ pub fn run() {
                     _ => {}
                 });
             }
+
+            if audit_probe_requested { product_audit_attention_probe(app.handle().clone()); }
 
             Ok(())
         })

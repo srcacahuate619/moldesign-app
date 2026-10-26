@@ -1,0 +1,16 @@
+{
+  "id_r2": "S41",
+  "pdb": "3G0E",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 35.3,
+      "crudo": "S41-3G0E-intento1.json.gz",
+      "crudo_sha256": "b2b117abe297600255cf71a2e847ab16762b0a4f855287b9c9a58dd0f94f0254"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S41-3G0E-intento1.json.gz",
+  "crudo_sha256": "b2b117abe297600255cf71a2e847ab16762b0a4f855287b9c9a58dd0f94f0254",
+  "registrado_en": "2026-10-22T16:53:59+00:00"
+}

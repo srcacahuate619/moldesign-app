@@ -11,10 +11,11 @@ import type {
   GlobalStats,
 } from "./types";
 import type { CasePipelineConfig } from "./cases/types";
-import { beginFileDownload, completeFileDownload, failFileDownload, type ActivitySource } from "./activityNotifications";
+import { beginFileDownload, handoffFileDownload, failFileDownload, type ActivitySource } from "./activityNotifications";
 import type { MoldexCatalog } from "./moldex";
 
 import type { Calibracion } from "../components/science/RespaldoDelReceptor";
+import type { IntentoVerificacion, VerificacionReceptor } from "./seccionCatalogo";
 
 export interface Target {
   id?: string;
@@ -71,6 +72,11 @@ export interface Target {
    * como «sin comprobar», nunca como «calibrado».
    */
   calibracion?: Calibracion | null;
+  /** Sin estos campos, el catálogo incluido se presenta como demostración. */
+  seccion_catalogo?: "verificado" | "demostracion" | null;
+  verificacion?: VerificacionReceptor | null;
+  intentos_verificacion?: IntentoVerificacion[] | null;
+  avisos_catalogo?: string[] | null;
   /**
    * DOCK-003/DOCK-002. `false` si la preparación del receptor se detiene hoy.
    * La diana sigue en el catálogo y se muestra con su motivo, pero no se
@@ -78,6 +84,12 @@ export interface Target {
    */
   disponible?: boolean;
   motivo_no_disponible?: string | null;
+  /**
+   * Receta v7: cadenas laterales del sitio truncadas por el barrido del
+   * catálogo («A:103 LYS→ALA (0.0 Å)»). `[]` medido y sin truncar; `null` sin
+   * medida, que no es «ninguna».
+   */
+  cadenas_truncadas_en_sitio?: string[] | null;
   hotspot_count?: number;
   is_prepared?: boolean;
   grid_calibrated?: boolean;
@@ -110,66 +122,20 @@ export function resolveTargetName(pdbId: string, targetsList?: Target[]): string
 }
 
 export async function getTargetPdb(pdbId: string): Promise<string> {
-  const res = await fetch(`${await getApiUrl()}/targets/${pdbId}/pdb`);
+  // SOL-01: el visor 3D también descarga receptores privados del propietario.
+  // Sin la sesión, el backend oculta el privado con el mismo 404 que a un
+  // anónimo — correcto en el servidor, pero aquí dejaba al dueño esperando
+  // coordenadas de SU propia variante.
+  const res = await fetchBackend(`/targets/${pdbId}/pdb`, {
+    headers: getAuthHeaders(),
+  });
   if (!res.ok) throw new Error("Error fetching PDB file");
   return res.text();
 }
 
-import { getApiUrl, resetApiUrl } from "./config";
+import { fetchBackend } from "./backendFetch";
 import { desktopLogin } from "./desktopAuth";
 import { invitadoRecordado, recordarInvitado } from "./traspaso";
-
-// ── Recuperación de un puerto que dejó de ser el del backend ────────────────
-//
-// EL FALLO QUE ARREGLA. `getApiUrl()` memoriza el puerto —`if (resolved) return
-// resolved`— y `ensure_backend` sólo se pregunta UNA vez, en el arranque de
-// `DownloadProvider`. No hay nadie escuchando después. Si el backend muere y
-// Rust lo relevanta en otro puerto del rango 8000-8019, el frontend se queda
-// llamando al viejo: `fetch` lanza, la interfaz dice «no se pudo establecer
-// contacto con el motor local» y el motor está perfectamente sano.
-//
-// Lo peor no era el error, era que no se podía salir de él. El «Reintentar» de
-// Moldex es `loadMoldex()`, que vuelve a pedir con LA MISMA dirección
-// memorizada: el mismo fallo, tantas veces como se pulse.
-//
-// LA REGLA. Un `fetch` que lanza no es un error del servidor —un 500 no lanza—:
-// es que la petición no llegó a ninguna parte. Así que se le vuelve a preguntar
-// a Rust dónde está el backend y **sólo se reintenta si el puerto resultó ser
-// otro**. Reintentar contra la misma URL muerta no es un reintento: es el mismo
-// fallo dos veces, y encima duplicaría un POST cuyo destino sí estuviera vivo.
-//
-// Al revalidar se actualiza la caché compartida de `config.ts`, así que una
-// sola recuperación arregla también a quien llama a `fetch` por su cuenta
-// —descargas, PDF, SSE— sin que cada sitio tenga que repetir esta lógica.
-
-/** Revalidación en curso. Diez peticiones que fallan a la vez preguntan UNA. */
-let revalidacionDelPuerto: Promise<string | null> | null = null;
-
-/**
- * Vuelve a resolver la dirección del backend.
- *
- * Devuelve la nueva SÓLO si difiere de la que acaba de fallar; `null` en
- * cualquier otro caso —misma dirección, o no se pudo resolver—, que es la señal
- * de que no hay nada que reintentar.
- */
-async function revalidarPuertoDelMotor(baseQueFallo: string): Promise<string | null> {
-  if (!revalidacionDelPuerto) {
-    revalidacionDelPuerto = (async () => {
-      resetApiUrl();
-      try {
-        return await getApiUrl();
-      } catch {
-        // El motor no está: se dirá con el error de conexión de siempre. Aquí
-        // sólo se declara que no hay una dirección nueva a la que ir.
-        return null;
-      } finally {
-        revalidacionDelPuerto = null;
-      }
-    })();
-  }
-  const nueva = await revalidacionDelPuerto;
-  return nueva && nueva !== baseQueFallo ? nueva : null;
-}
 
 const ERROR_DE_CONEXION =
   "Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. " +
@@ -229,6 +195,22 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * El texto que se enseña de un error. De un `ApiError` con `{"detail": "…"}`
+ * sale el `detail`, no `HTTP 409: {"detail":…}` en crudo (QA-037).
+ */
+export function mensajeDelError(cause: unknown): string {
+  if (cause instanceof ApiError) {
+    try {
+      const detail = (JSON.parse(cause.responseBody) as { detail?: unknown })?.detail;
+      if (typeof detail === "string" && detail.trim()) return detail;
+    } catch {
+      // Cuerpo no JSON: se enseña tal cual, abajo.
+    }
+  }
+  return cause instanceof Error ? cause.message : String(cause);
+}
+
 async function attemptRefresh(): Promise<boolean> {
   if (refreshPromise) return refreshPromise;
 
@@ -240,7 +222,7 @@ async function attemptRefresh(): Promise<boolean> {
     const old = JSON.parse(stored);
     let data;
     if (old.refreshToken) {
-      const res = await fetch(`${await getApiUrl()}/auth/refresh`, {
+      const res = await fetchBackend(`/auth/refresh`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refresh_token: old.refreshToken }),
@@ -277,12 +259,10 @@ async function attemptRefresh(): Promise<boolean> {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const base = await getApiUrl();
-  let fetchUrl = `${base}${path}`;
   const fetchInit = {
     ...init,
     headers: {
-      "Content-Type": "application/json",
+      ...(init?.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
       "ngrok-skip-browser-warning": "true",
       ...getAuthHeaders(),
       ...(init?.headers || {}),
@@ -293,20 +273,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const ownerAtStart = getSessionOwner();
   let response;
   try {
-    response = await fetch(fetchUrl, fetchInit);
+    response = await fetchBackend(path, fetchInit);
   } catch (err) {
-    console.error(`Fetch error on ${fetchUrl}:`, err);
-    // El motor pudo haberse movido de puerto. Se pregunta de nuevo y se
-    // reintenta SÓLO si la dirección cambió; ver `revalidarPuertoDelMotor`.
-    const nuevaBase = await revalidarPuertoDelMotor(base);
-    if (nuevaBase === null) throw new Error(ERROR_DE_CONEXION);
-    fetchUrl = `${nuevaBase}${path}`;
-    try {
-      response = await fetch(fetchUrl, fetchInit);
-    } catch (err2) {
-      console.error(`Fetch error on ${fetchUrl} (tras revalidar el puerto):`, err2);
-      throw new Error(ERROR_DE_CONEXION);
-    }
+    if (init?.signal?.aborted) throw err;
+    console.error(`Fetch error on ${path}:`, err);
+    throw new Error(ERROR_DE_CONEXION);
   }
 
   if (response.status === 401) {
@@ -323,7 +294,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
     const recoveryAuth = getAuthHeaders().Authorization;
     if (refreshed) {
       try {
-        response = await fetch(fetchUrl, {
+        response = await fetchBackend(path, {
           ...fetchInit,
           headers: { ...fetchInit.headers, ...getAuthHeaders() },
         });
@@ -350,6 +321,11 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   }
 
   return (await response.json()) as T;
+}
+
+/** Cliente JSON compartido: renovación de sesión y recuperación del puerto, sin cambiar de propietario. */
+export function requestAuthenticatedJson<T>(path: string, init?: RequestInit): Promise<T> {
+  return request<T>(path, init);
 }
 
 // ── Chemistry ────────────────────────────────────────────────────
@@ -452,6 +428,48 @@ export async function submitEvaluation(
   });
 }
 
+// ── Propuestas de docking de MolChat (LUNA-05) ────────────────────
+//
+// MolChat PROPONE una evaluación y no la encola: sólo estas llamadas, con la sesión
+// de la cuenta, la lanzan. El cuerpo de la aprobación lleva únicamente la huella que
+// el investigador vio; la petición que se ejecuta sale del servidor.
+
+export interface PropuestaDeDockingEstado {
+  id: string;
+  estado: "pendiente";
+  expira_en_s: number;
+  hash: string;
+  resumen: { receptor: string; cadena: string; motor: string; coste: string };
+}
+
+export interface PropuestaDeDockingLanzada {
+  task_id: string;
+  target_pdb_id: string;
+  smiles_hash: string;
+  message: string;
+}
+
+export async function consultarPropuestaDeDocking(id: string): Promise<PropuestaDeDockingEstado> {
+  return request<PropuestaDeDockingEstado>(`/ai/proposals/${encodeURIComponent(id)}`);
+}
+
+export async function aprobarPropuestaDeDocking(
+  id: string,
+  proposalHash: string,
+): Promise<PropuestaDeDockingLanzada> {
+  return request<PropuestaDeDockingLanzada>(
+    `/ai/proposals/${encodeURIComponent(id)}/approve`,
+    { method: "POST", body: JSON.stringify({ proposal_hash: proposalHash }) },
+  );
+}
+
+export async function rechazarPropuestaDeDocking(id: string): Promise<{ status: string; id: string }> {
+  return request<{ status: string; id: string }>(
+    `/ai/proposals/${encodeURIComponent(id)}/reject`,
+    { method: "POST" },
+  );
+}
+
 export async function cancelEvaluation(taskId: string) {
   return request<{ cancelled: boolean; mmgbsa_killed: number }>("/evaluation/cancel", {
     method: "POST",
@@ -510,9 +528,12 @@ export async function getAiReport(moleculeId: string): Promise<string | null> {
  * Descarga el archivo SDF con las poses de docking desde MinIO.
  * Retorna texto plano (SDF) o null si no hay archivo.
  */
-export async function getPoseFile(moleculeId: string): Promise<string | null> {
+export async function getPoseFile(
+  moleculeId: string,
+  taskId?: string | null,
+): Promise<string | null> {
   try {
-    const res = await fetch(`${await getApiUrl()}/evaluation/files/poses/${moleculeId}`, {
+    const res = await fetchBackend(`/evaluation/files/poses/${moleculeId}${consultaDeCorrida(taskId)}`, {
       headers: {
         "ngrok-skip-browser-warning": "true",
         ...getAuthHeaders()
@@ -531,9 +552,9 @@ export async function getPoseFile(moleculeId: string): Promise<string | null> {
  * Retorna H-bonds, hidrofóbicos, π-stacking, salt bridges, cation-π y
  * halogen bonds con coordenadas de ambos átomos en contacto.
  */
-export async function getInteractions(moleculeId: string, poseRank = 1): Promise<InteractionsReport | null> {
+export async function getInteractions(moleculeId: string, poseRank = 1, taskId?: string | null): Promise<InteractionsReport | null> {
   try {
-    const res = await fetch(`${await getApiUrl()}/evaluation/interactions/${moleculeId}?pose_rank=${poseRank}`, {
+    const res = await fetchBackend(`/evaluation/interactions/${moleculeId}?pose_rank=${poseRank}${taskId ? `&task_id=${encodeURIComponent(taskId)}` : ""}`, {
       headers: {
         "ngrok-skip-browser-warning": "true",
         ...getAuthHeaders()
@@ -547,13 +568,18 @@ export async function getInteractions(moleculeId: string, poseRank = 1): Promise
   }
 }
 
+/** Contact depiction bound to an explicit run and the exact analyzed SDF. */
+export function getContactMap(moleculeId: string, taskId: string, poseRank: number, signal?: AbortSignal): Promise<InteractionsReport> {
+  return request<InteractionsReport>(`/evaluation/interactions/${encodeURIComponent(moleculeId)}?pose_rank=${poseRank}&task_id=${encodeURIComponent(taskId)}&include_map=true`, { signal });
+}
+
 /**
  * Descarga el archivo PDB del target biológico.
  * Retorna texto plano (PDB) o null si no está disponible.
  */
-export async function getProteinFile(moleculeId: string): Promise<string | null> {
+export async function getProteinFile(moleculeId: string, taskId?: string | null): Promise<string | null> {
   try {
-    const res = await fetch(`${await getApiUrl()}/evaluation/files/protein/${moleculeId}`, {
+    const res = await fetchBackend(`/evaluation/files/protein/${moleculeId}${consultaDeCorrida(taskId)}`, {
       headers: {
         "ngrok-skip-browser-warning": "true",
         ...getAuthHeaders()
@@ -582,11 +608,12 @@ export async function getProteinFile(moleculeId: string): Promise<string | null>
 export async function downloadComplexFile(
   moleculeId: string,
   source: ActivitySource = "general",
+  taskId?: string | null,
 ): Promise<void> {
   const filename = `complex_${moleculeId}.pdb`;
   const activityId = beginFileDownload(filename, source);
   try {
-    const contenido = await getComplexFile(moleculeId);
+    const contenido = await getComplexFile(moleculeId, taskId);
     if (contenido === null) throw new Error("No se pudo descargar el complejo 3D");
     const blob = new Blob([contenido], { type: "chemical/x-pdb" });
     const url = window.URL.createObjectURL(blob);
@@ -595,9 +622,9 @@ export async function downloadComplexFile(
       anchor.href = url;
       anchor.download = filename;
       document.body.appendChild(anchor);
+      handoffFileDownload(activityId, filename, url, source);
       anchor.click();
       anchor.remove();
-      completeFileDownload(activityId, filename, source);
     } finally { window.URL.revokeObjectURL(url); }
   } catch (error) {
     failFileDownload(activityId, filename, source);
@@ -605,9 +632,12 @@ export async function downloadComplexFile(
   }
 }
 
-export async function getComplexFile(moleculeId: string): Promise<string | null> {
+export async function getComplexFile(
+  moleculeId: string,
+  taskId?: string | null,
+): Promise<string | null> {
   try {
-    const res = await fetch(`${await getApiUrl()}/evaluation/files/complex/${moleculeId}`, {
+    const res = await fetchBackend(`/evaluation/files/complex/${moleculeId}${consultaDeCorrida(taskId)}`, {
       headers: {
         "ngrok-skip-browser-warning": "true",
         ...getAuthHeaders()
@@ -665,12 +695,29 @@ export async function traspasarDelInvitado(
   });
 }
 
-export async function saveMolecule(moleculeId: string, name?: string): Promise<void> {
-  let url = `/history/save/${moleculeId}`;
-  if (name) {
-    url += `?name=${encodeURIComponent(name)}`;
-  }
-  await request(url, { method: "POST" });
+/**
+ * Guarda UNA evaluación en Moldex.
+ *
+ * `taskId` es la corrida que el investigador está viendo. Una molécula se
+ * reevalúa muchas veces en el mismo caso y cada evaluación guardada es una ficha
+ * propia: sin `taskId` el backend guardaría la última, que puede no ser la que
+ * se está mirando.
+ */
+export async function saveMolecule(
+  moleculeId: string,
+  name?: string,
+  taskId?: string | null,
+): Promise<void> {
+  const params = new URLSearchParams();
+  if (name) params.set("name", name);
+  if (taskId) params.set("task_id", taskId);
+  const query = params.toString();
+  await request(`/history/save/${moleculeId}${query ? `?${query}` : ""}`, { method: "POST" });
+}
+
+/** Parámetro `?task_id=` de los endpoints que sirven archivos o dossier de una corrida. */
+function consultaDeCorrida(taskId?: string | null): string {
+  return taskId ? `?task_id=${encodeURIComponent(taskId)}` : "";
 }
 
 export async function getMoldex(targetPdbId?: string, limit?: number, offset?: number): Promise<MoldexCatalog> {
@@ -714,7 +761,7 @@ export async function getTargets(): Promise<Target[]> {
 }
 
 export async function uploadCustomTarget(formData: FormData): Promise<{ success: boolean; message: string; target: Target }> {
-  const fetchUrl = `${await getApiUrl()}/targets/upload`;
+  const fetchUrl = `/targets/upload`;
   const fetchInit = {
     method: "POST",
     body: formData,
@@ -724,12 +771,19 @@ export async function uploadCustomTarget(formData: FormData): Promise<{ success:
     },
   };
 
-  const response = await fetch(fetchUrl, fetchInit);
+  const response = await fetchBackend(fetchUrl, fetchInit);
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.detail || "Fallo al subir el receptor personalizado");
+    // El backend responde `{ detail, codigo, datos }` ya en el idioma de la interfaz (lo envía `Accept-Language`):
+    // se conserva tal cual. Si no hay texto (una validación de FastAPI trae una lista, o no hubo cuerpo) el
+    // mensaje queda vacío y quien muestra el error pone el suyo traducido.
+    throw Object.assign(new Error(typeof errorData.detail === "string" ? errorData.detail : ""), {
+      codigo: typeof errorData.codigo === "string" ? errorData.codigo : undefined,
+      datos: errorData.datos,
+      estado: response.status,
+    });
   }
-  
+
   return response.json();
 }
 
@@ -762,22 +816,26 @@ export async function shareCustomTarget(targetId: string): Promise<{ success: bo
 
 export async function prepareCertification(
   moleculeId: string,
-  userWallet: string
+  userWallet: string,
+  taskId?: string | null,
 ): Promise<{ already_certified: boolean; signature?: string; memo?: string }> {
   return request<{ already_certified: boolean; signature?: string; memo?: string }>(
-    `/blockchain/certify/${moleculeId}/prepare?user_wallet=${encodeURIComponent(userWallet)}`
+    `/blockchain/certify/${moleculeId}/prepare?user_wallet=${encodeURIComponent(userWallet)}` +
+      (taskId ? `&task_id=${encodeURIComponent(taskId)}` : "")
   );
 }
 
 export async function linkCertification(
   moleculeId: string,
-  signature: string
+  signature: string,
+  taskId?: string | null,
 ): Promise<{ success: boolean; signature: string }> {
   return request<{ success: boolean; signature: string }>("/blockchain/certify/link", {
     method: "POST",
     body: JSON.stringify({
       molecule_id: moleculeId,
       signature,
+      ...(taskId ? { task_id: taskId } : {}),
     }),
   });
 }
@@ -785,13 +843,14 @@ export async function linkCertification(
 export async function downloadCertificate(
   moleculeId: string,
   source: ActivitySource = "general",
+  taskId?: string | null,
 ): Promise<void> {
   let filename = `MolDesign_Dossier_${moleculeId}.pdf`;
   const activityId = beginFileDownload(filename, source);
   try {
     const headers = await getAuthHeaders();
-    const url = `${await getApiUrl()}/blockchain/certificate/${moleculeId}`;
-    const response = await fetch(url, {
+    const url = `/blockchain/certificate/${moleculeId}${consultaDeCorrida(taskId)}`;
+    const response = await fetchBackend(url, {
       method: "GET",
       headers: { "ngrok-skip-browser-warning": "true", ...headers },
     });
@@ -808,9 +867,9 @@ export async function downloadCertificate(
       anchor.href = downloadUrl;
       anchor.download = filename;
       document.body.appendChild(anchor);
+      handoffFileDownload(activityId, filename, downloadUrl, source);
       anchor.click();
       anchor.remove();
-      completeFileDownload(activityId, filename, source);
     } finally { window.URL.revokeObjectURL(downloadUrl); }
   } catch (error) {
     failFileDownload(activityId, filename, source);
@@ -821,9 +880,10 @@ export async function downloadCertificate(
 export async function fetchCertificateBlobUrl(
   moleculeId: string,
   signal?: AbortSignal,
+  taskId?: string | null,
 ): Promise<string> {
   const headers = await getAuthHeaders();
-  const url = `${await getApiUrl()}/blockchain/certificate/${moleculeId}/preview`;
+  const url = `/blockchain/certificate/${moleculeId}/preview${consultaDeCorrida(taskId)}`;
 
   // `signal`: doc 71, defecto E1. El visor montaba el efecto, React lo volvía a
   // montar (StrictMode) y la primera petición seguía viva sin que nadie fuera a
@@ -831,7 +891,7 @@ export async function fetchCertificateBlobUrl(
   // documento entero— así que eran dos renders simultáneos del mismo PDF contra
   // un backend de escritorio de un solo proceso. Abortar la que se descarta no
   // es higiene: es la mitad del trabajo que deja de hacerse.
-  const response = await fetch(url, {
+  const response = await fetchBackend(url, {
     method: "GET",
     headers: {
       "ngrok-skip-browser-warning": "true",
@@ -852,7 +912,7 @@ export async function getGlobalStats(): Promise<GlobalStats> {
   return request<GlobalStats>("/stats/global");
 }
 
-export async function checkBlockchainHealth(): Promise<{
+export type BlockchainHealth = {
   available: boolean;
   rpc_url: string;
   network: string;
@@ -860,20 +920,26 @@ export async function checkBlockchainHealth(): Promise<{
   signer?: string;
   balance_lamports?: number;
   reason?: string | null;
-}> {
+  /** `consent_required`: la cuenta aún no autorizó la salida a devnet; `offline`: equipo incomunicado. */
+  reason_code?: "consent_required" | "offline" | null;
+  destino?: { servicio: string; host: string } | null;
+};
+
+export async function checkBlockchainHealth(): Promise<BlockchainHealth> {
   try {
-    return await request<{
-      available: boolean;
-      rpc_url: string;
-      network: string;
-      rpc_reachable?: boolean;
-      signer?: string;
-      balance_lamports?: number;
-      reason?: string | null;
-    }>("/blockchain/health");
+    return await request<BlockchainHealth>("/blockchain/health");
   } catch {
     return { available: false, rpc_url: "", network: "unknown" };
   }
+}
+
+/** Autoriza, para esta cuenta, la salida hacia un destino declarado (p. ej. `solana-devnet`). */
+export async function authorizeNetworkDestination(servicio: string, host: string): Promise<void> {
+  await request<unknown>("/ai/consent/red", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ servicio, host }),
+  });
 }
 
 // ── Cuánto va a tardar esta corrida ────────────────────────────────

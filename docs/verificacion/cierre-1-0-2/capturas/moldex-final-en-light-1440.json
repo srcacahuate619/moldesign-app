@@ -1,0 +1,19 @@
+{
+  "name": "moldex-final-en-light-1440",
+  "url": "http://localhost:13013/moldex",
+  "time": "2026-10-10T03:04:16.946Z",
+  "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+  "export": "1759c30d4b8804213e7f538b55e5ed74358d6c75e9a7e0192c93b4bebe39d998",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "en",
+  "theme": "light",
+  "text": "OPTIONS\nPREPARATION\nMOLCYBETA\nBATCH\nEVALUATION\nMOLDEX\nHISTORY\n3\nDESKTOP USER\nSIGN OUT\n\nLIBRARY\n\nMoldex\n\nMOLECULE\n\nLigando 350245c3\n\n1/1 MOLECULE LOADED\nPocket\nSurface\nResidue types\nPolar proximity\nHotspots\nHOTSPOT WITH POLAR PROXIMITY\nREACHED HOTSPOT\nOTHER HOTSPOT\n\n01 / MOLDEX\n\nLibrary\n1/1\nALL\n8HFI\nSORT\n🕒 MOST RECENT\nMDX-8HFI-3502\n8HFI\n\nFC(F)(F)CNCc1ccccc1\n\nDemo\n\nOct 10, 12:52 AM · #27c62c\n\nHISTORICAL COMPOSITE INDEX\n64.5\nCOMPARE\nWhere is this stored?\nRECEPTOR SITE\nLigando 350245c3\n\nFC(F)(F)CNCc1ccccc1\n\nCALCULATED AFFINITY (VINA)\n\n-7.0 kcal/mol\n\nHISTORICAL COMPOSITE INDEX\n\n64.5\n\n02 / MOLECULE\n\nLigando 350245c3\n\n8HFI\n\nDemo\nResult obtained with a demo receptor. A published attempt does not grant it the verification badge.\nVerification of this receptor was attempted and it did not pass calibration (ρ = 0.13; 95% CI: -0.16–0.41).\nTARGET CONTEXT\n\nRECEPTOR PROTEIN\n\nCRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE\n\nBENCHMARK CORRELATION\n\nSpearman = —\n\nSCIENTIFIC AUDIT\nMeeko-assigned histidine templates: A:178=HIE, A:220=HIE, A:222=HIE, A:228=HIE, A:280=HIE, A:296=HIE, A:370=HIE, A:372=HIE, A:441=HIE, A:598=HIE, A:599=HIE, A:613=HIE. The assignment is template-based and does not validate the experimental microstate or a specific pH.\nDesolvated preparation: 23 crystallographic waters were removed from the docking box; 10 had at least 3 contacts within 3.5 Å of the receptor (the best-coordinated water had 6). If any of these waters participates in recognition by this target—such as the catalytic water in HIV-1 protease or the hinge network in some kinases—this run's contacts do not include it.\nLigand efficiency LE=0.53. With 13 heavy atoms, the 0.45 threshold is crossed by any affinity better than -5.9 kcal/mol, so exceeding it does not distinguish good binding from mediocre binding. In this mass range (< 300 Da, Rule of Three), efficiency per atom is high by construction: it can compare molecules of the same size, but cannot serve as a verdict.\nThe docked species differs from the input: FC(F)(F)CNCc1ccccc1 → FC(F)(F)C[NH2+]Cc1ccccc1. Unevaluated alternatives remain a source of chemical uncertainty.\nDESCRIPTORS AND RULES\nLipinski\nVeber\n\nLIPOPHILICITY\n\n2.34 LogP\n\nMASS\n\n189 Da\n\nPOLARITY\n\n12.0 Å²\n\nHOTSPOTS\n\n11/15 contacted\n\nCL-GNN SIGNAL (EXPERIMENTAL)\n\n0.76 not used for ranking\n\nLIPINSKI\n\nPasses rule\n\nINTEGRITY RECORD\n\nThe record attests to the integrity and date of the published review. It does not establish that the pose is valid or the scientific conclusion is correct, and it does not replace experimental evidence.\n\nNot recorded on-chain · local only\nRECORD ON SOLANA\nVIEW REPORT\nDownload receipt PDF\nDownload 3D complex (PDB)",
+  "overflow": {
+    "width": 1440,
+    "document": 1440
+  },
+  "errors": []
+}

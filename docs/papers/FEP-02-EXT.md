@@ -17,8 +17,8 @@ tautómeros.
 ## Qué salió
 
 Cada hueco se clasificó por la distancia mínima de sus dos residuos flanqueantes a
-cualquier átomo pesado del ligando. El radio de 8 Å **no se eligió nuevo**: es el mismo con
-el que `FEP-02` definió «sitio» al contar cadenas, metales y aguas.
+cualquier átomo pesado del ligando, con un radio de 8 Å. `FEP-02` definió «sitio» a 6 Å al contar
+cadenas, metales y aguas, así que estos conteos no son comparables con los suyos (SCI-B-005).
 
 | Clasificación | Complejos |
 |---|---:|
@@ -88,3 +88,28 @@ Un hueco lejano se declara. Uno en el sitio se arregla.
 Y queda expresamente prohibido concluir que los 16 lejanos están listos para energía libre:
 `FEP-02` exige además documentar cadenas, disulfuros, metales, cofactores y aguas, y nada de
 eso se toca aquí.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-005. Este análisis usa un radio de **8 Å** y decía que era el mismo con el que FEP-02 definió el sitio, que es de **6 Å**. Su 41 es un conteo a 8 Å, no una medida comparable con FEP-02.
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-042. La extensión a PDBBind (`FEP-02-EXT-PDBBIND`, sin paper propio) cuenta como
+  `SIN_HUECOS` los 1438 receptores que `FEP-02-PDBBIND` no pudo leer (`SIN_PDB`), e informa cero
+  errores. Con el estado del padre: 3887 evaluables, **2210 sin huecos (56.9 %)**, no 3648 de
+  5325 (68.5 %). Las cifras condicionadas a tener huecos (468 en el sitio de 1677) no cambian.
+  Productor: `scripts/analisis_fep02ext_pdbbind_cobertura.py`.
+
+**2026-10-22.** El método repetía que el radio de 8 Å era el de FEP-02, lo que SCI-B-005 ya había corregido (hallazgo L2-SOL-006 de la revisión de papers de Sol).
+
+## FEP-02-EXT-PDBBIND: la distribución por hueco y por complejo responde preguntas distintas
+
+**GO de medición descriptiva.** Completa la clasificación de la extensión más allá del grupo del sitio ya publicado en Correcciones.
+
+Entre los complejos analizables con saltos de numeración, 592 se clasifican periféricos y 617 lejanos. El límite periférico es 15,0 Å; se conserva el radio de sitio propio de la extensión, distinto del cribado base.
+
+En la unidad hueco hay 633 próximos al sitio de 4610 totales. Ese denominador no se sustituye por el de complejos: varios huecos pueden pertenecer a la misma estructura. Rigen **SCI-B-005, SCI-B-039 y SCI-B-042** para radio, identidad y cobertura de fuente. No comprobado por mí: recontar distancias desde estructuras originales. Fuente: `FEP-02-EXT-PDBBIND`.

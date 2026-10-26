@@ -1,0 +1,2264 @@
+{
+  "revisores": {
+    "astra6": {
+      "ronda": "R2",
+      "archivo": "E:\\ABS-TR-01-R2\\astra6\\respuestas.json",
+      "sha256": "fde9b3f9fbd15047fc792d046e8caea01f3c8e3dd261779afef8e34482681f52"
+    },
+    "sol6.1": {
+      "ronda": "R2",
+      "archivo": "E:\\ABS-TR-01-R2\\sol6,1\\respuestas.json",
+      "sha256": "1f1651c475d3dd00d10c5f1008be8003df7e0fa8dfe2933e9255924c09b35c46"
+    },
+    "glm5.3": {
+      "ronda": "R2",
+      "archivo": "E:\\ABS-TR-01-R2\\glm5.3\\respuestas.json",
+      "sha256": "7d23a1ad13ba1a7a0e3991e99d5da76f683471d3d0f6121324e77864108c5fef"
+    },
+    "step5preview": {
+      "ronda": "R2",
+      "archivo": "E:\\ABS-TR-01-R2\\step5preview\\respuestas.json",
+      "sha256": "61fb5a1f9ec87d5c5ac73ec0cac180950469e75a890b0e9675fc41dac927fde5"
+    },
+    "opus5.5": {
+      "ronda": "R1",
+      "archivo": "E:\\ABS-TR-01\\opus5.5\\respuestas.json",
+      "sha256": "5a96e30073995fe1fe160eb8c1c2c51d24999e3e0276cde16c18e96e82998a1f"
+    }
+  },
+  "sistemas": {
+    "1RKP": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "4NJT": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "6HL1": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "REVISAR",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "REVISAR",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "2AW1": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "REVISAR",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "1C3S": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "INDETERMINADO",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "INDETERMINADO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "4JVB": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "REVISAR",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "REVISAR",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "REVISAR",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "REVISAR",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "REVISAR",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "6HW5": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "INDETERMINADO",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "6KE5": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "INDETERMINADO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "INDETERMINADO",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "3S43": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "REVISAR",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "CRITICO",
+          "C08": "CRITICO",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "8X3K": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "6GUE": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "REVISAR",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "6PU8": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "4NY4": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "8WTW": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "REVISAR",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "INDETERMINADO",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "CRITICO",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "INDETERMINADO",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "4EU2": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "INDETERMINADO",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "5HYK": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "1DIY": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "INDETERMINADO",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "CRITICO",
+          "C08": "REVISAR",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "INDETERMINADO",
+          "C08": "ACEPTABLE",
+          "C09": "INDETERMINADO",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "3RUU": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "5ZBH": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "2X8Z": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "6SXC": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "CRITICO",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "CRITICO",
+          "C05": "REVISAR",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "CRITICO",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "CRITICO",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "1M17": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "8HFF": {
+      "astra6": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "1HSG": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "REVISAR",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "4FK3": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "CRITICO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "CRITICO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "REVISAR",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "CRITICO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "CRITICO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "2HZI": {
+      "astra6": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "4WUD": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "REVISAR",
+          "C04": "REVISAR",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "CRITICO",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "CRITICO",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "CRITICO",
+          "C05": "CRITICO",
+          "C06": "CRITICO",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "5WIU": {
+      "astra6": {
+        "veredicto": "INDETERMINADO",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "REVISAR",
+          "C03": "REVISAR",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "INDETERMINADO",
+          "C02": "REVISAR",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "REVISAR",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "REVISAR"
+        }
+      },
+      "step5preview": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "REVISAR",
+          "C10": "REVISAR"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "ACEPTABLE",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    },
+    "3G0E": {
+      "astra6": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "sol6.1": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "glm5.3": {
+        "veredicto": "APTO_CON_REVISION",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "REVISAR",
+          "C08": "REVISAR",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "step5preview": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "REVISAR",
+          "C07": "CRITICO",
+          "C08": "INDETERMINADO",
+          "C09": "REVISAR",
+          "C10": "ACEPTABLE"
+        }
+      },
+      "opus5.5": {
+        "veredicto": "NO_APTO",
+        "controles": {
+          "C01": "ACEPTABLE",
+          "C02": "ACEPTABLE",
+          "C03": "ACEPTABLE",
+          "C04": "ACEPTABLE",
+          "C05": "ACEPTABLE",
+          "C06": "ACEPTABLE",
+          "C07": "CRITICO",
+          "C08": "ACEPTABLE",
+          "C09": "ACEPTABLE",
+          "C10": "ACEPTABLE"
+        }
+      }
+    }
+  }
+}

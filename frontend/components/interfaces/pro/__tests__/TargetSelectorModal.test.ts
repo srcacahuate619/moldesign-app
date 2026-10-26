@@ -63,4 +63,47 @@ describe("dianas que hoy no se pueden preparar (DOCK-003/DOCK-002)", () => {
     expect(source).toContain('t("pn_no_disponible")');
     expect(source).toContain("targetObj.motivo_no_disponible");
   });
+
+  it("una diana disponible con cadenas truncadas en el sitio lo dice antes de elegirla", () => {
+    expect(source).toContain("targetObj.cadenas_truncadas_en_sitio ?? []");
+    expect(source).toContain('t("pn_truncadas_en_sitio", { n: truncadas.length })');
+  });
+});
+
+// ── SOL-03: preparación estructural ≠ calibración predictiva ─────────
+//
+// La auditoría lo midió con 3F75: el badge verde decía «CALIBRACIÓN — Listo»
+// mientras el objeto real del receptor decía `curado_estructural`,
+// `spearman_rho: null`, `requiere_advertencia: true` — «Curado
+// estructuralmente; sin calibrar». El campo `calibration_status` mide
+// is_prepared + grid + hotspots: readiness ESTRUCTURAL. El lugar donde el
+// investigador ELIGE el receptor comunicaba respaldo predictivo que no
+// existía.
+//
+// La regla: el badge estructural se rotula como lo que mide («Preparación»)
+// y la calibración predictiva se muestra con el componente SC-9 compartido
+// (`RespaldoDelReceptor`) — el mismo que ya usa el resultado, para que el
+// selector y la corrida no puedan decir cosas distintas del mismo receptor.
+
+describe("SOL-03: preparación y calibración no se confunden", () => {
+  it("el badge estructural se rotula como preparación, no como calibración", () => {
+    expect(source).toContain('t("pn_preparacion")');
+    // El rótulo «CALIBRACIÓN» sobre `calibration_status` es la mentira
+    // medida por la auditoría: ese campo no mide calibración predictiva.
+    expect(source).not.toContain('t("pn_calibracion")');
+  });
+
+  it("la calibración predictiva viaja con el componente compartido SC-9", () => {
+    // El objeto `calibracion` ya lo sirve `/targets` (SC-9); el selector no
+    // puede inventar una segunda regla ni quedarse sin leerlo.
+    expect(source).toContain("<RespaldoDelReceptor");
+    expect(source).toContain("calibracion={targetObj.calibracion}");
+  });
+
+  it("el estado de preparación usa claves de diccionario, no cadenas fijas", () => {
+    // «Listo»/«Revisar»/«Sin datos» eran español crudo pasado por t(), que
+    // en inglés se queda en castellano. Ahora son claves.
+    expect(source).not.toContain('return "Listo"');
+    expect(source).toContain('case "listo": return "pn_prep_listo"');
+  });
 });

@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 tnks2__hueco_en_el_sitio__0",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "A",
+    "grid_center_x": -39.007,
+    "grid_center_y": -12.0365,
+    "grid_center_z": 10.9845,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "712a3178bfeaba8d8ad679b4a936cd0858807f2a5783580b24db95edffdb1e1b",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\r1-7\\tmp\\inputs\\tnks2__hueco_en_el_sitio__0.pdb"
+}

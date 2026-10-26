@@ -22,14 +22,62 @@ import { LANGUAGES, TRANSLATIONS, type Locale } from "../../context/LanguageCont
 
 const REFERENCIA: Locale = "es";
 
-/** Claves que legítimamente coinciden entre idiomas: nombres propios y siglas. */
+/**
+ * Textos que legítimamente coinciden entre idiomas: nombres propios, siglas,
+ * identificadores de modelos y un ejemplo de formato de clave API. Los nombres
+ * de proveedor/modelo identifican artefactos concretos; no se traducen.
+ */
 const INTRADUCIBLES = new Set([
   "MolDesign", "Moldex", "MolChat", "AutoDock Vina", "Vina",
-  "RDKit", "PDB", "SMILES", "Open Babel", "ESMFold", "TabPFN", "Batch", "Error",
-  "PDB ID", "Selector", "Pose", "poses", "Vina top-1", "Vina top-1 (original)",
+  "Ollama", "Qwen3.5 4B", "Qwen2.5 0.5B", "Qwen2.5 1.5B", "sk-...",
+  "RDKit", "PDB", "SMILES", "Open Babel", "ESMFold", "TabPFN", "Batch", "Error", "Beta", "Molcy (Beta)",
+  // Los dos programas que Molcy necesita, por su nombre (tarjeta del menú de Descargas).
+  "Blender + Molecular Nodes",
+  // Autor y repositorio de MolTalk en «Acerca de»: un nombre propio y una dirección.
+  "Dominic Fico · github.com/DomFico/moltalk",
+  // Estado de error normalizado en mayúsculas en la telemetría de la corrida.
+  "ERROR",
+  "PDB ID", "Selector", "Pose", "pose", "poses", "Vina top-1", "Vina top-1 (original)",
   "Δ pose 1–2", "Local-First", "Copyleft", "source-available", "Hotspots",
   "Score", "Total", "Target",
+  // Cognado: se escribe igual en español e inglés. Es la etiqueta de un motor o un módulo en
+  // fase de validación, no una frase sin traducir.
+  "Experimental",
+  // El documento del caso: «dossier» es la misma palabra en los dos idiomas.
+  "Dossier",
   "Control", "Exhaust.", "Poses", "Receptor (PDB ID)", "Receptor PDB ID",
+  // Notación científica estable y siglas de descriptores: se conserva para
+  // que una misma medida sea reconocible en ambos idiomas.
+  "ADMET-AI", "ADME", "CNS MPO", "HBD / HBA", "LogP", "PAINS", "TPSA", "✓ Permeable",
+  // Nombres propios de reglas de drug-likeness; traducirlos cambiaría la
+  // referencia a los filtros publicados (Lipinski, Veber, Ghose, Egan, Muegge).
+  "Lipinski", "Veber", "Ghose", "Egan", "Muegge",
+  // Nombre de la clase de modelo que llega en el resultado serializado.
+  "Universal",
+  // Códigos y nombres de familia del selector de pipelines; coinciden entre
+  // idiomas porque identifican las clases almacenadas en el contrato.
+  "Default", "GPCR", "Nuclear Receptor", "Soluble Enzyme",
+  // Backend/driver y motor: nombres de protocolos o productos que se escriben
+  // igual en la interfaz inglesa para identificar la opción técnica exacta.
+  "CUDA", "OpenCL", "QuickVina 2", "EXPERIMENTAL",
+  // «Web» nombra el modo de acceso a recursos web; se conserva como etiqueta.
+  "Web",
+  // Motores, precisión numérica y poses nombradas como referencias técnicas;
+  // traducir estos identificadores cambiaría la opción o la pose señalada.
+  "AutoDock Vina (FP64)", "DiffDock (FP32)", "QuickVina 2 (FP64)",
+  "FP16", "FP32", "Pose A", "Pose B",
+  // Campo de entrada de CSV/SDF; la API espera exactamente este identificador.
+  "active",
+  // Vocabulario estructural con la misma forma válida en ambos idiomas.
+  "Receptor", "metal",
+  // Identidad del motor usado como plataforma en el resultado MM-GBSA.
+  "OpenMM",
+  // Epónimo científico de una contribución energética estándar.
+  "Van der Waals",
+  // Nombres exactos de motores/modelos científicos de las etiquetas del pipeline.
+  "CL-GNN", "RTMScore", "MolChamb",
+  // Tiendas donde puede estar instalado Blender: nombres de producto que se escriben igual en ambos idiomas.
+  "Steam", "Microsoft Store",
 ]);
 
 /**

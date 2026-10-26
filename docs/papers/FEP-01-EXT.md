@@ -94,3 +94,24 @@ tomarla y declararla.
 RDKit emitió avisos de kekulización en unos pocos ligandos. Ninguno produjo error ni salió
 del denominador, pero su canonicalización pudo estar degradada y **no se comprobó uno a
 uno**. Queda anotado en lugar de silenciado.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-038. De los 684 errores de la extensión a PDBBind, 673 son `KekulizeException`, 2
+  `AtomValenceException` y **9 no son ligandos**: son carpetas del directorio de datos
+  (registros, cachés) que el recorrido tomó por complejos. Los 5325 «complejos» son 5316.
+- SCI-B-039. El `metrics.json` de `FEP-01-EXT-PDBBIND` (y los de `FEP-02-EXT-PDBBIND`,
+  `FEP-07-PDBBIND` y `MF-02A-EXT`) conserva el `experiment_id` del experimento base. La
+  identidad es la del manifiesto; la lista está en `scripts/identidad_de_metricas.json` y una
+  prueba falla si aparece otro caso sin declarar.
+
+## FEP-01-EXT-PDBBIND: el movimiento de protones se mide sólo en los casos procesables
+
+**GO de medición sin gate de decisión.** Añade la consecuencia observada en PDBBind; no reemplaza la interpretación del canónico ni el desglose de errores ya corregido arriba.
+
+Bajo RDKit 2025.09.6, cambió el número de H de algún átomo pesado en 1100 de 4641 casos procesables. Entre los previamente ambiguos ocurre en 1098 y entre los no ambiguos en 2. La ausencia de movimiento no resuelve el estado químico ni elimina todos los bloqueos FEP.
+
+La procesabilidad archivada fue 0,8715, y el flag técnico G1 queda falso. Ese fallo se conserva junto al GO descriptivo del manifiesto; no se presenta la extensión como válida para toda la población. Para errores e identidad rigen **SCI-B-038 y SCI-B-039**, ya expuestas. No comprobado por mí: ejecutar de nuevo el canonicalizador. Fuente: `FEP-01-EXT-PDBBIND`.

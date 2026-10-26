@@ -4,6 +4,12 @@
 **Alcance**: `src-tauri/tauri.conf.json` — `app.security.csp`
 **Riesgo**: Observación crítica #3 del review (CSP permisivo)
 
+**Actualización 2026-10-07**: las mediciones y propuestas de julio que siguen son
+un registro histórico, no la configuración actual. La separación vigente entre
+desarrollo y producción está en §11.3. El bloqueo reproducido del IPC, las
+correcciones de idioma y conexión y sus límites están documentados en
+[`arranque_idioma_ipc_2026-10-07.md`](auditorias/arranque_idioma_ipc_2026-10-07.md).
+
 ---
 
 ## 1. Estado actual
@@ -287,6 +293,27 @@ La app ofrece 2 modos de visualización 3D que el usuario selecciona:
 - **MolStar** (completo, modo Pro) — `public/molstar.js` (4.8MB)
 Ambos son locales. Sin CDN.
 
-### 11.3 CSP dual: middleware (browser) + tauri.conf.json (webview)
-- **Browser dev** (`npm run dev`): CSP estricto con nonces vía middleware. Sin unsafe-eval.
-- **Tauri** (`npx tauri dev` o build): CSP de tauri.conf.json con unsafe-eval para Ketcher/MolStar. Middleware detecta `Origin: tauri://localhost` y no setea su CSP → sin conflicto de intersección.
+### 11.3 CSP de desarrollo y producción (actualizado 2026-10-07)
+
+- **Next dev** (`npm run dev`): `frontend/proxy.ts` envía la CSP con nonce y
+  `'unsafe-eval'`, necesario para el desarrollo con webpack.
+- **Tauri dev** (`npx tauri dev`): navega a `http://localhost:3000` y puede recibir
+  ese mismo header. No se puede asumir que `Origin` identifique Tauri ni que el
+  proxy omita la política. Si hay dos CSP, se aplica su intersección: cada una
+  debe permitir los destinos necesarios.
+- **Escritorio empaquetado**: sirve el export estático sin servidor Next.
+  `tauri.conf.prod.json` y `tauri.conf.msix.json` mantienen la misma CSP; conservan
+  `'unsafe-eval'` para MolStar y 3Dmol y la protección de `style-src` frente a
+  nonces de Tauri.
+
+Las políticas declaran `ipc:` y `http://ipc.localhost` en `connect-src`. El origen
+del IPC es distinto de `http://tauri.localhost`, que sirve la ventana; permitir
+uno no permite el otro. También permiten `data:` en `connect-src` para el WASM
+local, sin extenderlo a las directivas que ejecutan o incrustan contenido.
+
+`npm run check:csp` verifica permisos de IPC, sus autotests, la paridad
+producción/MSIX y las guardas existentes. `npm run smoke:prod` incluye una
+petición IPC interceptada en navegador con las políticas reales, además del
+recorrido del export con el backend empaquetado. Véase el
+[informe del incidente](auditorias/arranque_idioma_ipc_2026-10-07.md) para las
+medidas y lo que estas pruebas no acreditan.

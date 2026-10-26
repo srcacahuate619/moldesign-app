@@ -421,6 +421,93 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-155. RS-03-PARAM-A registró creación de sistemas y sus tamaños, pero no una energía evaluada ni serialización/deserialización. El campo serialization_time_s mide creación del sistema y no demuestra serialización. G9 no acredita esas propiedades. RS-03-PARAM-B registra energías finitas posteriormente para 115 miembros con el mismo hash de SDF; eso no certifica los sistemas originales de A ni cubre 1nw5. Se retira la aceptación global de energía finita y serialización basada en G9. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_limites.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-156. atom_order_hash fija una secuencia de elementos y cargas formales del ligando de origen. No registra una biyección comprobada hacia los átomos de OpenFF y no excluye permutaciones entre elementos iguales. G5 verifica la presencia de la clave y no demuestra correspondencia atómica. Las comprobaciones posteriores de B no convierten ese control de A en una prueba completa del mapa que usó A. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_limites.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "RS-03-PARAM-A-R1 (2026-10-22, NO_GO preregistrado) midió lo que este experimento declaró sin calcular. ",
+      "m": null
+     },
+     {
+      "t": "1nw5 no tiene correspondencia uno a uno",
+      "m": "fuerte"
+     },
+     {
+      "t": ": el SDF tiene 51 átomos, el tiol del azufre 7 lleva un H implícito y OpenFF lo añade como átomo 51; el ",
+      "m": null
+     },
+     {
+      "t": "System",
+      "m": "codigo"
+     },
+     {
+      "t": " tiene 52 partículas (este mismo sello lo registra: 51 átomos, 52 cargas). En los otros 115, energía finita, serialización exacta (ΔE = 0) y elementos, cargas y conectividad idénticos índice a índice. «Energía finita + serializable 100 %» y «mapeo biyectivo» valen para 115 de 116 (SCI-B-155 y SCI-B-156).",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/RS-03-PARAM-A.md"

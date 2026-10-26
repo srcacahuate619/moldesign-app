@@ -12,6 +12,8 @@ from services.ai.providers.base import (
     HealthStatus,
     ProviderConfig,
     ProviderInfo,
+    aviso_de_conexion,
+    aviso_de_error_http,
 )
 from services.ai.redaccion import redactar_secretos
 from utils.logger import get_logger
@@ -121,7 +123,7 @@ class OpenAIProvider(AIProvider):
         stream: bool = False,
     ) -> AsyncIterator[str]:
         if not self._config.api_key:
-            yield "Error: API key no configurada"
+            yield "__WARNING__:Falta la clave de API. Escríbela en Opciones ▸ Intérprete IA ▸ Clave de API."
             return
 
         url = f"{self._config.base_url.rstrip('/')}/chat/completions"
@@ -142,8 +144,8 @@ class OpenAIProvider(AIProvider):
                 if stream:
                     async with client.stream("POST", url, json=payload, headers=headers) as response:
                         if response.status_code != 200:
-                            body = await response.aread()
-                            yield f"Error API ({response.status_code}): {body[:200].decode()}"
+                            body = (await response.aread()).decode("utf-8", "replace")
+                            yield aviso_de_error_http(self.name, response.status_code, body, self._config.model)
                             return
                         async for line in response.aiter_lines():
                             if not line or line.startswith(":") or line == "data: [DONE]":
@@ -163,7 +165,7 @@ class OpenAIProvider(AIProvider):
                     payload["stream"] = False
                     resp = await client.post(url, json=payload, headers=headers, timeout=120.0)
                     if resp.status_code != 200:
-                        yield f"Error API ({resp.status_code}): {resp.text[:200]}"
+                        yield aviso_de_error_http(self.name, resp.status_code, resp.text, self._config.model)
                         return
                     data = resp.json()
                     choices = data.get("choices", [])
@@ -172,12 +174,9 @@ class OpenAIProvider(AIProvider):
                         if content:
                             yield content
                             return
-                    yield "Error: El proveedor no generó respuesta."
+                    yield f"__WARNING__:{self.name} no devolvió ninguna respuesta."
         except Exception as e:
-            yield (
-                f"Error conectando con {redactar_secretos(self._config.base_url)}: "
-                f"{redactar_secretos(e)[:100]}"
-            )
+            yield aviso_de_conexion(self.name, self._config.base_url, e)
 
     async def list_models(self) -> list[str]:
         if not self._config.api_key or not self._config.base_url:

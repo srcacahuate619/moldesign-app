@@ -43,3 +43,17 @@ falla por 24-31 Å².
 contienen un **=CH₂ vinílico terminal**, para el que OpenMM 8.5.2 no tiene
 parámetro LCPO: el MM-GBSA candidato tampoco puntuaría un alqueno terminal. El
 cuarto es un alquino terminal al que el SDF de PDBBind le quitó el hidrógeno.
+
+## MMGBSA-PARTICIONES-BRI-V1: la asignación del material precede al ensayo de áreas
+
+**GO de asignación de material.** Documenta la población de partida; no cambia los casos medidos de H1 ni valida parámetros físicos.
+
+Se separaron grupos de scaffold; para acíclicos se usó InChIKey. Se ordenó por hash de semilla y grupo y se asignó por déficit relativo de partición, distinguiendo Br e I. La semilla fue 20260923, bajo RDKit 2025.09.6.
+
+| Partición de material | Ligandos | Grupos |
+|---|---:|---:|
+| Entrenamiento | 72 | 46 |
+| Validación | 24 | 18 |
+| Prueba | 26 | 19 |
+
+La lista marca `5mlj` por geometría imposible: asignación y universo finalmente medido por H1 no son el mismo denominador. Tampoco es la cohorte de paridad de H5. La reproducibilidad declarada del reparto no mide calidad de LCPO ni independencia química más allá de la agrupación usada. No comprobado por mí: reproducir curación o asignación desde SDF originales. Fuente: `MMGBSA-PARTICIONES-BRI-V1`.

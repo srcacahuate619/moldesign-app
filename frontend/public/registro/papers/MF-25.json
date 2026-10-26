@@ -526,6 +526,57 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-165. En COLOCACION la mediana del coste pasa de 4,284 a 3,500 Å al subir de 8 a 128: descenso 0,784 Å, que satisface la lectura PRESUPUESTO de la regla continua escrita. El tramo 32→128 baja sólo 0,008 Å y el número de aciertos permanece en 1/33; son endpoints distintos y no sustituyen la regla inicial. La mediana de las mejoras pareadas es 0,007 Å, distinta de la diferencia de medianas. El resultado no prueba que el presupuesto resuelva el problema ni autoriza cambiar producción; se retira PAISAJE como lectura de aquella regla. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_cohortes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-25.md"

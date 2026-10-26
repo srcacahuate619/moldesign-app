@@ -113,7 +113,8 @@ def test_sin_afinidades_no_hay_margen():
 # ── La escala ──────────────────────────────────────────────────────────────
 
 def test_los_cortes_estan_en_ordenes_de_magnitud_redondos():
-    """No son números elegidos a ojo: 2.73 son 100x y 1.36 son 10x."""
+    """No son números elegidos a ojo: 2.73 y 1.36 serían 100x y 10x SI el score fuera
+    una ΔG medida. No lo es (SCI-A-037), y por eso ninguna etiqueta lo dice."""
     assert factor_de_selectividad(ESCALA_DE_MARGEN[0][0]) == pytest.approx(100, rel=0.02)
     assert factor_de_selectividad(ESCALA_DE_MARGEN[1][0]) == pytest.approx(10, rel=0.02)
 
@@ -153,3 +154,27 @@ def test_el_frontend_usa_exactamente_los_mismos_umbrales():
     # Y la constante de conversión, que decide el significado de cada corte.
     decada_ts = re.search(r"KCAL_POR_DECADA\s*=\s*([0-9.]+)", fuente)
     assert decada_ts and float(decada_ts.group(1)) == KCAL_POR_DECADA
+
+
+# ── SCI-A-037: un margen de score no es una razón de unión ──────────────────
+
+def test_ningun_veredicto_convierte_la_diferencia_en_un_factor_de_union():
+    import re as _re
+    for texto in [v for _, v in ESCALA_DE_MARGEN] + [VEREDICTO_INVERTIDO]:
+        assert not _re.search(r"\d+x", texto), texto
+        assert "más fuerte" not in texto
+        assert "SCORE" in texto
+
+
+def test_el_pdf_no_imprime_un_factor_orientativo():
+    import inspect
+    from services.blockchain import pdf_generator
+    fuente = inspect.getsource(pdf_generator)
+    assert "factor orientativo" not in fuente
+    assert "factor_de_selectividad" not in fuente
+
+
+def test_los_veredictos_tienen_ingles():
+    from core.i18n_plantillas import traducir
+    for texto in [v for _, v in ESCALA_DE_MARGEN] + [VEREDICTO_INVERTIDO, VEREDICTO_SIN_DATOS]:
+        assert traducir(texto, "en") != texto

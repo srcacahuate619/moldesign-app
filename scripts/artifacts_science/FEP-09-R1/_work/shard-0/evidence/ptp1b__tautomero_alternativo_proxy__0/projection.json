@@ -1,0 +1,83 @@
+{
+  "projection_version": 1,
+  "case_id": "ptp1b__tautomero_alternativo_proxy__0",
+  "name": "ptp1b__tautomero_alternativo_proxy__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_DEDA20",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "O=C([O-])c1sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c(Br)c1OC=C([O-])O",
+      "canonical_smiles": "O=C([O-])c1sc(-c2cccc(NC3CCN(S(=O)(=O)Cc4ccccc4)CC3)c2)c(Br)c1OC=C([O-])O"
+    },
+    "config": {
+      "grid_center": [
+        48.398,
+        9.871,
+        3.134
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:ab2d770bb09761ef38c350f92bf97e099f7239e8e4b1d15a7b3dfcc654152dd4",
+    "generated_at": "2026-10-11T22:57:32.429397+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "LIGANDO_REVISION_QUIMICA",
+      "LIGANDO_REVISION_QUIMICA",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "4ed0bbab-22df-4ec3-a97e-8a7b1715f26f",
+    "input_fingerprint": "sha256:ab2d770bb09761ef38c350f92bf97e099f7239e8e4b1d15a7b3dfcc654152dd4",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

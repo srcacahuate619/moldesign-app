@@ -291,7 +291,7 @@ class TestPdf:
             "Incertidumbres y limitaciones",
             "Interpretación justificable y próximos pasos",
             "Procedencia e instrucciones de verificación",
-            "Outputs heredados (no decisionales)",
+            "Resultados heredados (no decisionales)",
         ):
             assert seccion in texto, f"falta la sección «{seccion}»"
 

@@ -22,8 +22,28 @@ export const evaluacion: ModuloDeTraduccion = {
   es: {
     // ── Estado y resultados ───────────────────────────────────────
     ev_comprobando_visor: "Comprobando compatibilidad del visor 3D…",
+    // SOL-10: el editor de un caso nuevo muestra una molécula de muestra
+    // que NO es la hipótesis del usuario. Sin esta seña, estructura y
+    // SMILES parecían válidos mientras el botón pedía un ligando.
+    ev_editor_ejemplo:
+      "Ejemplo: lo que ves es una molécula de muestra, no la hipótesis de "
+      + "este caso. Si pulsas «Ejecutar evaluación» se evalúa tal cual; escribe "
+      + "o dibuja tu ligando para evaluar otro.",
+    ev_estructura_smiles: "Estructura SMILES",
+    ev_evaluando: "Evaluando…",
+    ev_reiniciar: "Reiniciar",
+    ev_recuperando_resultados: "Recuperando resultados guardados",
+    ev_post_hoc_badge: "a posteriori",
+    ev_fuera_de_uso: "desactivado",
+    ev_ver_en_solana_explorer: "Ver en Solana Explorer",
+    ev_descargar_informe: "Descargar informe de evaluación",
+    ev_descargar_complejo_pdb: "Complejo .PDB",
+    ev_guardar_en_moldex: "Guardar en MolDex",
+    ev_registrar_integridad_solana: "Registrar integridad en Solana",
     ev_ejecutar: "Ejecutar evaluación",
+    ev_peticion_preparacion: "Desde Preparación: se cargó el ligando {smiles} con «Tautómero del ligando: {modo}». Revisa y pulsa «Ejecutar evaluación» para volver a evaluar.",
     ev_fallo: "La evaluación falló",
+    ev_cancelada: "Evaluación cancelada",
     ev_sin_resultados_titulo: "La evaluación terminó sin resultados",
     ev_sin_resultados_detalle:
       "El pipeline reportó éxito pero el resultado no llegó a la interfaz. Esto "
@@ -38,8 +58,18 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_peso_no_reportado: "peso no reportado",
     ev_pesos_no_calibrados:
       "Pesos serializados por el pipeline · no representan confianza calibrada",
-    ev_vista_previa_certificado: "Vista previa del certificado",
+    ev_vista_previa_informe: "Ver informe de evaluación",
     ev_mmgbsa_ejecutar: "Ejecutar cálculo MM-GBSA",
+    ev_mmgbsa_nombre_completo:
+      "Mecánica molecular / área de superficie de Born generalizada",
+    ev_mmgbsa_pose_a_refinar: "Pose a refinar",
+    ev_mmgbsa_pose_numero: "Pose n.º {rank}",
+    ev_mmgbsa_calculando_pasos:
+      "Calculando con OpenMM… ({steps} pasos)",
+    ev_mmgbsa_error_desconocido:
+      "Error desconocido al ejecutar MM-GBSA.",
+    ev_mmgbsa_motor_predeterminado: "OpenMM",
+    ev_mmgbsa_van_der_waals: "Van der Waals",
     ev_mmgbsa_explicacion:
       "MM-GBSA post-hoc minimiza la pose con OpenMM y combina términos de "
       + "mecánica molecular, Generalized Born y superficie accesible al solvente "
@@ -72,6 +102,10 @@ export const evaluacion: ModuloDeTraduccion = {
 
     // ── Selector de receptor ──────────────────────────────────────
     ev_elige_receptor: "Elige receptor",
+    ev_elige_receptor_ejecutar: "Elige un receptor antes de ejecutar.",
+    ev_elige_ligando_ejecutar: "Introduce o dibuja un ligando antes de ejecutar.",
+    ev_bloqueante_tecnico: "La comprobación previa encontró {count} bloqueante técnico: {items}. La corrida fallaría igual, más tarde.",
+    ev_bloqueantes_tecnicos: "La comprobación previa encontró {count} bloqueantes técnicos: {items}. La corrida fallaría igual, más tarde.",
     ev_receptor_elegido: "Receptor elegido: {pdbId}",
     ev_cargando_receptor: "Cargando {pdbId}…",
     ev_cambiar: "Cambiar",
@@ -80,6 +114,7 @@ export const evaluacion: ModuloDeTraduccion = {
 
     // ── Botonera ──────────────────────────────────────────────────
     ev_opciones: "Opciones",
+    ev_parametros_corrida: "Parámetros de la evaluación",
     ev_ver_resultados: "Ver resultados",
     ev_ocultar_resultados: "Ocultar resultados",
     ev_evaluaciones_anteriores: "Evaluaciones anteriores",
@@ -110,9 +145,12 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_certificar_aviso:
       "Registra en Solana el compuesto, target, señal de score y fecha; "
       + "no certifica validez científica ni sustituye el dossier.",
+    ev_sello_otra_corrida:
+      "El sello describe una corrida anterior de esta molécula, no la que se "
+      + "muestra: no atestigua estas cifras. Moldex enseña las dos.",
 
     // ── Informe ───────────────────────────────────────────────────
-    ev_reporte_vista_previa: "Reporte científico — vista previa",
+    ev_reporte_vista_previa: "Informe de evaluación — vista previa",
     ev_cerrar_vista_previa: "Cerrar vista previa del reporte",
 
     // ── MM-GBSA ───────────────────────────────────────────────────
@@ -152,11 +190,31 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_click_para_calcular: "Clic para calcular",
     ev_no_produjo_salida: "no produjo salida",
     ev_no_produjeron_salida: "no produjeron salida",
+    ev_aviso_sin_severidad_pie:
+      "El motor emitió este aviso como texto, sin código ni severidad. El texto es el que "
+      + "emitió; su importancia no se dedujo de él.",
   },
   en: {
     ev_comprobando_visor: "Checking 3D viewer compatibility…",
+    ev_editor_ejemplo:
+      "Example: what you see is a sample molecule, not this case's "
+      + "hypothesis. If you press “Run evaluation” it is evaluated as is; type "
+      + "or draw your ligand to evaluate a different one.",
+    ev_estructura_smiles: "SMILES structure",
+    ev_evaluando: "Evaluating…",
+    ev_reiniciar: "Restart",
+    ev_recuperando_resultados: "Recovering saved results",
+    ev_post_hoc_badge: "post hoc",
+    ev_fuera_de_uso: "off",
+    ev_ver_en_solana_explorer: "View in Solana Explorer",
+    ev_descargar_informe: "Download evaluation report",
+    ev_descargar_complejo_pdb: "PDB complex",
+    ev_guardar_en_moldex: "Save to MolDex",
+    ev_registrar_integridad_solana: "Record integrity on Solana",
     ev_ejecutar: "Run evaluation",
+    ev_peticion_preparacion: "From Preparation: the ligand {smiles} was loaded with “Ligand tautomer: {modo}”. Review it and press “Run evaluation” to evaluate again.",
     ev_fallo: "The evaluation failed",
+    ev_cancelada: "Evaluation canceled",
     ev_sin_resultados_titulo: "The evaluation finished with no results",
     ev_sin_resultados_detalle:
       "The pipeline reported success but the result never reached the interface. "
@@ -171,10 +229,20 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_pesos_no_calibrados:
       "Weights serialised by the pipeline · they do not represent calibrated "
       + "confidence",
-    ev_vista_previa_certificado: "Certificate preview",
+    ev_vista_previa_informe: "View evaluation report",
     ev_mmgbsa_ejecutar: "Run MM-GBSA calculation",
+    ev_mmgbsa_nombre_completo:
+      "Molecular Mechanics / Generalized Born Surface Area",
+    ev_mmgbsa_pose_a_refinar: "Pose to refine",
+    ev_mmgbsa_pose_numero: "Pose #{rank}",
+    ev_mmgbsa_calculando_pasos:
+      "Calculating with OpenMM… ({steps} steps)",
+    ev_mmgbsa_error_desconocido:
+      "Unknown error while running MM-GBSA.",
+    ev_mmgbsa_motor_predeterminado: "OpenMM",
+    ev_mmgbsa_van_der_waals: "Van der Waals",
     ev_mmgbsa_explicacion:
-      "Post-hoc MM-GBSA minimises the pose with OpenMM and combines molecular "
+      "Post-hoc MM-GBSA minimizes the pose with OpenMM and combines molecular "
       + "mechanics, Generalized Born and solvent-accessible surface terms to "
       + "estimate a protocol-dependent ΔG. Its sign and magnitude may only be "
       + "compared within the same configuration; they do not replace an "
@@ -185,7 +253,7 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_mmgbsa_sin_descomposicion:
       "The per-contribution decomposition (vdW, electrostatics, GB, SASA) is not "
       + "available from this endpoint. The reported value is the difference "
-      + "calculated between complex, receptor and ligand over the minimised "
+      + "calculated between complex, receptor and ligand over the minimized "
       + "docking pose; it depends on the parameterisation and is not an "
       + "experimental measurement.",
     ev_sistema_fijado: "Structural system locked",
@@ -202,6 +270,10 @@ export const evaluacion: ModuloDeTraduccion = {
       + "The protocol can still be changed.",
 
     ev_elige_receptor: "Choose a receptor",
+    ev_elige_receptor_ejecutar: "Choose a receptor before running.",
+    ev_elige_ligando_ejecutar: "Enter or draw a ligand before running.",
+    ev_bloqueante_tecnico: "Preflight found {count} technical blocker: {items}. The run would fail later anyway.",
+    ev_bloqueantes_tecnicos: "Preflight found {count} technical blockers: {items}. The run would fail later anyway.",
     ev_receptor_elegido: "Receptor: {pdbId}",
     ev_cargando_receptor: "Loading {pdbId}…",
     ev_cambiar: "Change",
@@ -209,6 +281,7 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_sistema_fijado_corto: "System locked",
 
     ev_opciones: "Options",
+    ev_parametros_corrida: "Evaluation parameters",
     ev_ver_resultados: "Show results",
     ev_ocultar_resultados: "Hide results",
     ev_evaluaciones_anteriores: "Previous evaluations",
@@ -236,21 +309,24 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_certificar_aviso:
       "Records the compound, target, score signal and date on Solana; "
       + "it does not certify scientific validity and does not replace the dossier.",
+    ev_sello_otra_corrida:
+      "The seal describes an earlier run of this molecule, not the one shown: "
+      + "it does not attest these figures. Moldex shows both.",
 
-    ev_reporte_vista_previa: "Scientific report — preview",
+    ev_reporte_vista_previa: "Evaluation report — preview",
     ev_cerrar_vista_previa: "Close report preview",
 
     ev_mmgbsa_titulo: "MM-GBSA — binding ΔG estimate",
     ev_mmgbsa_cerrar: "Close MM-GBSA calculation",
     ev_mmgbsa_que_calcula: "What does it calculate?",
-    ev_mmgbsa_pasos: "Minimisation steps",
+    ev_mmgbsa_pasos: "Minimization steps",
     ev_mmgbsa_pasos_rapido: "500 steps (fast)",
     ev_mmgbsa_pasos_estandar: "1000 steps (standard)",
     ev_mmgbsa_pasos_maximo: "5000 steps (maximum)",
     ev_mmgbsa_configura: "Set the parameters and run the calculation",
     ev_mmgbsa_depende_gpu:
       "The time depends on the number of steps and on GPU availability.",
-    ev_mmgbsa_en_curso: "Minimisation running…",
+    ev_mmgbsa_en_curso: "Minimization running…",
     ev_mmgbsa_puede_tardar:
       "This can take between 30 seconds and several minutes depending on the hardware.",
     ev_mmgbsa_fallo: "The calculation failed",
@@ -274,5 +350,8 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_click_para_calcular: "Click to calculate",
     ev_no_produjo_salida: "produced no output",
     ev_no_produjeron_salida: "produced no output",
+    ev_aviso_sin_severidad_pie:
+      "The engine emitted this warning as plain text, with no code or severity. The text is "
+      + "what it emitted; its importance was not inferred from it.",
   },
 };

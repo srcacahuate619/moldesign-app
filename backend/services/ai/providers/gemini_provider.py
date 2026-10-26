@@ -11,6 +11,8 @@ from services.ai.providers.base import (
     HealthStatus,
     ProviderConfig,
     ProviderInfo,
+    aviso_de_conexion,
+    aviso_de_error_http,
 )
 from services.ai.redaccion import redactar_secretos
 from utils.logger import get_logger
@@ -104,7 +106,7 @@ class GeminiProvider(AIProvider):
         stream: bool = False,
     ) -> AsyncIterator[str]:
         if not self._config.api_key:
-            yield "Error: GEMINI_API_KEY no configurada"
+            yield "__WARNING__:Falta la clave de API de Gemini. Escríbela en Opciones ▸ Intérprete IA ▸ Clave de API."
             return
 
         system_prompt = next((m["content"] for m in messages if m.get("role") == "system"), "")
@@ -148,7 +150,8 @@ class GeminiProvider(AIProvider):
                 async with httpx.AsyncClient(timeout=120.0) as client:
                     async with client.stream("POST", url, json=payload, headers=headers) as response:
                         if response.status_code != 200:
-                            yield f"Error Gemini ({response.status_code})"
+                            body = (await response.aread()).decode("utf-8", "replace")
+                            yield aviso_de_error_http(self.name, response.status_code, body, self._config.model)
                             return
                         async for line in response.aiter_lines():
                             if not line or line.startswith(":"):
@@ -164,13 +167,13 @@ class GeminiProvider(AIProvider):
                                 except Exception:
                                     pass
             except Exception as e:
-                yield f"Error en streaming Gemini: {redactar_secretos(e)[:100]}"
+                yield aviso_de_conexion(self.name, _GEMINI_API_BASE, e)
         else:
             try:
                 async with httpx.AsyncClient(timeout=60.0) as client:
                     resp = await client.post(url, json=payload, headers=headers)
                     if resp.status_code != 200:
-                        yield f"Error Gemini ({resp.status_code})"
+                        yield aviso_de_error_http(self.name, resp.status_code, resp.text, self._config.model)
                         return
                     data = resp.json()
                     candidates = data.get("candidates", [])
@@ -180,9 +183,9 @@ class GeminiProvider(AIProvider):
                         if text:
                             yield text
                             return
-                    yield "Error: Gemini no generó respuesta."
+                    yield f"__WARNING__:{self.name} no devolvió ninguna respuesta."
             except Exception as e:
-                yield f"Error en Gemini API: {redactar_secretos(e)[:100]}"
+                yield aviso_de_conexion(self.name, _GEMINI_API_BASE, e)
 
     async def list_models(self) -> list[str]:
         return ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash", "gemini-1.5-pro"]

@@ -1,0 +1,106 @@
+{
+  "experimento": "CAL-8HFI-01",
+  "congelado_en": "2026-10-09T12:54:13+00:00",
+  "git_head": "36405e18540a949179ef6638d4ae58e2e829463d",
+  "arbol_limpio_backend": true,
+  "receptor": {
+    "pdb_id": "8HFI",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "caja_catalogo": {
+      "centro": [
+        100.281,
+        100.843,
+        101.442
+      ],
+      "tamano": [
+        30.0,
+        30.0,
+        30.0
+      ]
+    },
+    "fuente_sha256": "0bfcf8d1390bd37a9086a8f4d32db04367d4f2377782795d6d8e4135b09e57b0",
+    "receta": 7,
+    "cofactors_whitelist": []
+  },
+  "configuracion_del_caso": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "properties": {
+        "run_admet_ai": false
+      },
+      "conformer": {
+        "conformers": 1
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9
+      }
+    },
+    "docking_engine": "vina",
+    "pro_selectivity": false,
+    "pro_mmgbsa": false
+  },
+  "verificacion": {
+    "ligando_cristal": {
+      "ccd": "DSM",
+      "cadena": "A",
+      "numero": 701,
+      "smiles_entrada": "CNCCCN1c2ccccc2CCc2ccccc21",
+      "smiles_acoplado_esperado": "C[NH2+]CCCN1c2ccccc2CCc2ccccc21"
+    },
+    "semillas": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "rmsd": "simétrico, átomos pesados, SIN alinear (RDKit rdMolAlign.CalcRMS), top-1 de Vina",
+    "rmsd_max_A": 2.0,
+    "validez": "evidencia estructural del producto (PoseBusters dock, condición MF-33-H-COR): top-1 con status == 'passed'",
+    "gate": ">= 3 de 5 semillas con RMSD <= 2.0 A, y el top-1 de cada una de ellas válido"
+  },
+  "calibracion": {
+    "panel": "CHEMBL853189 (Boot et al. 2006, DOI 10.1016/j.bmcl.2006.02.008)",
+    "n_padres": 57,
+    "endpoint": "Ki",
+    "pki": "mediana por padre de -log10(Ki/M)",
+    "semilla": 42,
+    "score": "Q = -E, con E la afinidad del top-1 de Vina (docking_poses rank 1)",
+    "metrica": "rho de Spearman (rangos promedio en empates) entre Q y pKi; se publica también rho(E, pKi)",
+    "ic": "percentil 2,5-97,5 de 10000 remuestreos de compuestos, numpy default_rng(42); Fisher como referencia secundaria",
+    "gate": "limite inferior del IC > 0 y cero fallos tras un reintento técnico",
+    "potencia": "con n = 57, Fisher exige rho ~> 0,26 para un limite inferior > 0",
+    "alcance": "53 de 57 padres comparten andamio de Murcko: la rho describe una serie congenérica"
+  },
+  "fallos": "un reintento técnico idéntico; un fallo persistente en el panel hace fallar el gate de calibración y se publica; en el redocking cuenta como semilla no superada",
+  "diagnosticos": [
+    "distancia mínima del top-1 de cada corrida al CL A:702 depositado",
+    "microestado acoplado frente al esperado (desviación de protocolo si difiere)",
+    "parámetros efectivos (exhaustiveness, num_poses, seed) y receptor_sha256 únicos en todas las corridas"
+  ],
+  "condiciones_declaradas": [
+    "RECEPTOR_SIN_IONES",
+    "SERIE_CONGENERICA",
+    "CONDICIONES_DEL_ENSAYO_NO_DOCUMENTADAS"
+  ],
+  "decisiones_del_propietario": "2026-10-09: iones declarados como condición; parámetros por defecto del caso 8/9/42; bootstrap por compuesto con alcance de serie; microestados del producto; condiciones del ensayo como limitación",
+  "hashes": {
+    "panel_congelado.csv": "7568423f5d12c408a2db413c9685f0f85e1b28e73944288c95054831aee2d706",
+    "chembl_activities_CHEMBL853189.json": "253c5c5cab3692b33db186b3c124a323b848301989b7c4d479a6bb005689d8a8",
+    "calibracion_receptor.py": "a61e089a252dc03e5f9709e8d3fd85c6734104321d19c3cb1dd8710609249906",
+    "vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "python": "3.11.9"
+  }
+}

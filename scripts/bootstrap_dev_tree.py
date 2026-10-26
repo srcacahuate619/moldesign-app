@@ -162,6 +162,21 @@ def _presente(raiz: Path, componente: Componente) -> bool:
     return any((destino / sonda).is_file() for sonda in componente.sondas)
 
 
+def _lo_trae_el_clon(raiz: Path, componente: Componente, rastreadas: frozenset[str]) -> bool:
+    """¿Lo que prueba que el componente está lo versiona git?
+
+    Entonces vino con el clon y no lo puso ningún artefacto: no cuenta como
+    rastro de un aprovisionamiento anterior. Desde `ae7ff2f9` (2026-09-27) la
+    sonda de `esmfold/models/` —`config.json`, el tokenizer— está versionada, y
+    el bootstrap declaraba AJENO a CUALQUIER clon limpio y se negaba sin
+    `--force` (medido el 2026-10-10 en una worktree recién creada).
+    """
+    if componente.es_archivo:
+        return componente.prefijo in rastreadas
+    sondas = [s for s in componente.sondas if (_ruta(raiz, componente) / s).is_file()]
+    return bool(sondas) and all(f"{componente.prefijo}{s}" in rastreadas for s in sondas)
+
+
 def leer_recibo(raiz: Path) -> dict | None:
     ruta = raiz / "python-embed" / NOMBRE_RECIBO
     if not ruta.is_file():
@@ -219,7 +234,12 @@ def medir(raiz: Path, con_hashes: bool = False) -> Estado:
         )
 
     if recibo is None:
-        if not presentes:
+        rastreadas = rutas_rastreadas(raiz)
+        puestas = [
+            c.prefijo for c in COMPONENTES
+            if c.prefijo in presentes and not _lo_trae_el_clon(raiz, c, rastreadas)
+        ]
+        if not puestas:
             return Estado(
                 AUSENTE, "no hay ninguna pieza del runtime en el árbol.",
                 None, presentes, ausentes, faltan_obligatorios, [], avisos,

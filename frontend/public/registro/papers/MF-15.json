@@ -323,6 +323,93 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-088. «Es débil ",
+      "m": null
+     },
+     {
+      "t": "a todos los radios",
+      "m": "fuerte"
+     },
+     {
+      "t": "» no se sostiene. En el estrato difícil, a 2 Å o menos no hay ningún complejo medible (0 de 33), a 3 Å hay 2, a 4 Å 10, a 6 Å 25 y a 8 Å 31; sólo 2 complejos son medibles en todos los radios que tienen medida. Cada mediana es la de un grupo distinto, así que la serie no es una curva pareada y no dice si la correlación mejora al acercarse. La propia sección «Una limitación…» lo reconoce. Lo que se sostiene es la ρ dentro de cada complejo en los radios con muestra; a radios cortos, la pregunta queda sin respuesta, no respondida en contra. Productor de la cobertura: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_mf15_cobertura_por_radio.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-089. «Un buscador guiado por el score no tiene nada que seguir» y «cualquier técnica que optimice… no puede funcionar» exceden lo medido. El experimento correlaciona RMSD y score sobre un conjunto fijo de poses ya muestreadas; no ejecuta ninguna búsqueda, trayectoria ni optimización. Describe el orden de esas poses, no la navegabilidad del paisaje ni el rendimiento de una familia de métodos.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-090 y SCI-B-091. El resultado es del split ",
+      "m": null
+     },
+     {
+      "t": "train",
+      "m": "fuerte"
+     },
+     {
+      "t": ": no hay salidas de val ni test en el artefacto. Y el sello fija el analizador, no la instancia de entrada ni ",
+      "m": null
+     },
+     {
+      "t": "metrics_train.json",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-15.md"

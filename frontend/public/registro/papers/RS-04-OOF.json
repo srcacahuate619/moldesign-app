@@ -313,6 +313,57 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-159. La opción --repro reutiliza la caché y los benchmarks, pero vuelve a entrenar los clones y sobrescribe las salidas. El productor sólo imprime sus hashes; no compara una referencia anterior ni hace fallar el proceso cuando difiere el spot-check. Por ello esa invocación no acredita ni exige byte-identidad. Se conservan las cifras históricas, sin atribuirles una garantía automática de reproducción que no implementó el instrumento; aquí no se repitió entrenamiento. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_falsas.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/RS-04-OOF.md"

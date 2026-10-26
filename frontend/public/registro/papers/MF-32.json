@@ -355,6 +355,49 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-166. El control de MF-32 aporta un diagnóstico descriptivo sobre el signo de los cambios, pero no descarta regresión a la media. La selección se hizo con B25 y el contraste usa B30 frente a ADAPT; no se repitió el brazo de selección ni se estimó el ruido conjunto o la intercambiabilidad entre estratos. La correlación entre base y cambio también tiene acoplamiento matemático. Se retira que la respuesta del control sea un test decisivo contra ese mecanismo.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-32.md"

@@ -720,10 +720,10 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
             <button
               onClick={onSwitchViewer}
               className={VIEWER_SWITCH_BUTTON_CLASS}
-              title={viewerLabel ? `Cambiar a visor ${viewerLabel}` : "Cambiar visor"}
+              title={viewerLabel ? t("pr_viewer_switch_to", { viewer: viewerLabel }) : t("pr_viewer_switch")}
             >
               <Crosshair size={12} className="text-indigo-400" />
-              Ver {viewerLabel ?? "Web3D"}
+              {t("pr_viewer_switch_label", { viewer: viewerLabel ?? "Web3D" })}
             </button>
           )}
 
@@ -765,7 +765,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
       {!hasData && !loading && !error && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-slate-600 bg-[#05080f]/80">
           <Box size={40} className="opacity-30 text-indigo-400" />
-          <p className="text-xs font-black uppercase tracking-widest text-slate-500">Esperando coordenadas estructurales...</p>
+          <p className="text-xs font-black uppercase tracking-widest text-slate-500">{t("pr_viewer_waiting_coordinates")}</p>
         </div>
       )}
 
@@ -774,7 +774,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
         <div className={`${VIEWER_LABEL_PANEL_CLASS} absolute bottom-3 left-3 z-10 flex max-w-[280px] flex-col gap-1.5 p-2.5`}>
           {gridInfo && (
             <div className="pointer-events-none flex flex-col gap-0.5">
-              <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300">Grid Box</span>
+              <span className="text-[8px] font-black uppercase tracking-widest text-cyan-300">{t("pr_viewer_grid_box")}</span>
               <span className="text-[9px] font-mono text-slate-300">
                 C: {gridInfo.centerX.toFixed(1)}, {gridInfo.centerY.toFixed(1)}, {gridInfo.centerZ.toFixed(1)} &Aring;
               </span>
@@ -785,8 +785,8 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           )}
           {hotspots.length > 0 && (
             <div className="flex items-center gap-3 text-[8px] font-bold text-slate-400 uppercase tracking-wider">
-              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#10b981] inline-block shadow-[0_0_6px_#10b981]" /> Contacto</span>
-              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#ef4444] inline-block shadow-[0_0_6px_#ef4444]" /> Omitido</span>
+              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#10b981] inline-block shadow-[0_0_6px_#10b981]" /> {t("pr_contact_label")}</span>
+              <span className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-[#ef4444] inline-block shadow-[0_0_6px_#ef4444]" /> {t("pr_viewer_omitted")}</span>
             </div>
           )}
         </div>

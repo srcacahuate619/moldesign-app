@@ -1,0 +1,78 @@
+{
+  "base": "d514fe537539cdfcd37a44eeb0cd1819455555e8",
+  "codigo": "112a8476f92ec250e16699bf0f58485f7a41e837",
+  "entradas_antes": 1634,
+  "entradas_despues": 1634,
+  "versiones_modificadas": [
+    {
+      "paquete": "node_modules/@next/env",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/eslint-plugin-next",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-darwin-arm64",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-darwin-x64",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-linux-arm64-gnu",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-linux-arm64-musl",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-linux-x64-gnu",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-linux-x64-musl",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-win32-arm64-msvc",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/@next/swc-win32-x64-msvc",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/eslint-config-next",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/next",
+      "antes": "16.3.4",
+      "despues": "16.3.8"
+    },
+    {
+      "paquete": "node_modules/proxy-addr",
+      "antes": "2.0.7",
+      "despues": "2.0.8"
+    },
+    {
+      "paquete": "node_modules/shell-quote",
+      "antes": "1.10.0",
+      "despues": "1.12.0"
+    }
+  ]
+}

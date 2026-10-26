@@ -1,0 +1,87 @@
+{
+  "case_id": "caso-serie-a-001",
+  "dossier_model_sha256": "2b0069dcd6f2af3cb9a254d9f9b8ec834600cd82040503c9a716d202557bc508",
+  "dossier_schema_version": 1,
+  "exclusiones": {
+    "<paquete>.zip": "El paquete no se contiene a sí mismo.",
+    "checksums.sha256": "No se hashea a sí mismo: su hash cambiaría al escribirlo.",
+    "manifest.json": "No se declara a sí mismo: su hash cambiaría al escribirlo. Su integridad la cubre `checksums.sha256`, que se calcula después."
+  },
+  "files": [
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.package",
+      "media_type": "text/markdown",
+      "path": "README.md",
+      "razon": null,
+      "rol": "lectura_humana",
+      "sha256": "b92d7e75e84c89b6e4b91c06a66018607b20c9778ed97261b623f00c937b0272",
+      "tamano": 4078
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "cliente (proyección validada)",
+      "media_type": "application/json",
+      "path": "case/case_snapshot.json",
+      "razon": null,
+      "rol": "proyeccion_del_caso",
+      "sha256": "524c28e45332f9d47d64cb5a3c60722652e2dd83b4bf1407aa60d0d59339a108",
+      "tamano": 2909
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.model",
+      "media_type": "application/json",
+      "path": "case/dossier_model.json",
+      "razon": null,
+      "rol": "modelo_canonico",
+      "sha256": "2b0069dcd6f2af3cb9a254d9f9b8ec834600cd82040503c9a716d202557bc508",
+      "tamano": 33283
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.pdf",
+      "media_type": "application/pdf",
+      "path": "dossier.pdf",
+      "razon": null,
+      "rol": "lectura_humana",
+      "sha256": "c4b8e25967cd1376cfcb603fd75781502421c5e3c9a3c438b11442fe02106cd7",
+      "tamano": 101820
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.model",
+      "media_type": "application/json",
+      "path": "evidencia/evidence_summary.json",
+      "razon": null,
+      "rol": "evidencia",
+      "sha256": "376cf788d7a4e7b0275f38f0283c03bb0727915d0711557093b4d0c3cfa735aa",
+      "tamano": 6838
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.model",
+      "media_type": "application/json",
+      "path": "run/protocol.json",
+      "razon": null,
+      "rol": "protocolo",
+      "sha256": "797d6355499fc989717d03b12144c219f1de13163ef56ebc9c8df3a52cae44c3",
+      "tamano": 9067
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.package",
+      "media_type": "text/markdown",
+      "path": "run/reproduce.md",
+      "razon": null,
+      "rol": "receta",
+      "sha256": "657efef1d8a8e2da7b5135cb7bc85a2effc886144a360130ef3126a3fb41955d",
+      "tamano": 4070
+    }
+  ],
+  "generated_at": "2026-08-24T12:00:00+00:00",
+  "manifest_version": 1,
+  "molecule_id": "11111111-2222-4333-8444-555555555555",
+  "root": "moldesign_case_caso-serie-a-001_run_task-complet",
+  "task_id": "task-completa-0001"
+}

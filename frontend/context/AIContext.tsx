@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useReducer, useCallback, useEffect, useRef } from "react";
 import { getAuthHeaders } from "../lib/api";
-import { getApiUrl } from "../lib/config";
+import { fetchBackend } from "../lib/backendFetch";
 import { useAuth } from "../lib/auth";
 import { getUserItem, setUserItem } from "../lib/userStorage";
 import { motivoDeRespuesta } from "./motivoDeTurno";
@@ -25,14 +25,24 @@ export type AIProviderInfo = {
   configured: boolean;
   active: boolean;
   env_key?: string;
+  /** Modelo y URL que la cuenta tiene aplicados (la clave nunca viaja). */
+  model?: string;
+  base_url?: string;
+  /** Por qué no está disponible, dicho para quien usa la aplicación. */
+  estado?: string;
 };
 
+/**
+ * Lo que se guarda de un proveedor. Un campo ausente no se toca en el backend
+ * (`save_provider_config` sólo escribe lo que llega): así una clave que no se
+ * volvió a escribir no se sobrescribe con una vacía.
+ */
 export type AIProviderConfig = {
   provider_id: string;
-  api_key: string;
-  base_url: string;
+  api_key?: string;
+  base_url?: string;
   model: string;
-  temperature: number;
+  temperature?: number;
   /**
    * Confirma explícitamente un cambio de destino de los datos.
    *
@@ -322,7 +332,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   }, [loadedUserId, state.allowWeb, user]);
 
   const loadProviders = useCallback(async () => {
-    const res = await fetch(`${await getApiUrl()}/ai/providers`, { headers: getAuthHeaders() });
+    const res = await fetchBackend(`/ai/providers`, { headers: getAuthHeaders() });
     if (!res.ok) {
       throw new Error(`No se pudieron cargar los proveedores (HTTP ${res.status}).`);
     }
@@ -345,7 +355,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
 
   const detectStartup = useCallback(async () => {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/startup`, { headers: getAuthHeaders() });
+      const res = await fetchBackend(`/ai/startup`, { headers: getAuthHeaders() });
       if (res.ok) {
         const data = await res.json();
         dispatch({
@@ -353,26 +363,29 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
           mode: data.mode,
           message: data.reason,
         });
-        if (data.mode === "auto_start" || data.mode === "notify_fallback") {
+        // Sólo el respaldo cambia de proveedor, porque su mensaje dice que
+        // MolChat pasa al modo local. `auto_start` no: antes también forzaba
+        // «local», y como el modal llama aquí después de guardar, elegir Ollama
+        // o una clave de API volvía a «local» en pantalla mientras el backend
+        // seguía con lo elegido (insignia falsa; sin la barra «Autorizar»).
+        if (data.mode === "notify_fallback") {
           dispatch({ type: "SET_ACTIVE_PROVIDER", id: "local" });
-          if (data.mode === "notify_fallback") {
-            // FIX Bug A (BUILD_GUIDE.md seccion 4): antes del fix, este path
-            // tambien abria el panel en "auto_start" y abria el panel en
-            // cualquier error de red (catch). Eso hacia que MolChat apareciera
-            // cuando el backend no estaba corriendo = distorsion cientifica.
-            //
-            // Ahora: panel SOLO se abre explicitamente en "notify_fallback"
-            // (API keys sin saldo, fallback a local). El warning banner debe
-            // ser visible para el usuario, y el banner solo se renderiza dentro
-            // del panel cuando isPanelOpen=true (ver ChatPanel.tsx lineas 119
-            // y 433). Sin esta dispatch, notify_fallback setea el banner PERO
-            // el usuario nunca lo ve=bug silencioso.
-            dispatch({ type: "SET_PANEL_OPEN", open: true });
-            dispatch({
-              type: "SET_WARNING_BANNER",
-              warning: "Tus API keys no tienen saldo. MolChat usa el modo local.",
-            });
-          }
+          // FIX Bug A (BUILD_GUIDE.md seccion 4): antes del fix, este path
+          // tambien abria el panel en "auto_start" y abria el panel en
+          // cualquier error de red (catch). Eso hacia que MolChat apareciera
+          // cuando el backend no estaba corriendo = distorsion cientifica.
+          //
+          // Ahora: panel SOLO se abre explicitamente en "notify_fallback"
+          // (API keys sin saldo, fallback a local). El warning banner debe
+          // ser visible para el usuario, y el banner solo se renderiza dentro
+          // del panel cuando isPanelOpen=true (ver ChatPanel.tsx lineas 119
+          // y 433). Sin esta dispatch, notify_fallback setea el banner PERO
+          // el usuario nunca lo ve=bug silencioso.
+          dispatch({ type: "SET_PANEL_OPEN", open: true });
+          dispatch({
+            type: "SET_WARNING_BANNER",
+            warning: "Tus API keys no tienen saldo. MolChat usa el modo local.",
+          });
         }
       }
     } catch (err: any) {
@@ -390,7 +403,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setActiveProvider = useCallback(async (id: string) => {
-    const res = await fetch(`${await getApiUrl()}/ai/providers/active`, {
+    const res = await fetchBackend(`/ai/providers/active`, {
       method: "POST",
       headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify({ provider_id: id }),
@@ -403,7 +416,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
 
   const loadDestinos = useCallback(async () => {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/consent`, { headers: getAuthHeaders() });
+      const res = await fetchBackend(`/ai/consent`, { headers: getAuthHeaders() });
       if (res.ok) {
         const data = await res.json();
         dispatch({ type: "SET_DESTINOS", destinos: data.destinos || [] });
@@ -417,7 +430,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   const otorgarConsentimiento = useCallback(
     async (providerId: string, host: string) => {
       try {
-        const res = await fetch(`${await getApiUrl()}/ai/consent`, {
+        const res = await fetchBackend(`/ai/consent`, {
           method: "POST",
           headers: { "Content-Type": "application/json", ...getAuthHeaders() },
           body: JSON.stringify({ provider_id: providerId, host }),
@@ -434,7 +447,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   const revocarConsentimiento = useCallback(
     async (providerId: string) => {
       try {
-        await fetch(`${await getApiUrl()}/ai/consent/${providerId}`, {
+        await fetchBackend(`/ai/consent/${providerId}`, {
           method: "DELETE",
           headers: getAuthHeaders(),
         });
@@ -460,7 +473,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
    * pedirlo con `confirmar_destino`. Devolver `null` significa que se aplicó.
    */
   const updateProviderConfig = useCallback(async (config: AIProviderConfig) => {
-    const res = await fetch(`${await getApiUrl()}/ai/providers/configure`, {
+    const res = await fetchBackend(`/ai/providers/configure`, {
       method: "POST",
       headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify(config),
@@ -486,7 +499,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
 
   const fetchConversations = useCallback(async () => {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/conversations`, { headers: getAuthHeaders() });
+      const res = await fetchBackend(`/ai/conversations`, { headers: getAuthHeaders() });
       if (res.ok) {
         const convs: ConversationInfo[] = await res.json();
         dispatch({ type: "SET_CONVERSATIONS", conversations: convs });
@@ -498,7 +511,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
 
   const loadConversation = useCallback(async (convId: string) => {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/conversations/${convId}`, { headers: getAuthHeaders() });
+      const res = await fetchBackend(`/ai/conversations/${convId}`, { headers: getAuthHeaders() });
       if (!res.ok) {
         // MOLCHAT-BE-008 dejo de confundir «no existe o no es tuya» (404) con
         // «el historial local fallo» (503). La interfaz tiene que distinguirlos
@@ -530,7 +543,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
 
   const pollResources = useCallback(async () => {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/status`, { headers: getAuthHeaders() });
+      const res = await fetchBackend(`/ai/status`, { headers: getAuthHeaders() });
       if (res.ok) {
         const data = await res.json();
         if (data.resources) {
@@ -549,7 +562,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setKeepLoaded = useCallback(async (keep: boolean) => {
-    const res = await fetch(`${await getApiUrl()}/ai/settings`, {
+    const res = await fetchBackend(`/ai/settings`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json", ...getAuthHeaders() },
       body: JSON.stringify({ keep_loaded: keep }),
@@ -569,7 +582,7 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
 
   const newConversation = useCallback(async () => {
     try {
-      const res = await fetch(`${await getApiUrl()}/ai/conversations`, {
+      const res = await fetchBackend(`/ai/conversations`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...getAuthHeaders() },
         body: "{}",
@@ -638,13 +651,15 @@ export function AIProvider({ children }: { children: React.ReactNode }) {
       let motivo = "";
 
       try {
-        const res = await fetch(`${await getApiUrl()}/ai/chat`, {
+        const res = await fetchBackend(`/ai/chat`, {
           method: "POST",
           headers: { "Content-Type": "application/json", ...getAuthHeaders() },
           body: JSON.stringify({
             messages: messagesSnapshot,
-            provider_id:
-              state.activeProviderId === "local" ? null : state.activeProviderId,
+            // Explícito, también «local»: con `null` el backend usaba el
+            // proveedor activo de la cuenta, que podía no ser el que la
+            // insignia declaraba. Responde el que se ve.
+            provider_id: state.activeProviderId,
             stream: true,
             molecule_context: state.moleculeContext,
             mode: state.chatMode,

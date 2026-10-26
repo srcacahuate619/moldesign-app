@@ -1,0 +1,40 @@
+{
+  "smiles": "CC(C)(O)Cn1c(=O)c(Oc2ccc(F)cc2F)cc2cnc(NC3CCOCC3)nc21",
+  "target_pdb_id": "USR_D73781",
+  "chain": "A",
+  "molecule_name": "p38__seriales_renumerados__0",
+  "grid_center": [
+    22.089,
+    10.799,
+    31.522
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:c02e0b46b40dc5a648d9b1640f90ad8c4efb69df2908f9de212c9ec6ae5a765a"
+}

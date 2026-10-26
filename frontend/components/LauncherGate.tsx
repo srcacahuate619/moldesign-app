@@ -60,7 +60,7 @@ export function LauncherGate({ children }: { children: React.ReactNode }) {
                 textDecoration: "none",
               }}
             >
-              Descargar modelos
+              {t("c_download_models")}
             </Link>
             <button
               onClick={() => setDismissed(true)}

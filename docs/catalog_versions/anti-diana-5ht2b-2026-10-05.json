@@ -1,0 +1,666 @@
+{
+  "catalog_version": "anti-diana-5ht2b-2026-10-05",
+  "based_on_commit": "e1f746e1",
+  "supersedes": {
+    "curated_targets_json_sha256": "f6ae4fdff856c2d33c4b4362676eeedd94ec5ad523132cb68c0ba5e9832a0041",
+    "curated_targets_csv_sha256": "41b4bb75bc60026542ba5be00881d0d3f4d76993d608c0a3bfa84d9dc560e6e1"
+  },
+  "active": {
+    "curated_targets_json_sha256": "23bdd466bca135b6085bd765f6d52de8bf6718202ba5b1fd66da7fc5958d7e06",
+    "curated_targets_csv_sha256": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c"
+  },
+  "cambio": "Añade 7SRQ como anti-diana 5-HT2B por defecto tras medir continuidad y redocking. 4NC3 permanece como receptor histórico. No equivale a validación de seguridad ni readiness FEP.",
+  "5ht2b_adoption": {
+    "pdb_id": "7SRQ",
+    "metodo": "ELECTRON MICROSCOPY",
+    "resolucion_A": 2.7,
+    "titulo": "5-HT2B receptor bound to LSD obtained by cryo-electron microscopy (cryoEM)",
+    "ligandos": [
+      {
+        "comp_id": "7LD",
+        "name": "(8alpha)-N,N-diethyl-6-methyl-9,10-didehydroergoline-8-carboxamide",
+        "formula_weight": 323.432
+      }
+    ],
+    "url": "https://files.rcsb.org/download/7SRQ.pdb",
+    "timestamp": "2026-10-05T02:41:26.450914+00:00",
+    "bytes": 342549,
+    "sha256": "9eacb519d9f9fb2d419bad54457dc315ed7bf95c283ec675fab6ad3a1c9c14dc",
+    "site_ligand": "7LD",
+    "ligand_instance": [
+      "R",
+      "502"
+    ],
+    "center": [
+      152.587,
+      158.245,
+      155.595
+    ],
+    "size": [
+      18.0,
+      18.0,
+      18.0
+    ],
+    "site_chains": [
+      "R"
+    ],
+    "backbone_gaps": [
+      {
+        "chain": "R",
+        "after": "PRO 160",
+        "before": "SER 168",
+        "c_n_distance_A": 16.23,
+        "missing_declared": 7,
+        "distance_to_box_A": 19.6,
+        "site_critical": false
+      },
+      {
+        "chain": "R",
+        "after": "ALA 243",
+        "before": "ALA 322",
+        "c_n_distance_A": 15.05,
+        "missing_declared": 19,
+        "distance_to_box_A": 22.31,
+        "site_critical": false
+      }
+    ],
+    "redocking": {
+      "estado": "sitio_confirmado",
+      "pose_reproducida": true,
+      "distancia_centroides_A": 0.7,
+      "detalle": null,
+      "caja": {
+        "centro": [
+          152.587,
+          158.245,
+          155.595
+        ],
+        "tamano": [
+          18.0,
+          18.0,
+          18.0
+        ]
+      },
+      "site_chains": [
+        "R"
+      ],
+      "site_ligand": "7LD",
+      "ligando_cadena": "R502",
+      "atomos_pesados_ligando": 24,
+      "receptor_sha256": "3629a33be7b114ce63945a902d4853a93e5f5a8241d399104a27e5f9d4842b7d",
+      "sdf_ideal_sha256": "c94d44461e9f65ee9d85694860b3d5c67333f0a060ff86421f1093eec517a9cb",
+      "afinidad_mejor_kcal": -8.308,
+      "rmsd_pose1_A": 1.81,
+      "rmsd_mejor_A": 1.61,
+      "rmsd_mejor_pose": 2,
+      "poses": 9,
+      "elapsed_s": 17.09
+    },
+    "sdf_source": {
+      "url": "https://files.rcsb.org/ligands/download/7LD_ideal.sdf",
+      "bytes": 3467,
+      "sha256": "c94d44461e9f65ee9d85694860b3d5c67333f0a060ff86421f1093eec517a9cb",
+      "timestamp": "2026-10-05T02:44:01.512671+00:00"
+    },
+    "preparation": {
+      "backbone_gaps": [
+        {
+          "after": "PRO 160",
+          "before": "SER 168",
+          "c_n_distance_A": 16.23,
+          "chain": "R",
+          "distance_to_box_A": 19.6,
+          "missing_declared": 7,
+          "site_critical": false
+        },
+        {
+          "after": "ALA 243",
+          "before": "ALA 322",
+          "c_n_distance_A": 15.05,
+          "chain": "R",
+          "distance_to_box_A": 22.31,
+          "missing_declared": 19,
+          "site_critical": false
+        }
+      ],
+      "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+      "cofactors_outside_site": [],
+      "meeko_parameterized_json_sha256": "3ff6ea3776c2f3ccf362e6368311533186053f41174ec6656138f30e86931b9c",
+      "meeko_reported_residues": [],
+      "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+      "protonation_templates": {
+        "R:100": {
+          "input_resname": "ASP",
+          "template": "ASP"
+        },
+        "R:128": {
+          "input_resname": "CYS",
+          "template": "CYX"
+        },
+        "R:135": {
+          "input_resname": "ASP",
+          "template": "ASP"
+        },
+        "R:145": {
+          "input_resname": "HIS",
+          "template": "HIE"
+        },
+        "R:147": {
+          "input_resname": "CYS",
+          "template": "CYS"
+        },
+        "R:152": {
+          "input_resname": "ASP",
+          "template": "ASP"
+        },
+        "R:153": {
+          "input_resname": "ARG",
+          "template": "ARG"
+        },
+        "R:154": {
+          "input_resname": "TYR",
+          "template": "TYR"
+        },
+        "R:158": {
+          "input_resname": "LYS",
+          "template": "LYS"
+        },
+        "R:175": {
+          "input_resname": "LYS",
+          "template": "LYS"
+        },
+        "R:193": {
+          "input_resname": "LYS",
+          "template": "LYS"
+        },
+        "R:196": {
+          "input_resname": "GLU",
+          "template": "GLU"
+        },
+        "R:198": {
+          "input_resname": "ASP",
+          "template": "ASP"
+        },
+        "R:200": {
+          "input_resname": "ASP",
+          "template": "ASP"
+        },
+        "R:207": {
+          "input_resname": "CYS",
+          "template": "CYX"
+        },
+        "R:211": {
+          "input_resname": "LYS",
+          "template": "LYS"
+        },
+        "R:212": {
+          "input_resname": "GLU",
+          "template": "GLU"
+        },
+        "R:213": {
+          "input_resname": "ARG",
+          "template": "ARG"
+        },
+        "R:216": {
+          "input_resname": "ASP",
+          "template": "ASP"
+        },
+        "R:237": {
+          "input_resname": "TYR",
+          "template": "TYR"
+        },
+        "R:242": {
+          "input_resname": "HIS",
+          "template": "HIE"
+        },
+        "R:338": {
+          "input_resname": "CYS",
+          "template": "CYS"
+        },
+        "R:350": {
+          "input_resname": "CYS",
+          "template": "CYX"
+        },
+        "R:353": {
+          "input_resname": "CYS",
+          "template": "CYX"
+        },
+        "R:370": {
+          "input_resname": "TYR",
+          "template": "TYR"
+        },
+        "R:380": {
+          "input_resname": "TYR",
+          "template": "TYR"
+        },
+        "R:385": {
+          "input_resname": "LYS",
+          "template": "LYS"
+        },
+        "R:388": {
+          "input_resname": "ARG",
+          "template": "ARG"
+        },
+        "R:389": {
+          "input_resname": "ASP",
+          "template": "ASP"
+        },
+        "R:394": {
+          "input_resname": "TYR",
+          "template": "TYR"
+        },
+        "R:87": {
+          "input_resname": "TYR",
+          "template": "TYR"
+        },
+        "R:91": {
+          "input_resname": "TYR",
+          "template": "TYR"
+        }
+      },
+      "receptor_sha256": "3629a33be7b114ce63945a902d4853a93e5f5a8241d399104a27e5f9d4842b7d",
+      "recipe_hash": "1a21186a6b3ec74ab77dd0c1da274974f2c1431e65e29dc08e0c35488b51057c",
+      "removed_residues": [],
+      "species_diff": {
+        "near_site": {
+          "margin_A": 6.0,
+          "preserved": [],
+          "protein_residues_removed": {},
+          "removed": [
+            {
+              "category": "site_ligand",
+              "chain": "R",
+              "distance_to_box_A": 0.0,
+              "insertion_code": "",
+              "name": "7LD",
+              "residue_number": "502"
+            }
+          ]
+        },
+        "preserved": {
+          "atom_records": 1922,
+          "metals": 0,
+          "organic_cofactors": 0,
+          "waters": 0
+        },
+        "reason": "La fuente incluye 1 cadena(s); el receptor de la corrida sólo conserva 'R'.",
+        "removed": {
+          "metals": 0,
+          "organic_cofactors": 0,
+          "other_hetatm": 38,
+          "waters": 0
+        },
+        "removed_species": [
+          {
+            "atom_count": 24,
+            "category": "other_heteroatom",
+            "residue_code": "7LD"
+          },
+          {
+            "atom_count": 14,
+            "category": "other_heteroatom",
+            "residue_code": "NAG"
+          }
+        ],
+        "route_input": {
+          "atom_records": 1922,
+          "chains": [
+            "R"
+          ],
+          "hetatm_records": 0,
+          "metals": 0,
+          "organic_cofactors": 0,
+          "other_hetatm": 0,
+          "waters": 0
+        },
+        "site_ligand": "7LD",
+        "source": {
+          "atom_records": 1922,
+          "chains": [
+            "R"
+          ],
+          "hetatm_records": 38,
+          "metals": 0,
+          "organic_cofactors": 0,
+          "other_hetatm": 38,
+          "waters": 0
+        },
+        "state": "evaluado"
+      },
+      "truncated_sidechains": [
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CG",
+            "OE1",
+            "OE2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 5.33,
+          "insertion_code": "",
+          "name": "GLU",
+          "residue_number": "118",
+          "site_critical": true
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CE",
+            "CG",
+            "NZ"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 25.593,
+          "insertion_code": "",
+          "name": "LYS",
+          "residue_number": "159",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CG",
+            "CZ",
+            "NE",
+            "NH1",
+            "NH2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 17.447,
+          "insertion_code": "",
+          "name": "ARG",
+          "residue_number": "169",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CG1",
+            "CG2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 6.894,
+          "insertion_code": "",
+          "name": "ILE",
+          "residue_number": "176",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CE1",
+            "CE2",
+            "CG",
+            "CZ"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 15.447,
+          "insertion_code": "",
+          "name": "PHE",
+          "residue_number": "238",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CE",
+            "CG",
+            "NZ"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 18.704,
+          "insertion_code": "",
+          "name": "LYS",
+          "residue_number": "324",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CG1",
+            "CG2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 17.706,
+          "insertion_code": "",
+          "name": "VAL",
+          "residue_number": "325",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CG1",
+            "CG2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 11.532,
+          "insertion_code": "",
+          "name": "VAL",
+          "residue_number": "329",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CE1",
+            "CE2",
+            "CG",
+            "CZ"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 4.752,
+          "insertion_code": "",
+          "name": "PHE",
+          "residue_number": "333",
+          "site_critical": true
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CG",
+            "OD1",
+            "OD2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 6.461,
+          "insertion_code": "",
+          "name": "ASP",
+          "residue_number": "351",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CE",
+            "CG",
+            "SD"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 0.0,
+          "insertion_code": "",
+          "name": "MET",
+          "residue_number": "360",
+          "site_critical": true
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CG",
+            "OE1",
+            "OE2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 0.0,
+          "insertion_code": "",
+          "name": "GLU",
+          "residue_number": "363",
+          "site_critical": true
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CG"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 10.741,
+          "insertion_code": "",
+          "name": "LEU",
+          "residue_number": "378",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CG",
+            "CZ",
+            "NE",
+            "NH1",
+            "NH2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 23.285,
+          "insertion_code": "",
+          "name": "ARG",
+          "residue_number": "393",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CG"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 13.772,
+          "insertion_code": "",
+          "name": "LEU",
+          "residue_number": "59",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CG"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 11.361,
+          "insertion_code": "",
+          "name": "LEU",
+          "residue_number": "60",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CG"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 10.4,
+          "insertion_code": "",
+          "name": "LEU",
+          "residue_number": "62",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CG"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 14.33,
+          "insertion_code": "",
+          "name": "LEU",
+          "residue_number": "77",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD1",
+            "CD2",
+            "CG"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 19.956,
+          "insertion_code": "",
+          "name": "LEU",
+          "residue_number": "81",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CG",
+            "OE1",
+            "OE2"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 22.222,
+          "insertion_code": "",
+          "name": "GLU",
+          "residue_number": "82",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CE",
+            "CG",
+            "NZ"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 25.06,
+          "insertion_code": "",
+          "name": "LYS",
+          "residue_number": "83",
+          "site_critical": false
+        },
+        {
+          "action": "truncado a ALA",
+          "atoms_missing": [
+            "CD",
+            "CE",
+            "CG",
+            "NZ"
+          ],
+          "chain": "R",
+          "distance_to_box_A": 25.65,
+          "insertion_code": "",
+          "name": "LYS",
+          "residue_number": "84",
+          "site_critical": false
+        }
+      ]
+    },
+    "vina": {
+      "version": "1.2.7",
+      "exhaustiveness": 16,
+      "seed": 42,
+      "num_modes": 9
+    },
+    "hotspots_procedure": "discover_pocket_from_pdb sobre cadena R y ligando 7LD; top15 automático; no anotación experimental"
+  }
+}

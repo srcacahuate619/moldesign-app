@@ -33,6 +33,7 @@ function getLogColor(log: string): string {
 
 export const LogConsole = forwardRef<HTMLDivElement, LogConsoleProps>(
   ({ logs, progress, currentStatus }, ref) => {
+    const { t } = useLanguage();
     const prevCountRef = useRef(0);
     const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -80,10 +81,10 @@ export const LogConsole = forwardRef<HTMLDivElement, LogConsoleProps>(
               currentStatus === "SUCCESS" ? "bg-white" :
               "bg-purple-400 animate-pulse"
             }`} />
-            {isIdle ? "INACTIVO" :
-             currentStatus === "FAILURE" ? "ERROR" :
-             currentStatus === "SUCCESS" ? "LISTO" :
-             "PROCESANDO"}
+            {isIdle ? t("c_log_status_inactive") :
+             currentStatus === "FAILURE" ? t("c_log_status_error") :
+             currentStatus === "SUCCESS" ? t("pr_stage_done") :
+             t("c_log_status_processing")}
           </span>
         </div>
         {logs.length === 0 ? (

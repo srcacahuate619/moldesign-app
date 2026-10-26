@@ -424,3 +424,40 @@ async def test_rcsb_auto_ingestion_is_public_data_but_not_a_private_orphan(
         assert target.creator_id is None
         assert target_is_accessible(target, alice) is True
         assert target_is_accessible(target, bob) is True
+
+
+@pytest.mark.asyncio
+async def test_catalog_pdb_comes_from_the_packaged_copy_not_rcsb(
+    environment, tmp_path, monkeypatch
+):
+    """QA-031: con un perfil nuevo el visor pedía el receptor del catálogo a RCSB
+    (403 sin consentimiento) aunque su estructura viaja en el instalador."""
+    import gzip
+
+    import services.semilla_estructuras as semilla
+    import utils.file_handlers as file_handlers
+    import utils.local_storage as local_storage
+
+    empaquetado = tmp_path / "bundle" / "targets"
+    empaquetado.mkdir(parents=True)
+    with gzip.open(empaquetado / "9QAQ.pdb.gz", "wt", encoding="utf-8") as fh:
+        fh.write("HEADER    EMPAQUETADO 9QAQ\nEND\n")
+    datos = tmp_path / "perfil_nuevo"
+    datos.mkdir()
+    monkeypatch.setattr(semilla, "_directorio_empaquetado", lambda: empaquetado)
+    monkeypatch.setattr(local_storage, "data_dir", lambda: datos)
+    monkeypatch.setattr(
+        "services.docking.preparer.get_target_pdb_path",
+        lambda _pdb_id: str(tmp_path / "no-existe.pdb"),
+    )
+
+    async def red_prohibida(*_args, **_kwargs):
+        raise AssertionError("no debe salir a RCSB con la copia empaquetada")
+
+    monkeypatch.setattr(file_handlers, "download_pdb_from_rcsb", red_prohibida)
+    await environment.target("9QAQ")
+
+    respuesta = environment.client(None).get("/targets/9QAQ/pdb")
+    assert respuesta.status_code == 200
+    assert "EMPAQUETADO 9QAQ" in respuesta.text
+    assert (datos / "targets" / "9QAQ" / "raw.pdb").is_file()

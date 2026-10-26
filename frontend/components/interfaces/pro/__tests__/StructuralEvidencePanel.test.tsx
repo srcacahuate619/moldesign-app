@@ -422,8 +422,8 @@ describe("estados de la interfaz", () => {
   it("conformeros y restarts: se declaran no registrados, no se rellenan", () => {
     montar(resultado(evidencia("passed", { 1: "passed", 2: "passed", 3: "passed" }), seleccion()));
 
-    expect(screen.getByText(es.se_gen_conformers)).toBeInTheDocument();
-    expect(screen.getByText(new RegExp(es.se_gen_conformers_note.slice(0, 40)))).toBeInTheDocument();
+    expect(screen.getByText(es.se_gen_conformers_count_label)).toBeInTheDocument();
+    expect(screen.getByText(es.se_gen_restarts_absent)).toBeInTheDocument();
   });
 });
 
@@ -435,7 +435,7 @@ describe("accesibilidad", () => {
 
     expect(screen.queryByText(es.se_show_detail)).toBeNull();
     expect(screen.queryByText(es.se_hide_detail)).toBeNull();
-    expect(screen.getByText(es.se_gen_conformers)).toBeInTheDocument();
+    expect(screen.getByText(es.se_gen_conformers_count_label)).toBeInTheDocument();
     expect(screen.getByText(es.se_sel_scores)).toBeInTheDocument();
   });
 
@@ -530,5 +530,17 @@ describe("lo que el panel NO enseña", () => {
     // Lo único numérico del selector es su margen crudo y su umbral.
     expect(texto).toContain("0.4122");
     expect(texto).toContain("0.0977");
+  });
+});
+
+
+describe("conformaciones registradas", () => {
+  it("muestra 3/5 y mantiene los reinicios como no registrados", () => {
+    montar(resultado(evidencia("passed", { 1: "passed", 2: "passed", 3: "passed" }), seleccion(), {
+      docking_protocol: { conformers_generated: 3, conformers_requested: 5 },
+    }));
+    expect(screen.getByText("3 / 5")).toBeInTheDocument();
+    expect(screen.getByText(es.se_gen_restarts_absent)).toBeInTheDocument();
+    expect(screen.queryByText(new RegExp(es.se_gen_conformers_note.slice(0, 40)))).toBeNull();
   });
 });

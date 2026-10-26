@@ -382,10 +382,10 @@ contra un receptor del catálogo.
 
 | Gate | Resultado | Evidencia |
 |---|---|---|
-| Evaluación (Vina 1.2.7, reinicio, dos cuentas) | **PASS** | `tmp/evaluation-runtime-20260903T195936Z` |
-| Batch / cohortes | **PASS** | `tmp/batch-runtime-20260903T200027Z` |
-| Moldex | **PASS** | `tmp/moldex-runtime-20260903T200051Z` |
-| MolChat (modelo local + herramientas) | **PASS** | `tmp/molchat-runtime-20260903T200139Z` |
+| Evaluación (Vina 1.2.7, reinicio, dos cuentas) | **PASS** | `tmp/evaluation-runtime-20260903T195936Z` (no localizado en D: ni en F:) |
+| Batch / cohortes | **PASS** | `tmp/batch-runtime-20260903T200027Z` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\batch-runtime-20260903T200027Z) |
+| Moldex | **PASS** | `tmp/moldex-runtime-20260903T200051Z` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\moldex-runtime-20260903T200051Z) |
+| MolChat (modelo local + herramientas) | **PASS** | `tmp/molchat-runtime-20260903T200139Z` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\molchat-runtime-20260903T200139Z) |
 
 La corrida de Evaluación acopló de verdad: afinidad −5,31 kcal/mol, receptor
 sellado por SHA-256, seis denegaciones de autorización comprobadas, y en su log

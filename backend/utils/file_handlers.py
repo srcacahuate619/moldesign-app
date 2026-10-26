@@ -69,6 +69,20 @@ class StoragePath:
         return f"targets/{pdb_id.upper()}/prepared-{recipe_hash}.pdbqt"
 
     @staticmethod
+    def target_profile(pdb_id: str) -> str:
+        """Perfil de un receptor propio: modo de preparación y procedencia de la subida.
+
+        Sólo existe para identificadores `USR_*`; el catálogo no lo tiene y por
+        eso su preparación (receta 7) no puede cambiar por culpa de este archivo.
+        """
+        return f"targets/{pdb_id.upper()}/perfil.json"
+
+    @staticmethod
+    def target_upload(pdb_id: str, nombre: str) -> str:
+        """El archivo tal como lo subió el investigador (sin descomprimir ni convertir)."""
+        return f"targets/{pdb_id.upper()}/subida/{nombre}"
+
+    @staticmethod
     def ligand_conformer(smiles_hash: str) -> str:
         """Conformer 3D del ligando generado por RDKit (.sdf)."""
         return f"ligands/{smiles_hash}/conformer.sdf"

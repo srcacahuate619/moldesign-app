@@ -46,19 +46,22 @@ export function proxy(request: NextRequest) {
   });
 
   // ── CSP nonce-based — browser dev mode (npm run dev) ──────────────────
-  // En modo Tauri (npx tauri dev), el webview aplica su propio CSP desde
-  // tauri.conf.json. Si ambos CSPs coexisten, el browser intersecta las
-  // directivas y el resultado es más restrictivo que cualquiera de los dos,
-  // rompiendo Ketcher/MolStar (necesitan unsafe-eval que solo está en Tauri).
+  // Tauri dev también navega a localhost:3000: su Origin no permite distinguir
+  // esa navegación de un navegador. Cuando coexisten dos políticas se aplica
+  // su intersección; este header debe permitir el IPC de Tauri por sí mismo.
+  // Incidente 2026-10-07: permitir tauri.localhost no permite ipc.localhost.
+  // Al bloquear este último, ensure_backend y event.listen emitían «IPC custom
+  // protocol failed ... Failed to fetch» y pasaban al canal postMessage.
+  // Ver docs/auditorias/arranque_idioma_ipc_2026-10-07.md y smoke-ipc-csp.mjs.
   //
   // unsafe-eval en script-src: necesario para Next.js webpack en dev mode.
   // El HMR y los source-maps usan eval() para inyectar módulos. Sin esto,
   // los dynamic imports (ProEvaluation, TechNetwork3D, etc.) se cuelgan.
-  // En producción (npx tauri build) el bundle no usa eval — lo maneja
-  // tauri.conf.json sin unsafe-eval (Tarea #1 del audit CSP).
+  // En producción no hay servidor Next: se usan tauri.conf.prod.json o el
+  // overlay MSIX. Conservan unsafe-eval porque MolStar y 3Dmol lo necesitan.
   //
-  // Detección: en browser dev, el Origin es http://localhost:3000.
-  // En tauri://, el Origin es tauri://localhost o no se envía.
+  // Sólo se omite el header cuando Origin identifica el origen Tauri.
+  // Una navegación a localhost puede no enviar Origin, también desde Tauri dev.
   const origin = request.headers.get("origin") || "";
   const isTauri = origin.startsWith("tauri://") || origin.startsWith("https://tauri.localhost");
 
@@ -67,16 +70,17 @@ export function proxy(request: NextRequest) {
       `default-src 'self'`,
       `script-src 'self' 'nonce-${nonce}' 'unsafe-eval'`,
       `style-src 'self' 'unsafe-inline'`,
-      `connect-src http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* tauri://localhost https://tauri.localhost`,
+      `connect-src 'self' ipc: http://ipc.localhost https://api.devnet.solana.com wss://api.devnet.solana.com http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* tauri://localhost http://tauri.localhost https://tauri.localhost data:`,
       `img-src 'self' data: blob:`,
       `font-src 'self' data:`,
+      `media-src 'self' http://127.0.0.1:* http://localhost:*`,
       `frame-src 'self' blob:`,
       `worker-src 'self' blob:`,
     ].join("; ");
 
     response.headers.set("Content-Security-Policy", csp);
   }
-  // En Tauri: no seteamos CSP, tauri.conf.json lo maneja con unsafe-eval.
+  // Tauri dev normalmente recibe el header anterior; no depender de que se omita.
 
   response.headers.set("x-nonce", nonce);
 

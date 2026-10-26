@@ -74,25 +74,10 @@
       "m": "fuerte"
      },
      {
-      "t": ", la lista completa y ninguno descartado, porque no hay",
+      "t": ", la lista completa y ninguno descartado, porque no hay un modelo de poblaciones validado;",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "un modelo de poblaciones validado;",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "no resuelto",

@@ -17,9 +17,8 @@
 //   · abrir o crear un caso lleva directamente a la EVALUACIÓN real;
 //   · sólo hay dos modos, y el segundo —Informe— se REVELA cuando existe una
 //     corrida completada cuyo `molecule_id` se ha recuperado de verdad;
-//   · el contexto científico vive en «{t("ca_detalles")}», a un botón de
-//     distancia, y no bloquea nada.
-//
+//   - el contexto de investigacion acompana al dossier y, antes de tener
+//     resultados, queda disponible en una seccion desplegable de Evaluacion.
 // CUATRO DECISIONES QUE NO SON COSMÉTICAS:
 //
 // 1. AISLAMIENTO. El runner se monta con `key={activeCase.id}`. Al cambiar de
@@ -40,15 +39,14 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
+import resultStyles from "../interfaces/pro/ResultPanels.module.css";
 import dynamic from "next/dynamic";
-import { AlertTriangle, FileText, SlidersHorizontal, X } from "lucide-react";
+import { AlertTriangle, ArrowLeft, ChevronDown, FileText, X } from "lucide-react";
 
-import { useCases } from "../../context/CaseContext";
+import { LIVE_WORK_MESSAGE, SYSTEM_SEALED_MESSAGE, useCases } from "../../context/CaseContext";
+import { registerNativeJobDestinationResolver } from "../../lib/nativeJobNotifications";
 import { KeepAliveContext, useKeepAliveActive } from "../../context/KeepAliveContext";
 import {
-  CASE_STATUS_LABELS,
-  CASE_VIEW_LABELS,
-  CASE_VIEWS,
   type CaseRecoveryAction,
   type CaseStudyKind,
   type CaseView,
@@ -57,12 +55,14 @@ import {
   type ReportableResult,
   type ReportRecoveryState,
 } from "../../lib/cases/types";
+import { caseViewLabel, displayCasePath, localizeCaseStorageLabel } from "../../lib/cases/uiLabels";
+import { escucharPeticionesDeEvaluacion, type PeticionRecibida } from "../../lib/peticionDeEvaluacion";
 import { CaseEmptyState } from "./CaseEmptyState";
 import { CaseSidebar } from "./CaseSidebar";
 import { CaseSidebarShell } from "./CaseSidebarShell";
-import { CaseDetailsDrawer, describePendingDetails } from "./CaseDetailsDrawer";
+import { describePendingDetails } from "./caseContextLabels";
 import { CaseReportView } from "./CaseReportView";
-import { CaseDispositionPanel } from "./CaseDispositionPanel";
+import { CaseContextPanel } from "./CaseContextPanel";
 import { CreateCaseDialog } from "./CreateCaseDialog";
 import { EngineStatusBar } from "../EngineStatusBar";
 
@@ -82,29 +82,85 @@ const CaseEvaluationRunner = dynamic(() => import("../evaluation/CaseEvaluationR
 /** Altura de la navegación global (`h-14` en `components/Navigation.tsx`). */
 const NAV_HEIGHT = "3.5625rem";
 
-const DETAILS_DRAWER_ID = "case-details-drawer";
-
-function formatTimestamp(iso: string): string {
+function formatTimestamp(iso: string, locale: string): string {
   const parsed = Date.parse(iso);
   if (Number.isNaN(parsed)) return "—";
-  return new Date(parsed).toLocaleString();
+  return new Date(parsed).toLocaleString(locale);
 }
 
 export function CaseWorkspace() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const {
-    cases, activeCase, loading, error, saveState, hasLiveWork,
+    ownerUserId, cases, activeCase, loading, error, saveState, hasLiveWork,
     repository, createCase, selectCase, updateContext, setActiveView, setArchived,
     forgetCase, relocateCase, openExistingFolder, initializeFolder, revealInFileManager,
     setLiveWork, setActiveRun, retrySave, dismissError,
     setInputs, setPreflight, recordDecision, setDisposition,
     repairCase, acceptRelocation, unregisteredRun, retryRegisterRun, registerRun,
   } = useCases();
-
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [detailsOpen, setDetailsOpen] = useState(false);
   const [runHistoryOpen, setRunHistoryOpen] = useState(false);
+  const navigationState = useRef({ ownerUserId, activeCase, hasLiveWork });
+  navigationState.current = { ownerUserId, activeCase, hasLiveWork };
+  const nativeSequence = useRef(0);
+  const pendingNative = useRef<{ caseId: string; taskId: string; sequence: number;
+    resolve: (opened: boolean) => void; timer: ReturnType<typeof setTimeout> } | null>(null);
+  const [nativeSelection, setNativeSelection] = useState<{ caseId: string; taskId: string; sequence: number } | null>(null);
+  const settleNative = useCallback((opened: boolean) => {
+    const pending = pendingNative.current;
+    if (!pending) return;
+    pendingNative.current = null;
+    clearTimeout(pending.timer);
+    pending.resolve(opened);
+  }, []);
+  const requestedRunSelected = useCallback((taskId: string) => {
+    const pending = pendingNative.current;
+    if (pending?.taskId === taskId && navigationState.current.activeCase?.id === pending.caseId) settleNative(true);
+  }, [settleNative]);
+  const closeRunHistory = useCallback(() => {
+    nativeSequence.current += 1;
+    settleNative(false);
+    setNativeSelection(null);
+    setRunHistoryOpen(false);
+  }, [settleNative]);
+  useEffect(() => {
+    const unregister = registerNativeJobDestinationResolver("evaluation", async destination => {
+      const sequence = ++nativeSequence.current;
+      settleNative(false);
+      const state = navigationState.current;
+      if (!state.ownerUserId || destination.ownerId !== state.ownerUserId || !destination.caseId || !destination.taskId) return false;
+      let record;
+      try { record = state.activeCase?.id === destination.caseId ? state.activeCase : await repository.readCase(destination.caseId); }
+      catch { return false; }
+      if (sequence !== nativeSequence.current || navigationState.current.ownerUserId !== destination.ownerId
+        || record.ownerUserId !== destination.ownerId || !record.runs.some(run => run.taskId === destination.taskId)) return false;
+      if (!(await selectCase(record.id)) || sequence !== nativeSequence.current
+        || navigationState.current.ownerUserId !== destination.ownerId) return false;
+      return new Promise<boolean>(resolve => {
+        const selection = { caseId: record.id, taskId: destination.taskId!, sequence };
+        pendingNative.current = { ...selection, resolve, timer: setTimeout(() => settleNative(false), 10000) };
+        setNativeSelection(selection);
+        setRunHistoryOpen(true);
+        setActiveView("evaluation");
+      });
+    });
+    return () => { unregister(); nativeSequence.current += 1; settleNative(false); };
+  }, [repository, ownerUserId, selectCase, setActiveView, settleNative]);
+
+  /**
+   * Lo que pidió Preparación («vuelve a evaluar con este tautómero»). Sólo se entrega al runner de SU caso, y sólo si
+   * ese caso llegó a abrirse: con trabajo vivo en otro, `selectCase` se niega y la petición se descarta en vez de
+   * quedar esperando a que alguien abra ese caso más tarde.
+   */
+  const [peticion, setPeticion] = useState<PeticionRecibida | null>(null);
+  useEffect(() => escucharPeticionesDeEvaluacion((recibida) => {
+    void selectCase(recibida.casoId).then((abierto) => {
+      if (!abierto) return;
+      setPeticion(recibida);
+      setActiveView("evaluation");
+    });
+  }), [selectCase, setActiveView]);
   /** Carpeta elegida sin `case.json`: token para autorizar, ruta para enseñar. */
   const [pendingFolder, setPendingFolder] = useState<
     { token: string; displayPath: string } | null
@@ -137,6 +193,7 @@ export function CaseWorkspace() {
   >(null);
 
   const capabilities = repository.capabilities;
+  const storageLabel = localizeCaseStorageLabel(capabilities.storageLabel, t);
   const requiresDirectory = repository.id === "tauri";
   // La visibilidad de la RUTA la provee el keep-alive de la app; aquí se
   // combina con la del MODO para pausar los viewers con precisión.
@@ -178,8 +235,8 @@ export function CaseWorkspace() {
   /**
    * Relación entre la corrida guardada y los inputs de ahora.
    *
-   * Se calcula aquí, una vez, y viaja tanto a la llamada de «Abrir informe»
-   * como a la vista del informe: las dos tienen que decir lo mismo.
+   * Se calcula aquí, una vez, para la advertencia en Evaluación y la vista
+   * del informe: las dos tienen que decir lo mismo.
    */
   const runRelation = activeCase ? relacionDeLaCorridaActiva(activeCase) : "desconocida";
 
@@ -261,11 +318,15 @@ export function CaseWorkspace() {
     return repository.pickParentDirectory();
   }, [repository]);
 
+  const defaultParentDirectory = useCallback(async () => {
+    if (!repository.defaultParentDirectory) return null;
+    return repository.defaultParentDirectory();
+  }, [repository]);
+
   const handleSelect = useCallback(
     (id: string) => {
       void selectCase(id);
       setSidebarOpen(false);
-      setDetailsOpen(false);
     },
     [selectCase],
   );
@@ -323,7 +384,7 @@ export function CaseWorkspace() {
   }, [sidebarOpen]);
 
   const workLockedReason = hasLiveWork
-    ? "Hay trabajo en curso en este caso. Espera a que termine o cancélalo para cambiar de caso."
+    ? t("ca_trabajo_en_curso_bloquea")
     : undefined;
 
   /**
@@ -372,9 +433,10 @@ export function CaseWorkspace() {
 
   return (
     <div
-      className="flex min-h-0 w-full flex-col overflow-hidden bg-surface-950 text-zinc-200 lg:flex-row"
+      className="flex min-h-0 w-full flex-col overflow-hidden bg-surface-950 text-zinc-200"
       style={{ height: `calc(100dvh - ${NAV_HEIGHT})` }}
     >
+      <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
       {/* El panel de casos se pliega a un raíl y se redimensiona; las dos
           preferencias se recuerdan. Ver `CaseSidebarShell` para el porqué. */}
       <CaseSidebarShell
@@ -393,11 +455,11 @@ export function CaseWorkspace() {
           aria-expanded={sidebarOpen}
           aria-controls="case-sidebar-drawer"
           aria-haspopup="dialog"
-          className="whitespace-nowrap rounded-md border border-surface-700 px-2.5 py-1 text-xs text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+          className="whitespace-nowrap rounded-md border border-surface-700 px-2.5 py-1 text-sm text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
         >
-          Casos
+          {t("ca_sidebar_cases")}
         </button>
-        <span className="min-w-0 truncate text-xs text-zinc-500">
+        <span className="min-w-0 truncate text-sm text-zinc-400">
           {activeCase ? activeCase.name : t("auto_17ecdaf55d49")}
         </span>
       </div>
@@ -414,7 +476,7 @@ export function CaseWorkspace() {
             ref={drawerRef}
             role="dialog"
             aria-modal="true"
-            aria-label="Casos"
+            aria-label={t("ca_sidebar_cases")}
             className="relative z-10 flex w-[85vw] max-w-[300px]"
           >
             <div className="min-w-0 flex-1">{sidebar}</div>
@@ -422,7 +484,7 @@ export function CaseWorkspace() {
               type="button"
               onClick={() => setSidebarOpen(false)}
               aria-label={t("ca_cerrar_panel")}
-              className="absolute right-1 top-1 rounded p-1.5 text-zinc-500 hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+              className="absolute right-1 top-1 rounded p-1.5 text-zinc-400 hover:text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
             >
               <X className="h-4 w-4" aria-hidden="true" />
             </button>
@@ -430,7 +492,7 @@ export function CaseWorkspace() {
         </div>
       )}
 
-      <main className="flex min-h-0 min-w-0 flex-1 flex-col">
+      <main data-case-workspace="true" className="flex min-h-0 min-w-0 flex-1 flex-col">
         {/* Estado del motor de cálculo. Sólo aparece cuando hay algo que decir:
             arrancando, no instalado, o caído con su razón y su reintento. */}
         <EngineStatusBar />
@@ -438,15 +500,19 @@ export function CaseWorkspace() {
         {error && (
           <div
             role="alert"
-            className="flex items-start gap-2 border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs leading-relaxed text-amber-200"
+            className="flex items-start gap-2 border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-base leading-6 text-amber-200 font-sans"
           >
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-            <span className="min-w-0 flex-1">{error}</span>
+            <span className="min-w-0 flex-1">
+              {/* El contexto guarda sus avisos fijos en castellano; aquí se enseñan en el idioma de la interfaz. */}
+              {error === SYSTEM_SEALED_MESSAGE ? t("ca_sistema_fijado")
+                : error === LIVE_WORK_MESSAGE ? t("ca_trabajo_en_curso_cambio") : error}
+            </span>
             {saveState === "error" && (
               <button
                 type="button"
                 onClick={() => void retrySave()}
-                className="shrink-0 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-[11px] hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                className="shrink-0 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-sm hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
                 {t("c_reintentar")}
               </button>
@@ -454,7 +520,7 @@ export function CaseWorkspace() {
             <button
               type="button"
               onClick={dismissError}
-              aria-label="Descartar aviso"
+              aria-label={t("ca_workspace_dismiss_notice")}
               className="shrink-0 rounded p-0.5 hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
             >
               <X className="h-3.5 w-3.5" aria-hidden="true" />
@@ -467,7 +533,7 @@ export function CaseWorkspace() {
         {unregisteredRun && (
           <div
             role="alert"
-            className="flex flex-wrap items-center gap-2 border-b border-red-500/30 bg-red-500/10 px-4 py-2 text-xs leading-relaxed text-red-200"
+            className="flex flex-wrap items-center gap-2 border-b border-red-500/30 bg-red-500/10 px-4 py-2 text-base leading-6 text-red-200 font-sans"
           >
             <span className="min-w-0 flex-1">
               {t("ca_corrida_arranco")} <strong>{t("ca_id_no_guardado")}</strong>{t("auto_d970f808cba3")}{" "}
@@ -476,41 +542,26 @@ export function CaseWorkspace() {
             <button
               type="button"
               onClick={() => void retryRegisterRun()}
-              className="shrink-0 whitespace-nowrap rounded border border-red-500/40 px-2 py-0.5 text-[11px] hover:text-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+              className="shrink-0 whitespace-nowrap rounded border border-red-500/40 px-2 py-0.5 text-sm hover:text-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
             >
-              Reintentar guardado
+              {t("ca_workspace_retry_save")}
             </button>
             <button
               type="button"
               onClick={() => void navigator.clipboard?.writeText(unregisteredRun.taskId)}
-              className="shrink-0 whitespace-nowrap rounded border border-red-500/40 px-2 py-0.5 text-[11px] hover:text-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+              className="shrink-0 whitespace-nowrap rounded border border-red-500/40 px-2 py-0.5 text-sm hover:text-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
             >
-              Copiar identificador
+              {t("ca_workspace_copy_id")}
             </button>
           </div>
         )}
 
-        {activeCase?.activeRun && (
-          <p className="border-b border-surface-800 bg-surface-900 px-4 py-1.5 font-mono text-[11px] text-zinc-400">
-            {activeRunPendingRegistration ? t("auto_262949a66911") : "Corrida registrada"}{" "}
-            {activeCase.activeRun.taskId.slice(0, 12)}… ·{" "}
-            {{
-              idle: "preparada",
-              submitted: "enviada",
-              running: "en curso",
-              interrupted: "seguimiento interrumpido",
-              completed: "completada",
-              failed: "fallida",
-              cancelled: "cancelada",
-            }[activeCase.activeRun.executionState]}
-          </p>
-        )}
 
         {relocationConflict && (
           <div
             role="alertdialog"
             aria-label={t("ca_ya_registrado")}
-            className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs leading-relaxed text-amber-100"
+            className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-3 text-base leading-6 text-amber-100 font-sans"
           >
             <p>
               <strong>{relocationConflict.name}</strong> {t("auto_72ef951a4533")}{" "}
@@ -527,14 +578,14 @@ export function CaseWorkspace() {
                   // manifiesto antes de mover nada.
                   await acceptRelocation(token, caseId);
                 }}
-                className="rounded-md border border-amber-500/40 px-3 py-1 text-xs hover:text-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+                className="rounded-md border border-amber-500/40 px-3 py-1 text-sm hover:text-amber-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
               >
                 {t("ca_usar_carpeta_nueva")}
               </button>
               <button
                 type="button"
                 onClick={() => setRelocationConflict(null)}
-                className="rounded-md border border-surface-700 px-3 py-1 text-xs text-zinc-300 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                className="rounded-md border border-surface-700 px-3 py-1 text-sm text-zinc-300 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
                 {t("c_cancelar")}
               </button>
@@ -546,7 +597,7 @@ export function CaseWorkspace() {
           <div
             role="alertdialog"
             aria-label={t("ca_carpeta_sin_caso")}
-            className="border-b border-surface-700 bg-surface-900 px-4 py-3 text-xs leading-relaxed text-zinc-300"
+            className="border-b border-surface-700 bg-surface-900 px-4 py-3 text-base leading-6 text-zinc-300 font-sans"
           >
             <p>
               {t("auto_222f750aceb4")}{" "}
@@ -563,14 +614,14 @@ export function CaseWorkspace() {
                   const suggested = displayPath.split(/[\\/]/).pop() || "Caso nuevo";
                   await initializeFolder(token, suggested, "explore-hypothesis");
                 }}
-                className="rounded-md border border-brand-500/40 bg-brand-600 px-3 py-1 text-xs font-medium text-white hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                className="rounded-md border border-brand-500/40 bg-brand-600 px-3 py-1 text-sm font-medium text-white hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
                 {t("ca_inicializar_como_caso")}
               </button>
               <button
                 type="button"
                 onClick={() => setPendingFolder(null)}
-                className="rounded-md border border-surface-700 px-3 py-1 text-xs text-zinc-300 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                className="rounded-md border border-surface-700 px-3 py-1 text-sm text-zinc-300 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
               >
                 {t("c_cancelar")}
               </button>
@@ -586,153 +637,123 @@ export function CaseWorkspace() {
             openFolderUnavailableReason={
               hasLiveWork ? workLockedReason : capabilities.openFolderUnavailableReason
             }
-            storageLabel={capabilities.storageLabel}
+            storageLabel={storageLabel}
             createDisabled={hasLiveWork}
             createDisabledReason={workLockedReason}
           />
         ) : (
           <>
-            {/* ── El scroll empieza AQUÍ, antes de la cabecera ──────────
-                Antes la cabecera era hermana del contenedor que scrollea, así
-                que sus 94 px —medidos a 1440×900— no se iban nunca de la
-                pantalla. Ahora scrollea con el contenido y sólo se queda
-                anclada la tira de pestañas, que es el control que hace falta
-                tener a mano; la identidad del caso se puede volver a ver
-                subiendo, que es lo que uno hace cuando quiere leerla. */}
-            <div className="evaluation-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain">
-            <header className="border-b border-surface-800 px-4 py-3 sm:px-6">
+            {/* Cabecera y acciones reservan espacio fuera del scroll del caso.
+                Ningún título ni control de resultados queda debajo de ellos. */}
+            <header data-case-header="true" className={`${resultStyles.caseHeader} shrink-0 border-b border-surface-800 bg-surface-950 px-4 py-3 sm:px-6`}>
               <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1 basis-72">
                   <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h1 className="min-w-0 truncate text-base font-semibold tracking-tight text-zinc-100">
+                    <h1 id="case-title" className="min-w-0 truncate text-base font-semibold tracking-tight text-zinc-100">
                       {activeCase.name}
                     </h1>
-                    <span className="whitespace-nowrap rounded border border-surface-700 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-zinc-400">
-                      {CASE_STATUS_LABELS[activeCase.status]}
+                    <span className="whitespace-nowrap rounded border border-surface-700 px-1.5 py-0.5 font-sans text-sm uppercase tracking-wider text-zinc-400">
+                      {t(`ca_case_status_${activeCase.status}`)}
                     </span>
+                    {activeCase.activeRun && (
+                      <span className={resultStyles.runStrip + " inline-flex min-w-0 max-w-full flex-wrap items-baseline gap-x-1 font-sans text-zinc-400 leading-5"}>
+                        <span>{activeRunPendingRegistration ? t("auto_262949a66911") : t("ca_workspace_run_registered")}</span>
+                        <code title={activeCase.activeRun.taskId} className="min-w-0 max-w-full font-mono [overflow-wrap:anywhere]">{activeCase.activeRun.taskId}</code>
+                        <span>· {{
+                          idle: t("ca_run_state_idle"),
+                          submitted: t("ca_run_state_submitted"),
+                          running: t("ca_run_state_running"),
+                          interrupted: t("ca_run_state_interrupted"),
+                          completed: t("ca_run_state_completed"),
+                          failed: t("ca_run_state_failed"),
+                          cancelled: t("ca_run_state_cancelled"),
+                        }[activeCase.activeRun.executionState]}</span>
+                      </span>
+                    )}
                   </div>
-                  <dl className="mt-1.5 flex flex-wrap gap-x-5 gap-y-1 font-mono text-[11px] text-zinc-500">
+                  <div className={resultStyles.caseMeta}><dl className="mt-1.5 flex flex-wrap gap-x-5 gap-y-1 font-mono text-sm text-zinc-400">
                     <div className="flex min-w-0 gap-1.5">
-                      <dt className="sr-only">Almacenamiento</dt>
-                      <dd className="min-w-0 truncate">
+                      <dt className="sr-only">{t("ca_workspace_storage")}</dt>
+                      <dd className="min-w-0 [overflow-wrap:anywhere]">
                         {activeCase.storage.mode === "folder"
-                          ? activeCase.storage.path
-                          : activeCase.storage.label}
+                          ? displayCasePath(activeCase.storage.path)
+                          : t("ca_workspace_storage_browser")}
                       </dd>
                     </div>
                     <div className="flex gap-1.5">
                       <dt>{t("auto_5dfeeb357031")}</dt>
-                      <dd>{formatTimestamp(activeCase.updatedAt)}</dd>
+                      <dd>{formatTimestamp(activeCase.updatedAt, locale)}</dd>
                     </div>
-                  </dl>
+                  </dl></div>
                 </div>
 
-                {/* Botón secundario y discreto. El recuento acompaña, no alarma:
-                    ningún detalle pendiente impide ejecutar. */}
-                <button
-                  type="button"
-                  onClick={() => setDetailsOpen((open) => !open)}
-                  aria-expanded={detailsOpen}
-                  aria-controls={DETAILS_DRAWER_ID}
-                  aria-haspopup="dialog"
-                  aria-label={t("ca_detalles_con_pendientes", { pendientes: describePendingDetails(activeCase.context) })}
-                  className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-surface-700 px-2.5 py-1 text-xs text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
-                >
-                  <SlidersHorizontal className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                  <span className="sm:hidden">Detalles</span>
-                  <span className="hidden sm:inline">{t("ca_detalles")}</span>
-                </button>
+                                <div className="min-w-0 max-w-full">
+                  {reportable && (
+                    <button
+                      type="button"
+                      onClick={() => setActiveView(view === "report" ? "evaluation" : "report")}
+                      className="inline-flex min-h-11 shrink-0 items-center gap-2 whitespace-nowrap rounded-md border border-surface-700 px-3 py-1.5 text-sm text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
+                    >
+                      {view === "report" ? (
+                        <>
+                          <ArrowLeft className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          <span>{t("ca_volver_evaluacion")}</span>
+                        </>
+                      ) : (
+                        <>
+                          <FileText className="h-4 w-4 shrink-0" aria-hidden="true" />
+                          <span>{caseViewLabel("report", t)}</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
-
-              <p className="mt-1.5 font-mono text-[10px] text-zinc-500 sm:text-right">
-                {describePendingDetails(activeCase.context)}
-              </p>
-
             </header>
 
-            {/* La botonera SÓLO existe cuando hay dos destinos reales. Un
-                único modo no necesita conmutador, y un conmutador con un
-                destino deshabilitado prometería algo que todavía no hay.
-
-                Y es lo ÚNICO que se queda anclado al desplazarse: cambiar de
-                Evaluación a Informe tiene que estar siempre a un clic, pero
-                la ficha del caso no necesita ocupar sitio mientras se trabaja.
-                Cuando no hay informe no se ancla nada y se recupera la altura
-                entera. */}
-            {reportable && (
-              <div className="sticky top-0 z-20 border-b border-surface-800 bg-surface-950/95 px-4 py-2 backdrop-blur sm:px-6">
-                <div className="inline-flex rounded-lg border border-surface-700 bg-surface-950 p-1 shadow-inner" role="tablist" aria-label={t("ca_modo_del_caso")}>
-                  {CASE_VIEWS.map((mode) => {
-                    const selected = view === mode;
-                    return (
-                      <button
-                        key={mode}
-                        type="button"
-                        role="tab"
-                        aria-selected={selected}
-                        // El panel del informe sólo existe cuando está
-                        // seleccionado, así que sólo entonces se apunta a él:
-                        // un `aria-controls` a un id inexistente le miente al
-                        // lector de pantalla.
-                        aria-controls={
-                          mode === "evaluation" || selected ? `case-panel-${mode}` : undefined
-                        }
-                        id={`case-tab-${mode}`}
-                        tabIndex={selected ? 0 : -1}
-                        onClick={() => setActiveView(mode)}
-                        onKeyDown={(event) => {
-                          const current = CASE_VIEWS.indexOf(mode);
-                          let next: number | null = null;
-                          if (event.key === "ArrowRight") next = (current + 1) % CASE_VIEWS.length;
-                          else if (event.key === "ArrowLeft") next = (current - 1 + CASE_VIEWS.length) % CASE_VIEWS.length;
-                          else if (event.key === "Home") next = 0;
-                          else if (event.key === "End") next = CASE_VIEWS.length - 1;
-                          if (next === null) return;
-                          event.preventDefault();
-                          const nextMode = CASE_VIEWS[next];
-                          setActiveView(nextMode);
-                          document.getElementById(`case-tab-${nextMode}`)?.focus();
-                        }}
-                        className={`min-h-9 min-w-[7rem] whitespace-nowrap rounded-md border border-transparent px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.08em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 ${
-                          selected
-                            ? "border-brand-500/35 bg-brand-500/15 text-zinc-100 shadow-sm"
-                            : "text-zinc-400 hover:bg-white/[0.04] hover:text-zinc-200"
-                        }`}
-                      >
-                        {CASE_VIEW_LABELS[mode]}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+            <div
+              data-case-scroll="true"
+              className={`evaluation-scrollbar min-h-0 flex-1 overscroll-contain ${reportable && view === "report" ? "flex flex-col overflow-hidden" : "overflow-y-auto"}`}
+            >
+            {!reportable && (
+              <section className="border-b border-surface-800 px-4 py-2 sm:px-6">
+                <details className="group">
+                  <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-zinc-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400">
+                    <span>{t("ca_context_questions_heading")}</span>
+                    <span className="flex items-center gap-2 text-xs font-normal text-zinc-400">
+                      {describePendingDetails(activeCase.context, t)}
+                      <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" aria-hidden="true" />
+                    </span>
+                  </summary>
+                  <div className="border-t border-surface-800">
+                    <CaseContextPanel
+                      context={activeCase.context}
+                      saveState={saveState}
+                      onChange={updateContext}
+                      onRetry={retrySave}
+                      embedded
+                      variant="panel"
+                    />
+                  </div>
+                </details>
+              </section>
             )}
-
-            {/* Llamada explícita, NO navegación automática. Terminar un cálculo
-                no autoriza a mover al usuario de pantalla: se le ofrece. */}
-            {reportable && view === "evaluation" && (
-              <div className="flex flex-wrap items-center gap-2 border-b border-surface-800 bg-surface-900 px-4 py-2 text-xs leading-relaxed text-zinc-300 sm:px-6">
+            {/* La atribución de una corrida anterior se conserva visible en Evaluación. */}
+            {reportable && view === "evaluation" && runRelation !== "corresponde" && (
+              <div className="flex flex-wrap items-center gap-2 border-b border-surface-800 bg-surface-900 px-4 py-2 text-base leading-6 text-zinc-300 sm:px-6 font-sans">
                 <FileText className="h-3.5 w-3.5 shrink-0 text-brand-400" aria-hidden="true" />
                 <span className="min-w-0 flex-1">
-                  {runRelation === "corresponde"
-                    ? t("auto_5dc69e1ba19b")
-                    : runRelation === "corrida_anterior"
-                      ? t("auto_7f0c5ddda6e9")
-                      : t("auto_b3945ccefff7")}
+                  {runRelation === "corrida_anterior"
+                    ? t("auto_7f0c5ddda6e9")
+                    : t("auto_b3945ccefff7")}
                 </span>
-                <button
-                  type="button"
-                  onClick={() => setActiveView("report")}
-                  className="shrink-0 whitespace-nowrap rounded-md border border-brand-500/40 bg-brand-600 px-3 py-1 text-xs font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
-                >
-                  Abrir informe
-                </button>
               </div>
             )}
 
             {reportUnrecoverable && (
               <p
                 role="status"
-                className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs leading-relaxed text-amber-200 sm:px-6"
+                className="border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-base leading-6 text-amber-200 sm:px-6 font-sans"
               >
                 {t("auto_265b259a1293")}{" "}
                 <strong>{t("ca_resultado_no_recuperado")}</strong>{t("auto_99b5f43f6422")}{" "}
@@ -748,15 +769,11 @@ export function CaseWorkspace() {
                 Mantener además `CaseRunTracker` montado significaría dos
                 seguidores escribiendo la misma corrida. */}
 
-            {/* El scroll ya lo lleva el contenedor de arriba, que empieza
-                antes de la cabecera. Este envoltorio sólo agrupa los dos
-                paneles; `min-h-0` conserva el comportamiento de flex que
-                tenía cuando era él quien scrolleaba. */}
-            <div className="min-h-0 flex-1">
+            {/* Este envoltorio conserva ambos paneles dentro del mismo scroll;
+                la cabecera y el pie pertenecen a la columna del caso. */}
+            <div className={`min-h-0 flex-1 ${reportable && view === "report" ? "flex flex-col" : ""}`}>
               <div
                 id="case-panel-evaluation"
-                role={reportable ? "tabpanel" : undefined}
-                aria-labelledby={reportable ? "case-tab-evaluation" : undefined}
                 hidden={!evaluationVisible}
                 className="h-full"
               >
@@ -766,6 +783,7 @@ export function CaseWorkspace() {
                   <CaseEvaluationRunner
                     key={activeCase.id}
                     caseId={activeCase.id}
+                    caseRuns={activeCase.runs}
                     activeRun={activeCase.activeRun}
                     onLiveWorkChange={setLiveWork}
                     onActiveRunChange={setActiveRun}
@@ -776,12 +794,13 @@ export function CaseWorkspace() {
                     structuralSystem={activeCase.structuralSystem}
                     structuralSystemSealed={structuralSystemIsSealed(activeCase)}
                     runCount={activeCase.runs.length}
-                    onOpenRunHistory={() => setRunHistoryOpen(true)}
+                    onOpenRunHistory={() => { setNativeSelection(null); setRunHistoryOpen(true); }}
                     onInputsChange={setInputs}
                     preflight={activeCase.preflight}
                     onPreflightChange={setPreflight}
                     decisions={activeCase.decisions}
                     onDecision={recordDecision}
+                    peticion={peticion?.casoId === activeCase.id ? peticion : undefined}
                   />
                 </KeepAliveContext.Provider>
               </div>
@@ -794,25 +813,28 @@ export function CaseWorkspace() {
               {reportable && view === "report" && (
                 <div
                   id="case-panel-report"
-                  role="tabpanel"
-                  aria-labelledby="case-tab-report"
+                  className="h-full min-h-0 flex-1"
+                  role="region"
+                  aria-labelledby="case-report-title"
                 >
-                  {activeCase.activeRun?.executionState === "completed" && (
-                    <CaseDispositionPanel
-                      disposition={activeCase.disposition}
-                      runRelation={runRelation}
-                      onSubmit={setDisposition}
-                    />
-                  )}
                   {/* El caso ENTERO, no un extracto: la proyección que pide el
                       dossier necesita inputs, preflight, decisiones y corrida.
                       Pasar sólo nombre y contexto obligaría a reconstruirlo a
                       trozos justo donde importa que sea fiel. */}
                   <CaseReportView
+                    key={activeCase.id}
                     caseRecord={activeCase}
                     reportable={reportable}
                     runRelation={runRelation}
-                    onBackToEvaluation={() => setActiveView("evaluation")}
+                    pendingDetails={describePendingDetails(activeCase.context, t)}
+                    context={activeCase.context}
+                    contextSaveState={saveState}
+                    onContextChange={updateContext}
+                    onRetryContextSave={retrySave}
+                    disposition={activeCase.disposition}
+                    dispositions={activeCase.dispositions}
+                    showDisposition={activeCase.activeRun?.executionState === "completed"}
+                    onDispositionSubmit={setDisposition}
                   />
                 </div>
               )}
@@ -820,27 +842,20 @@ export function CaseWorkspace() {
             </div>
           </>
         )}
+        <div id="evaluation-actions-outlet" className="shrink-0"/>
       </main>
 
-      {activeCase && (
-        <CaseDetailsDrawer
-          id={DETAILS_DRAWER_ID}
-          open={detailsOpen}
-          onClose={() => setDetailsOpen(false)}
-          context={activeCase.context}
-          saveState={saveState}
-          onChange={updateContext}
-          onRetry={retrySave}
-        />
-      )}
 
       {activeCase && runHistoryOpen && (
         <CaseRunHistoryModal
+          key={nativeSelection?.sequence ?? "manual"}
           runs={activeCase.runs}
+          requestedTaskId={nativeSelection?.caseId === activeCase.id ? nativeSelection.taskId : undefined}
+          onRequestedRunSelected={requestedRunSelected}
           structuralSystem={activeCase.structuralSystem}
           currentFingerprint={activeCase.preflight?.fingerprint ?? null}
           activeTaskId={activeCase.activeRun?.taskId}
-          onClose={() => setRunHistoryOpen(false)}
+          onClose={closeRunHistory}
         />
       )}
 
@@ -849,9 +864,11 @@ export function CaseWorkspace() {
         onClose={() => setDialogOpen(false)}
         onCreate={handleCreate}
         requiresDirectory={requiresDirectory}
-        storageLabel={capabilities.storageLabel}
+        storageLabel={storageLabel}
         onPickDirectory={requiresDirectory ? pickParentDirectory : undefined}
+        onDefaultDirectory={requiresDirectory ? defaultParentDirectory : undefined}
       />
+      </div>
     </div>
   );
 }

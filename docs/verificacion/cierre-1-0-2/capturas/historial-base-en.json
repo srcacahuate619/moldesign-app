@@ -1,0 +1,17 @@
+{
+  "name": "historial-base-en",
+  "url": "http://localhost:13013/history",
+  "time": "2026-10-10T01:00:48.644Z",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "en",
+  "theme": "dark",
+  "text": "OPTIONS\nPREPARATION\nMOLCYBETA\nBATCH\nEVALUATION\nMOLDEX\nHISTORY\n1\nDESKTOP USER\nSIGN OUT\n\nMOLDEX / EVALUATION HISTORY\n\nEvaluation history\n\nEvery evaluation in your account, exactly as it is in the database. The ones that also appear in Moldex carry the mark Moldex.\n\nVina's calculated affinity is a ranking signal within the run's protocol; it is not experimental free energy or a prediction of activity.\n\n1\nTOTAL\nTOTAL\n1\nCOMPLETED\n1\nFAILED\n0\nUNIQUE TARGETS\n1\nSORT BY:\nDate\nAffinity\nSMILES\tTARGET\tSTATUS\tRUN\tVINA AFFINITY\tMW\tLIPINSKI\tQED\tRECEIPT\tDATE\n\nFC(F)(F)CNCc1ccccc1\nMOLDEX\t8HFI\tCOMPLETED\t27c62c96…\t-7.0 kcal/mol\t189\t✓\t0.77\tNo receipt\tOct 10, 2026, 12:52 AM",
+  "overflow": {
+    "width": 1440,
+    "document": 1440
+  },
+  "errors": []
+}

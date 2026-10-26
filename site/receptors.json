@@ -1,7 +1,24 @@
 {
   "source": "curated_targets.json",
-  "sha256": "7c653ab5875537321a7dbd99435166638a54708311f4346e3d0a6f99ecd71f1c",
-  "count": 380,
+  "sha256": "f66cd263f2a20ac548bf2ee5492e17a28ba04a898c7b6f124bba86c4f24e4593",
+  "snapshot_date": "2026-10-24",
+  "count": 381,
+  "section": "demostracion",
+  "verified_count": 1,
+  "verified": {
+    "8T69": {
+      "experiment": "CAL-D-01-R4-2-VMAT2-8T69",
+      "rho": 0.3918,
+      "ci95": [
+        0.216,
+        0.5404
+      ],
+      "n": 89,
+      "panel": "US11718618B2 Example 11"
+    }
+  },
+  "recipe": 7,
+  "unavailable_count": 13,
   "record_fields": [
     "pdb",
     "name",
@@ -10,22 +27,6 @@
     "resolution",
     "chain"
   ],
-  "stats": {
-    "site_evidence": {
-      "cocrystal_ligand": 271,
-      "box_volume": 109
-    },
-    "hotspots_source": {
-      "auto_pocket_top15": 371,
-      "box_ligand_contacts": 9
-    },
-    "multi_chain_sites": 110,
-    "resolution": {
-      "min": 1.05,
-      "median": 2.3,
-      "max": 3.9
-    }
-  },
   "records": [
     [
       "1AJ6",
@@ -40,7 +41,7 @@
       "CA2 (Carbonic Anhydrase II)",
       "metalloenzyme",
       "Homo sapiens",
-      2,
+      2.1,
       "A"
     ],
     [
@@ -56,7 +57,7 @@
       "CRYSTAL STRUCTURE OF AN HDAC HOMOLOG COMPLEXED WITH TRICHOSTATIN A",
       "hydrolase",
       "AQUIFEX AEOLICUS",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -96,7 +97,7 @@
       "CYCLOOXYGENASE-2 (PROSTAGLANDIN SYNTHASE-2) COMPLEXED WITH A SELECTIVE",
       "oxidoreductase",
       "MUS MUSCULUS",
-      3,
+      3.0,
       "A"
     ],
     [
@@ -104,7 +105,7 @@
       "CRYSTAL STRUCTURE OF ARACHIDONIC ACID BOUND IN THE CYCLOOXYGENASE",
       "oxidoreductase",
       "OVIS ARIES",
-      3,
+      3.0,
       "A"
     ],
     [
@@ -128,7 +129,7 @@
       "CRYSTAL STRUCTURE OF HUMAN COAGULATION FACTOR XA COMPLEXED WITH RPR208815",
       "protease",
       "Homo sapiens",
-      2.8,
+      2.1,
       "A"
     ],
     [
@@ -136,7 +137,7 @@
       "CRYSTAL STRUCTURE OF DIHOMO-GAMMA-LINOLEIC ACID BOUND IN THE CYCLOOXYGENASE CHANNEL OF PROSTAGLANDIN ENDOPEROXIDE H SYNTHASE-1.",
       "oxidoreductase",
       "OVIS ARIES",
-      3,
+      3.0,
       "A"
     ],
     [
@@ -167,8 +168,8 @@
       "1GPK",
       "Structure of Acetylcholinesterase Complex with (+)-Huperzine A at 2.1A Resolution",
       "hydrolase",
-      "Homo sapiens",
-      2.5,
+      "Torpedo californica",
+      2.1,
       "A"
     ],
     [
@@ -183,8 +184,8 @@
       "1HSG",
       "HIV-1 Protease",
       "protease",
-      "Homo sapiens",
-      2,
+      "Human immunodeficiency virus 1",
+      2.0,
       "A"
     ],
     [
@@ -192,7 +193,7 @@
       "Human thymidylate synthase complexed with dUMP and Raltitrexed, an antifolate drug, is in the closed conformation",
       "methyltransferase",
       "Homo sapiens",
-      2.2,
+      1.9,
       "A"
     ],
     [
@@ -327,8 +328,8 @@
       "1NHY",
       "Crystal Structure of the GST-like Domain of Elongation Factor 1-gamma from Saccharomyces cerevisiae.",
       "transferase",
-      "Homo sapiens",
-      3,
+      "Saccharomyces cerevisiae",
+      3.0,
       "A"
     ],
     [
@@ -336,7 +337,7 @@
       "2.0 ANGSTROM CRYSTAL STRUCTURE OF OVINE PROSTAGLANDIN H2 SYNTHASE-1,",
       "oxidoreductase",
       "OVIS ARIES",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -400,7 +401,7 @@
       "HUMAN TRANSFORMING GROWTH FACTOR-BETA 3, CRYSTALLIZED FROM DIOXANE",
       "growth_factor",
       "Homo sapiens",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -448,7 +449,7 @@
       "HIV-1 PROTEASE IN COMPLEX WITH ASYMMETRIC INHIBITOR, BEA568",
       "protease",
       "HUMAN IMMUNODEFICIENCY VIRUS 1",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -456,7 +457,7 @@
       "HIV-1 PROTEASE IN COMPLEX WITH SYMMETRIC INHIBITOR, BEA450",
       "protease",
       "HUMAN IMMUNODEFICIENCY VIRUS 1",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -464,7 +465,7 @@
       "CRYSTAL STRUCTURE OF ESTROGEN RECEPTOR ALPHA COMPLEXED WITH GENISTEIN",
       "nuclear_receptor",
       "Homo sapiens",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -472,7 +473,7 @@
       "PDE5A (Phosphodiesterase-5)",
       "phosphodiesterase",
       "Homo sapiens",
-      1.8,
+      1.79,
       "A"
     ],
     [
@@ -520,7 +521,7 @@
       "2.0 Angstrom Crystal Structure of Manganese Protoporphyrin IX-reconstituted Ovine Prostaglandin H2 Synthase-1 Complexed With Flurbiprofen",
       "oxidoreductase",
       "OVIS ARIES",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -573,7 +574,7 @@
     ],
     [
       "2HZI",
-      "ABL1 Kinase Imatinib",
+      "ABL1 Kinase PD180970",
       "kinase",
       "Homo sapiens",
       1.7,
@@ -615,7 +616,7 @@
       "2JDI",
       "Ground state structure of F1-ATPase from bovine heart mitochondria (Bovine F1-ATPase crystallised in the absence of azide)",
       "atp_synthase",
-      "Homo sapiens",
+      "Bos taurus",
       1.9,
       "A"
     ],
@@ -664,7 +665,7 @@
       "PCSK9 (Proprotein Convertase)",
       "protease",
       "Homo sapiens",
-      1.9,
+      1.98,
       "A"
     ],
     [
@@ -686,7 +687,7 @@
     [
       "2VE3",
       "RETINOIC ACID BOUND CYANOBACTERIAL CYP120A1",
-      "nuclear_receptor",
+      "cytochrome_p450",
       "SYNECHOCYSTIS SP.",
       2.1,
       "A"
@@ -816,7 +817,7 @@
       "Discovery of XL335, a Highly Potent, Selective and Orally-Active Agonist of the Farnesoid X Receptor (FXR)",
       "nuclear_receptor",
       "Homo sapiens",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -920,7 +921,7 @@
       "Caspase 3 Bound to a covalent inhibitor",
       "protease",
       "Homo sapiens",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -1016,7 +1017,7 @@
       "Crystal Structure of Human AKT1 with an Allosteric Inhibitor",
       "kinase",
       "Homo sapiens",
-      2.5,
+      2.7,
       "A"
     ],
     [
@@ -1024,7 +1025,7 @@
       "CTLA-4 Immune Checkpoint",
       "protein_interaction",
       "Homo sapiens",
-      2.5,
+      1.8,
       "A"
     ],
     [
@@ -1048,29 +1049,29 @@
       "Crystal Structure of the Kinase domain of Human HER2 (erbB2).",
       "kinase",
       "Homo sapiens",
-      2.7,
+      2.25,
       "A"
     ],
     [
       "3QXX",
       "Crystal structure of dethiobiotin synthetase (BioD) from Helicobacter pylori complexed with GDP and 8-aminocaprylic acid",
       "ligase",
-      "Homo sapiens",
+      "Helicobacter pylori",
       1.36,
       "A"
     ],
     [
       "3RUT",
       "FXR WITH SRC1 AND GSK359",
-      "kinase",
+      "nuclear_receptor",
       "Homo sapiens",
-      3,
+      3.0,
       "A"
     ],
     [
       "3RUU",
       "FXR WITH SRC1 AND GSK237",
-      "kinase",
+      "nuclear_receptor",
       "Homo sapiens",
       2.5,
       "A"
@@ -1111,7 +1112,7 @@
       "3SRW",
       "S. aureus Dihydrofolate Reductase complexed with novel 7-aryl-2,4-diaminoquinazolines",
       "oxidoreductase",
-      "Homo sapiens",
+      "Staphylococcus aureus",
       1.7,
       "X"
     ],
@@ -1167,7 +1168,7 @@
       "4BVN",
       "Ultra-thermostable beta1-adrenoceptor with cyanopindolol bound",
       "gpcr",
-      "Homo sapiens",
+      "Meleagris gallopavo",
       2.1,
       "A"
     ],
@@ -1191,7 +1192,7 @@
       "4CVL",
       "PaMurF in complex with AMP-PNP",
       "ligase",
-      "Homo sapiens",
+      "Pseudomonas aeruginosa PAO1",
       2.98,
       "A"
     ],
@@ -1223,7 +1224,7 @@
       "4DQC",
       "Crystal Structure of (G16C/L38C) HIV-1 Protease in Complex with DRV",
       "protease",
-      "Homo sapiens",
+      "Human immunodeficiency virus 1",
       1.94,
       "A"
     ],
@@ -1279,7 +1280,7 @@
       "4I5H",
       "Crystal Structure of a Double Mutant Rat Erk2 Complexed With a Type II Quinazoline Inhibitor",
       "kinase",
-      "Homo sapiens",
+      "Rattus norvegicus",
       1.9,
       "A"
     ],
@@ -1416,7 +1417,7 @@
       "CRYSTAL STRUCTURE OF PDE5 IN COMPLEX WITH INHIBITOR 5R",
       "phosphodiesterase",
       "Homo sapiens",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -1432,7 +1433,7 @@
       "5-HT2B (HTR2B — Serotonin Receptor)",
       "gpcr",
       "Homo sapiens",
-      2.7,
+      2.8,
       "A"
     ],
     [
@@ -1464,7 +1465,7 @@
       "CYP3A4 (Cytochrome P450)",
       "cytochrome_p450",
       "Homo sapiens",
-      2.6,
+      2.95,
       "A"
     ],
     [
@@ -1520,7 +1521,7 @@
       "PHOSPHODIESTERASE-9A IN COMPLEX WITH INHIBITOR WYQ-C36D",
       "phosphodiesterase",
       "PAN TROGLODYTES",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -1551,7 +1552,7 @@
       "4W1V",
       "Crystal structure of 7,8-diaminopelargonic acid synthase (BioA) from Mycobacterium tuberculosis, complexed with a thiazole inhibitor",
       "transferase",
-      "Homo sapiens",
+      "Mycobacterium tuberculosis",
       2.24,
       "B"
     ],
@@ -1616,7 +1617,7 @@
       "Structure of human PARP1 catalytic domain bound to an isoindolinone inhibitor",
       "methyltransferase",
       "Homo sapiens",
-      2.3,
+      1.9,
       "A"
     ],
     [
@@ -1640,7 +1641,7 @@
       "STRUCTURAL BASIS OF TEMPLATE BOUNDARY DEFINITION IN TETRAHYMENA",
       "polymerase",
       "TETRAHYMENA THERMOPHILA",
-      3,
+      3.0,
       "E"
     ],
     [
@@ -1656,7 +1657,7 @@
       "X-RAY CRYSTAL STRUCTURE OF WILD TYPE HIV-1 PROTEASE IN COMPLEX WITH",
       "protease",
       "HUMAN IMMUNODEFICIENCY VIRUS 1",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -1735,7 +1736,7 @@
       "5EPN",
       "Crystal structure of HCV NS3/4A protease in complex with 5172-mcP1P3 (MK-5172 P1-P3 macrocyclic analogue)",
       "protease",
-      "Homo sapiens",
+      "Hepatitis C virus",
       2.3,
       "A"
     ],
@@ -1751,7 +1752,7 @@
       "5F4W",
       "Tagatose-1,6-bisphosphate aldolase from Streptococcus pyogenes in complex with TBP",
       "lyase",
-      "Homo sapiens",
+      "Streptococcus pyogenes serotype M1",
       1.66,
       "A"
     ],
@@ -1799,7 +1800,7 @@
       "5I3T",
       "Native Structure of the Linalool Dehydratase-Isomerase from Castellaniella defragrans",
       "isomerase",
-      "Homo sapiens",
+      "Castellaniella defragrans",
       2.1,
       "A"
     ],
@@ -1824,7 +1825,7 @@
       "CRYSTAL STRUCTURE OF THE E153Q MUTANT OF THE CFTR INHIBITORY FACTOR",
       "ion_channel",
       "PSEUDOMONAS AERUGINOSA (STRAIN UCBPP-PA14)",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -1936,7 +1937,7 @@
       "Crystal structure of human lysosomal acid-alpha-glucosidase, GAA, in complex with 1-deoxynojirimycin",
       "hydrolase",
       "Homo sapiens",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -1983,7 +1984,7 @@
       "5RFY",
       "PanDDA analysis group deposition -- Crystal Structure of SARS-CoV-2 main protease in complex with PCM-0102974",
       "protease",
-      "Homo sapiens",
+      "Severe acute respiratory syndrome coronavirus 2",
       1.9,
       "A"
     ],
@@ -1991,7 +1992,7 @@
       "5TBO",
       "Crystal structure of Plasmodium falciparum dihydroorotate dehydrogenase bound with Inhibitor DSM421",
       "oxidoreductase",
-      "Homo sapiens",
+      "Plasmodium falciparum (isolate 3D7)",
       2.15,
       "A"
     ],
@@ -2080,7 +2081,7 @@
       "hERG (KCNH2 — Potassium Channel)",
       "ion_channel",
       "Homo sapiens",
-      2.8,
+      3.7,
       "A"
     ],
     [
@@ -2120,7 +2121,7 @@
       "Crystal structure of TREX1 in complex with a Y structured DNA",
       "nuclease",
       "MUS MUSCULUS",
-      2,
+      2.0,
       "A"
     ],
     [
@@ -2135,7 +2136,7 @@
       "5Z2R",
       "ThDP-Mn2+ complex of R395K variant of EcMenD soaked with 2-ketoglutarate for 5 min",
       "transferase",
-      "Homo sapiens",
+      "Escherichia coli (strain K12)",
       2.3,
       "A"
     ],
@@ -2144,13 +2145,13 @@
       "The Crystal Structure of Human Neuropeptide Y Y1 Receptor with BMS-193885",
       "gpcr",
       "Homo sapiens",
-      3,
+      3.0,
       "A"
     ],
     [
       "6A5W",
       "FXR-LBD WITH HNC143 AND SRC1",
-      "kinase",
+      "nuclear_receptor",
       "Homo sapiens",
       2.88,
       "A"
@@ -2295,7 +2296,7 @@
       "6LU7",
       "SARS-CoV-2 Mpro",
       "protease",
-      "Homo sapiens",
+      "Severe acute respiratory syndrome coronavirus 2",
       2.16,
       "A"
     ],
@@ -2335,7 +2336,7 @@
       "6MVW",
       "NavAb voltage-gated sodium channel, I217C/F203W",
       "ion_channel",
-      "Homo sapiens",
+      "Arcobacter butzleri (strain RM4018)",
       3.2,
       "A"
     ],
@@ -2359,7 +2360,7 @@
       "6NTW",
       "Crystal structure of E. coli YcbB",
       "transferase",
-      "Homo sapiens",
+      "Escherichia coli (strain K12)",
       2.76,
       "A"
     ],
@@ -2600,7 +2601,7 @@
       "5-HT1A",
       "gpcr",
       null,
-      3,
+      3.0,
       "R"
     ],
     [
@@ -2792,7 +2793,7 @@
       "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
       "transporter",
       "Homo sapiens",
-      3,
+      3.0,
       "A"
     ],
     [
@@ -2808,7 +2809,7 @@
       "CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
       "transporter",
       "Homo sapiens",
-      3,
+      3.0,
       "A"
     ],
     [
@@ -2928,7 +2929,7 @@
       "STRUCTURE OF NET-AMITRIPTYLINE IN OUTWARD-OPEN STATE",
       "transporter",
       "Homo sapiens",
-      3,
+      3.0,
       "A"
     ],
     [
@@ -2968,7 +2969,7 @@
       "CRYO-EM STRUCTURE OF HUMAN VMAT2 IN COMPLEX WITH DOPAMINE",
       "transporter",
       "ESCHERICHIA COLI, HOMO SAPIENS",
-      3,
+      3.0,
       "A"
     ],
     [
@@ -3064,8 +3065,81 @@
       "CRYSTAL STRUCTURE OF DE NOVO DESIGNED SEROTONIN BINDER SROB2_26_L7F",
       "gpcr",
       "ESCHERICHIA COLI BL21(DE3)",
-      2,
+      2.0,
       "A"
+    ],
+    [
+      "7SRQ",
+      "5-HT2B (HTR2B), LSD-bound cryo-EM receptor",
+      "gpcr",
+      "Homo sapiens",
+      2.7,
+      "R"
     ]
-  ]
+  ],
+  "unavailable": {
+    "1EPB": "receptor_site_residues_missing",
+    "1FEM": "mk_prepare_receptor",
+    "1M9Z": "receptor_site_residues_missing",
+    "1UZJ": "mk_prepare_receptor",
+    "1VKG": "mk_prepare_receptor",
+    "1XWD": "mk_prepare_receptor",
+    "3HH2": "mk_prepare_receptor",
+    "5I3T": "mk_prepare_receptor",
+    "5NPT": "receptor_site_residues_missing",
+    "6BOS": "receptor_site_residues_missing",
+    "6NTW": "mk_prepare_receptor",
+    "7D42": "mk_prepare_receptor",
+    "8WTW": "mk_prepare_receptor"
+  },
+  "warnings": {
+    "1UZJ": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "1W22": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "2B2A": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "3KD2": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "3KDA": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "3V94": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4DLN": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4DM7": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4DMF": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4I04": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4LMO": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "4YNQ": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "5DIY": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "5YWV": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "7JVU": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ],
+    "7JVW": [
+      "SITIO_FUERA_DE_LA_UNIDAD_BIOLOGICA"
+    ]
+  }
 }

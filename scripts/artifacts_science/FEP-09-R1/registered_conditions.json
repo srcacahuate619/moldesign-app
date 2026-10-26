@@ -1,0 +1,26 @@
+{
+  "product_under_test": {
+    "commit": "ee2d6c78",
+    "receptor_mode": "respetar",
+    "python": "3.11.9",
+    "vina": "1.2.7",
+    "exhaustiveness": 8,
+    "num_poses": 9,
+    "seed": 42,
+    "ph": 7.4,
+    "tautomer_mode": "sin forzar; efectivo «entrada» (por defecto desde 039d9858)"
+  },
+  "preregistration": {
+    "path": "docs/auditorias/FEP-09-R1-prerregistro.md",
+    "sha256": "3c836bef35649d80669e0a23c5f34b4758be9a375af334cf085001495b7e6a56",
+    "inventory_sha256": "4624bc5a8b0c599aff04a48892c8db6460b47732e14028ab01b489fcabba3860",
+    "fep09_inventory_sha256": "a9e609ea5e1ce9d9e28bcfce74369061fff774821a1a99dfeb93ccaa83e8891b"
+  },
+  "benchmark": {
+    "repo": "https://github.com/openforcefield/protein-ligand-benchmark",
+    "commit": "fd88824f9114244f95a14b485e6d6c96c1de716d",
+    "license_data": "CC BY 4.0",
+    "license_code": "MIT",
+    "attribution": "Hahn et al., LiveCoMS 2022, DOI 10.33011/livecoms.4.1.1497"
+  }
+}

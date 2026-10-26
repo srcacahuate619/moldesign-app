@@ -1,13 +1,17 @@
 from __future__ import annotations
 
+import asyncio
 from pathlib import Path
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
+from pydantic import BaseModel, ConfigDict, Field
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.dependencies import get_current_user, get_current_user_optional
 from core.identity import es_invitado
 from core.config import get_settings
+from core.database import get_db
 from core.models import AIChatRequest, AIChatResponse, ProviderInfoResponse, UserORM
 from services.ai import consent
 from services.ai.chat_service import get_chat_service
@@ -157,6 +161,11 @@ def _bootstrap_tools():
         register_session_tools()
     except ImportError:
         pass
+    try:
+        from services.ai.tools.preparation_tools import register_preparation_tools
+        register_preparation_tools()
+    except ImportError:
+        pass
 
 
 @router.get("/startup")
@@ -190,7 +199,8 @@ async def list_providers(
     _bootstrap_providers()
     _bootstrap_tools()
     registry = get_provider_registry()
-    return registry.list_providers(**_vista_de(current_user))
+    # En un hilo: sondea Ollama por red (4,4 s sin Ollama, medido) y congelaba el bucle al abrir la app (2026-10-10).
+    return await asyncio.to_thread(registry.list_providers, **_vista_de(current_user))
 
 
 @router.get("/providers/active")
@@ -199,7 +209,7 @@ async def get_active_provider(
 ):
     _bootstrap_providers()
     registry = get_provider_registry()
-    info = registry.get_active_info(**_vista_de(current_user))
+    info = await asyncio.to_thread(registry.get_active_info, **_vista_de(current_user))
     return info or {"id": None, "name": "Sin proveedor", "configured": False, "active": False}
 
 
@@ -297,7 +307,7 @@ async def listar_destinos_de_red(
 
     return {
         "modo_offline": red.modo_offline(),
-        "destinos": red.estado_de_destinos(str(current_user.id)),
+        "destinos": await asyncio.to_thread(red.estado_de_destinos, str(current_user.id)),
     }
 
 
@@ -357,7 +367,8 @@ async def listar_consentimientos(
     """
     _bootstrap_providers()
     registry = get_provider_registry()
-    return {"destinos": consent.estado_de_destinos(registry, **_vista_de(current_user))}
+    # En un hilo: recorre los proveedores (Ollama por red) y congelaba el bucle al abrir la app (2026-10-10).
+    return {"destinos": await asyncio.to_thread(consent.estado_de_destinos, registry, **_vista_de(current_user))}
 
 
 @router.post("/consent")
@@ -465,11 +476,25 @@ async def start_model_download(
     if not model_id or not filename:
         raise HTTPException(status_code=400, detail="model_id y filename requeridos")
     from services.ai.model_registry import start_download
-    from services.ai.red import exigir_permiso, SalidaNoAutorizada
+    from services.ai.red import destino_de_url, exigir_permiso, modo_offline, SalidaNoAutorizada
+    url = f"https://huggingface.co/{model_id}"
     try:
-        exigir_permiso(f"https://huggingface.co/{model_id}", str(current_user.id))
+        exigir_permiso(url, str(current_user.id))
     except SalidaNoAutorizada as exc:
-        raise HTTPException(status_code=403, detail=str(exc)) from exc
+        # Con el destino y el motivo, para que la interfaz pueda pedir el permiso
+        # en el sitio. Antes era una frase suelta y el Intérprete IA sólo decía
+        # «HTTP 403»: ninguna pantalla de MolChat ofrecía autorizar huggingface.co,
+        # así que sus botones «Descargar» no podían funcionar.
+        destino = destino_de_url(url)
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "motivo": "offline" if modo_offline() else "sin_permiso",
+                "mensaje": str(exc),
+                "servicio": destino.servicio if destino else "",
+                "host": destino.host if destino else "",
+            },
+        ) from exc
     try:
         dl = start_download(model_id, filename, user_id=str(current_user.id))
     except ValueError as exc:
@@ -759,6 +784,112 @@ async def delete_conversation(
     return {"status": "deleted", "id": conv_id}
 
 
+# ── LUNA-05: la aprobación de las propuestas de docking de MolChat ──────────
+#
+# MolChat PROPONE (`services/ai/propuestas_de_docking.py`); estos endpoints son la
+# otra puerta, la que lanza. Exigen sesión —`get_current_user`, no el opcional— y el
+# cuerpo de la aprobación sólo lleva la huella que el investigador vio: la petición
+# que se ejecuta sale del servidor, nunca del cliente.
+
+
+class AprobarPropuestaRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    proposal_hash: str = Field(
+        ...,
+        pattern=r"^sha256:[0-9a-f]{64}$",
+        description="Huella de la propuesta que se aprueba, tal como la mostró el chat.",
+    )
+
+
+def _como_http(exc) -> HTTPException:
+    return HTTPException(status_code=exc.status_code, detail=exc.detalle)
+
+
+@router.get("/proposals/{proposal_id}")
+async def consultar_propuesta_de_docking(
+    proposal_id: str,
+    current_user: UserORM = Depends(get_current_user),
+):
+    from services.ai import propuestas_de_docking as propuestas
+
+    try:
+        return await propuestas.consultar(proposal_id, current_user)
+    except propuestas.PropuestaNoAplicable as exc:
+        raise _como_http(exc) from exc
+
+
+@router.post("/proposals/{proposal_id}/reject")
+async def rechazar_propuesta_de_docking(
+    proposal_id: str,
+    current_user: UserORM = Depends(get_current_user),
+):
+    from services.ai import propuestas_de_docking as propuestas
+
+    try:
+        await propuestas.rechazar(proposal_id, current_user)
+    except propuestas.PropuestaNoAplicable as exc:
+        raise _como_http(exc) from exc
+    return {"status": "rejected", "id": proposal_id}
+
+
+@router.post("/proposals/{proposal_id}/approve")
+async def aprobar_propuesta_de_docking(
+    proposal_id: str,
+    body: AprobarPropuestaRequest,
+    request: Request,
+    current_user: UserORM = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    """Lanza la corrida que ESA propuesta describe, con la sesión de la cuenta."""
+    from api.routers.evaluation import get_real_ip
+    from services.ai import propuestas_de_docking as propuestas
+
+    try:
+        corrida, registro = await propuestas.aprobar(
+            propuesta_id=proposal_id,
+            huella=body.proposal_hash,
+            usuario=current_user,
+            db=db,
+            client_ip=get_real_ip(request),
+        )
+    except propuestas.PropuestaNoAplicable as exc:
+        raise _como_http(exc) from exc
+
+    mensaje = propuestas.mensaje_de_lanzamiento(corrida)
+    _dejar_constancia_en_la_conversacion(registro, current_user, mensaje)
+    return {
+        "task_id": corrida.task_id,
+        "target_pdb_id": corrida.target_pdb_id,
+        "smiles_hash": corrida.smiles_hash,
+        "message": mensaje,
+    }
+
+
+def _dejar_constancia_en_la_conversacion(registro: dict, usuario: UserORM, mensaje: str) -> None:
+    """Best effort: la corrida ya está lanzada y un historial que falla no la deshace.
+
+    Si la conversación de origen existe y es de esta cuenta, se anota el
+    lanzamiento: el siguiente turno de MolChat puede citar el `task_id`.
+    """
+    conv_id = registro.get("conversation_id")
+    if not conv_id:
+        return
+    try:
+        servicio = get_chat_service()
+        conv = servicio.get_conversation(conv_id=conv_id, user_id=str(usuario.id))
+        if conv is None:
+            conv = servicio.load_conversation_from_db(
+                conv_id, user_id=str(usuario.id), incluir_heredadas=es_invitado(usuario)
+            )
+        if conv is None:
+            return
+        conv.add_message("assistant", mensaje)
+        servicio._persist_conv(conv)
+    except Exception as exc:  # noqa: BLE001 - nunca tumba una aprobación ya efectuada
+        log.warning("propuesta_sin_constancia_en_la_conversacion", error=str(exc)[:160])
+
+
 @router.get("/status")
 async def ai_status(
     current_user: UserORM | None = Depends(get_current_user_optional),
@@ -808,9 +939,11 @@ async def ai_status(
     except ImportError:
         pass
 
+    proveedores = await asyncio.to_thread(registry.list_providers, **vista)
+    activo = await asyncio.to_thread(registry.get_active_info, **vista)
     return {
-        "providers": registry.list_providers(**vista),
-        "active_provider": registry.get_active_info(**vista),
+        "providers": proveedores,
+        "active_provider": activo,
         "resources": resource_status,
         "tools": tools_list,
         "llama_server": llama_server_info,

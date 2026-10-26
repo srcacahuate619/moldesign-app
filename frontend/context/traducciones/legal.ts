@@ -30,6 +30,8 @@ export const legal: ModuloDeTraduccion = {
   es: {
     // ── Contenedor ────────────────────────────────────────────────
     lg_titulo: "Información legal",
+    lg_privacy_legal_title: "Legal y privacidad",
+    lg_back_to_licenses: "Volver",
     lg_cerrar: "Cerrar información legal",
     lg_repositorio: "Repositorio de esta versión",
     lg_pestana_terminos: "Términos",
@@ -132,6 +134,33 @@ export const legal: ModuloDeTraduccion = {
       + "archivos. MolDesign no lo enlaza ni importa su código.",
     lg_enlazado:
       "Se enlaza o se importa desde el código de MolDesign.",
+    lg_rol_open_babel: "Conversión estructural de respaldo (PDBQT → SDF). El ejecutable empaquetado reporta internamente 3.1.0 por una corrección de empaquetado; el valor medido consta en el manifiesto del paquete.",
+    lg_rol_molcy: "Vídeos y fotos de Molcy; obra propia de MolDesign que se ejecuta dentro de Blender",
+    lg_rol_blender: "Ejecuta el motor Molcy; se descarga a petición y no viaja en el instalador",
+    lg_rol_molecular_nodes: "Construye las moléculas de las escenas de Molcy; se instala a petición y no viaja en el instalador",
+    lg_rol_meeko: "Preparación AutoDock",
+    lg_rol_mdanalysis: "Lectura de estructuras para el análisis de interacciones (ProLIF)",
+    lg_rol_griddataformats: "Dependencia de MDAnalysis",
+    lg_rol_paramiko: "Dependencia transitiva de fsspec; ningún módulo de MolDesign la usa",
+    lg_rol_gemmi: "Lectura de mmCIF/PDBx de los receptores propios",
+    lg_rol_xtb: "Motor cuántico",
+    lg_rol_rpc_websockets: "Dependencia transitiva de Solana Web3.js",
+    lg_rol_tabpfn: "Modelo fundacional tabular; viaja en el runtime y ninguna ruta de 1.0.2 lo usa",
+    lg_rol_reportlab: "PDF del dossier y de los certificados; empaqueta la tipografía DarkGarden (GPL con excepción de fuente), que MolDesign no usa",
+    lg_rol_vcruntime: "Bibliotecas de ejecución de los programas nativos; no las cubre la licencia de MolDesign",
+    lg_rol_esmfold: "Plegado de péptidos; sus pesos se descargan a petición",
+    lg_rol_llama: "Inferencia LLM local",
+    lg_rol_vina: "Docking, e incluye vina_trace, una copia modificada que registra la búsqueda",
+    lg_rol_rtmscore: "Rescoring de investigación",
+    lg_rol_rcsb: "Estructuras y metadatos estructurales base · 380 receptores curados · cita científica recomendada",
+    lg_rol_uniprot: "Fuente: UniProtKB; descripciones funcionales · traducción/adaptación al español: MolDesign",
+    lg_rol_moltalk: "Inspiró la elevación 2D → 3D de Moldex y del editor; MolDesign reimplementa su método de alineación y no incluye su código",
+    lg_metodo_adaptado:
+      "Método adaptado: MolDesign reimplementa su idea en código propio. No viaja código suyo; se conserva su aviso de licencia.",
+    lg_version_molecular_nodes: "la que instala Blender Extensions",
+    lg_version_rtmscore: "snapshot integrado",
+    lg_version_rcsb: "380 estructuras",
+    lg_version_uniprot: "comentario FUNCTION",
     lg_nota_licencia_propia:
       "Uso, estudio, modificación y redistribución no comerciales permitidos. El "
       + "uso comercial requiere una licencia escrita separada. Es "
@@ -151,11 +180,13 @@ export const legal: ModuloDeTraduccion = {
   },
   en: {
     lg_titulo: "Legal information",
+    lg_privacy_legal_title: "Legal and privacy",
+    lg_back_to_licenses: "Back",
     lg_cerrar: "Close legal information",
     lg_repositorio: "Repository for this version",
     lg_pestana_terminos: "Terms",
     lg_pestana_privacidad: "Privacy",
-    lg_pestana_licencias: "Licences",
+    lg_pestana_licencias: "Licenses",
     lg_version_vigente: "Version {version} · In force since {fecha}",
     lg_fecha_vigencia: "10 September 2026",
 
@@ -163,7 +194,7 @@ export const legal: ModuloDeTraduccion = {
     lg_boton_comercial: "Commercial use",
     lg_doc_inventario: "Full third-party inventory",
     lg_doc_fuente: "Source and rebuild",
-    lg_doc_comercial: "Commercial use licence",
+    lg_doc_comercial: "Commercial use license",
 
     lg_terminos_titulo: "Conditions of scientific use",
     lg_terminos_intro:
@@ -172,7 +203,7 @@ export const legal: ModuloDeTraduccion = {
     lg_terminos_1_titulo: "1. Scope and responsible use",
     lg_terminos_1:
       "It is not a medical device and does not replace clinical, pharmaceutical, "
-      + "toxicological or regulatory judgement. The user must comply with "
+      + "toxicological or regulatory judgment. The user must comply with "
       + "applicable law and must not use the platform for unlawful activities.",
     lg_terminos_2_titulo: "2. Results and reproducibility",
     lg_terminos_2:
@@ -191,7 +222,7 @@ export const legal: ModuloDeTraduccion = {
     lg_terminos_4_b:
       "for non-commercial purposes. Any commercial use requires a separate "
       + "written agreement. Third-party datasets, models and components keep "
-      + "their own licences.",
+      + "their own licenses.",
     lg_terminos_5_titulo: "5. Optional services",
     lg_terminos_5:
       "Some features only work if the user configures or downloads external "
@@ -201,7 +232,7 @@ export const legal: ModuloDeTraduccion = {
     lg_terminos_6_titulo: "6. No warranty",
     lg_terminos_6:
       "The software is provided “as is”, without warranties express or "
-      + "implied, to the extent permitted by applicable law and by the licences "
+      + "implied, to the extent permitted by applicable law and by the licenses "
       + "included.",
 
     lg_privacidad_titulo: "Local-first privacy",
@@ -232,9 +263,9 @@ export const legal: ModuloDeTraduccion = {
       + "control. Backups containing confidential information should not be "
       + "shared without appropriate protection.",
 
-    lg_licencias_titulo: "Licences and source code",
+    lg_licencias_titulo: "Licenses and source code",
     lg_licencias_intro:
-      "This screen summarises the components that need special attention. The "
+      "This screen summarizes the components that need special attention. The "
       + "full runtime inventory and the complete texts are distributed with the "
       + "application.",
     lg_componentes_destacados: "Highlighted components",
@@ -246,20 +277,47 @@ export const legal: ModuloDeTraduccion = {
       "Independent program: it runs as a separate process and only exchanges "
       + "files. MolDesign neither links it nor imports its code.",
     lg_enlazado: "It is linked or imported from MolDesign's own code.",
+    lg_rol_open_babel: "Fallback structural conversion (PDBQT → SDF). The packaged executable reports 3.1.0 internally because of a packaging fix; the measured value is in the package manifest.",
+    lg_rol_molcy: "Molcy's videos and photos; MolDesign's own work, run inside Blender",
+    lg_rol_blender: "Runs the Molcy engine; downloaded on request and not shipped with the installer",
+    lg_rol_molecular_nodes: "Builds the molecules in Molcy's scenes; installed on request and not shipped with the installer",
+    lg_rol_meeko: "AutoDock preparation",
+    lg_rol_mdanalysis: "Structure reading for interaction analysis (ProLIF)",
+    lg_rol_griddataformats: "Dependency of MDAnalysis",
+    lg_rol_paramiko: "Transitive dependency of fsspec; no MolDesign module uses it",
+    lg_rol_gemmi: "mmCIF/PDBx reading for your own receptors",
+    lg_rol_xtb: "Quantum engine",
+    lg_rol_rpc_websockets: "Transitive dependency of Solana Web3.js",
+    lg_rol_tabpfn: "Tabular foundation model; ships in the runtime and no 1.0.2 workflow uses it",
+    lg_rol_reportlab: "Dossier and certificate PDFs; it bundles the DarkGarden typeface (GPL with font exception), which MolDesign does not use",
+    lg_rol_vcruntime: "Runtime libraries of the native programs; not covered by MolDesign's license",
+    lg_rol_esmfold: "Peptide folding; its weights are downloaded on request",
+    lg_rol_llama: "Local LLM inference",
+    lg_rol_vina: "Docking, including vina_trace, a modified copy that records the search",
+    lg_rol_rtmscore: "Research rescoring",
+    lg_rol_rcsb: "Base structures and structural metadata · 380 curated receptors · recommended scientific citation",
+    lg_rol_uniprot: "Source: UniProtKB; functional descriptions · translation/adaptation into Spanish: MolDesign",
+    lg_rol_moltalk: "Inspired the 2D → 3D lift in Moldex and the editor; MolDesign reimplements its alignment method and does not include its code",
+    lg_metodo_adaptado:
+      "Adapted method: MolDesign reimplements the idea in its own code. None of its code ships; its license notice is kept.",
+    lg_version_molecular_nodes: "the version Blender Extensions installs",
+    lg_version_rtmscore: "integrated snapshot",
+    lg_version_rcsb: "380 structures",
+    lg_version_uniprot: "FUNCTION comment",
     lg_nota_licencia_propia:
       "Non-commercial use, study, modification and redistribution are permitted. "
-      + "Commercial use requires a separate written licence. It is "
+      + "Commercial use requires a separate written license. It is "
       + "source-available, not open source under the OSI definition.",
     lg_nota_tabpfn:
       "Attribution required by the Prior Labs License 1.2 for products that "
       + "incorporate TabPFN.",
     lg_nota_upstream:
       "The bundled copy includes the upstream text and its attribution: "
-      + "Copyright (c) 2023 sc8668. The licence permits commercial use and "
+      + "Copyright (c) 2023 sc8668. The license permits commercial use and "
       + "redistribution provided that notice is kept.",
     lg_pie_local_first: "Local-first · external connections identified",
     lg_no_es_asesoria:
-      "Downloadable models show their licence and provenance separately before "
+      "Downloadable models show their license and provenance separately before "
       + "being installed. This technical summary does not replace professional "
       + "legal advice.",
   },

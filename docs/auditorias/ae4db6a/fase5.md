@@ -55,7 +55,7 @@ Open Babel pasa a fail-closed si falta el hash de `bin/obabel.exe`; la guarda G5
 - Frontend: **1067/1067** pruebas; `npm run typecheck` limpio. El contrato `EvaluationResult` incorporó tres campos que aparecieron al regenerar OpenAPI (`muegge_violations`, `shap_model_id`, `shap_output`); su prueba específica pasó.
 - `cargo check --offline -q` pasó con target en D:. `npm run build:desktop` generó el export estático. `generate_openapi_contract.py --check`, `lock_embedded_runtime.py --check` y `generate_sbom.py --check` pasaron.
 - Bundle reconstruido tras los últimos cambios: **34787 archivos, 1573,4 MiB**. `check:openbabel` pasó 16 comprobaciones, incluida conversión real PDBQT→SDF. `verify:desktop-runtime` pasó: 680 binarios nativos, 5927 importaciones, cero sin resolver (siete ausencias declaradas). `check:dossier-embebido` comparó diez casos con desarrollo y goldens.
-- `check:evaluation-runtime` pasó con Vina real y dos contratos: PRO 65,9 s, normal 27,1 s; evidencia local `D:\moldesign-build\.worktrees\audit-phase-5\tmp\evaluation-runtime-20260925T065159Z`.
+- `check:evaluation-runtime` pasó con Vina real y dos contratos: PRO 65,9 s, normal 27,1 s; evidencia local `D:\moldesign-build\.worktrees\audit-phase-5\tmp\evaluation-runtime-20260925T065159Z` (ahora en F:\Backups\moldesign-evidencia\auditoria-ae4db6a-fases-trabajo-local\audit-phase-5\tmp\evaluation-runtime-20260925T065159Z).
 - `smoke:prod` sobre backend embebido, export y CSP: **15/15**, incluidos los dos casos de secreto de lanzamiento. Export: 237 archivos sin URL de backend fija; 16 CSS/HTML sin recursos remotos.
 - `git -c core.whitespace=cr-at-eol diff --cached --check` pasó. Se usó `cr-at-eol` porque un archivo histórico conserva CRLF.
 

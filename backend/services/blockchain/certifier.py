@@ -126,6 +126,8 @@ class SolanaCertifier:
         }
         if not self.is_devnet:
             return {**base, "reason": "Esta versión experimental sólo permite Solana devnet."}
+        from services.ai.red import SalidaNoAutorizada, destino_de_url, modo_offline
+
         try:
             reachable = await self._rpc("getHealth") == "ok"
             return {
@@ -133,6 +135,17 @@ class SolanaCertifier:
                 "available": reachable,
                 "rpc_reachable": reachable,
                 "reason": None if reachable else "Solana devnet respondió sin estado saludable.",
+            }
+        except SalidaNoAutorizada as exc:
+            # Falta el permiso de la cuenta (o el equipo está offline): no es una caída de
+            # devnet y la interfaz tiene que poder pedir el permiso en vez de decir «no hay red».
+            destino = destino_de_url(self.rpc_url)
+            offline = modo_offline()
+            return {
+                **base,
+                "reason_code": "offline" if offline else "consent_required",
+                "reason": str(exc),
+                "destino": destino.to_dict() if destino else None,
             }
         except (OSError, RuntimeError, ValueError, urlerror.URLError) as exc:
             log.warning("solana_devnet_health_failed", error=str(exc))
@@ -179,6 +192,12 @@ class SolanaCertifier:
                 if record.user_wallet not in self._transaction_signers(transaction):
                     log.warning("memo_wallet_not_signer", signature=signature[:16])
                     return None
+            if record is not None:
+                # La fecha del memo la escribe quien firma; la de la cadena es
+                # la del bloque. Se devuelven las dos y no se confunden.
+                block_time = transaction.get("blockTime")
+                if isinstance(block_time, int) and not isinstance(block_time, bool):
+                    record.block_time = datetime.fromtimestamp(block_time, tz=timezone.utc)
             return record
         except (OSError, RuntimeError, ValueError, TypeError, urlerror.URLError) as exc:
             log.warning("solana_verify_failed", signature=signature[:16], error=str(exc))
@@ -254,34 +273,50 @@ class SolanaCertifier:
         return None
 
     def _parse_memo(self, memo: str) -> Optional[BlockchainRecord]:
+        """Sólo los dos esquemas que MolDesign ha emitido; nada más.
+
+        SCI-A-058: antes bastaba que el primer campo empezara por «MolDesign»
+        (``MolDesign-v9`` o ``MolDesignX`` pasaban), y una fecha ilegible se
+        sustituía por la hora actual, así que ``/verify`` presentaba como fecha
+        del registro un instante que nadie había escrito.
+        """
         try:
             parts = memo.split("|")
-            if len(parts) < 6 or not parts[0].startswith("MolDesign"):
+            if parts[:2] == ["MolDesign-v1", "CC0"]:
+                campos = parts[2:]
+            elif parts[0] == "MolDesign-CC0":          # esquema anterior a v1
+                campos = parts[1:]
+            else:
                 return None
-            offset = 1 if len(parts) > 1 and parts[1] == "CC0" else 0
+            if len(campos) not in (4, 5):
+                return None
+            timestamp = _parse_timestamp(campos[3])
+            if timestamp is None:
+                return None
             return BlockchainRecord(
-                smiles_hash=parts[1 + offset],
-                total_score=float(parts[2 + offset]),
-                target_pdb_id=parts[3 + offset],
-                user_wallet=parts[5 + offset] if len(parts) > 5 + offset else "",
-                timestamp=_parse_timestamp(parts[4 + offset]),
+                smiles_hash=campos[0],
+                total_score=float(campos[1]),
+                target_pdb_id=campos[2],
+                user_wallet=campos[4] if len(campos) == 5 else "",
+                timestamp=timestamp,
             )
         except (ValueError, IndexError) as exc:
             log.debug("memo_parse_failed", memo=memo[:60], error=str(exc))
             return None
 
 
-def _parse_timestamp(ts: str) -> datetime:
+def _parse_timestamp(ts: str) -> Optional[datetime]:
+    """ISO 8601 o nada. Una fecha que no se puede leer no se inventa.
+
+    Los memos anteriores a la zona horaria explícita se escribieron con
+    ``utcnow()``, que da una fecha sin zona: se leen como UTC, que es lo que
+    eran.
+    """
     try:
-        return datetime.fromisoformat(ts)
+        dt = datetime.fromisoformat(ts)
     except (ValueError, TypeError):
-        pass
-    try:
-        from dateutil.parser import parse as dateparse
-        dt = dateparse(ts)
-        return dt.replace(tzinfo=dt.tzinfo or timezone.utc)
-    except Exception:
-        return datetime.now(timezone.utc)
+        return None
+    return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
 
 
 _certifier: Optional[SolanaCertifier] = None

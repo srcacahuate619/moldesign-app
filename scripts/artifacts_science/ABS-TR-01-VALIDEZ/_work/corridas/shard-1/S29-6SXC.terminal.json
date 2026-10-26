@@ -1,0 +1,16 @@
+{
+  "id_r2": "S29",
+  "pdb": "6SXC",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 37.8,
+      "crudo": "S29-6SXC-intento1.json.gz",
+      "crudo_sha256": "3fe039459ee5f03feb6cbb467cd19d0d75413f9c8345a2bde806a0fb638ef2e3"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S29-6SXC-intento1.json.gz",
+  "crudo_sha256": "3fe039459ee5f03feb6cbb467cd19d0d75413f9c8345a2bde806a0fb638ef2e3",
+  "registrado_en": "2026-10-22T16:51:33+00:00"
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "name": "molstar.js",
+    "bytes": 4880911,
+    "matches": {
+      "brace-expansion": [],
+      "braces": [],
+      "compression": [],
+      "fast-uri": [],
+      "image-size": [],
+      "sharp": [],
+      "source-map-js": [],
+      "stream-json": []
+    }
+  },
+  {
+    "name": "3Dmol-min.js",
+    "bytes": 537793,
+    "matches": {
+      "brace-expansion": [],
+      "braces": [],
+      "compression": [],
+      "fast-uri": [],
+      "image-size": [],
+      "sharp": [],
+      "source-map-js": [],
+      "stream-json": []
+    }
+  }
+]

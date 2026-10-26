@@ -7,6 +7,26 @@
 > **Postmortem Bucket A**: Sección 7 (~2026-07-25, commit `4f48fde`).
 > **Filosofía**: "Documentar mis errores, son igual de importantes que mis victorias."
 
+> **Nota de vigencia (2026-10-20, auditoría científica, SCI-A-062 y SCI-A-063).** Este
+> documento es un **postmortem de julio de 2026**, no el estado actual. Tres mecanismos
+> que describe ya no son así:
+>
+> 1. **El fallo silencioso `(0.5, 1.0)` ya no existe.** `rescoring/gnn_v2/inference.py`
+>    devuelve `(NaN, NaN)` en todo fallo interno y lo registra (`_record_silent`); nunca
+>    fabrica el 0,5 neutro. Donde abajo dice que «retorna `(0.5, 1.0)`», describe el
+>    código de entonces.
+> 2. **El checkpoint que se carga es otro.** `GPU_MODEL_PATH` apunta hoy a
+>    `artifacts/gpu/gnn_v3_best.pt` (y el de CPU a `gnn_v3_best.pt`); el hot-patch de la
+>    sección 7 se hizo sobre `gnn_v2_best.pt`.
+> 3. **Las tablas de cobertura y de pesos quedaron atrás.** `curated_targets.csv` (80
+>    filas) da hoy **gpcr 15 y kinase 14**, no al revés: el CSV cambió el 2026-10-04.
+>    `stacking_weights.json` no lleva pesos entrenados por 18 familias: tiene 9 claves con
+>    pesos, **todas con `gnn = 0`**; ocho dan todo el peso a Vina (`vina 1,0`) y
+>    `lofo_canonical` da `vina 0,25` / `xgb 0,75`.
+>
+> El resto de §2.1 y §2.5 sigue vigente. Las rutas de §5.1 son ahora relativas al
+> repositorio. Ver `docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md`.
+
 ---
 
 ## TL;DR — qué le falta a MolDesign v1 para ser universal
@@ -167,6 +187,8 @@ Para dataset ChEMBL/DUD-E con tautómeros, esto es fragil.
 
 ### 2.7 Curated DB coverage: 80 targets, 18 familias — curated_targets.csv
 
+*Recuento de 2026-07-25. El 2026-10-20 el CSV da gpcr 15 y kinase 14 (cambió el 2026-10-04).*
+
 | Family | Count | Notas |
 |--------|------:|-------|
 | kinase | 15 | mayoritario, sesgo por PDBbind historical |
@@ -275,6 +297,7 @@ Para el JCIM v1 paper, las limitaciones honestas que van a Section "Limitations"
    pocket spans dos cadenas requieren cura manual del CSV.
 5. Stacking weights entrenados por familia (18 familias curadas, 80 targets).
    Family desconocida cae a `"default"` weights — riesgo de underfit.
+   *(2026-10-20: el archivo vigente tiene 9 claves con pesos, todas con `gnn = 0`; ver la nota de vigencia.)*
 6. `compute_dynamic_box` está desconectado del runtime del backend. La derivación
    automatica del box solo corre para 5 targets PDBbind del script de benchmark, no
    para el backend que usan los usuarios finales. Fase 2 del roadmap lo cablea.
@@ -304,26 +327,26 @@ Para el JCIM v1 paper, las limitaciones honestas que van a Section "Limitations"
 
 ### 5.1 Archivos auditados
 
-- `D:\moldesign-build\scripts\benchmark_ef_vina.py` — flow center/box, lineas
+- `scripts/benchmark_ef_vina.py` — flow center/box, lineas
   80-200 (TARGET_CONFIGS), 285-313 (curated DB loader), 316-332 (dominant chain),
   450-561 (chain trim + center determination).
-- `D:\moldesign-build\rescoring\gnn_v2\data.py` — lineas 41-72 (alphabet),
+- `rescoring/gnn_v2/data.py` — lineas 41-72 (alphabet),
   106-190 (ligand graph), 197-286 (protein graph), 293-303 (cross-edges).
-- `D:\moldesign-build\rescoring\gnn_v2\inference.py` — lineas 80-133 (predict,
+- `rescoring/gnn_v2/inference.py` — lineas 80-133 (predict,
   returns 0.5 silent).
-- `D:\moldesign-build\backend\services\chemistry\protein_surgery.py` — lineas 33-73
+- `backend/services/chemistry/protein_surgery.py` — lineas 33-73
   (`detect_binding_chain`), 152-192 (`compute_dynamic_box`), 423-500 (`prepare_target`
   chemistry que sí invoca dynamic box).
-- `D:\moldesign-build\backend\services\docking\preparer.py:267` — otro `prepare_target`
+- `backend/services/docking/preparer.py:267` — otro `prepare_target`
   async, distinto del chemistry, NO invoca dynamic box.
-- `D:\moldesign-build\backend\api\routers\protein_surgery.py:292` — endpoint `/prepare`
+- `backend/api/routers/protein_surgery.py:292` — endpoint `/prepare`
   que invoca el prepare chemistry correcto.
-- `D:\moldesign-build\curated_targets.csv` — 80 rows, 18 familias, verificado
+- `curated_targets.csv` — 80 rows, 18 familias, verificado
   distribución.
 
 ### 5.2 Hallazgos metodológicos
 
-- Histograma de familias curated muestra sesgo hacia kinases (15) y GPCRs (14) — corresponde
+- Histograma de familias curated muestra sesgo hacia kinases (15) y GPCRs (14) *(2026-10-20: hoy GPCRs 15 y kinases 14)* — corresponde
   a datasets ChEMBL/DUD-E históricos dominados por esas dos families.
 - Bug histório del 7E2Y en curated_targets.csv (chain B equivocado = Gβ no receptor)
   sugería 1 de 14 GPCRs curated estaba MAL calibrado. Posible replicación: auditar
@@ -572,6 +595,7 @@ Actualización de Sección 4 con los post-mortem items:
 6. **Stacking weights entrenados por familia (18 familias, 80 targets)
    con `gnn=0` en 4/5 families** debido al bug descubierto post-Bucket A.
    Family desconocida cae a `"default"` weights.
+   *(2026-10-20: el archivo vigente tiene 9 claves con pesos y `gnn = 0` en todas; ocho son `vina 1,0`.)*
 
 7. **`compute_dynamic_box` está conectado al runtime del backend desde el
    Bucket B fix (commit `f8ebc79`)** — 已 resuelto en esta sesión post-

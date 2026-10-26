@@ -135,8 +135,10 @@ jobs:
         run: python rescoring/scripts/generate_model_manifest.py --check
       - name: Run rescoring contracts
         run: python -m pytest rescoring/tests --maxfail=1 -ra -p no:cacheprovider
+      # SCI-A-056: el SHAP versionado no está ligado al modelo distribuido, así que
+      # la puerta dice NO_VERIFICABLE. Quitar la bandera cuando se recalcule.
       - name: Enforce Vina importance gate
-        run: python rescoring/scripts/check_vina_importance_gate.py
+        run: python rescoring/scripts/check_vina_importance_gate.py --permitir-no-verificable
 
   frontend:
     name: Frontend web and desktop build

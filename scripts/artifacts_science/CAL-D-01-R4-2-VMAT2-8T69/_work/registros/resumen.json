@@ -1,0 +1,18 @@
+{
+  "padre": "4-67",
+  "estado": "SUCCESS",
+  "error": null,
+  "segundos_totales": 344.7,
+  "segundos_evaluacion": 343.3,
+  "vina": "1.2.7",
+  "cpu": 4,
+  "semilla": 42,
+  "exhaustividad": 8,
+  "poses": 9,
+  "microestado_coincide": true,
+  "receptor_sha256": "8fc027cae876631f30518b27823ce175e844bbe9e7bc10554653a7766e21468d",
+  "receptor_igual_que_r4": true,
+  "validacion_fisica_top1": null,
+  "crudo_sha256": "62ec8c5b1868714fb58a2e7f87cdd6f4ee7e2f8eebb7a6e040bdaf9e159a448d",
+  "resultado": "COMPLETA"
+}

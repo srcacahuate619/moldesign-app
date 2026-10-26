@@ -1,0 +1,38 @@
+Cápsula del agente 3  (D:\moldesign-build\.worktrees\.sandbox\agente3)
+Preparando el worktree…
+Export estático…
+  construyendo el export (npm run build:desktop; unos minutos). Log: D:\moldesign-build\.worktrees\.sandbox\agente3\logs\build_20261010_015753.log
+
+ERROR: el build terminó con código 1. Últimas líneas de D:\moldesign-build\.worktrees\.sandbox\agente3\logs\build_20261010_015753.log:
+
+> moldesign-frontend@1.0.1 build:desktop
+> cross-env BUILD_TARGET=desktop NEXT_PUBLIC_API_URL= npm run build
+
+
+> moldesign-frontend@1.0.1 prebuild
+> node scripts/check-build-lock.js && npm run check:external-links
+
+
+> moldesign-frontend@1.0.1 check:external-links
+> node scripts/check-external-links.mjs
+
+node:fs:484
+    return binding.readFileUtf8(path, stringToFlags(options.flag));
+                   ^
+
+Error: EPERM: operation not permitted, open 'D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\MutanteInvisibleDelGuardian.tsx'
+    at Object.readFileSync (node:fs:484:20)
+    at main (file:///D:/moldesign-build/.worktrees/catalogo-demostracion/frontend/scripts/check-external-links.mjs:95:25)
+    at file:///D:/moldesign-build/.worktrees/catalogo-demostracion/frontend/scripts/check-external-links.mjs:109:67
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'open',
+  path: 'D:\\moldesign-build\\.worktrees\\catalogo-demostracion\\frontend\\components\\MutanteInvisibleDelGuardian.tsx'
+}
+
+Node.js v24.20.0
+

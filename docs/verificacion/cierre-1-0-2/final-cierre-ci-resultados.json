@@ -1,0 +1,74 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:00:08.5947539Z",
+    "segundos": 200.78,
+    "salida": 0,
+    "registro": "final-cierre-ci-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:03:29.4353044Z",
+    "segundos": 2.94,
+    "salida": 0,
+    "registro": "final-cierre-ci-02.log"
+  },
+  {
+    "paso": "03",
+    "comando": "npm run check:csp",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:03:32.3885699Z",
+    "segundos": 0.57,
+    "salida": 0,
+    "registro": "final-cierre-ci-03.log"
+  },
+  {
+    "paso": "04",
+    "comando": "npm run typecheck",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:03:32.9840227Z",
+    "segundos": 23.39,
+    "salida": 0,
+    "registro": "final-cierre-ci-04.log"
+  },
+  {
+    "paso": "05",
+    "comando": "npm run test:run",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:03:56.3809901Z",
+    "segundos": 139.67,
+    "salida": 0,
+    "registro": "final-cierre-ci-05.log"
+  },
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:06:16.0604709Z",
+    "segundos": 74.48,
+    "salida": 0,
+    "registro": "final-cierre-ci-06.log"
+  },
+  {
+    "paso": "07",
+    "comando": "npm run test:ux",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:07:30.5543018Z",
+    "segundos": 50.53,
+    "salida": 0,
+    "registro": "final-cierre-ci-07.log"
+  },
+  {
+    "paso": "08",
+    "comando": "npm run build:desktop",
+    "commit": "93b004cf5145f26b038181b2d71b5301e6ae6814",
+    "inicio_utc": "2026-10-10T03:08:21.0905238Z",
+    "segundos": 34.29,
+    "salida": 0,
+    "registro": "final-cierre-ci-08.log"
+  }
+]

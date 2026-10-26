@@ -107,7 +107,8 @@ está medida.
 ## Hallazgo lateral, exploratorio
 
 `1ew8` puntúa **+1.714** preparado flexible: positivo. `MF-13` ya lo había señalado —junto a
-`1fkh`— como sistema probablemente mal montado, por su −2.181 rígido, y planteó que faltara
+`1fkh`— como sistema probablemente mal montado, por su +2.064 en la pose del cristal sin optimizar (−2.181 tras la
+optimización local rígida), y planteó que faltara
 un cofactor, un metal o una agua estructural, o que la protonación estuviese mal. Verlo
 cruzar a positivo **refuerza** esa hipótesis; no la establece.
 
@@ -118,3 +119,31 @@ cruzar a positivo **refuerza** esa hipótesis; no la establece.
 2. **No certifica optimalidad global.** `MF-29` sigue abierto.
 3. Cohorte de 48 y no 50: el brazo masivo de `1mmr` y `1nm6` expiró, y eso lo recupera
    `MF-29-EMP-EXT`.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-118. Los tiempos internos del PRE preceden al resultado, pero el PRE y las salidas de
+  COR aparecen por primera vez en el mismo commit Git. El sello fija el contenido conservado;
+  ese anclaje no acredita independientemente que los umbrales estuvieran comprometidos antes de
+  observar los resultados. No hay aquí evidencia de que se movieran ni de manipulación: la
+  condición de anterioridad queda sin verificación externa. La exigencia de sellado de SCI-B-045
+  se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro retroactivamente.
+  Productor: `scripts/analisis_fase1b_procedencia.py`.
+- SCI-B-119. Las 48 unidades de COR conservan una deriva local: mediana 0,3425 Å y máximo 1,898
+  Å. No hay aquí ausencia de derivas por unidad. El RMSD procede del subconjunto pesado mapeado
+  y la salida no registra cuántos átomos se esperaban ni cuántos se mapearon; por tanto este
+  control no certifica correspondencia atómica completa ni identidad estructural del cristal
+  relajado. Productor: `scripts/analisis_fase1b_cohortes.py`.
+- SCI-B-120. El sello fija el runner COR y sus registros previos de referencia; no fija las
+  entradas moleculares directas, el helper ni el ejecutable con que se preparó y puntuó el
+  cristal flexible. Se documenta el cambio de rigidez declarado, pero no se certifica
+  retrospectivamente que fuera el único cambio efectivo de la ejecución. La exigencia de sellado
+  de SCI-B-045 se aplica a experimentos nuevos desde el 2026-10-23; no sanea este registro
+  retroactivamente. Productor: `scripts/analisis_fase1b_procedencia.py`.
+
+**2026-10-22.** El hallazgo lateral atribuía a `1ew8` un «−2.181 rígido» como señal de montaje defectuoso. Esa cifra es la
+de la optimización local; lo que MF-13 señaló fue el +2.064 de la pose del cristal sin optimizar (`MF-13/per_complex.jsonl`,
+`score_cristal`). Hallazgo PAP-SOL-007 de la revisión de papers de Sol, coherente con SCI-B-153.

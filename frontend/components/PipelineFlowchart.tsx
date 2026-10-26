@@ -69,7 +69,7 @@ interface NodeDef {
 
 const NODES: NodeDef[] = [
   // L1
-  { id: 'start', label: 'Ingesta SMILES', ring: 0, type: 'primary', tag: 'INPUT', desc: 'Punto de entrada al acelerador. Soporta ingesta masiva en lotes (CSV/SDF) o cadenas individuales. Tokenización inmediata para el pipeline de validación.' },
+  { id: 'start', label: 'pn_flow_smiles_ingestion', ring: 0, type: 'primary', tag: 'INPUT', desc: 'Punto de entrada al acelerador. Soporta ingesta masiva en lotes (CSV/SDF) o cadenas individuales. Tokenización inmediata para el pipeline de validación.' },
   { id: 'rdkit', label: 'RDKit', ring: 0, type: 'process', tag: 'VAL-01', desc: 'Valida sanitización, valencias, aromaticidad y representaciones moleculares. Las señales se conservan para revisión; no decide por sí solo la viabilidad del compuesto.' },
   { id: 'err1', label: 'Revisión requerida', ring: 0, type: 'error', tag: 'REVIEW', desc: 'La entrada no supera una comprobación estructural. Se conserva el motivo y se bloquea la etapa que no puede ejecutarse; no se elimina silenciosamente el caso.', parentId: 'rdkit' },
   { id: 'physchem', label: 'Propiedades fisicoquímicas', ring: 0, type: 'process', tag: 'ADME', desc: 'Calcula descriptores y reglas de drug-likeness para contextualizar la estructura. No garantiza absorción, seguridad ni viabilidad oral.' },
@@ -77,24 +77,24 @@ const NODES: NodeDef[] = [
   { id: 'err2', label: 'Revisión de alertas', ring: 0, type: 'error', tag: 'REVIEW', desc: 'Una alerta PAINS, una heurística SA u otra regla requiere revisión. Se conserva como evidencia y no se convierte automáticamente en toxicidad o descarte.', parentId: 'sa' },
 
   // L2
-  { id: 'etkdg', label: 'Motor ETKDG', ring: 1, type: 'process', tag: '3D-GEN', desc: 'Genera conformaciones 3D plausibles mediante restricciones geométricas y muestreo estocástico. No demuestra que una conformación sea la dominante en solución.' },
+  { id: 'etkdg', label: 'pn_flow_etkdg_engine', ring: 1, type: 'process', tag: '3D-GEN', desc: 'Genera conformaciones 3D plausibles mediante restricciones geométricas y muestreo estocástico. No demuestra que una conformación sea la dominante en solución.' },
   { id: 'vina', label: 'AutoDock Vina', ring: 1, type: 'process', tag: 'DOCK', desc: 'Docking local dentro de la caja declarada. Explora poses y devuelve un score empírico de Vina; no afirma una pose termodinámicamente óptima ni una energía libre experimental.' },
   { id: 'pose', label: 'Controles físicos de pose', ring: 1, type: 'process', tag: 'FIL-3', desc: 'Comprueba geometría, choques, conectividad e interacciones bajo los controles disponibles. RMSD sólo es interpretable cuando existe una referencia compatible.' },
   
   // L3 — RESCORING MULTI-MODELO
   { id: 'xgboost', label: 'XGBoost', ring: 2, type: 'process', tag: 'ML-01', desc: 'Rescoring derivado de features de la pose cuando el perfil y su dominio están disponibles. La salida puede expresarse en pKi y kcal equivalentes según el protocolo; fuera de dominio prevalece la observación de Vina.' },
-  { id: 'cl_gnn', label: 'CL-GNN', ring: 2, type: 'process', tag: 'GNN-02', desc: 'Señal neuronal de grafos disponible sólo para perfiles que declaran modelo, pesos y cohorte. Las métricas son condicionales al benchmark; no se presenta como detector universal de sesgo o termodinámica.' },
-  { id: 'rtmscore', label: 'RTMScore', ring: 2, type: 'process', tag: 'DEEP', desc: 'Artefacto de rescoring experimental que representa contactos de una pose. No emite automáticamente Kd/Ki en esta instalación ni valida por sí solo la geometría.' },
-  { id: 'ums', label: 'UMS Metal', ring: 2, type: 'decision', tag: 'GATE', desc: 'Detector SMARTS de grupos funcionales candidatos a coordinar metales. Sólo se integra mediante perfiles M5-Zn exactos; su estado, componentes y aplicabilidad se muestran sin fabricar una fórmula fuera de perfil.' },
-  { id: 'molchamb', label: 'MolChamb', ring: 2, type: 'process', tag: 'Q-01', desc: 'Descriptores de GFN2-xTB (cargas tight-binding, gap HOMO-LUMO, energía) y de MMFF94, ~0.1 s/mol. El índice agregado que produce es una combinación lineal con pesos elegidos a mano: informa y se guarda, pero desde 2026-09-04 no entra al score principal. No es equivalente a GAFF2 ni a un cálculo DFT.' },
+  { id: 'cl_gnn', label: 'pn_flow_cl_gnn', ring: 2, type: 'process', tag: 'GNN-02', desc: 'Señal neuronal de grafos disponible sólo para perfiles que declaran modelo, pesos y cohorte. Las métricas son condicionales al benchmark; no se presenta como detector universal de sesgo o termodinámica.' },
+  { id: 'rtmscore', label: 'pn_flow_rtmscore', ring: 2, type: 'process', tag: 'DEEP', desc: 'Artefacto de rescoring experimental que representa contactos de una pose. No emite automáticamente Kd/Ki en esta instalación ni valida por sí solo la geometría.' },
+  { id: 'ums', label: 'pn_flow_ums_metal', ring: 2, type: 'decision', tag: 'GATE', desc: 'Detector SMARTS de grupos funcionales candidatos a coordinar metales. Sólo se integra mediante perfiles M5-Zn exactos; su estado, componentes y aplicabilidad se muestran sin fabricar una fórmula fuera de perfil.' },
+  { id: 'molchamb', label: 'pn_flow_molchamb', ring: 2, type: 'process', tag: 'Q-01', desc: 'Descriptores de GFN2-xTB (cargas tight-binding, gap HOMO-LUMO, energía) y de MMFF94, ~0.1 s/mol. El índice agregado que produce es una combinación lineal con pesos elegidos a mano: informa y se guarda, pero desde 2026-09-04 no entra al score principal. No es equivalente a GAFF2 ni a un cálculo DFT.' },
   { id: 'final', label: 'Interpretación del perfil', ring: 2, type: 'process', tag: 'SYNC', desc: 'Cruza sólo las señales que el perfil declara y que la corrida produjo. Conserva observación, score derivado, aplicabilidad y abstención; no equivale a un consenso universal ni a una conclusión experimental.' },
 
   // L4 — POST-PROCESAMIENTO Y CERTIFICACIÓN
-  { id: 'selectivity', label: 'Selectividad', ring: 3, type: 'process', tag: 'REG', desc: 'Acoplamiento contra los 2 anti-targets estructurales del panel por defecto: hERG/KCNH2 5VA1 y 5-HT2B 4NC3, más las dianas de Bowes et al. 2012 que elija el usuario. Da el margen on/off-target; no emite un veredicto de seguridad.' },
-  { id: 'admet', label: 'ADMET Final', ring: 3, type: 'process', tag: 'TOX', desc: 'Absorción intestinal, permeabilidad BBB, PPB, solubilidad LogS y alertas de reactividad, con ADMET-AI (Chemprop D-MPNN). El consenso de BBB acierta 39 de 41 fármacos de difusión pasiva en una cohorte de regresión de 46, sin holdout independiente: es la cifra con la que se ajustó, no una validación externa. El índice de perfil sanguíneo es heurístico.' },
-  { id: 'molchat', label: 'MolChat IA', ring: 3, type: 'primary', tag: 'AI', desc: 'Asistente opcional con Qwen2.5-1.5B local que consulta evidencia persistida y ayuda a explicarla. No es fuente primaria de resultados; requiere el modelo instalado y no incluye voz local en este runtime.' },
-  { id: 'solana', label: 'Registro Solana', ring: 3, type: 'primary', tag: 'HASH', desc: 'Integración opcional que registra un hash y metadatos técnicos en un memo público. Puede verificar integridad y fecha de emisión; no valida la ciencia ni publica automáticamente la estructura.' },
-  { id: 'certificado', label: 'Certificado PDF', ring: 3, type: 'primary', tag: 'PDF', desc: 'Genera un PDF con la evidencia y sus identificadores verificables. Puede incluir un enlace de integridad a Solana cuando el usuario lo solicita; no transfiere la propiedad de la molécula, el caso ni sus resultados.' },
+  { id: 'selectivity', label: 'pn_flow_selectivity', ring: 3, type: 'process', tag: 'REG', desc: 'Acoplamiento contra los 2 anti-targets estructurales del panel por defecto: hERG/KCNH2 5VA1 y 5-HT2B 4NC3, más las dianas de Bowes et al. 2012 que elija el usuario. Da el margen on/off-target; no emite un veredicto de seguridad.' },
+  { id: 'admet', label: 'pn_flow_admet_final', ring: 3, type: 'process', tag: 'TOX', desc: 'Absorción intestinal, permeabilidad BBB, PPB, solubilidad LogS y alertas de reactividad, con ADMET-AI (Chemprop D-MPNN). El consenso de BBB acierta 39 de 41 fármacos de difusión pasiva en una cohorte de regresión de 46, sin holdout independiente: es la cifra con la que se ajustó, no una validación externa. El índice de perfil sanguíneo es heurístico.' },
+  { id: 'molchat', label: 'pn_flow_molchat', ring: 3, type: 'primary', tag: 'AI', desc: 'Asistente opcional con Qwen2.5-1.5B local que consulta evidencia persistida y ayuda a explicarla. No es fuente primaria de resultados; requiere el modelo instalado y no incluye voz local en este runtime.' },
+  { id: 'solana', label: 'pn_flow_solana_record', ring: 3, type: 'primary', tag: 'HASH', desc: 'Integración opcional que registra un hash y metadatos técnicos en un memo público. Puede verificar integridad y fecha de emisión; no valida la ciencia ni publica automáticamente la estructura.' },
+  { id: 'certificado', label: 'pn_flow_pdf_certificate', ring: 3, type: 'primary', tag: 'PDF', desc: 'Genera un PDF con la evidencia y sus identificadores verificables. Puede incluir un enlace de integridad a Solana cuando el usuario lo solicita; no transfiere la propiedad de la molécula, el caso ni sus resultados.' },
 ];
 
 const getLevelName = (ringIndex: number) => {
@@ -264,7 +264,7 @@ export function PipelineFlowchart() {
           <div className="w-full flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <div className="text-center md:text-left">
               <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
-                {t("z_acelerador")} <span className="text-zinc-500 font-light">| {isFocused ? 'Enfoque Profundo' : t("auto_a187157bca8f")}</span>
+                {t("z_acelerador")} <span className="text-zinc-500 font-light">| {isFocused ? t("pn_flow_deep_focus") : t("auto_a187157bca8f")}</span>
               </h2>
               <p className="text-zinc-400 text-sm mt-2 max-w-2xl font-mono">
                 {isFocused 

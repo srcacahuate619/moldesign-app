@@ -13,7 +13,7 @@ backend sin depender de `localStorage`.
 
 Evidencia aceptada:
 
-- directorio: `tmp/batch-runtime-20260830T182915Z/`;
+- directorio: `tmp/batch-runtime-20260830T182915Z/` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\batch-runtime-20260830T182915Z);
 - cohorte: `ea633f44-bb61-45a9-882b-75d773cccb60`;
 - corrida: `bf26dbfc-5e69-4349-9ca8-5a3d1cf4d31e`;
 - afinidad Vina observada: `-5.867 kcal/mol`;

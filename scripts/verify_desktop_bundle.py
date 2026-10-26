@@ -460,6 +460,71 @@ def validate_open_babel(resources: Path) -> None:
         run_checked([str(python), "-B", "-c", sonda], cwd=backend, env=env, timeout=180)
 
 
+def validate_molcy_motor(resources: Path) -> None:
+    r"""El motor Molcy, comprobado como se usa: lo localiza y lo verifica el BACKEND EMPAQUETADO.
+
+    `check:molcy-motor` ya comprueba `tools/molcy/` del repositorio contra su manifiesto. Esto comprueba lo que a ese no le toca: que la
+    copia que viaja en el runtime staged sigue siendo íntegra (nadie la tocó al empaquetar, ningún filtro de `bundle_helper` se comió
+    un fichero) y que el código instalado la encuentra con la resolución por defecto, sin la variable que pasa Rust.
+    """
+    python = resources / "python" / "python.exe"
+    backend = resources / "backend"
+    vina = resources / "tools" / "vina" / "vina.exe"
+    herramienta = resources / "tools" / "molcy"
+    if not (herramienta / "molcy-manifest.json").is_file():
+        raise FileNotFoundError(
+            f"El motor Molcy no está en el runtime staged: {herramienta}. "
+            "Viaja en el instalador; su ausencia es un empaquetado incompleto."
+        )
+    sonda = (
+        "import os,sys;"
+        "sys.path.insert(0,os.environ['MOLDESIGN_BUNDLE_BACKEND']);"
+        "from services.molcy import motor;"
+        "d=motor.directorio_incluido();"
+        "assert d is not None, 'el backend empaquetado no encuentra el motor incluido';"
+        "p=motor.verificar_integridad(d);"
+        "assert not p, p;"
+        "m=motor.manifiesto_de(d);"
+        "assert m['licencia_spdx']=='GPL-3.0-or-later', m['licencia_spdx'];"
+        "print('motor molcy: ok (%s, %s, %d ficheros)' % (m['licencia_spdx'], m['fuente']['commit'][:8], len(m['archivos'])))"
+    )
+    with tempfile.TemporaryDirectory(prefix="moldesign-molcy-verify-") as temp_dir:
+        env = runtime_environment(backend, vina, Path(temp_dir))
+        env.pop("MOLDESIGN_MOLCY_DIR", None)
+        env.pop("MOLDESIGN_OPENBABEL_DIR", None)
+        run_checked([str(python), "-B", "-c", sonda], cwd=backend, env=env, timeout=120)
+
+
+def validate_vc_runtime(resources: Path) -> None:
+    r"""El runtime de Visual C++ para el Python de Blender, comprobado como se usa: lo localiza y lo verifica el BACKEND EMPAQUETADO.
+
+    VM-MOLCY-01: en un Windows sin el redistribuible x64, el Python que el gestor de extensiones de Blender lanza moría con
+    0xC0000135 y Molecular Nodes no se instalaba. El backend le da las DLL de `tools/vc-runtime/` sólo si coinciden con su
+    manifiesto; esto comprueba que la copia staged está, es íntegra y que el código instalado la encuentra por la resolución
+    por defecto (sin variables).
+    """
+    python = resources / "python" / "python.exe"
+    backend = resources / "backend"
+    vina = resources / "tools" / "vina" / "vina.exe"
+    esperado = (resources / "tools" / "vc-runtime" / "x64").resolve()
+    sonda = (
+        "import os,sys;"
+        "sys.path.insert(0,os.environ['MOLDESIGN_BUNDLE_BACKEND']);"
+        "from services.molcy import runtime_vc;"
+        "d,m,p=runtime_vc.runtime_verificado();"
+        "assert not p, p;"
+        "assert os.path.normcase(str(d))==os.path.normcase(os.environ['ESPERADO']), (str(d), os.environ['ESPERADO']);"
+        "assert {'vcruntime140.dll','vcruntime140_1.dll','msvcp140.dll'}<=set(m['files']), sorted(m['files']);"
+        "print('runtime de Visual C++: ok (%s %s, %d DLL)' % (m['version'], m['architecture'], len(m['files'])))"
+    )
+    with tempfile.TemporaryDirectory(prefix="moldesign-vc-verify-") as temp_dir:
+        env = runtime_environment(backend, vina, Path(temp_dir))
+        for variable in ("MOLDESIGN_VC_RUNTIME_DIR", "MOLDESIGN_OPENBABEL_DIR", "MOLDESIGN_MOLCY_DIR"):
+            env.pop(variable, None)
+        env["ESPERADO"] = str(esperado)
+        run_checked([str(python), "-B", "-c", sonda], cwd=backend, env=env, timeout=120)
+
+
 def runtime_environment(backend: Path, vina: Path, temp_dir: Path) -> dict[str, str]:
     env = os.environ.copy()
     env.update(
@@ -809,6 +874,8 @@ def main(root: Path) -> None:
     validate_runtime(resources)
     validate_lightweight_models(resources)
     validate_open_babel(resources)
+    validate_molcy_motor(resources)
+    validate_vc_runtime(resources)
     validate_backend_health(resources)
     validate_peptide_abstention(resources)
     after = tree_state(resources)
@@ -826,7 +893,9 @@ def main(root: Path) -> None:
         f"{manifest['total']['files']} archivos, {manifest['total']['mib']} MiB; "
         "sin secretos/estado local; backend al día con el repositorio; "
         "dependencias y modelos ligeros presentes y cargables; imports, Vina y /health correctos; "
-        "Open Babel localizado por el backend empaquetado y convirtiendo."
+        "Open Babel localizado por el backend empaquetado y convirtiendo; "
+        "motor Molcy íntegro y localizado por el backend empaquetado; "
+        "runtime de Visual C++ para Blender íntegro y localizado por el backend empaquetado."
     )
 
 

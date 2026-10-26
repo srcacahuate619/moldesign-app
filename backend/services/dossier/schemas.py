@@ -81,6 +81,43 @@ class _Base(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
 
+#: Códigos cortos de cadena y de componente químico (CCD): «A», «ZN», «HEM».
+_CodigoCorto = Annotated[str, Field(min_length=1, max_length=8, pattern=r"^[A-Za-z0-9]+$")]
+
+
+class ContextoDeEnsayo(_Base):
+    """
+    El contexto experimental contra el que se va a leer la corrida (C-GAP-02).
+
+    Contrato versionado: ``version`` es la del contrato, no la del caso. TODOS los
+    campos son opcionales: un campo omitido es «desconocido» y nunca se rotula como
+    coincidente ni como discrepante. Lo que tiene contraparte en la corrida (pH,
+    cadenas, cofactores) se contrasta en Preparación
+    (`services/dossier/contexto_ensayo.py`); lo demás se transmite tal cual.
+    """
+
+    version: Literal[1] = 1
+    #: pH del ensayo.
+    ph: float | None = Field(default=None, ge=0, le=14)
+    #: Temperatura del ensayo, en °C.
+    temperature_c: float | None = Field(default=None, ge=-50, le=150)
+    #: Magnitud medida: Ki, Kd, IC50, EC50…
+    endpoint: str | None = Field(default=None, max_length=64)
+    #: El constructo medido: dominio, mutaciones, etiqueta, longitud.
+    protein_construct: str | None = Field(default=None, max_length=1000)
+    #: Cadenas de la estructura que corresponden al constructo del ensayo.
+    chains: list[_CodigoCorto] | None = Field(default=None, max_length=32)
+    #: Cofactores y metales presentes en el ensayo, como códigos CCD.
+    cofactors: list[_CodigoCorto] | None = Field(default=None, max_length=32)
+    #: De dónde sale: DOI, identificador de ensayo de ChEMBL, cuaderno de laboratorio.
+    source: str | None = Field(default=None, max_length=500)
+
+    @field_validator("endpoint", "protein_construct", "source")
+    @classmethod
+    def _prohibir_rutas(cls, v: str | None, info) -> str | None:
+        return _sin_ruta_local(v, f"context.assay.{info.field_name}")
+
+
 class ContextoCientifico(_Base):
     """
     Las preguntas del caso. TODAS opcionales a propósito.
@@ -98,8 +135,11 @@ class ContextoCientifico(_Base):
     assumptions: str | None = Field(default=None, max_length=4000)
     uncertainties: str | None = Field(default=None, max_length=4000)
     notes: str | None = Field(default=None, max_length=4000)
+    #: Contexto de ensayo estructurado (C-GAP-02). Ausente = no declarado.
+    assay: ContextoDeEnsayo | None = None
 
-    @field_validator("*")
+    @field_validator("study_kind", "question", "decision", "system_rationale", "controls",
+                     "assumptions", "uncertainties", "notes")
     @classmethod
     def _prohibir_rutas(cls, v: str | None, info) -> str | None:
         return _sin_ruta_local(v, f"context.{info.field_name}")

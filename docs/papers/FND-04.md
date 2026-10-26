@@ -1,6 +1,6 @@
 ---
 titulo: "Los intervalos de confianza, verificados con código que no los escribió"
-entradilla: "Cinco experimentos calculaban su propia estadística. Una implementación independiente los recomputó: coinciden al cuarto decimal. Y reveló que uno de ellos nunca pudo detectar lo que buscaba."
+entradilla: "Cinco experimentos calculaban su propia estadística. Una implementación independiente los recomputó: coinciden al cuarto decimal. Y reveló que uno de ellos tenía muy poca potencia para lo que buscaba."
 ---
 
 Este experimento estaba marcado como prioridad máxima desde el inicio del programa y se
@@ -54,12 +54,13 @@ un margen pequeño. Pero:
 | Efecto que `RS-14` podía detectar | ~10 pp | **22.3 pp** |
 | Complejos necesarios para resolver 5 pp | ~370 | **1,972** |
 
-Con 92 complejos cubiertos, ese diseño **nunca pudo** distinguir una diferencia menor a
-22.3 puntos porcentuales. Cualquier lectura de que "el selector se acerca" era una lectura
-de ruido.
+Con 92 complejos cubiertos, el efecto que ese diseño detectaba con un 80 % de potencia y
+α = 5 % era de 22.3 puntos porcentuales, bajo la aproximación normal y la discordancia que
+supone el cálculo. Una diferencia menor no era imposible de ver: se habría visto con una
+probabilidad baja. Leer en ese resultado que "el selector se acerca" no tenía soporte.
 
-Y no fue el único: `MF-19` y `MF-08` también resultan **formalmente indetectables por
-diseño** — se ejecutaron sin potencia suficiente para lo que preguntaban.
+Y no fue el único: `MF-19` y `MF-08` también se ejecutaron **sin potencia suficiente**
+para lo que preguntaban.
 
 ## Por qué esto cambió la forma de trabajar
 
@@ -72,5 +73,29 @@ cómputo.
 adelantado y un efecto observado de 0.218 que lo supera.
 
 Es un resultado que hace más pequeño al programa que lo produjo. Tres experimentos ya
-ejecutados pasaron a estar formalmente sin potencia, y dos de ellos ya se habían citado.
+ejecutados resultaron tener potencia insuficiente, y dos de ellos ya se habían citado.
 Publicarlo era la única salida honesta.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la auditoría científica del producto (SCI-A-071). La versión
+anterior decía que `RS-14` «nunca pudo» distinguir una diferencia menor de 22.3 pp y que
+tres experimentos eran «formalmente indetectables por diseño». Un efecto mínimo detectable
+depende de la potencia elegida (aquí 80 %, con α = 5 %): por debajo de él la detección es
+improbable, no imposible. Además, la auditoría señala que el modelo de potencia de este
+cálculo (respuesta por par, ±1) no corresponde a la respuesta fraccionaria de `RS-14`
+(SCI-B-002), así que el propio 22.3 pp está en revisión. Ninguna cifra sellada cambia.
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-018. El modelo del MDE toma la diferencia por complejo en {−1, 0, +1} con discordancia
+  d, así que ningún efecto puede pasar de d. Con d = 3/33 = 0.091, el MDE publicado de `MF-19` y
+  `MF-08` (0.132) es **imposible bajo su propio modelo**: con esa discordancia, ningún efecto
+  alcanzable llega al 80 % de potencia. Esas dos filas no se citan como MDE. Las otras tres caen
+  dentro del dominio.
+- SCI-B-002. En `RS-14` y `RS-14-R1` la respuesta del selector es la media de tres semillas: 43
+  y 36 de las 92 diferencias son fraccionarias, y el modelo ±1 sobrestima su dispersión
+  (desviación típica observada 0.53 y 0.58 frente a 0.79 del modelo). Con la varianza observada
+  el MDE al 80 % es **0.156** y **0.169**, no 0.223. Sigue siendo una aproximación normal.
+  Productor: `scripts/analisis_fnd04_potencia_dominio.py`.

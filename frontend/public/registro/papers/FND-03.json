@@ -442,6 +442,65 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-055. El productor guarda, por semilla, la ",
+      "m": null
+     },
+     {
+      "t": "mejor",
+      "m": "fuerte"
+     },
+     {
+      "t": " RMSD de las nueve poses (el oráculo). Lo que se mide estable es el oráculo best-of-9 frente al cristal, no la pose top-1 ni el selector: en COLOCACION ningún complejo cambia de veredicto (0 de 33), pero en el control ",
+      "m": null
+     },
+     {
+      "t": "cambia 1 de 15",
+      "m": "fuerte"
+     },
+     {
+      "t": ", así que «ningún complejo cambia» no es exacto. La estabilidad del top-1 queda sin medir.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/FND-03.md"

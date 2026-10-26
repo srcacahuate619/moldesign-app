@@ -31,6 +31,22 @@ export type DockingPose = {
 };
 
 /** Protocolo 3D sellado con la corrida; campos opcionales para datos legacy. */
+/**
+ * Qué residuos de referencia USÓ la corrida (decisión del propietario, 2026-10-04). Los sella el
+ * backend en `docking_protocol`; no son los del catálogo, que pueden no coincidir.
+ *
+ *   catalog   nadie tocó la selección: se heredó el catálogo
+ *   selected  la persona eligió un subconjunto
+ *   none      la persona decidió NO usar residuos de referencia
+ */
+export type ReferenceResidues = {
+  source: "catalog" | "selected" | "none";
+  residues: string[];
+  count: number;
+  catalog_count: number;
+  catalog_source?: string | null;
+};
+
 export type DockingProtocol = {
   contract?: string | null;
   conformers_requested?: number | null;
@@ -40,6 +56,14 @@ export type DockingProtocol = {
   exhaustiveness?: number | null;
   num_poses?: number | null;
   seed?: number | null;
+  /** Ausente en corridas anteriores al 2026-10-04: «sin dato», que no es «ninguno». */
+  reference_residues?: ReferenceResidues | null;
+  /**
+   * Lo que la corrida midió de sí misma: caja efectiva, hashes de entradas y
+   * salidas, versión de la aplicación. `null` en corridas anteriores o de rutas
+   * que no miden estos bytes. Contrato: `services/docking/vina_service.py`.
+   */
+  execution_provenance?: Record<string, unknown> | null;
 };
 
 export type EvaluationResult = {
@@ -137,7 +161,23 @@ export type EvaluationResult = {
         motivo?: string | null;
       } | null;
     } | null;
-    protonacion?: { aplicada?: boolean; motor?: string | null; ph?: number | null; alternativas?: number | null; motivo?: string | null } | null;
+    protonacion?: {
+      aplicada?: boolean;
+      motor?: string | null;
+      ph?: number | null;
+      alternativas?: number | null;
+      motivo?: string | null;
+      ph_solicitado?: number | null;
+      aviso_de_ph?: string | null;
+      seleccion?: {
+        criterio?: string | null;
+        indice?: number | null;
+        empatados?: number | null;
+        quimica_resuelta?: boolean | null;
+        clases_sin_pka?: string[] | null;
+        motivo?: string | null;
+      } | null;
+    } | null;
 
     /** Manifiesto de la frontera ESMFold -> ligando; null en corridas no peptidicas. */
     peptide_transfer?: {
@@ -373,6 +413,11 @@ export type EvaluationSummary = {
   task_id: string | null;
   /** Promovida a Moldex. El historial lista todo; esto dice qué además está allí. */
   is_saved: boolean;
+  /**
+   * `ProtocoloDeLaCorrida.vigente` (B-2): `false` otra receta u otro ranking que
+   * los de hoy; `null` falta un dato y no se afirma que sea comparable.
+   */
+  protocolo_vigente?: boolean | null;
 };
 
 export type HistoryResponse = {
@@ -523,13 +568,40 @@ export type InteractionDatum = {
   strength: number | null;
   ligand_coords: { x: number; y: number; z: number };
   protein_coords: { x: number; y: number; z: number };
+  ligand_atom?: string;
+  protein_atom?: string;
+  residue_name?: string;
+  residue_number?: number;
+  residue_chain?: string;
+  ligand_atom_indices?: number[];
+  protein_atom_indices?: number[];
+  definition?: string | null;
+  geometry?: Record<string, number>;
+};
+
+export type ContactMap = {
+  status: "ready" | "unavailable";
+  reason?: string | null;
+  analysis_ligand_sha256: string;
+  svg?: string;
+  svg_sha256?: string;
+  width?: number;
+  height?: number;
+  renderer?: string;
+  atom_index_basis?: string;
+  atoms?: { index: number; element: string; x: number; y: number }[];
+  contacts?: { contact_index: number; atom_indices: number[]; hidden_hydrogen_indices: number[]; reason: string | null }[];
+  highlighted_atom_indices?: number[];
 };
 
 export type InteractionsReport = {
+  task_id?: string | null;
   molecule_id: string;
   target_pdb_id: string;
   pose_rank: number;
-  pose_source_path: string;
+  pose_source_path: string | null;
+  pose_source_kind?: "stored" | "verified_ensemble";
+  pose_source_manifest?: Record<string, unknown> | null;
   pose_source_sha256: string;
   protein_source_path: string;
   protein_source_sha256: string;
@@ -541,4 +613,9 @@ export type InteractionsReport = {
   interactions_by_type: Record<string, InteractionDatum[]>;
   pharmacophore_features: Record<string, unknown>;
   interactions: InteractionDatum[];
+  analysis_ligand_sha256?: string | null;
+  contact_coverage?: string;
+  computed_at?: string | null;
+  contact_map?: ContactMap | null;
+  pose_identity_verification?: string;
 };

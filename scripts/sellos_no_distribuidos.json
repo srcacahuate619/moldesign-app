@@ -57,6 +57,30 @@
       "clase": "NO_CONSERVADO",
       "motivo": "Sólo estos cuatro PDB de FND-05 carecen de copia versionada. Los otros 107 se verifican al descomprimir sus .pdb.gz y comparar el SHA-256 original.",
       "como_obtenerlo": "Recuperar los cuatro PDB originales desde el entorno de producción de FND-05, si aún existen; el clon no los contiene."
+    },
+    {
+      "prefijo": "../../tools/vina/",
+      "experimentos": ["FEP-09-SENSIBILIDAD"],
+      "clase": "RUNTIME",
+      "motivo": "Binarios reales del runtime compartido de la raíz D:/moldesign-build, leídos desde el worktree .worktrees/fep09 sin copiarlos ni cambiarlos. Se sellan sus hashes y las corridas declaran la traza ejecutada.",
+      "como_obtenerlo": "Materializar tools/vina mediante bootstrap_dev_tree.py --fetch en la raíz anfitriona, dos niveles arriba del worktree; contrastar los hashes sellados. Para otra disposición de carpetas se debe resolver explícitamente esta ruta externa."
+    },
+    {
+      "prefijo": "../../python-embed/",
+      "experimentos": ["FEP-09-SENSIBILIDAD"],
+      "clase": "RUNTIME",
+      "motivo": "Python 3.11.9 del runtime compartido de la raíz anfitriona, fuera del worktree. Sólo se leen y sellan sus binarios, no se versionan ni se altera el runtime.",
+      "como_obtenerlo": "Materializar python-embed con bootstrap_dev_tree.py --fetch en la raíz anfitriona, dos niveles arriba del worktree; contrastar hashes. El intérprete de análisis es Python 3.14.3 y no forma parte del bundle."
+    },
+    {
+      "prefijo": "E:/MolDesign-science/openff-plb/",
+      "experimentos": [
+        "FEP-09-SENSIBILIDAD",
+        "FEP-09-R1"
+      ],
+      "clase": "NO_VERSIONADO",
+      "motivo": "Datos OpenFF PLB CC BY 4.0: se guardan hashes y resultados; las estructuras no se copian al repositorio.",
+      "como_obtenerlo": "Clonar https://github.com/openforcefield/protein-ligand-benchmark con git-lfs y fijar fd88824f9114244f95a14b485e6d6c96c1de716d. Atribuir a Hahn et al., LiveCoMS 2022 (10.33011/livecoms.4.1.1497)."
     }
   ],
   "divergencias_declaradas": [

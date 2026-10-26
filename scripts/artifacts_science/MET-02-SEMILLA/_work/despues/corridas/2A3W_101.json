@@ -1,0 +1,27 @@
+{
+  "pdb": "2A3W",
+  "semilla": 101,
+  "inicio": "2026-10-23T04:03:14+00:00",
+  "resultado": "auditada",
+  "task_id": "36ba8072-f3fc-440c-831a-3dc0e38c1524",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: CA A:301 (2.18 Å), CA A:302 (2.29 Å), CA J:319 (2.31 Å), CA J:320 (2.32 Å). En contacto con el ligando del cristal: CA A:301 (O8–CA 2.18 Å), CA A:302 (O9–CA 2.29 Å), CA J:319 (O30–CA 2.31 Å), CA J:320 (O31–CA 2.32 Å).",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal CPJ A:341",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "645c4ff91b4473ee3b23dcc456ab8c5288869327a4a360923faa6841aa0abef3",
+  "afinidad_top1": -5.507,
+  "microestado": "CC1(C(=O)[O-])OCC(OC(=O)NCCNC(=O)OC2COC(C)(C(=O)[O-])OC2)CO1",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "f91b4dd061f8ea4cd648ded083b57cc0af6dff9cb94045b823056387ad84eb74",
+  "segundos": 35.5,
+  "fin": "2026-10-23T04:03:49+00:00",
+  "brazo": "despues",
+  "commit": "878c215b"
+}

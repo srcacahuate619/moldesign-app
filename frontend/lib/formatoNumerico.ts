@@ -50,3 +50,13 @@ export function numeroOGuion(valor: unknown, decimales: number, sufijo = ""): st
 export function hayNumero(valor: unknown): valor is number {
   return typeof valor === "number" && Number.isFinite(valor);
 }
+
+/**
+ * Clave de traducción de «pose» según la cantidad: «1 pose», «9 poses».
+ *
+ * El selector de «Número de modos» pintaba «1 poses» (QA1-011): el plural estaba
+ * escrito una sola vez, en la clave del plural.
+ */
+export function clavePluralDePoses(cantidad: number): "pr_cfg_pose" | "pr_cfg_poses" {
+  return cantidad === 1 ? "pr_cfg_pose" : "pr_cfg_poses";
+}

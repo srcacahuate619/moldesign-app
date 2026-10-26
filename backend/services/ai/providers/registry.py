@@ -177,6 +177,7 @@ class ProviderRegistry:
                 else provider
             )
             info = visto.get_info()
+            disponible, motivo = visto.validate_config()
             result.append({
                 "id": info.id,
                 "name": info.name,
@@ -188,6 +189,14 @@ class ProviderRegistry:
                 "available_models": info.available_models,
                 "configured": bool(user_id) and info.configured,
                 "active": pid == activo,
+                # Lo que esta cuenta tiene aplicado (nunca la clave) y, si no
+                # está disponible, por qué. Sin esto el modal sólo conocía los
+                # valores por defecto: al reabrirlo enseñaba `localhost` en vez
+                # del Ollama que la cuenta había guardado, y «Guardar» proponía
+                # cambiar el destino de vuelta.
+                "model": visto.config.model,
+                "base_url": visto.config.base_url,
+                "estado": "" if disponible else motivo,
             })
         return result
 

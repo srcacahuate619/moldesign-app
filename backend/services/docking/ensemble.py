@@ -37,6 +37,7 @@ no acopló sería un precio absurdo.
 from __future__ import annotations
 
 import hashlib
+from collections import Counter
 from copy import deepcopy
 from typing import Any
 
@@ -46,6 +47,63 @@ from utils.local_storage import read_bytes
 from utils.logger import get_logger
 
 log = get_logger(__name__)
+
+
+def agrupar_avisos_repetidos(avisos: list[Any], *, acopladas: int) -> list[Any]:
+    """CAS-07: una reserva del sistema aparece UNA vez, con su recuento.
+
+    El receptor que acopla el ensemble es el mismo para las K
+    conformaciones: sus reservas (protonación, aguas del sitio) llegaban una
+    vez por conformación y el resultado guardaba 30 copias idénticas de cada
+    una — 64 avisos donde la corrida única tiene cinco. No son 30 decisiones;
+    es una, repetida por el mecanismo de fusión.
+
+    La regla:
+
+    - Un aviso estructurado (código/severidad/mensaje idénticos) repetido en
+      TODAS las conformaciones que acoplaron se emite una vez con
+      «(Aviso idéntico en las N conformaciones que acoplaron.)».
+    - Repetido en algunas, con «(Repetido en n de N conformaciones.)»: el
+      recuento parcial también se dice.
+    - Lo que no es repetición — un aviso exclusivo de una conformación, un
+      fallo de acoplamiento, el resumen del ensemble — viaja tal cual: son
+      incidencias particulares, no eco del sistema.
+
+    Los avisos en cadena (los fallos y el resumen, históricamente texto
+    suelto) pasan intactos: agruparlos exigiría adivinarles un código que
+    nadie declaró.
+    """
+    repeticiones = Counter(
+        (a.get("codigo"), a.get("severidad"), a.get("mensaje"))
+        for a in avisos
+        if isinstance(a, dict)
+    )
+
+    agrupados: list[Any] = []
+    vistos: set[tuple[Any, Any, Any]] = set()
+    for aviso_actual in avisos:
+        if not isinstance(aviso_actual, dict):
+            agrupados.append(aviso_actual)
+            continue
+        clave = (
+            aviso_actual.get("codigo"),
+            aviso_actual.get("severidad"),
+            aviso_actual.get("mensaje"),
+        )
+        if clave in vistos:
+            continue
+        vistos.add(clave)
+        veces = repeticiones[clave]
+        if veces <= 1:
+            agrupados.append(aviso_actual)
+            continue
+        mensaje = str(aviso_actual.get("mensaje") or "")
+        if veces == acopladas:
+            nota = f" (Aviso idéntico en las {veces} conformaciones que acoplaron.)"
+        else:
+            nota = f" (Repetido en {veces} de {acopladas} conformaciones.)"
+        agrupados.append({**aviso_actual, "mensaje": mensaje + nota})
+    return agrupados
 
 
 async def _informar(callback, hechas: int, total: int) -> None:
@@ -103,6 +161,107 @@ async def _huella_de_archivo(object_name: str | None) -> str | None:
         log.warning("ensemble_artefacto_sin_huella",
                     archivo=object_name, error=str(exc)[:120])
         return None
+
+
+#: Lo que describe la corrida ENTERA y vale igual para las K conformaciones: la
+#: caja y el receptor entran en la huella del caché de Vina, así que dos corridas
+#: con valores distintos no pueden haber compartido resultado.
+_PROCEDENCIA_COMUN = (
+    "box_center", "box_size", "receptor_sha256", "receta_receptor",
+    "receptor_prep", "toolchain", "cpu", "app_version", "git_commit",
+)
+
+#: Lo que describe UNA corrida de Vina: su ligando, su registro y su archivo de
+#: poses. Poner uno solo de estos valores a nivel de la piscina afirmaría que
+#: ese archivo contiene las poses entregadas, y no las contiene (son K archivos).
+#: `search_trace` tampoco se agrupa: es la traza de una búsqueda, no de la mezcla.
+_PROCEDENCIA_POR_CONFORMACION = (
+    "ligand_input_sha256", "ligand_input_path", "ligand_pdbqt_sha256",
+    "ligand_pdbqt_path", "log_path", "log_sha256", "poses_sha256",
+)
+
+
+def _comparable(valor: Any) -> Any:
+    """Los vectores se comparan a 3 decimales, igual que la huella del caché."""
+    if (isinstance(valor, (list, tuple)) and valor
+            and all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in valor)):
+        return tuple(round(float(v), 3) for v in valor)
+    return valor
+
+
+def _procedencia(resultado: DockingResult) -> dict[str, Any]:
+    procedencia = getattr(resultado, "execution_provenance", None)
+    return procedencia if isinstance(procedencia, dict) else {}
+
+
+def agrupar_procedencia(
+    resultados: list[tuple[int, DockingResult]],
+    detalles: dict[int, dict[str, Any]] | None = None,
+) -> dict[str, Any] | None:
+    """La procedencia de ejecución de la piscina, o `None` si ninguna corrida la tiene.
+
+    El agrupado la perdía entera: el `DockingResult` de la piscina se construía
+    sin `execution_provenance`, y la corrida de ensemble quedaba guardada sin
+    caja, sin `receptor_prep` y sin toolchain. Moldex la listaba, pero lo que
+    necesita una caja verificable (Molcy, el dossier, la comparación SAR) la
+    daba por no disponible.
+
+    Reglas, para no inventar lo que no se midió:
+
+    - Un campo común se conserva sólo si TODAS las corridas que acoplaron lo
+      traen y coinciden. Si alguna difiere o no lo trae (una caché de otra
+      versión de la app, un resultado heredado) queda en `None` y se nombra en
+      `campos_heterogeneos`: ni se hereda de la primera corrida ni se tumba la
+      evaluación por ello.
+    - Lo que es de UNA corrida de Vina viaja en `por_conformacion`, nunca a
+      nivel de la piscina. `detalles` suma lo que sólo el ensemble sabe de cada
+      conformación (su semilla, su energía MMFF, dónde quedó su archivo de poses,
+      cuántas poses dio y la mejor): con eso un lector sabe de cuántas candidatas
+      salieron las entregadas sin tener que interpretar un aviso de texto.
+    """
+    procedencias = [(indice, _procedencia(resultado)) for indice, resultado in resultados]
+    if not any(procedencia for _, procedencia in procedencias):
+        return None
+
+    agrupada: dict[str, Any] = {}
+    heterogeneos: list[str] = []
+    for campo in _PROCEDENCIA_COMUN:
+        valores = [procedencia.get(campo) for _, procedencia in procedencias]
+        primero = valores[0]
+        if primero is not None and all(
+            _comparable(valor) == _comparable(primero) for valor in valores
+        ):
+            agrupada[campo] = deepcopy(primero)
+            continue
+        agrupada[campo] = None
+        if any(valor is not None for valor in valores):
+            heterogeneos.append(campo)
+    if heterogeneos:
+        agrupada["campos_heterogeneos"] = heterogeneos
+
+    agrupada["por_conformacion"] = [
+        {
+            "indice": indice,
+            **{
+                campo: deepcopy(procedencia[campo])
+                for campo in _PROCEDENCIA_POR_CONFORMACION
+                if procedencia.get(campo) is not None
+            },
+            **{
+                campo: valor
+                for campo, valor in (detalles or {}).get(indice, {}).items()
+                if valor is not None
+            },
+        }
+        for indice, procedencia in procedencias
+    ]
+    return agrupada
+
+
+def _caja_de(resultado: DockingResult) -> tuple[Any, Any] | None:
+    procedencia = _procedencia(resultado)
+    centro, lado = _comparable(procedencia.get("box_center")), _comparable(procedencia.get("box_size"))
+    return (centro, lado) if centro is not None and lado is not None else None
 
 
 def agrupar_poses(
@@ -179,6 +338,7 @@ async def run_ensemble_docking(
     resultados: list[tuple[int, DockingResult]] = []
     entradas: dict[int, dict[str, Any]] = {}
     huellas: dict[int, str | None] = {}
+    detalles: dict[int, dict[str, Any]] = {}
     avisos: list[str] = []
     tiempo_total = 0.0
     fuentes: set[str] = set()
@@ -217,6 +377,13 @@ async def run_ensemble_docking(
                 campo for campo in campos
                 if getattr(referencia, campo, None) != getattr(parcial, campo, None)
             ]
+            # Dos cajas distintas no pueden compartir piscina: sus poses viven
+            # en regiones distintas del receptor. Si a una corrida le falta la
+            # caja no es incompatibilidad, es un dato ausente (ver
+            # `agrupar_procedencia`).
+            cajas = (_caja_de(referencia), _caja_de(parcial))
+            if None not in cajas and cajas[0] != cajas[1]:
+                incompatibles.append("box_center/box_size")
             if incompatibles:
                 log.error("ensemble_procedencia_incompatible", indice=indice,
                           campos=incompatibles)
@@ -227,6 +394,15 @@ async def run_ensemble_docking(
         resultados.append((indice, parcial))
         entradas[indice] = _entrada_de(conformero)
         huellas[indice] = await _huella_de_archivo(parcial.poses_file_path)
+        detalles[indice] = {
+            "semilla_conformacional": conformero.get("semilla"),
+            "energia_mmff": conformero.get("energia"),
+            # SCI-A-025: con qué se minimizó ESTA conformación (None si no consta).
+            "minimizacion": conformero.get("minimizacion"),
+            "poses_file_path": parcial.poses_file_path,
+            "num_poses": len(parcial.poses),
+            "mejor_afinidad_kcal_mol": parcial.best_affinity,
+        }
         tiempo_total += float(getattr(parcial, "execution_time_s", 0.0) or 0.0)
         fuentes.add(parcial.parsing_source)
         # Se normalizan al fusionar: un ensemble puede mezclar corridas nuevas
@@ -243,6 +419,13 @@ async def run_ensemble_docking(
     entregadas = agrupar_poses(resultados, num_poses, entradas, huellas)
     conformaciones_con_poses = len({indice for indice, _ in resultados})
     representadas = len({p.conformer_index for p in entregadas})
+
+    # CAS-07: cada conformación acopló el MISMO receptor y arrastró una
+    # copia de sus reservas. Se agrupan con su recuento — quien revisa un caso
+    # repetidamente no necesita 30 copias idénticas, y el bloque de
+    # incertidumbres del PDF tampoco. Las incidencias particulares y el
+    # resumen de abajo viajan intactos.
+    avisos = agrupar_avisos_repetidos(avisos, acopladas=conformaciones_con_poses)
 
     # El denominador dicho en voz alta, igual que en las cohortes: «9 poses» no
     # significa nada si no se sabe de cuántas candidatas salieron.
@@ -265,6 +448,9 @@ async def run_ensemble_docking(
     # Se toman de la PRIMERA corrida con poses: las K comparten receptor y
     # binario por construccion, y la semilla base es la misma. Lo que cambia
     # entre corridas es la conformacion de entrada, y eso viaja por pose.
+    # `execution_provenance` (caja, receptor preparado, toolchain) se agrupa
+    # con `agrupar_procedencia`: sin ella la corrida se guardaba en Moldex pero
+    # ninguna fuente que exigiera una caja verificable podia usarla.
     primera = resultados[0][1]
     winning_index = entregadas[0].conformer_index
     winning_result = next(
@@ -294,6 +480,7 @@ async def run_ensemble_docking(
         vina_random_seed=getattr(primera, "vina_random_seed", None),
         receptor_sha256=getattr(primera, "receptor_sha256", None),
         receptor_path=getattr(primera, "receptor_path", None),
+        execution_provenance=agrupar_procedencia(resultados, detalles),
         execution_time_s=tiempo_total,
         scientific_warnings=avisos,
         hotspots_hit=winning_hotspots,

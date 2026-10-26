@@ -59,3 +59,15 @@ diferencia entre las dos es que aquí la tensión se usó como *característica*
 *transformación del paisaje*.
 
 El selector de producción no cambió. `val` y el conjunto confirmatorio quedaron intactos.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-159. La opción --repro reutiliza la caché y los benchmarks, pero vuelve a entrenar los
+  clones y sobrescribe las salidas. El productor sólo imprime sus hashes; no compara una
+  referencia anterior ni hace fallar el proceso cuando difiere el spot-check. Por ello esa
+  invocación no acredita ni exige byte-identidad. Se conservan las cifras históricas, sin
+  atribuirles una garantía automática de reproducción que no implementó el instrumento; aquí no
+  se repitió entrenamiento. Productor: `scripts/analisis_fase1b_falsas.py`.

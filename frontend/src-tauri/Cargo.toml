@@ -1,12 +1,12 @@
 [package]
 name = "moldesign"
-version = "1.0.1"
+version = "1.0.4"
 description = "MolDesign — Evidencia estructural reproducible para investigación"
 authors = ["MolDesign"]
 license = "PolyForm-Noncommercial-1.0.0"
 repository = "https://github.com/srcacahuate619/moldesign-app"
 edition = "2021"
-rust-version = "1.77.2"
+rust-version = "1.90"
 
 [lib]
 name = "app_lib"
@@ -19,7 +19,9 @@ tauri-build = { version = "2.6.3", features = [] }
 serde_json = "1.0"
 serde = { version = "1.0", features = ["derive"] }
 log = "0.4"
-tauri = { version = "2.11.3", features = [] }
+tauri = { version = "=2.12.0", features = [] }
+# El clic de escritorio requiere la implementación del plugin 2.7.
+tauri-plugin-notification = "=2.7.0"
 tauri-plugin-shell = "2"
 # Apertura de URLs en el navegador del sistema. Sin este plugin un
 # `<a target="_blank">` dentro del webview no hace NADA: no hay navegador que
@@ -40,7 +42,7 @@ sha2 = "0.10"
 hex = "0.4"
 getrandom = "0.2"
 futures-util = "0.3"
-tokio = { version = "1", features = ["fs", "io-util"] }
+tokio = { version = "1", features = ["fs", "io-util", "sync", "time"] }
 zip = "2.4"
 tauri-plugin-single-instance = "2"
 
@@ -48,6 +50,11 @@ tauri-plugin-single-instance = "2"
 # sobreviva si el contenedor se corta con Ctrl+C o se aborta antes del evento
 # normal de cierre de ventana.
 [target.'cfg(windows)'.dependencies]
+# Los eventos de WebView2 que Tauri no atiende (`ProcessFailed`, navegaciones
+# fallidas): ver `src/vigia_webview.rs`. Son las mismas versiones que ya enlaza
+# wry, así que no entra ninguna crate nueva en el binario.
+webview2-com = "=0.39.1"
+windows = "=0.62.2"
 windows-sys = { version = "0.59", features = [
     "Win32_Foundation",
     "Win32_Security",

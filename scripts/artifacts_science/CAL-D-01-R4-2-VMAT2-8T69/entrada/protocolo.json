@@ -1,0 +1,98 @@
+{
+  "experimento": "CAL-D-01-R4-VMAT2-8T69",
+  "congelado_en": "2026-10-22T03:24:49+00:00",
+  "git_head": "78797fdbc8c24336016690667ce57d481dfaaec2",
+  "anclaje_del_registro": "6f3ff1b5",
+  "registro_previo_sha256": "0a1a4aed5b67c8f62190957de7cc3a6490aebff87e94ccf2e817373456a7c93f",
+  "receptor": {
+    "pdb_id": "8T69",
+    "cadena": "A",
+    "site_chains": [
+      "A"
+    ],
+    "site_ligand": "YHL",
+    "caja_catalogo": {
+      "centro": [
+        127.862,
+        123.474,
+        104.225
+      ],
+      "tamano": [
+        30.0,
+        30.0,
+        30.0
+      ]
+    },
+    "fuente_sha256": "c0b8659f1b7ed653d64e06bc96695bb0481afa07ac714b1338b207ccc3343ba7",
+    "cofactors_whitelist": [],
+    "receptor_preparado_sha256": "8fc027cae876631f30518b27823ce175e844bbe9e7bc10554653a7766e21468d",
+    "receptor_preparado_bytes": 278640,
+    "reproducible_en_dos_procesos": true
+  },
+  "configuracion_del_caso": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "properties": {
+        "run_admet_ai": false
+      },
+      "conformer": {
+        "conformers": 1
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9
+      }
+    },
+    "docking_engine": "vina",
+    "pro_selectivity": false,
+    "pro_mmgbsa": false
+  },
+  "cpu_por_proceso": 4,
+  "tope_cpu_core_h": 168.0,
+  "verificacion": {
+    "ligando_cristal": {
+      "ccd": "YHL",
+      "cadena": "A",
+      "numero": 901,
+      "smiles_entrada": "COc1cc2c(cc1OC)[C@H]1CC(=O)[C@H](CC(C)C)CN1CC2",
+      "smiles_acoplado_esperado": "COc1cc2c(cc1OC)[C@H]1CC(=O)[C@H](CC(C)C)C[NH+]1CC2"
+    },
+    "semillas": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "rmsd_max_A": 2.0,
+    "rmsd": "simétrico, átomos pesados, SIN alinear (rdMolAlign.CalcRMS), top-1 de Vina",
+    "gate": ">= 3 de 5 semillas con RMSD <= 2.0 A y el top-1 de cada una de ellas válido en PoseBusters (MF-33-H-COR); si falla, NO_GO y no se acopla el panel"
+  },
+  "calibracion": {
+    "n_padres_primario": 89,
+    "semilla": 42,
+    "score": "Q = -E(top-1 de Vina)",
+    "p1": "GO si el límite inferior del IC95 % de rho Y el de rho_peor son > 0 (bootstrap pareado por padre, 10 000, semilla 20261021), sin fallos persistentes ni desviaciones",
+    "factor_F": "1015/703",
+    "minimo_padres": 85,
+    "sensibilidades": "P2 concordancia de pares con cociente de Ki > F; rho con 4-31, con 4-118 y con la mediana de ambos"
+  },
+  "fallos": "un reintento técnico idéntico; los dos intentos se conservan; deriva = parada",
+  "hashes": {
+    "panel_congelado.csv": "d88880bb22074ccb4c008a4a2ebeadded69250869f459a14d3dc15f239e91beb",
+    "cal_d01r4.py": "f2f37dd5dc0668c209d2c767ad54a32eafee997bb947d62ed9a05fc4fc49fc73",
+    "rho_peor.py": "4741948f8428d13ac185ae1e352ba9ce71f5098f3e43cf19c6120f766e4c4769",
+    "capsula.mjs": "c3b98e91bbb4d3fdf16a76aa3fd503eb89d5f5e1edfa57e66a2d779b6eb234dc",
+    "calibracion_receptor.py": "fa01b80b3972d8f8cab641e2c135a0d08fac2f2d3ce5d37588aa849b64fd3b85",
+    "vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "python": "3.11.9"
+  }
+}

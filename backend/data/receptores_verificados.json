@@ -1,0 +1,51 @@
+{
+  "_doc": "Receptores del catálogo con la pose del cristal reproducida y una calibración medida. Lo escribe la persona que ejecuta el protocolo preregistrado; no se edita a mano para promocionar un receptor. Una entrada sin los dos bloques, o medida con otra receta de receptor, no cuenta. Campos exigidos (services/targets/seccion_catalogo.py::supera_el_protocolo): receta_receptor, receptor_sha256, protocolo {exhaustiveness, num_poses, semilla}, condiciones (lista de códigos; vacía es una declaración), pose {semillas >= 5, semillas_rmsd_ok >= 3, posebusters_valida: true} y calibracion {rho, ic95 con límite inferior > 0, n, endpoint, panel}. Un resultado que no supera el protocolo se publica en su artefacto, no aquí.",
+  "schema": 1,
+  "verificados": {
+    "8T69": {
+      "experimento": "CAL-D-01-R4-2-VMAT2-8T69",
+      "fecha": "2026-10-24",
+      "receta_receptor": 7,
+      "receptor_sha256": "8fc027cae876631f30518b27823ce175e844bbe9e7bc10554653a7766e21468d",
+      "protocolo": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "semilla": 42
+      },
+      "condiciones": [
+        "SERIE_CONGENERICA",
+        "ENSAYO_DTBZ_PLAQUETAS",
+        "KD_POR_LOTE_NO_ADJUDICADO"
+      ],
+      "pose": {
+        "semillas": 5,
+        "semillas_rmsd_ok": 5,
+        "posebusters_valida": true,
+        "rmsd_top1_A": [
+          0.714,
+          0.679,
+          0.697,
+          0.671,
+          0.678
+        ],
+        "protocolo_h": "MF-33-H-COR"
+      },
+      "calibracion": {
+        "metrica": "spearman",
+        "rho": 0.3918,
+        "ic95": [
+          0.216,
+          0.5404
+        ],
+        "n": 89,
+        "endpoint": "Ki",
+        "panel": "US11718618B2 Example 11",
+        "rho_peor": 0.3215,
+        "ic95_rho_peor": [
+          0.1402,
+          0.4745
+        ]
+      }
+    }
+  }
+}

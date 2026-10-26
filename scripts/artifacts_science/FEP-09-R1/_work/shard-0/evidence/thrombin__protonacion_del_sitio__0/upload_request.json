@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 thrombin__protonacion_del_sitio__0",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "H",
+    "grid_center_x": 16.441,
+    "grid_center_y": -12.5175,
+    "grid_center_z": 22.6462,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "dbcd98743517c946df9ea93823625b438583efbe652683e558478663c307198f",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\r1-6\\tmp\\inputs\\thrombin__protonacion_del_sitio__0.pdb"
+}

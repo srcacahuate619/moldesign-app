@@ -1,0 +1,53 @@
+{
+  "entradas": 43,
+  "evaluables": 41,
+  "primarias": 41,
+  "H2_cambian_con_la_semilla": {
+    "k": 0,
+    "n": 41,
+    "ic95": [
+      0.0,
+      0.086
+    ]
+  },
+  "H3_coincide_con_el_inventario": {
+    "k": 39,
+    "n": 39,
+    "discrepancias": []
+  },
+  "H4_pose_top1_igual_a_MET02_antes": {
+    "k": 205,
+    "n": 205,
+    "fraccion": 1.0
+  },
+  "estados_r1": {
+    "ABSTENCION": 170,
+    "REVISAR": 30,
+    "REGISTRADO": 5
+  },
+  "cambios_respecto_de_antes": {
+    "4PHL": "ABSTENCION → REVISAR",
+    "4QGE": "ABSTENCION → REVISAR",
+    "5A2R": "ABSTENCION → REVISAR",
+    "6KE5": "ABSTENCION → REVISAR",
+    "8WGR": "ABSTENCION → REVISAR",
+    "1RKP": "ABSTENCION → REGISTRADO",
+    "4NY4": "REGISTRADO → REVISAR"
+  },
+  "experiment_id": "MET-02-R1-SEMILLA",
+  "commit": "f7c46736 (rama claude/metales-dos-niveles)",
+  "comparador": "brazo antes de MET-02-SEMILLA (861f6a0e)",
+  "semillas": [
+    42,
+    7,
+    13,
+    101,
+    2026
+  ],
+  "no_evaluables": {
+    "1VKG": "Meeko rechaza el receptor en las 5 corridas",
+    "5I3T": "Meeko rechaza el receptor en las 5 corridas"
+  },
+  "lectura": "H2 0/41, H3 39/39 sin discrepancias, H4 205/205 y 41 primarias evaluables: GO. Respecto de la regla de antes cambian 7 entradas: las 5 evaluables del inventario cuyo ligando no coordina ningún ion pasan de ABSTENCION a REVISAR, 1RKP pasa a REGISTRADO (Zn a 6,52 Å del cristal) y 4NY4 a REVISAR (el ligando coordina el Fe del hemo conservado).",
+  "decision": "GO"
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import type { ReactNode } from "react";
 
 vi.mock("../ProParametersTab", () => ({ ProParametersTab: () => <div>parámetros reales</div> }));
@@ -59,7 +59,7 @@ const RESULT = {
 };
 
 describe("ProAnalysisTabs", () => {
-  it("separa cinco áreas y conserva las acciones post-docking reales", () => {
+  it("separa cuatro áreas y conserva las acciones post-docking reales", () => {
     const onRequestMmgbsa = vi.fn();
     const onComparePoses = vi.fn();
     render(
@@ -73,20 +73,17 @@ describe("ProAnalysisTabs", () => {
     );
 
     for (const label of [
-      "Estructura y evidencia",
-      "Propiedades",
-      "Comparar poses",
-      "Evidencia estructural",
-      "Análisis avanzado",
+      "Poses y controles",
+      "Propiedades y estado químico",
+      "Análisis",
+      "Procedencia y datos",
     ]) {
       expect(screen.getByRole("tab", { name: new RegExp(label) })).toBeInTheDocument();
     }
-    expect(screen.getAllByRole("tab").slice(0, 5).map((tab) => tab.id)).toEqual([
-      "analysis-tab-structure",
-      "analysis-tab-properties",
-      "analysis-tab-compare",
-      "analysis-tab-evidence",
-      "analysis-tab-advanced",
+    const areas = screen.getByRole("tablist", { name: "Áreas del resultado" });
+    expect(within(areas).getAllByRole("tab")).toHaveLength(4);
+    expect(within(areas).getAllByRole("tab").map(tab => tab.id.split("-").at(-1))).toEqual([
+      "structure", "properties", "advanced", "provenance",
     ]);
     expect(screen.getByText("poses y hotspots")).toBeInTheDocument();
     expect(screen.getByText("detalle físico #1")).toBeInTheDocument();
@@ -94,17 +91,19 @@ describe("ProAnalysisTabs", () => {
     fireEvent.click(screen.getByRole("button", { name: "seleccionar pose 3" }));
     expect(screen.getByText("detalle físico #3")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("tab", { name: "Comparar poses" }));
+    const compareSummary = screen.getAllByText("Comparar poses").find(element => element.tagName === "SUMMARY")!;
+    fireEvent.click(compareSummary);
     fireEvent.change(screen.getByLabelText("Pose B"), { target: { value: "3" } });
     fireEvent.click(screen.getByRole("button", { name: /Abrir comparación 3D/i }));
     expect(onComparePoses).toHaveBeenCalledWith(1, 3);
 
-    fireEvent.click(screen.getByRole("tab", { name: "Evidencia estructural" }));
+    const physicalSummary = screen.getAllByText("Evidencia estructural").find(element => element.tagName === "SUMMARY")!;
+    fireEvent.click(physicalSummary);
     expect(screen.getByText("expediente estructural")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "abrir detalle de pose 2" }));
     expect(screen.getByText("detalle físico #2")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("tab", { name: /^Análisis avanzado/ }));
+    fireEvent.click(screen.getByRole("tab", { name: /^Análisis$/ }));
     expect(screen.getByText("selectividad real")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("tab", { name: /^MM-GBSA:/i }));

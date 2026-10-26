@@ -319,6 +319,16 @@ def build_cohort_preflight(
     elif summary.eligible_rows == 0 and SIN_MOLECULAS_ELEGIBLES not in blockers:
         blockers.append(SIN_MOLECULAS_ELEGIBLES)
 
+    requested_seed = study.config.seed
+    effective_seed = 42 if requested_seed in (None, 0) else requested_seed
+    seed_resolution = {
+        "requested": requested_seed,
+        "effective": effective_seed,
+        "origin": "default" if requested_seed in (None, 0) else "explicit",
+    }
+    study = study.model_copy(update={
+        "config": study.config.model_copy(update={"seed": effective_seed}),
+    })
     avisos = _avisos_de_cohorte(study, summary)
     if not any(fila.active_label is not None for fila in rows):
         avisos.append(SIN_ETIQUETAS_ACTIVE)
@@ -341,6 +351,7 @@ def build_cohort_preflight(
         generated_at=momento.isoformat(),
         cohort_fingerprint=huella,
         normalized_study=study,
+        seed_resolution=seed_resolution,
         decision=decide(blockers),
         blockers=blockers,
         warnings=avisos,

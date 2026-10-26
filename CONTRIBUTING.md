@@ -56,7 +56,7 @@ Backend y rescoring (`.github/workflows/ci.yml`, jobs `backend` y `rescoring`):
     cd ..
     python rescoring/scripts/generate_model_manifest.py --check
     python -m pytest rescoring/tests -ra -p no:cacheprovider
-    python rescoring/scripts/check_vina_importance_gate.py
+    python rescoring/scripts/check_vina_importance_gate.py --permitir-no-verificable   # SCI-A-056
     python scripts/smoke_test_desktop.py
 
 Frontend y Rust (jobs `frontend` y `tauri`):

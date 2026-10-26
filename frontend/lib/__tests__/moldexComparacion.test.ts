@@ -17,6 +17,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   compararMoleculas,
+  compararIndices,
   filaComparativa,
   type MoldexMolecule,
 } from "../moldex";
@@ -29,6 +30,7 @@ function molecula(overrides: {
 }): MoldexMolecule {
   return {
     id: "id",
+    entry_id: "id:corrida",
     name: "Ligando",
     smiles: "CCO",
     smiles_hash: "b".repeat(64),
@@ -176,5 +178,65 @@ describe("semántica nula en la tabla comparativa", () => {
 
   it("muestra un guion en el delta ausente, no un cero", () => {
     expect(filaComparativa("SCORE", null, 91).textoDelta).toBe("—");
+  });
+});
+
+
+describe("SCI-A-009: protocolos independientes por valor", () => {
+  it("compara v2 en profundidad y conserva todas las diferencias estrictas", () => {
+    const protocolo = {
+      schema: "docking_protocol/v2", seed: 42, conformer_warnings: [],
+      execution_provenance: { engine: { name: "vina", version: "1.2.7" }, steps: ["prepare", "dock"] },
+    };
+    const ficha = (p: Record<string, unknown> | null) =>
+      molecula({ docking_protocol: p === null ? null : JSON.parse(JSON.stringify(p)) });
+    const a = ficha(protocolo);
+    expect(compararMoleculas(a, ficha(protocolo))).toEqual({ comparable: true, motivos: [] });
+    expect(compararMoleculas(a, ficha({
+      execution_provenance: { steps: ["prepare", "dock"], engine: { version: "1.2.7", name: "vina" } },
+      conformer_warnings: [], seed: 42, schema: "docking_protocol/v2",
+    })).comparable).toBe(true);
+    const distintos = [
+      { ...protocolo, seed: 43 },
+      { ...protocolo, execution_provenance: { ...protocolo.execution_provenance, engine: { name: "vina", version: "otra" } } },
+      { ...protocolo, conformer_warnings: ["x"] },
+      { ...protocolo, conformer_warnings: null },
+      { ...protocolo, seed: "42" },
+      { ...protocolo, extra: true },
+      { ...protocolo, execution_provenance: { ...protocolo.execution_provenance, steps: ["dock", "prepare"] } },
+    ];
+    for (const otro of distintos) {
+      const v = compararMoleculas(a, ficha(otro));
+      expect(v.comparable).toBe(false);
+      expect(v.motivos.join(" ")).toMatch(/protocolo de docking difiere/i);
+    }
+    const ausente = compararMoleculas(a, ficha(null));
+    expect(ausente.comparable).toBe(false);
+    expect(ausente.motivos.join(" ")).toMatch(/no consta el protocolo/i);
+    // NaN no sobrevive a JSON; se añade después a las dos copias independientes.
+    const nanA = ficha(protocolo), nanB = ficha(protocolo);
+    nanA.provenance.docking_protocol!.valor = NaN;
+    nanB.provenance.docking_protocol!.valor = NaN;
+    expect(compararMoleculas(nanA, nanB).comparable).toBe(true);
+  });
+});
+
+
+describe("SCI-A-013: calibración necesaria para restar índices", () => {
+  it.each(["plano", "v2"])("distingue igualdad, diferencia y los tres faltantes (%s)", (schema) => {
+    const ficha = (cal: string | null | undefined) => {
+      const m = molecula({ docking_protocol: schema === "v2"
+        ? JSON.parse(JSON.stringify({ schema: "docking_protocol/v2", conformer_warnings: [], execution_provenance: { seed: 42 } }))
+        : { engine: "vina", seed: 42 } });
+      m.provenance.protocolo = { calibracion_ranking: cal } as NonNullable<typeof m.provenance.protocolo>;
+      return m;
+    };
+    expect(compararIndices(ficha("M4"), ficha("M4"))).toMatchObject({ comparable: true, calibracionAusente: false });
+    const distintos = compararIndices(ficha("M4"), ficha("M5"));
+    expect(distintos.comparable).toBe(false);
+    expect(distintos.motivos.join(" ")).toMatch(/calibraciones del ranking distintas/);
+    for (const [a, b] of [[undefined, "M4"], ["M4", undefined], [undefined, undefined], [null, "M4"]]) {
+      expect(compararIndices(ficha(a), ficha(b))).toMatchObject({ comparable: false, calibracionAusente: true });
+    }
   });
 });

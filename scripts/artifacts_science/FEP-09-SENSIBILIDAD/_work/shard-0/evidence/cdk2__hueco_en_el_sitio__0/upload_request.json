@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 cdk2__hueco_en_el_sitio__0",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "A",
+    "grid_center_x": 5.8663,
+    "grid_center_y": 43.854,
+    "grid_center_z": 50.4917,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "e554795f44ed1fd0d827ccfabe2a907fb5e6d5543e7b18d87fa4cb5275ee0d79",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\fep09-1\\tmp\\inputs\\cdk2__hueco_en_el_sitio__0.pdb"
+}

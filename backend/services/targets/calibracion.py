@@ -40,7 +40,8 @@ FAMILIAS_CON_PIPELINE_CALIBRADO: frozenset[str] = frozenset()
 class NivelDeCalibracion(str, Enum):
     """Los cuatro estados reales. El orden es de más a menos respaldo."""
 
-    #: ρ medido y utilizable para ESTE receptor. Hoy: ninguno del catálogo.
+    #: ρ medido para ESTE receptor con su n, su IC 95 % y su protocolo, en una
+    #: entrada que supera el protocolo de Verificados. Hoy: ninguno del catálogo.
     CALIBRADO = "calibrado"
     #: Sin ρ propio, pero su familia estructural tiene stacking ML calibrado.
     PIPELINE_DE_FAMILIA = "pipeline_de_familia"
@@ -102,7 +103,12 @@ MOTIVO: dict[NivelDeCalibracion, str] = {
 
 
 def rho_es_utilizable(rho: float | None) -> bool:
-    """¿Ese `spearman_rho` respalda algo?
+    """¿Ese `spearman_rho` es siquiera una correlación que leer?
+
+    Es condición **necesaria, no suficiente** (SCI-D-001): un número suelto en
+    [−1, 1] no dice con cuántos ligandos se midió, con qué intervalo, contra qué
+    ensayo ni con qué protocolo. Lo que concede `CALIBRADO` es
+    `respaldo_de_calibracion`.
 
     `0.0` se rechaza deliberadamente. Es el valor por defecto con el que se
     escribieron los dos únicos registros del catálogo, y aunque fuera una medida
@@ -120,17 +126,66 @@ def rho_es_utilizable(rho: float | None) -> bool:
     return -1.0 <= valor <= 1.0
 
 
+def respaldo_de_calibracion(target: Any | None) -> dict[str, Any] | None:
+    """La medida que respalda un `CALIBRADO`, o ``None``.
+
+    SCI-D-001. Antes bastaba un `spearman_rho` no nulo en la fila del receptor
+    para emitir `CALIBRADO` sin advertencia, y la comprobación previa lo
+    convertía en «PASA: el ranking está calibrado». Ese número no lleva n, ni
+    intervalo, ni panel, ni protocolo: no se puede saber si es una medida, un
+    valor escrito a mano o el de otra receta.
+
+    La única fuente que sí los lleva es la entrada de Verificados, y sólo cuenta
+    si supera el protocolo (`seccion_catalogo.supera_el_protocolo`: cinco
+    semillas, IC 95 % por encima de 0, receta vigente, panel y endpoint). Un
+    receptor propio o de comunidad no tiene hoy un camino de calibración.
+    """
+    if target is None:
+        return None
+    if getattr(target, "is_private", False) or getattr(target, "is_community", False):
+        return None
+    # Import diferido: el módulo de sección importa la preparación al validar.
+    from services.targets.seccion_catalogo import verificacion_del_receptor
+
+    entrada = verificacion_del_receptor(getattr(target, "pdb_id", None))
+    if not entrada:
+        return None
+    cal = entrada["calibracion"]
+    return {
+        "rho": float(cal["rho"]),
+        "ic95": [float(v) for v in cal["ic95"]],
+        "n": int(cal["n"]),
+        "panel": str(cal["panel"]),
+        "endpoint": str(cal["endpoint"]),
+        "protocolo": dict(entrada["protocolo"]),
+        "receptor_sha256": entrada["receptor_sha256"],
+    }
+
+
+def _rho_de_la_fila(target: Any) -> float | None:
+    """El `spearman_rho` que trae la fila, sea o no una medida (incluido 0.0)."""
+    valor = getattr(target, "spearman_rho", None)
+    if isinstance(valor, bool) or not isinstance(valor, (int, float)):
+        return None
+    return float(valor)
+
+
 @dataclass(frozen=True)
 class EstadoDeCalibracion:
     """El respaldo de un receptor, listo para viajar por el contrato."""
 
     nivel: NivelDeCalibracion
+    #: Sólo la ρ respaldada (`respaldo["rho"]`); ``None`` sin respaldo.
     spearman_rho: float | None
     structural_family: str | None
     tiene_pipeline_de_familia: bool
     resumen: str
     advertencia: str
     motivo: str
+    #: n, IC 95 %, panel, endpoint y protocolo de la medida; ``None`` sin ella.
+    respaldo: dict[str, Any] | None = None
+    #: Lo que la fila del receptor declara, aparte: no concede nada.
+    rho_registrada_sin_respaldo: float | None = None
 
     @property
     def requiere_advertencia(self) -> bool:
@@ -146,6 +201,8 @@ class EstadoDeCalibracion:
             "advertencia": self.advertencia,
             "motivo": self.motivo,
             "requiere_advertencia": self.requiere_advertencia,
+            "respaldo": self.respaldo,
+            "rho_registrada_sin_respaldo": self.rho_registrada_sin_respaldo,
         }
 
 
@@ -177,15 +234,17 @@ def estado_de_calibracion(target: Any | None) -> EstadoDeCalibracion:
             motivo=MOTIVO[nivel],
         )
 
-    rho = getattr(target, "spearman_rho", None)
     familia = getattr(target, "structural_family", None)
     familia_normalizada = (familia or "").strip().lower() or None
     con_pipeline = familia_normalizada in FAMILIAS_CON_PIPELINE_CALIBRADO
+    respaldo = respaldo_de_calibracion(target)
+    rho_fila = _rho_de_la_fila(target)
 
-    if rho_es_utilizable(rho):
+    if respaldo is not None and rho_es_utilizable(respaldo["rho"]):
         nivel = NivelDeCalibracion.CALIBRADO
-        rho_publicado: float | None = float(rho)
+        rho_publicado: float | None = respaldo["rho"]
     else:
+        respaldo = None
         rho_publicado = None
         if not _curado_estructuralmente(target):
             nivel = NivelDeCalibracion.SIN_CURAR
@@ -202,4 +261,6 @@ def estado_de_calibracion(target: Any | None) -> EstadoDeCalibracion:
         resumen=RESUMEN[nivel],
         advertencia=ADVERTENCIA[nivel],
         motivo=MOTIVO[nivel],
+        respaldo=respaldo,
+        rho_registrada_sin_respaldo=None if respaldo is not None else rho_fila,
     )

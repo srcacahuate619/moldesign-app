@@ -11,25 +11,22 @@ const KeepAliveLoader = () => (
   </div>
 );
 
-const EvaluationPage = dynamic(() => import("../app/evaluation/page"), {
-  ssr: false,
-  loading: KeepAliveLoader,
-});
-const MoldexPage = dynamic(() => import("../app/moldex/page"), {
-  ssr: false,
-  loading: KeepAliveLoader,
-});
-const HistoryPage = dynamic(() => import("../app/history/page"), {
-  ssr: false,
-  loading: KeepAliveLoader,
-});
-const BatchPage = dynamic(() => import("../app/evaluation/batch/page"), {
-  ssr: false,
-  loading: KeepAliveLoader,
-});
+/**
+ * Pestañas que no se desmontan al salir de ellas. Molcy y Preparación entran el 2026-10-10 (decisión del propietario): al
+ * volver se recargaban enteras y perdían lo elegido (Preparación, el caso abierto y su auditoría). Cada una decide qué
+ * refresca al volver, en silencio, con `KeepAliveContext`.
+ */
+const PAGINAS = {
+  "/evaluation": dynamic(() => import("../app/evaluation/page"), { ssr: false, loading: KeepAliveLoader }),
+  "/evaluation/batch": dynamic(() => import("../app/evaluation/batch/page"), { ssr: false, loading: KeepAliveLoader }),
+  "/moldex": dynamic(() => import("../app/moldex/page"), { ssr: false, loading: KeepAliveLoader }),
+  "/history": dynamic(() => import("../app/history/page"), { ssr: false, loading: KeepAliveLoader }),
+  "/molcy": dynamic(() => import("../app/molcy/page"), { ssr: false, loading: KeepAliveLoader }),
+  "/preparacion": dynamic(() => import("../app/preparacion/page"), { ssr: false, loading: KeepAliveLoader }),
+} as const;
 
-type KeepAliveRoute = "/evaluation" | "/evaluation/batch" | "/moldex" | "/history";
-const KEEP_ALIVE_ROUTES: KeepAliveRoute[] = ["/evaluation", "/evaluation/batch", "/moldex", "/history"];
+type KeepAliveRoute = keyof typeof PAGINAS;
+export const KEEP_ALIVE_ROUTES = Object.keys(PAGINAS) as KeepAliveRoute[];
 
 export function PersistentKeepAliveLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -53,56 +50,32 @@ export function PersistentKeepAliveLayout({ children }: { children: React.ReactN
 
   // Si la ruta actual es keep-alive, el children de Next.js NO debe renderizarse
   // (ya está cubierto por la página keep-alive correspondiente). Evitamos duplicar.
-  // Si NO es keep-alive (/evaluation/batch, /comunidad, /login, etc.), renderizamos
+  // Si NO es keep-alive (Inicio, /comunidad, /login, etc.), renderizamos
   // el children pero SIN desmontar las páginas keep-alive — quedan display:none.
   const showChildren = !isKeepAliveRoute;
 
   return (
     <div className="relative w-full flex-1">
-      {/* Páginas keep-alive: siempre en el DOM, solo alternan display.
-          Nunca se desmontan → preservan state y Molstar instance. */}
-      {booted["/evaluation"] && (
-        <div
-          className="w-full flex-1"
-          style={{ display: isActive("/evaluation") ? "block" : "none" }}
-          aria-hidden={!isActive("/evaluation")}
-        >
-          <KeepAliveContext.Provider value={isActive("/evaluation")}>
-            <EvaluationPage />
-          </KeepAliveContext.Provider>
-        </div>
-      )}
-
-      {booted["/evaluation/batch"] && (
-        <div
-          className="w-full flex-1"
-          style={{ display: isActive("/evaluation/batch") ? "block" : "none" }}
-          aria-hidden={!isActive("/evaluation/batch")}
-        >
-          <KeepAliveContext.Provider value={isActive("/evaluation/batch")}>
-            <BatchPage />
-          </KeepAliveContext.Provider>
-        </div>
-      )}
-      {booted["/moldex"] && (
-        <div
-          className="w-full flex-1"
-          style={{ display: isActive("/moldex") ? "block" : "none" }}
-          aria-hidden={!isActive("/moldex")}
-        >
-          <MoldexPage />
-        </div>
-      )}
-
-      {booted["/history"] && (
-        <div
-          className="w-full flex-1"
-          style={{ display: isActive("/history") ? "block" : "none" }}
-          aria-hidden={!isActive("/history")}
-        >
-          <HistoryPage />
-        </div>
-      )}
+      {/* Páginas keep-alive: siempre en el DOM, solo alternan display. Nunca se desmontan → preservan state y Molstar
+          instance. TODAS reciben `KeepAliveContext`: Moldex e Historial lo leían para recargar al volver, pero no se
+          lo daban (sólo Evaluación y Batch) y con el valor por defecto, `true`, la recarga nunca ocurría. */}
+      {KEEP_ALIVE_ROUTES.map((route) => {
+        if (!booted[route]) return null;
+        const Pagina = PAGINAS[route];
+        return (
+          <div
+            key={route}
+            data-keep-alive={route}
+            className="w-full flex-1"
+            style={{ display: isActive(route) ? "block" : "none" }}
+            aria-hidden={!isActive(route)}
+          >
+            <KeepAliveContext.Provider value={isActive(route)}>
+              <Pagina />
+            </KeepAliveContext.Provider>
+          </div>
+        );
+      })}
 
       {/* Rutas NO keep-alive: se renderizan AQUÍ, al lado de las keep-alive
           (que quedan display:none). Así no se desmontan las keep-alive. */}

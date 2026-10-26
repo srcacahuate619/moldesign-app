@@ -44,6 +44,12 @@ export function LiquidOrb({ value, absolute, label, source, unavailable = false,
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el) return;
+    // Sin IntersectionObserver no se espera a verlo: se enseña ya, sin romper el panel.
+    if (typeof IntersectionObserver === "undefined") {
+      setInView(true);
+      setHasAnimated(true);
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -169,17 +175,17 @@ export function LiquidOrb({ value, absolute, label, source, unavailable = false,
       {/* ── Label inferior ── */}
       <div className="flex flex-col items-center gap-0.5">
         <span
-          className="text-xs font-bold font-mono uppercase tracking-wider"
-          style={{ color }}
+          className="text-sm font-bold font-sans uppercase tracking-wider"
+          style={{ color: unavailable ? "#a1a1aa" : color }}
         >
           {label}
         </span>
         {unavailable ? (
-          <span className="max-w-[16rem] text-center text-[10px] font-mono leading-relaxed text-slate-500">
+          <span className="max-w-[16rem] text-center text-base font-sans leading-6 text-zinc-300">
             {unavailableNote ?? t("auto_01f70610d0a7")}
           </span>
         ) : (
-          source && <span className="text-[10px] font-mono text-slate-500">{source}</span>
+          source && <span className="text-sm font-sans text-zinc-400">{source}</span>
         )}
       </div>
     </div>

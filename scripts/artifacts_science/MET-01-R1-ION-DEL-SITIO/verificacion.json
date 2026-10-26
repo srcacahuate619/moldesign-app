@@ -1,0 +1,16 @@
+{
+  "verified_successful_rows": 380,
+  "total_rows": 380,
+  "metrics_deterministic": true,
+  "checks": [
+    "raw SHA256",
+    "CAL SDF/PDBQT top-1 correspondence",
+    "CAL symmetric heavy RMSD with no alignment, all returned poses",
+    "effective seed/configuration/CPU/Vina version",
+    "frozen microstate/receptor hash",
+    "physical status and preparation requirements",
+    "ion distances",
+    "raw task identity"
+  ],
+  "product_commit": "9ce8b10490fcdd1c21b5dc0cf1efa8f3eae76d70"
+}

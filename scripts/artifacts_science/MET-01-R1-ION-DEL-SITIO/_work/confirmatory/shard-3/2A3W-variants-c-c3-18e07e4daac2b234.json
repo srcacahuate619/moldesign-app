@@ -1,0 +1,176 @@
+{
+  "SIN": {
+    "state": "PREPARED",
+    "target": {
+      "id": "d20f000a-f19d-4f4d-ac0f-a124bbc619da",
+      "pdb_id": "USR_8B0665",
+      "name": "MET01R1-confirmatory-2A3W-SIN",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Homo Sapiens",
+      "resolution": 2.2,
+      "hotspots": [],
+      "site_chains": [
+        "J",
+        "A"
+      ],
+      "site_chain_atoms": {
+        "J": 25,
+        "A": 22
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "CPJ",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 5.29,
+      "grid_center_y": 17.6,
+      "grid_center_z": -31.1,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "0003a890-81e3-4969-b1f8-670a9ac99f83",
+      "receptor_source_sha256": "3e2cde13d65307b8ca038a644189faf4177640bb25c3bee0bb54972fb1abbe30",
+      "prepared_receptor_sha256": "f91b4dd061f8ea4cd648ded083b57cc0af6dff9cb94045b823056387ad84eb74",
+      "preparation_fingerprint": "507ecea737a7b9aee9891a9410814a2ac1e8d11588ed5dd92e27954812270869",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "2A3W",
+        "chain": "A",
+        "grid_center": [
+          5.29,
+          17.6,
+          -31.1
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": []
+  },
+  "CON": {
+    "state": "PREPARED",
+    "target": {
+      "id": "1dcd2d1b-f6e0-413c-b948-41b8c51c5a73",
+      "pdb_id": "USR_80BC06",
+      "name": "MET01R1-confirmatory-2A3W-CON",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Homo Sapiens",
+      "resolution": 2.2,
+      "hotspots": [],
+      "site_chains": [
+        "J",
+        "A"
+      ],
+      "site_chain_atoms": {
+        "J": 25,
+        "A": 22
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "CPJ",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 5.29,
+      "grid_center_y": 17.6,
+      "grid_center_z": -31.1,
+      "grid_size_x": 22.0,
+      "grid_size_y": 22.0,
+      "grid_size_z": 22.0,
+      "cofactors_whitelist": [
+        "CA"
+      ],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "0003a890-81e3-4969-b1f8-670a9ac99f83",
+      "receptor_source_sha256": "3e2cde13d65307b8ca038a644189faf4177640bb25c3bee0bb54972fb1abbe30",
+      "prepared_receptor_sha256": "59ad7d6beb2243f367a235cb4ee01e606259714cd0b54bb58a20000cf6d6c470",
+      "preparation_fingerprint": "30eb7dac4cb0447637f5b99258e5e7a953ac5b32214c39d6fc4da6636c26fc2a",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "2A3W",
+        "chain": "A",
+        "grid_center": [
+          5.29,
+          17.6,
+          -31.1
+        ],
+        "grid_size": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "cofactors_whitelist": [
+          "CA"
+        ],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": [
+      "CA"
+    ]
+  }
+}

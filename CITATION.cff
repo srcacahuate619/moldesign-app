@@ -5,7 +5,7 @@ abstract: >-
   Aplicación local para producir, organizar y transferir evidencia
   computacional estructural con procedencia, controles e incertidumbre
   explícitos.
-version: "1.0.1"
+version: "1.0.4"
 type: software
 authors:
   - family-names: Amezcua

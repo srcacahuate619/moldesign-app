@@ -396,25 +396,10 @@
     ],
     [
      {
-      "t": "tres experimentos que dependían de ella quedan bloqueados permanentemente bajo este",
+      "t": "tres experimentos que dependían de ella quedan bloqueados permanentemente bajo este diseño;",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "diseño;",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "cualquier reapertura futura debe declarar un denominador en ",
@@ -425,19 +410,10 @@
       "m": "fuerte"
      },
      {
-      "t": " —",
+      "t": " — aproximadamente cuatro veces más—, no en más features, más semillas ni etiquetas más limpias. Las tres vías se probaron y ninguna movió la aguja.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "aproximadamente cuatro veces más—, no en más features, más semillas ni etiquetas más limpias. Las tres vías se probaron y ninguna movió la aguja.",
-     "m": null
-    }
    ]
   },
   {
@@ -505,6 +481,106 @@
      "t": "Que la corrección honesta de un error propio puede empeorar la propia posición, y que hay que publicarla igual. La tentación de dejar el defecto sin arreglar —o de arreglarlo sólo en el brazo propio— es exactamente el mecanismo por el que la literatura de este campo acumula resultados que no se replican.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-028. No se puede garantizar la dirección del sesgo de las 1143 poses sin corrección de simetría, ni que la brecha real sea «todavía mayor».",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-025. El «CI95 BCa» es el percentil del bootstrap. Con BCa: ",
+      "m": null
+     },
+     {
+      "t": "[−0.221, 0.018]",
+      "m": "fuerte"
+     },
+     {
+      "t": " frente a [−0.214, 0.022]; sigue incluyendo el cero. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_rs14_bca.py",
+      "m": "codigo"
+     },
+     {
+      "t": ". El MDE con la varianza observada es 16.9 pp (SCI-B-002, paper de ",
+      "m": null
+     },
+     {
+      "t": "FND-04",
+      "m": "codigo"
+     },
+     {
+      "t": ").",
+      "m": null
+     }
+    ]
    ]
   }
  ],

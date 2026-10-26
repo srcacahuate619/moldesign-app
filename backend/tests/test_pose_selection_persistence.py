@@ -407,7 +407,8 @@ def test_la_seleccion_ocurre_DESPUES_de_generar_y_validar_las_poses():
     from services.pipeline import runner
 
     hook = inspect.getsource(runner.run_pipeline)
-    assert hook.index("build_structural_evidence") < hook.index("build_pose_selection_for_run")
+    # La evidencia corre en un proceso hijo con plazo (`construir_evidencia_aislada`, que llama a build_structural_evidence).
+    assert hook.index("construir_evidencia_aislada") < hook.index("build_pose_selection_for_run")
     # Y ambas antes del upsert FINAL —el del docking—, que es donde las dos se
     # guardan juntas. `rindex`: el pipeline persiste antes las propiedades, y
     # esa llamada temprana no es la que cierra la evaluación.

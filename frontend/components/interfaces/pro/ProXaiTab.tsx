@@ -1,10 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useId, useRef } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
 import { motion } from "framer-motion";
+import {useResultReading} from "./ResultReadingPresentation";
+import resultStyles from "./ResultPanels.module.css";
+import shapStyles from "./ProXaiShap.module.css";
+import {RESULT_FIELD_PRESENTATION} from "@/lib/resultFieldPresentation";
 import { Activity, Info, Sliders } from "lucide-react";
 import { getGnnAttentionSvg } from "../../../lib/api";
+import {ContactMapPanel} from "./ContactMapPanel";
 
 const SHAP_EXPLANATIONS: Record<string, { label: string; desc: string }> = {
   "ecif_N_don_C": { label: "Contactos N-donador \u2192 C", desc: "Cercan\u00eda entre nitr\u00f3genos donadores del ligando y carbonos del bolsillo. NO es un puente de hidr\u00f3geno: el carbono no tiene pares libres ni la electronegatividad para aceptarlo. Mide empaquetamiento y polarizaci\u00f3n." },
@@ -55,6 +60,66 @@ function getFeatureExplanation(feature: string) {
   return { label: feature.replace(/_/g, " "), desc: "Propiedad f\u00edsico-qu\u00edmica extra\u00edda del complejo molecular." };
 }
 
+function ShapContributionChart({values}:{values:Record<string,number>}) {
+  const {t,locale}=useLanguage();
+  const uid=useId();
+  const [selected,setSelected]=useState<string|null>(null);
+  const dialog=useRef<HTMLDialogElement>(null);
+  const max=Math.max(...Object.values(values).map(value=>Math.abs(value)))||1;
+  const label=(key:string)=>{
+    if(key==="vina_best_score")return t("ux_vina_best");
+    const meta=RESULT_FIELD_PRESENTATION[key==="mw"?"molecular_weight":key];
+    return meta?(locale==="en"?meta.en:meta.es):t(getFeatureExplanation(key).label);
+  };
+  const direction=(value:number)=>value>0?"positive":value<0?"negative":"zero";
+  useEffect(()=>{
+    const node=dialog.current;if(!node)return;
+    if(selected!==null&&!node.open)node.showModal();
+    else if(selected===null&&node.open)node.close();
+  },[selected]);
+  const selectedValue=selected===null?null:values[selected];
+  return <section className={`${resultStyles.section} ${shapStyles.chart}`} aria-label={t("ux_shap_title")} data-shap-chart="true">
+    <div className={resultStyles.sectionHeader}><h4>{t("ux_shap_title")}</h4></div>
+    <p className={resultStyles.intro}>{t("ux_shap_scope")}</p>
+    <div className={shapStyles.legend} aria-hidden="true"><span>{t("ux_shap_negative")}</span><span className={shapStyles.origin}>0</span><span>{t("ux_shap_positive")}</span></div>
+    <div className={shapStyles.plot}>
+      <div className={shapStyles.axis} aria-hidden="true"/>
+      {Object.entries(values).map(([key,value])=>{
+        const side=direction(value);
+        return <button type="button" key={key} className={shapStyles.row} data-direction={side} data-shap-feature={key} data-shap-value={value}
+          aria-label={`${label(key)}: ${value>0?"+":""}${value}. ${t(`ux_shap_${side}`)}`} aria-haspopup="dialog" onClick={()=>setSelected(key)}>
+          <span className={shapStyles.featureLabel}><span>{label(key)}</span><Info size={14} aria-hidden="true"/></span>
+          <span className={shapStyles.graphHalf} aria-hidden="true">
+            <span className={shapStyles.barSpace}><span className={shapStyles.bar} style={{width:`${Math.abs(value)/max*100}%`}}/></span>
+            <span className={shapStyles.value} title={String(value)}>{value>0?"+":""}{value.toFixed(3)}</span>
+          </span>
+        </button>;
+      })}
+    </div>
+    <p className={resultStyles.note}>{t("ux_shap_scale")}</p>
+    <dialog ref={dialog} className={shapStyles.dialog} aria-labelledby={`${uid}-title`} aria-describedby={`${uid}-description`}
+      onClose={()=>setSelected(null)} onCancel={()=>setSelected(null)}
+      onKeyDown={event=>{
+        if(event.key!=="Tab")return;
+        const stops=[...event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],input:not(:disabled),select:not(:disabled),textarea:not(:disabled),[tabindex]:not([tabindex="-1"])')];
+        const first=stops[0],last=stops[stops.length-1];if(!first)return;
+        if((event.shiftKey&&document.activeElement===first)||(!event.shiftKey&&document.activeElement===last)){event.preventDefault();(event.shiftKey?last:first).focus();}
+      }}
+      onClick={event=>{if(event.target!==event.currentTarget)return;const r=event.currentTarget.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)setSelected(null);}}>
+      <div className={shapStyles.dialogHeader}><h4 id={`${uid}-title`}>{selected===null?t("ux_shap_title"):label(selected)}</h4><button type="button" className={resultStyles.action} onClick={()=>setSelected(null)}>{t("ux_shap_close")}</button></div>
+      <p id={`${uid}-description`} className={resultStyles.note}>{selected==="vina_best_score"?t("ux_vina_feature_scope"):selected===null?"":t(getFeatureExplanation(selected).desc)}</p>
+      {selected!==null&&typeof selectedValue==="number"&&<>
+        <dl className={shapStyles.detailRows}>
+          <div><dt>{t("pr_xai_value_shap")}</dt><dd data-shap-exact="true">{selectedValue>0?"+":""}{String(selectedValue)}</dd></div>
+          <div><dt>{t("pr_xai_effect")}</dt><dd>{t(`ux_shap_${direction(selectedValue)}`)}</dd></div>
+        </dl>
+        <p className={resultStyles.note}><code>{selected}</code></p>
+        <p className={resultStyles.note}>{t("ux_shap_scope")}</p>
+      </>}
+    </dialog>
+  </section>;
+}
+
 const GnnAttentionSvg = React.memo(({ svg, className }: { svg: string; className?: string }) => {
   return (
     <div
@@ -72,6 +137,8 @@ interface Props {
   gnnPharmacophores: unknown;
   /** UI-7 (2026-08-04): id de molécula para fetchear el SVG on-demand. */
   moleculeId?: string | null;
+  taskId?: string | null;
+  poses?: readonly {rank:number}[] | null;
   /** F-21: dominio de aplicabilidad del modelo (dist. Mahalanobis). */
   inApplicabilityDomain?: boolean | null;
   /** F-21: motivo del fallback a modelo universal (quality gate). */
@@ -80,8 +147,9 @@ interface Props {
   // cabeceras de ProEvaluation y ReproducibilityInfo (regla 4).
 }
 
-export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharmacophores, moleculeId, inApplicabilityDomain, fallbackReason }: Props) {
+export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharmacophores, moleculeId, taskId, poses, inApplicabilityDomain, fallbackReason }: Props) {
   const { t } = useLanguage();
+  const reading=useResultReading();
   const [expandedSHAP, setExpandedSHAP] = useState<string | null>(null);
   const [expandedGNN, setExpandedGNN] = useState<"2d" | "1d" | null>(null);
   // UI-7: el SVG ya no viaja en el polling; lo fetcheamos on-demand cuando el
@@ -93,7 +161,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
 
   // On-demand fetch del SVG de atención GNN (solo si este tab está montado).
   useEffect(() => {
-    if (!moleculeId) return;
+    if (!moleculeId || reading.enabled) return;
     if (gnnAttentionSvg) { setFetchedSvg(gnnAttentionSvg); return; }
     let cancelled = false;
     getGnnAttentionSvg(moleculeId).then((data) => {
@@ -102,7 +170,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
       if (data.gnn_attention && data.gnn_attention.length > 0) setFetchedAtt(data.gnn_attention);
     }).catch(() => {});
     return () => { cancelled = true; };
-  }, [moleculeId, gnnAttentionSvg]);
+  }, [moleculeId, gnnAttentionSvg, reading.enabled]);
 
   // El SVG efectivo: prop (legacy) > fetch on-demand.
   const effectiveSvg = gnnAttentionSvg ?? fetchedSvg ?? null;
@@ -113,13 +181,14 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
       <div className="space-y-3 animate-in fade-in duration-200">
         {hasShap ? (
           <div className="space-y-4">
-            <div className="text-body text-slate-300 mb-2 font-mono bg-gradient-to-r from-indigo-500/10 to-transparent p-3.5 rounded-xl border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.05)]">
+            {reading.enabled ? <ShapContributionChart values={shapValues!}/> : <>
+            <div className="font-sans text-base leading-6 text-slate-300 mb-2 font-sans bg-gradient-to-r from-indigo-500/10 to-transparent p-3.5 rounded-xl border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.05)]">
               <div className="flex items-center gap-2 mb-1.5">
                 <div className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></div>
                 <span className="text-indigo-300 font-bold tracking-wider">{t("pr_xai_shap_nativo")}</span>
               </div>
-              <p className="opacity-90 leading-relaxed">
-                {t("pr_xai_abejas_a")} <span className="text-emerald-400 font-bold">derecha (verdes)</span> {t("pr_xai_abejas_b")} <span className="text-rose-400 font-bold">izquierda (rojas)</span> {t("pr_xai_abejas_c")}
+              <p className="opacity-90 leading-6">
+                {t("pr_xai_abejas_a")} <span className="text-emerald-400 font-bold">{t("pr_xai_right_green")}</span> {t("pr_xai_abejas_b")} <span className="text-rose-400 font-bold">{t("pr_xai_left_red")}</span> {t("pr_xai_abejas_c")}
               </p>
             </div>
 
@@ -144,7 +213,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                         <div className="w-1/2 flex justify-end items-center pr-2 h-3.5">
                           {!isPositive && (
                             <>
-                              <span className="text-body font-mono text-rose-300/80 mr-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <span className="font-sans text-base leading-6 font-mono text-rose-300 mr-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 {val.toFixed(3)}
                               </span>
                               <motion.div
@@ -157,10 +226,10 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                           )}
                           {isPositive && (
                             <div className="flex items-center justify-end w-full pl-2">
-                              <span className="text-xs uppercase font-mono font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate pr-1 text-right">
+                              <span className="text-sm uppercase font-sans font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate pr-1 text-right">
                                 {t(getFeatureExplanation(feature).label)}
                               </span>
-                              <Info size={10} className="text-slate-500 group-hover:text-indigo-400 transition-colors flex-shrink-0" />
+                              <Info size={10} className="text-zinc-400 group-hover:text-indigo-400 transition-colors flex-shrink-0" />
                             </div>
                           )}
                         </div>
@@ -173,15 +242,15 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                                 transition={{ type: "spring", stiffness: 60, damping: 12, delay: idx * 0.05 }}
                                 className="h-full rounded-r-md bg-gradient-to-r from-emerald-500/85 to-emerald-400 border-y border-r border-emerald-400/50 shadow-[0_0_10px_rgba(16,185,129,0.35)] relative"
                               />
-                              <span className="text-body font-mono text-emerald-300/80 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <span className="font-sans text-base leading-6 font-mono text-emerald-300 ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 +{val.toFixed(3)}
                               </span>
                             </>
                           )}
                           {!isPositive && (
                             <div className="flex items-center justify-start w-full pr-2">
-                              <Info size={10} className="text-slate-500 group-hover:text-indigo-400 transition-colors flex-shrink-0 mr-1" />
-                              <span className="text-xs uppercase font-mono font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate text-left">
+                              <Info size={10} className="text-zinc-400 group-hover:text-indigo-400 transition-colors flex-shrink-0 mr-1" />
+                              <span className="text-sm uppercase font-sans font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate text-left">
                                 {t(getFeatureExplanation(feature).label)}
                               </span>
                             </div>
@@ -194,27 +263,29 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
               </div>
             </div>
 
-            {Boolean(effectiveAtt) && (
+            </>}
+
+            {!reading.enabled && Boolean(effectiveAtt) && (
               <div className="mt-5 p-4 bg-black/40 rounded-xl border border-emerald-500/20 relative overflow-hidden">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-emerald-400 font-bold flex items-center gap-1.5 text-sm uppercase tracking-wider">
                     <Activity size={14} /> {t("pr_xai_atencion_gnn")}
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">{t("pr_xai_mapa_hotspots")}</span>
+                  <span className="text-sm text-slate-400 font-mono">{t("pr_xai_mapa_hotspots")}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-4 items-stretch">
                   <div
                     onClick={() => { if (effectiveSvg) setExpandedGNN('2d') }}
                     className={`flex flex-col items-center justify-center p-3 bg-slate-900/60 rounded-xl border border-white/5 shadow-inner transition-colors duration-200 ${effectiveSvg ? 'cursor-pointer hover:bg-slate-800/80' : ''}`}
                   >
-                    <span className="text-body text-slate-500 uppercase font-mono mb-2 tracking-widest">{t("pr_xai_topologia")}</span>
+                    <span className="font-sans text-base leading-6 text-zinc-400 uppercase font-sans mb-2 tracking-widest">{t("pr_xai_topologia")}</span>
                     {effectiveSvg ? (
                       <GnnAttentionSvg
                         svg={effectiveSvg}
                         className="w-full flex justify-center items-center [&>svg]:w-full [&>svg]:max-w-[160px] [&>svg]:h-auto filter drop-shadow-[0_0_8px_rgba(16,185,129,0.2)]"
                       />
                     ) : (
-                      <div className="w-full aspect-square max-h-[160px] flex items-center justify-center text-xs text-slate-500 italic">
+                      <div className="w-full aspect-square max-h-[160px] flex items-center justify-center text-sm text-zinc-400 italic">
                         {t("pr_xai_generando")}
                       </div>
                     )}
@@ -223,11 +294,11 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                     onClick={() => { if (gnnPharmacophores) setExpandedGNN('1d') }}
                     className={`flex flex-col items-center justify-start p-3 bg-slate-900/60 rounded-xl border border-white/5 shadow-inner relative overflow-hidden group transition-colors duration-200 ${gnnPharmacophores ? 'cursor-pointer hover:bg-slate-800/80' : ''}`}
                   >
-                    <span className="text-body text-slate-500 uppercase font-mono mb-2 tracking-widest z-10">{t("pr_xai_farmacoforos")}</span>
+                    <span className="font-sans text-base leading-6 text-zinc-400 uppercase font-sans mb-2 tracking-widest z-10">{t("pr_xai_farmacoforos")}</span>
                     <div className="w-full flex-grow relative min-h-[120px] z-10 flex items-center justify-center">
                       {(() => {
                         const pharm = gnnPharmacophores as Record<string, number> | null | undefined;
-                        if (!pharm) return <div className="text-xs text-slate-500 italic mt-8">{t("c_no_disponible")}</div>;
+                        if (!pharm) return <div className="text-sm text-zinc-400 italic mt-8">{t("c_no_disponible")}</div>;
                         // FIX (keys alignment, 2026-08-04): las categorías del
                         // radar DEBEN coincidir con los keys reales que genera
                         // backend/services/ai/gnn_explainability.py. Antes
@@ -237,8 +308,8 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                         // Ver docs/36 UI-5 + UI-6.
                         const PHARM_KEYS: { key: string; label: string }[] = [
                           { key: "Aromaticos / Pi-Stacking", label: t("auto_33238333294a") },
-                          { key: "Donadores H-Bond", label: "Donadores H" },
-                          { key: "Aceptores H-Bond", label: "Aceptores H" },
+                          { key: "Donadores H-Bond", label: t("pn_spider_donadores_h") },
+                          { key: "Aceptores H-Bond", label: t("pn_spider_aceptores_h") },
                           { key: "Contactos Lipofilicos", label: t("auto_ca556f18c671") },
                         ];
                         const categories = PHARM_KEYS.map(pk => pk.label);
@@ -258,7 +329,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                           }).join(' ')
                         );
                         return (
-                          <svg viewBox="0 0 200 120" className="w-full h-full overflow-visible">
+                          <svg viewBox="0 -10 200 140" className="w-full h-full overflow-visible">
                             <defs>
                               <filter id="glow-radar">
                                 <feGaussianBlur stdDeviation="2" result="coloredBlur" />
@@ -293,7 +364,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                               const x = cx + (rMax + 15) * Math.cos(rad);
                               const y = cy + (rMax + 12) * Math.sin(rad);
                               return (
-                                <text key={cat} x={x} y={y} textAnchor="middle" alignmentBaseline="middle" fill="#94a3b8" fontSize="7" className="font-mono">
+                                <text key={cat} x={x} y={y} textAnchor="middle" alignmentBaseline="middle" fill="#d4d4d8" fontSize="14" className="font-sans">
                                   {cat.substring(0, 4)}
                                 </text>
                               )
@@ -309,41 +380,43 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center text-center text-slate-500 py-12 px-4 border border-white/5 bg-black/20 rounded-2xl">
+          <div className="flex flex-col items-center justify-center text-center text-zinc-400 py-12 px-4 border border-white/5 bg-black/20 rounded-2xl">
             <div className="w-10 h-10 rounded-full bg-slate-800/50 flex items-center justify-center mb-3">
-              <Activity size={18} className="text-slate-500" />
+              <Activity size={18} className="text-zinc-400" />
             </div>
             <span className="text-sm font-medium">{t("pr_xai_sin_datos")}</span>
-            <span className="text-xs mt-1 opacity-70">{t("pr_xai_shap_poblara")}</span>
+            <span className="text-sm mt-1 opacity-70">{t("pr_xai_shap_poblara")}</span>
           </div>
         )}
       </div>
 
       {/* ── {t("pr_xai_dominio")} (F-21) ────────────────────────────── */}
+      {reading.enabled&&<ContactMapPanel key={`${moleculeId??""}:${taskId??""}`} moleculeId={moleculeId} taskId={taskId} poses={poses}/>}
       <div className="p-4 bg-black/40 rounded-xl border border-white/10 space-y-2.5">
         <div className="flex items-center justify-between">
-          <span className="text-xs uppercase font-mono font-bold tracking-wider text-slate-400">
+          <span className="text-sm uppercase font-sans font-bold tracking-wider text-slate-400">
             {t("pr_xai_dominio")}
           </span>
           {inApplicabilityDomain === true ? (
-            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-emerald-500/15 text-emerald-300 border-emerald-500/25">
+            <span className="text-sm font-mono font-bold px-2 py-0.5 rounded border bg-emerald-500/15 text-emerald-300 border-emerald-500/25">
               {t("auto_21838be6b371")}
             </span>
           ) : inApplicabilityDomain === false ? (
-            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-rose-500/15 text-rose-300 border-rose-500/25">
+            <span className="text-sm font-mono font-bold px-2 py-0.5 rounded border bg-rose-500/15 text-rose-300 border-rose-500/25">
               {t("pr_xai_fuera_dominio")}
             </span>
           ) : (
-            <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded border bg-white/5 text-slate-400 border-white/10">
+            <span className="text-sm font-mono font-bold px-2 py-0.5 rounded border bg-white/5 text-slate-400 border-white/10">
               {t("c_no_disponible")}
             </span>
           )}
         </div>
         {fallbackReason && (
-          <p className="text-xs text-slate-300 leading-relaxed font-sans">
+          <p className="text-base text-slate-300 leading-6 font-sans">
             {fallbackReason}
           </p>
         )}
+        {reading.enabled&&<p className={resultStyles.note}>{t("cm_domain_scope")}</p>}
       </div>
 
       {expandedSHAP && (() => {
@@ -368,17 +441,17 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                   <Sliders size={16} className="text-indigo-400" />
                   {t(explanation.label)}
                 </h3>
-                <p className="text-sm text-slate-300 leading-relaxed mb-4">{t(explanation.desc)}</p>
+                <p className="text-base text-slate-300 leading-6 mb-4 font-sans">{t(explanation.desc)}</p>
                 <div className="bg-black/30 rounded-xl border border-white/5 p-4 space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs uppercase font-mono text-slate-400">Valor SHAP</span>
+                    <span className="text-sm uppercase font-sans text-slate-400">{t("pr_xai_value_shap")}</span>
                     <span className={`text-lg font-black font-mono ${isPositive ? "text-emerald-400" : "text-rose-400"}`}>
                       {typeof value === 'number' ? (isPositive ? "+" : "") + value.toFixed(4) : "N/A"}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-xs uppercase font-mono text-slate-400">Efecto</span>
-                    <span className={`text-xs font-bold ${isPositive ? "text-emerald-400" : "text-rose-400"}`}>
+                    <span className="text-sm uppercase font-sans text-slate-400">{t("pr_xai_effect")}</span>
+                    <span className={`text-sm font-bold ${isPositive ? "text-emerald-400" : "text-rose-400"}`}>
                       {isPositive ? t("auto_ba93a478fc9b") : t("auto_00cf99ca43b6")}
                     </span>
                   </div>
@@ -416,8 +489,8 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                 <div className="bg-black/30 rounded-xl border border-white/5 p-4">
                   {(gnnPharmacophores as Record<string, number>) && Object.entries(gnnPharmacophores as Record<string, number>).map(([key, val]) => (
                     <div key={key} className="flex justify-between items-center py-1.5 border-b border-white/5 last:border-0">
-                      <span className="text-xs font-mono text-slate-300">{key}</span>
-                      <span className="text-xs font-mono font-bold text-emerald-400">{val.toFixed(1)}%</span>
+                      <span className="text-sm font-mono text-slate-300">{key}</span>
+                      <span className="text-sm font-mono font-bold text-emerald-400">{val.toFixed(1)}%</span>
                     </div>
                   ))}
                 </div>

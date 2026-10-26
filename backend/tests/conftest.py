@@ -9,6 +9,8 @@ Estrategia:
 from __future__ import annotations
 
 import os
+import tempfile
+from pathlib import Path
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock, patch
 
@@ -17,6 +19,15 @@ import pytest
 # Activa el guard de core.database: una suite nunca puede caer por accidente
 # en ~/MolDesign/data/moldesign_local.db.
 os.environ.setdefault("MOLDESIGN_TESTING", "1")
+
+# La guardia de arriba sólo cubría la base de datos. Todo lo demás que resuelve
+# `settings.local_data_dir` (conformeros en `ligands/<hash>/conformer.sdf`, poses,
+# PDFs) y el log (`<data>/../logs/moldesign.log`) caía en `~/MolDesign`, la carpeta
+# de datos REAL de quien use la aplicación: cada ejecución de la suite reescribía
+# ahí ficheros suyos. Debe fijarse ANTES de que se cree `get_settings()`.
+os.environ.setdefault(
+    "LOCAL_DATA_DIR", str(Path(tempfile.gettempdir()) / "moldesign-tests" / "datos")
+)
 
 # ── Detectar disponibilidad de RDKit ──────────────────────────────────────────
 
@@ -134,3 +145,31 @@ def create_mock_physicochemical_properties(**overrides: Any):
     }
     defaults.update(overrides)
     return PhysicochemicalProperties(**defaults)
+
+
+# ── Molcy: ninguna prueba depende de la máquina en que corre ──────────────────
+
+
+@pytest.fixture(autouse=True)
+def _molcy_sin_la_maquina_real(request, monkeypatch):
+    """La autodetección de Blender lee el registro y los discos REALES. En una prueba de Molcy eso haría que el resultado dependiera de
+    qué tenga instalado quien la ejecuta (en la máquina del propietario hay un Blender en la raíz del disco E). Por defecto el entorno
+    es de mentira: variables del proceso, registro vacío y ningún disco; quien necesite otra cosa lo inyecta (`test_molcy_autodeteccion`)."""
+    if not request.node.path.name.startswith("test_molcy"):
+        yield
+        return
+    from services.molcy import autodeteccion
+
+    real = autodeteccion.Entorno
+
+    class RegistroVacio:
+        def valores(self, raiz, clave, *, vista=""):
+            return {}
+
+        def subclaves(self, raiz, clave, *, vista=""):
+            return []
+
+    monkeypatch.setattr(autodeteccion, "Entorno", lambda: real(registro=RegistroVacio(), unidades=[]))
+    autodeteccion.invalidar()
+    yield
+    autodeteccion.invalidar()

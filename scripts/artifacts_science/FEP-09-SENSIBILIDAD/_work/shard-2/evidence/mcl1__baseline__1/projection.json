@@ -1,0 +1,81 @@
+{
+  "projection_version": 1,
+  "case_id": "mcl1__baseline__1",
+  "name": "mcl1__baseline__1",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_6D09FF",
+      "chain": "B",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1",
+      "canonical_smiles": "O=C([O-])c1[nH]c2ccccc2c1CCCOc1ccc2ccccc2c1"
+    },
+    "config": {
+      "grid_center": [
+        66.707,
+        -32.885,
+        27.129
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:64f8f23998c6dc3e154beaa5f72cc43a922a4c8d2c7595eb50e456857ed11b69",
+    "generated_at": "2026-10-11T20:03:08.017968+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "9619a21b-37ac-4a9b-be95-bf8debfa13d1",
+    "input_fingerprint": "sha256:64f8f23998c6dc3e154beaa5f72cc43a922a4c8d2c7595eb50e456857ed11b69",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

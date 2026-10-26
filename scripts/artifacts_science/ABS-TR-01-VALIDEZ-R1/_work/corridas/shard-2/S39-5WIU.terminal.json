@@ -1,0 +1,16 @@
+{
+  "id_r2": "S39",
+  "pdb": "5WIU",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 28.9,
+      "crudo": "S39-5WIU-intento1.json.gz",
+      "crudo_sha256": "a902b83ace215bd0fa019bdd6f614dbda0e424a22cbb0b4758439149c7c56d22"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S39-5WIU-intento1.json.gz",
+  "crudo_sha256": "a902b83ace215bd0fa019bdd6f614dbda0e424a22cbb0b4758439149c7c56d22",
+  "registrado_en": "2026-10-25T01:35:45+00:00"
+}

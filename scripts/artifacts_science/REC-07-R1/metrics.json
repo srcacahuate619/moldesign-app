@@ -1,0 +1,221 @@
+{
+  "cambios_frente_a_REC07": [
+    "altloc coherente (regla de preparer.py): comunes + variante por ocupacion, desempate en A",
+    "aborto si la triada no esta en el receptor acoplado",
+    "corridas en paralelo, cada una con --cpu 1"
+  ],
+  "config_docking": {
+    "cpu": 1,
+    "exhaustiveness": 32,
+    "filtro_receptor": {
+      "aguas_eliminadas": 387,
+      "altloc_cys25": "A",
+      "altloc_descartado": 23,
+      "conservadas": 1648,
+      "otra_cadena": 0
+    },
+    "importada_de": "scripts/run_rec07_grid_5tun.py (sellado en REC-07)",
+    "ligando_sha256": "e82cbe4e3b62dcdf81fd8c5a51541c9f3e2761f97628aadd130b64272b7805d1",
+    "meeko_stdout_cola": "\nFiles written:\nD:\\moldesign-worktrees\\fase-1b\\scripts\\artifacts_science\\REC-07-R1\\_work\\5TUN_receptor.pdbqt <-- static (i.e., rigid) receptor input file\n",
+    "num_modes": 9,
+    "receptor_sha256": "6bb4830667c49d97c2edaba45c564b549c2e6266f9e0d24e48514bbfc0d69286",
+    "residuos_eliminados_por_meeko": [
+      "A:SER49"
+    ],
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "umbral_contacto_A": 5.0
+  },
+  "corrige": "REC-07 (SCI-B-022): su receptor no contenia la Cys25",
+  "entorno": {
+    "duracion_s": 778.12,
+    "generado_utc": "2026-10-22T17:52:43.315096+00:00",
+    "python": "3.11.9",
+    "so": "Windows 10",
+    "vina_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "workers": 10
+  },
+  "experiment_id": "REC-07-R1",
+  "gates": {
+    "G0_ancla_en_el_receptor": {
+      "criterio": "Cys25 SG, His162 NE2 y Asn182 ND2 en el receptor acoplado a <= 0.01 A",
+      "detalle": {
+        "A:ASN182:ND2": {
+          "desviacion_A": 0.0,
+          "presente": true
+        },
+        "A:CYS25:SG": {
+          "desviacion_A": 0.0,
+          "presente": true
+        },
+        "A:HIS162:NE2": {
+          "desviacion_A": 0.0,
+          "presente": true
+        }
+      },
+      "pass": true
+    },
+    "G1_contencion": {
+      "criterio": "grid recomendado con 15/15 hotspots y 3/3 triada",
+      "pass": true,
+      "recomendado": "G_ADAPT"
+    },
+    "G2_ancla": {
+      "criterio": "d(centro, Cys25 SG) <= 9.102 A (G_DB)",
+      "d_G_DB": 9.102,
+      "d_recomendado": 9.008,
+      "pass": true
+    },
+    "G3_validez_docking": {
+      "criterio": "rc=0, no vacio, 1<=modos<=9, scores finitos, geometria parseable",
+      "n_corridas": 15,
+      "n_validas": 15,
+      "pass": true
+    },
+    "G4_contacto_catalitico": {
+      "contacto_n": 0,
+      "criterio": "top-1 a <= 5.0 A de Cys25 SG en >=3 de 5 semillas",
+      "pass": false
+    },
+    "G5_no_regresion": {
+      "criterio": "tasa de contacto no menor que G_DB y mediana no peor por mas de 1.0 A",
+      "pass": false
+    },
+    "G6_determinismo": {
+      "criterio": "misma semilla -> mismo top1 y misma distancia (seed 42, los 3 brazos)",
+      "pass": true,
+      "repeticiones": [
+        {
+          "brazo": "G_DB",
+          "distancia_igual": true,
+          "score_igual": true
+        },
+        {
+          "brazo": "G_MP",
+          "distancia_igual": true,
+          "score_igual": true
+        },
+        {
+          "brazo": "G_ADAPT",
+          "distancia_igual": true,
+          "score_igual": true
+        }
+      ]
+    },
+    "G7_solo_lectura": {
+      "criterio": "catalogo y CSV conservan su SHA-256",
+      "hashes_post": {
+        "curated_targets.csv": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c",
+        "curated_targets.json": "21e807af380b71a62b0172f519415ed9130ca46986b6cd5543418dac950c1839"
+      },
+      "hashes_pre": {
+        "curated_targets.csv": "ef9c15c31941141458faac1d9a2a9f6716e8e8584061d17b9a0c3e2aa3db865c",
+        "curated_targets.json": "21e807af380b71a62b0172f519415ed9130ca46986b6cd5543418dac950c1839"
+      },
+      "pass": true
+    }
+  },
+  "por_brazo": {
+    "G_ADAPT": {
+      "contacto_top1_de": 5,
+      "contacto_top1_n": 0,
+      "d_cys25_top1_mediana": 12.968,
+      "d_cys25_top1_min": 12.953,
+      "geometria": {
+        "centro": [
+          11.104,
+          135.221,
+          21.288
+        ],
+        "d_cys25_sg": 9.008,
+        "d_triada_centroide": 9.426,
+        "hotspots_dentro": 15,
+        "hotspots_fuera": [],
+        "hotspots_total": 15,
+        "margen_min_hotspots": 4.001,
+        "tamano": [
+          19.0,
+          25.3,
+          25.9
+        ],
+        "triada_dentro": 3,
+        "volumen_A3": 12450.1
+      },
+      "n_corridas": 5,
+      "n_validas": 5,
+      "score_top1_mediana": -5.304,
+      "score_top1_mejor": -5.327
+    },
+    "G_DB": {
+      "contacto_top1_de": 5,
+      "contacto_top1_n": 4,
+      "d_cys25_top1_mediana": 3.089,
+      "d_cys25_top1_min": 2.461,
+      "geometria": {
+        "centro": [
+          11.151,
+          133.751,
+          14.09
+        ],
+        "d_cys25_sg": 9.102,
+        "d_triada_centroide": 8.766,
+        "hotspots_dentro": 12,
+        "hotspots_fuera": [
+          "A:GLU84",
+          "A:LEU48",
+          "A:TYR89"
+        ],
+        "hotspots_total": 15,
+        "margen_min_hotspots": -5.147,
+        "tamano": [
+          22.0,
+          22.0,
+          22.0
+        ],
+        "triada_dentro": 3,
+        "volumen_A3": 10648.0
+      },
+      "n_corridas": 5,
+      "n_validas": 5,
+      "score_top1_mediana": -2.638,
+      "score_top1_mejor": -3.165
+    },
+    "G_MP": {
+      "contacto_top1_de": 5,
+      "contacto_top1_n": 0,
+      "d_cys25_top1_mediana": 12.978,
+      "d_cys25_top1_min": 12.908,
+      "geometria": {
+        "centro": [
+          8.44,
+          136.26,
+          21.28
+        ],
+        "d_cys25_sg": 10.358,
+        "d_triada_centroide": 9.571,
+        "hotspots_dentro": 15,
+        "hotspots_fuera": [],
+        "hotspots_total": 15,
+        "margen_min_hotspots": 2.779,
+        "tamano": [
+          24.9,
+          24.9,
+          24.9
+        ],
+        "triada_dentro": 3,
+        "volumen_A3": 15438.2
+      },
+      "n_corridas": 5,
+      "n_validas": 5,
+      "score_top1_mediana": -5.299,
+      "score_top1_mejor": -5.355
+    }
+  },
+  "recomendado": "G_ADAPT",
+  "target": "5TUN"
+}

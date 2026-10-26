@@ -185,7 +185,7 @@ export function CaseSidebarShell({
             type="button"
             onClick={onCreate}
             disabled={createDisabled}
-            title={createDisabled ? createDisabledReason : "Caso nuevo"}
+            title={createDisabled ? createDisabledReason : t("ca_new_case_title")}
             aria-label={t("ca_crear_boton")}
             className="grid h-9 w-9 place-items-center rounded-md text-zinc-400 transition-colors hover:bg-surface-800 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
           >
@@ -195,7 +195,7 @@ export function CaseSidebarShell({
               informa de nada invita a abrirlo sólo para comprobarlo. */}
           <span
             className="mt-1 rounded bg-surface-900 px-1.5 py-0.5 font-mono text-[10px] text-zinc-500"
-            title={`${totalCasos} ${totalCasos === 1 ? "caso" : "casos"}`}
+            title={`${totalCasos} ${t(totalCasos === 1 ? "ca_case_singular" : "ca_case_plural")}`}
           >
             {totalCasos}
           </span>
@@ -204,7 +204,7 @@ export function CaseSidebarShell({
             className="mt-2 select-none font-mono text-[10px] uppercase tracking-[0.25em] text-zinc-600"
             style={{ writingMode: "vertical-rl" }}
           >
-            Casos
+            {t("ca_sidebar_cases")}
           </span>
         </div>
       ) : (

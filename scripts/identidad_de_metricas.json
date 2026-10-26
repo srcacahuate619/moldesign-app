@@ -1,0 +1,9 @@
+{
+ "_nota": "SCI-B-039. Sellos cuyo metrics.json conserva el experiment_id del experimento base. El sello no se toca: la identidad del experimento es la del manifest. Ningún consumidor debe inferir cohorte o universo desde metrics.experiment_id. tests/test_identidad_de_metricas.py falla si aparece un caso nuevo sin declarar.",
+ "heredados": {
+  "FEP-01-EXT-PDBBIND": {"metrics_experiment_id": "FEP-01-EXT", "universo": "PDBBind local (5325 carpetas, 9 de ellas no son complejos)"},
+  "FEP-02-EXT-PDBBIND": {"metrics_experiment_id": "FEP-02-EXT", "universo": "PDBBind local (5325 carpetas)"},
+  "FEP-07-PDBBIND": {"metrics_experiment_id": "FEP-07", "universo": "PDBBind local"},
+  "MF-02A-EXT": {"metrics_experiment_id": "MF-02A", "universo": "PDBBind local (5316 SDF enumerados)"}
+ }
+}

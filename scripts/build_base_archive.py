@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Construye y comprueba `runtime-base-v1.1.1.zip`, el runtime redistribuible.
+"""Construye y comprueba `runtime-base-v1.1.2.zip`, el runtime redistribuible.
 
 # El hueco que cierra, y el que abrió el archivo anterior
 
@@ -187,31 +187,52 @@ class Modulo:
 #   Medir el archivo local y atribuírselo al publicado ya produjo una afirmación
 #   falsa en `dd247fd`, corregida en `docs/81_HANDOFF_RUNTIME_ALPHA.md`. Lo que
 #   identifica un artefacto es su SHA-256, no su nombre de archivo.
+#
+# `runtime-base-v1.1.1.zip` — publicado el 2026-09-27 en el commit `60af3bfc` de
+#   Hugging Face (raíz del repositorio), SHA-256
+#   `03be61b350a251e9f9bbc1705c1cbcc52541da1af6337c0a4a79448d4a32013a`, 580 634 518
+#   bytes, 31 695 entradas: `padelpy` fuera y los seis paquetes de API-015 al día
+#   (starlette 1.7.0, PyJWT 2.15.0, cryptography 50.0.1, pillow 12.3.0, aiohttp
+#   3.14.3, python-multipart 0.0.32). Se queda atrás por UNA razón, medida sobre
+#   su directorio central el 2026-10-10: es anterior a la traza de Vina (10-05) y
+#   no trae `tools/vina/vina_trace.exe`. El manifiesto de la traza está en git, así
+#   que un clon aprovisionado con él lo exige, `search_trace.instrumented` se
+#   niega y no se acopla nada. `verificar_traza_de_vina` impide volver a
+#   empaquetar así.
 RUNTIME_BASE = Modulo(
     id="runtime-base",
-    filename="runtime-base-v1.1.1.zip",
-    version="1.1.1",
+    filename="runtime-base-v1.1.2.zip",
+    version="1.1.2",
     licencia=(
         "cada componente conserva la suya; el inventario del artefacto las "
         "declara una por una (ver RUNTIME-MANIFEST.json)"
     ),
-    # Nombre nuevo porque los bytes son otros: `padelpy` fuera y seis paquetes al
-    # día (starlette 1.0.0→1.7.0, PyJWT 2.8.0→2.15.0, cryptography 42.0.7→50.0.1,
-    # pillow 12.2.0→12.3.0, aiohttp 3.14.1→3.14.3, python-multipart 0.0.22→0.0.32,
-    # los de API-015). Reutilizar el nombre de v1.1.0 para otro contenido es
-    # exactamente lo que confundió con `base-v1.0.0.zip`.
+    # Nombre nuevo porque los bytes son otros: `tools/vina/vina_trace.exe` dentro,
+    # el de 2026-10-10 que lee como `vina.exe` los ligandos CRLF de 4096 bytes o
+    # más. Reutilizar el nombre de v1.1.1 para otro contenido es exactamente lo que
+    # confundió con `base-v1.0.0.zip`.
     #
-    # Publicado el 2026-09-27 en el commit 60af3bfc de Hugging Face, en la RAÍZ
-    # del repositorio, como v1.1.0. Medido el 2026-09-28 sobre la URL fijada de
-    # abajo: X-Linked-Size 580634518 y X-Linked-ETag = el SHA-256 de abajo, que
-    # es el del zip construido y verificado archivo a archivo (31 695 entradas)
-    # y el que el bootstrap aprovisionó en la estación de desarrollo.
+    # Construido el 2026-10-10 y PUBLICADO el 2026-10-11 en la revisión
+    # a145ca262871aac663525afd5734738af796d1bd de Hugging Face (X-Repo-Commit).
+    # El zip construido (`dist/runtime-base-v1.1.2.zip`), que es el publicado:
+    #
+    #     sha256  a87247825565251a4664a180b894b7e2280c2504c203a1ad226365a78e79731f
+    #     bytes   586737407 · 31 697 archivos
+    #
+    # Medido sobre la URL fijada: X-Linked-Size 586737407 y X-Linked-ETag igual al
+    # SHA-256 de arriba.
+    #
+    # Frente a v1.1.1 publicado, por CRC-32 y tamaño de su directorio central: los
+    # 31 695 archivos de v1.1.1 iguales, y dos nuevos: `tools/vina/vina_trace.exe`
+    # (el SHA-256 que exige su manifiesto) y `data/molgraph_seed.db` (la misma que
+    # traía v1.1.0 y que v1.1.1 perdió). Los tres campos de abajo fijan esa
+    # revisión inmutable: `--fetch` descarga y verifica tamaño y SHA-256.
     urls=(
         "https://huggingface.co/srcacahuate/moldesign-models/resolve/"
-        "60af3bfcd4107faeda9dee3ef7f03c5c58cefe3c/runtime-base-v1.1.1.zip",
+        "a145ca262871aac663525afd5734738af796d1bd/runtime-base-v1.1.2.zip",
     ),
-    sha256="03be61b350a251e9f9bbc1705c1cbcc52541da1af6337c0a4a79448d4a32013a",
-    size_bytes=580634518,
+    sha256="a87247825565251a4664a180b894b7e2280c2504c203a1ad226365a78e79731f",
+    size_bytes=586737407,
     gated=False,
     nota=(
         "URL fijada a una revisión inmutable de Hugging Face: una rama no fija "
@@ -262,6 +283,16 @@ class Componente:
     #: hecho lo daba por presente y el informe decía OK sobre un directorio sin
     #: un solo binario. Se comprueba el ejecutable, que es lo que hace falta.
     sondas: tuple[str, ...] = ()
+    #: Si no está vacío, los ÚNICOS archivos (relativos al prefijo) que pueden
+    #: viajar en el componente. Lo demás que haya en la carpeta del árbol de
+    #: origen se queda fuera al reunir y se rechaza al inspeccionar.
+    #:
+    #: Existe por `esmfold/models/`: se describía como «sólo el tokenizer», pero
+    #: se reunía la carpeta entera, y en una estación con ESMFold descargado eso
+    #: son los 8,4 GB de `pytorch_model.bin` —una descarga propia, bajo demanda—
+    #: dentro del runtime base. Medido el 2026-10-10: el zip pasaba de 7,8 GB
+    #: cuando se detuvo, mientras su inventario decía que no traía esos pesos.
+    solo: tuple[str, ...] = ()
 
 
 #: LOS ÚNICOS DESTINOS. El orden es el del informe: primero lo que bloquea.
@@ -318,6 +349,8 @@ COMPONENTES: tuple[Componente, ...] = (
         "Sólo el tokenizer: unos kilobytes sin los cuales el checkpoint de "
         "8,4 GB no se puede leer.",
         sondas=("config.json",),
+        solo=("config.json", "special_tokens_map.json", "tokenizer_config.json",
+              "vocab.txt", "README.md"),
     ),
     Componente(
         "data/molgraph_seed.db",
@@ -481,6 +514,15 @@ def validar_destino(nombre: str) -> Componente:
             if nombre == componente.prefijo:
                 return componente
         elif nombre.startswith(componente.prefijo):
+            relativa = nombre[len(componente.prefijo):]
+            if componente.solo and relativa not in componente.solo:
+                raise ArchivoRechazado(
+                    "FUERA_DEL_COMPONENTE",
+                    f"`{nombre}` no es ninguno de los archivos que admite "
+                    f"`{componente.prefijo}` ({', '.join(componente.solo)}). En "
+                    "`esmfold/models/` lo demás son los pesos, que se descargan "
+                    "aparte.",
+                )
             return componente
     raise ArchivoRechazado(
         "DESTINO_NO_PERMITIDO",
@@ -680,6 +722,8 @@ def reunir(raiz: Path) -> tuple[list[tuple[str, Path]], list[str], list[str]]:
             if not archivo.is_file() or not _incluir(archivo):
                 continue
             relativa_al_componente = archivo.relative_to(origen)
+            if componente.solo and relativa_al_componente.as_posix() not in componente.solo:
+                continue  # p. ej. los pesos de ESMFold: otra descarga
             if es_python and relativa_al_componente.as_posix() in {
                 ".runtime-base.json",
                 ".runtime-fuente.json",
@@ -731,6 +775,40 @@ def _manifiesto_openbabel(raiz: Path) -> dict:
         ),
         "invocacion": "subproceso CLI; nunca import de Python; nunca por PATH",
     }
+
+
+def verificar_traza_de_vina(raiz: Path, entradas: list[tuple[str, Path]]) -> None:
+    """Vina y su traza viajan con los bytes que exige su manifiesto versionado.
+
+    `tools/vina/vina-trace-manifest.json` está en git: lo trae cualquier clon. Si
+    el artefacto no lleva `vina_trace.exe` con ese SHA-256 —o lleva otro
+    `vina.exe`—, `search_trace.instrumented` se niega y en ese clon no se acopla
+    nada. Pasó con v1.1.1, publicado el 2026-09-27, antes de que existiera la
+    traza (2026-10-05): sin esta guarda, el artefacto se publicó «completo».
+    Un árbol sin el manifiesto no tiene traza que comprobar.
+    """
+    ruta = raiz / "tools" / "vina" / "vina-trace-manifest.json"
+    if not ruta.is_file():
+        return
+    datos = json.loads(ruta.read_text(encoding="utf-8"))
+    presentes = dict(entradas)
+    problemas = []
+    for nombre, clave in (
+        ("tools/vina/vina.exe", "reference_binary_sha256"),
+        (f"tools/vina/{datos.get('binary', 'vina_trace.exe')}", "binary_sha256"),
+    ):
+        archivo = presentes.get(nombre)
+        if archivo is None:
+            problemas.append(f"{nombre} no viaja en el artefacto")
+        elif sha256(archivo) != datos.get(clave):
+            problemas.append(f"{nombre} no tiene el SHA-256 que declara el manifiesto ({clave})")
+    if problemas:
+        raise ArchivoRechazado(
+            "TRAZA_DE_VINA",
+            "el manifiesto versionado de la traza exige binarios que el artefacto no "
+            "lleva; un clon aprovisionado con él no podría acoplar:\n  - "
+            + "\n  - ".join(problemas),
+        )
 
 
 def construir_manifiesto(
@@ -855,6 +933,7 @@ def empaquetar(raiz: Path, destino: Path) -> dict:
         validar_nombre(nombre)
         validar_destino(nombre)
         validar_contenido(nombre)
+    verificar_traza_de_vina(raiz, entradas)
 
     manifiesto = construir_manifiesto(raiz, entradas, omitidos)
     cuerpo = json.dumps(manifiesto, ensure_ascii=False, indent=1, sort_keys=True)
@@ -1054,6 +1133,9 @@ def _casos() -> list[tuple[str, dict[str, bytes], str | None, dict | None]]:
         ("codigo de rescoring", {"rescoring/gnn_service.py": b"x"}, "DESTINO_NO_PERMITIDO", None),
         ("un peso propio", {"python-embed/gnn_v2_cl_best.pt": b"x"}, "PESO_PROPIO", None),
         ("un joblib escondido", {"tools/vina/model_a.joblib": b"x"}, "PESO_PROPIO", None),
+        ("los pesos de ESMFold",
+         {"esmfold/models/pytorch_model.bin": b"x"}, "FUERA_DEL_COMPONENTE", None),
+        ("el tokenizer de ESMFold", {**bueno, "esmfold/models/vocab.txt": b"A"}, None, None),
         ("bindings de open babel",
          {"python-embed/Lib/site-packages/openbabel/__init__.py": b"x"},
          "BINDING_DE_OPEN_BABEL", None),

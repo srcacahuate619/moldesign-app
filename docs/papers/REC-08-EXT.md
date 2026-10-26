@@ -87,3 +87,23 @@ debilitarlo.
 
 Cobertura **116 de 203**: los 87 restantes son todos de `valtest` y carecen de `rec.pdbqt`.
 Es la misma asimetría de material que `REC-08` registró, y vuelve a aparecer aquí.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-023. El emparejamiento entre el depósito y el receptor preparado es por **proximidad de
+  coordenadas**, sin exigir el mismo elemento ni pareo uno a uno. Un átomo distinto que quede
+  cerca puede contar como conservado, así que las pérdidas no son una cota superior garantizada.
+  El cero que se publicó describe correspondencias geométricas aproximadas.
+
+## REC-12-R1: el depósito original revela especies que la fuente limpia no mostraba
+
+**GO del inventario desde la nueva fuente.** Amplía la referencia de conservación; no modifica receptores ni atribuye a las ausencias fallos de docking.
+
+Desde RCSB, el gate de validez marca HETATM que no son agua ni metal en 115 de 116 estructuras. Basta presencia en cualquier región para ese gate de fuente; no cuenta cofactores funcionales.
+
+El contador excluye una lista previa de 51 especies aditivas y el propio ligando por solapamiento. Con radio de sitio 8,0 Å, conserva 15 casos con especie no aditiva próxima que el pareo geométrico no encuentra en `rec.pdbqt`. La lista nominal está en el artefacto; no se deduce de la puntuación de Vina.
+
+Una especie no listada cuenta nominalmente como cofactor; su necesidad funcional requiere otra prueba. El depósito es unidad asimétrica, no ensamblaje biológico. Sigue vigente **SCI-B-023**: proximidad no es identidad química uno a uno. No comprobado por mí: reproducir el inventario desde depósitos y receptores originales. Fuente: `REC-12-R1`.

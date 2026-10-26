@@ -66,3 +66,25 @@ de la cohorte que hasta entonces era intuición.
 Ninguna de las dos habría aparecido sin extender la medición a cuarenta veces más
 complejos, que era la clase de trabajo que resultaba fácil no hacer porque la respuesta ya
 parecía conocida.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-063. El preregistro declara 5332 complejos locales y el runner enumera 5316 (16 menos,
+  sin explicar); de esos, 680 fallan el embebido. Todos los porcentajes de la curva son **sobre
+  los 4636 que se embebieron**, y la comparación de dificultad con train no cubre el universo
+  preregistrado.
+- SCI-B-062. La extensión no muestra una meseta: 86.2 %, 87.2 % y 88.1 % a ≤ 2 Å con K = 60, 90
+  y 150. La meseta tras K = 60 se observó en train (n = 116). El doc. 49 dice «el eje
+  conformacional está agotado»; está sellado como activo de FND-06 y no se edita: esta nota lo
+  corrige, y lo que se sostiene son rendimientos decrecientes.
+
+## MF-02A: la curva de entrenamiento usa prefijos de un único embebido
+
+**GO de medición, registrado retrospectivamente.** Añade el método del antecedente de train; no restablece la saturación ya retirada en este paper.
+
+Se pidió un único embebido ETKDG de hasta 150 confórmeros, con semilla 42 y poda RMS de 0,4 Å. Cada punto es el mínimo acumulado sobre un prefijo de los confórmeros conservados, no una generación independiente de ese tamaño.
+
+`GetBestRMS` alinea los átomos pesados frente al cristal: mide disponibilidad conformacional, no colocación en el bolsillo ni cobertura de docking. Para la meseta y la extensión rigen **SCI-B-062 y SCI-B-063**, ya expuestas arriba. No comprobado por mí: repetir el embebido. Fuente: `MF-02A`.

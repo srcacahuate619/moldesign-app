@@ -1,0 +1,27 @@
+{
+  "pdb": "8WGR",
+  "semilla": 2026,
+  "inicio": "2026-10-23T04:52:29+00:00",
+  "resultado": "auditada",
+  "task_id": "17940cc3-f219-4f5c-940a-37c8eb49366a",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: K A:704 (4.32 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal DSM A:701",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "879d835a40ae33677aff5227e80759e01d140afde3bc51064af8a37d5b6deb2b",
+  "afinidad_top1": -7.074,
+  "microestado": "C[NH2+]CCCN1c2ccccc2CCc2ccccc21",
+  "microestado_coincide": true,
+  "semilla_declarada": 2026,
+  "vina": "1.2.7",
+  "receptor_sha256": "459ba47c7cb54243e104af7ee419157874625a62814ce9df7d36501e1f271f76",
+  "segundos": 33.9,
+  "fin": "2026-10-23T04:53:03+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

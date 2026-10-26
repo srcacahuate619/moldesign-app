@@ -1,0 +1,47 @@
+{
+  "key": "en-light-1440",
+  "actions": [
+    {
+      "text": "Evaluation parameters",
+      "rect": {
+        "x": 634.5625,
+        "y": 395,
+        "width": 258.640625,
+        "height": 44,
+        "top": 395,
+        "right": 893.203125,
+        "bottom": 439,
+        "left": 634.5625
+      },
+      "inside": true
+    },
+    {
+      "text": "Previous evaluations1",
+      "rect": {
+        "x": 905.203125,
+        "y": 394,
+        "width": 271.953125,
+        "height": 46,
+        "top": 394,
+        "right": 1177.15625,
+        "bottom": 440,
+        "left": 905.203125
+      },
+      "inside": true
+    },
+    {
+      "text": "Run evaluation",
+      "rect": {
+        "x": 1189.15625,
+        "y": 395,
+        "width": 201.84375,
+        "height": 44,
+        "top": 395,
+        "right": 1391,
+        "bottom": 439,
+        "left": 1189.15625
+      },
+      "inside": true
+    }
+  ]
+}

@@ -1,0 +1,195 @@
+data_YHL
+# 
+_chem_comp.id                                    YHL 
+_chem_comp.name                                  tetrabenazine 
+_chem_comp.type                                  non-polymer 
+_chem_comp.pdbx_type                             HETAIN 
+_chem_comp.formula                               "C19 H27 N O3" 
+_chem_comp.mon_nstd_parent_comp_id               ? 
+_chem_comp.pdbx_synonyms                         "(3R,5R,11bR)-9,10-dimethoxy-3-(2-methylpropyl)-1,3,4,6,7,11b-hexahydro-2H-pyrido[2,1-a]isoquinolin-2-one" 
+_chem_comp.pdbx_formal_charge                    0 
+_chem_comp.pdbx_initial_date                     2023-06-17 
+_chem_comp.pdbx_modified_date                    2023-10-27 
+_chem_comp.pdbx_ambiguous_flag                   N 
+_chem_comp.pdbx_release_status                   REL 
+_chem_comp.pdbx_replaced_by                      ? 
+_chem_comp.pdbx_replaces                         ? 
+_chem_comp.formula_weight                        317.423 
+_chem_comp.one_letter_code                       ? 
+_chem_comp.three_letter_code                     YHL 
+_chem_comp.pdbx_model_coordinates_details        ? 
+_chem_comp.pdbx_model_coordinates_missing_flag   N 
+_chem_comp.pdbx_ideal_coordinates_details        Corina 
+_chem_comp.pdbx_ideal_coordinates_missing_flag   N 
+_chem_comp.pdbx_model_coordinates_db_code        8T69 
+_chem_comp.pdbx_subcomponent_list                ? 
+_chem_comp.pdbx_processing_site                  RCSB 
+# 
+loop_
+_chem_comp_atom.comp_id 
+_chem_comp_atom.atom_id 
+_chem_comp_atom.alt_atom_id 
+_chem_comp_atom.type_symbol 
+_chem_comp_atom.charge 
+_chem_comp_atom.pdbx_align 
+_chem_comp_atom.pdbx_aromatic_flag 
+_chem_comp_atom.pdbx_leaving_atom_flag 
+_chem_comp_atom.pdbx_stereo_config 
+_chem_comp_atom.model_Cartn_x 
+_chem_comp_atom.model_Cartn_y 
+_chem_comp_atom.model_Cartn_z 
+_chem_comp_atom.pdbx_model_Cartn_x_ideal 
+_chem_comp_atom.pdbx_model_Cartn_y_ideal 
+_chem_comp_atom.pdbx_model_Cartn_z_ideal 
+_chem_comp_atom.pdbx_component_atom_id 
+_chem_comp_atom.pdbx_component_comp_id 
+_chem_comp_atom.pdbx_ordinal 
+YHL C1  C1  C 0 1 N N N 128.618 129.261 107.221 6.735  -0.023 -0.804 C1  YHL 1  
+YHL C2  C2  C 0 1 N N N 128.489 127.883 107.842 5.351  -0.526 -0.390 C2  YHL 2  
+YHL C3  C3  C 0 1 N N N 129.833 127.173 107.854 5.487  -1.464 0.811  C3  YHL 3  
+YHL C4  C4  C 0 1 N N N 127.416 127.058 107.135 4.468  0.664  -0.011 C4  YHL 4  
+YHL C5  C5  C 0 1 N N R 127.898 125.847 106.320 3.045  0.176  0.265  C5  YHL 5  
+YHL C6  C6  C 0 1 N N N 127.889 126.134 104.824 2.411  -0.336 -1.033 C6  YHL 6  
+YHL C8  C7  C 0 1 N N N 129.616 124.478 104.125 0.814  -1.721 0.175  C8  YHL 7  
+YHL C9  C8  C 0 1 N N N 129.939 123.462 103.052 -0.590 -2.300 -0.005 C9  YHL 8  
+YHL C10 C9  C 0 1 Y N N 128.838 122.463 102.794 -1.607 -1.189 -0.062 C10 YHL 9  
+YHL C11 C10 C 0 1 Y N N 129.104 121.350 102.001 -2.946 -1.515 0.105  C11 YHL 10 
+YHL C12 C11 C 0 1 Y N N 128.113 120.425 101.735 -3.917 -0.532 0.054  C12 YHL 11 
+YHL C13 C12 C 0 1 Y N N 126.826 120.608 102.268 -3.548 0.792  -0.166 C13 YHL 12 
+YHL C14 C13 C 0 1 Y N N 126.560 121.712 103.056 -2.213 1.113  -0.330 C14 YHL 13 
+YHL C15 C14 C 0 1 Y N N 127.559 122.644 103.326 -1.243 0.123  -0.276 C15 YHL 14 
+YHL C16 C15 C 0 1 N N R 127.227 123.822 104.211 0.202  0.526  -0.449 C16 YHL 15 
+YHL C17 C16 C 0 1 N N N 127.270 123.461 105.710 0.706  1.105  0.880  C17 YHL 16 
+YHL C18 C17 C 0 1 N N N 126.983 124.675 106.550 2.199  1.325  0.776  C18 YHL 17 
+YHL C21 C18 C 0 1 N N N 124.595 119.789 102.472 -4.043 3.101  -0.450 C21 YHL 18 
+YHL C23 C19 C 0 1 N N N 129.583 119.062 100.443 -5.530 -2.236 0.440  C23 YHL 19 
+YHL N7  N1  N 0 1 N N N 128.199 124.948 103.954 1.000  -0.648 -0.810 N7  YHL 20 
+YHL O19 O1  O 0 1 N N N 126.078 124.698 107.355 2.700  2.379  1.088  O19 YHL 21 
+YHL O20 O2  O 0 1 N N N 125.913 119.645 101.950 -4.496 1.766  -0.220 O20 YHL 22 
+YHL O22 O3  O 0 1 N N N 128.284 119.304 100.976 -5.227 -0.857 0.218  O22 YHL 23 
+YHL H1  H1  H 0 1 N N N 129.396 129.831 107.750 7.364  -0.872 -1.074 H1  YHL 24 
+YHL H2  H2  H 0 1 N N N 128.894 129.161 106.161 6.639  0.644  -1.660 H2  YHL 25 
+YHL H3  H3  H 0 1 N N N 127.657 129.791 107.302 7.190  0.515  0.028  H3  YHL 26 
+YHL H4  H4  H 0 1 N N N 128.172 128.015 108.887 4.897  -1.065 -1.222 H4  YHL 27 
+YHL H5  H5  H 0 1 N N N 130.575 127.800 108.371 4.496  -1.765 1.151  H5  YHL 28 
+YHL H6  H6  H 0 1 N N N 129.735 126.212 108.380 6.056  -2.347 0.521  H6  YHL 29 
+YHL H7  H7  H 0 1 N N N 130.162 126.993 106.820 6.005  -0.947 1.619  H7  YHL 30 
+YHL H8  H8  H 0 1 N N N 126.879 127.729 106.448 4.868  1.143  0.883  H8  YHL 31 
+YHL H9  H9  H 0 1 N N N 126.721 126.687 107.903 4.453  1.382  -0.832 H9  YHL 32 
+YHL H10 H10 H 0 1 N N N 128.919 125.584 106.634 3.066  -0.623 1.006  H10 YHL 33 
+YHL H11 H11 H 0 1 N N N 128.638 126.913 104.620 2.495  0.430  -1.804 H11 YHL 34 
+YHL H12 H12 H 0 1 N N N 126.890 126.506 104.553 2.932  -1.236 -1.359 H12 YHL 35 
+YHL H13 H13 H 0 1 N N N 129.732 124.015 105.116 0.919  -1.317 1.182  H13 YHL 36 
+YHL H14 H14 H 0 1 N N N 130.300 125.335 104.038 1.558  -2.501 0.012  H14 YHL 37 
+YHL H15 H15 H 0 1 N N N 130.840 122.911 103.359 -0.628 -2.874 -0.931 H15 YHL 38 
+YHL H16 H16 H 0 1 N N N 130.141 124.002 102.115 -0.821 -2.955 0.836  H16 YHL 39 
+YHL H17 H17 H 0 1 N N N 130.093 121.209 101.591 -3.231 -2.543 0.275  H17 YHL 40 
+YHL H18 H18 H 0 1 N N N 125.570 121.853 103.465 -1.924 2.139  -0.502 H18 YHL 41 
+YHL H19 H19 H 0 1 N N N 126.212 124.170 103.969 0.280  1.282  -1.230 H19 YHL 42 
+YHL H20 H20 H 0 1 N N N 126.515 122.689 105.919 0.209  2.055  1.077  H20 YHL 43 
+YHL H21 H21 H 0 1 N N N 128.269 123.074 105.961 0.495  0.405  1.688  H21 YHL 44 
+YHL H22 H22 H 0 1 N N N 123.973 118.946 102.136 -3.520 3.148  -1.405 H22 YHL 45 
+YHL H23 H23 H 0 1 N N N 124.635 119.800 103.571 -4.898 3.777  -0.470 H23 YHL 46 
+YHL H24 H24 H 0 1 N N N 124.159 120.733 102.112 -3.364 3.397  0.351  H24 YHL 47 
+YHL H25 H25 H 0 1 N N N 129.572 118.131 99.857  -5.028 -2.577 1.345  H25 YHL 48 
+YHL H26 H26 H 0 1 N N N 129.875 119.900 99.793  -6.608 -2.357 0.554  H26 YHL 49 
+YHL H27 H27 H 0 1 N N N 130.306 118.968 101.267 -5.187 -2.825 -0.411 H27 YHL 50 
+# 
+loop_
+_chem_comp_bond.comp_id 
+_chem_comp_bond.atom_id_1 
+_chem_comp_bond.atom_id_2 
+_chem_comp_bond.value_order 
+_chem_comp_bond.pdbx_aromatic_flag 
+_chem_comp_bond.pdbx_stereo_config 
+_chem_comp_bond.pdbx_ordinal 
+YHL C23 O22 SING N N 1  
+YHL O22 C12 SING N N 2  
+YHL C12 C11 DOUB Y N 3  
+YHL C12 C13 SING Y N 4  
+YHL O20 C13 SING N N 5  
+YHL O20 C21 SING N N 6  
+YHL C11 C10 SING Y N 7  
+YHL C13 C14 DOUB Y N 8  
+YHL C10 C9  SING N N 9  
+YHL C10 C15 DOUB Y N 10 
+YHL C9  C8  SING N N 11 
+YHL C14 C15 SING Y N 12 
+YHL C15 C16 SING N N 13 
+YHL N7  C8  SING N N 14 
+YHL N7  C16 SING N N 15 
+YHL N7  C6  SING N N 16 
+YHL C16 C17 SING N N 17 
+YHL C6  C5  SING N N 18 
+YHL C17 C18 SING N N 19 
+YHL C5  C18 SING N N 20 
+YHL C5  C4  SING N N 21 
+YHL C18 O19 DOUB N N 22 
+YHL C4  C2  SING N N 23 
+YHL C1  C2  SING N N 24 
+YHL C2  C3  SING N N 25 
+YHL C1  H1  SING N N 26 
+YHL C1  H2  SING N N 27 
+YHL C1  H3  SING N N 28 
+YHL C2  H4  SING N N 29 
+YHL C3  H5  SING N N 30 
+YHL C3  H6  SING N N 31 
+YHL C3  H7  SING N N 32 
+YHL C4  H8  SING N N 33 
+YHL C4  H9  SING N N 34 
+YHL C5  H10 SING N N 35 
+YHL C6  H11 SING N N 36 
+YHL C6  H12 SING N N 37 
+YHL C8  H13 SING N N 38 
+YHL C8  H14 SING N N 39 
+YHL C9  H15 SING N N 40 
+YHL C9  H16 SING N N 41 
+YHL C11 H17 SING N N 42 
+YHL C14 H18 SING N N 43 
+YHL C16 H19 SING N N 44 
+YHL C17 H20 SING N N 45 
+YHL C17 H21 SING N N 46 
+YHL C21 H22 SING N N 47 
+YHL C21 H23 SING N N 48 
+YHL C21 H24 SING N N 49 
+YHL C23 H25 SING N N 50 
+YHL C23 H26 SING N N 51 
+YHL C23 H27 SING N N 52 
+# 
+loop_
+_pdbx_chem_comp_descriptor.comp_id 
+_pdbx_chem_comp_descriptor.type 
+_pdbx_chem_comp_descriptor.program 
+_pdbx_chem_comp_descriptor.program_version 
+_pdbx_chem_comp_descriptor.descriptor 
+YHL SMILES           ACDLabs              12.01 "CC(C)CC1CN2CCc3cc(OC)c(OC)cc3C2CC1=O"                                                                                                     
+YHL InChI            InChI                1.06  "InChI=1S/C19H27NO3/c1-12(2)7-14-11-20-6-5-13-8-18(22-3)19(23-4)9-15(13)16(20)10-17(14)21/h8-9,12,14,16H,5-7,10-11H2,1-4H3/t14-,16-/m1/s1" 
+YHL InChIKey         InChI                1.06  MKJIEFSOBYUXJB-GDBMZVCRSA-N                                                                                                                
+YHL SMILES_CANONICAL CACTVS               3.385 "COc1cc2CCN3C[C@@H](CC(C)C)C(=O)C[C@@H]3c2cc1OC"                                                                                           
+YHL SMILES           CACTVS               3.385 "COc1cc2CCN3C[CH](CC(C)C)C(=O)C[CH]3c2cc1OC"                                                                                               
+YHL SMILES_CANONICAL "OpenEye OEToolkits" 2.0.7 "CC(C)C[C@@H]1CN2CCc3cc(c(cc3[C@H]2CC1=O)OC)OC"                                                                                            
+YHL SMILES           "OpenEye OEToolkits" 2.0.7 "CC(C)CC1CN2CCc3cc(c(cc3C2CC1=O)OC)OC"                                                                                                     
+# 
+loop_
+_pdbx_chem_comp_identifier.comp_id 
+_pdbx_chem_comp_identifier.type 
+_pdbx_chem_comp_identifier.program 
+_pdbx_chem_comp_identifier.program_version 
+_pdbx_chem_comp_identifier.identifier 
+YHL "SYSTEMATIC NAME" ACDLabs              12.01 "(3R,5R,11bR)-9,10-dimethoxy-3-(2-methylpropyl)-1,3,4,6,7,11b-hexahydro-2H-pyrido[2,1-a]isoquinolin-2-one" 
+YHL "SYSTEMATIC NAME" "OpenEye OEToolkits" 2.0.7 "(3~{R},11~{b}~{R})-9,10-dimethoxy-3-(2-methylpropyl)-1,3,4,6,7,11~{b}-hexahydrobenzo[a]quinolizin-2-one"  
+# 
+loop_
+_pdbx_chem_comp_audit.comp_id 
+_pdbx_chem_comp_audit.action_type 
+_pdbx_chem_comp_audit.date 
+_pdbx_chem_comp_audit.processing_site 
+YHL "Create component" 2023-06-17 RCSB 
+YHL "Initial release"  2023-11-01 RCSB 
+# 
+_pdbx_chem_comp_synonyms.ordinal      1 
+_pdbx_chem_comp_synonyms.comp_id      YHL 
+_pdbx_chem_comp_synonyms.name         "(3R,5R,11bR)-9,10-dimethoxy-3-(2-methylpropyl)-1,3,4,6,7,11b-hexahydro-2H-pyrido[2,1-a]isoquinolin-2-one" 
+_pdbx_chem_comp_synonyms.provenance   PDB 
+_pdbx_chem_comp_synonyms.type         ? 
+# 

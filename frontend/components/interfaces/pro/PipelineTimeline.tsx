@@ -2,7 +2,8 @@
 
 
 import { useLanguage } from "@/context/LanguageContext";
-import React, { useEffect, useRef } from "react";
+import React from "react";
+import { PuntoDeAnillo, angulosDeAnillo } from "./OrbeDeEvaluacion";
 
 export type StageState = "pending" | "running" | "done" | "error" | "skipped";
 
@@ -75,7 +76,28 @@ interface Props {
   statusLabel?: string;
 }
 
-const PARTICLES_PER_NODE = 8;
+/** Puntos del anillo de cada etapa, cada 45°. */
+const PUNTOS_POR_ETAPA = 8;
+const ANGULOS_DE_ETAPA = angulosDeAnillo(PUNTOS_POR_ETAPA);
+
+/**
+ * El anillo de una etapa (2026-10-10). Simétrico: ocho puntos fijos a 45°, del mismo tamaño y a la misma distancia. Sólo
+ * gira el de la etapa EN CURSO, con una estela de brillo; las pendientes lo enseñan quieto y tenue, así se ve cuál
+ * trabaja. Antes giraban todas por igual y cada partícula variaba su radio y su brillo en cada fotograma desde
+ * JavaScript (por eso el círculo se deformaba).
+ */
+function AnilloDeEtapa({ color, girando }: { color: string; girando: boolean }) {
+  return (
+    <div aria-hidden="true" data-testid="anillo-etapa" data-girando={girando}
+      className={`absolute inset-0 ${girando ? "motion-safe:animate-giro" : ""}`} style={girando ? { animationDuration: "1.2s" } : undefined}>
+      {ANGULOS_DE_ETAPA.map((angulo, j) => (
+        <PuntoDeAnillo key={angulo} angulo={angulo} radio={22} tam={3} color={color}
+          opacidad={girando ? 0.2 + (0.8 * j) / (PUNTOS_POR_ETAPA - 1) : 0.3}
+          brillo={girando ? `0 0 6px ${color}80` : undefined} />
+      ))}
+    </div>
+  );
+}
 
 export function PipelineTimeline({
   stages = DEFAULT_STAGES,
@@ -86,49 +108,6 @@ export function PipelineTimeline({
   statusLabel,
 }: Props) {
   const { t } = useLanguage();
-  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const barRef = useRef<HTMLDivElement>(null);
-  const angleRef = useRef(0);
-
-  useEffect(() => {
-    let raf = 0;
-    const tick = () => {
-      angleRef.current += 0.025;
-      const angle = angleRef.current;
-
-      // Orbit particles around each node
-      stages.forEach((_, i) => {
-        const node = nodeRefs.current[i];
-        if (!node) return;
-        const particles = node.querySelectorAll<HTMLElement>(".particle");
-        particles.forEach((p, j) => {
-          const offset = (j / PARTICLES_PER_NODE) * Math.PI * 2;
-          const r = 22 + Math.sin(angle * 1.5 + offset) * 3; // 19-25px breathing
-          const x = Math.cos(angle + offset) * r;
-          const y = Math.sin(angle + offset) * r;
-          const opacity = 0.25 + (Math.sin(angle * 2 + offset * 3) * 0.5 + 0.5) * 0.6;
-          const scale = 0.5 + opacity * 0.8;
-          p.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-          p.style.opacity = String(Math.max(0.15, opacity));
-        });
-      });
-
-      // Animate progress bar sweep (solo mientras corre; se apaga al terminar)
-      if (barRef.current) {
-        if (isDone || failed) {
-          barRef.current.style.background = "transparent";
-        } else {
-          const sweep = ((Math.sin(angle * 0.8) * 0.5 + 0.5) * 100).toFixed(2);
-          barRef.current.style.background = `linear-gradient(90deg, transparent 0%, transparent ${Math.max(0, (parseFloat(sweep) - 25)).toFixed(2)}%, rgba(168,85,247,0.55) ${sweep}%, transparent ${Math.min(100, (parseFloat(sweep) + 15)).toFixed(2)}%, transparent 100%)`;
-        }
-      }
-
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [isDone, failed, stages]);
-
   const finishedCount = stages.filter((s) => stageStates[s.id] === "done" || stageStates[s.id] === "error" || stageStates[s.id] === "skipped").length;
 
   return (
@@ -138,15 +117,15 @@ export function PipelineTimeline({
         {/* Connector line under all nodes (static base) */}
         <div className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-px bg-white/[0.06] z-0" />
 
-        {/* Animated sweep bar */}
-        <div
-          ref={barRef}
-          className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-px z-0"
-          style={{ background: "transparent" }}
-        />
+        {/* Brillo que recorre la línea mientras corre: CSS, se apaga al terminar */}
+        {!isDone && !failed && (
+          <div aria-hidden="true" data-testid="barrido" className="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-px overflow-hidden z-0">
+            <div className="h-full w-1/4 bg-gradient-to-r from-transparent via-[var(--accent-strong)] to-transparent opacity-60 motion-safe:animate-barrido" />
+          </div>
+        )}
 
         {/* Nodes */}
-        {stages.map((s, i) => {
+        {stages.map((s) => {
           const state = stageStates[s.id] ?? "pending";
           const isRunning = state === "running";
           const isDoneNode = state === "done";
@@ -157,7 +136,7 @@ export function PipelineTimeline({
           return (
             <div
               key={s.id}
-              ref={(el) => { nodeRefs.current[i] = el; }}
+              data-etapa={s.id}
               className="relative z-10 flex flex-col items-center gap-3"
               style={{
                 opacity: isSkipped ? 0.5 : 1,
@@ -178,21 +157,8 @@ export function PipelineTimeline({
                   }}
                 />
 
-                {/* Orbit particles — se apagan en done/error/skipped */}
-                {!isDoneNode && !isError && !isSkipped &&
-                  Array.from({ length: PARTICLES_PER_NODE }).map((_, j) => (
-                    <span
-                      key={j}
-                      className="particle absolute rounded-full"
-                      style={{
-                        width: 3,
-                        height: 3,
-                        backgroundColor: s.color,
-                        boxShadow: `0 0 6px ${s.color}80`,
-                      }}
-                    />
-                  ))
-                }
+                {/* Anillo: gira sólo en la etapa en curso; no hay en done/error/skipped */}
+                {!isDoneNode && !isError && !isSkipped && <AnilloDeEtapa color={s.color} girando={isRunning} />}
 
                 {/* Central dot (node core) — estado visual */}
                 {isDoneNode ? (
@@ -207,7 +173,7 @@ export function PipelineTimeline({
                   <div className="relative w-2.5 h-2.5 rounded-full z-10" style={{ backgroundColor: "#64748b", boxShadow: "0 0 8px #64748b60" }} />
                 ) : (
                   <div
-                    className={`relative w-2 h-2 rounded-full z-10 ${isRunning ? "animate-pulse" : ""}`}
+                    className={`relative w-2 h-2 rounded-full z-10 ${isRunning ? "motion-safe:animate-respira" : ""}`}
                     style={{
                       backgroundColor: s.color,
                       boxShadow: isRunning
@@ -220,7 +186,7 @@ export function PipelineTimeline({
 
               {/* Label + estado */}
               <span
-                className="text-xs font-mono font-bold uppercase tracking-wider whitespace-nowrap"
+                className="text-sm font-sans font-bold uppercase tracking-wider whitespace-nowrap"
                 style={{
                   color: isDoneNode ? "#6ee7b7" : isError ? "#f87171" : isSkipped ? "#64748b" : isRunning ? s.color : `${s.color}`,
                 }}
@@ -231,7 +197,7 @@ export function PipelineTimeline({
               {/* Mensaje de error / razón de skip */}
               {(isError || isSkipped) && message && (
                 <span
-                  className="text-[10px] font-mono leading-tight max-w-[140px] text-center"
+                  className="text-sm font-mono leading-tight max-w-[140px] text-center"
                   style={{ color: isError ? "#f87171" : "#94a3b8" }}
                 >
                   {isSkipped && !message.toLowerCase().includes(t("auto_47083d99db42")) ? `no se calculó por ${message.toLowerCase()}` : message}
@@ -255,11 +221,11 @@ export function PipelineTimeline({
         <span
           className={`w-1.5 h-1.5 rounded-full ${!isDone && !failed ? "bg-purple-400 animate-pulse" : failed ? "bg-rose-400" : "bg-emerald-400"}`}
         />
-        <span className={`text-[10px] font-mono uppercase tracking-widest ${failed ? "text-rose-300/80" : isDone ? "text-emerald-300/80" : "text-purple-300/80"}`}>
-          {statusLabel ?? (failed ? t("auto_68203f940913") : isDone ? "Pipeline completado" : t("auto_7f1be5e1eb6d"))}
+        <span className={`text-sm font-sans uppercase tracking-widest ${failed ? "text-rose-300" : isDone ? "text-emerald-300" : "text-purple-300"}`}>
+          {statusLabel ?? (failed ? t("auto_68203f940913") : isDone ? t("pn_flow_pipeline_completed") : t("auto_7f1be5e1eb6d"))}
         </span>
         {!isDone && !failed && finishedCount > 0 && (
-          <span className="text-[9px] font-mono text-white/25">
+          <span className="text-sm font-mono text-zinc-400">
             {finishedCount}/{stages.length} {t("pr_timeline_etapas")}
           </span>
         )}

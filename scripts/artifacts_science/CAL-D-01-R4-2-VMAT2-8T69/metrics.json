@@ -1,0 +1,59 @@
+{
+  "experimento": "CAL-D-01-R4-2-VMAT2-8T69",
+  "analizado_en": "2026-10-25T02:55:22+00:00",
+  "protocolo_sha256": "b8312d7ddb676bdd48561016993b6fbe09b01e9580ee818d52f0d9800bd4451b",
+  "n_evaluados": 89,
+  "fallos_persistentes": 0,
+  "desviaciones": [],
+  "rho_Q_pKi": 0.3918159063684028,
+  "rho_E_pKi": -0.3918159063684028,
+  "rho_peor": 0.3215375646664398,
+  "rho_peor_asignacion_verifica": 0.3215375646664398,
+  "n_con_b1_en_la_peor_asignacion": 47,
+  "ic95_rho": [
+    0.21599673564978017,
+    0.5403951493115843
+  ],
+  "ic95_rho_peor": [
+    0.14019548228369313,
+    0.4745265857135733
+  ],
+  "bootstrap": {
+    "n_replicas": 10000,
+    "descartadas": 0,
+    "semilla": 20261021
+  },
+  "p2": {
+    "concordancia": 0.6379743303571429,
+    "pares_comparables": 3584,
+    "pares_totales": 3916,
+    "ic95": [
+      0.5760598080027186,
+      0.6965453746321055
+    ]
+  },
+  "p2_sensibilidades": {
+    "con_4-31": {
+      "n": 90,
+      "ki_nM": 1.6,
+      "rho": 0.37325721028208686,
+      "rho_peor": 0.30271287059827173
+    },
+    "con_4-118": {
+      "n": 90,
+      "ki_nM": 13.0,
+      "rho": 0.38779643792715257,
+      "rho_peor": 0.3175881757086416
+    },
+    "con_la_mediana_de_ambos": {
+      "n": 90,
+      "ki_nM": 4.560701700396552,
+      "rho": 0.38139950707765313,
+      "rho_peor": 0.3117845840634779
+    }
+  },
+  "decision": "GO",
+  "razon": "límite inferior del IC95 % de rho y de rho_peor > 0, sin fallos ni desviaciones",
+  "cpu_core_h": 3.73,
+  "puerta_pose": "GO"
+}

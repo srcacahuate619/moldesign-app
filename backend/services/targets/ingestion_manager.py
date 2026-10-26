@@ -15,7 +15,25 @@ from db.repository import Repository
 from services.docking.preparer import prepare_target
 from utils.file_handlers import download_pdb_from_rcsb, StoragePath, fetch_target_cofactors_from_rcsb
 from services.chemistry.censo_de_aguas import invalidar_censo
-from utils.local_storage import exists, read_bytes, read_text, write_text
+from utils.local_storage import exists, read_bytes, read_text, write_bytes, write_text
+from services.targets import perfil_receptor
+from services.targets.conversion_mmcif import mmcif_a_pdb
+from services.targets.entrada_receptor import (
+    FORMATO_MMCIF,
+    FORMATO_PDBQT,
+    FORMATO_PQR,
+    leer_subida,
+    sin_proteina,
+)
+from services.targets.lector_pqr import pqr_a_pdb
+from services.targets.normalizar_pdb import nombres_charmm_a_pdb, normalizar_pdb
+from services.targets.prediccion import analizar as analizar_prediccion
+from services.targets.errores_subida import (
+    ErrorDeSubida,
+    cadenas_con_proteina,
+    desde_preparacion,
+    error_de_cadena,
+)
 from services.targets.sitio_de_union import anotar_sitio
 from utils.structural import discover_pocket_from_pdb
 from utils.logger import get_logger
@@ -257,8 +275,9 @@ def extract_pdb_metadata(pdb_text: str) -> dict:
                 if org_part:
                     organism = org_part
         elif line.startswith("REMARK   2 RESOLUTION."):
-            parts = line.split()
-            for p in parts:
+            # Se lee DESPUÉS de «RESOLUTION.»: antes se tomaba el primer número de la línea, que
+            # es el «2» de «REMARK   2», y todo PDB subido quedaba con resolución 2,0 Å.
+            for p in line.split("RESOLUTION.", 1)[1].split():
                 try:
                     val = float(p)
                     resolution = val
@@ -284,9 +303,14 @@ async def ingest_custom_target(
     anti_target_risk: str | None = None,
     preparation_parent_id: uuid.UUID | None = None,
     preparation_recipe: dict | None = None,
+    origen_content: bytes | None = None,
+    origen_filename: str | None = None,
+    modo_preparacion: str | None = None,
+    site_ligand: str | None = None,
 ) -> dict:
     """
     Ingesta un target subido manualmente por el usuario.
+    `site_ligand` es el ligando del cristal que la preparación retira; lo pasa una variante, heredado de su padre.
     Si is_curated=True, asume que es un archivo .pdbqt listo.
     Si is_curated=False, asume que es un .pdb y lo cura.
     """
@@ -298,93 +322,126 @@ async def ingest_custom_target(
 
     log.info("ingesta_custom_iniciada", pdb_id=pdb_id, is_curated=is_curated)
 
+    # El modo lo elige la persona según lo que trae: estructura cruda (MolDesign la prepara), estructura ya
+    # preparada (se respeta) o PDBQT listo para Vina. Cada uno es un camino; ninguno se quita.
+    modo = (modo_preparacion or ("pdbqt" if is_curated else perfil_receptor.MODO_AUTOMATICO)).strip().lower()
+    if modo not in perfil_receptor.MODOS or (modo == perfil_receptor.MODO_PDBQT) != bool(is_curated):
+        raise ErrorDeSubida(
+            "MODO_INCOHERENTE",
+            f"El modo «{modo_preparacion}» no corresponde a esta subida. Modos: «automatico» (estructura "
+            "cruda), «respetar» (estructura ya preparada por tu equipo) y «pdbqt» (PDBQT listo para Vina).",
+            f"The mode «{modo_preparacion}» does not match this upload. Modes: «automatico» (raw structure), "
+            "«respetar» (structure already prepared by your team) and «pdbqt» (PDBQT ready for Vina).",
+        )
+    respetar = modo == perfil_receptor.MODO_RESPETAR
+    if respetar:
+        cofactors_whitelist = []         # el equipo ya decidió qué conservar: no hay lista blanca
+
+    # Lo que llegó: extensión sin distinguir mayúsculas, .gz con tope, contenido que
+    # corresponde a la extensión. Cualquier fallo sale con qué pasó y qué hacer.
+    archivo = leer_subida(filename, file_content)
+
     # Intentar extraer metadatos del archivo subido
     extracted_organism = None
     extracted_resolution = None
     try:
-        decoded_text = file_content.decode('utf-8', errors='ignore')
-        metadata = extract_pdb_metadata(decoded_text)
+        metadata = extract_pdb_metadata(archivo.texto)
         extracted_organism = metadata.get("organism")
         extracted_resolution = metadata.get("resolution")
     except Exception as e:
         log.warning("error_extracting_metadata_from_custom_target", error=str(e))
 
+    origen = None
+    if origen_content is not None:
+        if not is_curated:
+            raise ErrorDeSubida(
+                "ORIGEN_SOLO_CON_PDBQT",
+                "La estructura de origen sólo se usa con un PDBQT listo para Vina (para auditarlo). Con "
+                "«Estructura cruda» el archivo que subes ya es la estructura: quita el segundo archivo.",
+                "The source structure is only used with a PDBQT ready for Vina (to audit it). With "
+                "«Raw structure» the file you upload already is the structure: remove the second file.",
+            )
+        origen = leer_subida(origen_filename or "origen", origen_content)
+
     if is_curated:
-        if not filename.endswith(".pdbqt"):
-            raise ValueError("Los archivos curados deben ser formato .pdbqt")
-        if not grid_center:
-            raise ValueError("Debe proporcionar las coordenadas del grid (centro) para archivos curados (.pdbqt)")
+        if archivo.formato != FORMATO_PDBQT:
+            raise ErrorDeSubida(
+                "PDBQT_EXTENSION",
+                f"El modo «PDBQT listo para Vina» sólo admite archivos .pdbqt; «{archivo.nombre}» es "
+                f"{archivo.formato.upper()}. Si es una estructura que quieres que MolDesign prepare, "
+                "elige «Estructura cruda».",
+                f"The «PDBQT ready for Vina» mode only accepts .pdbqt files; «{archivo.nombre}» is "
+                f"{archivo.formato.upper()}. If it is a structure you want MolDesign to prepare, "
+                "choose «Raw structure».",
+            )
+        from services.targets.ingesta_propia import ingestar_pdbqt
 
-        prepared_path = StoragePath.target_prepared(pdb_id)
-        await write_text(prepared_path, file_content.decode('utf-8'))
-
-        # La cadena la define el usuario (chain_id) o default A — en modo
-        # manual el PDBQT ya viene preparado, no hay detección de cadena.
-        detected_chain = chain_id or "A"
-        recipe = preparation_recipe or {
-            "schema_version": 1,
-            "mode": "external_pdbqt",
-            "chain": detected_chain,
-            "grid_center": list(grid_center),
-            "grid_size": list(grid_size),
-            "cofactors_whitelist": sorted(set(cofactors_whitelist or [])),
-        }
-        provenance = _preparation_provenance(
-            source_bytes=file_content,
-            prepared_bytes=file_content,
-            recipe=recipe,
+        return await ingestar_pdbqt(
+            pdb_id=pdb_id, archivo=archivo, origen=origen, name=name, db=db,
+            chain_id=chain_id or "A", grid_center=grid_center, grid_size=grid_size,
+            cofactors_whitelist=cofactors_whitelist, creator_id=creator_id,
+            creator_username=creator_username, is_community=is_community,
+            is_anti_target=is_anti_target, anti_target_risk=anti_target_risk,
+            preparation_parent_id=preparation_parent_id, preparation_recipe=preparation_recipe,
+            organism=extracted_organism, resolution=extracted_resolution,
+            preparation_provenance=_preparation_provenance,
         )
-
-        target = TargetORM(
-            pdb_id=pdb_id,
-            name=name,
-            chain=detected_chain,
-            grid_center_x=grid_center[0],
-            grid_center_y=grid_center[1],
-            grid_center_z=grid_center[2],
-            grid_size_x=grid_size[0],
-            grid_size_y=grid_size[1],
-            grid_size_z=grid_size[2],
-            requires_cns=False,
-            is_prepared=True,
-            prepared_file_path=prepared_path,
-            is_hot=False,
-            is_private=not is_community,
-            is_community=is_community,
-            is_anti_target=is_anti_target,
-            anti_target_risk=anti_target_risk,
-            creator_id=creator_id,
-            creator_username=creator_username,
-            preparation_parent_id=preparation_parent_id,
-            **provenance,
-            cofactors_whitelist=cofactors_whitelist or [],
-            organism=extracted_organism,
-            resolution=extracted_resolution,
-            spearman_rho=None
-        )
-        db.add(target)
-        await db.commit()
-        return {"success": True, "message": f"Target personalizado {pdb_id} subido exitosamente.", "target": target}
     else:
-        if not filename.endswith(".pdb"):
-            raise ValueError("Los archivos crudos deben ser formato .pdb")
-
+        if archivo.formato == FORMATO_PDBQT:
+            raise ErrorDeSubida(
+                "PDBQT_EN_MODO_ESTRUCTURA",
+                f"«{archivo.nombre}» es un PDBQT: un receptor que ya está preparado para Vina. Elige "
+                "«PDBQT listo para Vina» para evaluarlo tal cual, o sube la estructura de la que salió "
+                "(PDB o mmCIF) para que MolDesign la prepare.",
+                f"«{archivo.nombre}» is a PDBQT: a receptor already prepared for Vina. Choose "
+                "«PDBQT ready for Vina» to evaluate it as is, or upload the structure it came from "
+                "(PDB or mmCIF) so MolDesign prepares it.",
+            )
         raw_path = StoragePath.target_raw(pdb_id)
-        log.info("ingesta_custom_decodificando_archivo", pdb_id=pdb_id)
-        try:
-            decoded_content = file_content.decode('utf-8')
-            log.info("ingesta_custom_decodificado_ok", pdb_id=pdb_id, size=len(decoded_content))
-        except Exception as e:
-            log.error("ingesta_custom_decodificado_error", pdb_id=pdb_id, error=str(e))
-            raise ValueError(f"El archivo no es UTF-8 válido: {str(e)}")
+        conversion = informe_pqr = None
+        if archivo.formato == FORMATO_MMCIF:
+            # El pipeline lee PDB clásico: se convierte con una correspondencia explícita de
+            # cadenas, residuos de nombre largo y ensamblaje. Lo que no cabe se abstiene con motivo.
+            conversion = mmcif_a_pdb(archivo.texto, archivo.nombre)
+            pdb_text = conversion.pdb
+            metadata = extract_pdb_metadata(pdb_text)
+            extracted_organism = metadata.get("organism") or extracted_organism
+            extracted_resolution = metadata.get("resolution") or extracted_resolution
+        elif archivo.formato == FORMATO_PQR:
+            # Un PQR (PDB2PQR) es un PDB con carga y radio: se conservan nombres y coordenadas y se declara que
+            # Vina no usa sus cargas.
+            pdb_text, informe_pqr = pqr_a_pdb(archivo.texto, archivo.nombre)
+        else:
+            pdb_text = archivo.texto
+        # Varios modelos → el 1; sin columna de elemento → se infiere del nombre. Siempre declarado.
+        pdb_text, normalizacion = normalizar_pdb(pdb_text)
+        if modo == perfil_receptor.MODO_AUTOMATICO:
+            # La receta no conoce HSD/HSE/HSP y borraba esas histidinas; «respetar» traduce por su cuenta.
+            pdb_text, nombres_charmm = nombres_charmm_a_pdb(pdb_text)
+            if nombres_charmm:
+                normalizacion = {**normalizacion, "nombres_charmm": nombres_charmm}
+        # Cadenas: se pide la del archivo que subió la persona; si la conversión la renombró (AAA → B)
+        # el receptor usa la letra y la correspondencia queda en el informe.
+        cadena_original = chain_id
+        if conversion is not None:
+            chain_id = {c["original"]: c["pdb"] for c in conversion.informe["cadenas"]}.get(chain_id, chain_id)
+        if sin_proteina(pdb_text):
+            raise ErrorDeSubida(
+                "SIN_PROTEINA",
+                f"«{archivo.nombre}» no contiene ningún residuo de aminoácido (¿sólo ácidos nucleicos "
+                "u otras moléculas?). MolDesign prepara receptores de proteína: sube una estructura "
+                "que incluya la proteína diana.",
+                f"«{archivo.nombre}» contains no amino-acid residue (only nucleic acids or other "
+                "molecules?). MolDesign prepares protein receptors: upload a structure that "
+                "includes the target protein.",
+            )
 
-        log.info("ingesta_custom_subiendo_storage_raw", pdb_id=pdb_id, path=raw_path)
-        await write_text(raw_path, decoded_content)
+        log.info("ingesta_custom_subiendo_storage_raw", pdb_id=pdb_id)
+        await write_text(raw_path, pdb_text)
         # Misma razón que arriba: la estructura depositada acaba de cambiar.
         invalidar_censo(pdb_id)
         log.info("ingesta_custom_subido_storage_raw_ok", pdb_id=pdb_id)
 
-        pdb_text = file_content.decode('utf-8')
         hotspots = []
         center = grid_center
         auto_chain = chain_id
@@ -393,9 +450,14 @@ async def ingest_custom_target(
             # Intentar descubrir pocket
             pocket_info = discover_pocket_from_pdb(pdb_text, chain_id)
             if not pocket_info["success"]:
-                raise ValueError(
-                    f"No se pudo autodescubrir el sitio activo: {pocket_info.get('error')}. "
-                    "Por favor proporciona las coordenadas manuales del grid box."
+                raise ErrorDeSubida(
+                    "SITIO_NO_DETECTADO",
+                    "No se pudo detectar el sitio de unión automáticamente "
+                    f"({pocket_info.get('error') or 'sin ligando de referencia en el archivo'}). "
+                    "Indica el centro de la caja de búsqueda (x, y, z, en Å) y vuelve a subirlo.",
+                    "The binding site could not be detected automatically "
+                    f"({pocket_info.get('error') or 'no reference ligand in the file'}). "
+                    "Give the center of the search box (x, y, z, in Å) and upload it again.",
                 )
             center = pocket_info["grid_center"]
             hotspots = pocket_info["suggested_hotspots"]
@@ -404,6 +466,15 @@ async def ingest_custom_target(
             if auto_chain != chain_id:
                 log.info("cadena_autodetectada_custom", detectada=auto_chain, original=chain_id)
 
+        # La cadena declarada tiene que existir: con un sitio entre varias cadenas la preparación
+        # usa las del sitio y habría guardado el receptor con una cadena que no está en el archivo.
+        con_proteina = cadenas_con_proteina(pdb_text)
+        if auto_chain not in con_proteina:
+            if conversion is not None:
+                disponibles = [c["original"] for c in conversion.informe["cadenas"] if c["pdb"] in con_proteina]
+                raise error_de_cadena(cadena_original, disponibles)
+            raise error_de_cadena(auto_chain, con_proteina)
+
         # Que cadenas forman el sitio (doc 71). Vale igual para un archivo subido
         # a mano: un usuario que suba la proteasa del VIH tiene el mismo derecho
         # a que no se le acople contra media cavidad.
@@ -411,6 +482,31 @@ async def ingest_custom_target(
         if len(sitio.get("site_chains") or []) > 1:
             log.info("sitio_multicadena_detectado_custom", pdb_id=pdb_id,
                      cadenas=sitio["site_chains"], evidencia=sitio.get("site_evidence"))
+
+        # El perfil va ANTES de preparar: el informe de la preparación copia de él cómo llegó el
+        # archivo (formato, hash), y `prepare_target` lo vuelve a leer en cada corrida.
+        entrada = archivo.identidad()
+        if conversion is not None:
+            entrada["conversion"] = conversion.informe
+            entrada["avisos"] = sorted({*(entrada.get("avisos") or []), *conversion.informe["avisos"]})
+        if informe_pqr is not None:
+            entrada["pqr"] = informe_pqr
+        if normalizacion:
+            entrada["normalizacion"] = normalizacion
+        # ¿Es una predicción? Lo dice el propio archivo; la confianza (pLDDT) sólo se lee con una convención
+        # verificada en un archivo real de esa fuente (ver `prediccion.py`).
+        prediccion, plddt = analizar_prediccion(
+            archivo.formato, archivo.texto, pdb_text,
+            {c["original"]: c["pdb"] for c in conversion.informe["cadenas"]} if conversion is not None else None,
+        )
+        await perfil_receptor.guardar(pdb_id, {
+            "pdb_id": pdb_id, "modo": modo, "camino": "B" if respetar else "A",
+            "entrada": entrada, "prediccion": prediccion,
+            **({"plddt_residuos": plddt} if plddt else {}),
+            **({"site_ligand": site_ligand.upper()} if site_ligand else {}),
+        })
+        if archivo.comprimido:
+            await write_bytes(archivo.original, StoragePath.target_upload(pdb_id, archivo.nombre_almacenado))
 
         # Curacion
         try:
@@ -421,14 +517,25 @@ async def ingest_custom_target(
                 center=center,
                 size=grid_size,
                 force_reprepare=True,
-                cofactors_whitelist=cofactors_whitelist or []
+                cofactors_whitelist=cofactors_whitelist or [],
+                site_ligand=site_ligand,
             )
         except Exception as e:
-            log.error("preparacion_custom_fallida", pdb_id=pdb_id, error=str(e))
-            raise ValueError(f"Error curando el receptor: {str(e)}")
+            log.error("preparacion_custom_fallida", pdb_id=pdb_id, error=str(e),
+                      detalle=str(getattr(e, "detail", "") or "")[:600])
+            raise desde_preparacion(e, cadena=auto_chain, texto_pdb=pdb_text, modo=modo) from e
 
         prepared_bytes = await read_bytes(prepared_file_path)
-        recipe = preparation_recipe or {
+        recipe = preparation_recipe or ({
+            "schema_version": 1,
+            "mode": "respect_user_preparation",
+            "chain": auto_chain,
+            "grid_center": [float(value) for value in center],
+            "grid_size": [float(value) for value in grid_size],
+            "protonation": "declared_by_user",
+            "waters": "kept_as_uploaded",
+            "altloc": "majority_or_default",
+        } if respetar else {
             "schema_version": 1,
             "mode": "automatic_meeko",
             "chain": auto_chain,
@@ -437,9 +544,9 @@ async def ingest_custom_target(
             "cofactors_whitelist": sorted(set(cofactors_whitelist or [])),
             "waters": "remove_all",
             "altloc": "majority_or_default",
-        }
+        })
         provenance = _preparation_provenance(
-            source_bytes=file_content,
+            source_bytes=archivo.contenido,
             prepared_bytes=prepared_bytes,
             recipe=recipe,
         )

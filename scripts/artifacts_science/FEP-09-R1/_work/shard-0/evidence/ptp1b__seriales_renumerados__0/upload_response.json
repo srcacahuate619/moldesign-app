@@ -1,0 +1,69 @@
+{
+  "success": true,
+  "message": "Target personalizado USR_69EF11 curado e ingestado exitosamente.",
+  "target": {
+    "pdb_id": "USR_69EF11",
+    "name": "FEP09 ptp1b__seriales_renumerados__0",
+    "chain": "A",
+    "grid_center_x": 48.3984,
+    "grid_center_y": 9.8708,
+    "grid_center_z": 3.134,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0,
+    "requires_cns": false,
+    "is_prepared": true,
+    "prepared_file_path": "targets/USR_69EF11/prepared-8d9ba2b1962b2ac2a0d5dceba0193318b7e43da789114c3e4d375b76b10f3a9b.pdbqt",
+    "is_hot": false,
+    "is_private": true,
+    "is_community": false,
+    "is_anti_target": false,
+    "anti_target_risk": null,
+    "creator_id": "84ccdacb-749d-45e9-a9ab-26c5968511d5",
+    "creator_username": "Desktop User",
+    "preparation_parent_id": null,
+    "receptor_source_sha256": "690e3bf1a9a9b808160f956a8174c8d6c683f42509d06590113045e7275f5e53",
+    "prepared_receptor_sha256": "5e9a6f31a9abf0c70e8e776927787b6d85c5800924f1d536bee31e10fce82981",
+    "preparation_fingerprint": "d3f4a187f6d63b2d87c7c1b90931b03ad31e691c997cf49f36f153cabbfda124",
+    "preparation_recipe": {
+      "schema_version": 1,
+      "mode": "respect_user_preparation",
+      "chain": "A",
+      "grid_center": [
+        48.3984,
+        9.8708,
+        3.134
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "protonation": "declared_by_user",
+      "waters": "kept_as_uploaded",
+      "altloc": "majority_or_default"
+    },
+    "preparation_toolchain": {
+      "moldesign_preparation_policy": "1",
+      "meeko": "0.7.1"
+    },
+    "hotspots": [],
+    "site_chains": [
+      "A"
+    ],
+    "site_chain_atoms": {
+      "A": 493
+    },
+    "site_evidence": "box_volume",
+    "site_ligand": null,
+    "hotspots_source": null,
+    "cofactors_whitelist": [],
+    "organism": null,
+    "resolution": 2.1,
+    "spearman_rho": null,
+    "id": "061ddae6-4b76-4c94-9aef-dfa3b72cd916",
+    "created_at": "2026-10-11T22:53:51",
+    "affinity_threshold": -7.5,
+    "specificity_floor": 0.5
+  }
+}

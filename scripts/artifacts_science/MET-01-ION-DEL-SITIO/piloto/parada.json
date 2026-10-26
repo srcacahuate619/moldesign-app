@@ -1,0 +1,92 @@
+{
+  "phase": "pilot",
+  "complete": false,
+  "confirmation_started": false,
+  "planned_confirmatory_runs": 380,
+  "confirmatory_runs": 0,
+  "valid_principal_pairs": 0,
+  "valid_control_pairs": 0,
+  "valid_pilot_SIN_seed_seconds": [
+    30.6,
+    28.5,
+    14.4,
+    16.4,
+    14.4
+  ],
+  "raw_completed_Vina_attempts": 11,
+  "outcomes": {
+    "INVALID_RECEPTOR": 6,
+    "VALID_PILOT_SIN": 5
+  },
+  "setup_Vina_failures": 2,
+  "final_pilot_terminal_records": 8,
+  "final_pilot_guard_failures": 3,
+  "terminal_guard_failure_fraction": 0.375,
+  "stop_record": {
+    "reason": "Infrastructure failures >30%",
+    "fraction": 0.375,
+    "created": "2026-10-11T22:10:34+00:00"
+  },
+  "closed_reason": "PRODUCT_ARM_INVALIDATION",
+  "mechanism": "_coerce_hotspots filters list elements to dict, dropping metal strings before preflight and pipeline; CON was re-prepared without Zn.",
+  "pure_original_function_probes": [
+    {
+      "input": [
+        "ZN"
+      ],
+      "output": []
+    },
+    {
+      "input": [
+        "MG"
+      ],
+      "output": []
+    },
+    {
+      "input": [
+        "CA"
+      ],
+      "output": []
+    },
+    {
+      "input": [
+        "K"
+      ],
+      "output": []
+    },
+    {
+      "input": "[\"ZN\"]",
+      "output": []
+    },
+    {
+      "input": [
+        {
+          "name": "ZN"
+        }
+      ],
+      "output": [
+        {
+          "name": "ZN"
+        }
+      ]
+    }
+  ],
+  "prepared_CON_sha256": "e23dabe7f14c443a8df26a8ec8aa0ff5d2d3efd90370e4c5d4ee65dd6ff5c08b",
+  "used_CON_sha256": "96e0aa3134454f59a8f8bc3ef365ae8412c3c5bd3e67490988e7e204acb6fed8",
+  "prepared_CON_whitelist": [
+    "ZN"
+  ],
+  "used_CON_whitelist": [],
+  "invalid_CON_seeds": [
+    42,
+    43,
+    44
+  ],
+  "attempts_each": 2,
+  "planned_principal_n": 28,
+  "conditional_power_at_planned_n": 0.872400501994006,
+  "no_time_forecast": "Pilot did not complete valid SIN/CON pairing; no full-cohort runtime forecast is warranted.",
+  "no_demuestra": "No estimate of the effect of retaining the ion; pilot is outside the gate, and no valid CON was docked.",
+  "product_commit": "f0e6408668fa8ecbecb417cf39621928fdfee886",
+  "preregistration_commit": "32e552ebe823d8e289582102d52424bce3cd6d4a"
+}

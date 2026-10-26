@@ -1,0 +1,377 @@
+{
+ "id": "MF-24",
+ "meta": {
+  "titulo": "GO de medición: las asociaciones con colocación no validan un predictor previo al docking",
+  "entradilla": "El registro conserva GO descriptivo sobre 116 complejos de train y 87 de val+test. Parte de las variables necesita la pose cristalográfica y no se midió su contribución independiente; estas correlaciones no habilitan una regla de producto."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de medición, sin gate de aceptación.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El resultado describe asociaciones del material analizado. No incorpora un predictor ni cambia la asignación de cómputo del producto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se hizo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La cohorte difícil se había definido por su desenlace de colocación. Comparar sus estratos podía volver a describir la propia selección. Este análisis salió de esa cohorte y usó las particiones de entrenamiento y evaluación conservadas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste de colocación es una diferencia de RMSD: el mejor RMSD en el marco del bolsillo, para el confórmero elegido, menos su RMSD alineado frente al cristal. Está en Å; no mide tiempo de CPU. La elección del confórmero y parte de los descriptores usan la referencia cristalográfica.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se leyeron materiales anteriores, sin generar nuevas poses. La caja del analizador tiene 25 Å de lado. El manifiesto declara Python 3.14.3; no fija las versiones de los paquetes ni el helper geométrico. Esta entrega lee los resultados archivados y no reproduce las mediciones desde estructuras.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Spearman frente al coste de colocación, con el mismo analizador y cada partición por separado:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Variable",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Train, n = 116",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Val+test, n = 87",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Átomos pesados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,5089",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,3187",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Torsiones",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,5301",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,3044",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Radio de giro cristalográfico",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,4802",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,4216",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Ocupación geométrica de caja",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,4513",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,3763",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Número de confórmeros",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,5154",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,2704",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Enterramiento en la pose cristalográfica",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "-0,3078",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "-0,2477",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "RMSD alineado del confórmero; diagnóstico oracular",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,5808",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,3908",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La mediana del coste en train fue 1,649 Å. El patrón es descriptivo. No se ajustó un modelo multivariante ni se fijó un umbral operativo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las tablas permiten describir qué propiedades acompañan a un coste mayor dentro de estas particiones. No identifican una causa ni una ventaja predictiva independiente. El RMSD del confórmero comparte información con la respuesta y necesita el cristal. El enterramiento también se calcula usando esa pose. La dirección de su asociación no demuestra que cerrar un bolsillo mejore el docking.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vigentes al 2026-10-22.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-108:",
+      "m": "fuerte"
+     },
+     {
+      "t": " rmsd_conf es una referencia oracular y parte de la definición de la respuesta. El enterramiento usa contactos de la pose cristalográfica. Se retira la lectura de estas asociaciones como validación de un predictor disponible antes del docking.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-109:",
+      "m": "fuerte"
+     },
+     {
+      "t": " no se estimó el efecto del enterramiento ajustando tamaño y flexibilidad. Se retiran su independencia atribuida y la explicación causal de bolsillo cerrado.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-110:",
+      "m": "fuerte"
+     },
+     {
+      "t": " la revisión posterior identificó las particiones conservadas y su ausencia de solapamiento. Esto comprueba las salidas; no convierte la selección original por directorio y variable de entorno en una guarda de particiones ejecutada entonces.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-111:",
+      "m": "fuerte"
+     },
+     {
+      "t": " el sello fija el analizador, pero no estructuras, confórmeros, correspondencias, poses, helper ni la invocación de selección del material. No se completa retrospectivamente esa procedencia.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Fuente de estas correcciones: ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "; su estado también consta en ",
+     "m": null
+    },
+    {
+     "t": "docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md",
+     "m": "codigo"
+    },
+    {
+     "t": ". No comprobado por mí: reconstrucción de las correlaciones desde las entradas moleculares originales, ausentes de este worktree.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-24.md"
+}

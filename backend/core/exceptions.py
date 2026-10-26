@@ -243,6 +243,7 @@ class DockingFailed(DockingError):
         target_pdb_id: str,
         vina_exit_code: int | None = None,
         detail: str | None = None,
+        vina_message: str | None = None,
     ) -> None:
         self.molecule_id = molecule_id
         self.target_pdb_id = target_pdb_id
@@ -253,6 +254,11 @@ class DockingFailed(DockingError):
         )
         if vina_exit_code is not None:
             message += f" (Vina exit code: {vina_exit_code})"
+        # Lo que dijo Vina, en el propio mensaje: el estado de la tarea sólo
+        # guarda `str(exc)`, y con el código de salida a secas nadie sabía si el
+        # fallo era del ligando, de la caja o del receptor (1HSG, 2026-10-10).
+        if vina_message:
+            message += f": {vina_message}"
         super().__init__(message=message, detail=detail)
 
     def to_dict(self) -> dict[str, str | int | None]:

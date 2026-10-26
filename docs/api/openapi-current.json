@@ -169,6 +169,22 @@
         "title": "AlphaFoldEntryResponse",
         "type": "object"
       },
+      "AprobarPropuestaRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "proposal_hash": {
+            "description": "Huella de la propuesta que se aprueba, tal como la mostró el chat.",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Proposal Hash",
+            "type": "string"
+          }
+        },
+        "required": [
+          "proposal_hash"
+        ],
+        "title": "AprobarPropuestaRequest",
+        "type": "object"
+      },
       "AuthResponse": {
         "properties": {
           "access_token": {
@@ -368,9 +384,34 @@
             "title": "Is Curated",
             "type": "boolean"
           },
+          "modo_preparacion": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "automatico (estructura cruda), respetar (estructura ya preparada) o pdbqt",
+            "title": "Modo Preparacion"
+          },
           "name": {
             "title": "Name",
             "type": "string"
+          },
+          "source_file": {
+            "anyOf": [
+              {
+                "contentMediaType": "application/octet-stream",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estructura de origen del PDBQT (PDB o mmCIF); opcional, sólo con is_curated",
+            "title": "Source File"
           }
         },
         "required": [
@@ -636,6 +677,21 @@
               }
             ],
             "title": "Seed"
+          },
+          "tautomero": {
+            "anyOf": [
+              {
+                "enum": [
+                  "entrada",
+                  "canonico"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tautomero"
           }
         },
         "required": [
@@ -742,6 +798,30 @@
             "default": 1,
             "title": "Schema Version",
             "type": "integer"
+          },
+          "seed_resolution": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seed Resolution"
           },
           "summary": {
             "$ref": "#/components/schemas/CohortSummary"
@@ -1334,6 +1414,17 @@
           "status": {
             "title": "Status",
             "type": "string"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
           }
         },
         "required": [
@@ -1490,6 +1581,37 @@
         "title": "CohortSummary",
         "type": "object"
       },
+      "ColoresLineas": {
+        "additionalProperties": false,
+        "properties": {
+          "apolar": {
+            "anyOf": [
+              {
+                "pattern": "^#[0-9a-fA-F]{6}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Apolar"
+          },
+          "polar": {
+            "anyOf": [
+              {
+                "pattern": "^#[0-9a-fA-F]{6}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Polar"
+          }
+        },
+        "title": "ColoresLineas",
+        "type": "object"
+      },
       "ConfiguracionDeclarada": {
         "additionalProperties": false,
         "description": "Caja, motor y parámetros que el preflight inspeccionó.",
@@ -1616,6 +1738,45 @@
         "title": "ConfiguracionDeclarada",
         "type": "object"
       },
+      "ConfiguracionRenderizador": {
+        "properties": {
+          "blender": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Blender"
+          },
+          "modo": {
+            "enum": [
+              "administrado",
+              "existente"
+            ],
+            "title": "Modo",
+            "type": "string"
+          },
+          "motor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Motor"
+          }
+        },
+        "required": [
+          "modo"
+        ],
+        "title": "ConfiguracionRenderizador",
+        "type": "object"
+      },
       "ConformerRequest": {
         "properties": {
           "force_regenerate": {
@@ -1720,6 +1881,16 @@
         "additionalProperties": false,
         "description": "Las preguntas del caso. TODAS opcionales a propósito.\n\nUn hueco es información: el dossier lo imprime como `NO DEFINIDO` en vez de\nomitir el apartado. Omitirlo dejaría al lector sin saber si nadie preguntó o\nsi nadie contestó.",
         "properties": {
+          "assay": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ContextoDeEnsayo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "assumptions": {
             "anyOf": [
               {
@@ -1818,6 +1989,118 @@
           }
         },
         "title": "ContextoCientifico",
+        "type": "object"
+      },
+      "ContextoDeEnsayo": {
+        "additionalProperties": false,
+        "description": "El contexto experimental contra el que se va a leer la corrida (C-GAP-02).\n\nContrato versionado: ``version`` es la del contrato, no la del caso. TODOS los\ncampos son opcionales: un campo omitido es «desconocido» y nunca se rotula como\ncoincidente ni como discrepante. Lo que tiene contraparte en la corrida (pH,\ncadenas, cofactores) se contrasta en Preparación\n(`services/dossier/contexto_ensayo.py`); lo demás se transmite tal cual.",
+        "properties": {
+          "chains": {
+            "anyOf": [
+              {
+                "items": {
+                  "maxLength": 8,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9]+$",
+                  "type": "string"
+                },
+                "maxItems": 32,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chains"
+          },
+          "cofactors": {
+            "anyOf": [
+              {
+                "items": {
+                  "maxLength": 8,
+                  "minLength": 1,
+                  "pattern": "^[A-Za-z0-9]+$",
+                  "type": "string"
+                },
+                "maxItems": 32,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cofactors"
+          },
+          "endpoint": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Endpoint"
+          },
+          "ph": {
+            "anyOf": [
+              {
+                "maximum": 14.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ph"
+          },
+          "protein_construct": {
+            "anyOf": [
+              {
+                "maxLength": 1000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Protein Construct"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "maxLength": 500,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "temperature_c": {
+            "anyOf": [
+              {
+                "maximum": 150.0,
+                "minimum": -50.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temperature C"
+          },
+          "version": {
+            "const": 1,
+            "default": 1,
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "title": "ContextoDeEnsayo",
         "type": "object"
       },
       "CorridaDeclarada": {
@@ -2193,6 +2476,156 @@
           "ligand_span_z"
         ],
         "title": "DynamicBoxResponse",
+        "type": "object"
+      },
+      "ElevacionRequest": {
+        "properties": {
+          "molfile": {
+            "anyOf": [
+              {
+                "maxLength": 500000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Dibujo de Ketcher (molfile). Si es la molécula del SMILES, el levantamiento parte de él; si no, se usa el de RDKit y se dice (`dibujo`).",
+            "title": "Molfile"
+          },
+          "ph": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "pH de la corrida (sólo `acoplada`). Se acota como en la corrida.",
+            "title": "Ph"
+          },
+          "rapida": {
+            "default": false,
+            "description": "Sólo `escrita`: una semilla en vez de tres, para enseñar algo enseguida. La abstención queda provisional (`abstencion_provisional`) hasta pedir la completa.",
+            "title": "Rapida",
+            "type": "boolean"
+          },
+          "smiles": {
+            "description": "SMILES del editor. Se genera un conformador, no una pose.",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Smiles",
+            "type": "string"
+          },
+          "tautomero": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Modo de tautómero de la corrida (sólo `acoplada`).",
+            "title": "Tautomero"
+          },
+          "vista": {
+            "default": "escrita",
+            "description": "`escrita`: conformadores del SMILES tal cual. `acoplada`: la especie y el conformador de partida que prepararía la corrida, con su pH y su modo de tautómero.",
+            "enum": [
+              "escrita",
+              "acoplada"
+            ],
+            "title": "Vista",
+            "type": "string"
+          }
+        },
+        "required": [
+          "smiles"
+        ],
+        "title": "ElevacionRequest",
+        "type": "object"
+      },
+      "EnsambleFluido": {
+        "additionalProperties": false,
+        "properties": {
+          "conformero": {
+            "anyOf": [
+              {
+                "maximum": 1000000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conformero"
+          },
+          "variante": {
+            "enum": [
+              "lenta",
+              "detallada"
+            ],
+            "title": "Variante",
+            "type": "string"
+          }
+        },
+        "required": [
+          "variante"
+        ],
+        "title": "EnsambleFluido",
+        "type": "object"
+      },
+      "EstimacionFoto": {
+        "properties": {
+          "cpu_hilos": {
+            "anyOf": [
+              {
+                "maximum": 1024.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpu Hilos"
+          },
+          "dispositivo": {
+            "enum": [
+              "cpu",
+              "gpu"
+            ],
+            "title": "Dispositivo",
+            "type": "string"
+          },
+          "orientacion": {
+            "enum": [
+              "horizontal",
+              "vertical"
+            ],
+            "title": "Orientacion",
+            "type": "string"
+          },
+          "resolucion": {
+            "enum": [
+              "720p",
+              "1080p",
+              "1440p",
+              "4k"
+            ],
+            "title": "Resolucion",
+            "type": "string"
+          }
+        },
+        "required": [
+          "orientacion",
+          "resolucion",
+          "dispositivo"
+        ],
+        "title": "EstimacionFoto",
         "type": "object"
       },
       "EvaluationResultRead": {
@@ -3495,6 +3928,7 @@
         "type": "object"
       },
       "EvaluationSubmitRequest": {
+        "additionalProperties": false,
         "properties": {
           "chain": {
             "anyOf": [
@@ -4045,6 +4479,45 @@
       },
       "InteractionResponse": {
         "properties": {
+          "analysis_ligand_sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis Ligand Sha256"
+          },
+          "computed_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Computed At"
+          },
+          "contact_coverage": {
+            "default": "not_declared",
+            "title": "Contact Coverage",
+            "type": "string"
+          },
+          "contact_map": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Map"
+          },
           "engine": {
             "title": "Engine",
             "type": "string"
@@ -4088,13 +4561,42 @@
             "title": "Pharmacophore Features",
             "type": "object"
           },
+          "pose_identity_verification": {
+            "default": "not_declared",
+            "title": "Pose Identity Verification",
+            "type": "string"
+          },
           "pose_rank": {
             "title": "Pose Rank",
             "type": "integer"
           },
-          "pose_source_path": {
-            "title": "Pose Source Path",
+          "pose_source_kind": {
+            "default": "stored",
+            "title": "Pose Source Kind",
             "type": "string"
+          },
+          "pose_source_manifest": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pose Source Manifest"
+          },
+          "pose_source_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pose Source Path"
           },
           "pose_source_sha256": {
             "title": "Pose Source Sha256",
@@ -4122,6 +4624,17 @@
           "target_pdb_id": {
             "title": "Target Pdb Id",
             "type": "string"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
           },
           "total_interactions": {
             "title": "Total Interactions",
@@ -4270,6 +4783,17 @@
           "signature": {
             "title": "Signature",
             "type": "string"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
           }
         },
         "required": [
@@ -4437,6 +4961,21 @@
             ],
             "title": "Affinity"
           },
+          "affinity_origin": {
+            "anyOf": [
+              {
+                "enum": [
+                  "vina",
+                  "no_acreditado"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Affinity Origin"
+          },
           "clgnn_score": {
             "anyOf": [
               {
@@ -4538,6 +5077,10 @@
             "title": "Created At",
             "type": "string"
           },
+          "entry_id": {
+            "title": "Entry Id",
+            "type": "string"
+          },
           "evaluated_at": {
             "anyOf": [
               {
@@ -4550,11 +5093,18 @@
             "title": "Evaluated At"
           },
           "hotspots_hit": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Hotspots Hit",
-            "type": "array"
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hotspots Hit"
           },
           "id": {
             "title": "Id",
@@ -4569,6 +5119,17 @@
           },
           "provenance": {
             "$ref": "#/components/schemas/MoldexProvenanceRead"
+          },
+          "saved_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Saved Name"
           },
           "scientific_warnings": {
             "items": {
@@ -4591,6 +5152,7 @@
         },
         "required": [
           "id",
+          "entry_id",
           "name",
           "smiles",
           "smiles_hash",
@@ -4737,6 +5299,18 @@
       },
       "MoldexTargetRead": {
         "properties": {
+          "calibracion": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calibracion"
+          },
           "family": {
             "anyOf": [
               {
@@ -4786,6 +5360,25 @@
         "title": "MoldexTargetRead",
         "type": "object"
       },
+      "MoldexUbicacionRead": {
+        "description": "Dónde vive lo que Moldex guarda. Moldex no guarda archivos sueltos: guarda FILAS.",
+        "properties": {
+          "base_de_datos": {
+            "title": "Base De Datos",
+            "type": "string"
+          },
+          "carpeta_datos": {
+            "title": "Carpeta Datos",
+            "type": "string"
+          }
+        },
+        "required": [
+          "carpeta_datos",
+          "base_de_datos"
+        ],
+        "title": "MoldexUbicacionRead",
+        "type": "object"
+      },
       "MoleculeStatus": {
         "description": "Ciclo de vida de una molécula en el sistema.\n\nPENDING   → recién creada, esperando validación química\nVALIDATED → SMILES válido, propiedades calculadas\nDOCKING   → job de docking en cola o corriendo\nEVALUATED → docking completo, score calculado\nFAILED    → algún paso falló (ver error_message en EvaluationResult)",
         "enum": [
@@ -4797,6 +5390,306 @@
         ],
         "title": "MoleculeStatus",
         "type": "string"
+      },
+      "NuevaFoto": {
+        "properties": {
+          "cpu_hilos": {
+            "anyOf": [
+              {
+                "maximum": 1024.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpu Hilos"
+          },
+          "dispositivo": {
+            "enum": [
+              "cpu",
+              "gpu"
+            ],
+            "title": "Dispositivo",
+            "type": "string"
+          },
+          "fotograma": {
+            "maximum": 1000000.0,
+            "minimum": 1.0,
+            "title": "Fotograma",
+            "type": "integer"
+          },
+          "resolucion": {
+            "enum": [
+              "720p",
+              "1080p",
+              "1440p",
+              "4k"
+            ],
+            "title": "Resolucion",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fotograma",
+          "resolucion",
+          "dispositivo"
+        ],
+        "title": "NuevaFoto",
+        "type": "object"
+      },
+      "NuevaVista": {
+        "properties": {
+          "cpu_hilos": {
+            "anyOf": [
+              {
+                "maximum": 1024.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpu Hilos"
+          },
+          "dispositivo": {
+            "enum": [
+              "cpu",
+              "gpu"
+            ],
+            "title": "Dispositivo",
+            "type": "string"
+          },
+          "fotograma": {
+            "maximum": 1000000.0,
+            "minimum": 1.0,
+            "title": "Fotograma",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "fotograma",
+          "dispositivo"
+        ],
+        "title": "NuevaVista",
+        "type": "object"
+      },
+      "NuevasFotos": {
+        "properties": {
+          "cpu_hilos": {
+            "anyOf": [
+              {
+                "maximum": 1024.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpu Hilos"
+          },
+          "dispositivo": {
+            "enum": [
+              "cpu",
+              "gpu"
+            ],
+            "title": "Dispositivo",
+            "type": "string"
+          },
+          "ensamble_fluido": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EnsambleFluido"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "escena": {
+            "enum": [
+              "resultado",
+              "receptor",
+              "busqueda",
+              "ensamble"
+            ],
+            "title": "Escena",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "orientacion": {
+            "enum": [
+              "horizontal",
+              "vertical"
+            ],
+            "title": "Orientacion",
+            "type": "string"
+          },
+          "origen": {
+            "enum": [
+              "moldex",
+              "receptor"
+            ],
+            "title": "Origen",
+            "type": "string"
+          },
+          "presentacion": {
+            "$ref": "#/components/schemas/PresentacionMolcy"
+          },
+          "salida_id": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salida Id"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          }
+        },
+        "required": [
+          "origen",
+          "id",
+          "escena",
+          "orientacion",
+          "dispositivo"
+        ],
+        "title": "NuevasFotos",
+        "type": "object"
+      },
+      "NuevoTrabajo": {
+        "properties": {
+          "cpu_hilos": {
+            "anyOf": [
+              {
+                "maximum": 1024.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpu Hilos"
+          },
+          "dispositivo": {
+            "default": "gpu",
+            "enum": [
+              "cpu",
+              "gpu"
+            ],
+            "title": "Dispositivo",
+            "type": "string"
+          },
+          "ensamble_fluido": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/EnsambleFluido"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "escena": {
+            "enum": [
+              "resultado",
+              "receptor",
+              "busqueda",
+              "ensamble"
+            ],
+            "title": "Escena",
+            "type": "string"
+          },
+          "formato": {
+            "enum": [
+              "horizontal",
+              "vertical",
+              "previsualizacion"
+            ],
+            "title": "Formato",
+            "type": "string"
+          },
+          "gpu_vram_mib": {
+            "anyOf": [
+              {
+                "maximum": 1048576.0,
+                "minimum": 128.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "deprecated": true,
+            "title": "Gpu Vram Mib"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "origen": {
+            "enum": [
+              "moldex",
+              "receptor"
+            ],
+            "title": "Origen",
+            "type": "string"
+          },
+          "presentacion": {
+            "$ref": "#/components/schemas/PresentacionMolcy"
+          },
+          "salida_id": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salida Id"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          }
+        },
+        "required": [
+          "origen",
+          "id",
+          "escena",
+          "formato"
+        ],
+        "title": "NuevoTrabajo",
+        "type": "object"
       },
       "OAuthLoginRequest": {
         "properties": {
@@ -5109,6 +6002,7 @@
         "type": "object"
       },
       "PipelineConfigRequest": {
+        "additionalProperties": false,
         "properties": {
           "docking_engine": {
             "default": "vina",
@@ -5244,6 +6138,24 @@
         "title": "PipelineConfigRequest",
         "type": "object"
       },
+      "PreferenciaSalida": {
+        "properties": {
+          "salida_id": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Salida Id"
+          }
+        },
+        "title": "PreferenciaSalida",
+        "type": "object"
+      },
       "PreflightDeclarado": {
         "additionalProperties": false,
         "description": "Resumen del preflight que autorizó la corrida.\n\nEs lo que el caso guardó, no un informe nuevo: el dossier no vuelve a\ninspeccionar nada. Si el resumen y la corrida no encajan, se declara — no se\nrecalcula para tapar la discrepancia.",
@@ -5360,6 +6272,7 @@
         "type": "object"
       },
       "PreflightRequest": {
+        "additionalProperties": false,
         "properties": {
           "chain": {
             "anyOf": [
@@ -5587,6 +6500,84 @@
         "title": "PrepareTargetResponse",
         "type": "object"
       },
+      "PresentacionMolcy": {
+        "additionalProperties": false,
+        "properties": {
+          "color_receptor": {
+            "anyOf": [
+              {
+                "pattern": "^#[0-9a-fA-F]{6}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color Receptor"
+          },
+          "color_residuos": {
+            "anyOf": [
+              {
+                "pattern": "^#[0-9a-fA-F]{6}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Color Residuos"
+          },
+          "colores_lineas": {
+            "$ref": "#/components/schemas/ColoresLineas"
+          },
+          "contactos": {
+            "default": true,
+            "title": "Contactos",
+            "type": "boolean"
+          },
+          "etiquetas": {
+            "default": true,
+            "title": "Etiquetas",
+            "type": "boolean"
+          },
+          "muestra_anterior": {
+            "default": true,
+            "title": "Muestra Anterior",
+            "type": "boolean"
+          },
+          "receptor": {
+            "default": "automatico",
+            "enum": [
+              "automatico",
+              "visible",
+              "oculto"
+            ],
+            "title": "Receptor",
+            "type": "string"
+          },
+          "schema": {
+            "const": "moldesign.presentacion/1",
+            "default": "moldesign.presentacion/1",
+            "title": "Schema",
+            "type": "string"
+          },
+          "titulo": {
+            "anyOf": [
+              {
+                "maxLength": 80,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Titulo"
+          }
+        },
+        "title": "PresentacionMolcy",
+        "type": "object"
+      },
       "PropertiesRequest": {
         "properties": {
           "smiles": {
@@ -5648,6 +6639,11 @@
             "title": "Available Models",
             "type": "array"
           },
+          "base_url": {
+            "default": "",
+            "title": "Base Url",
+            "type": "string"
+          },
           "configured": {
             "default": false,
             "title": "Configured",
@@ -5667,8 +6663,18 @@
             "title": "Description",
             "type": "string"
           },
+          "estado": {
+            "default": "",
+            "title": "Estado",
+            "type": "string"
+          },
           "id": {
             "title": "Id",
+            "type": "string"
+          },
+          "model": {
+            "default": "",
+            "title": "Model",
             "type": "string"
           },
           "name": {
@@ -5964,6 +6970,24 @@
           "results"
         ],
         "title": "ResolveTargetNameResponse",
+        "type": "object"
+      },
+      "RunReceiptResponse": {
+        "properties": {
+          "filename": {
+            "title": "Filename",
+            "type": "string"
+          },
+          "pdf_base64": {
+            "title": "Pdf Base64",
+            "type": "string"
+          }
+        },
+        "required": [
+          "filename",
+          "pdf_base64"
+        ],
+        "title": "RunReceiptResponse",
         "type": "object"
       },
       "SaveSelectivityRequest": {
@@ -6266,6 +7290,20 @@
             ],
             "title": "Anti Target Risk"
           },
+          "avisos_catalogo": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avisos Catalogo"
+          },
           "cadenas_truncadas_en_sitio": {
             "anyOf": [
               {
@@ -6463,6 +7501,21 @@
             "title": "Id",
             "type": "string"
           },
+          "intentos_verificacion": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Intentos Verificacion"
+          },
           "is_anti_target": {
             "default": false,
             "title": "Is Anti Target",
@@ -6612,6 +7665,17 @@
             ],
             "title": "Retired Reason"
           },
+          "seccion_catalogo": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Seccion Catalogo"
+          },
           "site_chain_atoms": {
             "anyOf": [
               {
@@ -6694,6 +7758,18 @@
               }
             ],
             "title": "Therapeutic Family"
+          },
+          "verificacion": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verificacion"
           }
         },
         "required": [
@@ -7224,7 +8300,7 @@
     "description": "MolDesign expone un pipeline científico basado en RDKit, AutoDock Vina y scoring explícito. La IA interpreta resultados ya calculados y no genera métricas químicas por sí misma.",
     "summary": "Plataforma de diseño molecular asistido con pipeline científico reproducible.",
     "title": "MolDesign API",
-    "version": "1.0.1"
+    "version": "1.0.4"
   },
   "openapi": "3.1.0",
   "paths": {
@@ -8242,6 +9318,185 @@
         ]
       }
     },
+    "/ai/proposals/{proposal_id}": {
+      "get": {
+        "operationId": "consultar_propuesta_de_docking_ai_proposals__proposal_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Consultar Propuesta De Docking",
+        "tags": [
+          "MolChat"
+        ]
+      }
+    },
+    "/ai/proposals/{proposal_id}/approve": {
+      "post": {
+        "description": "Lanza la corrida que ESA propuesta describe, con la sesión de la cuenta.",
+        "operationId": "aprobar_propuesta_de_docking_ai_proposals__proposal_id__approve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AprobarPropuestaRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Aprobar Propuesta De Docking",
+        "tags": [
+          "MolChat"
+        ]
+      }
+    },
+    "/ai/proposals/{proposal_id}/reject": {
+      "post": {
+        "operationId": "rechazar_propuesta_de_docking_ai_proposals__proposal_id__reject_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proposal_id",
+            "required": true,
+            "schema": {
+              "title": "Proposal Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Rechazar Propuesta De Docking",
+        "tags": [
+          "MolChat"
+        ]
+      }
+    },
     "/ai/providers": {
       "get": {
         "description": "Sonda de arranque: la interfaz la llama antes del auto-login.\n\nD-09 hace que `configured` y `active` sean datos de cuenta, así que la\nidentidad es **opcional**: con sesión se responde la vista de esa cuenta;\nsin sesión, el catálogo de la máquina y `configured=False`. Así la sonda\nsigue sirviendo al arranque sin publicar de quién es la clave.",
@@ -9076,6 +10331,22 @@
             }
           },
           {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
+            }
+          },
+          {
             "in": "header",
             "name": "authorization",
             "required": false,
@@ -9131,6 +10402,22 @@
               "format": "uuid",
               "title": "Molecule Id",
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
             }
           },
           {
@@ -9318,6 +10605,22 @@
             }
           },
           {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
+            }
+          },
+          {
             "in": "header",
             "name": "authorization",
             "required": false,
@@ -9410,7 +10713,7 @@
     },
     "/blockchain/verify/{signature}": {
       "get": {
-        "description": "Verify a certification transaction on the blockchain.\n\nReturns the certified record if found and valid.",
+        "description": "Comprueba una transacción de devnet y lee su memo.\n\nLo que acredita es estrecho (SCI-A-058): la transacción está confirmada,\nlleva un memo con un esquema que MolDesign emitió y, si el memo nombra una\nwallet, esa wallet la firmó. No es un aval científico ni institucional, y la\nfecha del memo es la que declaró quien firmó: la de la cadena va aparte.",
         "operationId": "verify_certification_blockchain_verify__signature__get",
         "parameters": [
           {
@@ -9502,6 +10805,128 @@
           }
         },
         "summary": "Genera estructura 3D",
+        "tags": [
+          "Química computacional"
+        ]
+      }
+    },
+    "/chem/elevacion": {
+      "post": {
+        "description": "Vista previa del editor, no una pose de docking. `escrita`: ETKDGv3 + MMFF94 con semillas fijas. `acoplada`: la especie y el conformador de partida que prepararía la corrida.",
+        "operationId": "elevacion_del_editor_chem_elevacion_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ElevacionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Elevacion Del Editor Chem Elevacion Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Conformador calculado de un SMILES, alineado con su dibujo 2D",
+        "tags": [
+          "Química computacional"
+        ]
+      }
+    },
+    "/chem/elevacion/{molecule_id}": {
+      "get": {
+        "description": "Primer registro del SDF de la corrida (Vina top-1), alineado por rotación propia con el dibujo 2D de `/chem/render/{id}`. Sin SDF de la corrida responde 404/409: no se sustituye por un conformador.",
+        "operationId": "elevacion_de_la_corrida_chem_elevacion__molecule_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "molecule_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Molecule Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Elevacion De La Corrida Chem Elevacion  Molecule Id  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Pose top-1 de una corrida, alineada con su miniatura 2D",
         "tags": [
           "Química computacional"
         ]
@@ -11454,6 +12879,22 @@
             }
           },
           {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
+            }
+          },
+          {
             "in": "header",
             "name": "authorization",
             "required": false,
@@ -11515,6 +12956,22 @@
             }
           },
           {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
+            }
+          },
+          {
             "in": "header",
             "name": "authorization",
             "required": false,
@@ -11562,7 +13019,7 @@
     },
     "/evaluation/files/protein/{molecule_id}": {
       "get": {
-        "description": "Retorna el PDB raw local del target o lo descarga de RCSB al faltar.",
+        "description": "Sirve el receptor preparado verificable de la evaluación seleccionada.",
         "operationId": "get_protein_file_evaluation_files_protein__molecule_id__get",
         "parameters": [
           {
@@ -11573,6 +13030,22 @@
               "format": "uuid",
               "title": "Molecule Id",
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
             }
           },
           {
@@ -11614,7 +13087,7 @@
             "description": "Validation Error"
           }
         },
-        "summary": "Descargar PDB del target biológico",
+        "summary": "Descargar receptor preparado de una corrida",
         "tags": [
           "Evaluación científica",
           "Evaluación científica"
@@ -11707,6 +13180,32 @@
               "minimum": 1,
               "title": "Pose Rank",
               "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include_map",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Include Map",
+              "type": "boolean"
             }
           },
           {
@@ -12624,9 +14123,67 @@
         ]
       }
     },
+    "/history/receipts/{task_id}": {
+      "get": {
+        "operationId": "get_run_receipt_history_receipts__task_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "task_id",
+            "required": true,
+            "schema": {
+              "title": "Task Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RunReceiptResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recibo PDF de una corrida conservada",
+        "tags": [
+          "Historial de evaluaciones"
+        ]
+      }
+    },
     "/history/save/{molecule_id}": {
       "post": {
-        "description": "Marca una molécula como 'guardada' para que aparezca en el listado de Guardado.",
+        "description": "Guarda una evaluación en Moldex sin tocar las demás de la misma molécula.",
         "operationId": "save_molecule_history_save__molecule_id__post",
         "parameters": [
           {
@@ -12655,6 +14212,24 @@
               ],
               "description": "Nombre personalizado",
               "title": "Name"
+            }
+          },
+          {
+            "description": "Corrida que se guarda. Una molécula se reevalúa muchas veces y cada evaluación guardada es una ficha propia en Moldex. Sin él se guarda la evaluación vigente de la molécula.",
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Corrida que se guarda. Una molécula se reevalúa muchas veces y cada evaluación guardada es una ficha propia en Moldex. Sin él se guarda la evaluación vigente de la molécula.",
+              "title": "Task Id"
             }
           },
           {
@@ -12747,6 +14322,1609 @@
         "summary": "Estadísticas del usuario",
         "tags": [
           "Historial de evaluaciones"
+        ]
+      }
+    },
+    "/molcy/addon": {
+      "get": {
+        "operationId": "estado_addon_molcy_addon_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Estado Addon",
+        "tags": [
+          "Molcy"
+        ]
+      },
+      "post": {
+        "operationId": "instalar_addon_molcy_addon_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Instalar Addon",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/blender": {
+      "get": {
+        "operationId": "estado_blender_molcy_blender_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Estado Blender",
+        "tags": [
+          "Molcy"
+        ]
+      },
+      "post": {
+        "operationId": "instalar_blender_molcy_blender_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Instalar Blender",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/blender/cancelar": {
+      "post": {
+        "operationId": "cancelar_blender_molcy_blender_cancelar_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cancelar Blender",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/configuracion": {
+      "put": {
+        "operationId": "configurar_molcy_configuracion_put",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfiguracionRenderizador"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Configurar",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/fotos": {
+      "post": {
+        "description": "Una sesión de FOTOS: prepara la escena una vez y rinde una miniatura de cada momento sugerido.",
+        "operationId": "crear_fotos_molcy_fotos_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NuevasFotos"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Crear Fotos",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/fotos/estimacion": {
+      "post": {
+        "description": "Cuánto tardará una foto, medido con las fotos anteriores de este equipo. Sin medidas no hay número.",
+        "operationId": "estimacion_foto_molcy_fotos_estimacion_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstimacionFoto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Estimacion Foto",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/fuentes": {
+      "get": {
+        "operationId": "fuentes_molcy_fuentes_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fuentes",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/recursos": {
+      "get": {
+        "operationId": "recursos_molcy_recursos_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "salida_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 64,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Salida Id"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recursos",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/renderizador": {
+      "get": {
+        "operationId": "renderizador_molcy_renderizador_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "recomprobar",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Recomprobar",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Renderizador",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/salida": {
+      "get": {
+        "operationId": "salida_actual_molcy_salida_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Salida Actual",
+        "tags": [
+          "Molcy"
+        ]
+      },
+      "put": {
+        "description": "«Para todos los vídeos»: recuerda la carpeta (o la quita con `null`).",
+        "operationId": "fijar_salida_molcy_salida_put",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreferenciaSalida"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fijar Salida",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos": {
+      "get": {
+        "operationId": "trabajos_molcy_trabajos_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Trabajos",
+        "tags": [
+          "Molcy"
+        ]
+      },
+      "post": {
+        "description": "Un VÍDEO, sólo con GPU. Las fotos (CPU o GPU) se piden en `/molcy/fotos`.",
+        "operationId": "crear_trabajo_molcy_trabajos_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NuevoTrabajo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Crear Trabajo",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}": {
+      "delete": {
+        "operationId": "eliminar_molcy_trabajos__job_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Eliminar",
+        "tags": [
+          "Molcy"
+        ]
+      },
+      "get": {
+        "operationId": "estado_molcy_trabajos__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Estado",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/acceso": {
+      "post": {
+        "operationId": "acceso_video_molcy_trabajos__job_id__acceso_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Acceso Video",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/cancelar": {
+      "post": {
+        "operationId": "cancelar_molcy_trabajos__job_id__cancelar_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cancelar",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/fotograma": {
+      "get": {
+        "description": "El fotograma más reciente del render en curso, para enseñarlo mientras se forma el vídeo.\n\n200 con el PNG, o 204 si todavía no hay ninguno o no hay uno más nuevo que `despues`. `X-Molcy-Fotograma` es su número\nen el guion (el cursor de `despues`); `X-Molcy-Orden`, su posición entre los rendidos, que es lo que va sobre\n`X-Molcy-Total` (ver `renderer.fotograma_reciente`).\n404 si el trabajo no existe o ya no está renderizando: entonces el vídeo (o el fallo) se pide por su ruta.",
+        "operationId": "fotograma_molcy_trabajos__job_id__fotograma_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "despues",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Despues"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Fotograma",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/fotos": {
+      "post": {
+        "description": "Una foto de la escena preparada: un fotograma (sugerido o libre) a la resolución pedida, con marca y procedencia.",
+        "operationId": "tomar_foto_molcy_trabajos__job_id__fotos_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NuevaFoto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Tomar Foto",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/fotos/{foto_id}": {
+      "get": {
+        "operationId": "foto_molcy_trabajos__job_id__fotos__foto_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "foto_id",
+            "required": true,
+            "schema": {
+              "pattern": "^[0-9]{2,4}$",
+              "title": "Foto Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Foto",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/procedencia": {
+      "get": {
+        "operationId": "procedencia_molcy_trabajos__job_id__procedencia_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Procedencia",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/revelar": {
+      "post": {
+        "description": "Muestra el MP4 verificado o la carpeta del trabajo en el explorador local.",
+        "operationId": "revelar_molcy_trabajos__job_id__revelar_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Revelar",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/tomas/{fotograma}": {
+      "get": {
+        "operationId": "toma_molcy_trabajos__job_id__tomas__fotograma__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "fotograma",
+            "required": true,
+            "schema": {
+              "title": "Fotograma",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Toma",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/video": {
+      "get": {
+        "operationId": "video_molcy_trabajos__job_id__video_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Video",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/vista": {
+      "post": {
+        "description": "Un fotograma libre al tamaño de una miniatura, para elegirlo viendo antes de pedir la foto.",
+        "operationId": "vista_previa_molcy_trabajos__job_id__vista_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NuevaVista"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vista Previa",
+        "tags": [
+          "Molcy"
+        ]
+      }
+    },
+    "/molcy/trabajos/{job_id}/vistas/{fotograma}": {
+      "get": {
+        "operationId": "vista_molcy_trabajos__job_id__vistas__fotograma__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "fotograma",
+            "required": true,
+            "schema": {
+              "title": "Fotograma",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Vista",
+        "tags": [
+          "Molcy"
         ]
       }
     },
@@ -12850,6 +16028,106 @@
         ]
       }
     },
+    "/moldex/ubicacion": {
+      "get": {
+        "description": "Carpeta de datos y base SQLite donde se guardan las fichas de Moldex y los archivos de sus corridas.",
+        "operationId": "ubicacion_de_moldex_moldex_ubicacion_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MoldexUbicacionRead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ubicacion De Moldex",
+        "tags": [
+          "Moldex"
+        ]
+      }
+    },
+    "/moldex/ubicacion/abrir": {
+      "post": {
+        "description": "Abre la carpeta de datos en el explorador. Sólo ésa: nunca una ruta que llegue en la petición.",
+        "operationId": "abrir_ubicacion_de_moldex_moldex_ubicacion_abrir_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MoldexUbicacionRead"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Abrir Ubicacion De Moldex",
+        "tags": [
+          "Moldex"
+        ]
+      }
+    },
     "/pro/admet/{molecule_id}": {
       "post": {
         "description": "Calcula el perfil ADMET de una molecula ya evaluada, y lo guarda.",
@@ -12874,6 +16152,22 @@
               "description": "Vuelve a calcularlo aunque ya haya un perfil guardado. Por omision se devuelve el que hay: el modelo tarda y el resultado es el mismo.",
               "title": "Recalcular",
               "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
             }
           },
           {
@@ -13111,6 +16405,22 @@
               "description": "Anti-target PDB ID",
               "title": "Target Pdb Id",
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Id"
             }
           },
           {
@@ -13688,7 +16998,7 @@
     },
     "/sar/{molecule_id}": {
       "get": {
-        "description": "Structure-Activity Relationship table.\n\nReturns all molecules evaluated against the SAME target,\nsorted by score (best first). Includes delta vs baseline.",
+        "description": "Structure-Activity Relationship table.\n\nReturns all molecules evaluated against the SAME target,\nsorted by score (best first). The affinity difference against the\nbaseline is ONLY computed when both runs share the same chemical\npreparation condition (pH, protonation, tautomer) and the same\nstructural protocol (receptor, box, seed, effort). Otherwise the row\ndeclares `comparison_state=\"abstained\"` with the reason naming both\nconflicting values — the raw affinities stay visible; the difference\nbetween distinct chemical species is never fabricated (SOL-04/AMP-02).\n\nCAS-02. Por defecto la tabla usa la proyección más reciente de cada\nmolécula, que cambia al reevaluarla con otro protocolo. Con `task_id` la base\nes lo que ESA corrida produjo, y con `cohort_task_ids` el conjunto de análogos\nes el de las corridas pedidas, leídas de sus snapshots inmutables. La\nabstención sigue gobernando el delta: una cohorte explícita no vuelve\ncomparable lo que no lo es. La respuesta declara de dónde salió la tabla\n(`cohort`).",
         "operationId": "get_sar_table_sar__molecule_id__get",
         "parameters": [
           {
@@ -13698,6 +17008,38 @@
             "schema": {
               "title": "Molecule Id",
               "type": "string"
+            }
+          },
+          {
+            "description": "Corrida que sirve de base. Sin ella, la evaluación más reciente de la molécula.",
+            "in": "query",
+            "name": "task_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Corrida que sirve de base. Sin ella, la evaluación más reciente de la molécula.",
+              "title": "Task Id"
+            }
+          },
+          {
+            "description": "Corridas que forman la cohorte, explícitas. Sin ellas, la evaluación más reciente de cada molécula contra el mismo receptor.",
+            "in": "query",
+            "name": "cohort_task_ids",
+            "required": false,
+            "schema": {
+              "description": "Corridas que forman la cohorte, explícitas. Sin ellas, la evaluación más reciente de cada molécula contra el mismo receptor.",
+              "items": {
+                "type": "string"
+              },
+              "title": "Cohort Task Ids",
+              "type": "array"
             }
           },
           {

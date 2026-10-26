@@ -11,13 +11,24 @@
 # Estas rutas se marcan `-text`: git nunca toca sus bytes.
 
 # Manifiesto de modelos y los artefactos que el mismo hashea.
+# Instantaneas byte a byte del dossier espanol usado como contrato de compatibilidad.
+backend/tests/snapshots/dossier_es/**  -text
 rescoring/artifacts/**            -text
 # Oferta y manifiesto de Open Babel: el manifiesto hashea la oferta.
 tools/openbabel/*.json            -text
+# La instrumentación de Vina verifica fuentes, manifiesto y avisos por hash.
+third_party/vina_trace/**          -text
+tools/vina/vina-trace-manifest.json -text
+tools/vina/trace-licenses/**       -text
 # Catalogo de receptores: `generate_runtime_inventory.py` publica su SHA-256.
 curated_targets.json              -text
 # Artefactos cientificos sellados: su inmutabilidad es su razon de ser.
 scripts/artifacts_science/**      -text
+scripts/fep09*.py                 -text
+docs/auditorias/FEP-09-*.md        -text
+docs/papers/FEP-09-SENSIBILIDAD.md -text
+docs/papers/FEP-09-R1.md          -text
+docs/auditorias/preparacion-sensibilidad-2026-10-11.md -text
 # Definiciones CCD de los cofactores y las plantillas Meeko derivadas: el
 # manifiesto de `backend/data/meeko_templates/` hashea ambas. Los .cif del CCD
 # traen espacios al final de linea por su propio formato y no se pueden
@@ -77,15 +88,46 @@ backend/services/chemistry/amber_compatibility.py -text
 backend/services/chemistry/pose_physical_validity.py -text
 backend/services/chemistry/preparation_report.py -text
 backend/services/docking/preparer.py -text
+backend/tests/test_cal_d01r4_rho_peor.py -text
 backend/tests/test_lector_pose_pdbqt.py -text
 backend/tests/test_pose_physical_validity.py -text
 curated_targets.json -text
 docker/Dockerfile.lab -text
 docs/42_RUTA_C_PROTOCOLO.md -text
 docs/49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md -text
+docs/auditorias/FEP-09-R1-prerregistro.md -text
+docs/auditorias/FEP-09-prerregistro.md -text
+docs/auditorias/FEP-09-reconocimiento.md -text
+docs/auditorias/elevacion-abstencion-2026-10-24/grandes.jsonl -text
+docs/auditorias/elevacion-abstencion-2026-10-24/moleculas.jsonl -text
+docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO.md -text
+docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO_E4.md -text
+docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO_E5.md -text
+docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO_E6.md -text
+docs/auditorias/elevacion-grandes-2026-10-24/comun.py -text
+docs/auditorias/elevacion-grandes-2026-10-24/e1.jsonl -text
+docs/auditorias/elevacion-grandes-2026-10-24/e1_dibujo_ajustado.py -text
+docs/auditorias/elevacion-grandes-2026-10-24/e1_lamina.svg -text
+docs/auditorias/elevacion-grandes-2026-10-24/e2.jsonl -text
+docs/auditorias/elevacion-grandes-2026-10-24/e2_delta_e_xtb.py -text
+docs/auditorias/elevacion-grandes-2026-10-24/e3.jsonl -text
+docs/auditorias/elevacion-grandes-2026-10-24/e3_plegado_restringido.py -text
+docs/auditorias/elevacion-grandes-2026-10-24/e4.jsonl -text
+docs/auditorias/elevacion-grandes-2026-10-24/e4_ventana_de_energia.py -text
+docs/auditorias/elevacion-grandes-2026-10-24/e5.jsonl -text
+docs/auditorias/elevacion-grandes-2026-10-24/e5_cadenas_y_colas.py -text
+docs/auditorias/elevacion-grandes-2026-10-24/e6.jsonl -text
+docs/auditorias/elevacion-grandes-2026-10-24/e6_animacion_por_torsiones.py -text
+docs/auditorias/elevacion-grandes-2026-10-24/resumen.py -text
+docs/auditorias/preparacion-sensibilidad-2026-10-11.md -text
+docs/papers/FEP-09-R1.md -text
+docs/papers/FEP-09-SENSIBILIDAD.md -text
 rescoring/artifacts/pose_selector_v06.xgb -text
 rescoring/artifacts/pose_selector_v06_meta.json -text
 rescoring/artifacts/split_config.json -text
+scripts/abs_tr_01/abs_tr_01.py -text
+scripts/abs_tr_01/capsula.mjs -text
+scripts/abs_tr_01_r1/abs_tr_01_r1.py -text
 scripts/af01_stratify.py -text
 scripts/analisis_fep01_declaracion.py -text
 scripts/analisis_fep01_integridad.py -text
@@ -139,15 +181,44 @@ scripts/build_features_v2.py -text
 scripts/build_pose_selector_dataset.py -text
 scripts/build_pose_union.py -text
 scripts/build_rs01_fold_plan.py -text
+scripts/cal_d01r4/.gitattributes -text
+scripts/cal_d01r4/cal_d01r4.py -text
+scripts/cal_d01r4/capsula.mjs -text
+scripts/cal_d01r4/reanalisis_r4b.py -text
+scripts/cal_d01r4/rho_peor.py -text
+scripts/cal_d01r4_2/cal_d01r4_2.py -text
+scripts/calibracion_receptor.py -text
 scripts/confirm_denylist.py -text
 scripts/dedup_pose_union.py -text
 scripts/dedup_pose_union_medoid.py -text
 scripts/discover_dev_pids.py -text
 scripts/estadistica_fnd04.py -text
 scripts/experiment_manifest.py -text
+scripts/fep06pre/adjudicar.py -text
+scripts/fep06pre/generar_paquetes.py -text
+scripts/fep06pre2/adjudicar.py -text
+scripts/fep06pre2/comprobar_declaraciones.py -text
+scripts/fep06pre2/generar_paquetes.py -text
+scripts/fep09_analyze.py -text
+scripts/fep09_check_inputs.py -text
+scripts/fep09_finalize.py -text
+scripts/fep09_inputs.py -text
+scripts/fep09_paper_guard.py -text
+scripts/fep09_register.py -text
+scripts/fep09_report.py -text
+scripts/fep09_reproduce.py -text
+scripts/fep09_run.py -text
+scripts/fep09_verify.py -text
+scripts/fep09r1_analyze.py -text
+scripts/fep09r1_inputs.py -text
+scripts/fep09r1_register.py -text
+scripts/fep09r1_run.py -text
+scripts/historical_sources/PREP-01/preparer.py -text
 scripts/lanzar_fep_pdbbind.sh -text
 scripts/materialize_cache_train_view.py -text
 scripts/merge_rs03_param_b.py -text
+scripts/met02/met02_semillas.py -text
+scripts/met02/met02r1.py -text
 scripts/mf01_coverage.py -text
 scripts/molflex.py -text
 scripts/pose_provenance.py -text
@@ -185,6 +256,7 @@ scripts/run_mf33bret_r1.py -text
 scripts/run_mf33bret_r2.py -text
 scripts/run_mf33bret_top1_flexible.py -text
 scripts/run_mf33ext_cobertura_flexible.py -text
+scripts/run_mf33extmod_r1.py -text
 scripts/run_mf33hcor_reconstruccion.py -text
 scripts/run_mf33min_relajacion.py -text
 scripts/run_mf33pb_validez_fisica.py -text
@@ -196,6 +268,7 @@ scripts/run_rec01_r1_triage.py -text
 scripts/run_rec03_grid_repair.py -text
 scripts/run_rec05_metales_denovo.py -text
 scripts/run_rec07_grid_5tun.py -text
+scripts/run_rec07r1_grid_5tun.py -text
 scripts/run_rec09_aguas_bloqueantes.py -text
 scripts/run_rec11_aguas_denovo.py -text
 scripts/run_rec12r1_cofactores_rcsb.py -text
@@ -203,6 +276,7 @@ scripts/run_rs01a_audit.py -text
 scripts/run_rs01a_corrigendum.py -text
 scripts/run_rs01b_crossfit.py -text
 scripts/run_rs03_param_a.py -text
+scripts/run_rs03_param_a_r1.py -text
 scripts/run_rs03_param_b.py -text
 scripts/run_rs04_oof.py -text
 scripts/run_rs04_qc.py -text
@@ -212,6 +286,9 @@ scripts/run_rs14r1_selector_sym.py -text
 scripts/run_vina_exh4.py -text
 scripts/run_vina_exh4_val.py -text
 scripts/ruta_c_fase1_5_v05.py -text
+scripts/sup02_total_score/medir.py -text
+scripts/sup03_validador/medir.py -text
+scripts/sup04_exhaustividad/medir.py -text
 scripts/test_build_confirm_cohort.py -text
 scripts/test_dedup_pose_union.py -text
 scripts/test_dedup_pose_union_medoid.py -text
@@ -219,4 +296,14 @@ scripts/test_mcnemar_fix.py -text
 scripts/test_molflex_curve_gate.py -text
 scripts/test_pose_provenance.py -text
 scripts/verificar_reproduccion_dataset.py -text
+scripts/vision_molecular_01/resumir.py -text
 # <<< activos sellados
+
+# Motor Molcy vendorizado: sus bytes los hashea el manifiesto; git no debe tocarlos (autocrlf).
+tools/molcy/**                    -text
+
+# PDF: un PDF generado por reportlab no lleva bytes NUL al principio, así que git lo
+# tomaba por texto y el checkout con autocrlf convertía LF en CRLF dentro de sus flujos:
+# el lector avisaba «incorrect startxref pointer». Se detectó al estampar el deck
+# institucional (auditoría científica, 2026-10-20).
+*.pdf                             -text

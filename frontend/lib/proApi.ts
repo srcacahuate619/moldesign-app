@@ -1,4 +1,4 @@
-import { getApiUrl } from "./config";
+import { fetchBackend } from "./backendFetch";
 import { getAuthHeaders } from "./api";
 
 /**
@@ -10,6 +10,20 @@ import { getAuthHeaders } from "./api";
  * dentro de un panel que decía «El cálculo falló». La explicación estaba ahí y
  * el formato la escondía.
  */
+/**
+ * Un rechazo del backend con su código HTTP. Es un `Error` más: quien sólo lee
+ * `message` no cambia. Quien necesita distinguir (AMP-10: un 409 «la corrida
+ * cambió» no es un fallo de cálculo) lee `status`.
+ */
+export class ProApiError extends Error {
+  readonly status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ProApiError";
+    this.status = status;
+  }
+}
+
 async function assertOk(res: Response) {
   if (res.ok) return;
   const cuerpo = await res.text().catch(() => "");
@@ -31,7 +45,7 @@ async function assertOk(res: Response) {
   } catch {
     // No era JSON: se queda el texto tal cual, que ya es mejor que nada.
   }
-  throw new Error(mensaje || `HTTP ${res.status} ${res.statusText}`);
+  throw new ProApiError(mensaje || `HTTP ${res.status} ${res.statusText}`, res.status);
 }
 
 /** Métodos que se pueden repetir sin que el servidor haga el trabajo dos veces. */
@@ -40,7 +54,7 @@ const IDEMPOTENTES = new Set(["GET", "HEAD", "OPTIONS"]);
 /** ¿Contesta el backend ahora mismo? Decide si un reintento es seguro. */
 async function backendVivo(): Promise<boolean> {
   try {
-    const res = await globalThis.fetch(`${await getApiUrl()}/health`, { method: "GET" });
+    const res = await fetchBackend(`/health`, { method: "GET" });
     return res.ok;
   } catch {
     return false;
@@ -94,7 +108,7 @@ async function customFetch(url: string, init?: RequestInit): Promise<Response> {
       for (const [name, value] of Object.entries(getAuthHeaders())) {
         if (!headers.has(name)) headers.set(name, value);
       }
-      return await globalThis.fetch(url, { ...init, headers });
+      return await fetchBackend(url, { ...init, headers });
     } catch (err) {
       const agotado = intento >= maxIntentos;
       const arrancando = !(await backendVivo());
@@ -114,10 +128,10 @@ async function customFetch(url: string, init?: RequestInit): Promise<Response> {
       const causa = err instanceof Error ? err.message : String(err);
       throw new Error(
         arrancando
-          ? `El motor de cálculo no responde (${metodo} ${new URL(url).pathname}). ` +
+          ? `El motor de cálculo no responde (${metodo} ${url.split("?")[0]}). ` +
             `Comprueba que la aplicación terminó de arrancar y vuelve a intentarlo.`
           : `La conexión con el motor se interrumpió durante ${metodo} ` +
-            `${new URL(url).pathname}. El motor sigue en pie, así que es esta ` +
+            `${url.split("?")[0]}. El motor sigue en pie, así que es esta ` +
             `operación la que falló; revisa el registro del motor para ver por qué. ` +
             `(${causa})`,
       );
@@ -130,7 +144,7 @@ async function customFetch(url: string, init?: RequestInit): Promise<Response> {
 export async function getAntiTargets(): Promise<
   Array<{ pdb_id: string; name: string; category: string; risk: string; threshold_kcal: number }>
 > {
-  const res = await customFetch(`${await getApiUrl()}/pro/anti-targets`);
+  const res = await customFetch(`/pro/anti-targets`);
   await assertOk(res);
   const data = await res.json();
   return data.anti_targets || [];
@@ -153,7 +167,7 @@ export async function runSelectivity(
   if (antiTargets && antiTargets.length > 0) {
     params.set("anti_targets", antiTargets.join(","));
   }
-  const res = await customFetch(`${await getApiUrl()}/pro/selectivity/${moleculeId}?${params}`, { method: "POST" });
+  const res = await customFetch(`/pro/selectivity/${moleculeId}?${params}`, { method: "POST" });
   await assertOk(res);
   return res.json();
 }
@@ -170,7 +184,7 @@ export async function runSelectivityStream(
     params.set("anti_targets", antiTargets.join(","));
   }
 
-  const url = `${await getApiUrl()}/pro/selectivity/stream/${moleculeId}?${params}`;
+  const url = `/pro/selectivity/stream/${moleculeId}?${params}`;
   const response = await customFetch(url, { method: "POST" });
   if (!response.ok) {
     throw new Error(`HTTP ${response.status} ${response.statusText}`);
@@ -207,8 +221,10 @@ export async function runSelectivityStream(
 export async function dockSingleAntiTarget(
   moleculeId: string,
   targetPdbId: string,
+  taskId?: string | null,
 ): Promise<{
   target: {
+    task_id?: string | null;
     pdb_id: string;
     name: string;
     category: string;
@@ -221,7 +237,7 @@ export async function dockSingleAntiTarget(
   };
 }> {
   const res = await customFetch(
-    `${await getApiUrl()}/pro/selectivity/dock-target/${moleculeId}?target_pdb_id=${encodeURIComponent(targetPdbId)}`,
+    `/pro/selectivity/dock-target/${moleculeId}?target_pdb_id=${encodeURIComponent(targetPdbId)}${taskId ? `&task_id=${encodeURIComponent(taskId)}` : ""}`,
     { method: "POST" },
   );
   await assertOk(res);
@@ -231,13 +247,14 @@ export async function dockSingleAntiTarget(
 export async function saveSelectivityResults(
   moleculeId: string,
   data: {
+    task_id?: string | null;
     off_targets: any[];
     selectivity_ratio?: number | null;
     selectivity_verdict?: string | null;
     safety_flags?: string[];
   },
 ): Promise<{ success: boolean }> {
-  const res = await customFetch(`${await getApiUrl()}/pro/selectivity/save/${moleculeId}`, {
+  const res = await customFetch(`/pro/selectivity/save/${moleculeId}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -279,7 +296,7 @@ export async function runMmgbsa(
   note?: string;
 }> {
   const res = await customFetch(
-    `${await getApiUrl()}/pro/mmgbsa/${moleculeId}?pose_rank=${poseRank}&num_steps=${numSteps}`,
+    `/pro/mmgbsa/${moleculeId}?pose_rank=${poseRank}&num_steps=${numSteps}`,
     { method: "POST" },
   );
   await assertOk(res);
@@ -300,9 +317,10 @@ export async function runMmgbsa(
  */
 export async function runAdmet(
   moleculeId: string,
-  opciones: { readonly recalcular?: boolean } = {},
+  opciones: { readonly recalcular?: boolean; readonly taskId?: string | null } = {},
 ): Promise<{
   molecule_id: string;
+  task_id: string | null;
   /** `calculado` la primera vez; `ya_calculado` si lo devolvió de la base. */
   estado: "calculado" | "ya_calculado";
   /** `false` si se calculó pero no se pudo guardar. El dossier no lo vería. */
@@ -317,9 +335,12 @@ export async function runAdmet(
   blood_systemic_reactivity: string[];
   blood_tabpfn_estado: string | null;
 }> {
-  const query = opciones.recalcular ? "?recalcular=true" : "";
+  const params = new URLSearchParams();
+  if (opciones.recalcular) params.set("recalcular", "true");
+  if (opciones.taskId) params.set("task_id", opciones.taskId);
+  const query = params.size ? `?${params}` : "";
   const res = await customFetch(
-    `${await getApiUrl()}/pro/admet/${moleculeId}${query}`,
+    `/pro/admet/${moleculeId}${query}`,
     { method: "POST" },
   );
   await assertOk(res);
@@ -333,7 +354,7 @@ export async function getGpuStatus(): Promise<{
   torch_cuda: boolean;
   platforms: string[];
 }> {
-  const res = await customFetch(`${await getApiUrl()}/pro/gpu`);
+  const res = await customFetch(`/pro/gpu`);
   await assertOk(res);
   return res.json();
 }
@@ -346,7 +367,7 @@ export async function getHealth(): Promise<{
   environment: string;
   components: Record<string, any>;
 }> {
-  const res = await customFetch(`${await getApiUrl()}/health`);
+  const res = await customFetch(`/health`);
   await assertOk(res);
   return res.json();
 }
@@ -364,7 +385,7 @@ export async function getLeaderboard(): Promise<
     created_at: string;
   }>
 > {
-  const res = await customFetch(`${await getApiUrl()}/stats/leaderboard`);
+  const res = await customFetch(`/stats/leaderboard`);
   await assertOk(res);
   return res.json();
 }
@@ -374,13 +395,13 @@ export async function getLeaderboard(): Promise<
 export async function getCommunityTargets(): Promise<
   Array<{ pdb_id: string; name: string; description: string; organism: string; creator_username: string; resolution: number | null }>
 > {
-  const res = await customFetch(`${await getApiUrl()}/targets/community`);
+  const res = await customFetch(`/targets/community`);
   await assertOk(res);
   return res.json();
 }
 
 export async function downloadCommunityTarget(pdbId: string): Promise<{ success: boolean; message: string }> {
-  const res = await customFetch(`${await getApiUrl()}/targets/community/download/${pdbId}`, { method: "POST" });
+  const res = await customFetch(`/targets/community/download/${pdbId}`, { method: "POST" });
   await assertOk(res);
   return res.json();
 }
@@ -392,7 +413,7 @@ export async function ingestTarget(
   chainId: string = "A",
   structuralFamily?: string,
 ): Promise<{ success: boolean; pdb_id: string; message: string }> {
-  const res = await customFetch(`${await getApiUrl()}/targets/ingest`, {
+  const res = await customFetch(`/targets/ingest`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ pdb_id: pdbId, chain_id: chainId, structural_family: structuralFamily }),
@@ -404,19 +425,19 @@ export async function ingestTarget(
 // ── AI Model Management ────────────────────────────────────────
 
 export async function searchAIModels(query: string): Promise<Array<{ id: string; name: string; description: string; size_gb: number }>> {
-  const res = await customFetch(`${await getApiUrl()}/ai/models/search?q=${encodeURIComponent(query)}`);
+  const res = await customFetch(`/ai/models/search?q=${encodeURIComponent(query)}`);
   await assertOk(res);
   return res.json();
 }
 
 export async function getLocalAIModels(): Promise<Array<{ filename: string; size_gb: number; path: string }>> {
-  const res = await customFetch(`${await getApiUrl()}/ai/models/local`);
+  const res = await customFetch(`/ai/models/local`);
   await assertOk(res);
   return res.json();
 }
 
 export async function downloadAIModel(modelId: string): Promise<{ dl_id: string; status: string }> {
-  const res = await customFetch(`${await getApiUrl()}/ai/models/download`, {
+  const res = await customFetch(`/ai/models/download`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ model_id: modelId }),
@@ -426,13 +447,13 @@ export async function downloadAIModel(modelId: string): Promise<{ dl_id: string;
 }
 
 export async function getDownloadStatus(dlId: string): Promise<{ status: string; progress: number }> {
-  const res = await customFetch(`${await getApiUrl()}/ai/models/download/${dlId}`);
+  const res = await customFetch(`/ai/models/download/${dlId}`);
   await assertOk(res);
   return res.json();
 }
 
 export async function recommendQuantization(): Promise<Array<{ name: string; description: string; size_gb: number; min_ram_gb: number }>> {
-  const res = await customFetch(`${await getApiUrl()}/ai/models/recommend-quant`);
+  const res = await customFetch(`/ai/models/recommend-quant`);
   await assertOk(res);
   return res.json();
 }
@@ -464,7 +485,7 @@ export async function calculateProperties(smiles: string): Promise<{
   adme_summary: string;
   smiles_hash: string;
 }> {
-  const res = await customFetch(`${await getApiUrl()}/chem/properties`, {
+  const res = await customFetch(`/chem/properties`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ smiles }),
@@ -485,7 +506,7 @@ export async function generateConformer(smiles: string, forceRegenerate: boolean
   molecular_formula: string;
   sdf_content: string;
 }> {
-  const res = await customFetch(`${await getApiUrl()}/chem/conformer`, {
+  const res = await customFetch(`/chem/conformer`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ smiles, force_regenerate: forceRegenerate }),
@@ -497,14 +518,35 @@ export async function generateConformer(smiles: string, forceRegenerate: boolean
 // ── Chem: Render 2D ────────────────────────────────────────────
 
 export async function getMolRender(moleculeId: string): Promise<string> {
-  const res = await customFetch(`${await getApiUrl()}/chem/render/${moleculeId}`);
+  const res = await customFetch(`/chem/render/${moleculeId}`);
   await assertOk(res);
   return res.text();
 }
 
 // ── SAR: Structure-Activity Relationship ───────────────────────
 
-export async function getSarData(moleculeId: string): Promise<{
+/**
+ * Cohorte de una consulta SAR. Sin ella, la tabla usa la evaluación más reciente
+ * de cada molécula (la proyección, que cambia al reevaluar con otro protocolo).
+ * Con ella (CAS-02), la base es lo que `taskId` produjo y los análogos son las
+ * corridas pedidas, leídas de sus snapshots inmutables.
+ */
+export interface SarCohort {
+  readonly taskId: string;
+  readonly cohortTaskIds: readonly string[];
+}
+
+export interface SarCohortInfo {
+  /** `explicit_runs` = reproducible; `latest_projection` = cambia al reevaluar. */
+  source: "latest_projection" | "explicit_runs";
+  base_task_id: string | null;
+  task_ids: string[] | null;
+}
+
+export async function getSarData(
+  moleculeId: string,
+  cohort?: SarCohort,
+): Promise<{
   analogs: Array<{
     smiles: string;
     similarity: number;
@@ -512,8 +554,15 @@ export async function getSarData(moleculeId: string): Promise<{
     affinity_kcal: number | null;
     ml_prob: number | null;
   }>;
+  cohort?: SarCohortInfo;
 }> {
-  const res = await customFetch(`${await getApiUrl()}/sar/${moleculeId}`);
+  const consulta = new URLSearchParams();
+  if (cohort) {
+    consulta.set("task_id", cohort.taskId);
+    for (const tarea of cohort.cohortTaskIds) consulta.append("cohort_task_ids", tarea);
+  }
+  const query = consulta.toString();
+  const res = await customFetch(`/sar/${moleculeId}${query ? `?${query}` : ""}`);
   await assertOk(res);
   return res.json();
 }
@@ -526,7 +575,7 @@ export async function verifyBlockchainSignature(signature: string): Promise<{
   timestamp: string | null;
   data_hash: string | null;
 }> {
-  const res = await customFetch(`${await getApiUrl()}/blockchain/verify/${signature}`);
+  const res = await customFetch(`/blockchain/verify/${signature}`);
   await assertOk(res);
   return res.json();
 }
@@ -555,7 +604,7 @@ export async function runDiffDock(
   ligandSmiles: string,
   numPoses: number = 5,
 ): Promise<DiffDockResponse> {
-  const res = await customFetch(`${await getApiUrl()}/docking/diffdock/predict`, {
+  const res = await customFetch(`/docking/diffdock/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -569,7 +618,7 @@ export async function runDiffDock(
 }
 
 export async function getDiffDockHealth(): Promise<{ status: string; message: string }> {
-  const res = await customFetch(`${await getApiUrl()}/docking/diffdock/health`);
+  const res = await customFetch(`/docking/diffdock/health`);
   await assertOk(res);
   return res.json();
 }
@@ -598,7 +647,7 @@ export async function runColabFold(
   proteinPdbId: string,
   peptideSmiles: string,
 ): Promise<ColabFoldResponse> {
-  const res = await customFetch(`${await getApiUrl()}/docking/colabfold/predict`, {
+  const res = await customFetch(`/docking/colabfold/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -611,7 +660,7 @@ export async function runColabFold(
 }
 
 export async function getColabFoldHealth(): Promise<{ status: string; message: string }> {
-  const res = await customFetch(`${await getApiUrl()}/docking/colabfold/health`);
+  const res = await customFetch(`/docking/colabfold/health`);
   await assertOk(res);
   return res.json();
 }
@@ -630,7 +679,7 @@ export interface MetalFeaturesResponse {
 }
 
 export async function getMetalFeatures(smiles: string): Promise<MetalFeaturesResponse> {
-  const res = await customFetch(`${await getApiUrl()}/proteins/surgery/metal-features`, {
+  const res = await customFetch(`/proteins/surgery/metal-features`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ smiles }),
@@ -652,7 +701,7 @@ export interface DetectMetalsResponse {
 }
 
 export async function detectMetals(pdbContent: string): Promise<DetectMetalsResponse> {
-  const res = await customFetch(`${await getApiUrl()}/proteins/surgery/detect-metals`, {
+  const res = await customFetch(`/proteins/surgery/detect-metals`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ pdb_content: pdbContent }),
@@ -672,7 +721,7 @@ export interface DynamicBoxResponse {
 }
 
 export async function getDynamicBox(ligandPdbContent: string): Promise<DynamicBoxResponse> {
-  const res = await customFetch(`${await getApiUrl()}/proteins/surgery/dynamic-box`, {
+  const res = await customFetch(`/proteins/surgery/dynamic-box`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ ligand_pdb_content: ligandPdbContent }),
@@ -687,7 +736,7 @@ export interface ValidateVinaAtomsResponse {
 }
 
 export async function validateVinaAtoms(smiles: string): Promise<ValidateVinaAtomsResponse> {
-  const res = await customFetch(`${await getApiUrl()}/proteins/surgery/validate-atoms`, {
+  const res = await customFetch(`/proteins/surgery/validate-atoms`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ smiles }),
@@ -711,7 +760,7 @@ export interface PrepareTargetResponse {
 export async function prepareTarget(
   proteinPdbContent: string,
 ): Promise<PrepareTargetResponse> {
-  const res = await customFetch(`${await getApiUrl()}/proteins/surgery/prepare`, {
+  const res = await customFetch(`/proteins/surgery/prepare`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

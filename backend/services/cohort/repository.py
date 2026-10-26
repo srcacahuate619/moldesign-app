@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import unicodedata
 import uuid
 from datetime import datetime, timezone
 from typing import Any
@@ -59,6 +60,17 @@ from services.cohort.schemas import (
 _NOMBRE_SEGURO = re.compile(r"[^A-Za-z0-9._-]+")
 
 
+def _sin_diacriticos(texto: str) -> str:
+    """«Inhibición» → «Inhibicion», «ñandú» → «nandu».
+
+    El nombre de archivo es ASCII por portabilidad (ZIP, cabeceras de descarga, otros sistemas), pero la
+    lista blanca convertía cada letra con tilde en un guion («Inhibici-n»). Se descomponen y se quitan las
+    marcas combinantes ANTES de la lista blanca. Mismo criterio en `services/cohort/repository.py` y en
+    `frontend/lib/dossier.ts::sanitizeFilenamePart`: una prueba de paridad los ata (QA1-001).
+    """
+    return "".join(c for c in unicodedata.normalize("NFKD", texto) if not unicodedata.combining(c))
+
+
 def sanitize_source_filename(nombre: str | None, *, maximo: int = 120) -> str:
     """
     Deja el nombre BASE, saneado. Nunca una ruta.
@@ -70,7 +82,7 @@ def sanitize_source_filename(nombre: str | None, *, maximo: int = 120) -> str:
     blanca como componente de ruta.
     """
     crudo = (nombre or "").replace("\\", "/").split("/")[-1].strip()
-    limpio = _NOMBRE_SEGURO.sub("-", crudo)
+    limpio = _NOMBRE_SEGURO.sub("-", _sin_diacriticos(crudo))
     limpio = re.sub(r"\.{2,}", ".", limpio)
     limpio = re.sub(r"-{2,}", "-", limpio).strip("-._")
     return (limpio or "cohorte")[:maximo]
@@ -157,7 +169,7 @@ async def create_cohort(
         source_sha256=sha256_of(source_bytes),
         source_bytes=source_bytes,
         source_size_bytes=len(source_bytes),
-        normalized_study_json=study.model_dump(mode="json"),
+        normalized_study_json=preflight.normalized_study.model_dump(mode="json"),
         preflight_snapshot_json=preflight.model_dump(mode="json"),
         provenance_json=build_provenance(created_at).model_dump(mode="json"),
         user_id=owner_id,

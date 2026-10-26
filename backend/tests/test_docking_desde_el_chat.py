@@ -89,34 +89,56 @@ def registro(monkeypatch):
     return llamadas
 
 
+@pytest.fixture
+def preflight(monkeypatch):
+    """El informe que el servidor «calcula»; el contrato completo vive en
+    `test_propuesta_de_docking_molchat.py`."""
+
+    async def _comprobar(**_kwargs):
+        return {
+            "input_fingerprint": "sha256:" + "d" * 64,
+            "technical_blockers": [],
+            "receptor": {"pdb_id": "7E2Y", "chain": "A", "origin": "curado"},
+            "ligand": {"canonical_smiles": ASPIRINA, "input_smiles": ASPIRINA},
+            "effective_config": {
+                "docking_engine": "vina", "exhaustiveness": 8, "num_poses": 5,
+                "conformers": 1, "seed": 42,
+                "grid_center": [0.0, 0.0, 0.0], "grid_size": [22.5, 22.5, 22.5],
+                "heteroatom_policy": {},
+            },
+            "controls": [],
+        }
+
+    import api.routers.evaluation as router
+
+    monkeypatch.setattr(router, "comprobar_preparacion", _comprobar)
+
+
 @pytest.mark.asyncio
-async def test_el_chat_registra_la_corrida_por_la_misma_puerta(sesion, registro):
-    """Criterio 1: identidad, preflight y persistencia, no una función privada."""
+async def test_el_chat_propone_y_no_registra_la_corrida(sesion, registro, preflight):
+    """LUNA-05. Antes `run_docking` registraba y encolaba en el mismo turno; ahora
+    sólo PROPONE, y la corrida entra por `registrar_corrida` cuando el investigador
+    la aprueba por otra puerta (`test_propuesta_de_docking_molchat.py`)."""
     texto = await docking_tools.run_docking(
         smiles=ASPIRINA, target_pdb="7E2Y", user_id=CUENTA
     )
 
-    assert len(registro) == 1, "la corrida no pasó por registrar_corrida"
-    llamada = registro[0]
-    assert str(llamada["current_user"].id) == CUENTA
-    assert llamada["exigir_preflight"] is True, (
-        "sin pantalla de preflight, el servidor tiene que comprobarlo"
-    )
-    assert llamada["data"].target_pdb_id == "7E2Y"
-    assert "task-de-prueba" in texto
+    assert registro == [], "run_docking encoló una corrida sin aprobación humana"
+    assert "todavía no lanzada" in texto.lower()
+    assert "task-de-prueba" not in texto
 
 
 @pytest.mark.asyncio
-async def test_el_turno_no_espera_ni_finge_un_numero(sesion, registro):
-    """Criterio 2 y 3: se declara lanzada, y no aparece ninguna afinidad."""
+async def test_el_turno_no_finge_un_numero_ni_una_corrida(sesion, registro, preflight):
+    """Criterio 3 de D-08, ahora desde la propuesta: ni afinidad ni `task_id`."""
     texto = await docking_tools.run_docking(
         smiles=ASPIRINA, target_pdb="7E2Y", user_id=CUENTA
     )
 
     bajo = texto.lower()
-    assert "kcal/mol" not in bajo, "una corrida recién lanzada no tiene afinidad"
-    assert "segundo plano" in bajo
-    assert "task-de-prueba" in texto
+    assert "kcal/mol" not in bajo, "una propuesta no tiene afinidad"
+    assert "task_id" not in bajo, "una propuesta no tiene corrida"
+    assert "nada está en cola" in bajo
 
 
 @pytest.mark.asyncio

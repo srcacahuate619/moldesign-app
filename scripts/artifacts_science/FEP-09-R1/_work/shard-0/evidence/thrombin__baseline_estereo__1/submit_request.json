@@ -1,0 +1,40 @@
+{
+  "smiles": "COc1ccc(Cl)cc1CNC(=O)[C@@H]1CCCN1C(=O)[C@H]([NH3+])Cc1ccccc1",
+  "target_pdb_id": "USR_53A814",
+  "chain": "H",
+  "molecule_name": "thrombin__baseline_estereo__1",
+  "grid_center": [
+    16.441,
+    -12.518,
+    22.646
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:ee0a2cffb0c62b580403f65619b126d243c3b2fc42c3e22c819bfff1a852c365"
+}

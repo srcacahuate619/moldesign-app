@@ -43,11 +43,21 @@ del desarrollador. En esta máquina hay 281 distribuciones Python instaladas y
 sólo 170 viajan en `python-embed`. Un SBOM que declarara las 281 sería peor que
 ninguno: afirmaría algo falso sobre lo que el investigador recibe.
 
+Cuentas medidas el 2026-10-03 (la fuente es `docs/api/sbom.json`; esta tabla
+envejeció antes —decía 170 y 1353— y manda el archivo):
+
 | Componente | Cuenta |
 |---|---|
-| Paquetes Python en `python-embed` | 170 |
-| Paquetes npm de producción | 1353 |
-| Binarios de terceros, con SHA-256 | 2 (`vina.exe`, `llama-server.exe`) |
+| Paquetes Python en `python-embed` | 168 |
+| Paquetes npm de producción | 1267 |
+| Crates Rust enlazadas, binario de Windows x64 | 331 (más 21 sólo de construcción; otras 222 del `Cargo.lock` son de otras plataformas y no viajan) |
+| Binarios de terceros, con SHA-256 | 4 (`vina.exe`, `xtb.exe`, `llama-server.exe`, `obabel.exe`) |
+
+`--check` falla si el archivo guardado no coincide con lo generado **o** si la
+cobertura de licencias no es completa (algún componente sin licencia, o las de
+Rust sin leer de `cargo metadata`). Lo segundo es lo que permite sostener una
+afirmación global sobre licencias; ver el bloque 1 de
+[`86_CORRECCIONES_AUDITORIA_LUNA_20261002.md`](86_CORRECCIONES_AUDITORIA_LUNA_20261002.md).
 
 **Un hallazgo que bloqueaba la publicación.** El primer inventario encontró
 `ua-parser-js@2.0.10` bajo **AGPL-3.0-or-later** en el árbol de producción,

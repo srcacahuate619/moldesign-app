@@ -116,7 +116,7 @@ const { commit, arbol_limpio } = commitActual();
 await writeFile(`${exe}.sha256`, `${hash}  ${nombre}\n`, "utf-8");
 
 const manifiesto = {
-  producto: config.productName ?? "MolDesign AI",
+  producto: config.productName ?? "MolDesign",
   version,
   archivo: nombre,
   bytes: info.size,

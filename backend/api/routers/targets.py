@@ -7,13 +7,16 @@ búsqueda en AlphaFold DB para targets sin estructura experimental.
 
 from __future__ import annotations
 
+import asyncio
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import JSONResponse, PlainTextResponse
 from pydantic import BaseModel, Field, field_validator, model_validator
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
+from core.i18n import current_locale
+from services.targets.errores_subida import ErrorDeSubida
 from core.models import Target, TargetORM, UserORM
 from db.repository import Repository
 from api.dependencies import get_current_user, get_current_user_optional
@@ -124,8 +127,12 @@ from fastapi import UploadFile, File, Form
 )
 async def upload_custom_target(
     file: UploadFile = File(...),
+    source_file: UploadFile | None = File(
+        None, description="Estructura de origen del PDBQT (PDB o mmCIF); opcional, sólo con is_curated"),
     name: str = Form(...),
     is_curated: bool = Form(...),
+    modo_preparacion: str | None = Form(
+        None, description="automatico (estructura cruda), respetar (estructura ya preparada) o pdbqt"),
     chain_id: str = Form("A"),
     grid_center_x: float | None = Form(None),
     grid_center_y: float | None = Form(None),
@@ -165,21 +172,31 @@ async def upload_custom_target(
     MAX_SIZE = 31 * 1024 * 1024
     content = await file.read(MAX_SIZE + 1)
     if len(content) > MAX_SIZE:
-        raise HTTPException(
-            status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
-            detail="File size exceeds the 31 MiB limit."
-        )
+        return JSONResponse(status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, content=ErrorDeSubida(
+            "ARCHIVO_DEMASIADO_GRANDE",
+            "El archivo supera los 31 MiB. Recorta del archivo las cadenas que no vas a usar, o "
+            "súbelo comprimido (.gz).",
+            "The file is larger than 31 MiB. Remove the chains you will not use, or upload it "
+            "compressed (.gz).",
+            estado=413,
+        ).como_json(current_locale()))
 
-    # SEC-C08: Validar magic bytes/estructura básica para asegurar que es un PDB/SDF válido
-    content_str = content[:2000].decode("utf-8", errors="ignore").upper()
-    is_pdb = "HEADER" in content_str or "ATOM" in content_str or "REMARK" in content_str
-    is_sdf = "$$$$" in content_str or "M  END" in content_str
+    origen_content = origen_filename = None
+    if source_file is not None and (source_file.filename or "") != "":
+        origen_content = await source_file.read(MAX_SIZE + 1)
+        origen_filename = source_file.filename
+        if len(origen_content) > MAX_SIZE:
+            return JSONResponse(status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, content=ErrorDeSubida(
+                "ARCHIVO_DEMASIADO_GRANDE",
+                "La estructura de origen supera los 31 MiB. Recorta las cadenas que no uses, o súbela "
+                "comprimida (.gz).",
+                "The source structure is larger than 31 MiB. Remove the chains you do not use, or upload it "
+                "compressed (.gz).",
+                estado=413,
+            ).como_json(current_locale()))
 
-    if not (is_pdb or is_sdf):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid file format. Only PDB (.pdb), PDBQT (.pdbqt, modo manual) or SDF (.sdf) files are allowed."
-        )
+    # SEC-C08: el contenido se valida por formato en `leer_subida` (extensión sin distinguir
+    # mayúsculas, .gz con tope, contenido que corresponde a la extensión), dentro de la ingesta.
 
     creator_id = current_user.id
     creator_username = current_user.username
@@ -200,8 +217,15 @@ async def upload_custom_target(
             is_community=is_community,
             is_anti_target=is_anti_target,
             anti_target_risk=anti_target_risk,
+            origen_content=origen_content,
+            origen_filename=origen_filename,
+            modo_preparacion=modo_preparacion,
         )
         return result
+    except ErrorDeSubida as e:
+        # Un fallo que la persona puede corregir: se le dice cuál y qué hacer, en su idioma.
+        log.warning("upload_target_rechazado", codigo=e.codigo)
+        return JSONResponse(status_code=e.estado, content=e.como_json(current_locale()))
     except ValueError as e:
         log.warning("upload_target_validation_error", error=str(e))
         raise HTTPException(status_code=400, detail="Error de validación. Por favor verifica el archivo y los parámetros.")
@@ -218,9 +242,6 @@ async def list_targets(
     current_user: UserORM | None = Depends(get_current_user_optional),
     db: AsyncSession = Depends(get_db)
 ) -> list[Target]:
-    import os
-    from utils.structural import get_residue_coordinates
-
     repo = Repository(db)
     all_targets = await repo.get_all_targets()
     # Ensure default target is seeded if empty
@@ -251,6 +272,7 @@ async def list_targets(
         targets.append(t)
 
     enriched_targets = []
+    con_hotspots: list[tuple[Target, str, str | None]] = []
     for t in targets:
         t_schema = Target.model_validate(t)
         # SC-9: el catálogo declara qué respaldo tiene cada receptor. Estar en
@@ -265,40 +287,63 @@ async def list_targets(
         # Disponible no es intacta: con la receta v7 una diana puede acoplarse
         # con cadenas laterales del sitio truncadas. Se dice antes de elegirla.
         t_schema.cadenas_truncadas_en_sitio = cadenas_truncadas_en_sitio(t.pdb_id)
+        from services.targets.seccion_catalogo import (
+            avisos_del_receptor, intentos_del_receptor, seccion_del_receptor, verificacion_del_receptor,
+        )
+        t_schema.seccion_catalogo = seccion_del_receptor(t)
+        t_schema.verificacion = (
+            verificacion_del_receptor(t.pdb_id) if t_schema.seccion_catalogo else None
+        )
+        t_schema.avisos_catalogo = avisos_del_receptor(t.pdb_id) if t_schema.seccion_catalogo else []
+        # Intentos publicados, pasen o no: un NO_GO se enseña con sus cifras.
+        t_schema.intentos_verificacion = (
+            intentos_del_receptor(t.pdb_id) if t_schema.seccion_catalogo else []
+        )
 
-        # Enriquecer hotspots con coordenadas si el PDB existe
         if t_schema.hotspots:
-            from services.docking.preparer import get_target_pdb_path
-            pdb_path = get_target_pdb_path(t.pdb_id)
-
-            # Rutas de desarrollo locales alternativas
-            if not os.path.exists(pdb_path):
-                base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-                pdb_path = os.path.join(base_dir, f"{t.pdb_id.lower()}.pdb")
-                if not os.path.exists(pdb_path):
-                    pdb_path = os.path.join(base_dir, f"{t.pdb_id.upper()}.pdb")
-                if not os.path.exists(pdb_path):
-                    pdb_path = os.path.join(base_dir, "data", "targets", f"{t.pdb_id}.pdb")
-
-            if os.path.exists(pdb_path):
-                h_names = [h.get("name") for h in t_schema.hotspots if h.get("name")]
-                # Filtro por la cadena del receptor: evita tomar el CA de un
-                # residuo homónimo en otra cadena (complejos multicadena).
-                coords_map = get_residue_coordinates(pdb_path, h_names, chain=t.chain)
-                for h in t_schema.hotspots:
-                    name = h.get("name")
-                    lookup_name = name.upper() if name else ""
-                    if ":" in lookup_name:
-                        lookup_name = lookup_name.split(":")[-1]
-
-                    if lookup_name in coords_map:
-                        h["x"] = round(coords_map[lookup_name][0], 2)
-                        h["y"] = round(coords_map[lookup_name][1], 2)
-                        h["z"] = round(coords_map[lookup_name][2], 2)
-
+            con_hotspots.append((t_schema, t.pdb_id, t.chain))
         enriched_targets.append(t_schema)
 
+    # Las coordenadas de los hotspots se leen del PDB de cada receptor: E/S de disco y análisis de cientos de archivos.
+    # En el bucle de eventos congelaba el backend al abrir cualquier pestaña con el catálogo (2026-10-10): en un hilo.
+    await asyncio.to_thread(_coordenadas_de_hotspots, con_hotspots)
     return enriched_targets
+
+
+def _coordenadas_de_hotspots(con_hotspots: list[tuple[Target, str, str | None]]) -> None:
+    """Enriquece los hotspots de cada receptor con las coordenadas de su CA, si el PDB existe."""
+    import os
+
+    from services.docking.preparer import get_target_pdb_path
+    from utils.structural import get_residue_coordinates
+
+    for t_schema, pdb_id, chain in con_hotspots:
+        pdb_path = get_target_pdb_path(pdb_id)
+
+        # Rutas de desarrollo locales alternativas
+        if not os.path.exists(pdb_path):
+            base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+            pdb_path = os.path.join(base_dir, f"{pdb_id.lower()}.pdb")
+            if not os.path.exists(pdb_path):
+                pdb_path = os.path.join(base_dir, f"{pdb_id.upper()}.pdb")
+            if not os.path.exists(pdb_path):
+                pdb_path = os.path.join(base_dir, "data", "targets", f"{pdb_id}.pdb")
+
+        if os.path.exists(pdb_path):
+            h_names = [h.get("name") for h in t_schema.hotspots if h.get("name")]
+            # Filtro por la cadena del receptor: evita tomar el CA de un
+            # residuo homónimo en otra cadena (complejos multicadena).
+            coords_map = get_residue_coordinates(pdb_path, h_names, chain=chain)
+            for h in t_schema.hotspots:
+                name = h.get("name")
+                lookup_name = name.upper() if name else ""
+                if ":" in lookup_name:
+                    lookup_name = lookup_name.split(":")[-1]
+
+                if lookup_name in coords_map:
+                    h["x"] = round(coords_map[lookup_name][0], 2)
+                    h["y"] = round(coords_map[lookup_name][1], 2)
+                    h["z"] = round(coords_map[lookup_name][2], 2)
 
 
 @router.post(
@@ -649,10 +694,25 @@ async def create_target_variant(
         "altloc": "majority_or_default",
     }
 
+    from services.docking.preparer import ligando_del_sitio
+    from services.targets import perfil_receptor
+
+    # El ligando del cristal del padre se retira también en la variante; sin él se conservaba como cofactor (8UBR, MET-01).
+    ligando_padre = ligando_del_sitio(parent.pdb_id)
+    if ligando_padre:
+        recipe["site_ligand"] = ligando_padre
+    perfil_padre = perfil_receptor.cargar(parent.pdb_id) or {}
+    respetando = perfil_padre.get("modo") == perfil_receptor.MODO_RESPETAR
+    if respetando:
+        # Una variante de un receptor ya preparado parte del mismo archivo y se prepara igual: respetándolo.
+        recipe = {**recipe, "mode": "respect_user_preparation", "protonation": "declared_by_user",
+                  "waters": "kept_as_uploaded"}
+        recipe.pop("cofactors_whitelist", None)
     result = await ingest_custom_target(
         file_content=source_bytes,
         filename=f"{parent.pdb_id}.pdb",
         name=request.name,
+        modo_preparacion=perfil_receptor.MODO_RESPETAR if respetando else None,
         is_curated=False,
         db=db,
         chain_id=chain,
@@ -664,6 +724,7 @@ async def create_target_variant(
         is_community=False,
         preparation_parent_id=parent.id,
         preparation_recipe=recipe,
+        site_ligand=ligando_padre,
     )
     return result["target"]
 
@@ -731,7 +792,23 @@ async def get_target_pdb(
     except Exception:
         pass
 
-    # 3. Descargar de RCSB
+    # 3. La copia que viaja en el instalador. Materializarla es copiar un archivo
+    # del bundle, no descargar. Sin este paso, con un perfil nuevo el visor pedía
+    # cualquier receptor del catálogo a RCSB (403 sin consentimiento, o la red en
+    # un producto offline) hasta que una comprobación previa lo sembrara: nada
+    # llama a la siembra del arranque (QA-031).
+    try:
+        from services.semilla_estructuras import sembrar_una
+
+        sembrada = await asyncio.to_thread(sembrar_una, pdb_id)
+        if sembrada is not None:
+            return PlainTextResponse(
+                content=sembrada.read_text(encoding="utf-8", errors="replace")
+            )
+    except Exception:
+        pass
+
+    # 4. Descargar de RCSB
     try:
         content = await download_pdb_from_rcsb(
             pdb_id, user_id=str(current_user.id) if current_user else None

@@ -31,7 +31,7 @@ vi.mock("@react-three/drei", () => ({
   OrbitControls: () => null,
 }));
 
-import Web3DViewer from "../Web3DViewer";
+import Web3DViewer, { parsePdbAtoms, parsePdbHotspots } from "../Web3DViewer";
 
 /** Una línea ATOM con las columnas en su sitio (el parser lee por posición). */
 function lineaAtom(
@@ -44,6 +44,7 @@ function lineaAtom(
   y: number,
   z: number,
   elemento: string,
+  insertionCode = " ",
 ): string {
   return (
     "ATOM  " +                       // 0-5
@@ -55,7 +56,7 @@ function lineaAtom(
     " " +                            // 20
     cadena +                         // 21
     String(resSeq).padStart(4) +     // 22-25
-    " " +                            // 26 iCode
+    insertionCode +                  // 26 iCode
     "   " +                          // 27-29
     x.toFixed(3).padStart(8) +       // 30-37
     y.toFixed(3).padStart(8) +       // 38-45
@@ -80,6 +81,25 @@ const HOTSPOTS = [
   { name: "A:ASP11", importance: 0.6 },
 ];
 
+describe("identidad de los residuos del visor", () => {
+  it("distingue códigos de inserción y cadenas en los átomos y marcadores", () => {
+    const pdb = [
+      lineaAtom(1, " CA ", "LYS", "H", 60, 1, 2, 3, "C", "A"),
+      lineaAtom(2, " CA ", "LYS", "H", 60, 4, 5, 6, "C", "C"),
+      lineaAtom(3, " CA ", "LYS", "L", 60, 7, 8, 9, "C", "A"),
+      lineaAtom(4, " CA ", "ASP", "H", 60, 10, 11, 12, "C"),
+    ].join("\n");
+    const hotspots = [{ name: "H:LYS60A", importance: 0.9 },
+      { name: "H:LYS60C", importance: 0.6 }, { name: "L:LYS60A", importance: 0.2 }];
+    const lookup = new Map([["H", new Set(["LYS60A", "LYS60C"])]]);
+    expect(parsePdbAtoms(pdb, lookup).map((a) => [a.chain, a.resId, a.isHotspot]))
+      .toEqual([["H", "LYS60A", true], ["H", "LYS60C", true], ["L", "LYS60A", false], ["H", "ASP60", false]]);
+    expect(parsePdbHotspots(pdb, hotspots).map((h) => [h.name, h.x, h.importance]))
+      .toEqual([["H:LYS60A", 1, 0.9], ["H:LYS60C", 4, 0.6], ["L:LYS60A", 7, 0.2]]);
+    expect(parsePdbHotspots(pdb, [{ name: "H:LYS60" }])).toEqual([]);
+  });
+});
+
 /** El panel desplegable es el hermano inmediato del botón que lo abre. */
 function panelDeLeyenda(): HTMLElement {
   const boton = screen.getByRole("button", { name: /leyenda/i });
@@ -97,7 +117,7 @@ describe("panel de Leyenda del Web3D", () => {
     montar();
     // Ancla de contenido: si esto deja de cumplirse, las clases que se afirman
     // abajo estarían describiendo otro elemento.
-    expect(panelDeLeyenda()).toHaveTextContent(/Caja de acoplamiento/i);
+    expect(panelDeLeyenda()).toHaveTextContent(/Caja de búsqueda/i);
   });
 
   it("acepta el puntero: sin `pointer-events-none`", () => {

@@ -94,6 +94,20 @@ describe("la frontera: nada de rutas desde el webview", () => {
     expect(created.id).toBe("nuevo");
   });
 
+  it("`defaultParentDirectory` no manda ninguna ruta y separa el token de la ruta que se enseña", async () => {
+    mockTauriInvoke.mockImplementation(async (cmd, args) => {
+      expect(cmd).toBe("case_default_parent_directory");
+      // La carpeta la decide Rust: ningún argumento, ni una ruta ni un nombre.
+      expect(args ?? {}).toEqual({});
+      return { token: "token-por-defecto", display_path: "C:\\Users\\ana\\Documents\\MolDesign\\Casos", has_manifest: false };
+    });
+    const propuesta = await repo().defaultParentDirectory?.();
+    expect(propuesta).toEqual({
+      token: "token-por-defecto",
+      displayPath: "C:\\Users\\ana\\Documents\\MolDesign\\Casos",
+    });
+  });
+
   it("`revealInFileManager` manda `caseId`", async () => {
     mockTauriInvoke.mockImplementation(async (cmd, args) => {
       expect(cmd).toBe("case_reveal");

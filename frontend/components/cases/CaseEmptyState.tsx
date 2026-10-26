@@ -56,7 +56,7 @@ export function CaseEmptyState({
             className="inline-flex items-center gap-2 rounded-md border border-brand-500/40 bg-brand-600 px-4 py-2 text-sm font-medium text-white dark:text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950 active:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-brand-600"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
-            Crear caso
+            {t("ca_crear_boton")}
           </button>
 
           <button
@@ -67,7 +67,7 @@ export function CaseEmptyState({
             className="inline-flex items-center gap-2 rounded-md border border-surface-700 bg-transparent px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-surface-700 disabled:hover:text-zinc-300"
           >
             <FolderOpen className="h-4 w-4" aria-hidden="true" />
-            Abrir carpeta existente
+            {t("ca_open_existing_folder")}
           </button>
         </div>
 

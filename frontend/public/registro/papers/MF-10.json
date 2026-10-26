@@ -285,44 +285,20 @@
       "m": "fuerte"
      },
      {
-      "t": " Sí: el suelo medido es de 0.401 Å, muy por",
+      "t": " Sí: el suelo medido es de 0.401 Å, muy por debajo del ~1 Å que había que detectar. Si el efecto hubiera existido, se habría visto.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "debajo del ~1 Å que había que detectar. Si el efecto hubiera existido, se habría visto.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "¿Estaba convergido el minimizador?",
       "m": "fuerte"
      },
      {
-      "t": " Sí: multiplicar su presupuesto por 20 mejora",
+      "t": " Sí: multiplicar su presupuesto por 20 mejora 0.061 Å. No se estaba parando antes de tiempo.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "0.061 Å. No se estaba parando antes de tiempo.",
-     "m": null
-    }
    ]
   },
   {
@@ -395,6 +371,61 @@
      "t": "Refinar mejor una pose que está en el sitio equivocado la deja en el sitio equivocado con mejor geometría.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-009. La meseta de la mediana del RMSD (control C3) no demuestra que las 714 minimizaciones convergieran: muestra que la mediana es poco sensible al presupuesto en la submuestra.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-011. La merma de 9 complejos y 164 poses no está demostrada inocua: no se puede garantizar que recuperarlos dejaría igual la decisión.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-012. El RMSD pareado por índice no garantiza que la simetría deje igual el delta ni G3. El NO_GO operativo se mantiene.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

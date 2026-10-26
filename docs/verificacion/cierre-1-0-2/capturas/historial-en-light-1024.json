@@ -1,0 +1,19 @@
+{
+  "name": "historial-en-light-1024",
+  "url": "http://localhost:13013/history",
+  "time": "2026-10-10T02:11:48.352Z",
+  "commit": "66c682ae7f893748f686e3902880902f5fdbdf27",
+  "export": "5b3a840cc2de9af0408fa29108c8f18fba8d9637200d192503b33716793f12b8",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "locale": "en",
+  "theme": "light",
+  "text": "OPTIONS\nPREPARATION\nMOLCYBETA\nBATCH\nEVALUATION\nMOLDEX\nHISTORY\n3\nSIGN OUT\n\nMOLDEX / EVALUATION HISTORY\n\nEvaluation history\n\nEvery evaluation in your account, exactly as it is in the database. The ones that also appear in Moldex carry the mark Moldex.\n\nVina's calculated affinity is a ranking signal within the run's protocol; it is not experimental free energy or a prediction of activity.\n\n3\nTOTAL\nTOTAL\n3\nCOMPLETED\n3\nFAILED\n0\nUNIQUE TARGETS\n1\nSORT BY:\nDate\nAffinity\nSMILES\tTARGET\tSTATUS\tRUN\tVINA AFFINITY\tMW\tLIPINSKI\tQED\tRECEIPT\tDATE\n\nNCc1ccccc1\n\t8HFI\tCOMPLETED\t4fdb58ad…\t-5.5 kcal/mol\t107\t✓\t0.57\tNo receipt\tOct 10, 2026, 01:05 AM\n\nCCCCCO\n\t8HFI\tCOMPLETED\ta8b319b0…\t-4.3 kcal/mol\t88\t✓\t0.51\tNo receipt\tOct 10, 2026, 01:05 AM\n\nFC(F)(F)CNCc1ccccc1\nMOLDEX\t8HFI\tCOMPLETED\t27c62c96…\t-7.0 kcal/mol\t189\t✓\t0.77\tNo receipt\tOct 10, 2026, 12:52 AM",
+  "overflow": {
+    "width": 1024,
+    "document": 1024
+  },
+  "errors": []
+}

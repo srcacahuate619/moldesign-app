@@ -255,7 +255,7 @@
 - **ADMET toggle**: evaluacion sin ADMET = ~70s (vs ~210s con ADMET)
 - **ADMET cache**: mismo SMILES = 3s en vez de 140s
 - **Vina cache**: mismo SMILES + target = resultado instantaneo
-- **Vina exhaust=8**: sweet spot validado. >8 no mejora ranking
+- **Vina exhaust=8**: el defecto de Vina. «>8 no mejora ranking» no tiene un experimento que lo mida (corregido el 2026-10-25, SUPUESTOS-01)
 - **Benchmark real**: Ryzen 5 5500 + RTX 1660 SUPER
 
 ### Frontend Polish

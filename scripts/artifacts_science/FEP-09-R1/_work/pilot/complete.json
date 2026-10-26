@@ -1,0 +1,10 @@
+{
+  "attempted": 3,
+  "failed": 0,
+  "pilot": true,
+  "cases": [
+    "cdk2__baseline__0",
+    "cdk8__baseline_estereo__1",
+    "cdk8__estereo_sin_asignar__1"
+  ]
+}

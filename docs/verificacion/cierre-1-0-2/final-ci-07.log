@@ -1,0 +1,57 @@
+
+> moldesign-frontend@1.0.1 pretest:ux
+> cross-env NEXT_PUBLIC_API_URL=http://127.0.0.1:8999 NEXT_DIST_DIR=.next-e2e next build --webpack
+
+▲ Next.js 16.3.8 (webpack)
+✓ Running next.config.js took 26ms
+- Experiments (use with caution):
+  · optimizePackageImports
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 12.1s
+  Running TypeScript ...
+  Finished TypeScript in 5.1s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/15) ...
+  Generating static pages using 11 workers (3/15) 
+  Generating static pages using 11 workers (7/15) 
+  Generating static pages using 11 workers (11/15) 
+✓ Generating static pages using 11 workers (15/15) in 835ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /ciencia
+├ ƒ /comunidad
+├ ƒ /evaluation
+├ ƒ /evaluation/batch
+├ ƒ /history
+├ ○ /icon.png
+├ ƒ /launcher
+├ ƒ /login
+├ ƒ /molcy
+├ ƒ /moldex
+└ ƒ /preparacion
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+> moldesign-frontend@1.0.1 test:ux
+> cross-env NEXT_DIST_DIR=.next-e2e playwright test e2e/ux-accesibilidad.spec.ts
+
+[WebServer] (node:22916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+(node:29284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+············
+  12 passed (23.2s)
+::notice title=🎭 Playwright Run Summary::  12 passed (23.2s)

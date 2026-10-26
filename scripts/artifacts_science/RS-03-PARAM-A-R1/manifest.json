@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "RS-03-PARAM-A-R1",
+  "hypothesis": "RS-03-PARAM-A declaro energia finita, serializable y mapeo biyectivo sin calcularlos: medidos sobre los 116 ligandos reconstruidos en el mismo contenedor (SCI-B-155, SCI-B-156)",
+  "protocol": "RS-03-PARAM-A-R1/PREREGISTRO.md (7dccb5dd); scripts/run_rs03_param_a_r1.py en moldesign-science (openff-toolkit 0.18.0, openmm 8.5.2, NAGL 1.0.0 sha 7981e7f5), 4 trabajadores, sin docking",
+  "created_at": "2026-10-22T20:40:19.077690+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "claude/fase-1b",
+    "commit": "7dccb5ddb4deccfbe8db9024c4e9e64531794a78",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "G0 entradas, G1 cargas <=1e-5, G2 energia finita 116/116, G3 serializacion <=1e-6 kJ/mol, G4 correspondencia indice a indice y particulas=atomos, G5 controles negativos detectados"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/RS-03-PARAM-A/per_complex.jsonl": "2785a5b84ccedc829012cb7c63daa300540b1c557bb825bba34d9c1dcc551b2c"
+  },
+  "assets_hashes": {
+    "scripts/run_rs03_param_a_r1.py": "52d12fa6bd63450e930b49d0e6dfed228690eb0b91b7c7b3fc7a0578a23de588",
+    "scripts/artifacts_science/RS-03-PARAM-A-R1/PREREGISTRO.md": "c9ad975a2af5a94eb525d81722316a8d89717722c9dea175d58dabffed2e901a"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-22T20:40:43.814809+00:00",
+  "decision_rationale": "NO_GO preregistrado: 1nw5 (tiol con H implicito) da 52 particulas para 51 atomos del SDF, asi que el mapeo biyectivo declarado por RS-03-PARAM-A no existe ahi. En los otros 115: entradas iguales, cargas a 5e-7 e, energia finita y serializacion exacta (dE=0), y elementos, cargas y conectividad identicos indice a indice; 31 fallan el criterio preregistrado solo por la etiqueta aromatica del enlace (diagnostico posterior declarado). Controles 229/229.",
+  "finished_at": "2026-10-22T20:40:44.577043+00:00",
+  "duration_seconds": 110.3
+}

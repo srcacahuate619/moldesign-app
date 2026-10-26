@@ -5,7 +5,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect } from "react";
 import { Globe, Users, Trophy, Download, Lock, RefreshCw, Wifi, WifiOff, Share2, User } from "lucide-react";
 import { downloadCommunityTarget } from "../lib/proApi";
-import { getApiUrl } from "../lib/config";
+import { fetchBackend } from "../lib/backendFetch";
 import type { Target } from "../lib/api";
 import { getUserItem, setUserItem } from "../lib/userStorage";
 
@@ -42,7 +42,7 @@ export function CommunityPanel() {
     setLoading(true);
     setError(null);
     try {
-      const targetsRes = await fetch(`${await getApiUrl()}/targets/community`);
+      const targetsRes = await fetchBackend(`/targets/community`);
       if (targetsRes.ok) {
         const t = await targetsRes.json();
         setCommunityTargets(Array.isArray(t) ? t : []);
@@ -69,7 +69,7 @@ export function CommunityPanel() {
   const handleLogin = async () => {
     setLoginError(null);
     try {
-      const r = await fetch(`${await getApiUrl()}/auth/login`, {
+      const r = await fetchBackend(`/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: cloudEmail, password: cloudPassword }),

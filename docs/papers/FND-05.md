@@ -78,3 +78,13 @@ prohibición expresa de usarlos para desarrollo o depuración — de modo que si
 elegibles si algún día hacen falta.
 
 Preferible declarar el programa incompleto que gastar la única bala que hay.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-057. El guard de la cuarentena en `build_confirm_cohort.py` es **opt-in**
+  (`--respect-denylist`, por defecto apagado): repetir el builder sin esa opción no excluye la
+  denylist. DESIGN §17 y §19 lo daban por automático; el DESIGN sellado no se edita y esta nota
+  lo corrige. Sigue sin haber aislamiento de acceso a nivel de máquina.

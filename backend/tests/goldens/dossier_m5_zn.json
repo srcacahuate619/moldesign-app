@@ -293,14 +293,14 @@
       {
         "estado": "ABSTENCION",
         "etiqueta": "Protocolo M5-Zn",
-        "razon": "El PDB «1BN1» no es ninguno de los tres perfiles validados (3DC3/CA2, 1GKC/MMP9, 1O86/ACE). M5-Zn prepara el receptor, conserva el zinc, ejecuta Vina y calcula señales diagnósticas, pero NO hereda los pesos de otra diana.",
+        "razon": "El PDB «1BN1» no es ninguno de los tres perfiles de M5-Zn (3DC3/CA2, 1GKC/MMP9, 1O86/ACE). M5-Zn prepara el receptor, conserva el zinc, ejecuta Vina y calcula señales diagnósticas, pero NO hereda los pesos de otra diana.",
         "valor": "REVIEW_OUT_OF_VALIDATED_TARGET",
         "valor_es_clasificacion": true
       },
       {
         "estado": "NO_EVALUADO",
         "etiqueta": "Score compuesto M5-Zn",
-        "razon": "Sin perfil validado no hay fórmula que aplicar. Las señales individuales sí están disponibles y se muestran por separado.",
+        "razon": "Sin un perfil de M5-Zn no hay fórmula que aplicar. Las señales individuales sí están disponibles y se muestran por separado.",
         "valor": null,
         "valor_es_clasificacion": false
       },

@@ -1,0 +1,707 @@
+[
+  {
+    "entry": "1BN1",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:262",
+        "xyz": [
+          -6.844,
+          -1.668,
+          15.437
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "1C3R",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:501",
+        "xyz": [
+          49.66,
+          9.211,
+          109.302
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "1C3S",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:951",
+        "xyz": [
+          23.696,
+          34.788,
+          54.072
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "1J36",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:701",
+        "xyz": [
+          8.122,
+          -4.823,
+          20.294
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "1J37",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:701",
+        "xyz": [
+          8.01,
+          -4.795,
+          20.113
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "1T69",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:378",
+        "xyz": [
+          27.517,
+          -0.78,
+          -7.657
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "1W22",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:1375",
+        "xyz": [
+          4.405,
+          6.268,
+          30.201
+        ],
+        "belongs_to_population": false
+      },
+      {
+        "metal": "ZN",
+        "id": "B:1375",
+        "xyz": [
+          7.188,
+          22.757,
+          19.218
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "1ZZ1",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:2451",
+        "xyz": [
+          -2.525,
+          -14.342,
+          44.411
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "2A3W",
+    "actual_metals": [
+      {
+        "metal": "CA",
+        "id": "A:301",
+        "xyz": [
+          -3.642,
+          21.422,
+          -28.43
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "CA",
+        "id": "A:302",
+        "xyz": [
+          -1.541,
+          24.559,
+          -27.56
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "CA",
+        "id": "J:319",
+        "xyz": [
+          14.435,
+          16.831,
+          -35.123
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "CA",
+        "id": "J:320",
+        "xyz": [
+          12.605,
+          18.28,
+          -38.273
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "2AW1",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:262",
+        "xyz": [
+          -6.605,
+          -1.586,
+          15.122
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "2GH6",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:9451",
+        "xyz": [
+          -3.574,
+          6.034,
+          42.607
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "2JDI",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:1512",
+        "xyz": [
+          37.168,
+          88.772,
+          101.154
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "2X8Z",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:1616",
+        "xyz": [
+          26.533,
+          2.348,
+          -46.836
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "2X90",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:1618",
+        "xyz": [
+          -11.442,
+          24.207,
+          -20.02
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "3QXX",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:223",
+        "xyz": [
+          7.522,
+          -28.151,
+          -20.767
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "MG",
+        "id": "A:224",
+        "xyz": [
+          9.477,
+          -25.977,
+          -18.707
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "4CA7",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:1616",
+        "xyz": [
+          26.653,
+          -2.326,
+          13.616
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "4CA8",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:1620",
+        "xyz": [
+          26.398,
+          2.453,
+          -46.303
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "4CVL",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:1453",
+        "xyz": [
+          15.883,
+          -30.439,
+          -13.962
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "MG",
+        "id": "A:1454",
+        "xyz": [
+          17.962,
+          -31.432,
+          -13.597
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "4PHL",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:1001",
+        "xyz": [
+          27.784,
+          36.341,
+          28.567
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "MG",
+        "id": "A:1002",
+        "xyz": [
+          29.821,
+          38.292,
+          25.738
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "4QA0",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:401",
+        "xyz": [
+          16.835,
+          26.151,
+          16.888
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "ZN",
+        "id": "B:401",
+        "xyz": [
+          13.407,
+          43.022,
+          27.685
+        ],
+        "belongs_to_population": false
+      }
+    ]
+  },
+  {
+    "entry": "4QGE",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:602",
+        "xyz": [
+          85.2,
+          47.296,
+          42.174
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "MG",
+        "id": "A:603",
+        "xyz": [
+          85.608,
+          47.087,
+          38.39
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "4WUD",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:402",
+        "xyz": [
+          11.809,
+          23.125,
+          -13.408
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "5A2R",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:1616",
+        "xyz": [
+          17.702,
+          -5.696,
+          -19.577
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "5E92",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:602",
+        "xyz": [
+          21.244,
+          1.285,
+          9.975
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "MG",
+        "id": "A:603",
+        "xyz": [
+          23.048,
+          -0.551,
+          12.602
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "5TY1",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:301",
+        "xyz": [
+          -6.826,
+          -1.224,
+          15.141
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "5Z2R",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:602",
+        "xyz": [
+          -14.025,
+          -22.818,
+          28.629
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "6E53",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:601",
+        "xyz": [
+          8.801,
+          -8.561,
+          108.483
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "MG",
+        "id": "A:602",
+        "xyz": [
+          10.144,
+          -6.852,
+          112.364
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "6HSK",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:401",
+        "xyz": [
+          -18.669,
+          7.364,
+          -8.239
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "6KE5",
+    "actual_metals": [
+      {
+        "metal": "CA",
+        "id": "C:1303",
+        "xyz": [
+          32.197,
+          187.456,
+          18.028
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "CA",
+        "id": "D:1302",
+        "xyz": [
+          31.653,
+          185.327,
+          14.729
+        ],
+        "belongs_to_population": false
+      }
+    ]
+  },
+  {
+    "entry": "6S1Y",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:709",
+        "xyz": [
+          14.706,
+          -59.446,
+          -23.549
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "6S1Z",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:705",
+        "xyz": [
+          15.639,
+          -62.302,
+          -22.292
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "7JVU",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:401",
+        "xyz": [
+          16.825,
+          25.243,
+          17.425
+        ],
+        "belongs_to_population": false
+      },
+      {
+        "metal": "ZN",
+        "id": "B:401",
+        "xyz": [
+          13.916,
+          42.284,
+          27.341
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "7JVW",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:502",
+        "xyz": [
+          16.609,
+          24.006,
+          17.309
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "ZN",
+        "id": "B:402",
+        "xyz": [
+          13.809,
+          40.777,
+          27.643
+        ],
+        "belongs_to_population": false
+      }
+    ]
+  },
+  {
+    "entry": "7SGG",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:703",
+        "xyz": [
+          -19.48,
+          -38.806,
+          32.173
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "8UBR",
+    "actual_metals": [
+      {
+        "metal": "MG",
+        "id": "A:1501",
+        "xyz": [
+          156.219,
+          154.162,
+          96.771
+        ],
+        "belongs_to_population": true
+      },
+      {
+        "metal": "MG",
+        "id": "A:1509",
+        "xyz": [
+          137.86,
+          146.209,
+          97.402
+        ],
+        "belongs_to_population": false
+      }
+    ]
+  },
+  {
+    "entry": "9GKV",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "B:402",
+        "xyz": [
+          0.17,
+          -5.754,
+          -31.576
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  },
+  {
+    "entry": "9RJE",
+    "actual_metals": [
+      {
+        "metal": "ZN",
+        "id": "A:407",
+        "xyz": [
+          -9.676,
+          -6.484,
+          -27.513
+        ],
+        "belongs_to_population": true
+      }
+    ]
+  }
+]

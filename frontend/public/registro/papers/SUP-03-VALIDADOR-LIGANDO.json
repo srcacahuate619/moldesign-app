@@ -1,0 +1,203 @@
+{
+ "id": "SUP-03-VALIDADOR-LIGANDO",
+ "meta": {
+  "titulo": "Las reglas que rechazan un ligando no rechazan ninguna molécula con actividad medida",
+  "entradilla": "Antes de acoplar, MolDesign rechaza las moléculas con mucha carga, con radicales o con varios fragmentos. Nadie había medido si esas reglas se llevaban por delante química real. En 640 moléculas activas de tres dianas, no rechazan ninguna."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Las cuatro reglas bloqueantes del validador del ligando no rechazan ninguna de las 640 moléculas con actividad medida.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El validador rechaza, sin dejar elegir, cuatro casos:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "una carga neta mayor que 2 en valor absoluto;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "un átomo con carga mayor que 2 en valor absoluto;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "radicales;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "varios fragmentos que no sean una sal reconocida.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Ninguna regla tenía una medida detrás, y el propietario prefiere que el producto avise en lugar de bloquear. Lo encontró Sol en el inventario SUPUESTOS-01. Se pasaron por el validador del producto, sin cambiar su configuración:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "640 moléculas con afinidad medida (VMAT2, NET y 5-HT1A);",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "3000 señuelos de DUD-E;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "6898 moléculas de los conjuntos de benchmark del proyecto.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Ninguna molécula activa cae en las cuatro reglas,",
+      "m": "fuerte"
+     },
+     {
+      "t": " y tampoco ningún señuelo.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "En los conjuntos de benchmark, la de fragmentos rechaza 6:",
+      "m": "fuerte"
+     },
+     {
+      "t": " son solvatos escritos con el disolvente como segundo fragmento, que el usuario tendría que borrar a mano.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Otras 68 caen por reglas distintas, y con motivo:",
+      "m": "fuerte"
+     },
+     {
+      "t": " 19 llevan boro, para el que Vina no tiene parámetros, y 49 son péptidos de más de 1000 Da, fuera del alcance declarado.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Con estos datos el supuesto se sostiene:",
+      "m": "fuerte"
+     },
+     {
+      "t": " las reglas no bloquean química con actividad medida.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No es el espacio de los fármacos:",
+      "m": "fuerte"
+     },
+     {
+      "t": " son tres dianas, sin aniones múltiples como los fosfatos o los nucleótidos.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Mira el SMILES de entrada, no la especie después de protonar.",
+      "m": "fuerte"
+     }
+    ],
+    [
+     {
+      "t": "Queda una mejora menor:",
+      "m": "fuerte"
+     },
+     {
+      "t": " convertir el rechazo de los solvatos en un aviso que se quede con la molécula mayor, coherente con «avisar, no bloquear». El experimento no lo exige.",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/SUP-03-VALIDADOR-LIGANDO.md"
+}

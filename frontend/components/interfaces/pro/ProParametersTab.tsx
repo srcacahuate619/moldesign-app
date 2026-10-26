@@ -6,6 +6,9 @@ import React from "react";
 import { LiquidOrb } from "./LiquidOrb";
 import { numeroOGuion } from "../../../lib/formatoNumerico";
 import { etiquetaPPB } from "../../../lib/admetEtiquetas";
+import readingStyles from "./ResultReadingPresentation.module.css";
+import {useResultReading} from "./ResultReadingPresentation";
+import {ResultPropertiesPanel} from "./ResultPropertiesPanel";
 
 interface Props {
   result: {
@@ -58,7 +61,7 @@ interface Props {
     heavy_atom_count?: number | null;
     ring_count?: number | null;
     ligand_efficiency?: number | null;
-    lipophilic_efficiency?: number; // LLE
+    ligand_lipophilicity_efficiency?: number | null; // LLE: clave del contrato backend
     affinity_threshold?: number | null;
     // Contexto de scoring (F-21): modelo usado (target_family y pesos de
     // stacking YA se renderizan en el DOT de ProEvaluation — no duplicar)
@@ -67,12 +70,15 @@ interface Props {
   } | null | undefined;
 }
 
+export type EvaluationProperties = NonNullable<Props["result"]>;
+
 export function ProParametersTab({ result }: Props) {
   const { t } = useLanguage();
+  const reading=useResultReading();
   if (!result) {
     return (
       <div className="space-y-3 animate-in fade-in duration-200">
-        <div className="text-center text-slate-400 text-xs py-12 font-mono">
+        <div className="text-center text-slate-400 text-sm py-12 font-mono">
           {t("pn_sin_datos_simulacion")}
         </div>
       </div>
@@ -108,37 +114,39 @@ export function ProParametersTab({ result }: Props) {
       : { value: valor ? si : no, ok: valor, neutral: false };
 
   const drugRules = [
-    { label: "Lipinski", passed: result.lipinski_pass },
-    { label: "Veber", passed: result.veber_pass },
-    { label: "Ghose", passed: result.ghose_pass },
-    { label: "Egan", passed: result.egan_pass },
-    { label: "Muegge", passed: result.muegge_pass, extra: result.muegge_score != null ? `${result.muegge_score}/9` : undefined },
+    { label: t("pr_param_filtro_lipinski"), passed: result.lipinski_pass },
+    { label: t("pr_param_filtro_veber"), passed: result.veber_pass },
+    { label: t("pr_param_filtro_ghose"), passed: result.ghose_pass },
+    { label: t("pr_param_filtro_egan"), passed: result.egan_pass },
+    { label: t("pr_param_filtro_muegge"), passed: result.muegge_pass, extra: result.muegge_score != null ? `${result.muegge_score}/9` : undefined },
     { label: t("auto_d7687bae4a5c"), extra: result.fsp3?.toFixed(2), isNeutral: true },
   ];
 
   const physicochemical = [
-    { label: "MW", value: numeroOGuion(result.molecular_weight, 1, " g/mol") },
-    { label: "LogP", value: result.log_p?.toFixed(2) || "—" },
-    { label: "TPSA", value: numeroOGuion(result.tpsa, 1, " Å²") },
-    { label: "HBD / HBA", value: `${result.hbd ?? "—"} / ${result.hba ?? "—"}` },
-    { label: "Rot. Bonds", value: result.rotatable_bonds?.toString() || "—" },
-    { label: "Heavy Atoms", value: result.heavy_atom_count?.toString() || "—" },
-    { label: "Rings", value: result.ring_count?.toString() || "—" },
-    { label: "LE", value: result.ligand_efficiency?.toFixed(3) || "—" },
-    { label: "LLE", value: result.lipophilic_efficiency?.toFixed(2) || "—" },
-    { label: t("auto_e5d485629017"), value: result.affinity_threshold != null ? `${result.affinity_threshold} kcal/mol` : "—" },
+    { label: t("pr_param_mw"), value: numeroOGuion(result.molecular_weight, 1, " g/mol") },
+    { label: t("pr_param_logp"), value: result.log_p?.toFixed(2) || "—" },
+    { label: t("pr_param_tpsa"), value: numeroOGuion(result.tpsa, 1, " Å²") },
+    { label: t("pr_param_hbd_hba"), value: `${result.hbd ?? "—"} / ${result.hba ?? "—"}` },
+    { label: t("pr_param_rotatable_bonds"), value: result.rotatable_bonds?.toString() || "—" },
+    { label: t("pn_atomos_pesados"), value: result.heavy_atom_count?.toString() || "—" },
+    { label: t("pr_param_rings"), value: result.ring_count?.toString() || "—" },
+    { key: "ligand_efficiency", label: t("pr_param_le"), value: result.ligand_efficiency?.toFixed(3) || "—" },
+    { key: "ligand_lipophilicity_efficiency", label: t("pr_param_lle"), value: result.ligand_lipophilicity_efficiency?.toFixed(2) ?? "—" },
+    { key: "affinity_threshold", label: t("auto_e5d485629017"), value: result.affinity_threshold != null ? `${result.affinity_threshold} kcal/mol` : "—" },
   ];
+
+  if(reading.enabled)return <ResultPropertiesPanel result={result} physicochemical={physicochemical} drugRules={drugRules} admetAbsent={admetAusente}/>;
 
   return (
     <div className="space-y-5 animate-in fade-in duration-200 font-sans">
       {/* ─── Header section: QED + SA Score ─── */}
-      <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+      <div className="grid grid-cols-2 gap-3 text-sm font-mono">
         <div className="bg-black/40 p-3.5 rounded-xl border border-white/10 space-y-1">
-          <span className="text-slate-400 block uppercase font-mono font-bold text-xs tracking-wider">{t("auto_a9c8b18d6386")}</span>
+          <span className="text-slate-400 block uppercase font-sans font-bold text-sm tracking-wider">{t("auto_a9c8b18d6386")}</span>
           <span className="text-white text-base font-bold font-mono">{result.qed?.toFixed(3) || "N/A"}</span>
         </div>
         <div className="bg-black/40 p-3.5 rounded-xl border border-white/10 space-y-1">
-          <span className="text-slate-400 block uppercase font-mono font-bold text-xs tracking-wider">{t("auto_dec25aafa6fd")}</span>
+          <span className="text-slate-400 block uppercase font-sans font-bold text-sm tracking-wider">{t("auto_dec25aafa6fd")}</span>
           <span className="text-white text-base font-bold font-mono">{result.sa_score?.toFixed(2) || "N/A"}</span>
         </div>
       </div>
@@ -146,19 +154,21 @@ export function ProParametersTab({ result }: Props) {
       {/* ─── Drug-likeness Rules ─── */}
       <div className="border-t border-white/10 pt-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h4 className="text-xs font-mono font-black uppercase tracking-widest text-slate-300">
-            Drug-likeness
+          <h4 className="text-base font-sans font-black uppercase tracking-widest text-slate-300">
+            {t("pn_drug_likeness")}
           </h4>
-          <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
+          <span className="text-sm font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
             {t("pn_filtros_farmacologicos")}
           </span>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
           {drugRules.map((rule) => (
-            <div key={rule.label} className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5 font-sans text-xs">
+            <div key={rule.label} className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5 font-sans text-sm">
               {rule.isNeutral ? (
-                <span className="text-white/30 font-mono">{rule.extra ?? "—"}</span>
+                <span className="text-zinc-400 font-mono">{rule.extra ?? "—"}</span>
+              ) : rule.passed == null ? (
+                <span className="text-zinc-400 text-sm">{t("c_no_registrado")}</span>
               ) : rule.passed ? (
                 <span className="text-emerald-400 text-sm font-bold">✓</span>
               ) : (
@@ -166,31 +176,33 @@ export function ProParametersTab({ result }: Props) {
               )}
               <span className="text-white/70">{rule.label}</span>
               {rule.extra && !rule.isNeutral && (
-                <span className="text-[11px] font-mono text-white/25 ml-auto">{rule.extra}</span>
+                <span className="text-sm font-mono text-zinc-400 ml-auto">{rule.extra}</span>
               )}
             </div>
           ))}
           {/* PAINS */}
-          <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5 font-sans text-xs">
-            {result.is_pains ? (
+          <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5 font-sans text-sm">
+            {result.is_pains == null ? (
+              <span className="text-zinc-400 text-sm">{t("c_no_registrado")}</span>
+            ) : result.is_pains ? (
               <span className="text-red-400 text-sm font-bold">✗</span>
             ) : (
               <span className="text-emerald-400 text-sm font-bold">✓</span>
             )}
-            <span className="text-white/70">PAINS</span>
+            <span className="text-white/70">{t("pr_param_pains")}</span>
             {result.is_pains && (
-              <span className="text-[11px] font-mono text-rose-300/70 ml-auto">
-                {result.pains_matches?.length ?? 0} hits
+              <span className="text-sm font-mono text-rose-300 ml-auto">
+                {result.pains_matches?.length ?? 0} {t("pr_param_coincidencias")}
               </span>
             )}
           </div>
         </div>
 
         {result.is_pains && result.pains_matches && result.pains_matches.length > 0 && (
-          <div className="px-3 py-2 rounded-lg bg-red-500/5 border border-red-500/10 space-y-1 font-mono text-xs">
+          <div className="px-3 py-2 rounded-lg bg-red-500/5 border border-red-500/10 space-y-1 font-mono text-sm">
             <span className="text-rose-400 uppercase font-bold block mb-0.5 tracking-wider">{t("auto_874e265d5f11")}</span>
             {result.pains_matches.map((p, idx) => (
-              <p key={idx} className="text-rose-300/90 text-xs leading-relaxed">• {p}</p>
+              <p key={idx} className="text-rose-300 text-base leading-6 font-sans">• {p}</p>
             ))}
           </div>
         )}
@@ -198,12 +210,12 @@ export function ProParametersTab({ result }: Props) {
 
       {/* ─── SA Reasons ─── */}
       {result.sa_reasons && result.sa_reasons.length > 0 && (
-        <div className="bg-black/40 p-4 rounded-xl border border-white/10 text-xs space-y-1.5 font-mono">
-          <span className="text-rose-400 uppercase font-bold block mb-1 tracking-wider text-xs">
+        <div className="bg-black/40 p-4 rounded-xl border border-white/10 text-sm space-y-1.5 font-mono">
+          <span className="text-rose-400 uppercase font-bold block mb-1 tracking-wider text-sm">
             {t("auto_8a1bd2567fd7")}
           </span>
           {result.sa_reasons.map((r, idx) => (
-            <div key={idx} className="text-rose-300 font-medium text-xs leading-relaxed">• {r}</div>
+            <div key={idx} className="text-rose-300 font-medium text-base leading-6 font-sans">• {r}</div>
           ))}
         </div>
       )}
@@ -211,19 +223,19 @@ export function ProParametersTab({ result }: Props) {
       {/* ─── Propiedades Físico-Químicas ─── */}
       <div className="border-t border-white/10 pt-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h4 className="text-xs font-mono font-black uppercase tracking-widest text-slate-300">
+          <h4 className="text-base font-sans font-black uppercase tracking-widest text-slate-300">
             {t("z_propiedades_fq")}
           </h4>
-          <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/25">
+          <span className="text-sm font-mono font-bold px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/25">
             RDKit
           </span>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className={`${readingStyles.propertiesGrid} grid grid-cols-2 gap-2`}>
           {physicochemical.map((p) => (
-            <div key={p.label} className="flex justify-between items-center px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5">
-              <span className="text-[10px] font-medium text-white/40 uppercase tracking-wider font-sans">{p.label}</span>
-              <span className="text-xs font-bold font-mono text-white/80">{p.value}</span>
+            <div key={p.label} className={`${readingStyles.propertyRow} flex justify-between items-center px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5`}>
+              <span className="text-sm font-medium text-zinc-400 uppercase tracking-wider font-sans">{p.label}</span>
+              <span className="text-sm font-bold font-mono text-white/80">{p.value}</span>
             </div>
           ))}
         </div>
@@ -235,30 +247,30 @@ export function ProParametersTab({ result }: Props) {
           ProEvaluation (familia + w= por etapa) — no duplicar (regla 4). */}
       <div className="border-t border-white/10 pt-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h4 className="text-xs font-mono font-black uppercase tracking-widest text-slate-300">
+          <h4 className="text-base font-sans font-black uppercase tracking-widest text-slate-300">
             {t("z_contexto_scoring")}
           </h4>
-          <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
-            ML Stacking
+          <span className="text-sm font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
+            {t("pr_param_ml_stacking")}
           </span>
         </div>
 
         <div className="grid grid-cols-2 gap-2">
           {[
             {
-              label: "Modelo usado",
+              label: t("pr_param_modelo_usado"),
               value:
                 result.model_used === "family"
                   ? t("auto_946f5d999b58")
                   : result.model_used === "universal"
-                    ? "Universal"
+                    ? t("pr_param_modelo_universal")
                     : "—",
             },
             { label: t("c_motor"), value: result.engine_used || "—" },
           ].map((m) => (
             <div key={m.label} className="flex justify-between items-center px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5">
-              <span className="text-[10px] font-medium text-white/40 uppercase tracking-wider font-sans">{m.label}</span>
-              <span className="text-xs font-bold font-mono text-white/80">{m.value}</span>
+              <span className="text-sm font-medium text-zinc-400 uppercase tracking-wider font-sans">{m.label}</span>
+              <span className="text-sm font-bold font-mono text-white/80">{m.value}</span>
             </div>
           ))}
         </div>
@@ -267,17 +279,17 @@ export function ProParametersTab({ result }: Props) {
       {/* ─── ADMET Pharmacokinetics & MPO Profile ─── */}
       <div className="border-t border-white/10 pt-4 space-y-3">
         <div className="flex items-center justify-between">
-          <h4 className="text-xs font-mono font-black uppercase tracking-widest text-slate-300">
+          <h4 className="text-base font-sans font-black uppercase tracking-widest text-slate-300">
             {t("auto_7eb24dc6b19d")}
           </h4>
           <span
-            className={`text-xs font-mono font-bold px-2 py-0.5 rounded border ${
+            className={`text-sm font-mono font-bold px-2 py-0.5 rounded border ${
               admetAusente
-                ? "bg-white/[0.04] text-white/45 border-white/10"
+                ? "bg-white/[0.04] text-zinc-400 border-white/10"
                 : "bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
             }`}
           >
-            {admetAusente ? "ADMET-AI no disponible" : "ADMET-AI"}
+            {admetAusente ? t("pr_param_admet_no_disponible") : t("pr_param_admet_ai")}
           </span>
         </div>
 
@@ -293,10 +305,10 @@ export function ProParametersTab({ result }: Props) {
         {admetAusente && (
           <p
             role="status"
-            className="rounded-lg border border-amber-500/20 bg-amber-500/[0.05] px-3 py-2.5 text-[11px] leading-relaxed text-amber-100/80"
+            className="rounded-lg border border-amber-500/20 bg-amber-500/[0.05] px-3 py-2.5 text-base leading-6 text-amber-100 font-sans"
           >
             {t("auto_9a8c2888bccd")}{" "}
-            <strong className="font-semibold">no</strong> {t("auto_f4fdb640f385")}{" "}
+            <strong className="font-semibold">{t("pr_param_no")}</strong> {t("auto_f4fdb640f385")}{" "}
             {/* Ahora SÍ hay algo que hacer. El párrafo sigue sin nombrar una causa
                 —desde aquí no se distinguen— pero sí la salida: ADMET depende sólo
                 del SMILES, así que se puede calcular sin repetir el acoplamiento. */}
@@ -333,8 +345,8 @@ export function ProParametersTab({ result }: Props) {
                   ? `${result.blood_solubility_logs.toFixed(2)} logS`
                   : "—"
               }
-              label="Solubilidad"
-              source="ADMET-AI"
+              label={t("pr_param_solubilidad")}
+              source={t("pr_param_admet_ai")}
             />
           </div>
         </div>
@@ -343,18 +355,18 @@ export function ProParametersTab({ result }: Props) {
         <div className="grid grid-cols-2 gap-2 mt-2">
           {([
             {
-              label: "PPB",
+              label: t("pr_param_ppb"),
               value: etiquetaPPB(result.blood_ppb_category) ?? t("auto_185e750ee009"),
               ok: undefined,
               neutral: true,
             },
-            { label: "HIA", ...booleanoAdmet(result.blood_hia_permeable, t("auto_96ebe42068b8"), t("auto_d22dcefc76d7")) },
+            { label: t("pr_param_hia"), ...booleanoAdmet(result.blood_hia_permeable, t("auto_96ebe42068b8"), t("auto_d22dcefc76d7")) },
             {
               label: "BBB",
-              ...booleanoAdmet(result.blood_bbb_permeable, "✓ Permeable", t("auto_f7139777c977")),
+              ...booleanoAdmet(result.blood_bbb_permeable, t("pr_param_permeable"), t("auto_f7139777c977")),
             },
             {
-              label: "CNS MPO",
+              label: t("pr_param_cns_mpo"),
               value: numeroOGuion(result.blood_cns_mpo, 2, " / 6"),
               ok: (result.blood_cns_mpo ?? 0) >= 4,
               neutral: true,
@@ -367,33 +379,33 @@ export function ProParametersTab({ result }: Props) {
             },
           ] as Array<{ label: string; value: string; ok?: boolean; neutral: boolean }>).map((m) => (
             <div key={m.label} className="flex items-center justify-between px-3 py-2.5 rounded-lg bg-white/[0.02] border border-white/5">
-              <span className="text-xs font-medium text-white/50 font-sans">{m.label}</span>
-              <span className={`text-xs font-bold font-mono ${m.neutral ? "text-white/60" : m.ok ? "text-emerald-400" : "text-rose-400"}`}>{m.value}</span>
+              <span className="text-sm font-medium text-zinc-400 font-sans">{m.label}</span>
+              <span className={`text-sm font-bold font-mono ${m.neutral ? "text-zinc-400" : m.ok ? "text-emerald-400" : "text-rose-400"}`}>{m.value}</span>
             </div>
           ))}
         </div>
 
         {/* Por qué ese veredicto de BBB: la regla que decidió, con sus números */}
         {result.blood_bbb_motivo ? (
-          <p className="mt-2 px-3 py-2 rounded-lg bg-white/[0.02] border border-white/5 text-[11px] leading-relaxed text-white/45 font-sans">
-            <span className="font-semibold text-white/60">BBB — </span>
+          <p className="mt-2 px-3 py-2 rounded-lg bg-white/[0.02] border border-white/5 text-base leading-6 text-zinc-300 font-sans">
+            <span className="font-semibold text-zinc-400">BBB — </span>
             {result.blood_bbb_motivo}
           </p>
         ) : null}
 
         {/* Systemic Reactivity */}
-        <div className="bg-black/40 p-4 rounded-xl border border-white/10 text-xs space-y-1 font-mono">
-          <span className="text-slate-400 uppercase font-mono font-bold block mb-1 text-xs tracking-wider">
+        <div className="bg-black/40 p-4 rounded-xl border border-white/10 text-sm space-y-1 font-mono">
+          <span className="text-slate-400 uppercase font-sans font-bold block mb-1 text-sm tracking-wider">
             {t("pn_reactividad_sistemica")}
           </span>
           {result.blood_systemic_reactivity && result.blood_systemic_reactivity.length > 0 ? (
             <div className="space-y-1">
               {result.blood_systemic_reactivity.map((err, idx) => (
-                <div key={idx} className="text-rose-400 font-semibold font-mono text-xs flex items-start gap-1.5">
+                <div key={idx} className="text-rose-400 font-semibold font-mono text-sm flex items-start gap-1.5">
                   <span>⚠</span> <span>{err}</span>
                 </div>
               ))}
-              <p className="text-xs text-rose-300/80 font-sans mt-1">
+              <p className="text-base text-rose-300 font-sans mt-1 leading-6">
                 {t("pn_reactividad_tabpfn")}
               </p>
             </div>
@@ -409,11 +421,11 @@ export function ProParametersTab({ result }: Props) {
                campo que no existe, ver `chem/blood_viability.py`—, así que
                con ADMET vivo esta rama no se tomaba y todo el mundo veía el
                visto bueno verde. Ahora el backend manda su propio estado. */
-            <p className="text-white/45 font-semibold text-xs font-mono">
+            <p className="text-zinc-300 font-semibold text-base font-sans leading-6">
               {t("pn_toxicidad_sin_evaluar")}
             </p>
           ) : (
-            <p className="text-emerald-400 font-semibold text-xs font-mono">
+            <p className="text-emerald-400 font-semibold text-base font-sans leading-6">
               {t("pn_sin_alertas_reactividad")}
             </p>
           )}

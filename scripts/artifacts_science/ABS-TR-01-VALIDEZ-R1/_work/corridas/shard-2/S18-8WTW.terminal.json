@@ -1,0 +1,18 @@
+{
+  "id_r2": "S18",
+  "pdb": "8WTW",
+  "intentos": [
+    {
+      "n": 1,
+      "error": "RuntimeError: la corrida no terminó en SUCCESS: {'task_id': 'a467f3e5-a158-4248-9bb2-68f445093567', 'status': 'FAILURE', 'progress': 0, 'error': \"ProteinPreparationError: Error preparando proteína '8WTW' en el paso 'mk_prepare_receptor'\", 'started_at': '2026-10-25T01:30:49.192609Z', 'finished_at': '2026-10-25T01:30:54.877283Z'}",
+      "segundos": 6.4
+    },
+    {
+      "n": 2,
+      "error": "RuntimeError: la corrida no terminó en SUCCESS: {'task_id': '8c8a1ee7-064e-400e-a77e-fae13d60bc71', 'status': 'FAILURE', 'progress': 0, 'error': \"ProteinPreparationError: Error preparando proteína '8WTW' en el paso 'mk_prepare_receptor'\", 'started_at': '2026-10-25T01:30:55.549203Z', 'finished_at': '2026-10-25T01:31:00.820725Z'}",
+      "segundos": 6.3
+    }
+  ],
+  "estado": "FALLO",
+  "registrado_en": "2026-10-25T01:31:01+00:00"
+}

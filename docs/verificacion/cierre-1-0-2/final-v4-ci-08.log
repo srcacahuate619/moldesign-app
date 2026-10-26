@@ -1,0 +1,63 @@
+
+> moldesign-frontend@1.0.1 build:desktop
+> cross-env BUILD_TARGET=desktop NEXT_PUBLIC_API_URL= npm run build
+
+
+> moldesign-frontend@1.0.1 prebuild
+> node scripts/check-build-lock.js && npm run check:external-links
+
+
+> moldesign-frontend@1.0.1 check:external-links
+> node scripts/check-external-links.mjs
+
+External-link boundary: clean
+
+> moldesign-frontend@1.0.1 build
+> next build --webpack
+
+▲ Next.js 16.3.8 (webpack)
+✓ Running next.config.js took 28ms
+- Experiments (use with caution):
+  · optimizePackageImports
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 11.6s
+  Running TypeScript ...
+  Finished TypeScript in 10.8s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/15) ...
+  Generating static pages using 11 workers (3/15) 
+  Generating static pages using 11 workers (7/15) 
+  Generating static pages using 11 workers (11/15) 
+✓ Generating static pages using 11 workers (15/15) in 683ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /ciencia
+├ ○ /comunidad
+├ ○ /evaluation
+├ ○ /evaluation/batch
+├ ○ /history
+├ ○ /icon.png
+├ ○ /launcher
+├ ○ /login
+├ ○ /molcy
+├ ○ /moldex
+└ ○ /preparacion
+
+
+○  (Static)  prerendered as static content
+
+
+> moldesign-frontend@1.0.1 postbuild
+> node scripts/normalize-next-rsc-export.mjs && npm run check:solana-boundary
+
+[normalize-next-rsc-export] autotest OK; 11 segmentos planos materializados.
+
+> moldesign-frontend@1.0.1 check:solana-boundary
+> node scripts/check-solana-browser-boundary.mjs
+
+[check-solana-browser-boundary] autotest OK; export sin React Native/Metro ni stream-json (2 marcadores).

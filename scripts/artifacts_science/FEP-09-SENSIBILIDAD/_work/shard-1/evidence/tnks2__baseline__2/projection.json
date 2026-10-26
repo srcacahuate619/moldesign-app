@@ -1,0 +1,82 @@
+{
+  "projection_version": 1,
+  "case_id": "tnks2__baseline__2",
+  "name": "tnks2__baseline__2",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_779855",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+      "canonical_smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12"
+    },
+    "config": {
+      "grid_center": [
+        -39.007,
+        -12.037,
+        10.985
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:67b1e8232bef2cd5b7a16807da7f4201368c4a45d4ea8ae7ccd582cef8e8e2c2",
+    "generated_at": "2026-10-11T20:21:16.412165+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "ESPECIES_DEL_SITIO_RETIRADAS",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "cea766af-cf4d-4cb7-b4d9-2cb5f1021770",
+    "input_fingerprint": "sha256:67b1e8232bef2cd5b7a16807da7f4201368c4a45d4ea8ae7ccd582cef8e8e2c2",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

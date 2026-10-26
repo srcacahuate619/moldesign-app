@@ -1,0 +1,44 @@
+[
+  {
+    "path": "/targets/6USR/variants",
+    "event": "mk_prepare_receptor_fallback_delete_residues",
+    "pdb_id": "USR_BE96A3",
+    "problematic": []
+  },
+  {
+    "path": "/targets/6USR/variants",
+    "event": "preparacion_custom_fallida",
+    "pdb_id": "USR_BE96A3",
+    "error": "Error preparando proteína 'USR_BE96A3' en el paso 'meeko_residue_not_deletable'",
+    "detalle": "Meeko no preparó el receptor; sus residuos problemáticos [] son proteína o cofactores declarados. Se detiene sin borrar el sitio."
+  },
+  {
+    "path": "/targets/6USR/variants",
+    "event": "request falló con excepción no controlada"
+  },
+  {
+    "path": "/targets/6USR/variants",
+    "event": "error inesperado no controlado"
+  },
+  {
+    "path": "/targets/8WGR/variants",
+    "event": "mk_prepare_receptor_fallback_delete_residues",
+    "pdb_id": "USR_EF8982",
+    "problematic": []
+  },
+  {
+    "path": "/targets/8WGR/variants",
+    "event": "preparacion_custom_fallida",
+    "pdb_id": "USR_EF8982",
+    "error": "Error preparando proteína 'USR_EF8982' en el paso 'meeko_residue_not_deletable'",
+    "detalle": "Meeko no preparó el receptor; sus residuos problemáticos [] son proteína o cofactores declarados. Se detiene sin borrar el sitio."
+  },
+  {
+    "path": "/targets/8WGR/variants",
+    "event": "request falló con excepción no controlada"
+  },
+  {
+    "path": "/targets/8WGR/variants",
+    "event": "error inesperado no controlado"
+  }
+]

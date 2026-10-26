@@ -1,0 +1,11 @@
+
+> moldesign-frontend@1.0.1 check:csp
+> node scripts/check-prod-csp.js
+
+[check-prod-csp] DESVIACIÓN DECLARADA en script-src: 'unsafe-eval' — molstar.js y 3Dmol-min.js lo necesitan; sin él los visores 3D no pintan
+[check-prod-csp] DESVIACIÓN DECLARADA en style-src: 'unsafe-inline' — estilos inline de Next.js/Tailwind (Tarea #3 del audit)
+[check-prod-csp] style-src protegido: Tauri no inyectara nonces ahi, asi que los estilos en linea de React sobreviven.
+[check-prod-csp] DESVIACIÓN DECLARADA en connect-src: data: — el módulo WebAssembly de Mol* viaja como `data:` URI y se carga con fetch; no abre ninguna conexión de red (decisión del propietario, 2026-10-04)
+[check-prod-csp] la CSP del MSIX coincide con la de producción, directiva a directiva.
+[check-prod-csp] CSP de producción válida: trae el origen propio y el backend local.
+[check-prod-csp] default-src 'self'; connect-src ipc: http://ipc.localhost https://api.devnet.solana.com wss://api.devnet.solana.com 'self' http://tauri.localhost https://tauri.localhost tauri://localhost http://127.0.0.1:* http://localhost:* ws://127.0.0.1:* ws://localhost:* data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: blob:; font-src 'self' data:; media-src 'self' http://127.0.0.1:* http://localhost:*; frame-src 'self' blob:; worker-src 'self' blob:

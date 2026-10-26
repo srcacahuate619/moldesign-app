@@ -377,6 +377,65 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-068. ",
+      "m": null
+     },
+     {
+      "t": "MF-08-PRE-R1",
+      "m": "codigo"
+     },
+     {
+      "t": " declara un G5 de determinismo (dos complejos repetidos) que ",
+      "m": null
+     },
+     {
+      "t": "run_mf08_caja.py",
+      "m": "codigo"
+     },
+     {
+      "t": " no implementa: el resultado observado no evaluó el determinismo.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/MF-08.md"

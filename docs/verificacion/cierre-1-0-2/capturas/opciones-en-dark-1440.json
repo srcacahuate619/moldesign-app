@@ -1,0 +1,19 @@
+{
+  "name": "opciones-en-dark-1440",
+  "url": "http://localhost:13013/evaluation",
+  "time": "2026-10-10T03:28:54.359Z",
+  "commit": "44c3a97e715e7dfd4a6a2dacd9c461bae06120ac",
+  "export": "385ab48dccae3ab777f4cbf808e5a46360aab913342e95f9eea987c12e154a52",
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "locale": "en",
+  "theme": "dark",
+  "text": "OPTIONS\nPREPARATION\nMOLCYBETA\nBATCH\nEVALUATION\nMOLDEX\nHISTORY\n3\nDESKTOP USER\nSIGN OUT\nCASES\nNew case\nSearch cases\nACTIVE CASES\n1\nQA cierre 8HFI\nREVIEW · EVALUATED 2 HR AGO\nCreate a study case\n\nBring a protein, a site hypothesis, ligands, runs, controls and reports together in one reproducible space.\n\nCreate a case\nOpen an existing folder\n\nFOLDER ON THIS DEVICE\n\nOptions\nAPPEARANCE\nDark theme\nLANGUAGE\n🇺🇸 English\nSOUNDS\nInterface sounds\nMODELS AND ENGINES\nManage downloads\nDATA AND BACKUP\nExport library as JSON\nExport library as CSV\nClear legacy local data\nLEGAL AND INFORMATION\nLegal, privacy and licenses\nAbout MolDesign\nv1.0.1\nSupport and help",
+  "overflow": {
+    "width": 1440,
+    "document": 1440
+  },
+  "errors": []
+}

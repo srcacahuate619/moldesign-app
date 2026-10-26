@@ -1,0 +1,89 @@
+{
+  "experimento": "ABS-TR-01-VALIDEZ",
+  "congelado_en": "2026-10-22T16:40:07+00:00",
+  "git_head": "d6f9fb99e4fd429f9c437d9469b7e66de670af62",
+  "registro_previo_sha256": "6e174dc571fd4a1e678ae4405f2e6e1072eaa0df145733ea2effa45172483734",
+  "mapas": {
+    "r1_sha256": "dde9bd18e8823569ebd7f169799567e9f4d1386a1a596f4e2dd273a7962a8f00",
+    "r2_sha256": "461ec4eca12376618083b26653623f6b1e3e59d4be56735303416a0e25c51d90"
+  },
+  "ruta": "catálogo (Demostración), POST /evaluation/preflight → submit → result → POST /evaluation/dossier/{id}/preparacion",
+  "configuracion_del_caso": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "properties": {
+        "run_admet_ai": false
+      },
+      "conformer": {
+        "conformers": 1
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9
+      }
+    },
+    "docking_engine": "vina",
+    "pro_selectivity": false,
+    "pro_mmgbsa": false
+  },
+  "semilla": 42,
+  "cpu_por_proceso": 4,
+  "tope_cpu_core_h": 30.0,
+  "intentos": 2,
+  "max_fallos_de_infraestructura": 3,
+  "objetivo_falso_bloqueo": 0.1,
+  "correspondencia_controles": {
+    "C01": [
+      "receptor.huecos"
+    ],
+    "C02": [
+      "receptor.cadenas_truncadas"
+    ],
+    "C03": [
+      "receptor.altlocs"
+    ],
+    "C04": [
+      "receptor.cadenas",
+      "receptor.cadenas_excluidas"
+    ],
+    "C05": [
+      "entorno.metales_cofactores",
+      "entorno.otras_especies"
+    ],
+    "C06": [
+      "entorno.aguas"
+    ],
+    "C07": [
+      "ligando.covalente"
+    ],
+    "C08": [
+      "ligando.identidad",
+      "ligando.estereoquimica",
+      "ligando.tautomero"
+    ],
+    "C09": [
+      "receptor.protonacion"
+    ],
+    "C10": [
+      "receptor.caja"
+    ]
+  },
+  "hashes": {
+    "abs_tr_01.py": "98a2b5b888b90dd720b2b74ed45af5d4a3cc2f2dc428ffe6ac99d6b52adacc1c",
+    "capsula.mjs": "c3b98e91bbb4d3fdf16a76aa3fd503eb89d5f5e1edfa57e66a2d779b6eb234dc",
+    "calibracion_receptor.py": "fa01b80b3972d8f8cab641e2c135a0d08fac2f2d3ce5d37588aa849b64fd3b85",
+    "referencia_revisores.json": "bdded1967096af6a6865680243b561dc7faf141d8f7c55ccf7f3397a504e03a6",
+    "sistemas.json": "c46fbc66980c4053a6df33eb8efae144418febf6bd4cde880edc44501d89000f",
+    "ccd.json": "4a106658cc7b4849f67267439d0d1c6a3b3461de3a775f728d81261d337e07dd",
+    "vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "python": "3.11.9"
+  }
+}

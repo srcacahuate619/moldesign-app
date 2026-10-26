@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 p38__baseline_estereo__1",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "A",
+    "grid_center_x": 22.0891,
+    "grid_center_y": 10.7991,
+    "grid_center_z": 31.5223,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "f3929abf39fde9a0251b3f449a24bb1bb764a11716caaca10f32cad7fadfb9d0",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\r1-6\\tmp\\inputs\\p38__baseline_estereo__1.pdb"
+}

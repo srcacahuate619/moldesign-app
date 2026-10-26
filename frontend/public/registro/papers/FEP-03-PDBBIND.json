@@ -240,25 +240,10 @@
       "m": "fuerte"
      },
      {
-      "t": ": la agrupación por diana usa k-meros de secuencia y",
+      "t": ": la agrupación por diana usa k-meros de secuencia y no distingue mutantes puntuales de la misma proteína.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "no distingue mutantes puntuales de la misma proteína.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "El universo efectivo son ",
@@ -269,62 +254,32 @@
       "m": "fuerte"
      },
      {
-      "t": " entradas, porque la copia local de",
+      "t": " entradas, porque la copia local de PDBBind no trae el ",
+      "m": null
+     },
+     {
+      "t": "_protein.pdb",
+      "m": "codigo"
+     },
+     {
+      "t": " de 1438.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "PDBBind no trae el ",
-     "m": null
-    },
-    {
-     "t": "_protein.pdb",
-     "m": "codigo"
-    },
-    {
-     "t": " de 1438.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
-      "t": "Para elegir cohorte hacen falta afinidades por ligando. Las añadidas desde",
+      "t": "Para elegir cohorte hacen falta afinidades por ligando. Las añadidas desde BindingDB al índice local se emparejaron por diana y no por complejo, así que ",
+      "m": null
+     },
+     {
+      "t": "no sirven",
+      "m": "fuerte"
+     },
+     {
+      "t": "; con las de la fase A, la cohorte recomendada es galectina-3 (6qln-6qlu, 7 ligandos de un mismo artículo).",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "BindingDB al índice local se emparejaron por diana y no por complejo, así que ",
-     "m": null
-    },
-    {
-     "t": "no sirven",
-     "m": "fuerte"
-    },
-    {
-     "t": "; con las de la fase A, la cohorte recomendada es galectina-3 (6qln-6qlu, 7 ligandos de un mismo artículo).",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "PDBBind ",
@@ -335,7 +290,50 @@
       "m": "fuerte"
      },
      {
-      "t": " sus estructuras ni sus afinidades sin",
+      "t": " sus estructuras ni sus afinidades sin permiso escrito. El artefacto guarda identificadores PDB, recuentos y agregados por diana; un paquete para terceros construido sobre esta cohorte tendría que reconstruirse desde los identificadores.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-006. Igual que en FEP-03: el conteo de parejas es de candidatas con sesgos en las dos direcciones, no una cota superior demostrada.",
       "m": null
      }
     ]
@@ -345,9 +343,65 @@
    "tipo": "parrafo",
    "frag": [
     {
-     "t": "permiso escrito. El artefacto guarda identificadores PDB, recuentos y agregados por diana; un paquete para terceros construido sobre esta cohorte tendría que reconstruirse desde los identificadores.",
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-008. «Ligandos conectados» contaba los extremos de todas las parejas aptas de una diana: dos parejas sueltas A–B y C–D sumaban 4 aunque no haya camino entre A y D. Contando el ",
+      "m": null
+     },
+     {
+      "t": "mayor componente conexo",
+      "m": "fuerte"
+     },
+     {
+      "t": ", que es lo que necesita una red de FEP relativo, hay ",
+      "m": null
+     },
+     {
+      "t": "11",
+      "m": "fuerte"
+     },
+     {
+      "t": " dianas con 10 o más ligandos (no 28) y ",
+      "m": null
+     },
+     {
+      "t": "4",
+      "m": "fuerte"
+     },
+     {
+      "t": " con 20 o más (no 12); 73 de las 313 dianas tienen más de un componente. Un componente conexo tampoco es todavía una red parametrizable. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fep03pdbbind_componentes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
    ]
   }
  ],

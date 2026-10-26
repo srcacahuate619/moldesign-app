@@ -1,0 +1,456 @@
+{
+  "label": "antidianas-final-en-dark-1024",
+  "commit": "44c3a97e715e7dfd4a6a2dacd9c461bae06120ac",
+  "export": "385ab48dccae3ab777f4cbf808e5a46360aab913342e95f9eea987c12e154a52",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "locale": "en",
+  "theme": "dark",
+  "readings": [
+    {
+      "tag": "H2",
+      "id": "pro-options-title",
+      "text": "Evaluation parameters",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        17,
+        17,
+        21
+      ],
+      "ratio": 18.837,
+      "passes": true
+    },
+    {
+      "tag": "SELECT",
+      "id": "_r_k_",
+      "text": "8",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "SELECT",
+      "id": "_r_l_",
+      "text": "9",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "_r_m_",
+      "text": "4",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "_r_n_",
+      "text": "2",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "INPUT",
+      "id": "_r_o_",
+      "text": "7.4",
+      "foreground": [
+        255,
+        255,
+        255
+      ],
+      "background": [
+        10,
+        10,
+        10
+      ],
+      "ratio": 19.798,
+      "passes": true
+    },
+    {
+      "tag": "SELECT",
+      "id": "tautomer-mode",
+      "text": "canonico",
+      "foreground": [
+        244,
+        244,
+        245
+      ],
+      "background": [
+        24,
+        24,
+        27
+      ],
+      "ratio": 16.118,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "4 incomplete side chains were truncated near the site; the prepared pocket lacks those groups.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    },
+    {
+      "tag": "P",
+      "id": "",
+      "text": "Redocking did not reproduce the crystal pose; the ΔΔG margin is indicative.",
+      "foreground": [
+        255,
+        210,
+        48
+      ],
+      "background": [
+        9,
+        9,
+        11
+      ],
+      "ratio": 13.75,
+      "passes": true
+    }
+  ],
+  "passes": true
+}

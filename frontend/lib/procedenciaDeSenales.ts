@@ -22,6 +22,47 @@
 
 /** Lo que el backend serializó para una etapa, si serializó algo. */
 export type SenalReal = { value?: string; weight?: number; sub?: string };
+
+/** El perfil más específico que produjo una salida, nunca un aviso de aplicabilidad. */
+export function protocoloRegistrado(real: Parameters<typeof pesosRegistrados>[0] & {
+  weights_calibration_id?: string | null;
+  m5_protocol_id?: string | null;
+  m5_score?: number | null;
+  m5_scientific_status?: string | null;
+}): "M4" | "M5-Zn" | null {
+  const estadosConCalculo = ["VALIDATED", "REVIEW_INVALID_BENCHMARK_SITE",
+    "REVIEW_BENCHMARK_PROVENANCE_INCOMPLETE", "REVIEW_BENCHMARK_TOP1_NOT_METAL_COORDINATING"];
+  if (real.m5_protocol_id?.trim() && typeof real.m5_score === "number"
+    && Number.isFinite(real.m5_score) && estadosConCalculo.includes(real.m5_scientific_status ?? "")) {
+    return "M5-Zn";
+  }
+  return pesosRegistrados(real).source !== "missing" || real.weights_calibration_id?.trim() ? "M4" : null;
+}
+
+/** Pesos persistidos, sin rellenarlos desde el diseño de una familia. */
+export function pesosRegistrados(real: {
+  stacking_effective_weights?: Record<string, number> | null;
+  stacking_vina_weight?: number | null;
+  stacking_xgb_weight?: number | null;
+  stacking_gnn_weight?: number | null;
+  stacking_clgnn_weight?: number | null;
+}): { source: "effective" | "individual" | "missing"; values: Record<string, number> } {
+  const valid = (value: unknown): value is number =>
+    typeof value === "number" && Number.isFinite(value) && value >= 0;
+  const effective = Object.fromEntries(
+    ["vina", "xgb", "gnn", "clgnn"]
+      .filter((key) => valid(real.stacking_effective_weights?.[key]))
+      .map((key) => [key, real.stacking_effective_weights![key]]),
+  );
+  if (Object.keys(effective).length > 0) return { source: "effective", values: effective };
+  const individual = Object.fromEntries(Object.entries({
+    vina: real.stacking_vina_weight,
+    xgb: real.stacking_xgb_weight,
+    gnn: real.stacking_gnn_weight,
+    clgnn: real.stacking_clgnn_weight,
+  }).filter((entry): entry is [string, number] => valid(entry[1])));
+  return { source: Object.keys(individual).length > 0 ? "individual" : "missing", values: individual };
+}
 /**
  * La señal autorizada en M5 es `ums_warhead`; `ums_score` sólo conserva el
  * valor histórico de corridas antiguas. Cualquiera de las dos cuenta como

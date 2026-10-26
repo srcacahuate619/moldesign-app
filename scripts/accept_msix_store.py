@@ -257,6 +257,8 @@ def comprobar_runtime_completo(msix: Path) -> dict[str, Any]:
         "resources/backend/api/main.py",
         "resources/tools/vina/vina.exe",
         "resources/tools/openbabel/bin/obabel.exe",
+        "resources/tools/molcy/molcy-manifest.json",
+        "resources/tools/molcy/scripts/maestro.py",
         "resources/rescoring/artifacts/model-manifest.json",
         "resources/runtime-manifest.json",
         "resources/curated_targets.json",

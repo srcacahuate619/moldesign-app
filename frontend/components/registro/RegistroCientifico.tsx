@@ -31,6 +31,7 @@ import {
 // ─────────────────────────────────────────────────────────────── piezas chicas
 
 function Insignia({ cat }: { cat: Categoria }) {
+  const { t } = useLanguage();
   const e = ESTILO_CATEGORIA[cat];
   return (
     <span
@@ -48,12 +49,13 @@ function Insignia({ cat }: { cat: Categoria }) {
         whiteSpace: "nowrap",
       }}
     >
-      {e.nombre}
+      {t(`rg_categoria_${cat}`)}
     </span>
   );
 }
 
 function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
+  const { t, locale } = useLanguage();
   const est = ESTILO_CATEGORIA[e.categoria];
   return (
     <button
@@ -107,12 +109,12 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
               borderRadius: 2,
             }}
           >
-            paper
+            {t("pr_reg_paper_badge")}
           </span>
         )}
         {e.etiquetas.includes("corrigendum") && (
           <span style={{ fontSize: 12, letterSpacing: "0.1em", color: "var(--categoria-corrigendum)" }}>
-            CORRIGENDUM
+            {t("pr_reg_corrigendum")}
           </span>
         )}
         {e.reemplazado_por && (
@@ -127,7 +129,7 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
               borderRadius: 2,
             }}
           >
-            cifras reemplazadas
+            {t("pr_reg_figures_replaced")}
           </span>
         )}
       </div>
@@ -157,8 +159,8 @@ function Tarjeta({ e, onClick }: { e: Experimento; onClick: () => void }) {
       >
         {e.n_complejos > 0 && <span>n={e.n_complejos}</span>}
         {duracionLegible(e.duracion_s) && <span>{duracionLegible(e.duracion_s)}</span>}
-        {e.n_hashes > 0 && <span>{e.n_hashes} hashes</span>}
-        {fechaLegible(e.sellado_en) && <span>{fechaLegible(e.sellado_en)}</span>}
+        {e.n_hashes > 0 && <span>{t("pr_reg_hash_count", { count: e.n_hashes })}</span>}
+        {fechaLegible(e.sellado_en, locale) && <span>{fechaLegible(e.sellado_en, locale)}</span>}
       </div>
     </button>
   );
@@ -218,7 +220,7 @@ function VistaExperimento({
   volver: () => void;
   abrir: (id: string) => void;
 }) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [paper, setPaper] = useState<Paper | null>(null);
   const [cargando, setCargando] = useState(e.tiene_paper);
 
@@ -260,6 +262,7 @@ function VistaExperimento({
         {t("auto_14fb488bd307")}
       </button>
 
+      <p className="mb-4 text-sm text-[var(--text-secondary)]">{t("rg_idioma_original")}</p>
       <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
         <Insignia cat={e.categoria} />
         {e.decision && (
@@ -332,7 +335,7 @@ function VistaExperimento({
             color: "var(--text-secondary)",
           }}
         >
-          <strong style={{ color: "var(--categoria-corrigendum)" }}>Cifras reemplazadas.</strong> {t("pr_reg_defecto_detectado")} <em>{t("pr_reg_despues")}</em> {t("auto_c1b398a5da7e")}{" "}
+          <strong style={{ color: "var(--categoria-corrigendum)" }}>{t("pr_reg_figures_replaced_sentence")}</strong> {t("pr_reg_defecto_detectado")} <em>{t("pr_reg_despues")}</em> {t("auto_c1b398a5da7e")}{" "}
           <button
             type="button"
             onClick={() => abrir(e.reemplazado_por as string)}
@@ -389,13 +392,13 @@ function VistaExperimento({
           )}
           {e.gate && (
             <p style={{ marginBottom: 16 }}>
-              <strong style={{ color: "var(--text)" }}>Gate preregistrado. </strong>
+              <strong style={{ color: "var(--text)" }}>{t("pr_reg_pre_registered_gate")} </strong>
               {e.gate}
             </p>
           )}
           {e.protocolo && (
             <p style={{ marginBottom: 16 }}>
-              <strong style={{ color: "var(--text)" }}>Protocolo. </strong>
+              <strong style={{ color: "var(--text)" }}>{t("pr_reg_protocol_label")} </strong>
               {e.protocolo}
             </p>
           )}
@@ -428,27 +431,27 @@ function VistaExperimento({
       </Seccion>
 
       {e.metricas && Object.keys(e.metricas).length > 0 && (
-        <Seccion titulo="Métricas registradas">
+        <Seccion titulo={t("rg_metricas")}>
           {Object.entries(e.metricas).map(([k, v]) => (
             <Dato key={k} k={k} v={String(v)} />
           ))}
         </Seccion>
       )}
 
-      <Seccion titulo="Reproducibilidad">
+      <Seccion titulo={t("rg_reproducibilidad")}>
         <Dato k="commit" v={e.git.commit ? `${e.git.commit}${e.git.sucio ? " (dirty)" : ""}` : null} />
-        <Dato k="rama" v={e.git.rama} />
-        <Dato k="semilla" v={e.semillas != null ? String(e.semillas) : null} />
-        <Dato k="sellado" v={fechaLegible(e.sellado_en)} />
-        <Dato k="duración" v={duracionLegible(e.duracion_s)} />
-        <Dato k="complejos" v={e.n_complejos > 0 ? String(e.n_complejos) : null} />
-        <Dato k="fallos" v={e.n_fallos > 0 ? String(e.n_fallos) : null} />
+        <Dato k={t("rg_rama")} v={e.git.rama} />
+        <Dato k={t("rg_semilla")} v={e.semillas != null ? String(e.semillas) : null} />
+        <Dato k={t("rg_sellado")} v={fechaLegible(e.sellado_en, locale)} />
+        <Dato k={t("rg_duracion")} v={duracionLegible(e.duracion_s)} />
+        <Dato k={t("rg_complejos")} v={e.n_complejos > 0 ? String(e.n_complejos) : null} />
+        <Dato k={t("rg_fallos")} v={e.n_fallos > 0 ? String(e.n_fallos) : null} />
         <Dato k="hashes sha-256" v={e.n_hashes > 0 ? String(e.n_hashes) : null} />
         <Dato
-          k="entorno"
+          k={t("rg_entorno")}
           v={[
             e.entorno.os,
-            e.entorno.cpu ? `${e.entorno.cpu} núcleos` : null,
+            e.entorno.cpu ? t("rg_nucleos", { count: e.entorno.cpu }) : null,
             e.entorno.ram_mb ? `${Math.round(e.entorno.ram_mb / 1024)} GB` : null,
             e.entorno.gpu && e.entorno.gpu !== "unknown" ? e.entorno.gpu : null,
           ]
@@ -457,8 +460,8 @@ function VistaExperimento({
         />
         {e.mantenimiento_sello > 0 && (
           <Dato
-            k="mantenimiento"
-            v={`${e.mantenimiento_sello} mantenimiento(s) declarados. El hash actual no acredita qué código produjo la cifra original.`}
+            k={t("rg_mantenimiento")}
+            v={t("rg_mantenimiento_aviso", { count: e.mantenimiento_sello })}
           />
         )}
       </Seccion>
@@ -469,7 +472,7 @@ function VistaExperimento({
 // ────────────────────────────────────────────────────────────────── contraste
 
 export function RegistroCientifico() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [idx, setIdx] = useState<IndiceRegistro | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [abierto, setAbierto] = useState<string | null>(null);
@@ -547,7 +550,7 @@ export function RegistroCientifico() {
             marginBottom: 16,
           }}
         >
-          {t("auto_b76b2b4f5246")} {idx.total} artefactos sellados
+          {t("auto_b76b2b4f5246")} {idx.total} {t("pr_reg_sealed_artifacts")}
         </div>
         <h1
           style={{
@@ -625,11 +628,11 @@ export function RegistroCientifico() {
               marginTop: 6,
             }}
           >
-            gates superados
+            {t("pr_reg_gates_passed")}
           </div>
         </div>
         <div style={{ color: "var(--text-dim)", fontSize: 13, fontFamily: "var(--font-mono)" }}>
-          vs
+          {t("pr_reg_versus")}
         </div>
         <div>
           <div
@@ -658,6 +661,7 @@ export function RegistroCientifico() {
       </div>
 
       {/* dos columnas */}
+      <p className="mb-4 text-sm text-[var(--text-secondary)]">{t("rg_idioma_original")}</p>
       <div
         style={{
           display: "grid",
@@ -667,14 +671,14 @@ export function RegistroCientifico() {
         }}
       >
         <Columna
-          titulo="Hallazgos"
+          titulo={t("rg_hallazgos")}
           bajada={t("auto_df93272641f2")}
           cat="hallazgo"
           items={hallazgos}
           abrir={abrir}
         />
         <Columna
-          titulo="Refutaciones"
+          titulo={t("rg_refutaciones")}
           bajada={t("auto_cb3645865abe")}
           cat="refutacion"
           items={refutaciones}
@@ -730,7 +734,7 @@ export function RegistroCientifico() {
                   border: `1px solid ${on ? conAlfa(est.color, 40) : "var(--border)"}`,
                 }}
               >
-                {est.nombre} <span style={{ opacity: 0.7 }}>{n}</span>
+                {t(`rg_categoria_${c}`)} <span style={{ opacity: 0.7 }}>{n}</span>
                 <span
                   style={{
                     display: "block",
@@ -740,7 +744,7 @@ export function RegistroCientifico() {
                     marginTop: 2,
                   }}
                 >
-                  {est.corto}
+                  {t(`rg_categoria_corta_${c}`)}
                 </span>
               </button>
             );
@@ -763,8 +767,8 @@ export function RegistroCientifico() {
           {capas.map((c) => (
             <Columna
               key={c}
-              titulo={ESTILO_CATEGORIA[c].nombre}
-              bajada={idx.categorias[c] ?? ""}
+              titulo={t(`rg_categoria_${c}`)}
+              bajada={t(`rg_descripcion_${c}`)}
               cat={c}
               items={porCat[c] ?? []}
               abrir={abrir}
@@ -785,11 +789,11 @@ export function RegistroCientifico() {
         }}
       >
         <div>
-          {idx.con_paper} {t("auto_600ccd1b7156")} {idx.total} registros tienen paper redactado.
+          {t("pr_reg_records_have_paper", { paper: idx.con_paper, total: idx.total })}
         </div>
         <div>
           {t("pr_reg_generado_desde")} <code>{idx.generador}</code>
-          {fechaLegible(idx.generado_en) ? ` el ${fechaLegible(idx.generado_en)}` : ""}{t("auto_a0c51a5fc4c9")}
+          {fechaLegible(idx.generado_en, locale) ? t("rg_fecha_generacion", { date: fechaLegible(idx.generado_en, locale)! }) : ""}{t("auto_a0c51a5fc4c9")}
         </div>
       </footer>
     </div>

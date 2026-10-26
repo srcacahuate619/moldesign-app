@@ -69,11 +69,19 @@ export const paginas: ModuloDeTraduccion = {
       + "guardada conserva el docking, sus resultados, los hotspots observados y, "
       + "cuando existe, su recibo de integridad.",
     pg_hist_sin_recibo: "Sin recibo",
+    pg_protocolo_anterior: "Protocolo anterior",
+    pg_protocolo_anterior_d:
+      "Receta del receptor o calibración del ranking distintas de las actuales: "
+      + "este score no es comparable con las corridas de hoy.",
     pg_hist_verificando: "Verificando sesión",
     pg_hist_targets_unicos: "Targets únicos",
     pg_hist_copiar_id: "Copiar identificador de corrida: {taskId}",
     pg_hist_copiar_id_corto: "Copiar identificador de corrida {taskId}",
     pg_hist_anterior_task_id: "Corrida anterior al registro por task_id",
+    pg_hist_afinidad_vina: "Afinidad Vina",
+    pg_hist_vina_condition: "La afinidad calculada por Vina es una señal de ranking dentro del protocolo de la corrida; no es energía libre experimental ni una predicción de actividad.",
+    pg_hist_protocolo_d: "Preparación del receptor o protocolo distintos de los actuales: revisa esas condiciones antes de comparar afinidades.",
+    pg_hist_error_conexion: "Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. Revisa su estado en la aplicación y vuelve a intentarlo.",
     pg_hist_descargar_recibo: "Descargar recibo de integridad PDF",
     pg_hist_acceso_bloqueado: "Acceso Bloqueado",
     pg_hist_subline_jwt: "autocomplete · validando token jwt · v 2.0",
@@ -117,13 +125,18 @@ export const paginas: ModuloDeTraduccion = {
     pg_mx_auditoria: "AUDITORÍA CIENTÍFICA",
     pg_mx_sin_advertencias:
       "No hay advertencias registradas para esta corrida.",
+    pg_mx_ver_preparacion: "Auditar la preparación de esta corrida",
+    pg_mx_preparacion_alcance:
+      "Qué habría que resolver antes de entregar este sistema a un cálculo de energía libre.",
+    pg_mx_preparacion_sin_corrida:
+      "Esta ficha no conserva la referencia a una corrida exacta, así que no se puede auditar su preparación.",
     pg_mx_red_pruebas: "red de pruebas",
     pg_mx_recibo_otra_corrida:
       ". El recibo sigue correspondiendo a la corrida que selló, no para la que "
       + "se ve aquí.",
     pg_mx_sello_sin_corrida: "Sello sin corrida registrada",
     pg_mx_recibo_sin_procedencia:
-      "Este recibo es anterior al registro de procedencia: no consta qué corrida "
+      "Este recibo no conserva una referencia verificable a la corrida que "
       + "atestiguó, así que no puede afirmarse que corresponda a las cifras "
       + "mostradas.",
 
@@ -271,11 +284,19 @@ export const paginas: ModuloDeTraduccion = {
       + "the docking, its results, the observed hotspots and, when there is one, "
       + "its integrity receipt.",
     pg_hist_sin_recibo: "No receipt",
+    pg_protocolo_anterior: "Earlier protocol",
+    pg_protocolo_anterior_d:
+      "Receptor recipe or ranking calibration differ from the current ones: "
+      + "this score is not comparable with today's runs.",
     pg_hist_verificando: "Checking session",
     pg_hist_targets_unicos: "Unique targets",
     pg_hist_copiar_id: "Copy run identifier: {taskId}",
     pg_hist_copiar_id_corto: "Copy run identifier {taskId}",
     pg_hist_anterior_task_id: "Run predating the task_id record",
+    pg_hist_afinidad_vina: "Vina affinity",
+    pg_hist_vina_condition: "Vina's calculated affinity is a ranking signal within the run's protocol; it is not experimental free energy or a prediction of activity.",
+    pg_hist_protocolo_d: "Receptor preparation or protocol differ from current ones: review these conditions before comparing affinities.",
+    pg_hist_error_conexion: "Connection error: the local MolDesign engine could not be reached. Check its status in the application and try again.",
     pg_hist_descargar_recibo: "Download integrity receipt PDF",
     pg_hist_acceso_bloqueado: "Access Blocked",
     pg_hist_subline_jwt: "autocomplete · validating jwt token · v 2.0",
@@ -317,14 +338,19 @@ export const paginas: ModuloDeTraduccion = {
     pg_mx_contexto_target: "TARGET CONTEXT",
     pg_mx_auditoria: "SCIENTIFIC AUDIT",
     pg_mx_sin_advertencias: "No warnings were recorded for this run.",
+    pg_mx_ver_preparacion: "Audit this run's preparation",
+    pg_mx_preparacion_alcance:
+      "What would have to be resolved before handing this system to a free-energy calculation.",
+    pg_mx_preparacion_sin_corrida:
+      "This entry has no reference to an exact run, so its preparation cannot be audited.",
     pg_mx_red_pruebas: "test network",
     pg_mx_recibo_otra_corrida:
       ". The receipt still corresponds to the run it sealed, not to the one shown "
       + "here.",
     pg_mx_sello_sin_corrida: "Seal with no recorded run",
     pg_mx_recibo_sin_procedencia:
-      "This receipt predates the provenance record: which run it attested is not "
-      + "on file, so it cannot be stated that it corresponds to the figures shown.",
+      "This receipt keeps no verifiable reference to the run it attested, so it "
+      + "cannot be stated that it corresponds to the figures shown.",
 
     pg_com_sin_conexion: "No connection",
     pg_com_intro:

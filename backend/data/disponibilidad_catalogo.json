@@ -1,6 +1,6 @@
 {
  "_doc": "Generado por scripts/generate_catalog_availability.py; no editar a mano. Una diana en `no_disponibles` sigue en el catálogo y se muestra con su motivo. `origen: cofactor_sin_plantilla` se recalcula en cada --check; `origen: preparacion_medida` sale de --barrido, que ejecuta Meeko sobre todo el catálogo y sólo vale para la receta y la versión de Meeko que declara. `truncadas_en_sitio` también sale del barrido: por diana disponible, las cadenas laterales que el cristal no resolvía y se truncaron a ALA o GLY a `margen_sitio_A` o menos de la caja. La cavidad acoplada pierde esos grupos.",
- "catalogo_sha256": "47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac",
+ "catalogo_sha256": "f66cd263f2a20ac548bf2ee5492e17a28ba04a898c7b6f124bba86c4f24e4593",
  "receta_receptor": 7,
  "margen_sitio_A": 6.0,
  "no_disponibles": {
@@ -39,11 +39,6 @@
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
   },
-  "3KK6": {
-   "motivo": "Meeko no puede construir el receptor (RuntimeError: for residue_key='A:43', 3 have passed: ['HIE', 'HID', 'HIP'] and tied for fewest missing and excess H: HIE HID \r).",
-   "paso": "mk_prepare_receptor",
-   "origen": "preparacion_medida"
-  },
   "5I3T": {
    "motivo": "Meeko no puede construir el receptor (RuntimeError: Expected 2 paddings for (D:78, D:131) with bonds [(9, 9)], but got 1\r).",
    "paso": "mk_prepare_receptor",
@@ -61,11 +56,6 @@
   },
   "6NTW": {
    "motivo": "Meeko no puede construir el receptor (RuntimeError: Expected 2 paddings for (A:485, A:491) with bonds [(13, 1)], but got 0\r).",
-   "paso": "mk_prepare_receptor",
-   "origen": "preparacion_medida"
-  },
-  "6S1Z": {
-   "motivo": "Meeko no puede construir el receptor (RuntimeError: for residue_key='A:383', 3 have passed: ['HIE', 'HID', 'HIP'] and tied for fewest missing and excess H: HIE HID \r).",
    "paso": "mk_prepare_receptor",
    "origen": "preparacion_medida"
   },
@@ -222,35 +212,24 @@
    "A:5 THR→ALA (0.0 Å)"
   ],
   "2OYE": [
-   "P:168 LYS→ALA (4.899 Å)",
-   "P:170 GLN→ALA (3.79 Å)",
-   "P:173 ASP→ALA (0.0 Å)",
-   "P:175 GLU→ALA (0.0 Å)",
-   "P:179 ARG→ALA (0.0 Å)",
-   "P:186 LYS→ALA (2.298 Å)",
-   "P:215 LYS→ALA (0.0 Å)",
-   "P:260 GLU→ALA (4.484 Å)",
-   "P:396 ARG→ALA (0.0 Å)",
-   "P:400 GLN→ALA (0.631 Å)",
-   "P:405 GLU→ALA (0.0 Å)",
-   "P:416 ASP→ALA (2.073 Å)",
-   "P:453 LYS→ALA (0.0 Å)",
-   "P:486 GLU→ALA (5.835 Å)",
-   "P:490 GLU→ALA (2.206 Å)",
-   "P:492 GLU→ALA (3.719 Å)"
+   "P:175 GLU→ALA (4.272 Å)",
+   "P:179 ARG→ALA (2.058 Å)",
+   "P:186 LYS→ALA (5.157 Å)",
+   "P:453 LYS→ALA (5.527 Å)",
+   "P:473 LYS→ALA (0.0 Å)",
+   "P:479 GLN→ALA (2.539 Å)",
+   "P:492 GLU→ALA (5.922 Å)",
+   "P:79 ARG→ALA (3.861 Å)",
+   "P:83 ARG→ALA (2.107 Å)",
+   "P:97 ARG→ALA (0.0 Å)"
   ],
   "2OYU": [
-   "P:170 GLN→ALA (4.541 Å)",
-   "P:173 ASP→ALA (0.0 Å)",
-   "P:175 GLU→ALA (0.0 Å)",
-   "P:186 LYS→ALA (2.209 Å)",
-   "P:215 LYS→ALA (0.0 Å)",
-   "P:290 GLU→ALA (0.0 Å)",
-   "P:396 ARG→ALA (0.0 Å)",
-   "P:400 GLN→ALA (0.515 Å)",
-   "P:405 GLU→ALA (0.0 Å)",
-   "P:416 ASP→ALA (1.964 Å)",
-   "P:486 GLU→ALA (5.852 Å)"
+   "P:175 GLU→ALA (5.155 Å)",
+   "P:186 LYS→ALA (4.311 Å)",
+   "P:473 LYS→ALA (0.0 Å)",
+   "P:479 GLN→ALA (2.171 Å)",
+   "P:79 ARG→ALA (4.217 Å)",
+   "P:83 ARG→ALA (1.846 Å)"
   ],
   "3ERT": [
    "A:437 MET→ALA (5.365 Å)",
@@ -281,44 +260,54 @@
    "A:56 HIS→ALA (0.0 Å)",
    "A:57 LYS→ALA (0.0 Å)"
   ],
+  "3KK6": [
+   "A:179 ARG→ALA (5.017 Å)",
+   "A:186 LYS→ALA (3.473 Å)",
+   "A:222 LYS→ALA (4.818 Å)",
+   "A:473 LYS→ALA (0.305 Å)",
+   "A:492 GLU→ALA (2.406 Å)",
+   "A:493 GLU→ALA (4.692 Å)",
+   "A:511 LYS→ALA (0.0 Å)",
+   "A:83 ARG→ALA (1.419 Å)",
+   "A:97 ARG→ALA (0.782 Å)"
+  ],
   "3MXJ": [
    "A:192 THR→ALA (1.627 Å)",
    "A:194 SER→GLY (0.0 Å)",
    "A:195 HIS→GLY (0.0 Å)"
   ],
   "3N8W": [
-   "A:186 LYS→ALA (2.499 Å)",
-   "A:277 ARG→ALA (0.0 Å)",
-   "A:294 LEU→ALA (0.0 Å)",
-   "A:490 GLU→ALA (4.705 Å)"
+   "A:294 LEU→ALA (5.083 Å)",
+   "A:83 ARG→ALA (1.908 Å)"
   ],
   "3N8X": [
-   "A:175 GLU→ALA (0.0 Å)",
-   "A:179 ARG→ALA (0.0 Å)",
-   "A:180 ARG→ALA (1.132 Å)",
-   "A:186 LYS→ALA (2.215 Å)",
-   "A:267 GLU→ALA (5.694 Å)",
-   "A:438 ARG→ALA (0.0 Å)",
-   "A:487 MET→ALA (2.523 Å)"
+   "A:107 PHE→ALA (0.0 Å)",
+   "A:175 GLU→ALA (4.253 Å)",
+   "A:179 ARG→ALA (1.931 Å)",
+   "A:180 ARG→ALA (3.56 Å)",
+   "A:186 LYS→ALA (4.355 Å)",
+   "A:438 ARG→ALA (0.93 Å)",
+   "A:473 LYS→ALA (0.0 Å)",
+   "A:487 MET→ALA (4.423 Å)"
   ],
   "3N8Y": [
-   "A:175 GLU→ALA (0.0 Å)",
-   "A:179 ARG→ALA (0.0 Å)",
-   "A:186 LYS→ALA (2.637 Å)",
-   "A:243 GLN→ALA (4.349 Å)",
-   "A:268 GLU→ALA (5.181 Å)",
-   "A:277 ARG→ALA (0.0 Å)",
-   "A:453 LYS→ALA (0.0 Å)",
-   "A:487 MET→ALA (2.688 Å)",
-   "A:511 LYS→ALA (0.0 Å)"
+   "A:107 PHE→ALA (2.867 Å)",
+   "A:179 ARG→ALA (4.655 Å)",
+   "A:239 GLU→ALA (5.585 Å)",
+   "A:473 LYS→ALA (1.395 Å)",
+   "A:479 GLN→ALA (3.824 Å)",
+   "A:487 MET→ALA (5.792 Å)",
+   "A:492 GLU→ALA (4.452 Å)",
+   "A:511 LYS→ALA (0.0 Å)",
+   "A:79 ARG→ALA (5.92 Å)",
+   "A:83 ARG→ALA (3.121 Å)"
   ],
   "3N8Z": [
-   "A:168 LYS→ALA (5.288 Å)",
-   "A:175 GLU→ALA (0.0 Å)",
-   "A:179 ARG→ALA (0.0 Å)",
-   "A:186 LYS→ALA (2.357 Å)",
-   "A:277 ARG→ALA (2.884 Å)",
-   "A:487 MET→ALA (2.259 Å)"
+   "A:175 GLU→ALA (4.194 Å)",
+   "A:179 ARG→ALA (2.787 Å)",
+   "A:473 LYS→ALA (0.0 Å)",
+   "A:487 MET→ALA (5.845 Å)",
+   "A:79 ARG→ALA (5.159 Å)"
   ],
   "3P88": [
    "A:262 LYS→ALA (0.0 Å)",
@@ -702,12 +691,12 @@
    "A:49 SER→ALA (0.0 Å)"
   ],
   "5U6X": [
-   "A:179 ARG→ALA (0.0 Å)",
+   "A:179 ARG→ALA (3.936 Å)",
    "A:193 SER→GLY (0.0 Å)",
-   "A:267 GLU→ALA (0.373 Å)"
+   "A:79 ARG→ALA (0.0 Å)"
   ],
   "5WBE": [
-   "A:186 LYS→ALA (2.192 Å)",
+   "A:186 LYS→ALA (4.702 Å)",
    "A:193 SER→GLY (0.0 Å)"
   ],
   "5WIU": [
@@ -967,6 +956,12 @@
    "A:399 ASP→ALA (3.146 Å)",
    "A:90 LYS→ALA (0.0 Å)"
   ],
+  "7SRQ": [
+   "R:118 GLU→ALA (5.33 Å)",
+   "R:333 PHE→ALA (4.752 Å)",
+   "R:360 MET→ALA (0.0 Å)",
+   "R:363 GLU→ALA (0.0 Å)"
+  ],
   "7T9I": [
    "X:229 ASP→ALA (0.0 Å)",
    "X:249 ASP→ALA (0.0 Å)",
@@ -1148,10 +1143,10 @@
   ]
  },
  "barrido_meeko": {
-  "fecha": "2026-09-27",
+  "fecha": "2026-10-11",
   "receta_receptor": 7,
   "meeko": "0.7.1",
-  "dianas_preparadas": 380,
-  "fallidas": 15
+  "dianas_preparadas": 381,
+  "fallidas": 13
  }
 }

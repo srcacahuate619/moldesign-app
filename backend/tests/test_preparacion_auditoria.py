@@ -175,13 +175,16 @@ class TestRuta:
         from tests.fixtures_dossier import molecula, resultado_completo
         from tests.test_dossier_api import MOLECULE_ID, _app
 
-        respuesta = _app(molecula(), resultado_completo()).post(
+        respuesta = _app(molecula(), resultado_completo(), localization_middleware=True).post(
             f"/evaluation/dossier/{MOLECULE_ID}/preparacion", json=proyeccion,
+            headers={"Accept-Language": "en"},
         )
         assert respuesta.status_code == 200
         cuerpo = respuesta.json()
         assert cuerpo["schema"] == "preparacion/v1"
         assert cuerpo["estado"] in ("BLOQUEADO", "REVISION")
+        assert cuerpo["alcance"] == "FEP readiness auditor in development"
+        assert cuerpo["bloques"][0]["requisitos"][0]["etiqueta"] == "Prepared receptor"
 
     def test_mismos_errores_que_el_dossier(self, proyeccion):
         from tests.fixtures_dossier import molecula, resultado_completo

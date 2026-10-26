@@ -16,6 +16,77 @@ from services.avisos import Severidad, aviso
 from utils.logger import get_logger
 
 log = get_logger(__name__)
+
+
+def codigo_de_aviso(a: Any) -> str | None:
+    """El código de un aviso, sea el diccionario de `aviso()` o un objeto.
+
+    SCI-A-032: `aviso()` devuelve un diccionario (`Aviso.a_dict()`), y aquí se
+    leía con `getattr(a, "codigo")`, que en un diccionario es siempre ``None``.
+    Así el aviso de sustitución decía «Sin respuesta del servicio» también cuando
+    el servicio había plegado la estructura.
+    """
+    if isinstance(a, dict):
+        return a.get("codigo")
+    return getattr(a, "codigo", None)
+
+
+def motivo_de_la_sustitucion(ml_res: Any, avisos: list) -> tuple[str, bool]:
+    """(motivo, ¿el servicio respondió?) de la caída a Vina estándar.
+
+    Tres causas que no se confunden: el servicio plegó pero ninguna pose se
+    acopló; el servicio respondió con un error (p. ej., transferencia rechazada);
+    o no hubo respuesta.
+    """
+    if any(codigo_de_aviso(a) == "PEPTIDO_SIN_ACOPLAMIENTO" for a in avisos):
+        return "el modelo plegó la estructura pero ninguna pose pasó por acoplamiento", True
+    if ml_res is not None:
+        return str(getattr(ml_res, "error", None) or "el servicio respondió sin poses"), True
+    return "Sin respuesta del servicio", False
+
+
+def poses_acopladas_y_sdf(poses_del_servicio: list, smiles: str) -> tuple[list, str, dict[str, int]]:
+    """Las poses que pasaron por Vina y el SDF con ESAS poses, en el mismo orden.
+
+    SCI-A-034: el SDF se escribía con todas las poses del servicio, también las
+    que no se acoplaron y el resultado descartaba: la descarga «poses de
+    docking» llevaba una conformación sin docking. Ahora una pose entra en las
+    dos colecciones o en ninguna, y si su geometría no se puede escribir se
+    descarta también del resultado, para que el registro i del SDF sea la pose
+    i del resultado.
+    """
+    from rdkit import Chem
+
+    aceptadas: list = []
+    partes: list[str] = []
+    cuentas = {"sin_afinidad": 0, "solo_plegado": 0, "sin_geometria": 0}
+    for p in poses_del_servicio or []:
+        if getattr(p, "origen", "") == "folded_structure_only":
+            cuentas["solo_plegado"] += 1
+        if getattr(p, "vina_affinity_kcal_mol", None) is None:
+            cuentas["sin_afinidad"] += 1
+            continue
+        peptide_sdf = getattr(p, "ligand_sdf", None)
+        peptide_pdb = getattr(p, "ligand_pdb", None) or getattr(p, "complex_pdb", "")
+        # El SDF transferido conserva el grafo quimico del SMILES y las
+        # coordenadas de Vina. No lo sustituyas por el conversor PDB,
+        # que pierde enlaces y terminales (OXT).
+        if peptide_sdf:
+            mol_pep = Chem.MolFromMolBlock(peptide_sdf, sanitize=False, removeHs=False)
+        else:
+            mol_pep = Chem.MolFromPDBBlock(peptide_pdb, sanitize=False)
+        if not mol_pep:
+            cuentas["sin_geometria"] += 1
+            continue
+        try:
+            Chem.SanitizeMol(mol_pep)
+        except Exception:
+            pass
+        mol_pep.SetProp("SMILES", smiles)
+        mol_pep.SetProp("_Name", f"Pose_{p.rank}")
+        partes.append(_mol_to_sdf_string(mol_pep, smiles))
+        aceptadas.append(p)
+    return aceptadas, "".join(partes), cuentas
 settings = get_settings()
 
 
@@ -145,29 +216,12 @@ async def run_peptide_docking_helper(
         ))
     peptide_transfer_manifest = getattr(ml_res, "transfer_manifest", None) if ml_res else None
     if ml_res and ml_res.poses:
-        sdf_parts = []
-        for p in ml_res.poses:
-            peptide_sdf = getattr(p, "ligand_sdf", None)
-            peptide_pdb = getattr(p, "ligand_pdb", None) or getattr(p, "complex_pdb", "")
-            # El SDF transferido conserva el grafo quimico del SMILES y las
-            # coordenadas de Vina. No lo sustituyas por el conversor PDB,
-            # que pierde enlaces y terminales (OXT).
-            if peptide_sdf:
-                mol_pep = Chem.MolFromMolBlock(peptide_sdf, sanitize=False, removeHs=False)
-            else:
-                mol_pep = Chem.MolFromPDBBlock(peptide_pdb, sanitize=False)
-            if mol_pep:
-                try:
-                    Chem.SanitizeMol(mol_pep)
-                except Exception:
-                    pass
-                mol_pep.SetProp("SMILES", smiles)
-                mol_pep.SetProp("_Name", f"Pose_{p.rank}")
-                sdf_parts.append(_mol_to_sdf_string(mol_pep, smiles))
-
-        sdf_content = "".join(sdf_parts)
+        aceptadas, sdf_content, cuentas = poses_acopladas_y_sdf(ml_res.poses, smiles)
         poses_path = peptide_poses_run_path(_mol_smiles_hash, _tgt_pdb_id, task_id)
-        await write_text(poses_path, sdf_content)
+        if aceptadas:
+            # Sólo con poses acopladas: un SDF de «poses de docking» sin ninguna
+            # no es un resultado, y el camino de sustitución escribe el suyo.
+            await write_text(poses_path, sdf_content)
 
         # ═══════════════════════════════════════════════════════════════
         # LA AFINIDAD DE VINA, O NINGUNA. NUNCA UNA CONFIANZA DISFRAZADA.
@@ -194,20 +248,13 @@ async def run_peptide_docking_helper(
         # Ahora: si Vina corrió, se usa su número tal cual. Si no corrió, NO se
         # fabrica uno — la corrida entrega estructura, y lo dice.
         poses = []
-        sin_afinidad = 0
-        solo_plegado = 0
-        for p_pose in ml_res.poses:
-            afinidad = getattr(p_pose, "vina_affinity_kcal_mol", None)
-            origen = getattr(p_pose, "origen", "desconocido")
-            if origen == "folded_structure_only":
-                solo_plegado += 1
-            if afinidad is None:
-                sin_afinidad += 1
-                continue
+        sin_afinidad = cuentas["sin_afinidad"] + cuentas["sin_geometria"]
+        solo_plegado = cuentas["solo_plegado"]
+        for p_pose in aceptadas:
             rmsd = getattr(p_pose, "rmsd", None)
             poses.append(DockingPose(
                 rank=p_pose.rank,
-                affinity=float(afinidad),
+                affinity=float(p_pose.vina_affinity_kcal_mol),
                 rmsd_lb=rmsd,
                 rmsd_ub=rmsd,
             ))
@@ -292,13 +339,7 @@ async def run_peptide_docking_helper(
     # Dos motivos distintos llegan aquí: el servicio no respondió, o respondió
     # con estructura pero sin ninguna pose acoplada. El aviso de arriba ya dijo
     # cuál fue; este mensaje no puede afirmar el primero cuando fue el segundo.
-    if ml_res is None and any(
-        getattr(a, "codigo", None) == "PEPTIDO_SIN_ACOPLAMIENTO"
-        for a in scientific_warnings
-    ):
-        msg = "el modelo plegó la estructura pero ninguna pose pasó por acoplamiento"
-    else:
-        msg = ml_res.error if ml_res else "Sin respuesta del servicio"
+    msg, respondio = motivo_de_la_sustitucion(ml_res, scientific_warnings)
     log.warning("Fallo en Nivel 3, cayendo a Vina estándar", error=msg)
 
     # ENG-001. Sin caja no hay fallback. La versión anterior usaba (20, 30, 28) y
@@ -316,12 +357,16 @@ async def run_peptide_docking_helper(
     # comparable con la que habría producido el motor pedido. Este es el aviso
     # que el clasificador por subcadenas pintaba del mismo azul que «las
     # afinidades se extrajeron del stdout».
+    # SCI-A-032: «no está disponible» sólo cuando no respondió; si respondió
+    # (plegó sin acoplar, o devolvió un error), se dice lo que pasó.
+    causa = (f"el servicio respondió, pero {msg}" if respondio
+             else f"ese servicio no está disponible en esta instalación ({msg})")
     scientific_warnings.append(aviso(
         "MOTOR_SUSTITUIDO", Severidad.CRITICA,
-        f"MOTOR SUSTITUIDO: se pidió '{peptide_docking_engine}' y ese servicio no está "
-        f"disponible en esta instalación ({msg}). La pose NO viene de un modelo de "
-        "plegamiento: la produjo AutoDock Vina con exhaustividad reducida (4) sobre la "
-        "caja declarada en el caso. No compares este resultado con uno plegado.",
+        f"MOTOR SUSTITUIDO: se pidió '{peptide_docking_engine}' y {causa}. La pose NO "
+        "viene de un modelo de plegamiento: la produjo AutoDock Vina con exhaustividad "
+        "reducida (4) sobre la caja declarada en el caso. No compares este resultado con "
+        "uno plegado.",
     ))
 
     from services.docking.vina_service import run_vina_docking

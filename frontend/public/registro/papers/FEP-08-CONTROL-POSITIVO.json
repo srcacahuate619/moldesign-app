@@ -266,6 +266,63 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-051. La variable de receptor es la de ",
+      "m": null
+     },
+     {
+      "t": "FEP-02",
+      "m": "codigo"
+     },
+     {
+      "t": " (sin huecos de numeración y sin sitio entre cadenas). El experimento es un control positivo de ese filtro, no del auditor de readiness completo, y los 12 de 15 no son «listos para FEP».",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-050. 67 de 369 ligandos (18.2 %) frente a 1003 de 4641 (21.6 %) es una diferencia puntual dentro del margen fijado, no una prueba de equivalencia; y las moléculas no están emparejadas. «Depende de la molécula y no del preparador» no está medido.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/FEP-08-CONTROL-POSITIVO.md"

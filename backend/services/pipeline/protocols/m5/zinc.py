@@ -416,7 +416,7 @@ def calcular(
             señales=señales,
             componentes_ausentes=(),
             motivo=(
-                f"El PDB «{pdb_id}» no es ninguno de los tres perfiles validados "
+                f"El PDB «{pdb_id}» no es ninguno de los tres perfiles de M5-Zn "
                 f"({', '.join(sorted(PERFILES))}). M5-Zn prepara, conserva el Zn, "
                 "ejecuta Vina y calcula señales diagnósticas, pero no hereda los "
                 "pesos de otra diana: el score compuesto queda sin calcular."
@@ -434,7 +434,7 @@ def calcular(
             señales=señales,
             componentes_ausentes=("zinc_confirmado",),
             motivo=(
-                "El PDB corresponde a un perfil validado pero no se confirmó el "
+                "El PDB corresponde a un perfil de M5-Zn pero no se confirmó el "
                 "Zn en el snapshot estructural ni en el bolsillo. Un carboxilato, "
                 "tiol o sulfonamida en el ligando no convierte el caso en "
                 "metaloenzima."

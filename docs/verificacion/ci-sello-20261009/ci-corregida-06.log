@@ -1,0 +1,111 @@
+
+> moldesign-frontend@1.0.1 pretest:e2e
+> cross-env NEXT_PUBLIC_API_URL=http://127.0.0.1:8999 NEXT_DIST_DIR=.next-e2e next build --webpack
+
+▲ Next.js 16.3.8 (webpack)
+✓ Running next.config.js took 48ms
+⚠ No build cache found. Please configure build caching for faster rebuilds. Read more: https://nextjs.org/docs/messages/no-cache
+Attention: Next.js now collects completely anonymous telemetry regarding usage.
+This information is used to shape Next.js' roadmap and prioritize features.
+You can learn more, including how to opt-out if you'd not like to participate in this anonymous program, by visiting the following URL:
+https://nextjs.org/telemetry
+
+- Experiments (use with caution):
+  · optimizePackageImports
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 64s
+  Running TypeScript ...
+  Finished TypeScript in 14.5s ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/15) ...
+  Generating static pages using 11 workers (3/15)
+  Generating static pages using 11 workers (7/15)
+  Generating static pages using 11 workers (11/15)
+✓ Generating static pages using 11 workers (15/15) in 761ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /ciencia
+├ ƒ /comunidad
+├ ƒ /evaluation
+├ ƒ /evaluation/batch
+├ ƒ /history
+├ ○ /icon.png
+├ ƒ /launcher
+├ ƒ /login
+├ ƒ /molcy
+├ ƒ /moldex
+└ ƒ /preparacion
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+> moldesign-frontend@1.0.1 test:e2e
+> npm run test:e2e:run
+
+
+> moldesign-frontend@1.0.1 test:e2e:run
+> node scripts/run-e2e.mjs
+
+▲ Next.js 16.3.8
+- Local:         http://localhost:3100
+- Network:       http://192.168.1.71:3100
+✓ Ready in 527ms
+✓ Running next.config.js took 32ms
+
+Running 13 tests using 1 worker
+(node:25860) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+T
+::error file=e2e\session-persistence.spec.ts,title=e2e\session-persistence.spec.ts:110:5 › cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar::  1) e2e\session-persistence.spec.ts:110:5 › cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar %0A    Test timeout of 90000ms exceeded.
+::error file=e2e\session-persistence.spec.ts,title=e2e\session-persistence.spec.ts:110:5 › cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar,line=25,col=60::  1) e2e\session-persistence.spec.ts:110:5 › cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar %0A    Error: locator.click: Test timeout of 90000ms exceeded.%0A    Call log:%0A      - waiting for getByRole('dialog', { name: 'Nuevo caso' }).getByRole('button', { name: 'Crear caso' })%0A%0A%0A      23 |   const dialog = page.getByRole("dialog", { name: "Nuevo caso" });%0A      24 |   await dialog.getByLabel("Nombre").fill(name);%0A    > 25 |   await dialog.getByRole("button", { name: "Crear caso" }).click();%0A         |                                                            ^%0A      26 |   await expect(dialog).toBeHidden();%0A      27 |   await expect(page.getByText(name, { exact: true }).first()).toBeVisible();%0A      28 | }%0A        at createCase (D:\moldesign-ci\sol-1-0-2\frontend\e2e\session-persistence.spec.ts:25:60)%0A        at D:\moldesign-ci\sol-1-0-2\frontend\e2e\session-persistence.spec.ts:160:3
+(node:27196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+············
+
+  1) e2e\session-persistence.spec.ts:110:5 › cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('dialog', { name: 'Nuevo caso' }).getByRole('button', { name: 'Crear caso' })
+
+
+      23 |   const dialog = page.getByRole("dialog", { name: "Nuevo caso" });
+      24 |   await dialog.getByLabel("Nombre").fill(name);
+    > 25 |   await dialog.getByRole("button", { name: "Crear caso" }).click();
+         |                                                            ^
+      26 |   await expect(dialog).toBeHidden();
+      27 |   await expect(page.getByText(name, { exact: true }).first()).toBeVisible();
+      28 | }
+        at createCase (D:\moldesign-ci\sol-1-0-2\frontend\e2e\session-persistence.spec.ts:25:60)
+        at D:\moldesign-ci\sol-1-0-2\frontend\e2e\session-persistence.spec.ts:160:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\session-persistence-cada-c-c449b-a-su-corrida-tras-reiniciar\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\session-persistence-cada-c-c449b-a-su-corrida-tras-reiniciar\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-persistence-cada-c-c449b-a-su-corrida-tras-reiniciar\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\session-persistence-cada-c-c449b-a-su-corrida-tras-reiniciar\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\session-persistence.spec.ts:110:5 › cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar
+  12 passed (1.9m)
+::notice title=🎭 Playwright Run Summary::  1 failed%0A    e2e\session-persistence.spec.ts:110:5 › cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar %0A  12 passed (1.9m)

@@ -72,3 +72,9 @@ Los dos inflan el conteo. Así que 91 es un techo, no una estimación central, y
 real de parejas realmente utilizables es menor.
 
 Declararlo así evita que la cifra se cite después como si fuera el suelo.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-006. El conteo de parejas no es una **cota superior** demostrada: un MCS que se corta por tiempo puede quedarse corto y excluir parejas, además de agruparlas de más. Es un conteo de candidatas con sesgos en las dos direcciones.

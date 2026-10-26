@@ -983,9 +983,9 @@
    "nombre_proteina": "5-hydroxytryptamine receptor 2B",
    "riesgo": "Su agonismo produce valvulopatía cardiaca (fenfluramina, pergolida).",
    "estado": "en_el_panel_por_defecto",
-   "pdb_id": "4NC3",
+   "pdb_id": "7SRQ",
    "sitio_adjudicado": true,
-   "procedencia_sitio": "catálogo curado; sitio adjudicado en la fase 1 de la auditoría",
+   "procedencia_sitio": "LSD 7LD ortostérico; continuidad y redocking medidos en anti-diana-5ht2b-2026-10-05.json",
    "alternativa_medida": {
     "pdb_id": "4IB4",
     "metodo": "X-RAY DIFFRACTION",
@@ -1009,7 +1009,50 @@
     "pose_reproducida": true,
     "rmsd_pose1_A": 1.05,
     "nota": "no se ofrece como anti-diana aparte para no duplicar la diana; queda como medida independiente del sitio"
-   }
+   },
+   "metodo": "ELECTRON MICROSCOPY",
+   "resolucion_A": 2.7,
+   "site_ligand": "7LD",
+   "redock": {
+    "estado": "sitio_confirmado",
+    "pose_reproducida": true,
+    "distancia_centroides_A": 0.7,
+    "detalle": null,
+    "caja": {
+     "centro": [
+      152.587,
+      158.245,
+      155.595
+     ],
+     "tamano": [
+      18.0,
+      18.0,
+      18.0
+     ]
+    },
+    "site_chains": [
+     "R"
+    ],
+    "site_ligand": "7LD",
+    "ligando_cadena": "R502",
+    "atomos_pesados_ligando": 24,
+    "receptor_sha256": "3629a33be7b114ce63945a902d4853a93e5f5a8241d399104a27e5f9d4842b7d",
+    "sdf_ideal_sha256": "c94d44461e9f65ee9d85694860b3d5c67333f0a060ff86421f1093eec517a9cb",
+    "afinidad_mejor_kcal": -8.308,
+    "rmsd_pose1_A": 1.81,
+    "rmsd_mejor_A": 1.61,
+    "rmsd_mejor_pose": 2,
+    "poses": 9,
+    "elapsed_s": 17.09,
+    "vina": {
+     "version": "1.2.7",
+     "exhaustiveness": 16,
+     "seed": 42,
+     "num_modes": 9
+    },
+    "ligando": "7LD"
+   },
+   "truncadas_en_sitio": 4
   },
   {
    "assay": "V1a",

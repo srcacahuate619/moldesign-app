@@ -27,22 +27,14 @@ import { useCallback, useEffect, useRef } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import { X } from "lucide-react";
 
-import { CaseContextPanel } from "./CaseContextPanel";
 import type { SaveState } from "../../context/CaseContext";
-import {
-  summarizePendingContext,
-  type CaseContext as CaseContextData,
-} from "../../lib/cases/types";
+import type { CaseContext as CaseContextData } from "../../lib/cases/types";
+import { CaseContextPanel } from "./CaseContextPanel";
+import { describePendingDetails } from "./caseContextLabels";
+export { describePendingDetails } from "./caseContextLabels";
 
 const FOCUSABLE =
   'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-
-/** Texto del recuento. En singular cuando toca; «ninguno» cuando no falta nada. */
-export function describePendingDetails(context: CaseContextData): string {
-  const { total } = summarizePendingContext(context);
-  if (total === 0) return "Sin detalles pendientes";
-  return `${total} ${total === 1 ? "detalle pendiente" : "detalles pendientes"}`;
-}
 
 export interface CaseDetailsDrawerProps {
   readonly id: string;
@@ -81,13 +73,21 @@ export function CaseDetailsDrawer({
     first?.focus();
   }, [open]);
 
+  // Escape cierra desde cualquier punto de la página mientras el panel está abierto. Un manejador en el
+  // contenedor sólo lo recibía con el foco dentro del panel: con el foco en otro sitio no pasaba nada.
+  useEffect(() => {
+    if (!open) return;
+    const alEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.stopPropagation();
+      onClose();
+    };
+    document.addEventListener("keydown", alEscape);
+    return () => document.removeEventListener("keydown", alEscape);
+  }, [open, onClose]);
+
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === "Escape") {
-        event.stopPropagation();
-        onClose();
-        return;
-      }
       if (event.key !== "Tab") return;
       const root = panelRef.current;
       if (!root) return;
@@ -103,13 +103,15 @@ export function CaseDetailsDrawer({
         first.focus();
       }
     },
-    [onClose],
+    [],
   );
 
   if (!open) return null;
 
+  // Empieza debajo de la barra de navegación (h-14 + borde = 57 px, como OptionsPanel): la barra va en z-[100] y
+  // tapaba la cabecera del panel, con la X de cerrar dentro.
   return (
-    <div className="fixed inset-0 z-50 flex justify-end" onKeyDown={handleKeyDown}>
+    <div className="fixed inset-x-0 bottom-0 top-[57px] z-50 flex justify-end" onKeyDown={handleKeyDown}>
       <div className="absolute inset-0 bg-black/60" onClick={onClose} aria-hidden="true" />
       <div
         id={id}
@@ -125,7 +127,7 @@ export function CaseDetailsDrawer({
               {t("ca_detalles")}
             </h2>
             <p className="mt-0.5 font-mono text-[11px] text-zinc-500">
-              {describePendingDetails(context)}
+              {describePendingDetails(context, t)}
             </p>
           </div>
           <button

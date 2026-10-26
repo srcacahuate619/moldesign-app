@@ -1,0 +1,472 @@
+{
+  "schema": "preparacion/v1",
+  "alcance": "Auditor de readiness para FEP en desarrollo",
+  "transferencia_fep_demostrada": false,
+  "estado": "BLOQUEADO",
+  "razon": "Hueco del esqueleto junto al sitio: el sistema está bloqueado hasta reparar o cambiar la estructura.",
+  "bloqueantes": [
+    "receptor.huecos"
+  ],
+  "en_revision": [
+    "receptor.cadenas_excluidas",
+    "receptor.protonacion",
+    "receptor.campo_de_fuerzas",
+    "ligando.especie",
+    "ligando.tautomero",
+    "entorno.referencia",
+    "entorno.membrana",
+    "procedencia.commit",
+    "procedencia.previa_advertencias",
+    "procedencia.previa_sin_evaluar"
+  ],
+  "en_revision_rutinaria": [
+    "receptor.protonacion",
+    "procedencia.commit",
+    "procedencia.previa_advertencias"
+  ],
+  "solo_rutinaria": false,
+  "decididos": [],
+  "huella_de_decision": "tarea:da8cc124-f6f8-48ea-8429-e114b02469fc",
+  "decisiones_de_otras_corridas": 0,
+  "bloques": [
+    {
+      "id": "receptor",
+      "estado": "BLOQUEADO",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "receptor.identidad",
+          "etiqueta": "Receptor preparado",
+          "valor": "SHA-256 cdcd790e344ce580f07a4932fdfea97306f8effc5fc6278fe15812dc08ddb0f5 · receta 7dbbb794474801a1a91c8a1c89b6ed0042e6d65100a675e13240687a198e1e8e",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.receptor_sha256 · receptor_prep.recipe_hash",
+          "imprescindible": true
+        },
+        {
+          "clave": "receptor.cadenas",
+          "etiqueta": "Cadenas del receptor",
+          "valor": "cadena A",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.chain · receptor_prep.site_chains",
+          "imprescindible": true
+        },
+        {
+          "clave": "receptor.caja",
+          "etiqueta": "Caja de búsqueda",
+          "valor": "centro (5.866, 43.854, 50.492) · tamaño (20, 20, 20) Å",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.box_center · box_size",
+          "imprescindible": true
+        },
+        {
+          "clave": "receptor.cadenas_excluidas",
+          "etiqueta": "Cadenas excluidas junto al sitio",
+          "valor": "A 6 Å o menos de la caja y fuera del receptor: cadena B, 1 residuo(s)",
+          "estado": "REVISAR",
+          "razon": "Puede ser un sitio entre cadenas o una caja que invade la cadena vecina: el ligando podría acoplarse contra el hueco que deja.",
+          "valor_es_clasificacion": true,
+          "fuente": "receptor_prep.species_diff.near_site.protein_residues_removed",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.residuos_retirados",
+          "etiqueta": "Residuos retirados por la preparación",
+          "valor": "Meeko no retiró residuos y no hubo cofactores sin plantilla fuera del sitio.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.removed_residues · cofactors_outside_site",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.cadenas_truncadas",
+          "etiqueta": "Cadenas laterales truncadas",
+          "valor": "Ninguna: el cristal resolvía todas las cadenas laterales del receptor.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.truncated_sidechains",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.huecos",
+          "etiqueta": "Huecos del esqueleto",
+          "valor": "1 corte(s) del esqueleto; 1 junto al sitio: A: LEU 78 → PHE 82 (C–N 9.79 Å; REMARK 465 no declara los residuos ausentes; 0.0 Å de la caja)",
+          "estado": "ABSTENCION",
+          "razon": "Un corte del esqueleto junto al sitio deja una cavidad incompleta o incompatible con el receptor. Un cálculo posterior heredaría el bucle ausente o inventado; reparar o cambiar la estructura es imprescindible.",
+          "valor_es_clasificacion": true,
+          "fuente": "receptor_prep.backbone_gaps",
+          "imprescindible": true,
+          "ubicacion": [
+            {
+              "after": "LEU 78",
+              "before": "PHE 82",
+              "c_n_distance_A": 9.79,
+              "chain": "A",
+              "distance_to_box_A": 0.0,
+              "missing_declared": null,
+              "site_critical": true
+            }
+          ],
+          "accion_recomendada": "Modela o repara el esqueleto en el sitio, o usa otra estructura del mismo receptor. Después vuelve a preparar y evaluar. Revisa también las cadenas laterales ausentes."
+        },
+        {
+          "clave": "receptor.protonacion",
+          "etiqueta": "Protonación del receptor",
+          "valor": "Declarada por el usuario (origen: usuario)",
+          "estado": "REVISAR",
+          "razon": "MolDesign conservó la protonación del archivo y comprobó, residuo a residuo, que Meeko aplicó las plantillas declaradas. No fija un pH ni decide si es la adecuada para el sitio: la responsabilidad de esa decisión es de quien preparó el receptor.",
+          "valor_es_clasificacion": true,
+          "fuente": "receptor_prep.protonation_method",
+          "imprescindible": false,
+          "rutinaria": {
+            "motivo": "La pide toda corrida con un receptor que ya trae su protonación: la decisión es de quien lo preparó."
+          }
+        },
+        {
+          "clave": "receptor.campo_de_fuerzas",
+          "etiqueta": "Cobertura del campo de fuerzas del receptor",
+          "valor": "No estándar: ACE ×1 (residuo no estándar: necesita parámetros propios), HOH ×1 (residuo no estándar: necesita parámetros propios), NME ×1 (residuo no estándar: necesita parámetros propios), TPO ×1 (fosforresiduo: necesita parámetros adicionales).",
+          "estado": "REVISAR",
+          "razon": "Un campo de proteína estándar no los cubre: el cálculo siguiente tiene que parametrizarlos aparte y declararlo.",
+          "valor_es_clasificacion": true,
+          "fuente": "PDBQT del receptor (por su SHA-256)",
+          "imprescindible": false,
+          "accion_recomendada": "Declara con qué parámetros se describe cada uno, o retíralo si no forma parte de la hipótesis."
+        },
+        {
+          "clave": "receptor.entrada",
+          "etiqueta": "Archivo del receptor",
+          "valor": "pdb · modo: estructura preparada por el usuario, respetada tal como venía · SHA-256 e554795f44ed1fd0d827ccfabe2a907fb5e6d5543e7b18d87fa4cb5275ee0d79",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.entrada · receptor_prep.modo_de_preparacion",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.confianza_estructural",
+          "etiqueta": "Confianza de la estructura (pLDDT)",
+          "valor": null,
+          "estado": "NO_APLICA",
+          "razon": "Sin indicios de estructura predicha en el archivo (método declarado: X-RAY DIFFRACTION).",
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.prediccion",
+          "imprescindible": false
+        },
+        {
+          "clave": "receptor.seccion_catalogo",
+          "etiqueta": "Sección del catálogo",
+          "valor": "Receptor del usuario: fuera del catálogo incluido; MolDesign no lo ha verificado ni calibrado.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "catálogo · services/targets/seccion_catalogo.py",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "ligando",
+      "estado": "REVISION",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "ligando.identidad",
+          "etiqueta": "Ligando acoplado",
+          "valor": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1 · SHA-256 del SDF ec8fc24040dc14582ed97c6a841552b9b610c981f451c732532d52c1e17e5e2f",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.smiles_acoplado · execution_provenance.ligand_input_sha256",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.ph",
+          "etiqueta": "pH de protonación del ligando",
+          "valor": "7.4",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.protonacion",
+          "imprescindible": false
+        },
+        {
+          "clave": "ligando.especie",
+          "etiqueta": "Especie acoplada",
+          "valor": "Microestado más próximo al predicho a pH 7.4, de 2 enumerados",
+          "estado": "REVISAR",
+          "razon": "Grupos con pKa a 1.5 unidades o menos del pH 7.4: imidazol (pKa ≈ 7; 28 % en la otra forma). La tabla de pKa por clases elige una forma, pero las dos están pobladas: un cálculo de energía libre tiene que considerar las dos o fijar una con evidencia.",
+          "valor_es_clasificacion": true,
+          "fuente": "ligand_state.protonacion.seleccion",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.tautomero",
+          "etiqueta": "Tautómero del ligando",
+          "valor": null,
+          "estado": "REVISAR",
+          "razon": "Se acopló el tautómero del usuario; la protonación sigue el pH declarado. 9 tautómeros candidatos, ninguno descartado con evidencia; la especie acoplada se declaró, pero su población no se predijo",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.tautomeria.declaracion",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.estereoquimica",
+          "etiqueta": "Estereoquímica del ligando",
+          "valor": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+          "estado": "REGISTRADO",
+          "razon": "SMILES isomérico derivado del conformero 3D guardado.",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.estereoquimica",
+          "imprescindible": true
+        },
+        {
+          "clave": "ligando.covalente",
+          "etiqueta": "Unión covalente",
+          "valor": "Ninguna ojiva covalente conocida",
+          "estado": "REGISTRADO",
+          "razon": "Se buscaron 18 tipos de ojiva; la lista no es exhaustiva. No se consultaron los enlaces del depósito.",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.smiles_acoplado · LINK del depósito",
+          "imprescindible": false
+        },
+        {
+          "clave": "ligando.campo_de_fuerzas",
+          "etiqueta": "Cobertura del campo de fuerzas del ligando",
+          "valor": "H, C, N, O",
+          "estado": "REGISTRADO",
+          "razon": "Todos sus elementos están en OpenFF 2 (Sage) y en GAFF2 (H, C, N, O, F, P, S, Cl, Br, I). Es cobertura por elemento: tipos de átomo y cargas se asignan al parametrizar.",
+          "valor_es_clasificacion": false,
+          "fuente": "ligand_state.smiles_acoplado",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "pose",
+      "estado": "REGISTRADO",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "pose.origen",
+          "etiqueta": "Poses de la corrida",
+          "valor": "SDF SHA-256 78190e64707fa3e78a93b076e2db0d1176aa9eed3039f1ef618a4729ba029f51",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "eval_result.poses_file_path · execution_provenance.poses_sha256",
+          "imprescindible": true
+        },
+        {
+          "clave": "pose.validez_fisica",
+          "etiqueta": "Validez física de la pose principal",
+          "valor": "#1: passed",
+          "estado": "PASA",
+          "razon": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+          "valor_es_clasificacion": true,
+          "fuente": "structural_evidence (PoseBusters con hidrógenos reconstruidos desde el SMILES; condición MF-33-H-COR)",
+          "imprescindible": true
+        },
+        {
+          "clave": "pose.regla_de_seleccion",
+          "etiqueta": "Regla de selección de la pose",
+          "valor": "Pose principal: top-1 de Vina (#1) · sin recomendación del selector",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "pose_selection",
+          "imprescindible": false
+        },
+        {
+          "clave": "pose.correspondencia_serie",
+          "etiqueta": "Correspondencia atómica de la serie",
+          "valor": null,
+          "estado": "NO_APLICA",
+          "razon": "Requiere una serie de ligandos; esta auditoría cubre una corrida.",
+          "valor_es_clasificacion": false,
+          "fuente": "no aplica a una corrida",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "entorno",
+      "estado": "REVISION",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "entorno.metales_cofactores",
+          "etiqueta": "Metales y cofactores junto al sitio",
+          "valor": "Ninguno retirado a 6 Å o menos",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.species_diff.near_site",
+          "imprescindible": true
+        },
+        {
+          "clave": "entorno.aguas",
+          "etiqueta": "Aguas junto al sitio",
+          "valor": "Ninguna retirada a 6 Å o menos; 1 conservada(s)",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.species_diff.near_site",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.otras_especies",
+          "etiqueta": "Otras especies junto al sitio",
+          "valor": "Ninguna retirada aparte del ligando del cristal",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "receptor_prep.species_diff.near_site",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.politica",
+          "etiqueta": "Política de heteroátomos",
+          "valor": "docking_vina",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "preflight.execution_route",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.referencia",
+          "etiqueta": "Referencia de las distancias",
+          "valor": null,
+          "estado": "NO_EVALUADO",
+          "razon": "El archivo de origen no es el que preparó el receptor de esta corrida (la receta no coincide): las distancias se miden desde la caja.",
+          "valor_es_clasificacion": false,
+          "fuente": "pose top-1 · estructura de origen comprobada por la receta del receptor",
+          "imprescindible": false
+        },
+        {
+          "clave": "entorno.membrana",
+          "etiqueta": "Proteína de membrana",
+          "valor": null,
+          "estado": "NO_EVALUADO",
+          "razon": "Sin el archivo depositado, comprobado por la receta del receptor, no se mide su secuencia.",
+          "valor_es_clasificacion": false,
+          "fuente": "secuencia del receptor · HEADER del depósito",
+          "imprescindible": false
+        }
+      ]
+    },
+    {
+      "id": "procedencia",
+      "estado": "REVISION",
+      "solo_rutinaria": false,
+      "requisitos": [
+        {
+          "clave": "procedencia.hashes",
+          "etiqueta": "Hashes de entrada y salida",
+          "valor": "5/5 registrados",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.versiones",
+          "etiqueta": "Versiones de la corrida",
+          "valor": "MolDesign 1.0.2 · dimorphite_dl 2.0.2 · meeko 0.7.1 · rdkit 2025.9.6 · vina 1.2.7",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.app_version · toolchain",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.semilla",
+          "etiqueta": "Semilla y parámetros",
+          "valor": "semilla 42 · exhaustiveness 8",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "docking_protocol.seed",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.commit",
+          "etiqueta": "Commit de código",
+          "valor": null,
+          "estado": "NO_DISPONIBLE",
+          "razon": "La corrida no declaró un commit verificable (bundle o árbol modificado).",
+          "valor_es_clasificacion": false,
+          "fuente": "execution_provenance.git_commit",
+          "imprescindible": false,
+          "rutinaria": {
+            "motivo": "La pide toda corrida del instalador o de un árbol con cambios sin commitear, que no declaran commit. La versión de la aplicación queda en «Versiones de la corrida»."
+          }
+        },
+        {
+          "clave": "procedencia.relacion",
+          "etiqueta": "Relación con los inputs del caso",
+          "valor": "La corrida se ejecutó con los inputs actuales del caso.",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "huellas de la corrida y del preflight",
+          "imprescindible": false
+        },
+        {
+          "clave": "procedencia.previa_bloqueantes",
+          "etiqueta": "Bloqueantes de la comprobación previa",
+          "valor": "Ninguno registrado",
+          "estado": "REGISTRADO",
+          "razon": null,
+          "valor_es_clasificacion": false,
+          "fuente": "preflight.blockers",
+          "imprescindible": true
+        },
+        {
+          "clave": "procedencia.previa_advertencias",
+          "etiqueta": "Advertencias de la comprobación previa",
+          "valor": "ESPECIES_DEL_SITIO_RETIRADAS, RECEPTOR_PROTONACION_DECLARADA, CALIBRACION_RECEPTOR",
+          "estado": "REVISAR",
+          "razon": "Advertencias registradas antes de ejecutar.",
+          "valor_es_clasificacion": true,
+          "fuente": "preflight.warnings",
+          "imprescindible": false,
+          "rutinaria": {
+            "motivo": "Son advertencias de la ruta o que esta auditoría vuelve a medir junto al ligando: receptor sin calibrar, especies retiradas de la estructura y protonación del receptor."
+          }
+        },
+        {
+          "clave": "procedencia.previa_sin_evaluar",
+          "etiqueta": "Controles previos sin evaluar",
+          "valor": "HOTSPOTS_EFECTIVOS, LIGANDO_PROTONACION_TAUTOMERO, ASSEMBLY_BIOLOGICA, HUECOS_CERCA_DEL_SITIO",
+          "estado": "NO_EVALUADO",
+          "razon": "No se evaluaron: eso no equivale a que los pasaran.",
+          "valor_es_clasificacion": true,
+          "fuente": "preflight.not_evaluated",
+          "imprescindible": false
+        }
+      ]
+    }
+  ],
+  "corrida": {
+    "case_id": "cdk2__hueco_en_el_sitio__0",
+    "molecule_id": "bba53156-202f-4cf3-a6aa-e0a47a36e28c",
+    "task_id": "da8cc124-f6f8-48ea-8429-e114b02469fc",
+    "target": "USR_D7E058 · FEP09 cdk2__hueco_en_el_sitio__0",
+    "pdb_id": "USR_D7E058"
+  },
+  "generated_at": "2026-10-11T20:01:02+00:00",
+  "paquete": {
+    "rotulo": "Paquete de la corrida",
+    "aviso": "Es el paquete reproducible del dossier de esta corrida. No es un paquete FEP."
+  }
+}

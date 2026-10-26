@@ -1,3 +1,5 @@
+import type { ProtocoloDeLaCorrida } from "./types";
+
 // =====================================================================
 // MOLDEX-INT-007 — contrato tipado del catálogo Moldex
 // =====================================================================
@@ -22,6 +24,12 @@ export type MoldexProvenance = {
   engine_version: string | null;
   random_seed: number | null;
   docking_protocol: Record<string, unknown> | null;
+  /**
+   * ¿Es comparable con las corridas de hoy? (B-2). Receta del receptor y
+   * calibración del ranking que la corrida selló frente a las vigentes.
+   * Opcional: un backend anterior no lo envía.
+   */
+  protocolo?: ProtocoloDeLaCorrida | null;
 };
 
 export type MoldexTarget = {
@@ -29,8 +37,56 @@ export type MoldexTarget = {
   name: string | null;
   family: string | null;
   hotspots: Array<{ name?: string; [k: string]: unknown }>;
+  /** Sólo la ρ respaldada por una medida con n, IC y protocolo (SCI-A-005). */
   spearman_rho: number | null;
+  /** El estado de `services/targets/calibracion.py`. Un backend anterior no lo envía. */
+  calibracion?: {
+    nivel: string;
+    respaldo?: { rho: number; ic95: [number, number]; n: number; panel: string } | null;
+  } | null;
 };
+
+/**
+ * Los hotspots tocados, sin convertir «no evaluado» en cero (SCI-A-010).
+ *
+ * El backend serializa a veces la lista como texto JSON; se parsea. `null`,
+ * `undefined` o un texto ilegible son «no evaluado»; una lista vacía es un cero
+ * medido.
+ */
+export function hotspotsTocados(valor: unknown): string[] | null {
+  if (Array.isArray(valor)) return valor.map(String);
+  if (typeof valor === "string" && valor.trim()) {
+    try {
+      const v = JSON.parse(valor);
+      return Array.isArray(v) ? v.map(String) : null;
+    } catch {
+      return null;
+    }
+  }
+  return null;
+}
+
+/**
+ * Qué calibración del receptor puede decir la ficha (SCI-A-005).
+ *
+ * Sólo una ρ con su medida (n e IC) se presenta como calibración. Un número
+ * suelto —los dos `0.0` por defecto del catálogo, o un backend anterior que no
+ * envía el estado— no es una correlación de benchmark: es «sin calibrar».
+ */
+export function calibracionDeLaFicha(
+  target: Pick<MoldexTarget, "calibracion"> | null | undefined,
+): { medida: false } | { medida: true; rho: string; a: string; b: string; n: number } {
+  const respaldo = target?.calibracion?.nivel === "calibrado" ? target.calibracion.respaldo : null;
+  if (!respaldo || ![respaldo.rho, ...(respaldo.ic95 ?? [])].every(Number.isFinite)
+    || !Number.isInteger(respaldo.n) || respaldo.n <= 0) return { medida: false };
+  return {
+    medida: true,
+    rho: respaldo.rho.toFixed(2),
+    a: respaldo.ic95[0].toFixed(2),
+    b: respaldo.ic95[1].toFixed(2),
+    n: respaldo.n,
+  };
+}
 
 /**
  * Métricas de la ficha. Todas son opcionales de verdad: RDKit puede no calcular
@@ -40,6 +96,12 @@ export type MoldexTarget = {
 export type MoldexMetrics = {
   /** kcal/mol. Más negativo = mejor. */
   affinity: number | null;
+  /**
+   * «vina» sólo si el backend comprobó que es la afinidad de la pose top-1 de Vina;
+   * «no_acreditado» para una afinidad heredada (antes de la v16 podía ser de XGBoost).
+   * Un backend anterior no lo envía: tampoco se acredita (SCI-A-011).
+   */
+  affinity_origin?: "vina" | "no_acreditado" | null;
   log_p: number | null;
   /** Daltons. */
   mw: number | null;
@@ -60,7 +122,20 @@ export type MoldexMetrics = {
 };
 
 export type MoldexMolecule = {
+  /**
+   * Id de la MOLÉCULA (receptor + ligando): el que esperan los endpoints de
+   * render, archivos y dossier. Varias fichas pueden compartirlo.
+   */
   id: string;
+  /**
+   * Identidad única de la FICHA: una evaluación guardada. Una molécula se
+   * evalúa muchas veces y cada evaluación guardada es una ficha propia, así que
+   * es la clave para seleccionar, comparar y pintar la lista. En una ficha
+   * heredada (sin snapshot de corrida) coincide con `id`.
+   */
+  entry_id: string;
+  /** Nombre con el que se guardó ESTA evaluación, si se le puso uno. */
+  saved_name?: string | null;
   name: string;
   smiles: string;
   smiles_hash: string;
@@ -72,9 +147,20 @@ export type MoldexMolecule = {
   metrics: MoldexMetrics;
   provenance: MoldexProvenance;
   scientific_warnings: string[];
-  hotspots_hit: string[];
+  /** `null` = no evaluado; `[]` = evaluado sin aciertos (SCI-A-010). */
+  hotspots_hit: string[] | null;
   blockchain: MoldexSeal;
 };
+
+/**
+ * Nombre que la interfaz enseña de una ficha. El backend nombra en castellano la molécula
+ * que nadie bautizó («Ligando 47cfbceb», `api/moldex.py`); ese nombre no es del usuario y
+ * en inglés se veía tal cual, así que se sustituye por el código de la ficha.
+ */
+export function nombreDeLaFicha(m: Pick<MoldexMolecule, "name" | "smiles_hash" | "target">): string {
+  const codigo = `MDX-${m.target?.pdb_id || "UKN"}-${m.smiles_hash?.substring(0, 4)?.toUpperCase() || "XXXX"}`;
+  return !m.name || m.name.startsWith("Ligando ") ? codigo : m.name;
+}
 
 /**
  * Estado del sello de certificación.
@@ -119,6 +205,30 @@ export function leerSello(sello: MoldexSeal | undefined | null): LecturaDelSello
   return "indeterminado";
 }
 
+/**
+ * La misma lectura para el resultado de Evaluación (B-1).
+ *
+ * Evaluación enseñaba «Integridad registrada» con cualquier `blockchain_tx_id`:
+ * tras reevaluar, el sello de la corrida anterior se presentaba como si
+ * atestiguara la nueva. `seal_matches_current_run` lo decide el backend con la
+ * corrida y el score que el sello cubrió.
+ */
+export function leerSelloDelResultado(
+  resultado: {
+    blockchain_tx_id?: string | null;
+    seal_matches_current_run?: boolean | null;
+  } | null | undefined,
+): LecturaDelSello {
+  if (!resultado?.blockchain_tx_id) return "sin-sello";
+  return leerSello({
+    certified: true,
+    tx_signature: resultado.blockchain_tx_id,
+    certified_task_id: null,
+    certified_total_score: null,
+    matches_current_run: resultado.seal_matches_current_run ?? null,
+  });
+}
+
 export type MoldexCatalog = {
   count: number;
   total: number;
@@ -161,16 +271,23 @@ export type VeredictoComparacion = {
 };
 
 /** Compara dos protocolos de docking por valor, campo a campo. */
-function mismoProtocolo(
-  a: Record<string, unknown> | null,
-  b: Record<string, unknown> | null,
-): boolean {
-  if (a === null || b === null) return false;
-  const clavesA = Object.keys(a).sort();
-  const clavesB = Object.keys(b).sort();
-  if (clavesA.length !== clavesB.length) return false;
-  if (clavesA.some((k, i) => k !== clavesB[i])) return false;
-  return clavesA.every((k) => Object.is(a[k], b[k]));
+// SCI-A-009: protocolos JSON independientes se comparan por contenido.
+function mismoValor(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true;
+  if (a === null || b === null || typeof a !== "object" || typeof b !== "object") return false;
+  if (Array.isArray(a) || Array.isArray(b)) {
+    return Array.isArray(a) && Array.isArray(b) && a.length === b.length
+      && a.every((valor, i) => mismoValor(valor, b[i]));
+  }
+  const clavesA = Object.keys(a);
+  const clavesB = Object.keys(b);
+  return clavesA.length === clavesB.length && clavesA.every((k) =>
+    Object.prototype.hasOwnProperty.call(b, k)
+    && mismoValor((a as Record<string, unknown>)[k], (b as Record<string, unknown>)[k]));
+}
+
+function mismoProtocolo(a: Record<string, unknown>, b: Record<string, unknown>): boolean {
+  return mismoValor(a, b);
 }
 
 /**
@@ -224,7 +341,28 @@ export function compararMoleculas(
     );
   }
 
+  // B-2: 1.0.2 cambió el ranking (M4 v2). Mismo receptor y mismo docking no
+  // bastan para restar dos índices compuestos calibrados de forma distinta.
+  const calA = a.provenance?.protocolo?.calibracion_ranking ?? null;
+  const calB = b.provenance?.protocolo?.calibracion_ranking ?? null;
+  if (calA !== null && calB !== null && calA !== calB) {
+    motivos.push(
+      `El índice compuesto se calculó con calibraciones del ranking distintas (${calA} y ${calB}): no está en la misma escala.`,
+    );
+  }
+
   return { comparable: motivos.length === 0, motivos };
+}
+
+/** SCI-A-013: la resta del índice exige calibraciones registradas e iguales.
+ * El faltante se expone aparte para que la pantalla lo traduzca sin llamarlo diferencia.
+ */
+export function compararIndices(a: MoldexMolecule, b: MoldexMolecule): VeredictoComparacion & { calibracionAusente: boolean } {
+  const base = compararMoleculas(a, b);
+  const calA = a.provenance?.protocolo?.calibracion_ranking;
+  const calB = b.provenance?.protocolo?.calibracion_ranking;
+  const calibracionAusente = calA == null || calB == null || calA === "" || calB === "";
+  return { ...base, comparable: base.comparable && !calibracionAusente, calibracionAusente };
 }
 
 // =====================================================================
@@ -281,17 +419,19 @@ export function filaComparativa(
 // =====================================================================
 
 /**
- * Lo único que un sello acredita.
+ * Lo único que un sello acredita: los campos que el memo de devnet registra.
  *
- * Es el mismo alcance que ya declaraban `CertificationModal` y el PDF del
- * dossier. Vivía sólo ahí: la ficha, que es lo que el investigador tiene
- * delante todo el tiempo, mostraba una insignia y un encabezado «Evidencia
- * Digital» sin decir de qué es evidencia.
+ * Es el texto castellano de `mx_alcance_registro`, que es lo que la ficha muestra.
+ * Antes decía que el registro «acredita integridad y fecha de la revisión
+ * publicada»; el memo (`blockchain.py`, `certifier.py`) no lleva ningún hash del
+ * informe, del receptor ni de las poses, así que no podía acreditarlas (SCI-A-006).
  */
 export const ALCANCE_DEL_SELLO =
-  "El registro acredita integridad y fecha de la revisión publicada. No demuestra " +
-  "que la pose sea válida, ni que la conclusión científica sea correcta, ni " +
-  "sustituye evidencia experimental.";
+  "El registro de devnet guarda un memo con el hash del SMILES, el score redondeado, " +
+  "el PDB, la fecha y la wallet. No acredita la integridad del informe, del receptor " +
+  "ni de las poses, no identifica la revisión del documento, no demuestra que la pose " +
+  "sea válida ni que la conclusión científica sea correcta, y no sustituye evidencia " +
+  "experimental.";
 
 /**
  * Si la red del sello es de pruebas.

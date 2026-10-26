@@ -90,15 +90,7 @@
    "tipo": "parrafo",
    "frag": [
     {
-     "t": "Cada hueco se clasificó por la distancia mínima de sus dos residuos flanqueantes a cualquier átomo pesado del ligando. El radio de 8 Å ",
-     "m": null
-    },
-    {
-     "t": "no se eligió nuevo",
-     "m": "fuerte"
-    },
-    {
-     "t": ": es el mismo con el que ",
+     "t": "Cada hueco se clasificó por la distancia mínima de sus dos residuos flanqueantes a cualquier átomo pesado del ligando, con un radio de 8 Å. ",
      "m": null
     },
     {
@@ -106,7 +98,7 @@
      "m": "codigo"
     },
     {
-     "t": " definió «sitio» al contar cadenas, metales y aguas.",
+     "t": " definió «sitio» a 6 Å al contar cadenas, metales y aguas, así que estos conteos no son comparables con los suyos (SCI-B-005).",
      "m": null
     }
    ]
@@ -600,6 +592,216 @@
     },
     {
      "t": " exige además documentar cadenas, disulfuros, metales, cofactores y aguas, y nada de eso se toca aquí.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-005. Este análisis usa un radio de ",
+      "m": null
+     },
+     {
+      "t": "8 Å",
+      "m": "fuerte"
+     },
+     {
+      "t": " y decía que era el mismo con el que FEP-02 definió el sitio, que es de ",
+      "m": null
+     },
+     {
+      "t": "6 Å",
+      "m": "fuerte"
+     },
+     {
+      "t": ". Su 41 es un conteo a 8 Å, no una medida comparable con FEP-02.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-042. La extensión a PDBBind (",
+      "m": null
+     },
+     {
+      "t": "FEP-02-EXT-PDBBIND",
+      "m": "codigo"
+     },
+     {
+      "t": ", sin paper propio) cuenta como ",
+      "m": null
+     },
+     {
+      "t": "SIN_HUECOS",
+      "m": "codigo"
+     },
+     {
+      "t": " los 1438 receptores que ",
+      "m": null
+     },
+     {
+      "t": "FEP-02-PDBBIND",
+      "m": "codigo"
+     },
+     {
+      "t": " no pudo leer (",
+      "m": null
+     },
+     {
+      "t": "SIN_PDB",
+      "m": "codigo"
+     },
+     {
+      "t": "), e informa cero errores. Con el estado del padre: 3887 evaluables, ",
+      "m": null
+     },
+     {
+      "t": "2210 sin huecos (56.9 %)",
+      "m": "fuerte"
+     },
+     {
+      "t": ", no 3648 de 5325 (68.5 %). Las cifras condicionadas a tener huecos (468 en el sitio de 1677) no cambian. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fep02ext_pdbbind_cobertura.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El método repetía que el radio de 8 Å era el de FEP-02, lo que SCI-B-005 ya había corregido (hallazgo L2-SOL-006 de la revisión de papers de Sol).",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "FEP-02-EXT-PDBBIND: la distribución por hueco y por complejo responde preguntas distintas",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de medición descriptiva.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Completa la clasificación de la extensión más allá del grupo del sitio ya publicado en Correcciones.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Entre los complejos analizables con saltos de numeración, 592 se clasifican periféricos y 617 lejanos. El límite periférico es 15,0 Å; se conserva el radio de sitio propio de la extensión, distinto del cribado base.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En la unidad hueco hay 633 próximos al sitio de 4610 totales. Ese denominador no se sustituye por el de complejos: varios huecos pueden pertenecer a la misma estructura. Rigen ",
+     "m": null
+    },
+    {
+     "t": "SCI-B-005, SCI-B-039 y SCI-B-042",
+     "m": "fuerte"
+    },
+    {
+     "t": " para radio, identidad y cobertura de fuente. No comprobado por mí: recontar distancias desde estructuras originales. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "FEP-02-EXT-PDBBIND",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
      "m": null
     }
    ]

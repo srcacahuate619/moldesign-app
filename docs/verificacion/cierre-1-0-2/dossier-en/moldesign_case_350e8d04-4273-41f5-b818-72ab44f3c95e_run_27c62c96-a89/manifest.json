@@ -1,0 +1,297 @@
+{
+  "case_id": "350e8d04-4273-41f5-b818-72ab44f3c95e",
+  "dossier_model_sha256": "c7f0cc7134ea47d067a1e245c0077ea26f76b153b2c9555aca2aa9ae2a74144b",
+  "dossier_schema_version": 1,
+  "exclusiones": {
+    "<paquete>.zip": "The package does not contain itself.",
+    "checksums.sha256": "It does not include its own hash; its contents would change if that hash were written inside it.",
+    "manifest.json": "It does not declare itself: its hash would change when written. Its integrity is covered by `checksums.sha256`, which is calculated afterward."
+  },
+  "files": [
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.package",
+      "media_type": "text/markdown",
+      "path": "README.md",
+      "razon": null,
+      "rol": "lectura_humana",
+      "sha256": "2957934b48f54e6d06daefadfbfbcddd4781d3fb027417adb8316ab305bd57dd",
+      "tamano": 3762
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "client (validated projection)",
+      "media_type": "application/json",
+      "path": "case/case_snapshot.json",
+      "razon": null,
+      "rol": "proyeccion_del_caso",
+      "sha256": "f1059e6107588eba3451d8f49da130506cba9a8d5e4587293c48fdd660a7a034",
+      "tamano": 3250
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.model",
+      "media_type": "application/json",
+      "path": "case/dossier_model.json",
+      "razon": null,
+      "rol": "modelo_canonico",
+      "sha256": "c7f0cc7134ea47d067a1e245c0077ea26f76b153b2c9555aca2aa9ae2a74144b",
+      "tamano": 40504
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.pdf",
+      "media_type": "application/pdf",
+      "path": "dossier.pdf",
+      "razon": null,
+      "rol": "lectura_humana",
+      "sha256": "8e29f5066222454b8ae76ffdd4cfa6345242023cbf8dbc1adc60318fe88bba98",
+      "tamano": 104780
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.model",
+      "media_type": "application/json",
+      "path": "evidencia/evidence_summary.json",
+      "razon": null,
+      "rol": "evidencia",
+      "sha256": "478f62ae76793cf9dba941be6a03fc05d31def682c502493612839c79a77bcd9",
+      "tamano": 6648
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.docking_poses + structural_evidence + pose_selection",
+      "media_type": "application/json",
+      "path": "evidencia/pose_index.json",
+      "razon": null,
+      "rol": "evidencia",
+      "sha256": "610d95c8c4bb90c78eb0b87b28b8ae6b28479c86f388621844088e41bb7a9696",
+      "tamano": 2612
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.pose_selection",
+      "media_type": "application/json",
+      "path": "evidencia/pose_selection.json",
+      "razon": null,
+      "rol": "evidencia",
+      "sha256": "dcf45aaf624dc4edb83ee066991ef20ac0e996e7b2ac5702146efdf3d505d4a6",
+      "tamano": 2704
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.pose_selection.model",
+      "media_type": "application/json",
+      "path": "evidencia/pose_selector_model.json",
+      "razon": null,
+      "rol": "evidencia",
+      "sha256": "2c0c11f8afe4beb20f183d1c3239f266d14dcc1dbe5bc96c018fec33605ef243",
+      "tamano": 396
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.structural_evidence",
+      "media_type": "application/json",
+      "path": "evidencia/structural_evidence.json",
+      "razon": null,
+      "rol": "evidencia",
+      "sha256": "7ee43287cd35b4d7b36f4fe3a7e7a3b0f8b4935cc45205d0668dd296cf4b9dc5",
+      "tamano": 31465
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.receptor_path",
+      "media_type": "chemical/x-pdbqt",
+      "path": "inputs/8HFI_prepared.pdbqt",
+      "razon": null,
+      "rol": "inputs",
+      "sha256": "30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60",
+      "tamano": 423306
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.ligand_state.smiles_entrada",
+      "media_type": "chemical/x-daylight-smiles",
+      "path": "inputs/ligand.smi",
+      "razon": null,
+      "rol": "inputs",
+      "sha256": "9b278088be6b6bb2ae6a5a7def190b3de86081086ed3f3756ef9b853a432cd26",
+      "tamano": 20
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.ligand_state.smiles_acoplado",
+      "media_type": "chemical/x-daylight-smiles",
+      "path": "inputs/ligand_docked.smi",
+      "razon": null,
+      "rol": "inputs",
+      "sha256": "6101755fa46c37083839b8fe1833ab84b32fbc58366ec9a0740e4b003917db0f",
+      "tamano": 25
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.docking_protocol.execution_provenance.ligand_pdbqt_path",
+      "media_type": "chemical/x-pdbqt",
+      "path": "inputs/ligand_input.pdbqt",
+      "razon": null,
+      "rol": "inputs",
+      "sha256": "8efe1b0ab321873f882f4737d1eb3dff756741c479e747ca24cd42b4e6473f40",
+      "tamano": 1546
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.docking_protocol.execution_provenance.ligand_input_path",
+      "media_type": "chemical/x-mdl-sdfile",
+      "path": "inputs/ligand_input.sdf",
+      "razon": null,
+      "rol": "inputs",
+      "sha256": "680cf104e8d0268e11eaef32c731cb79f0331119ebc5f49b3c5ad86ffe6ed4e5",
+      "tamano": 2131
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.scientific_warnings / error_message",
+      "media_type": "text/plain",
+      "path": "logs/run_warnings.log",
+      "razon": null,
+      "rol": "logs",
+      "sha256": "10102bb7e92691cd567b98c1f66f29898fd5c22763412665802cefa91dac26da",
+      "tamano": 1438
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.docking_protocol.execution_provenance.log_path",
+      "media_type": "text/plain",
+      "path": "logs/vina.log",
+      "razon": null,
+      "rol": "logs",
+      "sha256": "e6a12bf94ad5a88297ee6ff5e8238302681241ecb8a7dab705b1584dabcd391b",
+      "tamano": 2549
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=1].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_001.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "c3396b92ae5243b5cca7f0b835141190b6b47481ba561e235f7b34f134ad3708",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=2].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_002.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "a43631d963bd26f431b8f3bbacf20a34aebdff0e52473137bec9f2f13cbd3359",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=3].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_003.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "6e3908c5efd9707f6263cfe04056913eba62d8c3b07f1a00be5806457b89fb65",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=4].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_004.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "bcdf93d7e09fce6f7aeaf39033c079cebfe0d70d2e6b5e69200809e53841b09b",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=5].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_005.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "e1d06276241e27e849a917a4c243ff8378821ac4652157b57fbe5cffd5bfea79",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=6].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_006.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "20fae5cfe8249772d22c8c6b1ba8fad360e1fe52fa487f6ca67961be44e9cb09",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=7].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_007.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "aefdce3d17c36c410fde5e2cec9bd00d6ebd78d299acfd2fecf18d4d1f61ca43",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=8].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_008.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "7e5a176b70117a45afd69a01c153d6064f3a9a580a20b804e7913fe02312c899",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "evaluation_results.docking_poses[rank=9].pdbqt_block",
+      "media_type": "chemical/x-pdbqt",
+      "path": "outputs/pose_rank_009.pdbqt",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "a711be4680f603b945aaf841c2529573e82a8bfe017f014c92cf7ff46c3f444a",
+      "tamano": 1765
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "eval_result.poses_file_path",
+      "media_type": "chemical/x-mdl-sdfile",
+      "path": "outputs/poses.sdf",
+      "razon": null,
+      "rol": "outputs",
+      "sha256": "6131119e2272eb427c1eb97c7f81b64a66596900c1f2a71c9b2a825b7b07a79e",
+      "tamano": 21101
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.model",
+      "media_type": "application/json",
+      "path": "run/protocol.json",
+      "razon": null,
+      "rol": "protocolo",
+      "sha256": "4e880343dcd84712b4af354086cc0160d0b963acbf45ae081cc94ceefd9e1f54",
+      "tamano": 9227
+    },
+    {
+      "estado": "REGISTRADO",
+      "fuente": "services.dossier.package",
+      "media_type": "text/markdown",
+      "path": "run/reproduce.md",
+      "razon": null,
+      "rol": "receta",
+      "sha256": "2a68ef6553282e7ff94ea6ff33aa839e8beaadb242d9b231092fd6cb69bee49a",
+      "tamano": 3844
+    }
+  ],
+  "generated_at": "2026-10-10T00:56:56+00:00",
+  "manifest_version": 1,
+  "molecule_id": "e5655ee8-fa0b-4c1a-aebe-995548b0281b",
+  "root": "moldesign_case_350e8d04-4273-41f5-b818-72ab44f3c95e_run_27c62c96-a89",
+  "task_id": "27c62c96-a890-47f6-b0c1-095dc6801edb"
+}

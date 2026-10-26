@@ -1,0 +1,31 @@
+{
+  "experimento": "MET-02-R1-SEMILLA",
+  "creado": "2026-10-23T04:59:52+00:00",
+  "semillas": [
+    42,
+    7,
+    13,
+    101,
+    2026
+  ],
+  "repite": "MET-02-SEMILLA (INCONCLUSIVE, 01cfdbca): sólo el brazo de la regla en dos niveles",
+  "commit": "f7c46736",
+  "cambio_respecto_de_MET-02": "el lector de coordenadas quita la carga de la columna 79 del elemento",
+  "panel": {
+    "origen": "scripts/artifacts_science/MET-02-SEMILLA/entrada/panel.json",
+    "sha256": "90c50885b747136b5eb06ece1b3d638fb86f7b28c97a8acf825c73b740bcd014"
+  },
+  "configuracion": "la de MET-02: un caso, exhaustividad 8, 9 poses, Vina 1.2.7, 4 CPU por proceso, cápsula de API aislada",
+  "comparador": "brazo «antes» sellado en MET-02-SEMILLA (861f6a0e)",
+  "hipotesis": {
+    "H2": "Ninguna entrada primaria cambia de estado de metales con la semilla.",
+    "H3": "En las entradas del inventario el estado es ABSTENCION si el inventario dice que el ligando coordina algún ion y REVISAR si no.",
+    "H4": "La pose top-1 coincide con la del brazo «antes» de MET-02 en ≥ 95 % de los pares (entrada, semilla)."
+  },
+  "decision": {
+    "GO": "H2, H3 sin ninguna discrepancia no explicada por una diferencia declarada del criterio, H4, y ≥ 30 entradas primarias evaluables.",
+    "NO_GO": "alguna entrada primaria cambia de estado con la semilla, o una discrepancia de H3 sin explicar.",
+    "INCONCLUSIVE": "en cualquier otro caso."
+  },
+  "no_dice": "si abstenerse o revisar es la decisión correcta para cada metal; ni nada de la calidad del docking."
+}

@@ -16,7 +16,7 @@ dentro de `tmp/`.
 
 ## Moldex — APROBADO
 
-**Evidencia:** `tmp/moldex-runtime-20260831T224033Z/`
+**Evidencia:** `tmp/moldex-runtime-20260831T224033Z/` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\moldex-runtime-20260831T224033Z)
 
 | Criterio del expediente | Resultado |
 |---|---|
@@ -42,7 +42,7 @@ dentro de `tmp/`.
 
 ## MolChat — APROBADO
 
-**Evidencia:** `tmp/molchat-runtime-20260831T225134Z/` (incluye `transcripcion.json`)
+**Evidencia:** `tmp/molchat-runtime-20260831T225134Z/` (ahora en F:\Backups\moldesign-evidencia\2026-10-10-limpieza-D\tmp\molchat-runtime-20260831T225134Z) (incluye `transcripcion.json`)
 
 Ejecutado con el modelo local real: `llama-server.exe` + `qwen2.5-1.5b-instruct-q4_k_m.gguf`.
 

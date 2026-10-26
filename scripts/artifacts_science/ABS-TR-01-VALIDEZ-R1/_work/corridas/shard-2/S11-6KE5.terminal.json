@@ -1,0 +1,16 @@
+{
+  "id_r2": "S11",
+  "pdb": "6KE5",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 75.2,
+      "crudo": "S11-6KE5-intento1.json.gz",
+      "crudo_sha256": "95416248717d31edd7f955b0e84c858a4dc6b25bcafdb9d41a951144100711a0"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S11-6KE5-intento1.json.gz",
+  "crudo_sha256": "95416248717d31edd7f955b0e84c858a4dc6b25bcafdb9d41a951144100711a0",
+  "registrado_en": "2026-10-25T01:29:04+00:00"
+}

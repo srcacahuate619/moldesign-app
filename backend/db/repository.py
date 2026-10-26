@@ -20,7 +20,7 @@ from datetime import UTC, datetime
 from typing import Any
 from types import SimpleNamespace
 
-from sqlalchemy import select, func, update, or_, JSON, case
+from sqlalchemy import select, update, or_, JSON, case
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -46,6 +46,33 @@ from utils.logger import get_logger
 settings = get_settings()
 log = get_logger(__name__)
 _UNSET = object()  # Diferencia campo omitido de limpieza explícita.
+
+
+def run_snapshot_values(data: dict[str, Any]) -> dict[str, Any]:
+    """Columnas de ``evaluation_results`` a partir del snapshot de una corrida.
+
+    ``snapshot_evaluation_run`` guarda fechas y UUID como texto para que el JSON
+    sea serializable; quien lo lee como si fuera la fila necesita los tipos de
+    vuelta. Una columna que la corrida no registró queda en ``None``: no se
+    inventa un valor para lo que no se midió.
+    """
+    from sqlalchemy import DateTime, Uuid
+
+    values: dict[str, Any] = {}
+    for column in EvaluationResultORM.__table__.columns:
+        value = data.get(column.name)
+        if isinstance(value, str) and isinstance(column.type, DateTime):
+            try:
+                value = datetime.fromisoformat(value)
+            except ValueError:
+                value = None
+        elif isinstance(value, str) and isinstance(column.type, Uuid):
+            try:
+                value = uuid.UUID(value)
+            except ValueError:
+                value = None
+        values[column.name] = value
+    return values
 
 
 def _property_values(properties: PhysicochemicalProperties) -> dict[str, Any]:
@@ -680,55 +707,180 @@ class Repository:
         target_pdb_id: str | None = None,
         limit: int | None = None,
         offset: int = 0,
-    ) -> tuple[list[EvaluationResultORM], int]:
+    ) -> tuple[list[Any], int]:
         """
-        Obtiene las moléculas evaluadas y guardadas para la Pokedex (Moldex).
+        Fichas de Moldex: una por CORRIDA guardada, no una por molécula.
 
-        Soporta paginación opcional:
-          * limit:  número máximo de items a devolver (None = sin límite, all).
-          * offset: índice a partir del cual empezar (default 0).
-        Devuelve (results, total) donde total es el count SIN paginar
-        (útil para construir `has_next` en el endpoint).
+        La molécula (receptor + ligando) se reutiliza en cada evaluación, y
+        ``evaluation_results`` es su proyección mutable: leerla hacía que una
+        evaluación nueva pisara los números de la que el investigador había
+        guardado. Cada ficha sale ahora del snapshot inmutable de su corrida
+        (con los addenda posteriores: selectividad, informe, sello), así que
+        guardar varias evaluaciones de la misma molécula da varias fichas.
+
+        Una molécula guardada antes de que existieran las fichas por corrida
+        y cuya proyección no tiene snapshot (anterior a v11) sigue saliendo por
+        su proyección: es la única evidencia que conserva.
+
+        Cada elemento expone el contrato de ``EvaluationResultORM`` más
+        ``molecule``, ``saved_name`` y ``saved_at``. Soporta paginación opcional
+        (``limit``/``offset``) y devuelve ``(fichas, total)`` con el total SIN
+        paginar.
         """
-        # ─── Base filters (sin paginación) ───
-        base_filter = [
-            MoleculeORM.user_id == user_id,
-            MoleculeORM.status == MoleculeStatus.EVALUATED,
-            MoleculeORM.is_saved == True,
-        ]
+        snapshot = EvaluationRunORM.snapshot_json
+        owner = [MoleculeORM.user_id == user_id]
         if target_pdb_id:
-            base_filter.append(TargetORM.pdb_id == target_pdb_id.upper())
+            owner.append(TargetORM.pdb_id == target_pdb_id.upper())
 
-        # ─── Count total antes de paginar ───
-        count_stmt = (
-            select(func.count(MoleculeORM.id))
-            .join(TargetORM, MoleculeORM.target_id == TargetORM.id)
-            .where(*base_filter)
+        tiene_ficha = (
+            select(EvaluationRunORM.id)
+            .where(
+                EvaluationRunORM.molecule_id == MoleculeORM.id,
+                EvaluationRunORM.saved_at.isnot(None),
+            )
+            .exists()
         )
-        total = (await self.db.execute(count_stmt)).scalar() or 0
-
-        # ─── Query principal con joinedload + orden ───
-        stmt = (
-            select(EvaluationResultORM)
+        # Fase 1: sólo lo necesario para ordenar y contar. Las filas completas
+        # (con SVG y poses embebidas) se cargan únicamente para la página pedida.
+        corridas = (await self.db.execute(
+            select(
+                EvaluationRunORM.id,
+                TargetORM.name,
+                snapshot["stacking_degraded"].as_boolean(),
+                snapshot["total_score"].as_float(),
+            )
+            .join(MoleculeORM, EvaluationRunORM.molecule_id == MoleculeORM.id)
+            .join(TargetORM, MoleculeORM.target_id == TargetORM.id)
+            .where(
+                *owner,
+                EvaluationRunORM.saved_at.isnot(None),
+                EvaluationRunORM.status == "SUCCESS",
+            )
+        )).all()
+        heredadas = (await self.db.execute(
+            select(
+                EvaluationResultORM.id,
+                TargetORM.name,
+                EvaluationResultORM.stacking_degraded,
+                EvaluationResultORM.total_score,
+            )
             .join(MoleculeORM, EvaluationResultORM.molecule_id == MoleculeORM.id)
             .join(TargetORM, MoleculeORM.target_id == TargetORM.id)
-            .where(*base_filter)
-            .options(
-                joinedload(EvaluationResultORM.molecule).joinedload(MoleculeORM.target)
+            .where(
+                *owner,
+                MoleculeORM.status == MoleculeStatus.EVALUATED,
+                MoleculeORM.is_saved.is_(True),
+                ~tiene_ficha,
             )
-            .order_by(
-                TargetORM.name.asc(),
-                case((EvaluationResultORM.stacking_degraded.is_(False), 0), else_=1),
-                EvaluationResultORM.total_score.desc(),
+        )).all()
+
+        def clave(fila) -> tuple[str, int, float]:
+            # Mismo orden que tenía el catálogo: receptor, estimación íntegra
+            # antes que degradada, score descendente y sin score al final.
+            _id, receptor, degradada, score = fila
+            return (
+                receptor or "",
+                0 if degradada is False else 1,
+                -score if score is not None else float("inf"),
             )
+
+        ordenadas = sorted(
+            [("corrida", f) for f in corridas] + [("heredada", f) for f in heredadas],
+            key=lambda item: clave(item[1]),
         )
-
+        total = len(ordenadas)
         if limit is not None:
-            stmt = stmt.limit(limit).offset(offset)
+            ordenadas = ordenadas[offset:offset + limit]
 
-        result = await self.db.execute(stmt)
-        rows = list(result.unique().scalars().all())
-        return rows, total
+        ids_corrida = [f[0] for tipo, f in ordenadas if tipo == "corrida"]
+        ids_heredada = [f[0] for tipo, f in ordenadas if tipo == "heredada"]
+
+        por_corrida: dict[Any, Any] = {}
+        if ids_corrida:
+            filas = (await self.db.execute(
+                select(EvaluationRunORM, MoleculeORM)
+                .join(MoleculeORM, EvaluationRunORM.molecule_id == MoleculeORM.id)
+                .options(selectinload(MoleculeORM.target))
+                .where(EvaluationRunORM.id.in_(ids_corrida))
+            )).all()
+            for corrida, molecula in filas:
+                try:
+                    crudos = await self.materialize_run_snapshot(corrida)
+                except ValueError:
+                    # Un addendum que no coincide con su hash no puede tumbar toda
+                    # la biblioteca. La ficha sale con lo que la corrida congeló, sin
+                    # lo posterior (p. ej. el sello): afirma menos, nunca más.
+                    log.warning("moldex_addendum_corrupto", task_id=corrida.task_id)
+                    crudos = dict(corrida.snapshot_json or {})
+                datos = run_snapshot_values(crudos)
+                datos["task_id"] = corrida.task_id
+                por_corrida[corrida.id] = SimpleNamespace(
+                    **datos,
+                    molecule=molecula,
+                    saved_name=corrida.saved_name,
+                    saved_at=corrida.saved_at,
+                )
+        por_heredada: dict[Any, Any] = {}
+        if ids_heredada:
+            filas = (await self.db.execute(
+                select(EvaluationResultORM)
+                .where(EvaluationResultORM.id.in_(ids_heredada))
+                .options(
+                    joinedload(EvaluationResultORM.molecule).joinedload(MoleculeORM.target)
+                )
+            )).unique().scalars().all()
+            por_heredada = {fila.id: fila for fila in filas}
+
+        fichas = [
+            (por_corrida if tipo == "corrida" else por_heredada).get(f[0])
+            for tipo, f in ordenadas
+        ]
+        return [ficha for ficha in fichas if ficha is not None], total
+
+    async def save_evaluation_run(
+        self,
+        molecule_id: uuid.UUID,
+        task_id: str | None = None,
+        name: str | None = None,
+    ) -> EvaluationRunORM | None:
+        """Guarda UNA corrida en Moldex; las demás de la molécula no se tocan.
+
+        ``task_id`` identifica la evaluación que el investigador está mirando.
+        Sin él se guarda la vigente de la molécula (clientes anteriores a v29).
+        Guardar es idempotente: repetirlo conserva la fecha y sólo cambia el
+        nombre si llega uno. Devuelve ``None`` cuando la molécula sólo tiene
+        una proyección heredada sin snapshot: ahí no hay corrida que marcar y
+        ``is_saved`` basta, como antes.
+        """
+        molecule = await self.get_molecule(molecule_id)
+        if molecule is None:
+            raise DatabaseQueryError(f"Molecule '{molecule_id}' no encontrada")
+        projection = molecule.evaluation_result
+        if task_id is None and projection is not None:
+            task_id = projection.task_id
+
+        corrida: EvaluationRunORM | None = None
+        if task_id:
+            corrida = await self.get_evaluation_run(task_id, molecule_id)
+            if corrida is None and projection is not None and projection.task_id == task_id:
+                # La corrida terminó pero su snapshot aún no existe: se congela
+                # ahora, desde la proyección que todavía le pertenece.
+                corrida = await self.snapshot_evaluation_run(molecule_id, task_id)
+            if corrida is None:
+                raise LookupError("No existe esa evaluación para esta molécula.")
+            if (corrida.status or "SUCCESS") != "SUCCESS":
+                raise ValueError("Sólo puede guardarse una evaluación terminada con éxito.")
+            if corrida.saved_at is None:
+                corrida.saved_at = datetime.now(UTC)
+            if name:
+                corrida.saved_name = name
+
+        molecule.is_saved = True
+        if name and not molecule.name:
+            molecule.name = name
+        molecule.updated_at = datetime.now(UTC)
+        await self.db.flush()
+        return corrida
 
     async def get_evaluation_result(
         self,
@@ -781,6 +933,16 @@ class Repository:
             columna.name: json_seguro(getattr(resultado, columna.name))
             for columna in EvaluationResultORM.__table__.columns
         }
+        target = getattr(getattr(resultado, "molecule", None), "target", None)
+        if target is not None:
+            from services.targets.calibracion import estado_de_calibracion
+
+            snapshot.update({
+                "target_name": getattr(target, "name", None),
+                "target_hotspots": json_seguro(getattr(target, "hotspots", None)),
+                "target_spearman_rho": getattr(target, "spearman_rho", None),
+                "target_calibracion": estado_de_calibracion(target).to_dict(),
+            })
         corrida = EvaluationRunORM(
             task_id=str(task_id),
             molecule_id=molecule_id,
@@ -1036,7 +1198,10 @@ class Repository:
             result.receptor_path = getattr(docking, "receptor_path", None)
             result.receptor_sha256 = getattr(docking, "receptor_sha256", None)
             result.scientific_warnings = list(docking.scientific_warnings) if docking.scientific_warnings is not None else []
-            result.hotspots_hit = list(docking.hotspots_hit) if hasattr(docking, "hotspots_hit") and docking.hotspots_hit is not None else []
+            # SCI-A-010: `None` es «no evaluado» y `[]` es «evaluado, sin aciertos».
+            # Guardar `[]` por defecto convertía la ausencia de análisis en un cero.
+            result.hotspots_hit = (list(docking.hotspots_hit)
+                                   if getattr(docking, "hotspots_hit", None) is not None else None)
 
         if scores is not None:
             # Cast all scores to native float

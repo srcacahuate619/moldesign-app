@@ -1,0 +1,56 @@
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: miew-react@0.11.0
+npm warn Found: react@19.2.8
+npm warn node_modules/react
+npm warn   react@"19.2.8" from the root project
+npm warn   52 more (@emotion/react, @emotion/styled, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react@"^18.2.0" from miew-react@0.11.0
+npm warn node_modules/ketcher-react/node_modules/miew-react
+npm warn   miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn   node_modules/ketcher-react
+npm warn
+npm warn Conflicting peer dependency: react@18.3.1
+npm warn node_modules/react
+npm warn   peer react@"^18.2.0" from miew-react@0.11.0
+npm warn   node_modules/ketcher-react/node_modules/miew-react
+npm warn     miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn     node_modules/ketcher-react
+npm warn ERESOLVE overriding peer dependency
+npm warn While resolving: miew-react@0.11.0
+npm warn Found: react-dom@19.2.8
+npm warn node_modules/react-dom
+npm warn   react-dom@"19.2.8" from the root project
+npm warn   23 more (@floating-ui/react, @floating-ui/react-dom, ...)
+npm warn
+npm warn Could not resolve dependency:
+npm warn peer react-dom@"^18.2.0" from miew-react@0.11.0
+npm warn node_modules/ketcher-react/node_modules/miew-react
+npm warn   miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn   node_modules/ketcher-react
+npm warn
+npm warn Conflicting peer dependency: react-dom@18.3.1
+npm warn node_modules/react-dom
+npm warn   peer react-dom@"^18.2.0" from miew-react@0.11.0
+npm warn   node_modules/ketcher-react/node_modules/miew-react
+npm warn     miew-react@"0.11.0" from ketcher-react@3.18.0
+npm warn     node_modules/ketcher-react
+
+up to date, audited 1512 packages in 9s
+
+369 packages are looking for funding
+  run `npm fund` for details
+
+32 vulnerabilities (11 moderate, 21 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues possible (including breaking changes), run:
+  npm audit fix --force
+
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.

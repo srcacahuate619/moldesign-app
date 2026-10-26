@@ -3,21 +3,27 @@
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4
  * Historial: jerarquía editorial para datos reales, con todas las operaciones existentes. */
 
-import { useLanguage } from "../../context/LanguageContext";
-import { useEffect, useState } from "react";
+import { useLanguage, TRANSLATIONS } from "../../context/LanguageContext";
+import { useEffect, useRef, useState } from "react";
 import { Download } from "lucide-react";
 
 import { useAuth } from "../../lib/auth";
 import { useKeepAliveActive } from "../../context/KeepAliveContext";
-import { getEvaluationHistory, getUserStats, downloadCertificate } from "../../lib/api";
+import { getEvaluationHistory, getUserStats, downloadCertificate, mensajeDelError } from "../../lib/api";
+import { downloadRunReceipt } from "../../lib/history";
 import type { EvaluationSummary, HistoryResponse, UserStats } from "../../lib/types";
 import { EmptyState } from "../../components/ui/EmptyState";
 
+// Con hora: una molécula se evalúa varias veces el mismo día y cada corrida es su
+// propia fila. Sin la hora, dos corridas de la misma molécula con cifras iguales
+// se veían como una fila repetida (o como una evaluación sobrescrita).
 function formatDate(dateStr: string, locale: string) {
-  return new Date(dateStr).toLocaleDateString(locale === "en" ? "en-US" : "es-MX", {
+  return new Date(dateStr).toLocaleString(locale === "en" ? "en-US" : "es-MX", {
     day: "2-digit",
     month: "short",
     year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
   });
 }
 
@@ -27,27 +33,32 @@ export default function HistoryPage() {
   // FIX (keep-alive): /history no se desmonta (KeepAliveLayout). Recargar al
   // volver a esta ruta para que las evaluaciones recién hechas aparezcan.
   const isActive = useKeepAliveActive();
-  const [history, setHistory] = useState<HistoryResponse | null>(null);
+  const [historyResult, setHistoryResult] = useState<{ userId: string; data: HistoryResponse } | null>(null);
+  // Conservar la tabla durante una actualización, sólo si pertenece a esta cuenta.
+  const history = historyResult?.userId === user?.user_id ? historyResult?.data ?? null : null;
   const [stats, setStats] = useState<UserStats | null>(null);
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState("created_at");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const displayedError = error === TRANSLATIONS.es.pg_hist_error_conexion
+    ? t("pg_hist_error_conexion") : error;
 
-  // Fetch history — también cuando la página vuelve a estar activa
+  // Al cambiar de página u orden, conservar las filas hasta recibir la respuesta.
+  // El indicador de carga sustituye la tabla sólo en la primera consulta.
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
     setLoading(true);
     setError(null);
     getEvaluationHistory(page, 20, sortBy, "desc")
-      .then((data) => { if (!cancelled) setHistory(data); })
+      .then((data) => { if (!cancelled) setHistoryResult({ userId: user.user_id, data }); })
       .catch((e) => { if (!cancelled) setError(e.message); })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
-  }, [user, page, sortBy, isActive]);
+  }, [user, page, sortBy]);
 
-  // Fetch stats — también al reactivar
+  // Fetch stats
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
@@ -55,7 +66,25 @@ export default function HistoryPage() {
       .then((data) => { if (!cancelled) setStats(data); })
       .catch(() => {});
     return () => { cancelled = true; };
-  }, [user, isActive]);
+  }, [user]);
+
+  // Al VOLVER a la pestaña (keep-alive) se refresca en silencio: la tabla que había se queda hasta que llega la nueva,
+  // sin «cargando». Antes `isActive` no cambiaba nunca (el layout no daba el contexto) y una evaluación nueva no
+  // aparecía al volver; con el contexto y el «cargando» de siempre, cada vuelta habría parpadeado.
+  const vistaAntes = useRef(isActive);
+  useEffect(() => {
+    const volvio = isActive && !vistaAntes.current;
+    vistaAntes.current = isActive;
+    if (!volvio || !user) return;
+    let cancelled = false;
+    getEvaluationHistory(page, 20, sortBy, "desc")
+      .then((data) => { if (!cancelled) setHistoryResult({ userId: user.user_id, data }); })
+      .catch(() => { /* se queda la tabla que había */ });
+    getUserStats()
+      .then((data) => { if (!cancelled) setStats(data); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [isActive, user, page, sortBy]);
 
   // ── ESTADO 1/3: Auth cargando (ThinkingOrb processing, cohesivo con /moldex loader) ──
   if (authLoading) {
@@ -104,6 +133,7 @@ export default function HistoryPage() {
           <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--text-secondary)]">
           {t("pg_hist_descripcion")} <span className="font-medium">Moldex</span>.
           </p>
+          <p className="mt-2 max-w-2xl text-xs leading-5 text-[var(--text-secondary)]">{t("pg_hist_vina_condition")}</p>
         </div>
         {history && (
           <div className="border-l-2 border-[var(--accent-strong)] pl-4 text-right">
@@ -115,19 +145,10 @@ export default function HistoryPage() {
 
       {/* ── Stats ── */}
       {stats && (
-        <section aria-label={t("pg_hist_titulo")} className="mb-9 grid grid-cols-3 border border-[var(--border)] bg-[var(--bg-card)] lg:grid-cols-6">
+        <section aria-label={t("pg_hist_titulo")} className="mb-9 grid grid-cols-2 border border-[var(--border)] bg-[var(--bg-card)] sm:grid-cols-4">
           <StatCard label={t("pg_hist_stat_total")} value={stats.total_evaluations} />
           <StatCard label={t("lo_filtro_completadas")} value={stats.completed_evaluations} color="text-[var(--categoria-hallazgo)]" />
           <StatCard label={t("lo_filtro_fallidas")} value={stats.failed_evaluations} color="text-[var(--categoria-refutacion)]" />
-          <StatCard
-            label={t("pg_hist_stat_mejor_score")}
-            value={stats.best_score != null ? stats.best_score.toFixed(1) : "—"}
-            color="text-[var(--accent-strong)]"
-          />
-          <StatCard
-            label={t("pg_hist_stat_promedio")}
-            value={stats.avg_score != null ? stats.avg_score.toFixed(1) : "—"}
-          />
           <StatCard label={t("pg_hist_targets_unicos")} value={stats.unique_targets} />
         </section>
       )}
@@ -137,7 +158,6 @@ export default function HistoryPage() {
         <span className="mr-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-[var(--text-dim)]">{t("pg_hist_ordenar")}</span>
         {[
           { key: "created_at", label: t("pg_hist_orden_fecha") },
-          { key: "total_score", label: t("pg_hist_orden_score_total") },
           { key: "affinity_kcal", label: t("c_afinidad") },
         ].map((opt) => (
           <button
@@ -159,12 +179,12 @@ export default function HistoryPage() {
       {/* ── Error ── */}
       {error && (
         <section role="alert" className="mb-4 border border-[var(--border-light)] bg-[var(--bg-secondary)] p-4">
-          <pre className="whitespace-pre-wrap text-xs text-[var(--text)]">{error}</pre>
+          <pre className="whitespace-pre-wrap text-xs text-[var(--text)]">{displayedError}</pre>
         </section>
       )}
 
       {/* ── Loading ── */}
-      {loading && (
+      {loading && !history && (
         <div className="flex items-center gap-3 border border-[var(--border)] bg-[var(--bg-card)] px-5 py-8 text-sm text-[var(--text-secondary)]" role="status">
           <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--accent-strong)] border-t-transparent" />
           {t("pg_hist_cargando")}
@@ -172,8 +192,8 @@ export default function HistoryPage() {
       )}
 
       {/* ── Table / ── EmptyState para logueado sin evaluaciones ── */}
-      {history && !loading && (
-        <>
+      {history && (
+        <div aria-busy={loading}>
           {history.items.length === 0 ? (
             // ── ESTADO 3/3: Logueado, sin historial (ThinkingOrb idle, ritual de workflow) ──
             <EmptyState
@@ -186,7 +206,7 @@ export default function HistoryPage() {
               }
               ritual={[
                 { n: "1", t: t("mx_paso_disena"), d: t("mx_paso_disena_d") },
-                { n: "2", t: t("mx_paso_acopla"),  d: t("mx_paso_acopla_d") },
+                { n: "2", t: t("mx_paso_acopla"),  d: t("mx_paso_acopla_vina_d") },
                 { n: "3", t: t("mx_paso_guarda"), d: t("pg_hist_ritual_conservar") },
               ]}
               ctaHref="/evaluation"
@@ -202,8 +222,7 @@ export default function HistoryPage() {
                     <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_target")}</th>
                     <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("c_estado")}</th>
                     <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_corrida")}</th>
-                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("c_score")}</th>
-                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("c_afinidad")}</th>
+                    <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_afinidad_vina")}</th>
                     <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("pg_hist_th_mw")}</th>
                     <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">Lipinski</th>
                     <th className="px-3 py-4 text-center font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">QED</th>
@@ -212,9 +231,9 @@ export default function HistoryPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {history.items.map((item: EvaluationSummary, i: number) => (
+                  {history.items.map((item: EvaluationSummary) => (
                     <tr
-                      key={item.molecule_id + i}
+                      key={item.task_id ?? item.molecule_id}
                       className="border-b border-[var(--border)] transition-colors last:border-b-0 hover:bg-[var(--bg-secondary)]"
                     >
                       <td className="max-w-[240px] px-4 py-4 font-mono text-[11px] text-[var(--text)]">
@@ -259,11 +278,14 @@ export default function HistoryPage() {
                           </span>
                         )}
                       </td>
-                      <td className="px-3 py-4 text-center font-mono font-bold tabular-nums text-[var(--accent-strong)]">
-                        {item.total_score != null ? item.total_score.toFixed(1) : "—"}
-                      </td>
                       <td className="px-3 py-4 text-center font-mono tabular-nums text-[var(--text)]">
                         {item.affinity_kcal != null ? `${item.affinity_kcal.toFixed(1)} kcal/mol` : "—"}
+                        {/* La afinidad conserva la condición del protocolo de origen. */}
+                        {item.protocolo_vigente === false && (
+                          <span className="mt-1 block text-[9px] font-bold uppercase tracking-[0.08em] text-[var(--categoria-corrigendum)]" title={t("pg_hist_protocolo_d")}>
+                            {t("pg_protocolo_anterior")}
+                          </span>
+                        )}
                       </td>
                       <td className="px-3 py-4 text-center font-mono tabular-nums text-[var(--text-secondary)]">
                         {item.molecular_weight != null ? item.molecular_weight.toFixed(0) : "—"}
@@ -286,7 +308,7 @@ export default function HistoryPage() {
                         {item.blockchain_tx_id ? (
                           <button
                             type="button"
-                            onClick={() => downloadCertificate(item.molecule_id)}
+                            onClick={() => { void (item.task_id ? downloadRunReceipt(item.task_id) : downloadCertificate(item.molecule_id)).catch((cause) => setError(mensajeDelError(cause))); }}
                             className="inline-flex min-h-8 cursor-pointer items-center gap-1.5 border border-[var(--border-light)] px-2 py-1 text-xs font-bold text-[var(--text)] transition-colors hover:border-[var(--accent-strong)] hover:text-[var(--accent-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
                             title={t("pg_hist_descargar_recibo")}
                             aria-label={t("pg_hist_descargar_recibo")}
@@ -313,7 +335,7 @@ export default function HistoryPage() {
             <div className="mt-5 flex items-center justify-end gap-3">
               <button
                 type="button"
-                disabled={page <= 1}
+                disabled={loading || page <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 className="min-h-9 cursor-pointer border border-[var(--border-light)] bg-[var(--bg-card)] px-3 py-1.5 text-xs text-[var(--text)] transition-colors hover:border-[var(--accent)] active:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] disabled:cursor-not-allowed disabled:opacity-40"
               >
@@ -324,7 +346,7 @@ export default function HistoryPage() {
               </span>
               <button
                 type="button"
-                disabled={!history.has_next}
+                disabled={loading || !history.has_next}
                 onClick={() => setPage((p) => p + 1)}
                 className="min-h-9 cursor-pointer border border-[var(--border-light)] bg-[var(--bg-card)] px-3 py-1.5 text-xs text-[var(--text)] transition-colors hover:border-[var(--accent)] active:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] disabled:cursor-not-allowed disabled:opacity-40"
               >
@@ -332,7 +354,7 @@ export default function HistoryPage() {
               </button>
             </div>
           )}
-        </>
+        </div>
       )}
       </div>
     </main>

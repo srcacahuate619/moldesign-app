@@ -1,0 +1,42 @@
+/* Hallmark · macrostructure: Workbench · existing MolDesign · contact localization
+ * pre-emit critique: P5 H5 E4 S5 R5 V4 · no decorative motion */
+.root { min-width: 0; color: var(--text); font: 14px/1.65 var(--font-sans); container-type: inline-size; }
+.toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 20px; margin-block: 16px; }
+.toolbar label { display: grid; gap: 4px; color: var(--text-muted); }
+.toolbar select { min-height: 44px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg-card); color: var(--text); font: inherit; }
+.toolbar select:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; }
+.toolbar > span { max-width: 64ch; color: var(--text-muted); font-size: 13px; }
+.workspace { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(260px,.8fr); gap: 24px; align-items: start; min-width: 0; }
+.figure { min-width: 0; }
+.paperViewport { width: 100%; max-height: 440px; overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--color-white); }
+.paper { position: relative; min-width: 100%; background: var(--color-white); }
+.zoom { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; }
+.zoom button { min-width: 44px; }
+.zoom output { min-width: 48px; text-align: center; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.paper img { display: block; width: 100%; height: auto; }
+.overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.selectedAtom { fill: none; stroke: var(--color-emerald-800); stroke-width: 3; vector-effect: non-scaling-stroke; }
+.figure figcaption { padding-block: 12px; color: var(--text-muted); font-size: 13px; line-height: 1.65; }
+.figure figcaption p { margin-top: 8px; }
+.swatch { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--color-emerald-300); border: 1px solid var(--color-emerald-800); margin-right: 8px; }
+.noDiagram { min-height: 180px; border: 1px solid var(--border); border-radius: 8px; padding: 20px; color: var(--text-muted); }
+.noDiagram code { display: block; margin-top: 12px; overflow-wrap: anywhere; }
+.contacts { min-width: 0; }
+.contacts h5 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+.contactList { max-height: 320px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 4px; border: 1px solid var(--border); border-radius: 8px; }
+.contactList button { display: flex; width: 100%; min-height: 56px; align-items: start; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); padding: 10px 12px; text-align: left; color: var(--text); background: transparent; cursor: pointer; }
+.contactList button:last-child { border-bottom: 0; }
+.contactList button:hover { background: var(--bg-secondary); }
+.contactList button:active,.contactList button[aria-pressed=true] { background: var(--reading-selected); }
+.contactList button:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: -2px; }
+.contactList button > span:first-child { display: grid; min-width: 0; gap: 2px; overflow-wrap: anywhere; }
+.contactList button > span:last-child { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.contactList button span span { color: var(--text-muted); font-size: 13px; }
+.selection { min-width: 0; padding-top: 20px; }
+.selection dl > div,.provenance > div { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 12px; border-bottom: 1px solid var(--border); padding-block: 10px; }
+.selection dt,.provenance dt { color: var(--text-muted); }
+.selection dd,.provenance dd { min-width: 0; text-align: right; overflow-wrap: anywhere; }
+.provenance code { font-size: 12px; }
+.raw { max-height: 280px; padding: 12px; overflow: auto; background: var(--bg-secondary); font: 12px/1.7 var(--font-mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+@container(max-width:720px) { .workspace { grid-template-columns: minmax(0,1fr); } }
+@media(max-width:540px) { .selection dl > div,.provenance > div { grid-template-columns: minmax(0,1fr); gap: 4px; } .selection dd,.provenance dd { text-align: left; } }

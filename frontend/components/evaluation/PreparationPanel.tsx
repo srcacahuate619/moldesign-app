@@ -30,11 +30,14 @@
 // humana— porque mezclarlos es exactamente lo que convierte un informe en un
 // veredicto.
 
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { AlertTriangle, CheckCircle2, ChevronDown, CircleSlash, Loader2, ShieldQuestion } from "lucide-react";
 
 import { useLanguage } from "../../context/LanguageContext";
+import { localizeReceptorLabel } from "../../lib/preflight";
 import { Ayuda } from "../ui/Ayuda";
+import { ConfigurationInputs, ConfigurationMetadata, useConfigurationPresentation } from "./ConfigurationPresentation";
+import configurationStyles from "./ConfigurationPresentation.module.css";
 import type { PreflightControl, PreflightControlState, PreflightReport } from "../../lib/preflight";
 import type { HumanDecision, PreflightSummary } from "../../lib/cases/types";
 
@@ -46,10 +49,10 @@ const STATE_ORDER: Record<PreflightControlState, number> = {
 };
 
 const STATE_LABEL: Record<PreflightControlState, string> = {
-  bloquea: "Bloquea",
-  advertencia: "Advertencia",
-  no_evaluado: "No evaluado",
-  pasa: "Pasa",
+  bloquea: "pr_preflight_state_blocking",
+  advertencia: "pr_preflight_state_warning",
+  no_evaluado: "pr_preflight_state_not_evaluated",
+  pasa: "pr_preflight_state_pass",
 };
 
 const STATE_STYLE: Record<PreflightControlState, string> = {
@@ -59,17 +62,19 @@ const STATE_STYLE: Record<PreflightControlState, string> = {
   pasa: "border-emerald-500/30 text-emerald-300",
 };
 
-function dockingMethodLabel(engine: string, route: string): string {
-  if (engine === "qvina2") return "Acoplamiento molecular con QuickVina 2";
-  if (engine === "vina") return "Acoplamiento molecular con AutoDock Vina";
-  return route === "docking_vina" ? "Ruta de acoplamiento compatible con Vina" : "Ruta de acoplamiento configurada";
+function dockingMethodKey(engine: string, route: string): string {
+  if (engine === "qvina2") return "pr_preflight_method_qvina";
+  if (engine === "vina") return "pr_preflight_method_vina";
+  return route === "docking_vina"
+    ? "pr_preflight_method_vina_compatible"
+    : "pr_preflight_method_configured";
 }
 
-const SPECIES_CATEGORY_LABEL = {
-  water: "agua",
-  metal: "metal",
-  organic_cofactor: "cofactor orgánico",
-  other_heteroatom: "otro componente de la estructura",
+const SPECIES_CATEGORY_KEY = {
+  water: "pr_preflight_species_water",
+  metal: "pr_preflight_species_metal",
+  organic_cofactor: "pr_preflight_species_organic_cofactor",
+  other_heteroatom: "pr_preflight_species_other_component",
 } as const;
 
 function StateIcon({ state }: { state: PreflightControlState }) {
@@ -88,19 +93,13 @@ export interface PreparationPanelProps {
   readonly error: string | null;
   /** `true` cuando los inputs cambiaron y el informe dejó de corresponder. */
   readonly stale: boolean;
-  readonly canCheck: boolean;
   /**
    * Conformaciones de entrada declaradas para el caso. 1 = confórmero único.
    *
-   * Se declara ANTES de comprobar, no al ejecutar: entra en la huella del
-   * preflight y se congela con el caso. Un control que lo cambiara después
-   * dejaría el resultado describiendo un protocolo distinto del comprobado.
+   * Resumen de lo aplicado en Parámetros de la evaluación. Entra en la
+   * huella del preflight y se conserva con el caso.
    */
   readonly conformers?: number;
-  readonly onConformersChange?: (k: number) => void;
-  /** Qué falta para poder comprobar. Se enseña cuando `canCheck` es falso. */
-  readonly missingInputs: string | null;
-  readonly onCheck: () => void;
   readonly decisions: readonly HumanDecision[];
   readonly onAcknowledge: (controlCode: string) => void;
 }
@@ -122,7 +121,7 @@ function ControlRow({
           className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide ${STATE_STYLE[control.state]}`}
         >
           <StateIcon state={control.state} />
-          {STATE_LABEL[control.state]}
+          {t(STATE_LABEL[control.state])}
         </span>
         <span className="min-w-0 text-sm font-semibold text-zinc-100">{control.title}</span>
       </div>
@@ -158,15 +157,12 @@ export function PreparationPanel({
   loading,
   error,
   stale,
-  canCheck,
   conformers,
-  onConformersChange,
-  missingInputs,
-  onCheck,
   decisions,
   onAcknowledge,
 }: PreparationPanelProps) {
   const { t } = useLanguage();
+  const configuration = useConfigurationPresentation();
   const [open, setOpen] = useState(false);
   const detailId = useId();
   // Un valor imposible cae al defecto en vez de propagarse a la corrida: el
@@ -181,6 +177,9 @@ export function PreparationPanel({
   const blockers = visible?.technical_blockers.length ?? 0;
   const warnings = visible?.warnings.length ?? 0;
   const notEvaluated = visible?.not_evaluated.length ?? 0;
+  useEffect(() => {
+    setOpen(blockers > 0);
+  }, [visible?.input_fingerprint, blockers]);
 
   const acknowledgedCodes = new Set(
     visible ? decisions.filter((d) => d.fingerprint === visible.input_fingerprint).map((d) => d.controlCode) : [],
@@ -194,89 +193,41 @@ export function PreparationPanel({
   return (
     <section
       aria-labelledby="preparation-panel-title"
-      className="w-full max-w-[1600px] border-y border-surface-800 bg-surface-950/60 px-4 py-4 sm:px-6"
+      className={configuration ? configurationStyles.preflight : "w-full max-w-[1600px] border-y border-surface-800 bg-surface-950/60 px-4 py-3 sm:px-6"}
+      data-configuration-preflight={configuration || undefined}
     >
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
-        <div className="min-w-0">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <h2
             id="preparation-panel-title"
             className="text-sm font-semibold tracking-tight text-zinc-100"
           >
             {t("pr_preparacion_titulo")}
           </h2>
-          <p className="mt-1 max-w-[70ch] text-sm font-medium leading-6 text-zinc-300">
-            {t("pr_preparacion_explicacion")}
-          </p>
+          <Ayuda titulo={t("pr_preparacion_titulo")}>{t("pr_preparacion_explicacion")}</Ayuda>
+          {!loading && !visible && !persisted && !error && (
+            <span className="text-xs font-mono text-zinc-400">{t("pr_comprobacion_pendiente")}</span>
+          )}
         </div>
 
-        <div className="flex shrink-0 flex-col items-end gap-2">
-          {/* ── Generación conformacional ─────────────────────────────
-              Va aquí, con la comprobación previa, porque es un parámetro de
-              PROTOCOLO: entra en la huella y se congela con el caso. Un botón
-              que compitiera con «Evaluar» permitiría comparar, dentro de una
-              cohorte, una molécula con confórmero único contra otra con
-              ensemble — y esa diferencia de protocolo se leería como
-              diferencia química. */}
-          {onConformersChange && (
-            <div className="flex flex-wrap items-center justify-end gap-x-2 gap-y-1">
-              <span className="flex items-center gap-1 font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">
-                {t("ayuda_ensemble_titulo")}
-                <Ayuda titulo={t("ayuda_ensemble_titulo")}>{t("ayuda_ensemble")}</Ayuda>
-              </span>
-              <select
-                value={conformacionesEfectivas > 1 ? "ensemble" : "unico"}
-                onChange={(e) =>
-                  onConformersChange(e.target.value === "ensemble" ? 30 : 1)
-                }
-                aria-label={t("ayuda_ensemble_titulo")}
-                className="rounded border border-surface-700 bg-transparent px-1.5 py-0.5 text-xs text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
-              >
-                <option value="unico">{t("pr_conformero_unico")}</option>
-                <option value="ensemble">Ensemble</option>
-              </select>
-              {conformacionesEfectivas > 1 && (
-                <label className="flex items-center gap-1 text-xs font-medium text-zinc-300">
-                  K =
-                  <input
-                    type="number"
-                    min={2}
-                    max={64}
-                    value={conformacionesEfectivas}
-                    aria-label={t("pr_num_conformaciones")}
-                    onChange={(e) => {
-                      const bruto = Number.parseInt(e.target.value, 10);
-                      if (!Number.isFinite(bruto)) return;
-                      onConformersChange(Math.min(Math.max(bruto, 2), 64));
-                    }}
-                    className="w-14 rounded border border-surface-700 bg-transparent px-1 py-0.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
-                  />
-                </label>
-              )}
-            </div>
-          )}
-          {conformacionesEfectivas > 1 && (
-            <p className="max-w-[34ch] text-right text-xs font-medium leading-5 text-amber-200">
-              ≈ {conformacionesEfectivas}{t("auto_1358197dcf7b")}
-            </p>
-          )}
-
-        <button
-          type="button"
-          onClick={onCheck}
-          disabled={!canCheck || loading}
-          className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-brand-500/40 bg-brand-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-brand-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40"
-        >
-          {loading && <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />}
-          {loading ? t("auto_338dc7ae83f6") : visible || persisted ? "Volver a comprobar" : t("auto_dbd6db566faf")}
-        </button>
-        </div>
+        <span className="text-xs font-mono text-zinc-300">
+          {t(conformacionesEfectivas === 1 ? "pr_conformeros_resumen_uno" : "pr_conformeros_resumen_varios", { cantidad: conformacionesEfectivas })}
+        </span>
       </div>
 
-      {/* Qué falta para poder comprobar. Un botón inerte sin explicación deja
-          al usuario sin saber qué hacer. */}
-      {!canCheck && missingInputs && (
-        <p role="status" className="mt-3 text-sm font-medium leading-6 text-zinc-300">
-          {missingInputs}
+      {/* La comprobación NO es un botón: la hace «Evaluar» antes de ejecutar. Este
+          panel sólo cuenta en qué punto está, para que nadie busque un paso que
+          ya no existe (antes, quien no lo pulsaba se quedaba con «Evaluar»
+          deshabilitado sin saber por qué). */}
+      {loading && (
+        <p role="status" className="mt-3 flex items-center gap-2 text-sm font-medium leading-6 text-zinc-300">
+          <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+          {t("auto_338dc7ae83f6")}
+        </p>
+      )}
+      {!loading && !visible && !persisted && !error && (
+        <p role="status" className="mt-1 text-sm font-medium leading-6 text-zinc-300">
+          {t("pr_comprobacion_automatica")}
         </p>
       )}
 
@@ -293,58 +244,58 @@ export function PreparationPanel({
       )}
 
       {!visible && persisted && (
-        <div className="mt-4 border-t border-surface-800 pt-3">
-          <dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-4">
+        <div className={configuration ? undefined : "mt-4 border-t border-surface-800 pt-3"}>
+          {configuration ? <ConfigurationInputs summary={persisted} /> : (<dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-4">
             <div className="min-w-0">
-              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Receptor</dt>
-              <dd className="truncate text-sm font-semibold text-zinc-100">{persisted.receptorLabel}</dd>
+              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_receptor")}</dt>
+              <dd className="truncate text-sm font-semibold text-zinc-100">{localizeReceptorLabel(persisted.receptorLabel, t)}</dd>
             </div>
             <div className="min-w-0">
-              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Ligando</dt>
+              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_ligand")}</dt>
               <dd className="truncate text-sm font-semibold text-zinc-100" title={persisted.ligandLabel}>
                 {persisted.ligandLabel}
               </dd>
             </div>
             <div className="min-w-0">
-              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Caja efectiva</dt>
+              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_effective_box")}</dt>
               <dd className="truncate text-sm font-semibold text-zinc-100">{persisted.gridLabel}</dd>
             </div>
             {persisted.executionConfig && (
               <div className="min-w-0">
                 <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("se_gen_protocol")}</dt>
                 <dd className="truncate text-sm font-semibold text-zinc-100">
-                  {persisted.executionConfig.dockingEngine} · ex {persisted.executionConfig.exhaustiveness} ·{" "}
+                  {persisted.executionConfig.dockingEngine} · {t("c_exhaustividad")} {persisted.executionConfig.exhaustiveness} ·{" "}
                   {persisted.executionConfig.numPoses} {t("auto_f3d3bbae83b6")} {persisted.executionConfig.seed}
                 </dd>
               </div>
             )}
-          </dl>
+          </dl>)}
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span className={`rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide ${persisted.blockers.length > 0 ? STATE_STYLE.bloquea : "border-surface-700 text-zinc-300"}`}>
-              {persisted.blockers.length} bloqueante{persisted.blockers.length === 1 ? "" : "s"}
+              {persisted.blockers.length} {t(persisted.blockers.length === 1 ? "pr_preflight_blocker_one" : "pr_preflight_blocker_many")}
             </span>
             <span className={`rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide ${persisted.warnings.length > 0 ? STATE_STYLE.advertencia : "border-surface-700 text-zinc-300"}`}>
-              {persisted.warnings.length} advertencia{persisted.warnings.length === 1 ? "" : "s"}
+              {persisted.warnings.length} {t(persisted.warnings.length === 1 ? "pr_preflight_warning_one" : "pr_preflight_warning_many")}
             </span>
             <span className="rounded border border-surface-700 px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide text-zinc-300">
               {persisted.notEvaluated.length} {t("se_phys_count_skip")}
             </span>
-            <span className="font-mono text-[11px] font-medium text-zinc-400">
-              huella {persisted.fingerprint.replace("sha256:", "").slice(0, 12)}…
-            </span>
+            {!configuration && <span className="font-mono text-[11px] font-medium text-zinc-400">
+              {t("pr_preflight_fingerprint")} {persisted.fingerprint.replace("sha256:", "").slice(0, 12)}…
+            </span>}
           </div>
-          <p className="mt-2 text-sm leading-6 text-zinc-300">
+          {configuration ? <ConfigurationMetadata fingerprint={persisted.fingerprint} note={t("pr_resumen_guardado")} /> : <p className="mt-2 text-sm leading-6 text-zinc-300">
             {t("pr_resumen_guardado")}
-          </p>
+          </p>}
         </div>
       )}
 
       {visible && (
         <>
           {/* ── Resumen compacto ─────────────────────────────────────── */}
-          <dl className="mt-4 grid gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-4">
+          {configuration ? <ConfigurationInputs report={visible} /> : (<dl className="mt-4 grid gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-4">
             <div className="min-w-0">
-              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Receptor</dt>
+              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_receptor")}</dt>
               <dd className="truncate text-sm font-semibold text-zinc-100">
                 {visible.receptor.pdb_id} {t("auto_da63fdf7d65b")} {visible.receptor.chain}
               </dd>
@@ -352,7 +303,7 @@ export function PreparationPanel({
             <div className="min-w-0">
               <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("se_gen_protocol")}</dt>
               <dd className="truncate text-sm font-semibold text-zinc-100">
-                {visible.effective_config.docking_engine} · ex {visible.effective_config.exhaustiveness} ·{" "}
+              {visible.effective_config.docking_engine} · {t("c_exhaustividad")} {visible.effective_config.exhaustiveness} ·{" "}
                 {visible.effective_config.num_poses} {t("auto_f3d3bbae83b6")} {visible.effective_config.seed}
               </dd>
             </div>
@@ -365,32 +316,33 @@ export function PreparationPanel({
               </dd>
             </div>
             <div className="min-w-0">
-              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">Caja efectiva</dt>
+              <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_effective_box")}</dt>
               <dd className="truncate text-sm font-semibold text-zinc-100">
                 ({visible.effective_config.grid_center.map((v) => v.toFixed(1)).join(", ")}) ·{" "}
                 {visible.effective_config.grid_size[0].toFixed(1)} Å
               </dd>
             </div>
-          </dl>
+          </dl>)}
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <span
               className={`whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide ${blockers > 0 ? STATE_STYLE.bloquea : "border-surface-700 text-zinc-300"}`}
             >
-              {blockers} bloqueante{blockers === 1 ? "" : "s"}
+              {blockers} {t(blockers === 1 ? "pr_preflight_blocker_one" : "pr_preflight_blocker_many")}
             </span>
             <span
               className={`whitespace-nowrap rounded border px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide ${warnings > 0 ? STATE_STYLE.advertencia : "border-surface-700 text-zinc-300"}`}
             >
-              {warnings} advertencia{warnings === 1 ? "" : "s"}
+              {warnings} {t(warnings === 1 ? "pr_preflight_warning_one" : "pr_preflight_warning_many")}
             </span>
             <span className="whitespace-nowrap rounded border border-surface-700 px-1.5 py-0.5 font-mono text-[11px] font-bold uppercase tracking-wide text-zinc-300">
               {notEvaluated} {t("se_phys_count_skip")}
             </span>
-            <span className="whitespace-nowrap font-mono text-[11px] font-medium text-zinc-400">
-              huella {visible.input_fingerprint.replace("sha256:", "").slice(0, 12)}…
-            </span>
+            {!configuration && <span className="whitespace-nowrap font-mono text-[11px] font-medium text-zinc-400">
+              {t("pr_preflight_fingerprint")} {visible.input_fingerprint.replace("sha256:", "").slice(0, 12)}…
+            </span>}
           </div>
+          {configuration && <ConfigurationMetadata fingerprint={visible.input_fingerprint} />}
 
           {/* ── Detalle, sin salir de aquí ───────────────────────────── */}
           <button
@@ -426,18 +378,18 @@ export function PreparationPanel({
                       <table className="w-full min-w-[28rem] border-collapse text-sm">
                         <thead>
                           <tr className="border-b border-surface-700 text-left font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">
-                            <th className="py-2 pr-3">Especie</th>
-                            <th className="py-2 pr-3">Fuente</th>
-                            <th className="py-2 pr-3">Tras filtrar</th>
-                            <th className="py-2">Retirado</th>
+                            <th className="py-2 pr-3">{t("pr_preflight_species")}</th>
+                            <th className="py-2 pr-3">{t("pr_preflight_source")}</th>
+                            <th className="py-2 pr-3">{t("pr_preflight_after_filtering")}</th>
+                            <th className="py-2">{t("pr_preflight_removed")}</th>
                           </tr>
                         </thead>
                         <tbody className="font-medium text-zinc-100">
                           {(
                             [
                               [t("auto_808cfa7d641c"), "atom_records"],
-                              ["Aguas", "waters"],
-                              ["Metales", "metals"],
+                              [t("pr_preflight_waters"), "waters"],
+                              [t("pr_preflight_metals"), "metals"],
                               [t("auto_efa071aa71dd"), "organic_cofactors"],
                               [t("auto_f134454d6dec"), "other_hetatm"],
                             ] as const
@@ -472,7 +424,7 @@ export function PreparationPanel({
                               className="rounded-md border border-surface-700 bg-black/30 px-2.5 py-1.5 text-xs text-zinc-200"
                             >
                               <strong className="font-mono text-zinc-50">{species.residue_code}</strong>
-                              <span className="text-zinc-400"> · {SPECIES_CATEGORY_LABEL[species.category]} · </span>
+                              <span className="text-zinc-400"> · {t(SPECIES_CATEGORY_KEY[species.category])} · </span>
                               <span className="font-semibold text-zinc-100">
                                 {species.atom_count} {species.atom_count === 1 ? t("auto_7613e1aefca5") : t("pn_atomos")}
                               </span>
@@ -484,7 +436,7 @@ export function PreparationPanel({
                   </>
                 ) : (
                   <p className="mt-1.5 text-sm leading-6 text-zinc-300">
-                    No evaluado. {visible.preparation_diff.reason}
+                    {t("pr_preflight_not_evaluated")} {visible.preparation_diff.reason}
                   </p>
                 )}
               </section>
@@ -501,10 +453,10 @@ export function PreparationPanel({
                   <div className="flex flex-wrap gap-x-2">
                     <dt className="font-semibold text-zinc-300">{t("pr_metodo")}</dt>
                     <dd className="font-medium">
-                      {dockingMethodLabel(
+                      {t(dockingMethodKey(
                         visible.effective_config.docking_engine,
                         visible.effective_config.heteroatom_policy.route,
-                      )}
+                      ))}
                     </dd>
                   </div>
                   <div className="flex flex-wrap gap-x-2">
@@ -515,7 +467,9 @@ export function PreparationPanel({
                     <dt className="font-semibold text-zinc-300">{t("auto_2e487d8b1546")}</dt>
                     <dd className="font-medium">
                       {visible.effective_config.heteroatom_policy.cofactors_whitelist_declared.length > 0
-                        ? `Se conservan únicamente los declarados: ${visible.effective_config.heteroatom_policy.cofactors_whitelist_declared.join(", ")}`
+                        ? t("pr_preflight_declared_cofactors", {
+                            cofactors: visible.effective_config.heteroatom_policy.cofactors_whitelist_declared.join(", "),
+                          })
                         : t("auto_c922a83946da")}
                     </dd>
                   </div>
@@ -534,7 +488,7 @@ export function PreparationPanel({
                   id={`${detailId}-controls`}
                   className="text-sm font-semibold uppercase tracking-wide text-zinc-200"
                 >
-                  Controles
+                  {t("pr_preflight_controls")}
                 </h3>
                 <ul className="mt-1">
                   {controls.map((control) => (

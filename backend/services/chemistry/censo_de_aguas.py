@@ -338,6 +338,16 @@ def censar_aguas(
     return CensoDeAguas(len(aguas), len(en_caja), bien, maximo, tuple(medidas))
 
 
+def aguas_en_la_caja(contenido: str, centro, tamano) -> int:
+    """Cuántas aguas del receptor ACOPLADO tienen el oxígeno dentro de la caja.
+
+    No es el censo de lo retirado, que se hace sobre el depositado: es lo que vio Vina.
+    Lee PDB o PDBQT (bastan el nombre del residuo y el oxígeno). Con la receta del
+    catálogo da siempre cero, porque las retira todas.
+    """
+    return censar_aguas(contenido, centro, tamano).en_la_caja
+
+
 # ── Caché del censo, por receptor y caja ────────────────────────────────────
 #
 # EL COSTE QUE QUITA. `vina_service` llamaba a `censar_aguas` en cada
@@ -424,4 +434,36 @@ def describir_censo(censo: CensoDeAguas) -> str:
         f"forma parte del reconocimiento en esta diana —la catalítica de la "
         f"proteasa del VIH-1, la red de la bisagra en varias quinasas—, los "
         f"contactos de esta corrida no la incluyen."
+    )
+
+
+def describir_aguas_conservadas(conservadas: int, origen: CensoDeAguas | None) -> str:
+    """La frase de un receptor que entró a Vina CON aguas en la caja.
+
+    La receta del catálogo las retira todas, así que `describir_censo` habla de lo que
+    se retiró. Un receptor propio no pasa por ella: el camino B conserva las aguas del
+    archivo y un PDBQT del camino C trae las que dejó quien lo preparó. `conservadas`
+    se mide sobre el receptor acoplado; `origen`, sobre la estructura de origen, si la
+    hay. Cuántas son estructurales no lo decide nadie aquí, y la frase lo dice.
+    """
+    if origen is None:
+        return (
+            f"El receptor acoplado conserva {conservadas} agua(s) cristalográfica(s) dentro "
+            f"de la caja de acoplamiento: las trae el archivo que se subió, y Vina las trata "
+            f"como parte rígida del receptor. MolDesign no las retiró ni comprobó cuáles son "
+            f"estructurales; sin la estructura de origen no se sabe si se retiró alguna."
+        )
+    if origen.en_la_caja <= conservadas:
+        return (
+            f"El receptor acoplado conserva las {conservadas} agua(s) cristalográfica(s) que "
+            f"su estructura de origen tiene dentro de la caja de acoplamiento: las decidió "
+            f"quien preparó el archivo, y Vina las trata como parte rígida del receptor. "
+            f"MolDesign no las retiró ni comprobó cuáles son estructurales."
+        )
+    return (
+        f"El receptor acoplado conserva {conservadas} de las {origen.en_la_caja} aguas "
+        f"cristalográficas que su estructura de origen tiene dentro de la caja de "
+        f"acoplamiento; las otras {origen.en_la_caja - conservadas} no están en el receptor. "
+        f"Vina trata las conservadas como parte rígida del receptor. MolDesign no comprobó "
+        f"cuáles son estructurales."
     )

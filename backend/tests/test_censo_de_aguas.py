@@ -394,5 +394,5 @@ def test_vina_consulta_la_cache_antes_de_leer_el_archivo():
         encoding="utf-8", errors="replace"
     )
     pos_cache = fuente.index("censo_en_cache(")
-    pos_lectura = fuente.index("read_text(StoragePath.target_raw(target_pdb_id))")
+    pos_lectura = fuente.index("receptor_source_path_no_network(target_pdb_id)")
     assert pos_cache < pos_lectura, "la caché se consulta después de leer el PDB"

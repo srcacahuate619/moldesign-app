@@ -250,3 +250,68 @@ describe("salud del índice", () => {
     expect(result.current.error).toBeNull();
   });
 });
+
+
+describe("respuestas tardías ancladas a caso y propietario", () => {
+  it("la guarda ve la intención antes del render y no permite cambiar de caso", async () => {
+    window.localStorage.clear();
+    const { repository } = controllable();
+    const { result } = renderHook(() => useCases(), { wrapper: wrapper(repository) });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await act(async () => { await result.current.createCase("Caso A", "explore-hypothesis"); });
+    const idA = result.current.activeCase!.id;
+    const b = await repository.createCase({ name: "Caso B", studyKind: "explore-hypothesis" });
+    let switched = true;
+    await act(async () => {
+      result.current.setLiveWork({ evaluation: true });
+      switched = await result.current.selectCase(b.id);
+    });
+    expect(switched).toBe(false);
+    expect(result.current.activeCase!.id).toBe(idA);
+  });
+
+  it("callbacks de inputs y preflight de A no escriben B ni aceptan otro propietario", async () => {
+    window.localStorage.clear();
+    const { repository } = controllable();
+    const { result } = renderHook(() => useCases(), { wrapper: wrapper(repository) });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await act(async () => { await result.current.createCase("Caso A", "explore-hypothesis"); });
+    const idA = result.current.activeCase!.id;
+    await act(async () => { await result.current.createCase("Caso B", "explore-hypothesis"); });
+    const before = result.current.activeCase!;
+    act(() => {
+      result.current.setInputs({ ligand: { inputSmiles: "CCO" } }, { caseId: idA, ownerUserId: "test-owner" });
+      result.current.setInputs({ ligand: { inputSmiles: "CCN" } }, { caseId: before.id, ownerUserId: "foreign-owner" });
+      result.current.setPreflight({ fingerprint: "late-A" } as any, { caseId: idA, ownerUserId: "test-owner" });
+    });
+    expect(result.current.activeCase).toEqual(before);
+  });
+
+  it("un task_id aceptado tarde se conserva en A sin incorporarlo al libro de B", async () => {
+    window.localStorage.clear();
+    const { repository } = controllable();
+    const { result } = renderHook(() => useCases(), { wrapper: wrapper(repository) });
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    await act(async () => { await result.current.createCase("Caso A", "explore-hypothesis"); });
+    const idA = result.current.activeCase!.id;
+    await act(async () => { await result.current.createCase("Caso B", "explore-hypothesis"); });
+    const idB = result.current.activeCase!.id;
+    let registered = false;
+    await act(async () => {
+      registered = await result.current.registerRun(RUN, { caseId: idA, ownerUserId: "test-owner" });
+    });
+    expect(registered).toBe(true);
+    expect((await repository.readCase(idA)).runs).toEqual(expect.arrayContaining([expect.objectContaining({ taskId: RUN.taskId })]));
+    expect((await repository.readCase(idB)).runs).toEqual([]);
+    expect(result.current.activeCase!.id).toBe(idB);
+    expect(result.current.activeCase!.runs).toEqual([]);
+    expect(result.current.hasLiveWork).toBe(false);
+    let wrongOwnerAccepted = true;
+    await act(async () => {
+      wrongOwnerAccepted = await result.current.registerRun({ ...RUN, taskId: "foreign-attempt" },
+        { caseId: idB, ownerUserId: "foreign-owner" });
+    });
+    expect(wrongOwnerAccepted).toBe(false);
+    expect((await repository.readCase(idB)).runs).toEqual([]);
+  });
+});

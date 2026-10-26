@@ -1,0 +1,16 @@
+{
+  "id_r2": "S08",
+  "pdb": "4JVB",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 83.2,
+      "crudo": "S08-4JVB-intento1.json.gz",
+      "crudo_sha256": "25c3574234959eece61b84d96a6765620f9c44509a04cb1666e4e4c8151c025f"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S08-4JVB-intento1.json.gz",
+  "crudo_sha256": "25c3574234959eece61b84d96a6765620f9c44509a04cb1666e4e4c8151c025f",
+  "registrado_en": "2026-10-25T01:27:49+00:00"
+}

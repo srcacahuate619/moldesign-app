@@ -1,0 +1,40 @@
+{
+  "smiles": "CCOC(=O)Nc1cccc(Cn2nc(-c3cc(F)cc(F)c3)ccc2=O)c1",
+  "target_pdb_id": "USR_B72FB2",
+  "chain": "A",
+  "molecule_name": "cmet__baseline__2",
+  "grid_center": [
+    -19.829,
+    23.546,
+    98.19
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:694897e053c57eb4cc9ff5ea10c96ef3c7d7bc55bcb4d5331b790fb9afd92b36"
+}

@@ -1,0 +1,80 @@
+{
+  "catalog_version": "resoluciones-2026-10-03",
+  "based_on_commit": "4d405a4",
+  "cambio": "13 de 380 entradas mostraban una `resolution` distinta de la que declara su propia estructura (`REMARK   2 RESOLUTION.` de data/targets/<PDB>.pdb.gz): 5VA1 mostraba 2,8 Å y su archivo declara 3,70; 3OSK mostraba 2,5 y declara 1,80; 1GPK mostraba 2,5 y su título dice «at 2.1A Resolution». `scripts/anotar_sitio_en_catalogo.py` rellenó las resoluciones ausentes (`si es None`) y esas 13 ya traían un valor escrito a mano que nunca se contrastó. Sólo cambia `resolution`. Verificado por backend/tests/test_resolucion_del_catalogo_coincide_con_su_estructura.py. `curated_targets.json` ya figura como divergencia aceptada de REC-01 en scripts/sellos_no_distribuidos.json.",
+  "supersedes": {
+    "curated_targets_json_sha256": "47fbe7f2ec6d0cca7ae9f72b90da84ea3061a5d6851d67d12cb0b2758fd0d8ac",
+    "curated_targets_csv_sha256": "41b4bb75bc60026542ba5be00881d0d3f4d76993d608c0a3bfa84d9dc560e6e1"
+  },
+  "active": {
+    "curated_targets_json_sha256": "f6ae4fdff856c2d33c4b4362676eeedd94ec5ad523132cb68c0ba5e9832a0041",
+    "curated_targets_csv_sha256": "41b4bb75bc60026542ba5be00881d0d3f4d76993d608c0a3bfa84d9dc560e6e1"
+  },
+  "resoluciones_corregidas": {
+    "1BN1": {
+      "antes": 2.0,
+      "ahora": 2.1,
+      "remark_2": "2.10 ANGSTROMS"
+    },
+    "1F0R": {
+      "antes": 2.8,
+      "ahora": 2.1,
+      "remark_2": "2.10 ANGSTROMS"
+    },
+    "1GPK": {
+      "antes": 2.5,
+      "ahora": 2.1,
+      "remark_2": "2.10 ANGSTROMS"
+    },
+    "1HVY": {
+      "antes": 2.2,
+      "ahora": 1.9,
+      "remark_2": "1.90 ANGSTROMS"
+    },
+    "1XP0": {
+      "antes": 1.8,
+      "ahora": 1.79,
+      "remark_2": "1.79 ANGSTROMS"
+    },
+    "2P4E": {
+      "antes": 1.9,
+      "ahora": 1.98,
+      "remark_2": "1.98 ANGSTROMS"
+    },
+    "3O96": {
+      "antes": 2.5,
+      "ahora": 2.7,
+      "remark_2": "2.70 ANGSTROMS"
+    },
+    "3OSK": {
+      "antes": 2.5,
+      "ahora": 1.8,
+      "remark_2": "1.80 ANGSTROMS"
+    },
+    "3PP0": {
+      "antes": 2.7,
+      "ahora": 2.25,
+      "remark_2": "2.25 ANGSTROMS"
+    },
+    "4NC3": {
+      "antes": 2.7,
+      "ahora": 2.8,
+      "remark_2": "2.80 ANGSTROMS"
+    },
+    "4NY4": {
+      "antes": 2.6,
+      "ahora": 2.95,
+      "remark_2": "2.95 ANGSTROMS"
+    },
+    "4ZZZ": {
+      "antes": 2.3,
+      "ahora": 1.9,
+      "remark_2": "1.90 ANGSTROMS"
+    },
+    "5VA1": {
+      "antes": 2.8,
+      "ahora": 3.7,
+      "remark_2": "3.70 ANGSTROMS"
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "fecha": "2026-10-09",
+  "rama": "sol/intentos-publicados",
+  "base": "8ccee31e",
+  "commits_por_punto": [
+    "134ef5f9",
+    "745346f3",
+    "76139f3f",
+    "108fc7cf"
+  ],
+  "molcy": {
+    "comando": "npx vitest run app/molcy/__tests__/page.test.tsx --reporter=dot",
+    "consecutivas": 20,
+    "pasaron": 20,
+    "pruebas_por_archivo": 47,
+    "total_ejecuciones_casos": 940,
+    "segundos_acumulados": 428.29,
+    "registro": "intentos-molcy-repeticiones.json"
+  },
+  "suites_finales": [
+    {
+      "comando": "npm run test:run",
+      "numero": 1,
+      "salida": 0,
+      "archivos": 184,
+      "pruebas": 1724,
+      "segundos": 290.18,
+      "registro": "intentos-suite-final-1.log"
+    },
+    {
+      "comando": "npm run test:run",
+      "numero": 2,
+      "salida": 0,
+      "archivos": 184,
+      "pruebas": 1724,
+      "segundos": 312.79,
+      "registro": "intentos-suite-final-2.log"
+    }
+  ],
+  "tipos": {
+    "comando": "npx tsc --noEmit",
+    "salida": 0,
+    "diagnosticos": 0,
+    "segundos": 8.27,
+    "registro": "intentos-tsc-final.log"
+  },
+  "lint": {
+    "comando": "npm run lint",
+    "salida": 0,
+    "errores": 0,
+    "advertencias": 39,
+    "segundos": 34.33,
+    "registro": "intentos-lint-final.log"
+  },
+  "diagnosticos": [
+    {
+      "nombre": "Control negativo de Molcy",
+      "salida": 1,
+      "motivo": "El mock global inactivo sustituye instalando en el sondeo de 2000 ms.",
+      "registro": "intentos-molcy-causa.log"
+    },
+    {
+      "nombre": "Primera suite antes de corregir la ortografía",
+      "salida": 1,
+      "pasaron": 1723,
+      "fallaron": 1,
+      "motivo": "Inglés americano: catalogue debe ser catalog.",
+      "registro": "intentos-suite-inicial.log"
+    },
+    {
+      "nombre": "Lint concurrente con la suite",
+      "salida": 2,
+      "motivo": "ENOENT al recorrer el mutante creado y borrado por el guardián.",
+      "registro": "intentos-lint-concurrente.log"
+    }
+  ],
+  "capturas": {
+    "escenarios": 4,
+    "idiomas": [
+      "es",
+      "en"
+    ],
+    "viewports": [
+      1440,
+      375
+    ],
+    "png": 12,
+    "errores_pagina": 0,
+    "fuente": "backend/data/intentos_de_verificacion.json",
+    "fuente_sha256": "ed62af0df8c1682a0728915271706f55a12b16380f3f195a0ea425f98d7f3d0a",
+    "comprobaciones": "../../capturas/intentos-20261009/comprobaciones.json",
+    "alcance": "Componente real; subset 8HFI; fragmentos copiados del DOM para mostrar el contenido completo. No acredita el instalador."
+  }
+}

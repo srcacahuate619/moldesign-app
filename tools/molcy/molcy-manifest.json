@@ -1,0 +1,291 @@
+{
+  "schema": "moldesign.molcy-motor/1",
+  "programa": "Molcy (motor de vídeo de MolDesign)",
+  "licencia_spdx": "GPL-3.0-or-later",
+  "licencia_texto": "LICENSE",
+  "fuente": {
+    "proyecto": "moldesign-molcy",
+    "commit": "a3d0d106eb9ab38c6aed4e88c93cc04fb05c8143",
+    "rama": "main",
+    "repositorio": "https://github.com/srcacahuate619/moldesign-molcy"
+  },
+  "invocacion": "subproceso: vídeo, powershell -File scripts/correr_caso.ps1 → blender -b --python scripts/maestro.py; fotos, python scripts/correr_foto.py → blender -b --python scripts/maestro.py --fotos y scripts/foto.py",
+  "no_se_enlaza": "MolDesign no importa ningún módulo del motor ni el motor importa MolDesign; se comunican por ficheros (scene.json, geometría, actas, MP4 y PNG).",
+  "requisitos": {
+    "blender_minimo": "5.2",
+    "molecular_nodes": "extensión de Blender Extensions, instalada por el usuario"
+  },
+  "excluidos": [
+    "scripts/marca/preparar_emblema.py (herramienta de una sola vez)",
+    "scripts/pruebas/ (pruebas del motor, en su repositorio)",
+    "README.md, .gitignore y .gitattributes del repositorio público",
+    "scripts/interfaz/, scripts/herramientas/, moldesign/scripts/, moldesign/cases/ (sólo existen en el repositorio privado del autor)"
+  ],
+  "archivos": {
+    "LICENSE": {
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    "NOTICE.md": {
+      "bytes": 2789,
+      "sha256": "6888a1537d156e643e241bf28df6289c2cb31f45f1c808d534f900992dd8727e"
+    },
+    "moldesign/assets/blender/plantilla_arte.blend": {
+      "bytes": 107188,
+      "sha256": "2cea8a884174dacafd60511b0f4ef1612610616bc9ee92ce8e2b6a9ac858c34c"
+    },
+    "moldesign/assets/marca/emblema.json": {
+      "bytes": 803,
+      "sha256": "106da58dc2360876fc48c39f8f77d52151bc7283baadadd1c5f6eb1aa709531b"
+    },
+    "moldesign/assets/marca/emblema.png": {
+      "bytes": 854809,
+      "sha256": "90bd918395fb7e5b8eed7542a84bcf029e4d8230b83851c53d7f28d3f6b88220"
+    },
+    "moldesign/assets/marca/emblema_alfa.png": {
+      "bytes": 160990,
+      "sha256": "c6fa5795548944dedddc5c313f5489ece10884133fa9a07bb5a7d92df888e8f0"
+    },
+    "moldesign/assets/marca/emblema_profundidad.png": {
+      "bytes": 729912,
+      "sha256": "4df36f3d6aa69ce871d3cdb043ba18b30b2b220a1e59467f0d8b6343602e82ec"
+    },
+    "scripts/correr_caso.ps1": {
+      "bytes": 8605,
+      "sha256": "e5e162cecd79843f1bcc2ee8c1fd1dad933bfed8063404b2ad157b59f8dbdba2"
+    },
+    "scripts/correr_foto.py": {
+      "bytes": 12511,
+      "sha256": "92c63fdf701e1cac08a6a98774787882dc2d451566197063302360594f74caa5"
+    },
+    "scripts/formatos/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/formatos/biblioteca.py": {
+      "bytes": 1217,
+      "sha256": "c43829929581006745a4618dbd46464bd5dde22d8b90929f4ee45d4a72e8bb39"
+    },
+    "scripts/formatos/previsualizacion.py": {
+      "bytes": 1220,
+      "sha256": "15bc273f6dea62c1a912e4fda833e11d20c6af48af7c639dbdaa14eb69e45d2a"
+    },
+    "scripts/formatos/social_vertical.py": {
+      "bytes": 1474,
+      "sha256": "0edda14c95ffbb4dd27aab7ed279c6c30db5b55cdcaef189aaae1ed9280c3b2d"
+    },
+    "scripts/foto.py": {
+      "bytes": 9115,
+      "sha256": "d08312afd32204bbab95115c08d82c33b32b6abecd6d1eee7adb34faf477d1d4"
+    },
+    "scripts/guiones/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/guiones/_ensamble_fluido.py": {
+      "bytes": 8284,
+      "sha256": "26de46ef2b997173596f570157057a0da375d055813ccf1c48011726f066cde0"
+    },
+    "scripts/guiones/historias.md": {
+      "bytes": 25806,
+      "sha256": "782c23cd7430f7e7ddd0dcef7940aac54e9f9bfeae3f52311425f84de372afd8"
+    },
+    "scripts/guiones/sitio_activo.py": {
+      "bytes": 24645,
+      "sha256": "9a45c9465cb1136855bb31909580d5ac3a3757cdf0fa6adca656b11a41735478"
+    },
+    "scripts/guiones/x.py": {
+      "bytes": 28396,
+      "sha256": "3092236057ed54cfe48bc8611716472b45c2019d75ee8334606fbc3e393140ae"
+    },
+    "scripts/guiones/y.py": {
+      "bytes": 25831,
+      "sha256": "f0b6e08dfab594af7174beea2aa2ac58c0a7743cd52ca7979d0aa133015c673f"
+    },
+    "scripts/maestro.py": {
+      "bytes": 47653,
+      "sha256": "9c084bd341d89f9f039854feed27c09d60507fcbe9cb00d8e12b12898e2a13b2"
+    },
+    "scripts/marca/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/marca/cierre.py": {
+      "bytes": 39692,
+      "sha256": "4cc0addd6cccfd7034f49449c62021f8023d7f83152a1e8a0f88c67e2c17e7f4"
+    },
+    "scripts/marca/idioma.py": {
+      "bytes": 363,
+      "sha256": "072994c6ba579307d38afb96bd23b2fe3f83487af47549a936a8136b278b7c4f"
+    },
+    "scripts/marca/medallones.py": {
+      "bytes": 5187,
+      "sha256": "4019eed6d274b8b89aaa5028efc6857159503813abaccda0587087a9273b428f"
+    },
+    "scripts/nucleo/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/nucleo/arte.py": {
+      "bytes": 14386,
+      "sha256": "dedef9869fbc6e830ac133baf0618024820295007f0de472da557f2e0eecd050"
+    },
+    "scripts/nucleo/camara.py": {
+      "bytes": 11882,
+      "sha256": "c0ca35c0e63964ddaa2590618774a2a4753279901059b74581cd5a94cbe3295f"
+    },
+    "scripts/nucleo/ciencia.py": {
+      "bytes": 15259,
+      "sha256": "3e6729ab5348b948957b9d84d7aa6064516d983e6d52cddf2dd30290dda79080"
+    },
+    "scripts/nucleo/contactos.py": {
+      "bytes": 12097,
+      "sha256": "20d3619e00c13c9f02c0851a14d5764cded8bb7069081fcbbe5a5f7185a8b455"
+    },
+    "scripts/nucleo/encuadre.py": {
+      "bytes": 5506,
+      "sha256": "a3230fe48adfc62e879b6d207a868db4d67974fb9918adcbe4618d7cc74b2e60"
+    },
+    "scripts/nucleo/fundido.py": {
+      "bytes": 1352,
+      "sha256": "0dee098d30c3fea192f33aa819cad0d18a387134ad87431e0958cf60c6680b98"
+    },
+    "scripts/nucleo/horneado.py": {
+      "bytes": 5540,
+      "sha256": "fe7f65b6de5fc8aff9a1d6953435c2925e5d31243353dd38857be3d8d0463ac3"
+    },
+    "scripts/nucleo/interacciones.py": {
+      "bytes": 6806,
+      "sha256": "498466fa847a1988f870aedd422e16895fd6401ad6e0f396b59cb3dfe7159d48"
+    },
+    "scripts/nucleo/oclusion.py": {
+      "bytes": 12547,
+      "sha256": "1cef3627918f40dabf1d53398cac0cfda8eab70b5eb42abc64a30a22cba8e71e"
+    },
+    "scripts/nucleo/receptor.py": {
+      "bytes": 7960,
+      "sha256": "37c84db8befb4f8d0e817727585d7862d3acf318b89ca83d659dcdcdd9bcc565"
+    },
+    "scripts/nucleo/rutas.py": {
+      "bytes": 2771,
+      "sha256": "fd8a816298457ec5aa5c449da2755d4288756dbdb818298610133e9b9b28403c"
+    },
+    "scripts/nucleo/torsiones.py": {
+      "bytes": 11932,
+      "sha256": "c0fcfc9a01b78152f56780a06de95df800b7cf231ec297dfe6a182dc3d3e0230"
+    },
+    "scripts/salida/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/salida/codificar.py": {
+      "bytes": 9802,
+      "sha256": "f013133dd959f7d053a5ee6cc84cbb2479c23ae7a5aabb22be6d0e5c0889bc63"
+    },
+    "scripts/salida/contraste.py": {
+      "bytes": 3514,
+      "sha256": "4c82eeb8318433f261edd68c6188bb66f53bb7cce799446a5f42af11f0cd11be"
+    },
+    "scripts/salida/control.py": {
+      "bytes": 4058,
+      "sha256": "e1a9ad71f175fc574d95c6afafa0a54434dc35cf94f86e97c091ee8874fb3bab"
+    },
+    "scripts/salida/firmas.py": {
+      "bytes": 4905,
+      "sha256": "317313e487f0635bb11c83c0417755ecdbeb094c23d708d1427bc2642f394366"
+    },
+    "scripts/salida/foto_final.py": {
+      "bytes": 1939,
+      "sha256": "4b28ade10e80277328235bbb27e46d6a45b7878f73a393231f79058896e072cb"
+    },
+    "scripts/salida/postcheck_nitidez.py": {
+      "bytes": 1442,
+      "sha256": "de7aed1ed8792a6b6757188d8695dd86e11a2b67df1ef97437a64f73301ce077"
+    },
+    "scripts/salida/procedencia.py": {
+      "bytes": 3164,
+      "sha256": "4bc7999a928453caf1b52e6c1b004a883e9a1a984001dccef85bbd62f4506282"
+    },
+    "scripts/salida/render.py": {
+      "bytes": 12217,
+      "sha256": "171877b0d37758e187687d15400112b0b42c91e06c7796e117ba01b830dfb4d7"
+    },
+    "scripts/salida/sellar_mp4.py": {
+      "bytes": 3769,
+      "sha256": "f9465937a68bdc5a1aadc8c6064b3a54f796aa473db98a2b5e99c2f56634f727"
+    },
+    "scripts/sujetos/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/sujetos/busqueda_montecarlo.py": {
+      "bytes": 19279,
+      "sha256": "84fba79fd4f2f2bef6accafb074cd8a040d2dd23242340d36ec2caeaab19d8af"
+    },
+    "scripts/sujetos/ensamble_conformacional.py": {
+      "bytes": 14234,
+      "sha256": "c44074a85ad4cbe7a69f49dbf3b0b0d00b8c14d95368e6ba787fa533c90780fb"
+    },
+    "scripts/sujetos/ligando_cocristal.py": {
+      "bytes": 9553,
+      "sha256": "5a27b1a75b7d5a5ff15c0ee067bd74a55efc6ab58cb91a0a530024f9b3d9d988"
+    },
+    "scripts/sujetos/pose_evaluada.py": {
+      "bytes": 4176,
+      "sha256": "14e25f406e8756e9a2ad508959d6b467e66d834451730f97ef9d19e1133d5cdb"
+    },
+    "scripts/sujetos/receptor_solo.py": {
+      "bytes": 443,
+      "sha256": "6ce5a1219ca045ccb35f80bb29cc6210bb072235fe7cfab0e00b260a4dcc22e7"
+    },
+    "scripts/variables/__init__.py": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/variables/controles.py": {
+      "bytes": 13763,
+      "sha256": "e80bd05a15eef296063dc6739a2360959c2418432de25b31d1e6e350babbb636"
+    },
+    "scripts/variables/cpu.py": {
+      "bytes": 704,
+      "sha256": "ac76c91770769d3f2929960078c3f56554637d7578bffb5400918a6e53fc8495"
+    },
+    "scripts/variables/disposicion.py": {
+      "bytes": 8645,
+      "sha256": "6757cebdfcb08a666e0ba338e1c0e9e5fbbd67af576ebd353ffccc6f12f86618"
+    },
+    "scripts/variables/formato.py": {
+      "bytes": 5380,
+      "sha256": "4b9acf6cee558bed61cb5b0fb0c09087f7b5599aa2c047c77fc4476fc3922a78"
+    },
+    "scripts/variables/guion.py": {
+      "bytes": 6235,
+      "sha256": "ddef756bf7c07953b5c28e7e52ff6278a6e91a787120512b6578a064edccf933"
+    },
+    "scripts/variables/momentos.py": {
+      "bytes": 4997,
+      "sha256": "6fa023b0bbf44d5b0b421ab5b9452b6e5e90d9f4fa1811ee2239ffa182b956b8"
+    },
+    "scripts/variables/pausas.py": {
+      "bytes": 5996,
+      "sha256": "b6c3c4302c7ac3bb34bebb408ca6419c44371996a2ea227bb0098f07a29d464d"
+    },
+    "scripts/variables/presentacion.py": {
+      "bytes": 6018,
+      "sha256": "503eb492e3ab03107ada0f6886630a82e2a83c21e723ff9a586b10a737ad257c"
+    },
+    "scripts/variables/rotulos.py": {
+      "bytes": 16972,
+      "sha256": "e6973a8ed06b393fb7f238d85ec523af7775179288b17ff173f8ab70dc5ed598"
+    },
+    "scripts/variables/sujeto.py": {
+      "bytes": 3909,
+      "sha256": "48b281b5657cbe745a14859ee339bccdc9b942d40d919ecdc9636fe41d747ae0"
+    },
+    "scripts/variables/titulos.py": {
+      "bytes": 9475,
+      "sha256": "47df12bc043461e048030ccc04e6dd84d72b4658d0e47226e254bfbd57629036"
+    }
+  },
+  "sha256_conjunto": "90d1c3409e2f5801c8fe2a35b7c4c97074a37877713f4d66b1c69e0d3ef819ae"
+}

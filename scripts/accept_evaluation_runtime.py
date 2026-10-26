@@ -52,7 +52,7 @@ PYTHON = Path(os.environ.get(
 ))
 VINA_EXE = Path(os.environ.get(
     "MOLDESIGN_GATE_VINA",
-    str(_STAGED / "tools" / "vina" / "vina.exe"),
+    str(ARBOL / "tools" / "vina" / "vina.exe"),
 ))
 # Aspirina: ligando pequeño pero farmacológicamente plausible que supera el
 # umbral mínimo del validador (a diferencia del etanol usado originalmente).
@@ -306,6 +306,23 @@ def check_e2e_golden(pro: dict[str, Any], normal: dict[str, Any], data_dir: Path
     golden_path = ROOT / "backend" / "tests" / "goldens" / "e2e_vina_3f75.json"
     golden = json.loads(golden_path.read_text(encoding="utf-8"))
     for label, result in (("pro", pro), ("normal", normal)):
+        execution = (result.get("docking_protocol") or {}).get("execution_provenance") or {}
+        trace = execution.get("search_trace") or {}
+        archive_path = (data_dir / str(trace.get("archive_path", ""))).resolve()
+        if not trace or not archive_path.is_relative_to(data_dir.resolve()) or not archive_path.is_file():
+            raise GateFailure(f"Search trace {label}: archive missing after restart")
+        data = archive_path.read_bytes()
+        if hashlib.sha256(data).hexdigest() != trace.get("archive_sha256"):
+            raise GateFailure(f"Search trace {label}: archive hash mismatch")
+        with zipfile.ZipFile(archive_path) as archive:
+            metadata = json.loads(archive.read("manifest.json"))
+            if metadata["receptor_sha256"] != result["receptor_sha256"] or metadata["poses_sdf_sha256"] != execution["poses_sha256"]:
+                raise GateFailure(f"Search trace {label}: inputs/outputs mismatch")
+            if metadata["seed"] != result["docking_protocol"]["seed"]:
+                raise GateFailure(f"Search trace {label}: seed mismatch")
+            for name, expected_sha in metadata["files"].items():
+                if hashlib.sha256(archive.read(name)).hexdigest() != expected_sha:
+                    raise GateFailure(f"Search trace {label}: file hash mismatch: {name}")
         actual = _golden_actual(result)
         expected = golden[label]
         if actual != expected:

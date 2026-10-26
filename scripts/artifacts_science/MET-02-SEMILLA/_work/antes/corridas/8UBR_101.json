@@ -1,0 +1,27 @@
+{
+  "pdb": "8UBR",
+  "semilla": 101,
+  "inicio": "2026-10-23T04:24:20+00:00",
+  "resultado": "auditada",
+  "task_id": "0bd42832-5949-4e9a-8ce5-f3de945ae932",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: MG A:1501 (2.07 Å). Cofactor retirado como ligando del cristal: ATP A:1502 (0.0 Å).",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal ATP A:1502",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "60d6694a9da63ed7f74f34bccb8cac84c6a23de54a84017eaa67aae2085050d1",
+  "afinidad_top1": -10.452,
+  "microestado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)([O-])O[P@](=O)([O-])OP(=O)([O-])O)[C@@H](O)[C@H]1O",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "1368f03643f53f52ee876f3efdb61fcf301882e3edbc313f5e1550ccdc84ea80",
+  "segundos": 58.4,
+  "fin": "2026-10-23T04:25:18+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

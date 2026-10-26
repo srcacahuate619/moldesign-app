@@ -139,6 +139,13 @@ def _parse_smiles(smiles: str, state: _ValidationState) -> None:
         state.add_error(f"Error de sanitización: {str(e)}")
         return
 
+    # Con `sanitize=False` RDKit no percibe la estereoquímica: sin esta llamada
+    # los '/' y '\' (y la extensión CXSMILES `|c:…|` que exporta Ketcher) no se
+    # leían, todo doble enlace E/Z declarado salía «sin E/Z definida» y el
+    # canónico de un CXSMILES perdía sus E/Z (QA-030). Es lo que hace
+    # `MolFromSmiles` por defecto.
+    Chem.AssignStereochemistry(mol, cleanIt=True, force=True)
+
     state.mol = mol
 
 

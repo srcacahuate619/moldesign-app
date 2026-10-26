@@ -1,0 +1,12 @@
+{
+  "attempted": 44,
+  "failed": 0,
+  "targets": [
+    "cdk2",
+    "eg5",
+    "p38",
+    "ptp1b",
+    "thrombin"
+  ],
+  "pilot": false
+}

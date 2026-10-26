@@ -22,10 +22,16 @@ vi.mock("../../../context/LanguageContext", () => ({
     locale: "es",
     setLocale: vi.fn(),
     currentLanguage: { code: "es", flag: "🇲🇽", name: "Español" },
+    // SOL-15: el componente ya pinta por t(); el mock tiene que traer las
+    // claves que usa, o devuelve la clave cruda y el botón se vuelve
+    // imposible de encontrar.
     t: (key: string) => ({
       support: "Soporte",
       ev_opciones: "Opciones",
       pn_soporte_error: "Si una evaluación falla, adjunta el identificador.",
+      op_menu_support: "Soporte y ayuda",
+      op_menu_back_options: "Volver a opciones",
+      op_faq: "Preguntas frecuentes",
     } as Record<string, string>)[key] ?? key,
   }),
 }));
@@ -45,7 +51,7 @@ describe("OptionsMenu", () => {
     expect(await screen.findByRole("heading", { name: "Soporte" })).toBeInTheDocument();
     expect(screen.getByText("Preguntas frecuentes")).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole("button", { name: "Volver a Opciones" }));
+    fireEvent.click(screen.getByRole("button", { name: "Volver a opciones" }));
     expect(await screen.findByRole("heading", { name: "Opciones" })).toBeInTheDocument();
   });
 

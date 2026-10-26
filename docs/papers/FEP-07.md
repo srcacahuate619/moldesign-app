@@ -1,6 +1,6 @@
 ---
 titulo: "Setenta y cinco, o diecinueve, y la diferencia no son defectos"
-entradilla: "Cinco auditorías contaban piezas sueltas. Cruzarlas cuesta once milisegundos y da el número que ninguna tenía: cuántos cálculos de energía libre se pueden correr hoy."
+entradilla: "Cinco auditorías contaban piezas sueltas. Cruzarlas cuesta once milisegundos y da el número que ninguna tenía: cuántas parejas pasan a la vez los filtros de cribado. Es una cota, no cuántos cálculos de energía libre se pueden correr."
 ---
 
 La cartera de preparación para energía libre tenía tres auditorías, y ninguna respondía la
@@ -75,3 +75,32 @@ Once milisegundos. Cinco artefactos sellados, un cruce, y el número que ordena 
 
 Es el argumento más claro que tengo a favor de mantener el registro: la información ya
 estaba pagada. Sólo faltaba preguntarle lo correcto.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-046. Las 19 parejas son las que pasan el filtro de FEP-02 —sin huecos de numeración y sin sitio entre cadenas—, no un criterio completo con cadenas, disulfuros, metales, cofactores y aguas. En esas 19 hay parejas con aguas de sitio, metales y disulfuros sin clasificar.
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-049. Las 400 parejas «bloqueadas por el receptor» son las que el clasificador marca
+  primero por receptor: 59 de ellas también tienen un tautómero ambiguo, así que reparar el
+  receptor no las desbloquea. Que las otras 341 sean ejecutables tras la reparación no se midió.
+  «Reparar receptores recupera 400 parejas» no se sostiene.
+
+**2026-10-22.** La entradilla presentaba el cruce de flags como número de cálculos de energía libre disponibles, que SCI-B-046 y SCI-B-048 retiraron (hallazgo L2-SOL-007 de la revisión de papers de Sol).
+
+## FEP-07-PDBBIND: el cruce de PDBBind aporta una cota de cribado por pareja
+
+**GO descriptivo del cruce.** Amplía la población de parejas auditadas; no cuenta cálculos de energía libre ejecutados ni sistemas transferibles validados.
+
+Sobre 3299 parejas candidatas del artefacto de series, los dos estados no cuantificados antes en este paper son:
+
+| Etiqueta del clasificador | Parejas |
+|---|---:|
+| Sin los dos bloqueos medidos | 2243 |
+| Prioridad de tautómero | 656 |
+
+El primer grupo implica 1114 complejos. Las parejas comparten extremos; no son observaciones independientes de eficacia. **SCI-B-048** retira «ejecutables hoy» como readiness y **SCI-B-049**, detallada arriba, impide leer el estado prioritario como desbloqueos. Se mantiene SCI-B-046 sobre el supuesto filtro completo. No comprobado por mí: reconstruir cruces desde las fuentes moleculares originales. Fuente: `FEP-07-PDBBIND`.

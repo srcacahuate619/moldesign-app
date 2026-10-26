@@ -1,0 +1,27 @@
+{
+  "pdb": "4CA7",
+  "semilla": 101,
+  "inicio": "2026-10-23T04:06:41+00:00",
+  "resultado": "auditada",
+  "task_id": "58bf8f83-3f6b-427f-8c81-07f7d634f606",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:1616 (2.23 Å). En contacto con el ligando del cristal: ZN A:1616 (OAD–ZN 2.23 Å).",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal 3EF A:1715",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "5a04fa3628a13b8ce3a09c4edc0b3217982170dedaede7657927d15e6db8f272",
+  "afinidad_top1": -11.099,
+  "microestado": "O=C(N[C@@H](Cc1ccccc1)P(=O)([O-])C[C@@H](Cc1cc(-c2ccccc2)no1)C(=O)N[C@@H](Cc1ccc(O)cc1)C(=O)[O-])OCc1ccccc1",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "95f81540859861f92d0bcbb3e90b7ba69cce47444dc2ec024f928ea1788a9296",
+  "segundos": 207.0,
+  "fin": "2026-10-23T04:10:08+00:00",
+  "brazo": "despues",
+  "commit": "878c215b"
+}

@@ -367,6 +367,86 @@
      "m": null
     }
    ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-022. El contacto con Cys25 se midió contra su SG, y ese átomo ",
+      "m": null
+     },
+     {
+      "t": "no está",
+      "m": "fuerte"
+     },
+     {
+      "t": " en el receptor acoplado: el filtro de altloc dejó del residuo sólo N, C y O. Las distancias (0,773 Å, 5 de 5) no validan el contacto catalítico ni el grid funcional de 5TUN. Se retira esa lectura; la geometría de las cajas se conserva y el arreglo del código es aparte.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-024. G3 comprueba que Vina terminó y que su salida se pudo leer. No detecta químicamente el defecto de conservar las aguas.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "2026-10-22, SCI-B-022 (parte C1). Repetido con la Cys25 dentro del receptor en ",
+      "m": null
+     },
+     {
+      "t": "REC-07-R1",
+      "m": "enlace",
+      "href": "REC-07-R1.md"
+     },
+     {
+      "t": ": el grid recomendado, ",
+      "m": null
+     },
+     {
+      "t": "G_ADAPT",
+      "m": "codigo"
+     },
+     {
+      "t": ", deja el E64c a 13 Å de Cys25 SG en las cinco semillas (0 de 5). La recomendación de este experimento queda refutada; la geometría de las cajas no cambia.",
+      "m": null
+     }
+    ]
+   ]
   }
  ],
  "fuente": "docs/papers/REC-07.md"

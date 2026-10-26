@@ -1,0 +1,130 @@
+{
+  "abstained": true,
+  "abstention_reason": "MARGEN_BAJO_UMBRAL",
+  "confidence": 0.08171017467975616,
+  "contract": "pose_selection/v1",
+  "detail": "El margen entre la primera y la segunda (0.081710) no llega al umbral de abstención (0.097663). El selector no recomienda.",
+  "evaluated_at": "2026-10-10T00:52:18.875514+00:00",
+  "inputs": {
+    "n_poses": 9,
+    "pose_pdbqt_source": "docking_poses[].pdbqt_block",
+    "pose_ranks": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "receptor_source": "rec_pb_0swweyus.pdb",
+    "structural_evidence_contract": 1,
+    "vina_affinities": [
+      -6.954,
+      -6.764,
+      -6.644,
+      -6.544,
+      -6.408,
+      -6.364,
+      -6.304,
+      -6.261,
+      -6.25
+    ]
+  },
+  "model": {
+    "abstention_threshold": 0.097663,
+    "meta_sha256": "9ac4e379f9c54aef24acc72fe7e61ffff751a70bf80b751f610bf93f34e4fc96",
+    "model_path": "pose_selector_v06.xgb",
+    "model_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+    "name": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)",
+    "version": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)"
+  },
+  "physical_review": null,
+  "physically_valid_alternatives": [
+    {
+      "physical_status": "passed",
+      "rank": 1
+    },
+    {
+      "physical_status": "passed",
+      "rank": 2
+    },
+    {
+      "physical_status": "passed",
+      "rank": 3
+    },
+    {
+      "physical_status": "passed",
+      "rank": 4
+    },
+    {
+      "physical_status": "passed",
+      "rank": 5
+    },
+    {
+      "physical_status": "passed",
+      "rank": 6
+    },
+    {
+      "physical_status": "passed",
+      "rank": 7
+    },
+    {
+      "physical_status": "passed",
+      "rank": 8
+    },
+    {
+      "physical_status": "passed",
+      "rank": 9
+    }
+  ],
+  "pose_scores": [
+    {
+      "rank": 1,
+      "score": 0.3239596486091614
+    },
+    {
+      "rank": 2,
+      "score": 0.1455794721841812
+    },
+    {
+      "rank": 3,
+      "score": 0.09739986807107925
+    },
+    {
+      "rank": 4,
+      "score": 0.004496779292821884
+    },
+    {
+      "rank": 5,
+      "score": 0.2422494739294052
+    },
+    {
+      "rank": 6,
+      "score": 0.198992058634758
+    },
+    {
+      "rank": 7,
+      "score": -0.18681718409061432
+    },
+    {
+      "rank": 8,
+      "score": 0.02769983559846878
+    },
+    {
+      "rank": 9,
+      "score": -0.13659852743148804
+    }
+  ],
+  "selected_pose_rank": null,
+  "status": "abstained",
+  "strategy": "vina_top1",
+  "strategy_is_fallback": true,
+  "suggested_pose_physical_status": "passed",
+  "version_schema": 1,
+  "vina_top1_rank": 1,
+  "warnings": [],
+  "would_have_suggested_rank": 1
+}

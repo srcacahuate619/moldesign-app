@@ -1,0 +1,16 @@
+{
+  "id_r2": "S16",
+  "pdb": "6PU8",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 77.4,
+      "crudo": "S16-6PU8-intento1.json.gz",
+      "crudo_sha256": "ed89a664e97b8ac2fc4e0b0b6519d173d2472fbe6e6638c379187f791a41a08c"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S16-6PU8-intento1.json.gz",
+  "crudo_sha256": "ed89a664e97b8ac2fc4e0b0b6519d173d2472fbe6e6638c379187f791a41a08c",
+  "registrado_en": "2026-10-22T16:46:32+00:00"
+}

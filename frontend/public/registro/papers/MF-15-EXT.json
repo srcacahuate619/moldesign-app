@@ -9,7 +9,7 @@
    "tipo": "parrafo",
    "frag": [
     {
-     "t": "Un resultado incómodo merece que se intente tirarlo abajo antes de construir encima. La medición anterior había encontrado que en el estrato difícil no hay embudo —correlación 0.186 entre distancia al cristal y puntuación— y de esa medición dependían decisiones importantes: descartar familias enteras de métodos de optimización.",
+     "t": "Un resultado incómodo merece que se intente tirarlo abajo antes de construir encima. La medición anterior había encontrado que en el estrato difícil no hay embudo —correlación 0.186 entre distancia al cristal y puntuación— y de esa medición dependían decisiones importantes, entre ellas descartar familias enteras de métodos de optimización, algo que excedía lo medido (SCI-B-089).",
      "m": null
     }
    ]
@@ -43,19 +43,10 @@
       "m": "fuerte"
      },
      {
-      "t": " Un anillo rotado 180° es la misma molécula; si el RMSD no lo",
+      "t": " Un anillo rotado 180° es la misma molécula; si el RMSD no lo trata bien, las etiquetas están sucias y cualquier correlación se degrada.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "trata bien, las etiquetas están sucias y cualquier correlación se degrada.",
-     "m": null
-    }
    ]
   },
   {
@@ -368,6 +359,302 @@
    "frag": [
     {
      "t": "Un negativo que sostiene decisiones grandes necesita que alguien haya intentado tumbarlo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-092. Las 4,6 veces más poses no resuelven el embudo a radios cortos ni demuestran su ausencia: el total de poses no es cobertura local. En el estrato difícil, a 2 Å o menos sigue sin haber ningún complejo medible (0 de 33), a 3 Å hay 2, y las cifras por radio de la tabla tienen detrás 11 complejos (0.279 a 4 Å) y 27 (0.140 a 6 Å); sólo 2 son medibles en todos los radios con medida. Lo que la extensión sí descarta es que la ρ global del estrato fuera un artefacto de muestreo escaso o de la simetría. La lectura «no hay embudo» se limita a los radios y complejos con muestra; a 2 Å o menos no es estimable con este material. Productor de la cobertura: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_mf15_cobertura_por_radio.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Por SCI-B-089 (paper de MF-15): «descartar familias enteras de métodos de optimización» excede lo medido; la correlación entre poses fijas no mide navegabilidad.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-093. Reproducir el Spearman global de ",
+      "m": null
+     },
+     {
+      "t": "MF-09",
+      "m": "codigo"
+     },
+     {
+      "t": " con el mismo material (MF-02D + MF-02F) es una comprobación de consistencia de la lectura, no una réplica independiente.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-094. La corrección por simetría enumera como mucho 5000 automorfismos. Contados para los 52 ligandos de la cohorte de ",
+      "m": null
+     },
+     {
+      "t": "MF-02F",
+      "m": "codigo"
+     },
+     {
+      "t": ", el máximo es ",
+      "m": null
+     },
+     {
+      "t": "144",
+      "m": "fuerte"
+     },
+     {
+      "t": " (1eld): el tope no recortó ninguno. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_mf15ext_tope_automorfismos.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-095. El sello fija el analizador, no el material ni ",
+      "m": null
+     },
+     {
+      "t": "metrics.json",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-144. «Reveló un 21 % de etiquetas» es el aumento de positivas de train sobre las originales (75 de 357). La fracción de positivas corregidas que antes eran negativas es 75 de 432, el 17.4 %. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_falsas.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La introducción presentaba como decisión el descarte de familias enteras de métodos, que SCI-B-089 había limitado (hallazgo L2-SOL-008 de la revisión de papers de Sol).",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "MF-17: el contraste por desenlace está confundido con el estrato",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de cruce descriptivo.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade la composición de los grupos del diagnóstico; no valida el embudo como predictor independiente.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se cruzaron MF-09, MF-13, MF-14 y MF-15-EXT, con desenlace de disponer de alguna pose dentro del corte de bolsillo. RESUELTO y FALLA son etiquetas del oráculo, no juicios sobre afinidad.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Grupo archivado",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "COLOCACION",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "CONTROL",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Mediana de ρ del embudo",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "RESUELTO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,4796",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "FALLA",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "30",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,2105",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La separación casi reproduce el estrato definido por desenlace. No permite aislar el efecto del embudo, diagnosticar una causa ni declarar ausentes otros mecanismos por falta de contraste. ",
+     "m": null
+    },
+    {
+     "t": "SCI-B-101",
+     "m": "fuerte"
+    },
+    {
+     "t": " sólo se sostiene parcialmente: la revisión posterior hace coincidir los r50 usados con MF-14 sellado, pero el runner dependía de una ruta scratch sin hash de entrada. Esa coincidencia no sanea la procedencia original. No comprobado por mí: reconstruir aquel scratch o recalcular embudos. Fuentes: ",
+     "m": null
+    },
+    {
+     "t": "MF-17",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
      "m": null
     }
    ]

@@ -226,44 +226,20 @@
       "m": "fuerte"
      },
      {
-      "t": " frente a PB con los mismos",
+      "t": " frente a PB con los mismos radios: con uno o dos F coinciden; con un CF₃, −2,3 kcal/mol de media; con cuatro o más F, −7,7.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "radios: con uno o dos F coinciden; con un CF₃, −2,3 kcal/mol de media; con cuatro o más F, −7,7.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "Las moléculas con cuatro o más cloros",
       "m": "fuerte"
      },
      {
-      "t": " quedan +5,9 kcal/mol por encima del",
+      "t": " quedan +5,9 kcal/mol por encima del experimento sin que PB lo explique, lo que apunta a un término no polar sin dispersión atractiva.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "experimento sin que PB lo explique, lo que apunta a un término no polar sin dispersión atractiva.",
-     "m": null
-    }
    ]
   },
   {

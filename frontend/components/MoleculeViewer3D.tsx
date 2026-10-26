@@ -265,7 +265,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
         
         // Distancia entre heteroátomos; no se infiere puente H ni energía.
         geometry.polarProximities.slice(0, 5).forEach(({ p, l }) => {
-            resisWithLines.add(`${p.resn}${p.resi}`);
+            resisWithLines.add(`${p.chain}:${p.resn}${p.resi}`);
             if (showInteractions) v.addCylinder({ start: l, end: p, radius: 0.05, color: "white", dashed: true });
           });
 
@@ -282,9 +282,6 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
               const resn = match[2].toUpperCase();
               const resi = parseInt(match[3]);
               const isHit = hotspotsHit.includes(hs);
-              const hasLine = resisWithLines.has(`${resn}${resi}`);
-              const color = isHit ? (hasLine ? "#10b981" : "#52525b") : "#71717a";
-              const radius = hasLine ? 0.65 : 0.5;
               // Un hotspot es un residuo, no una esfera por cada átomo del
               // residuo. Marcar el átomo más próximo a la pose evita la nube
               // de esferas y sitúa el marcador dentro del bolsillo real.
@@ -293,8 +290,11 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
                 ?? candidates.find((p: any) => p.atom === "CA")
                 ?? candidates[0];
               if (!preferred?.atom) return;
-              const selector: any = { model: 0, resn, resi, atom: preferred.atom };
-              if (chain) selector.chain = chain;
+              // SCI-A-015: atribuir proximidad y marcador a la cadena dibujada.
+              const hasLine = resisWithLines.has(`${preferred.chain}:${resn}${resi}`);
+              const color = isHit ? (hasLine ? "#10b981" : "#52525b") : "#71717a";
+              const radius = hasLine ? 0.65 : 0.5;
+              const selector: any = { model: 0, chain: preferred.chain, resn, resi, atom: preferred.atom };
               v.addStyle(selector, { sphere: { color, radius } });
               v.setClickable(selector, true, () => setSelectedHotspot(`${chain ? chain + ':' : ''}${resn}${resi}`));
             }
@@ -394,7 +394,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
 
         {!sinWebGL && hasData && (
           <>
-            <div className="absolute z-10 flex max-w-[88%] flex-wrap justify-end gap-2" style={{ top: (isMobile && mobileTopOffset) ? "72px" : "16px", right: "16px" }}>
+            <div className="absolute z-10 flex max-w-[88%] flex-wrap justify-end gap-2 transition-[right] duration-200 ease-out" style={{ top: (isMobile && mobileTopOffset) ? "72px" : "16px", right: "calc(16px + var(--viewer-inset-r, 0px))" }}>
               <div className="flex border border-[var(--border-light)] bg-[var(--bg-card)] p-1">
                 {(["standard", "surface", "charges"] as ViewMode[]).map((m) => (
                   <button key={m} type="button" aria-pressed={viewMode === m} title={m === "charges" ? t("z_residue_types_desc") : undefined} onClick={() => setViewMode(m)} className={`min-h-8 cursor-pointer px-2.5 py-1.5 text-[11px] font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)] ${viewMode === m ? 'bg-[var(--bg-secondary)] text-[var(--text)]' : 'text-[var(--text-dim)] hover:text-[var(--text)]'}`}>
@@ -411,7 +411,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
             </div>
 
             {selectedHotspot && (
-              <div className="absolute bottom-4 left-4 z-20 bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 px-3 py-2 rounded-lg backdrop-blur-md text-[11px] font-mono text-zinc-900 dark:text-zinc-200 flex items-center gap-3 shadow-sm">
+              <div style={{ left: "calc(16px + var(--viewer-inset-l, 0px))" }} className="absolute bottom-4 z-20 transition-[left] duration-200 ease-out bg-white/80 dark:bg-zinc-900/80 border border-zinc-200 dark:border-zinc-800 px-3 py-2 rounded-lg backdrop-blur-md text-[11px] font-mono text-zinc-900 dark:text-zinc-200 flex items-center gap-3 shadow-sm">
                 <span>🎯 {selectedHotspot}</span>
                 <button onClick={() => setSelectedHotspot(null)} className="text-zinc-400 hover:text-zinc-900 dark:hover:text-white">✕</button>
               </div>
@@ -430,7 +430,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
       </div>
 
       {!sinWebGL && !hideLegend && (
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-4 border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3">
+        <div style={{ marginLeft: "var(--viewer-inset-l, 0px)", marginRight: "var(--viewer-inset-r, 0px)" }} className="mt-3 flex flex-wrap items-center justify-center gap-4 border border-[var(--border)] bg-[var(--bg-card)] px-4 py-3">
           <button 
             onClick={() => setSelectedEduLegend({
               title: t("z_critical_hit"),

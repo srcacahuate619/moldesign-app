@@ -4,27 +4,34 @@
  * contrast: pass · mobile: pass
  */
 "use client";
+import { AntiDianasAviso } from "./AntiDianasSelector";
+import { antiDianasParaEnviar, antiDianasPorDefecto, useAntiDianas } from "@/lib/antiDianas";
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+
+import React, { useState, useEffect, useRef, useCallback, useMemo, useId } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
 import { ChipsDelSitio } from "../../science/ChipsDelSitio";
 import { DetalleDelSitio } from "../../science/DetalleDelSitio";
 import { EstimacionDeCorrida } from "../../evaluation/EstimacionDeCorrida";
-import { ProtocoloM5Zn } from "../../science/ProtocoloM5Zn";
+import { ConfigurationPresentation, ConfigurationSystem } from "../../evaluation/ConfigurationPresentation";
+import configurationStyles from "../../evaluation/ConfigurationPresentation.module.css";
+import { PipelineDeLaCorrida } from "../../science/PipelineDeLaCorrida";
 import { animateElements, cancelAnimations } from "../../../lib/webAnimation";
+import { seleccionAplicada, seleccionInicial, seleccionParaGuardar } from "../../../lib/seleccionDeResiduos";
 import {
-  Database, Play, ShieldCheck, Download, Activity,
+  Database, Play, Download, Activity,
   FileText, Eye, ExternalLink as IconoEnlaceExterno, Settings, FlaskConical, AlertTriangle, X,
-  History,
+  History, ChevronDown,
 } from "lucide-react";
 import { KetcherEditor } from "../../KetcherEditor";
-import { ThinkingOrb } from "../../ui/ThinkingOrb";
+import { OrbeDeEvaluacion } from "./OrbeDeEvaluacion";
 import { useKeepAliveActive } from "../../../context/KeepAliveContext";
 import dynamic from "next/dynamic";
 const AdvancedMolstarViewer = dynamic(() => import("./AdvancedMolstarViewer"), { ssr: false });
 import { AvisoSinWebGL } from "./AvisoSinWebGL";
 import { comprobarWebGL } from "../../../lib/webgl";
 const Web3DViewer = dynamic(() => import("./Web3DViewer"), { ssr: false });
+import { InsigniaDelCatalogo } from "@/components/science/InsigniaDelCatalogo";
 import TargetSelectorModal from "./TargetSelectorModal";
 import ProOptionsModal from "./ProOptionsModal";
 import { PDFReportViewer } from "../../PDFReportViewer";
@@ -32,18 +39,22 @@ import { CertificationModal } from "../../CertificationModal";
 import type { DockingEngineConfig, GridBoxConfig, AdvancedConfig } from "./ProOptionsModal";
 import { ProAnalysisTabs } from "./ProAnalysisTabs";
 import { EvaluationEvidencePanel } from "./EvaluationEvidencePanel";
+import { EvaluationActionBar } from "./EvaluationActionBar";
+import resultStyles from "./ResultReadingPresentation.module.css";
+import { ResultReadingPresentation } from "./ResultReadingPresentation";
 import { PoseComparisonDialog } from "./PoseComparisonDialog";
 import { PipelineTimeline, stagesForPipeline } from "./PipelineTimeline";
 import { getTargetPdb, getPoseFile, getProteinFile, getJobStatus, getInteractions } from "../../../lib/api";
+import { leerSelloDelResultado } from "../../../lib/moldex";
 import type { Target } from "../../../lib/api";
 import { runAdmet, runMmgbsa } from "../../../lib/proApi";
 import { subscribeToPipelineEvents, stageEventToOrbUpdate } from "../../../lib/pipelineStream";
 import type { PipelineEvent } from "../../../lib/pipelineStream";
-import { PIPELINES_BY_FAMILY, FAMILY_LABELS } from "../../../lib/pipelineDefinitions";
-import { describirEtapa, etapasAusentes, tieneSalidaUms } from "../../../lib/procedenciaDeSenales";
+import { PIPELINES_BY_FAMILY, FAMILY_LABELS, localizePipelineText } from "../../../lib/pipelineDefinitions";
+import { describirEtapa, etapasAusentes, pesosRegistrados, protocoloRegistrado, tieneSalidaUms } from "../../../lib/procedenciaDeSenales";
 import type { JobStatus, MolecularSuggestion, ValidationResult, EvaluationResult, InteractionDatum } from "../../../lib/types";
 import type { StageState } from "./PipelineTimeline";
-import type { CasePipelineConfig, CaseStructuralSystem } from "../../../lib/cases/types";
+import type { CasePipelineConfig, CaseRun, CaseStructuralSystem } from "../../../lib/cases/types";
 
 import { ExternalLink } from "@/components/ui/ExternalLink";
 interface ProEvaluationProps {
@@ -58,6 +69,11 @@ interface ProEvaluationProps {
   taskId?: string | null;
   setTaskId?: (taskId: string | null) => void;
   status?: JobStatus | null;
+  /**
+   * La corrida la canceló quien la lanzó. El backend la cierra como `FAILURE`
+   * con su motivo; la pantalla no debe decir «falló» por eso.
+   */
+  cancelled?: boolean;
   /** Estado de rehidratación de una corrida persistida al reabrir el caso. */
   resultRecovery?: {
     readonly state: "recovering" | "blocked";
@@ -146,16 +162,48 @@ interface ProEvaluationProps {
     readonly numPoses?: number;
     readonly pipelineConfig?: CasePipelineConfig;
   };
+  /**
+   * K VIGENTE del caso (confórmeros por molécula), no el congelado en el
+   * sistema estructural de la primera corrida.
+   *
+   * CAS-05: el `onApply` del modal Opciones reconstruía este valor desde
+   * `initialRunConfiguration` —que prioriza el sistema sellado de la primera
+   * corrida (K=1)—, así que aplicar Opciones sin cambios tras pasar a
+   * ensemble pisaba el K=30 del caso y el siguiente submit recibía un 409
+   * por una configuración que nadie cambió. El modal edita un borrador de
+   * este K; al aplicar se persiste como parte del protocolo del caso.
+   *
+   * CAS-04: la estimación de duración también lo lee: describir el protocolo
+   * que firmará el preflight, no el de la primera corrida.
+   */
+  activeConformers: number;
+  /** Libro de corridas del caso. Alimenta la cohorte histórica del SAR (CAS-02). */
+  caseRuns?: readonly CaseRun[];
+  /**
+   * SOL-10: el caso AÚN no tiene ligando guardado y lo que se ve en el
+   * editor es la molécula de muestra, no la hipótesis del usuario.
+   *
+   * Un caso nuevo inicializa el editor con aspirina SIN escribirla en los
+   * inputs — deliberado: persistir la muestra sería atribuirle una decisión
+   * que no tomó. La muestra entra al caso en el momento en que alguien pulsa
+   * «Ejecutar evaluación» con ella a la vista (ahí sí decide), así que no hace
+   * falta editarla antes; la seña le dice que se evaluará tal cual.
+   */
+  ejemploEnEditor: boolean;
   /** Persiste toda la configuración de docking que invalida la comprobación. */
   onRunConfigurationChange?: (config: {
     center: [number, number, number];
     size: [number, number, number];
-    customHotspots: string[];
+    /** Ausente = sin decidir (catálogo); `[]` = «ninguno»; lista = sólo esos. */
+    customHotspots?: string[];
     dockingEngine: string;
     exhaustiveness: number;
     numPoses: number;
+    conformers: number;
     pipelineConfig: CasePipelineConfig;
   }) => void;
+  /** Preparación pidió volver a evaluar con este tautómero: se aplica como desde Opciones, una vez por `nonce`. */
+  tautomeroPedido?: { modo: "canonico" | "entrada"; nonce: number };
 }
 
 // ── Pipelines por familia (Family-Gated Stacking) ──
@@ -176,6 +224,7 @@ export default function ProEvaluation({
   onOpenRunHistory,
   runCount = 0,
   status,
+  cancelled = false,
   resultRecovery,
   onRetryResultRecovery,
   setStatus,
@@ -196,6 +245,10 @@ export default function ProEvaluation({
   preparationSlot,
   runBlockedReason,
   initialRunConfiguration,
+  tautomeroPedido,
+  activeConformers,
+  caseRuns,
+  ejemploEnEditor,
   onRunConfigurationChange,
 }: ProEvaluationProps) {
   // NIVEL 2 KeepAlive recovery: el wrapper del KeepAlive pasa el flag de
@@ -219,21 +272,20 @@ export default function ProEvaluation({
   const [receptorPdb, setReceptorPdb] = useState<string | null>(null);
   const [loadingReceptor, setLoadingReceptor] = useState(false);
   const [showResults, setShowResults] = useState(true);
+  const [selectivityWorking, setSelectivityWorking] = useState(false);
   const [physicalFocusRequest, setPhysicalFocusRequest] = useState(0);
   const [poseComparison, setPoseComparison] = useState<{ leftRank: number; rightRank: number } | null>(null);
   // El sistema PROVISIONAL se enseña pero todavía se puede corregir; el
   // SELLADO ya no. `structuralSystemLocked` congela sólo lo que define el
   // sistema —receptor, caja, residuos—; el protocolo se sigue pudiendo cambiar
   // y cada corrida guarda el suyo.
-  // `stage_params` es un Record<string, unknown>: el número hay que
-  // estrecharlo, no asumirlo. Un confórmero es un acoplamiento más, así que
-  // colarse aquí multiplicaría la estimación entera.
-  const conformerosCrudos =
-    initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.conformers;
-  const conformerosConfigurados =
-    typeof conformerosCrudos === "number" && Number.isFinite(conformerosCrudos)
-      ? conformerosCrudos
-      : 1;
+  //
+  // CAS-04: la estimación de duración lee el K VIGENTE del caso
+  // (`activeConformers`), no el congelado en el sistema de la primera
+  // corrida. Con Ensemble K=30, la pantalla estimaba 7–14 s (K=1) mientras
+  // la corrida real tardó ~209 s: un número que describe otro protocolo es
+  // peor que ninguno. El mismo K que firmará el preflight es el que se
+  // estima.
   const structuralSystemLocked = Boolean(structuralSystem) && structuralSystemSealed;
   const structuralSystemProvisional = Boolean(structuralSystem) && !structuralSystemSealed;
 
@@ -258,6 +310,8 @@ export default function ProEvaluation({
     [initialRunConfiguration?.pipelineConfig],
   );
   // Poses/PDB reales descargados vía /evaluation/files/* (el page no los fetchea)
+  const [resourceKey, setResourceKey] = useState<string | null>(null);
+  const [resourcePending, setResourcePending] = useState(false);
   const [realPoseData, setRealPoseData] = useState<string | null>(null);
   const [realProteinData, setRealProteinData] = useState<string | null>(null);
   // Interacciones no-covalentes ligando-proteína (PLIF) para el Web3D
@@ -267,10 +321,29 @@ export default function ProEvaluation({
   // Sin resultado real la sección de resultados no se renderiza (estado vacío).
   const realResult: EvaluationResult | null =
     status?.status === "SUCCESS" && status.result ? status.result : null;
+  const selectedResultKey = `${realResult?.molecule_id ?? ""}:${realResult?.task_id ?? ""}`;
+  const selectedResultRef = useRef(selectedResultKey);
+  selectedResultRef.current = selectedResultKey;
   const hasJob = !!status;
   const isRunning = hasJob && status!.status !== "SUCCESS" && status!.status !== "FAILURE";
   const showProcessing = busy === true || isRunning;
   const failed = hasJob && status!.status === "FAILURE";
+  const reviewingResult = showResults && !showProcessing && !failed && realResult !== null;
+  const [configurationOpen, setConfigurationOpen] = useState(false);
+  const configurationRef = useRef<HTMLDetailsElement>(null);
+  const configurationLabelId = useId();
+  useEffect(() => { setConfigurationOpen(false); }, [selectedResultKey]);
+  useEffect(() => {
+    const input = realResult?.ligand_state?.smiles_entrada;
+    if (input && smiles.trim() !== input.trim()) setConfigurationOpen(true);
+  }, [smiles, selectedResultKey]);
+  const recordedProtocol = realResult?.docking_protocol;
+  const recordedProtocolFacts = [
+    recordedProtocol?.engine ?? realResult?.engine_used,
+    typeof recordedProtocol?.exhaustiveness === "number" ? t("pr_ev_protocol_exhaustiveness",{value:recordedProtocol.exhaustiveness}) : null,
+    typeof recordedProtocol?.seed === "number" ? t("pr_ev_protocol_seed",{value:recordedProtocol.seed}) : null,
+  ].filter(Boolean).join(" · ");
+
   // FIX (v1.7.5): si el backend reportó SUCCESS pero sin resultado (result
   // null por un fallo de validación silencioso), NO mostrar un resultado
   // inventado — tratar como error honesto.
@@ -279,6 +352,8 @@ export default function ProEvaluation({
   const displayResult: any = silentResultLoss ? null : realResult;
   // Link de blockchain: solo con un resultado real certificado.
   const blockchainTxId = realResult?.blockchain_tx_id ?? null;
+  // B-1: el sello puede ser de una corrida anterior de la misma molécula.
+  const lecturaDelSello = leerSelloDelResultado(realResult);
 
   // Mapeo stage_id SSE (registry.py) → orb id del DOT/timeline en
   // lib/pipelineStream.ts (SSE_TO_ORB + stageEventToOrbUpdate — exportados
@@ -295,11 +370,7 @@ export default function ProEvaluation({
   const [molstarCamera, setMolstarCamera] = useState<{ position: [number, number, number]; target: [number, number, number]; distance: number } | null>(null);
   const [web3dCamera, setWeb3dCamera] = useState<{ position: [number, number, number]; target: [number, number, number]; distance: number } | null>(null);
   const [dockingEngine, setDockingEngine] = useState<DockingEngineConfig>(() => ({
-    engine:
-      initialRunConfiguration?.dockingEngine === "qvina2" ||
-      initialRunConfiguration?.dockingEngine === "diffdock"
-        ? initialRunConfiguration.dockingEngine
-        : "vina",
+    engine: "vina",
     peptideEngine: null,
     gnnPrecision: "fp32",
   }));
@@ -314,10 +385,11 @@ export default function ProEvaluation({
     numModes: initialRunConfiguration?.numPoses ?? 9,
   }));
   // Hotspots del receptor seleccionado que el usuario puede filtrar.
+  // Tres estados (ver `lib/seleccionDeResiduos`): `null` = sin decidir (catálogo), `[]` =
+  // «ninguno», lista = sólo esos. Antes `[]` se convertía en `null` y la decisión de no usar
+  // residuos se perdía al reabrir «Opciones» (QA1-007).
   const [customHotspots, setCustomHotspots] = useState<string[] | null>(() =>
-    initialRunConfiguration?.customHotspots?.length
-      ? [...initialRunConfiguration.customHotspots]
-      : null,
+    seleccionInicial(initialRunConfiguration?.customHotspots),
   );
 
   // Hotspots del target actual (del catálogo calibrado). La selección
@@ -342,10 +414,18 @@ export default function ProEvaluation({
     // defecto: si no, el panel enseñaría 7.4 sobre un expediente que se acopló
     // a otro pH, y al reejecutar lo cambiaría en silencio.
     protonationPh: Number(initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.ph ?? 7.4) || 7.4,
+    // Como el pH: una corrida guardada reabre con SU modo. Antes del 2026-10-10 el canónico
+    // era el defecto y se guardaba sin clave; desde entonces el defecto es el tautómero escrito.
+    tautomerMode: ((): "canonico" | "entrada" => {
+      const guardado: unknown = initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.tautomero;
+      if (guardado === "canonico" || guardado === "entrada") return guardado;
+      return initialRunConfiguration?.pipelineConfig ? "canonico" : "entrada";
+    })(),
     numWorkers: initialRunConfiguration?.pipelineConfig?.pro_workers ?? 4,
     parallelDocks: initialRunConfiguration?.pipelineConfig?.pro_parallel_docks ?? 2,
     enableSelectivity: initialRunConfiguration?.pipelineConfig?.pro_selectivity ?? false,
-    selectedAntiTargets: [...(initialRunConfiguration?.pipelineConfig?.pro_anti_targets ?? ["5VA1", "4NC3"])],
+    selectedAntiTargets: [...(initialRunConfiguration?.pipelineConfig?.pro_anti_targets ?? [])],
+    antiTargetsPending: initialRunConfiguration?.pipelineConfig?.pro_anti_targets === undefined,
     enableMMGBSA: false,
     mmgbsaSteps: initialRunConfiguration?.pipelineConfig?.pro_mmgbsa_steps ?? 1000,
     // ADMET-AI es OPT-IN. `!== false` encendía el interruptor siempre que la
@@ -357,6 +437,107 @@ export default function ProEvaluation({
     enableADMET:
       initialRunConfiguration?.pipelineConfig?.stage_params?.properties?.run_admet_ai === true,
   }));
+
+  const anti = useAntiDianas();
+  const antiDefaultsInitialized = useRef(false);
+  useEffect(() => {
+    if (anti.targets && !antiDefaultsInitialized.current) {
+      antiDefaultsInitialized.current = true;
+      if (initialRunConfiguration?.pipelineConfig?.pro_anti_targets === undefined) {
+        setAdvancedOpts((value) => ({ ...value, selectedAntiTargets: antiDianasPorDefecto(anti.targets!), antiTargetsPending: false }));
+      }
+    }
+  }, [anti.targets, initialRunConfiguration]);
+
+  // Aplicar Opciones. Una elección que llega de fuera del modal (Preparación pide otro
+  // tautómero) pasa por aquí también: si no, el preflight no la vería.
+  const aplicarOpciones = (
+    engineRaw: DockingEngineConfig,
+    gridRaw: GridBoxConfig,
+    adv: AdvancedConfig,
+    hotspotsRaw?: readonly string[] | null,
+    conformers: number = activeConformers,
+  ) => {
+    // Con el sistema sellado, la caja y los residuos vuelven al ancla
+    // pase lo que pase. El modal ya los deshabilita; esto es la segunda
+    // frontera, porque un control deshabilitado protege la pantalla y no
+    // la hipótesis. El protocolo —motor, exhaustiveness, poses— sí pasa:
+    // es esfuerzo de muestreo y cada corrida sella el suyo.
+    const engine = engineRaw;
+    const grid = structuralSystemLocked && structuralSystem
+      ? {
+          ...gridRaw,
+          centerX: structuralSystem.grid.center[0],
+          centerY: structuralSystem.grid.center[1],
+          centerZ: structuralSystem.grid.center[2],
+          sizeX: structuralSystem.grid.size[0],
+          sizeY: structuralSystem.grid.size[1],
+          sizeZ: structuralSystem.grid.size[2],
+        }
+      : gridRaw;
+    const hotspots = structuralSystemLocked && structuralSystem
+      ? [...structuralSystem.customHotspots]
+      : hotspotsRaw;
+    setDockingEngine(engine);
+    setGridBox(grid);
+    setAdvancedOpts(adv);
+    setCustomHotspots(seleccionAplicada(hotspots));
+    // Caja, residuos, motor y profundidad forman una sola hipótesis de
+    // ejecución. Persistir sólo la caja dejaba cambiar el motor después
+    // del preflight sin invalidarlo.
+    onRunConfigurationChange?.({
+      center: [grid.centerX, grid.centerY, grid.centerZ],
+      size: [grid.sizeX, grid.sizeY, grid.sizeZ],
+      customHotspots: seleccionParaGuardar(seleccionAplicada(hotspots)),
+      dockingEngine: engine.engine,
+      exhaustiveness: grid.exhaustiveness,
+      numPoses: grid.numModes,
+      conformers,
+      pipelineConfig: {
+        enabled_stages: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"],
+        stage_params: {
+          docking: { exhaustiveness: grid.exhaustiveness, num_poses: grid.numModes },
+          properties: { run_admet_ai: adv.enableADMET },
+          // `conformers` y `ph` viajan juntos: los dos son del mismo
+          // paso. Mandar uno y olvidar el otro dejaba el control de pH
+          // de adorno según por dónde se lanzara la corrida.
+          //
+          // El modal abre con el K vigente, nunca el del sistema
+          // congelado. Su borrador aplicado se guarda arriba y aquí
+          // en una sola actualización para invalidar el preflight.
+          conformer: {
+            conformers,
+            ph: adv.protonationPh,
+            // Siempre explícito: el defecto del backend ya no es el canónico.
+            tautomero: adv.tautomerMode ?? "entrada",
+          },
+        },
+        docking_engine: engine.engine,
+        pro_workers: adv.numWorkers,
+        pro_parallel_docks: adv.parallelDocks,
+        pro_selectivity: adv.enableSelectivity,
+        pro_anti_targets: [...adv.selectedAntiTargets],
+        pro_mmgbsa: false,
+        pro_mmgbsa_steps: adv.mmgbsaSteps,
+        gnn_precision: engine.gnnPrecision,
+        peptide_docking_engine: engine.peptideEngine ?? undefined,
+      },
+    });
+  };
+
+  // Preparación pidió volver a evaluar con este modo: se aplica una vez por petición, cuando
+  // las anti-dianas ya están resueltas (aplicarlas pendientes guardaría «ninguna»).
+  const tautomeroAplicado = useRef<number | null>(null);
+  useEffect(() => {
+    if (!tautomeroPedido || tautomeroAplicado.current === tautomeroPedido.nonce) return;
+    if (advancedOpts.antiTargetsPending) return;
+    tautomeroAplicado.current = tautomeroPedido.nonce;
+    aplicarOpciones(dockingEngine, gridBox, { ...advancedOpts, tautomerMode: tautomeroPedido.modo }, customHotspots);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tautomeroPedido, advancedOpts.antiTargetsPending]);
+
+  const effectiveAntiTargets = antiDianasParaEnviar(anti.targets, advancedOpts.selectedAntiTargets);
+  const antiNeedsReview = advancedOpts.enableSelectivity && (anti.targets === null || anti.error || effectiveAntiTargets.length !== advancedOpts.selectedAntiTargets.length);
 
   /**
    * Con un sitio entre cadenas el receptor fijado las lleva todas (QA-001):
@@ -391,13 +572,13 @@ export default function ProEvaluation({
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [showMmgbsaModal, mmgbsaState]);
 
-  // Reporta MM-GBSA como TRABAJO VIVO al contenedor del caso. Es un cálculo
+  // Reporta los análisis como TRABAJO VIVO al contenedor del caso. Es un cálculo
   // largo que no pasa por `taskId`, así que sin este aviso el workspace lo
   // daría por inexistente y permitiría cambiar de caso a mitad, dejándolo
   // huérfano. No altera el cálculo: sólo lo declara.
   useEffect(() => {
-    onLongRunningWorkChange?.(mmgbsaState === "running");
-  }, [mmgbsaState, onLongRunningWorkChange]);
+    onLongRunningWorkChange?.(mmgbsaState === "running" || selectivityWorking);
+  }, [mmgbsaState, selectivityWorking, onLongRunningWorkChange]);
   // ── "Ya calculado": el usuario YA tiene resultado MM-GBSA ──
   // 1) El pipeline lo corrió (pro_mmgbsa) → mmgbsa_score serializado (WS2).
   //    ΔG es negativo en kcal/mol → `!= null` (no truthy), por si diera 0.
@@ -480,7 +661,9 @@ export default function ProEvaluation({
   const handleRunAdmet = useCallback(async () => {
     if (admetState === "running") return;
     const moleculeId = realResult?.molecule_id;
-    if (!moleculeId) {
+    const runId = realResult?.task_id;
+    const requestKey = selectedResultKey;
+    if (!moleculeId || !runId) {
       setAdmetError(t("ev_admet_requiere_corrida"));
       setAdmetState("error");
       return;
@@ -488,7 +671,9 @@ export default function ProEvaluation({
     setAdmetState("running");
     setAdmetError(null);
     try {
-      const perfil = await runAdmet(moleculeId);
+      const perfil = await runAdmet(moleculeId, { taskId: runId });
+      if (selectedResultRef.current !== requestKey) return;
+      if (perfil.task_id !== runId) throw new Error(t("pr_sel_result_identity_mismatch"));
       // El backend lo guarda en la base, pero `status` es la INSTANTÁNEA del
       // trabajo y no se entera sola: sin fusionarlo aquí, el panel de
       // propiedades seguiría diciendo que no hay perfil hasta recargar. Es lo
@@ -519,10 +704,15 @@ export default function ProEvaluation({
       );
       setAdmetState("done");
     } catch (err) {
+      if (selectedResultRef.current !== requestKey) return;
       setAdmetError(err instanceof Error ? err.message : String(err));
       setAdmetState("error");
     }
-  }, [admetState, realResult?.molecule_id, status, setStatus]);
+  }, [admetState, realResult?.molecule_id, realResult?.task_id, selectedResultKey, status, setStatus, t]);
+
+  useEffect(() => {
+    setAdmetState("idle"); setAdmetError(null); setPoseComparison(null);
+  }, [selectedResultKey]);
 
   // ── Reactividad del Grid Box con el receptor seleccionado ──
   // Cuando el usuario elige un target, el centro y tamaño del grid box se
@@ -563,9 +753,6 @@ export default function ProEvaluation({
     // evaluación ANTERIOR (realPoseData/realProteinData). Sin esto, el PDB de
     // la primera evaluación ganaba la cadena `proteinData ?? realProteinData ??
     // receptorPdb` y el visor MolStar seguía mostrando el receptor viejo.
-    setRealPoseData(null);
-    setRealProteinData(null);
-    setInteractions([]);
     if (!target || target.length < 3) {
       setReceptorPdb(null);
       return;
@@ -634,41 +821,36 @@ export default function ProEvaluation({
     };
   }, [taskId]);
 
-  // ── Poses/PDB reales: si el resultado trae poses_file_path, descargar el SDF
-  // vía /evaluation/files/poses/{molecule_id} para el viewer 3D y el tab Docking.
+  // Every resource belongs to the selected run. A missing historical snapshot
+  // stays missing; the catalogue is only an input preview before a result exists.
   useEffect(() => {
     const mid = realResult?.molecule_id;
-    if (!mid) return;
-    if (realResult?.poses_file_path && !poseData && !realPoseData) {
-      getPoseFile(mid)
-        .then((sdf) => { if (sdf) setRealPoseData(sdf); })
-        .catch(() => {});
-    }
-    if (!proteinData && !realProteinData) {
-      getProteinFile(mid)
-        .then((pdb) => { if (pdb) setRealProteinData(pdb); })
-        .catch(() => {});
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [realResult?.molecule_id, realResult?.poses_file_path, poseData, proteinData]);
-
-  // ── Interacciones PLIF: líneas discontinuas ligando-proteína (Web3D) ──
-  useEffect(() => {
-    const mid = realResult?.molecule_id;
-    if (!mid) {
-      setInteractions([]);
-      return;
-    }
+    const runId = realResult?.task_id ?? null;
     let cancelled = false;
-    getInteractions(mid)
-      .then((report) => {
-        if (!cancelled) setInteractions(report?.interactions ?? []);
-      })
-      .catch(() => {
-        if (!cancelled) setInteractions([]);
-      });
+    setResourceKey(`${mid ?? ""}:${runId ?? ""}`);
+    setResourcePending(Boolean(mid));
+    setRealPoseData(null); setRealProteinData(null); setInteractions([]);
+    if (!mid || !runId) { setResourcePending(false); return; }
+    void getPoseFile(mid, runId).then(sdf => { if (!cancelled) setRealPoseData(sdf || null); }).catch(() => {});
+    void getProteinFile(mid, runId).then(pdb => { if (!cancelled) setRealProteinData(pdb || null); }).catch(() => {}).finally(() => { if (!cancelled) setResourcePending(false); });
+    void getInteractions(mid, 1, runId).then(report => {
+      if (!cancelled && (!runId || report?.task_id === runId)) setInteractions(report?.interactions ?? []);
+    }).catch(() => {});
     return () => { cancelled = true; };
-  }, [realResult?.molecule_id]);
+  }, [realResult?.molecule_id, realResult?.task_id, realResult?.poses_file_path]);
+
+  const resourcesMatch = resourceKey === `${realResult?.molecule_id ?? ""}:${realResult?.task_id ?? ""}`;
+
+  const executedBox = realResult?.docking_protocol?.execution_provenance;
+  const numericTriple = (value: unknown): value is [number, number, number] =>
+    Array.isArray(value) && value.length === 3 && value.every(item => typeof item === "number" && Number.isFinite(item));
+  const viewerGrid = realResult
+    ? numericTriple(executedBox?.box_center) && numericTriple(executedBox?.box_size)
+      ? { centerX: executedBox.box_center[0], centerY: executedBox.box_center[1], centerZ: executedBox.box_center[2], sizeX: executedBox.box_size[0], sizeY: executedBox.box_size[1], sizeZ: executedBox.box_size[2] }
+      : null
+    : gridBox.centerX !== 0 || gridBox.centerY !== 0 || gridBox.centerZ !== 0
+      ? { centerX: gridBox.centerX, centerY: gridBox.centerY, centerZ: gridBox.centerZ, sizeX: gridBox.sizeX, sizeY: gridBox.sizeY, sizeZ: gridBox.sizeZ }
+      : null;
 
   const heroRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
@@ -735,8 +917,12 @@ export default function ProEvaluation({
     return () => clearTimeout(timeout);
   }, [showProcessing, showResults, displayResult?.id, runReveal]);
 
+  const systemPanel = structuralSystem ? (
+    <ConfigurationSystem system={structuralSystem} provisional={structuralSystemProvisional} chains={cadenasDelSistema ?? null} />
+  ) : null;
+
   return (
-    <div className="min-h-full bg-surface-950 p-3 sm:p-4 md:p-8 flex flex-col items-center justify-start space-y-4 sm:space-y-6">
+    <div className={`${resultStyles.workspace} min-h-full bg-surface-950 p-3 sm:p-4 md:p-8 flex flex-col items-center justify-start space-y-4 sm:space-y-6`}>
       
       {/* Contenedor Principal de Visores: 2D Visor (Izquierda) + 3D Visor (Derecha) */}
       <div className="w-full max-w-[1600px] grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
@@ -749,22 +935,44 @@ export default function ProEvaluation({
               onSmilesChange={(newSmiles: string) => setSmiles(newSmiles)}
               height={640}
               showSmilesInput={false}
+              preparacion={{ ph: advancedOpts.protonationPh, tautomero: advancedOpts.tautomerMode ?? "entrada" }}
             />
           </div>
 
-          {/* Standalone SMILES Element (Strict h-14 equal height) */}
+          {/* Campo SMILES y contexto del sistema que admite esta entrada. */}
+          <div className={configurationStyles.smilesField}>
           <div className="h-14 border border-zinc-800 rounded-2xl bg-zinc-950 shadow-lg px-4 flex items-center gap-3">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-400 shrink-0">
+            <label htmlFor={`${configurationLabelId}-smiles`} className="text-sm font-sans font-bold uppercase tracking-wider text-purple-400 shrink-0">
               SMILES:
-            </span>
+            </label>
             <input
+              id={`${configurationLabelId}-smiles`}
+              aria-describedby={structuralSystem ? `${configurationLabelId}-system-help` : undefined}
               type="text"
               value={smiles}
               onChange={(e) => setSmiles(e.target.value)}
-              className="flex-1 bg-surface-950 border border-surface-700 rounded-xl px-3 py-1.5 font-mono text-xs text-zinc-100 placeholder:text-zinc-600 focus-visible:outline-none focus-visible:border-brand-500 focus-visible:ring-1 focus-visible:ring-brand-500 transition-colors h-9"
-              placeholder="Estructura SMILES"
+              className="flex-1 bg-surface-950 border border-surface-700 rounded-xl px-3 py-1.5 font-mono text-sm text-zinc-100 placeholder:text-zinc-400 focus-visible:outline-none focus-visible:border-brand-500 focus-visible:ring-1 focus-visible:ring-brand-500 transition-colors h-9"
+              placeholder={t("ev_estructura_smiles")}
             />
           </div>
+          {structuralSystem && <p id={`${configurationLabelId}-system-help`} className={configurationStyles.smilesSystemNote} data-system-input-note>
+            {t(structuralSystemProvisional ? "ev_sistema_provisional_detalle" : "ev_sistema_fijado_detalle")}
+          </p>}
+          </div>
+          {/* SOL-10: la aspirina de muestra NO se persiste como hipótesis del
+              usuario al abrir el caso (decisión documentada arriba); lo honesto
+              es decir que es muestra y qué pasa si se evalúa tal cual. La nota
+              se apaga sola en cuanto el ligando entra al caso, que ocurre al
+              editarlo o al pulsar «Ejecutar evaluación». */}
+          {ejemploEnEditor && (
+            <p
+              role="status"
+              className="flex items-start gap-2 rounded-2xl border border-amber-500/25 bg-amber-500/[0.05] px-4 py-2 text-base leading-6 text-amber-800 dark:text-amber-200 font-sans"
+            >
+              <FlaskConical size={13} className="mt-0.5 shrink-0 text-amber-400" aria-hidden="true" />
+              {t("ev_editor_ejemplo")}
+            </p>
+          )}
         </div>
 
         {/* Right Column: 3D Visor (MolStar ↔ Web3D) & Standalone Receptor Element */}
@@ -776,39 +984,29 @@ export default function ProEvaluation({
             {webglDisponible === false ? (
               <AvisoSinWebGL />
             ) : webglDisponible === null ? (
-              <div role="status" className="font-mono text-xs uppercase tracking-wider text-zinc-500">
+              <div role="status" className="font-sans text-sm uppercase tracking-wider text-zinc-400">
                 {t("ev_comprobando_visor")}
               </div>
             ) : viewerMode === "molstar" ? (
               <AdvancedMolstarViewer
-                proteinData={proteinData ?? realProteinData ?? receptorPdb ?? undefined}
-                poseData={poseData ?? realPoseData ?? undefined}
+                proteinData={realResult ? resourcesMatch ? realProteinData ?? undefined : undefined : proteinData ?? receptorPdb ?? undefined}
+                poseData={realResult ? resourcesMatch ? realPoseData ?? undefined : undefined : poseData ?? undefined}
                 height={640}
                 isActive={isActive}
                 onSwitchViewer={() => setViewerMode("web3d")}
                 viewerLabel="Web3D"
-                gridInfo={
-                  gridBox.centerX !== 0 || gridBox.centerY !== 0 || gridBox.centerZ !== 0
-                    ? { centerX: gridBox.centerX, centerY: gridBox.centerY, centerZ: gridBox.centerZ,
-                        sizeX: gridBox.sizeX, sizeY: gridBox.sizeY, sizeZ: gridBox.sizeZ }
-                    : null
-                }
+                gridInfo={viewerGrid}
                 externalCamera={web3dCamera}
                 onCameraChange={setMolstarCamera}
               />
             ) : (
               <Web3DViewer
-                proteinData={proteinData ?? realProteinData ?? receptorPdb ?? undefined}
-                poseData={poseData ?? realPoseData ?? undefined}
-                interactions={interactions.length > 0 ? interactions : undefined}
-                chain={selectedTargetObj?.chain ?? undefined}
-                hotspots={targetHotspotsList}
-                gridInfo={
-                  gridBox.centerX !== 0 || gridBox.centerY !== 0 || gridBox.centerZ !== 0
-                    ? { centerX: gridBox.centerX, centerY: gridBox.centerY, centerZ: gridBox.centerZ,
-                        sizeX: gridBox.sizeX, sizeY: gridBox.sizeY, sizeZ: gridBox.sizeZ }
-                    : null
-                }
+                proteinData={realResult ? resourcesMatch ? realProteinData ?? undefined : undefined : proteinData ?? receptorPdb ?? undefined}
+                poseData={realResult ? resourcesMatch ? realPoseData ?? undefined : undefined : poseData ?? undefined}
+                interactions={resourcesMatch && interactions.length > 0 ? interactions : undefined}
+                chain={realResult ? undefined : selectedTargetObj?.chain ?? undefined}
+                hotspots={realResult ? realResult.target_hotspots ?? [] : targetHotspotsList}
+                gridInfo={viewerGrid}
                 onSwitchViewer={() => setViewerMode("molstar")}
                 viewerLabel="MolStar"
                 externalCamera={molstarCamera}
@@ -817,6 +1015,8 @@ export default function ProEvaluation({
               />
             )}
           </div>
+
+          {realResult && resourcesMatch && !resourcePending && !realProteinData && <p role="status" className="text-sm leading-6 text-amber-300">{t("rx_sin_receptor_exacto")}</p>}
 
           {/* Standalone Receptor Selector Element (Strict h-14 equal height) */}
           <button
@@ -833,20 +1033,20 @@ export default function ProEvaluation({
           >
             <div className="flex items-center gap-2.5 truncate">
               <Database size={15} className="shrink-0 text-purple-400 transition-colors group-hover:text-purple-300" />
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-white truncate">
+              <span className="text-sm font-sans font-bold uppercase tracking-wider text-white truncate">
                 {loadingReceptor ? (
                   <span className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-purple-400 animate-pulse" />
-                    Cargando {target}...
+                    {t("ev_cargando_receptor", { pdbId: target })}
                   </span>
                 ) : target ? (
-                  `Receptor elegido: ${target}`
+                  t("ev_receptor_elegido", { pdbId: target })
                 ) : (
                   t("ev_elige_receptor")
                 )}
               </span>
             </div>
-            <span className="shrink-0 font-mono text-xs font-semibold text-zinc-200 transition-colors group-hover:text-purple-200">
+            <span className="shrink-0 font-mono text-sm font-semibold text-zinc-200 transition-colors group-hover:text-purple-200">
               {structuralSystemLocked ? t("ev_sistema_fijado_corto") : target ? t("auto_88e384ba325d") : t("auto_a857918b94ae")}
             </span>
           </button>
@@ -858,11 +1058,17 @@ export default function ProEvaluation({
               catálogo y se llevaría el número sin la condición. */}
           {selectedTargetObj && (
             <div className="mt-2 space-y-2 px-1">
-              <ChipsDelSitio target={selectedTargetObj} variante="linea" />
-              {/* Y aquí, abrible, lo que el chip da por sabido. Quien abre un
-                  caso guardado no pasa por el catálogo: si la condición sólo
-                  viviera allí, se llevaría el número sin ella. */}
-              <DetalleDelSitio target={selectedTargetObj} />
+              <InsigniaDelCatalogo
+                ayudaFlotante
+                target={selectedTargetObj}
+                corrida={realResult}
+                etiquetaAdicional={<>
+                  <DetalleDelSitio key={selectedTargetObj.pdb_id} target={selectedTargetObj} variante="etiqueta" />
+                  <ChipsDelSitio target={selectedTargetObj} variante="linea" mostrarEtiquetaDelSitio={false} />
+                </>}
+              />
+              {/* La etiqueta del sitio abre su explicación; los otros chips
+                  conservan evidencia y procedencia de los hotspots. */}
             </div>
           )}
         </div>
@@ -870,77 +1076,73 @@ export default function ProEvaluation({
         {/* El sistema pertenece al par ligando-receptor, no sólo al receptor.
             En escritorio ocupa ambas columnas; en móvil cae debajo de los dos
             selectores sin introducir desplazamiento horizontal. */}
-        {structuralSystem && (
-          <div className="min-w-0 rounded-2xl border border-purple-500/20 bg-purple-500/[0.04] px-4 py-3 lg:col-span-2">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple-200">
-                {structuralSystemProvisional
-                  ? t("ev_sistema_provisional")
-                  : t("ev_sistema_fijado")}
-              </p>
-              <span className="font-mono text-xs font-medium text-zinc-300">
-                {t("auto_a8e7405da2c4")} {structuralSystem.sourceRunTaskId.slice(0, 8)}…
-              </span>
-            </div>
-            <p className="mt-1.5 text-sm font-semibold leading-6 text-zinc-100">
-              {structuralSystem.receptor.pdbId}
-              {cadenasDelSistema
-                ? ` · cadenas ${cadenasDelSistema}`
-                : structuralSystem.receptor.chain ? ` · cadena ${structuralSystem.receptor.chain}` : ""}
-              {" "}{t("auto_a4b23b13a357")}{" "}
-              {structuralSystem.grid.size.map((value) => value.toFixed(1)).join(" × ")} Å
-              {" · "}{structuralSystem.dockingEngine}
-            </p>
-            <p className="mt-1 text-sm font-medium leading-6 text-zinc-300">
-              {structuralSystemProvisional
-                ? t("ev_sistema_provisional_detalle")
-                : t("ev_sistema_fijado_detalle")}
-            </p>
-          </div>
-        )}
+        {!reviewingResult && systemPanel}
 
       </div>
 
+      <details ref={configurationRef} className={`${resultStyles.configuration} ${configurationStyles.disclosure}`} open={!reviewingResult || configurationOpen}
+        onToggle={event => { if (reviewingResult) setConfigurationOpen(event.currentTarget.open); }} data-evaluation-configuration="true">
+        <summary className={configurationStyles.toggle} data-configuration-toggle data-has-system={reviewingResult && Boolean(structuralSystem)}
+          aria-labelledby={configurationLabelId}
+          aria-describedby={reviewingResult ? `${configurationLabelId}-protocol${structuralSystem ? ` ${configurationLabelId}-system` : ""}` : undefined}>
+          <span className={configurationStyles.toggleTitle}><span id={configurationLabelId} className={resultStyles.configurationLabel}>{t(reviewingResult ? "ux_configuration" : "ux_prepare_next")}</span>
+          {reviewingResult && <span id={`${configurationLabelId}-protocol`} className={resultStyles.configurationFacts}>{recordedProtocolFacts || t("pn_no_registrado_corrida")}</span>}</span>
+          {reviewingResult && structuralSystem && <ConfigurationSystem system={structuralSystem} provisional={structuralSystemProvisional} chains={cadenasDelSistema ?? null} compact id={`${configurationLabelId}-system`} />}
+          <ChevronDown className={configurationStyles.toggleChevron} size={18} aria-hidden="true"/>
+        </summary>
+        <ConfigurationPresentation>
+          {reviewingResult && <p className={configurationStyles.intro}>{t("ux_prepare_note")}</p>}
       {/* Preparación de la corrida.
           Aquí vivía `EvaluationReadinessPanel`, que respondía a esta misma
           pregunta CONJETURANDO desde el navegador: «SMILES presente; se
           validará al ejecutar». Dos respuestas distintas a la misma pregunta,
           y la que ocupaba el sitio era la que no había mirado los archivos.
           Ahora el hueco lo llena la comprobación previa real. */}
-      {preparationSlot}
+      <div className={configurationStyles.columns} data-has-preflight={Boolean(preparationSlot)} data-has-estimate={Boolean(canRunEvaluation)}>
+        <div>{preparationSlot}</div>
 
       {/* Cuánto va a tardar, JUSTO antes del botón. Aquí es donde se hace la
           pregunta —no al configurar—, y por eso el estimador que ya existía no
           lo leía nadie: vivía en un panel de opciones que ningún componente
           importaba. Se oculta solo si no hay receptor y ligando: estimar sin
           saber qué se va a correr sería inventar. */}
-      <EstimacionDeCorrida
+      {Boolean(canRunEvaluation) && <aside className={configurationStyles.durationColumn}><EstimacionDeCorrida
         visible={Boolean(canRunEvaluation)}
         exhaustiveness={gridBox.exhaustiveness}
-        conformers={conformerosConfigurados}
+        // CAS-04: el K VIGENTE del caso —el que el modal de parámetros
+        // acaba de aplicar y el preflight va a firmar—, no el congelado en
+        // el sistema de la primera corrida.
+        conformers={activeConformers}
         targetPdbId={structuralSystem?.receptor.pdbId ?? target}
         gridSize={[gridBox.sizeX, gridBox.sizeY, gridBox.sizeZ]}
-        antiTargets={advancedOpts.enableSelectivity ? advancedOpts.selectedAntiTargets.length : 0}
+        antiTargets={advancedOpts.enableSelectivity ? effectiveAntiTargets.length : 0}
         mmgbsa={false}
-      />
+      /></aside>}
+      </div>
+
+      {advancedOpts.enableSelectivity && <AntiDianasAviso targets={anti.targets} selected={advancedOpts.selectedAntiTargets} />}
+      {advancedOpts.enableSelectivity && (anti.targets === null || anti.error) && <p role="status">{t(anti.error ? "pn_anti_error" : "pn_anti_cargando")}</p>}
+
+        </ConfigurationPresentation>
+      </details>
 
       {/* ── Botonera de Control ── */}
-      <div className="w-full max-w-[1600px] flex flex-wrap items-center justify-between gap-4 p-4 border border-zinc-800/80 rounded-2xl bg-zinc-950/80 backdrop-blur-xl">
+      <div className="w-full max-w-[1600px] flex flex-wrap items-center justify-between gap-4 p-4 border border-zinc-800/80 rounded-2xl bg-[var(--bg-card)] backdrop-blur-xl">
         <div className="flex items-center gap-3">
           <button 
             onClick={() => setShowResults((v) => !v)}
-            className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer ${
+            className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2 font-sans text-sm font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer ${
               showResults 
-                ? "bg-purple-950/40 border border-purple-500/40 text-purple-300 shadow-sm" 
+                ? "bg-[var(--bg-secondary)] border border-purple-500/40 text-[var(--accent-strong)] shadow-sm" 
                 : "bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white"
             }`}
           >
             <Activity size={15} className="text-purple-400" />
-            {showResults ? "Ocultar Resultados" : "Ver Resultados"}
+            {showResults ? t("ev_ocultar_resultados") : t("ev_ver_resultados")}
           </button>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 flex-wrap items-center gap-3">
           <button 
             onClick={() => setShowOptionsModal(true)}
             title={
@@ -948,10 +1150,10 @@ export default function ProEvaluation({
                 ? t("ev_opciones_fijadas")
                 : undefined
             }
-            className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer"
+            className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-sans text-sm font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer"
           >
             <Settings size={14} />
-            {t("ev_opciones")}
+            {t("ev_parametros_corrida")}
           </button>
 
           {/* El libro de corridas del caso. Antes no había ninguna puerta: la
@@ -968,12 +1170,12 @@ export default function ProEvaluation({
                   ? t("ev_sin_evaluaciones_aun")
                   : t("ev_ver_evaluaciones_anteriores")
               }
-              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
+              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2.5 font-sans text-sm font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:border-purple-500/30 hover:bg-zinc-800 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer disabled:cursor-not-allowed disabled:opacity-45"
             >
               <History size={14} />
               {t("ev_evaluaciones_anteriores")}
               {runCount > 0 && (
-                <span className="rounded-md bg-zinc-800 px-1.5 py-0.5 text-[10px] text-zinc-300">
+                <span className="rounded-md bg-zinc-800 px-1.5 py-0.5 text-sm text-zinc-300">
                   {runCount}
                 </span>
               )}
@@ -982,6 +1184,12 @@ export default function ProEvaluation({
 
           <button 
             onClick={() => {
+              if (reviewingResult && !configurationOpen) {
+                setConfigurationOpen(true);
+                configurationRef.current?.scrollIntoView({block:"nearest"});
+                return;
+              }
+              if (antiNeedsReview) return;
               // Configuración real del pipeline desde el modal de Opciones:
               // grid_center/grid_size del GridBox, engine del docking y
               // avanzadas (selectividad, MMGBSA, workers) del panel Pro.
@@ -1012,7 +1220,7 @@ export default function ProEvaluation({
                   pro_workers: advancedOpts.numWorkers,
                   pro_parallel_docks: advancedOpts.parallelDocks,
                   pro_selectivity: advancedOpts.enableSelectivity,
-                  pro_anti_targets: advancedOpts.selectedAntiTargets,
+                  pro_anti_targets: effectiveAntiTargets,
                   pro_mmgbsa: false,
                   pro_mmgbsa_steps: advancedOpts.mmgbsaSteps,
                   gnn_precision: dockingEngine.gnnPrecision,
@@ -1020,23 +1228,23 @@ export default function ProEvaluation({
                 }
               );
             }}
-            disabled={busy || isRunning || !canRunEvaluation || Boolean(runBlockedReason)}
+            disabled={busy || isRunning || !canRunEvaluation || Boolean(runBlockedReason) || antiNeedsReview}
             title={
               runBlockedReason ??
               (!canRunEvaluation ? t("ev_falta_smiles_o_receptor") : undefined)
             }
             aria-describedby={runBlockedReason ? "run-blocked-reason" : undefined}
-            className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-purple-400/30 bg-purple-600 px-6 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-purple-950/50 transition-colors hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
+            className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-purple-400/30 bg-purple-600 px-6 py-2.5 font-sans text-sm font-bold uppercase tracking-wider text-[#fff] shadow-lg shadow-purple-950/50 transition-colors hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-300 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40"
           >
             {busy || isRunning ? (
               <>
                 <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/40 border-t-white inline-block" />
-                Evaluando...
+            {t("ev_evaluando")}
               </>
             ) : (
               <>
                 <Play size={14} />
-                {t("ev_ejecutar")}
+                {t(reviewingResult && !configurationOpen ? "ux_prepare_next" : "ev_ejecutar")}
               </>
             )}
           </button>
@@ -1047,7 +1255,7 @@ export default function ProEvaluation({
               onClick={() => {
                 void handleCancel?.();
               }}
-              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-rose-400/30 bg-rose-600/80 px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-300 cursor-pointer"
+              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl border border-rose-400/30 bg-rose-600/80 px-5 py-2.5 font-sans text-sm font-bold uppercase tracking-wider text-[#fff] transition-colors hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-300 cursor-pointer"
               title={t("ev_cancelar_corrida")}
             >
               <X size={14} />
@@ -1063,7 +1271,7 @@ export default function ProEvaluation({
         <p
           id="run-blocked-reason"
           role="status"
-          className="w-full max-w-[1600px] rounded-2xl border border-zinc-800 bg-zinc-950/80 px-4 py-3 text-xs leading-relaxed text-zinc-400"
+          className="w-full max-w-[1600px] rounded-2xl border border-zinc-800 bg-zinc-950/80 px-4 py-3 text-base leading-6 text-zinc-400 font-sans"
         >
           {runBlockedReason}
         </p>
@@ -1071,16 +1279,16 @@ export default function ProEvaluation({
 
       {/* ── Banner de error (submit sin target, backend failure, etc.) ── */}
       {(error || (failed && status?.error)) && (
-        <div role="alert" aria-live="assertive" className="w-full max-w-[1600px] rounded-2xl border border-rose-500/30 bg-rose-950/30 px-4 py-3 text-xs font-mono text-rose-300 flex items-center gap-2">
+        <div role="alert" aria-live="assertive" className="w-full max-w-[1600px] rounded-2xl border border-rose-500/30 bg-rose-950/30 px-4 py-3 text-sm font-mono text-rose-300 flex items-center gap-2">
           <AlertTriangle size={14} className="shrink-0 text-rose-400" />
           <span className="leading-relaxed">{error ?? status?.error}</span>
         </div>
       )}
 
-      {/* ─── Pantalla de Carga: ThinkingOrb + Pipeline Timeline LIVE (SSE) ─── */}
+      {/* ─── Pantalla de Carga: orbe de la evaluación + Pipeline Timeline LIVE (SSE) ─── */}
       {showProcessing && (
         <div className="w-full max-w-[1600px] flex flex-col items-center justify-center gap-4 animate-in fade-in duration-300">
-          <ThinkingOrb state="processing" size="lg" label={t("ev_procesando")} />
+          <OrbeDeEvaluacion label={t("ev_procesando")} />
           <PipelineTimeline
             stages={timelineStages}
             stageStates={stageStates}
@@ -1094,19 +1302,21 @@ export default function ProEvaluation({
 
       {/* ─── FALLO: pantalla de error en vez de resultados ─── */}
       {showResults && failed && !showProcessing && (
-        <div className="w-full max-w-[1600px] rounded-2xl border border-rose-500/25 bg-rose-950/20 p-10 flex flex-col items-center gap-3 text-center animate-in fade-in duration-300">
-          <AlertTriangle size={40} className="text-rose-400/70" />
-          <p className="text-sm font-black uppercase tracking-widest text-rose-300 font-mono">
-            {t("ev_fallo")}
+        <div className={`w-full max-w-[1600px] rounded-2xl border p-10 flex flex-col items-center gap-3 text-center animate-in fade-in duration-300 ${
+          cancelled ? "border-zinc-700 bg-zinc-900/40" : "border-rose-500/25 bg-rose-950/20"
+        }`}>
+          <AlertTriangle size={40} className={cancelled ? "text-zinc-400/70" : "text-rose-400"} />
+          <p className={`text-sm font-black uppercase tracking-widest font-sans ${cancelled ? "text-zinc-300" : "text-rose-300"}`}>
+            {cancelled ? t("ev_cancelada") : t("ev_fallo")}
           </p>
-          <p className="text-xs font-mono text-white/40 max-w-lg leading-relaxed">
+          <p className="text-base font-sans text-zinc-300 max-w-lg leading-6">
             {status?.error ?? error ?? t("ev_error_pipeline")}
           </p>
           <button
             onClick={() => handleReset?.()}
-            className="mt-2 min-h-11 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 cursor-pointer"
+            className="mt-2 min-h-11 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2 font-sans text-sm font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 cursor-pointer"
           >
-            Reiniciar
+            {t("ev_reiniciar")}
           </button>
         </div>
       )}
@@ -1123,21 +1333,21 @@ export default function ProEvaluation({
           {resultRecovery.state === "recovering" ? (
             <span className="h-8 w-8 animate-spin rounded-full border-2 border-brand-400/30 border-t-brand-400" aria-hidden="true" />
           ) : (
-            <AlertTriangle size={40} className="text-amber-400/70" aria-hidden="true" />
+            <AlertTriangle size={40} className="text-amber-400" aria-hidden="true" />
           )}
-          <p className={`text-sm font-black uppercase tracking-widest font-mono ${resultRecovery.state === "blocked" ? "text-amber-300" : "text-brand-400"}`}>
+          <p className={`text-sm font-black uppercase tracking-widest font-sans ${resultRecovery.state === "blocked" ? "text-amber-800 dark:text-amber-300" : "text-brand-400"}`}>
             {resultRecovery.state === "recovering"
-              ? "Recuperando resultados guardados"
+              ? t("ev_recuperando_resultados")
               : t("ev_no_se_abrio_resultado")}
           </p>
-          <p className="text-xs font-mono text-white/45 max-w-xl leading-relaxed">
+          <p className="text-base font-sans text-zinc-300 max-w-xl leading-6">
             {resultRecovery.message ?? t("ev_consultando_evidencia")}
           </p>
           {resultRecovery.state === "blocked" && onRetryResultRecovery && (
             <button
               type="button"
               onClick={onRetryResultRecovery}
-              className="mt-2 min-h-11 whitespace-nowrap rounded-xl border border-amber-500/35 bg-amber-500/10 px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-amber-200 transition-colors hover:bg-amber-500/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
+              className="mt-2 min-h-11 whitespace-nowrap rounded-xl border border-amber-500/35 bg-amber-500/10 px-5 py-2 font-sans text-sm font-bold uppercase tracking-wider text-amber-800 dark:text-amber-200 transition-colors hover:bg-amber-500/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-400"
             >
               {resultRecovery.requiresLogin ? t("c_iniciar_sesion") : t("ev_reintentar_recuperacion")}
             </button>
@@ -1148,18 +1358,18 @@ export default function ProEvaluation({
       {/* ─── FIX v1.7.5: SUCCESS sin resultado (pérdida silenciosa) ─── */}
       {showResults && silentResultLoss && !showProcessing && !failed && (
         <div className="w-full max-w-[1600px] rounded-2xl border border-amber-500/25 bg-amber-950/20 p-10 flex flex-col items-center gap-3 text-center animate-in fade-in duration-300">
-          <AlertTriangle size={40} className="text-amber-400/70" />
-          <p className="text-sm font-black uppercase tracking-widest text-amber-300 font-mono">
+          <AlertTriangle size={40} className="text-amber-400" />
+          <p className="text-sm font-black uppercase tracking-widest text-amber-800 dark:text-amber-300 font-sans">
             {t("ev_sin_resultados_titulo")}
           </p>
-          <p className="text-xs font-mono text-white/40 max-w-lg leading-relaxed">
+          <p className="text-base font-sans text-zinc-300 max-w-lg leading-6">
             {t("ev_sin_resultados_detalle")}
           </p>
           <button
             onClick={() => handleReset?.()}
-            className="mt-2 min-h-11 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2 font-mono text-xs font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 cursor-pointer"
+            className="mt-2 min-h-11 whitespace-nowrap rounded-xl border border-zinc-700 bg-zinc-900 px-5 py-2 font-sans text-sm font-bold uppercase tracking-wider text-zinc-300 transition-colors hover:bg-zinc-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 cursor-pointer"
           >
-            Reiniciar
+            {t("ev_reiniciar")}
           </button>
         </div>
       )}
@@ -1167,11 +1377,11 @@ export default function ProEvaluation({
       {/* ───── SIN RESULTADOS TODAVÍA: estado honesto, sin mock ───── */}
       {showResults && !showProcessing && !failed && realResult === null && !silentResultLoss && !resultRecovery && (
         <div className="w-full max-w-[1600px] rounded-2xl border border-white/5 bg-white/[0.02] p-10 flex flex-col items-center gap-3 text-center animate-in fade-in duration-300">
-          <Activity size={32} className="text-white/15" />
-          <p className="text-sm font-black uppercase tracking-widest text-white/30 font-mono">
+          <Activity size={32} className="text-zinc-400" />
+          <p className="text-sm font-black uppercase tracking-widest text-zinc-400 font-sans">
             {t("ev_sin_resultados_aun")}
           </p>
-          <p className="text-xs font-mono text-white/25 max-w-md leading-relaxed">
+          <p className="text-base font-sans text-zinc-300 max-w-md leading-6">
             {t("ev_elige_para_empezar")}
           </p>
         </div>
@@ -1179,11 +1389,12 @@ export default function ProEvaluation({
 
       {/* ───── RESULTADOS: HERO → DOT → COLUMNS → VERIFY ───── */}
       {showResults && !showProcessing && !failed && realResult !== null && (
-        <div className="w-full max-w-[1600px] space-y-6 animate-in fade-in duration-300">
+        <ResultReadingPresentation><div className="w-full max-w-[1600px] space-y-6 animate-in fade-in duration-300">
 
           {/* ─── RESUMEN DE EVIDENCIA ─── */}
           <div ref={heroRef}>
             <EvaluationEvidencePanel
+              compact
               result={realResult}
               target={selectedTargetObj}
               onOpenPhysicalControls={() => setPhysicalFocusRequest((value) => value + 1)}
@@ -1196,19 +1407,27 @@ export default function ProEvaluation({
                 sprint es no añadir pestañas principales, y esta lectura
                 pertenece al mismo resultado que se está mirando. */}
             <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="min-w-0 break-words font-mono text-xs text-white/30">
+              <p className="min-w-0 break-words font-sans text-base text-zinc-300 leading-6">
                 {displayResult.target_name ?? "—"} ({selectedTargetObj?.pdb_id ?? "—"}{t("auto_c2afbe19da8c")} {realResult.molecule_id?.slice(0, 8) ?? t("auto_14009a618e8d")} {t("auto_655a8de817b6")}
+                {/* B-2: una corrida reabierta de 1.0.1 no se lee en la escala de hoy. */}
+                {realResult.protocolo?.vigente === false && (
+                  <span className="mt-1 block font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300" title={t("pg_protocolo_anterior_d")}>
+                    {t("pg_protocolo_anterior")} · {t("pg_protocolo_anterior_d")}
+                  </span>
+                )}
               </p>
-              <div className="flex flex-wrap gap-3">
-              <button onClick={() => setShowResults(false)} className="min-h-11 whitespace-nowrap rounded-lg border border-white/10 bg-white/5 px-5 font-mono text-xs font-bold uppercase tracking-wider text-white/40 transition-colors hover:text-white/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
-                Ocultar
-              </button>
-              </div>
+
             </div>
           </div>
 
             {/* ─── DOT: Pipeline Timeline (family-gated, dinámico) ─── */}
-            {(() => {
+
+          {/* ─── ANÁLISIS: evidencia estructural · propiedades · post-docking ─── */}
+          <section className="mt-6">
+            {!realResult.task_id && <p role="status" className="mb-4 text-sm leading-6 text-amber-300">{t("rx_sin_identidad_corrida")}</p>}
+            <ProAnalysisTabs
+
+              signalsSlot={(() => {
               // FIX UI-8 (2026-08-04): familia desconocida/no curada debe caer
               // al pipeline "default" (stacking neutro explícito, marcado como
               // no curado), NO a gpcr. Antes `?? PIPELINES_BY_FAMILY.gpcr`
@@ -1221,18 +1440,19 @@ export default function ProEvaluation({
                   : "default";
               const pipeline =
                 PIPELINES_BY_FAMILY[famKey] ?? PIPELINES_BY_FAMILY.default;
-              const famLabel = FAMILY_LABELS[famKey] ?? famKey;
+              const famLabel = localizePipelineText(FAMILY_LABELS[famKey] ?? famKey, t);
 
-              // Overrides con datos REALES del backend (WS2 serializa los 8 ML
-              // fields). Cuando un campo es null (registros legacy) → fallback
-              // a las constantes de PIPELINES_BY_FAMILY (story family-gated).
+              // La definición de familia ordena las etapas. Los valores y
+              // pesos que se presentan como registrados pertenecen a la corrida.
               const realDot: Record<string, { value?: string; weight?: number; sub?: string }> = {};
-              const pesosEfectivos = realResult?.stacking_effective_weights;
+              const registroDePesos = pesosRegistrados(realResult);
+              const perfilM5Calculado = protocoloRegistrado(realResult) === "M5-Zn";
               if (realResult) {
                 const vinaAff = realResult.docking_poses?.[0]?.affinity;
                 if (vinaAff != null) realDot.vina = { value: `${vinaAff.toFixed(1)} kcal/mol` };
                 if (realResult.xgb_score != null) realDot.xgb = { value: `salida ${realResult.xgb_score.toFixed(2)}` };
                 if (realResult.clgnn_score != null) realDot.clgnn = { value: realResult.clgnn_score.toFixed(2) };
+                if (realResult.gnn_score != null) realDot.gnn = { value: realResult.gnn_score.toFixed(2) };
                 if (realResult.quantum_score != null) realDot.quantum = { value: realResult.quantum_score.toFixed(2) };
                 // La señal AUTORIZADA de los tres perfiles M5-Zn es
                 // `ums_warhead` (SMARTS puro). `ums_score` es el UMS histórico
@@ -1249,33 +1469,14 @@ export default function ProEvaluation({
                 if (mmgbsaResult?.delta_g_total_kcal != null) {
                   realDot.mmgbsa = {
                     value: `${mmgbsaResult.delta_g_total_kcal.toFixed(1)} kcal/mol`,
-                    sub: mmgbsaResult.platform ?? "OpenMM",
+                    sub: mmgbsaResult.platform ?? t("ev_mmgbsa_motor_predeterminado"),
                   };
                 }
-                if (realResult.stacking_vina_weight != null) realDot.vina = { ...realDot.vina, weight: pesosEfectivos?.vina ?? realResult.stacking_vina_weight };
-                if (realResult.stacking_xgb_weight != null) realDot.xgb = { ...realDot.xgb, weight: pesosEfectivos?.xgb ?? realResult.stacking_xgb_weight };
-                // El peso de CL-GNN es `stacking_clgnn_weight`. Aqui se leia
-                // `stacking_gnn_weight`, que es el de la GNN LEGACY (RTMScore):
-                // para GPCR el artefacto da gnn 0.40 y clgnn 0.00, asi que el
-                // DOT pintaba «CL-GNN 0.40» sobre un modelo con peso cero.
-                //
-                // `null` en corridas anteriores a SCHEMA 17 significa «no se
-                // registro por separado», no «cero»: en ese caso NO se pinta
-                // peso y el DOT cae a la constante de la familia.
-                if (realResult.stacking_clgnn_weight != null) realDot.clgnn = { ...realDot.clgnn, weight: pesosEfectivos?.clgnn ?? realResult.stacking_clgnn_weight };
-                if (realResult.stacking_gnn_weight != null) realDot.gnn = { ...realDot.gnn, weight: pesosEfectivos?.gnn ?? realResult.stacking_gnn_weight };
-              }
-
-              // FIX (2026-08-04): el DOT NO debe mostrar el valor hardcodeado de
-              // MM-GBSA de pipelineDefinitions.ts ("-7.1 kcal/mol") como si fuera
-              // el resultado real de esta molécula. Si no hay mmgbsa_score
-              // (pipeline) ni resultado del modal on-demand, mostrar "no
-              // calculado" — honesto, no un valor inventado.
-              if (realResult && !realDot.mmgbsa) {
-                realDot.mmgbsa = {
-                  value: "no disponible",
-                  sub: "motor legacy invalidado",
-                };
+                if (!perfilM5Calculado) {
+                  for (const [id, weight] of Object.entries(registroDePesos.values)) {
+                    realDot[id] = { ...realDot[id], weight };
+                  }
+                }
               }
 
               // DOC 71, defectos A3 y A7: la regla vive en
@@ -1284,63 +1485,59 @@ export default function ProEvaluation({
               const effectiveStages = pipeline.stages.map((s) => ({
                 ...s,
                 ...describirEtapa(s, realDot[s.id]),
+                weight: perfilM5Calculado ? 0 : registroDePesos.values[s.id] ?? s.weight,
               }));
               const activeStages = effectiveStages.filter((s) => {
+                // MM-GBSA no forma parte de las corridas actuales. No ocupamos
+                // espacio con su estado de ausencia: sólo aparecerá si existe
+                // un resultado real generado después de la evaluación.
+                if (s.id === "mmgbsa" && realDot.mmgbsa?.value == null) return false;
                 // quantum solo se muestra si el backend lo calculó (no en legacy)
                 if (realResult && s.id === "quantum" && realResult.quantum_score == null) return false;
                 // ums solo se muestra si el backend lo calculó (metaloenzimas; evita
                 // mostrar 0.5 neutral de targets no-metal / registros legacy)
                 if (realResult && s.id === "ums" && !tieneSalidaUms(realResult)) return false;
-                return s.weight > 0 || s.post_hoc;
+                return perfilM5Calculado ? s.aporto || s.post_hoc : s.weight > 0 || s.post_hoc;
               });
-              // Etapas que la familia pesa por diseño y que esta corrida no
-              // produjo. Ver `lib/procedenciaDeSenales.ts`.
-              const ausentes = realResult ? etapasAusentes(effectiveStages) : [];
+              // Sólo los pesos persistidos permiten afirmar que faltó una
+              // señal ponderada. El diseño de familia no completa el registro.
+              const ausentes = perfilM5Calculado ? [] : etapasAusentes(effectiveStages.filter((stage) =>
+                registroDePesos.values[stage.id] != null,
+              ));
               return (
                 <>
-                {/* El protocolo M5-Zn, con el estado que la corrida PERSISTIÓ.
-                    No se recalcula ni se «mejora»: si llega un REVIEW_*, se
-                    pinta ese valor aunque haya un score al lado. Sólo un
-                    estado VALIDATED presenta el número como conclusión.
-                    Ver services/pipeline/protocols/interpretabilidad.py. */}
-                {realResult?.m5_scientific_status && (
-                  <div className="mb-5 border-b border-white/5 pb-5">
-                    <ProtocoloM5Zn resultado={realResult} />
-                  </div>
-                )}
+                <div className="mb-5">
+                  <PipelineDeLaCorrida resultado={realResult} />
+                </div>
 
                 <section ref={dotRef} className="border-b border-white/5 pb-5">
-                  <div className="flex items-baseline justify-between mb-4">
-                    <p className="text-sm font-bold uppercase tracking-[0.15em] text-white/30 font-sans">
-                      {t("auto_7f97a774bf43")}{" "}
-                      <span className="text-purple-300/80">
-                        {pipeline.label}
-                      </span>
-                    </p>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-white/20 border border-white/10 rounded px-2 py-0.5">
+                  <div className="mb-3 flex flex-wrap items-baseline justify-between gap-3">
+                    <h3 className="text-sm font-bold text-zinc-200">{t("pr_signals_recorded_title")}</h3>
+                    <span className="text-sm text-zinc-300 border border-white/10 rounded px-2 py-1">
                       {t("auto_e198b2927fa4")} {famLabel}
                     </span>
                   </div>
+                  {!perfilM5Calculado && <p className="mb-4 break-words text-base leading-6 text-zinc-300 font-sans">
+                    {registroDePesos.source === "missing" ? t("pr_signals_weights_missing")
+                      : t(registroDePesos.source === "effective" ? "pr_signals_effective_weights" : "pr_signals_individual_weights", {
+                        weights: Object.entries(registroDePesos.values).map(([id, weight]) =>
+                          `${localizePipelineText(pipeline.stages.find((stage) => stage.id === id)?.label ?? id, t)} ${weight.toFixed(4)}`,
+                        ).join(" · "),
+                      })}
+                  </p>}
 
-                  {/* El título de arriba describe el DISEÑO de la familia y se
-                      pinta siempre. Si alguna de las señales que ese diseño
-                      pondera no llegó a opinar, la corrida NO es la que el
-                      título anuncia, y eso se dice aquí en vez de dejar que el
-                      lector lo deduzca cruzando el encabezado con las
-                      tarjetas. */}
                   {ausentes.length > 0 && (
                     <div
                       role="status"
                       className="mb-4 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] px-3 py-2.5"
                     >
-                      <p className="font-mono text-[10px] font-bold uppercase tracking-wider text-amber-300">
+                      <p className="font-sans text-sm font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300">
                         {t("ev_pipeline_degradado")}
                       </p>
-                      <p className="mt-1.5 max-w-[78ch] text-[11px] leading-relaxed text-amber-100/80">
-                        {ausentes.map((etapa) => etapa.label).join(", ")}{" "}
-                        {ausentes.length === 1 ? t("ev_no_produjo_salida") : t("ev_no_produjeron_salida")} {t("auto_1efcd5b46d53")}{pipeline.label}» {ausentes.length === 1 ? "le" : "les"}{" "}
-                        {t("auto_d0b584a74983")}
-                        {" "}({ausentes.map((etapa) => `${etapa.label} w=${etapa.pesoDeDiseno.toFixed(2)}`).join(" · ")}{t("auto_d45dcd15ff99")}
+                      <p className="mt-1.5 max-w-[78ch] text-base leading-6 text-amber-800 dark:text-amber-100 font-sans">
+                        {t("pr_signals_missing_weighted", {
+                          signals: ausentes.map((etapa) => `${localizePipelineText(etapa.label, t)} w=${etapa.pesoDeDiseno.toFixed(4)}`).join(" · "),
+                        })}
                       </p>
                     </div>
                   )}
@@ -1366,12 +1563,12 @@ export default function ProEvaluation({
                           />
                           <span
                             ref={mmgbsaClickable ? mmgbsaLabelRef : undefined}
-                            className="text-xs font-bold uppercase tracking-wider font-sans whitespace-nowrap"
+                            className="text-sm font-bold uppercase tracking-wider font-sans whitespace-nowrap"
                             style={{
                               color: mmgbsaClickable ? "#c4b5fd" : mmgbsaRunning ? "#6ee7b7" : mmgbsaDone ? "#34d399" : dimmed ? "#ffffff20" : "#ffffffb3",
                             }}
                           >
-                            {mmgbsaRunning ? t("auto_bbaf37d0b894") : node.label}
+                            {mmgbsaRunning ? t("auto_bbaf37d0b894") : localizePipelineText(node.label, t)}
                           </span>
                           <span
                             className="text-sm font-bold font-mono"
@@ -1380,41 +1577,41 @@ export default function ProEvaluation({
                               opacity: mmgbsaRunning ? 0.7 : 1,
                             }}
                           >
-                            {mmgbsaRunning ? "···" : node.value}
+                            {mmgbsaRunning ? "···" : localizePipelineText(node.value, t)}
                           </span>
-                          <span className="text-[11px] font-mono text-white/25 whitespace-nowrap">
-                            {node.sub}
+                          <span className="text-sm font-mono text-zinc-400 whitespace-nowrap">
+                            {localizePipelineText(node.sub, t)}
                           </span>
                           {mmgbsaDone && (
-                            <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400/90 border border-emerald-500/20 rounded px-1 py-0.5">
+                            <span className="text-sm font-sans uppercase tracking-wider text-emerald-400 border border-emerald-500/20 rounded px-1 py-0.5">
                               {t("auto_1699d016aa59")}
                             </span>
                           )}
                           {node.post_hoc && (
-                            <span className="text-[10px] font-mono uppercase tracking-wider text-white/20 border border-white/10 rounded px-1 py-0.5">
-                              post-hoc
+                            <span className="text-sm font-sans uppercase tracking-wider text-zinc-400 border border-white/10 rounded px-1 py-0.5">
+                              {t("ev_post_hoc_badge")}
                             </span>
                           )}
                           {!node.post_hoc && node.weight > 0 && node.reportedWeight != null && (
-                            <span className="text-[10px] font-mono text-purple-400/70">
+                            <span className="text-sm font-mono text-purple-400">
                               w={node.reportedWeight.toFixed(2)}
                             </span>
                           )}
                           {!node.post_hoc && node.weight > 0 && node.reportedWeight == null && (
-                            <span className="text-[10px] font-mono uppercase tracking-wider text-white/20">
+                            <span className="text-sm font-sans uppercase tracking-wider text-zinc-400">
                               {t("ev_peso_no_reportado")}
                             </span>
                           )}
-                          {node.weight === 0 &&
+                          {!perfilM5Calculado && node.weight === 0 &&
                             !node.post_hoc &&
                             !node.degraded && (
-                              <span className="text-[10px] font-mono uppercase tracking-wider text-white/15 border border-white/5 rounded px-1 py-0.5">
-                                off
+                              <span className="text-sm font-sans uppercase tracking-wider text-zinc-400 border border-white/5 rounded px-1 py-0.5">
+                                {t("ev_fuera_de_uso")}
                               </span>
                             )}
-                          {node.note && (
-                            <span className="text-[10px] font-mono text-white/15 max-w-[120px] text-center leading-tight mt-0.5">
-                              {node.note}
+                          {!perfilM5Calculado && node.note && (
+                            <span className="text-sm font-mono text-zinc-400 max-w-[120px] text-center leading-tight mt-0.5">
+                              {localizePipelineText(node.note, t)}
                             </span>
                           )}
                         </>
@@ -1481,23 +1678,14 @@ export default function ProEvaluation({
                       );
                     })}
                   </div>
-                  {/* «Diseño de la familia:» no es un adorno. Sin ese prefijo,
-                      una frase como «CL-GNN domina» se lee como la crónica de
-                      esta corrida, y en 2BQV CL-GNN no llegó a correr. */}
-                  <p className="text-[11px] font-mono text-white/20 mt-3 italic">
-                    {t("auto_408d39d8cace")} {pipeline.note}
-                  </p>
-                  <p className="text-[10px] font-mono text-white/15 mt-1 text-right">
+                  {!perfilM5Calculado && <p className="text-base text-zinc-400 mt-2 font-sans leading-6">
                     {t("ev_pesos_no_calibrados")}
-                  </p>
+                  </p>}
                 </section>
                 </>
               );
             })()}
-
-          {/* ─── ANÁLISIS: evidencia estructural · propiedades · post-docking ─── */}
-          <section className="mt-6">
-            <ProAnalysisTabs 
+              provenanceSlot={<EvaluationEvidencePanel result={realResult} target={selectedTargetObj} provenanceOnly onOpenPhysicalControls={() => setPhysicalFocusRequest(value => value + 1)} />}
               status={status?.result ? status : null}
               selectivityResult={
                 realResult?.selectivity_ran === true
@@ -1508,11 +1696,14 @@ export default function ProEvaluation({
                     }
                   : null
               }
-              moleculeId={realResult?.molecule_id ?? null}
+              moleculeId={realResult?.task_id ? realResult.molecule_id : null}
+              taskId={realResult?.task_id ?? null}
+              caseRuns={caseRuns}
               structuralEvidenceResult={realResult}
               physicalFocusRequest={physicalFocusRequest}
-              onComparePoses={(leftRank, rightRank) => setPoseComparison({ leftRank, rightRank })}
+              onComparePoses={realResult?.task_id ? (leftRank, rightRank) => setPoseComparison({ leftRank, rightRank }) : undefined}
               enableSelectivity={advancedOpts.enableSelectivity}
+              onSelectivityWorkChange={setSelectivityWorking}
               onRequestMmgbsa={() => {
                 // MM-GBSA retirado hasta validar un motor de reemplazo.
               }}
@@ -1525,68 +1716,38 @@ export default function ProEvaluation({
             />
           </section>
 
+          <EvaluationActionBar
+            onDownloadReport={handleDownloadCertificate}
+            onViewReport={() => setShowPdfPreview(true)}
+            onDownloadComplex={handleDownloadComplex}
+            onSave={handleSave ? () => handleSave() : undefined}
+            isSaved={isSaved}
+            integrityAction={{
+              onClick: () => setShowCertificationModal(true),
+              disabled: !realResult || lecturaDelSello !== "sin-sello",
+              state: lecturaDelSello,
+              label: lecturaDelSello === "vigente" ? t("stats_certified")
+                : lecturaDelSello === "corrida-anterior" ? t("mx_sello_desfasado")
+                  : lecturaDelSello === "indeterminado" ? t("pg_mx_sello_sin_corrida")
+                    : t("ev_registrar_integridad_solana"),
+              title: lecturaDelSello === "corrida-anterior" ? t("ev_sello_otra_corrida")
+                : lecturaDelSello === "indeterminado" ? t("pg_mx_recibo_sin_procedencia")
+                  : t("ev_certificar_aviso"),
+            }}
+          />
+
           {/* ─── VERIFY: Acciones ─── */}
-          <section ref={verifyRef} className="flex flex-wrap items-center gap-4 pt-5 border-t border-white/5">
-            {blockchainTxId && (
+          {blockchainTxId && <section ref={verifyRef} className="flex flex-wrap items-center gap-4 pt-5 border-t border-white/5">
               <ExternalLink
                 href={`https://explorer.solana.com/tx/${blockchainTxId}?cluster=devnet`}
-                className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border border-white/10 bg-white/[0.02] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white/50 transition-colors hover:border-purple-500/30 hover:text-purple-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
+                className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border border-white/10 bg-white/[0.02] px-5 py-2.5 font-sans text-sm font-bold uppercase tracking-wider text-zinc-400 transition-colors hover:border-purple-500/30 hover:text-purple-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
               >
                 <IconoEnlaceExterno size={14} />
-                Ver en Solana Explorer
+                {t("ev_ver_en_solana_explorer")}
               </ExternalLink>
-            )}
-            <button
-              onClick={() => handleDownloadCertificate?.()}
-              disabled={!realResult}
-              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border border-white/10 bg-white/[0.02] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white/50 transition-colors hover:border-white/20 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-30"
-            >
-              <FileText size={14} />
-              Descargar certificado blockchain
-            </button>
-            <button
-              onClick={() => setShowPdfPreview(true)}
-              disabled={!realResult}
-              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border border-white/10 bg-white/[0.02] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white/50 transition-colors hover:border-white/20 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-30"
-            >
-              <Eye size={14} />
-              {t("ev_vista_previa_certificado")}
-            </button>
-            <button
-              onClick={() => handleDownloadComplex?.()}
-              disabled={!realResult}
-              className="flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border border-white/10 bg-white/[0.02] px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-white/50 transition-colors hover:border-white/20 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-30"
-            >
-              <Download size={14} />
-              Complejo .PDB
-            </button>
-            <button
-              onClick={() => handleSave?.()}
-              disabled={!realResult}
-              className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed disabled:opacity-30 ${
-                isSaved
-                  ? "border-white/20 bg-white/5 text-white/70"
-                  : "border-white/10 bg-white/[0.02] text-white/50 hover:border-white/20 hover:text-white/80"
-              }`}
-            >
-              {isSaved ? t("auto_6edd056bba4f") : "Guardar en MolDex"}
-            </button>
-            <button
-              onClick={() => setShowCertificationModal(true)}
-              disabled={!realResult || Boolean(realResult?.blockchain_tx_id)}
-              className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-lg border px-5 py-2.5 font-mono text-xs font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 disabled:cursor-not-allowed ${
-                realResult?.blockchain_tx_id
-                  ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
-                  : "border-purple-500/40 bg-purple-500/15 text-purple-200 hover:border-purple-400 hover:bg-purple-500/25"
-              }`}
-              title={t("ev_certificar_aviso")}
-            >
-              <ShieldCheck size={14} />
-              {realResult?.blockchain_tx_id ? t("stats_certified") : "Registrar integridad en Solana"}
-            </button>
-          </section>
+          </section>}
 
-        </div>
+        </div></ResultReadingPresentation>
       )}
 
       {/* Target Selector Modal */}
@@ -1635,6 +1796,7 @@ export default function ProEvaluation({
             <div className="flex-1 overflow-hidden p-4">
               <PDFReportViewer
                 moleculeId={realResult.molecule_id}
+                taskId={realResult.task_id ?? null}
                 isCertified={!!realResult.blockchain_tx_id}
                 onCertify={({ signature }) => {
                   void handleCertify?.(signature);
@@ -1649,6 +1811,7 @@ export default function ProEvaluation({
       {showCertificationModal && realResult?.molecule_id && (
         <CertificationModal
           moleculeId={realResult.molecule_id}
+          taskId={realResult.task_id ?? null}
           onClose={() => setShowCertificationModal(false)}
           onSuccess={({ signature }) => {
             void handleCertify?.(signature);
@@ -1658,78 +1821,21 @@ export default function ProEvaluation({
 
       <ProOptionsModal
         onClose={() => setShowOptionsModal(false)}
-        onApply={(engineRaw, gridRaw, adv, hotspotsRaw) => {
-          // Con el sistema sellado, la caja y los residuos vuelven al ancla
-          // pase lo que pase. El modal ya los deshabilita; esto es la segunda
-          // frontera, porque un control deshabilitado protege la pantalla y no
-          // la hipótesis. El protocolo —motor, exhaustiveness, poses— sí pasa:
-          // es esfuerzo de muestreo y cada corrida sella el suyo.
-          const engine = engineRaw;
-          const grid = structuralSystemLocked && structuralSystem
-            ? {
-                ...gridRaw,
-                centerX: structuralSystem.grid.center[0],
-                centerY: structuralSystem.grid.center[1],
-                centerZ: structuralSystem.grid.center[2],
-                sizeX: structuralSystem.grid.size[0],
-                sizeY: structuralSystem.grid.size[1],
-                sizeZ: structuralSystem.grid.size[2],
-              }
-            : gridRaw;
-          const hotspots = structuralSystemLocked && structuralSystem
-            ? [...structuralSystem.customHotspots]
-            : hotspotsRaw;
-          setDockingEngine(engine);
-          setGridBox(grid);
-          setAdvancedOpts(adv);
-          setCustomHotspots(hotspots && hotspots.length > 0 ? hotspots : null);
-          // Caja, residuos, motor y profundidad forman una sola hipótesis de
-          // ejecución. Persistir sólo la caja dejaba cambiar el motor después
-          // del preflight sin invalidarlo.
-          onRunConfigurationChange?.({
-            center: [grid.centerX, grid.centerY, grid.centerZ],
-            size: [grid.sizeX, grid.sizeY, grid.sizeZ],
-            customHotspots: hotspots && hotspots.length > 0 ? [...hotspots] : [],
-            dockingEngine: engine.engine,
-            exhaustiveness: grid.exhaustiveness,
-            numPoses: grid.numModes,
-            pipelineConfig: {
-              enabled_stages: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"],
-              stage_params: {
-                docking: { exhaustiveness: grid.exhaustiveness, num_poses: grid.numModes },
-                properties: { run_admet_ai: adv.enableADMET },
-                // `conformers` y `ph` viajan juntos: los dos son del mismo
-                // paso. Mandar uno y olvidar el otro dejaba el control de pH
-                // de adorno según por dónde se lanzara la corrida.
-                conformer: {
-                  conformers: initialRunConfiguration?.pipelineConfig?.stage_params?.conformer?.conformers ?? 1,
-                  ph: adv.protonationPh,
-                },
-              },
-              docking_engine: engine.engine,
-              pro_workers: adv.numWorkers,
-              pro_parallel_docks: adv.parallelDocks,
-              pro_selectivity: adv.enableSelectivity,
-              pro_anti_targets: [...adv.selectedAntiTargets],
-              pro_mmgbsa: false,
-              pro_mmgbsa_steps: adv.mmgbsaSteps,
-              gnn_precision: engine.gnnPrecision,
-              peptide_docking_engine: engine.peptideEngine ?? undefined,
-            },
-          });
-        }}
+        onApply={aplicarOpciones}
         isOpen={showOptionsModal}
         systemSealed={structuralSystemLocked}
         initialEngine={dockingEngine}
+        initialConformers={activeConformers}
         initialGridBox={gridBox}
         initialAdvanced={advancedOpts}
         initialHotspots={customHotspots ?? undefined}
         targetHotspots={targetHotspotsList}
       />
 
-      {poseComparison && realResult?.molecule_id && (
+      {poseComparison && realResult?.molecule_id && realResult.task_id && (
         <PoseComparisonDialog
           moleculeId={realResult.molecule_id}
+          taskId={realResult.task_id}
           leftRank={poseComparison.leftRank}
           rightRank={poseComparison.rightRank}
           onClose={() => setPoseComparison(null)}
@@ -1760,7 +1866,7 @@ export default function ProEvaluation({
                 </div>
                 <div>
                   <h3 id="mmgbsa-dialog-title" className="text-sm font-black text-white uppercase tracking-widest">{t("ev_mmgbsa_titulo")}</h3>
-                  <p className="text-[10px] text-white/30 font-mono mt-0.5">Molecular Mechanics / Generalized Born Surface Area</p>
+                  <p className="text-base text-zinc-300 font-sans mt-0.5 leading-6">{t("ev_mmgbsa_nombre_completo")}</p>
                 </div>
               </div>
               <button
@@ -1768,13 +1874,13 @@ export default function ProEvaluation({
                 onClick={() => { if (mmgbsaState !== "running") setShowMmgbsaModal(false); }}
                 disabled={mmgbsaState === "running"}
                 aria-label={t("ev_mmgbsa_cerrar")}
-                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-white/40 hover:text-white hover:bg-white/10 transition-colors text-sm disabled:opacity-40"
+                className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-colors text-sm disabled:opacity-40"
               >✕</button>
             </div>
 
             {/* Explanation */}
             <div className="px-6 py-3 bg-emerald-500/5 border-b border-emerald-500/10 shrink-0">
-              <p className="text-[11px] text-emerald-300/80 font-mono leading-relaxed">
+              <p className="text-base text-emerald-300 font-sans leading-6">
                 <span className="font-bold text-emerald-300">{t("ev_mmgbsa_que_calcula")}</span> {t("ev_mmgbsa_explicacion")}
               </p>
             </div>
@@ -1783,25 +1889,25 @@ export default function ProEvaluation({
             <div className="px-6 py-4 border-b border-white/5 shrink-0">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-white/30 mb-2">Pose a refinar</label>
+                  <label className="block text-sm font-black uppercase tracking-widest text-zinc-400 mb-2">{t("ev_mmgbsa_pose_a_refinar")}</label>
                   <select
                     value={mmgbsaPoseRank}
                     onChange={(e) => setMmgbsaPoseRank(Number(e.target.value))}
                     disabled={mmgbsaState === "running"}
-                    className="w-full h-9 px-3 font-mono text-xs font-bold rounded-lg outline-none cursor-pointer disabled:opacity-40 bg-black border border-white/10 text-white"
+                    className="w-full h-9 px-3 font-mono text-sm font-bold rounded-lg outline-none cursor-pointer disabled:opacity-40 bg-black border border-white/10 text-white"
                   >
                     {availablePoseRanks.map(r => (
-                      <option key={r} value={r}>Pose #{r} {r === 1 ? t("auto_0489bdaf3ead") : ""}</option>
+                      <option key={r} value={r}>{t("ev_mmgbsa_pose_numero", { rank: r })} {r === 1 ? t("auto_0489bdaf3ead") : ""}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[10px] font-black uppercase tracking-widest text-white/30 mb-2">{t("ev_mmgbsa_pasos")}</label>
+                  <label className="block text-sm font-black uppercase tracking-widest text-zinc-400 mb-2">{t("ev_mmgbsa_pasos")}</label>
                   <select
                     value={mmgbsaNumSteps}
                     onChange={(e) => setMmgbsaNumSteps(Number(e.target.value))}
                     disabled={mmgbsaState === "running"}
-                    className="w-full h-9 px-3 font-mono text-xs font-bold rounded-lg outline-none cursor-pointer disabled:opacity-40 bg-black border border-white/10 text-white"
+                    className="w-full h-9 px-3 font-mono text-sm font-bold rounded-lg outline-none cursor-pointer disabled:opacity-40 bg-black border border-white/10 text-white"
                   >
                     <option value={500}>{t("ev_mmgbsa_pasos_rapido")}</option>
                     <option value={1000}>{t("ev_mmgbsa_pasos_estandar")}</option>
@@ -1813,7 +1919,7 @@ export default function ProEvaluation({
               <button
                 onClick={handleRunMmgbsa}
                 disabled={mmgbsaState === "running"}
-                className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg font-mono text-xs font-black uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-3 flex min-h-11 w-full items-center justify-center gap-2 whitespace-nowrap rounded-lg font-sans text-sm font-black uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
                 style={{
                   backgroundColor: mmgbsaState === "running" ? "rgba(16,185,129,0.15)" : "rgba(16,185,129,0.9)",
                   color: mmgbsaState === "running" ? "#6ee7b7" : "#fff",
@@ -1823,7 +1929,7 @@ export default function ProEvaluation({
                 {mmgbsaState === "running" ? (
                   <>
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-emerald-300 border-t-transparent inline-block" />
-                    {t("auto_1da2cfab4f02")}{mmgbsaNumSteps.toLocaleString()} pasos)
+                    {t("ev_mmgbsa_calculando_pasos", { steps: mmgbsaNumSteps.toLocaleString() })}
                   </>
                 ) : (
                   <>
@@ -1837,10 +1943,10 @@ export default function ProEvaluation({
             {/* Content: idle → processing → results */}
             <div className="flex-1 overflow-y-auto">
               {mmgbsaState === "idle" && (
-                <div className="flex flex-col items-center justify-center py-16 gap-3 text-white/40">
+                <div className="flex flex-col items-center justify-center py-16 gap-3 text-zinc-400">
                   <FlaskConical size={48} className="text-emerald-500/20" />
-                  <p className="text-sm font-bold text-white/50">{t("ev_mmgbsa_configura")}</p>
-                  <p className="text-xs text-white/30 text-center max-w-xs">{t("ev_mmgbsa_depende_gpu")}</p>
+                  <p className="text-base font-bold text-zinc-300 font-sans leading-6">{t("ev_mmgbsa_configura")}</p>
+                  <p className="text-base text-zinc-300 text-center max-w-xs font-sans leading-6">{t("ev_mmgbsa_depende_gpu")}</p>
                 </div>
               )}
 
@@ -1854,20 +1960,20 @@ export default function ProEvaluation({
                   </div>
                   <div className="text-center space-y-1">
                     <p className="text-sm font-black text-emerald-400 uppercase tracking-widest animate-pulse">{t("ev_mmgbsa_en_curso")}</p>
-                    <p className="text-xs text-white/40 font-mono">{mmgbsaNumSteps.toLocaleString()} {t("auto_db10d518faf4")}</p>
-                    <p className="text-[10px] text-white/30">{t("ev_mmgbsa_puede_tardar")}</p>
+                    <p className="text-base text-zinc-300 font-sans leading-6">{mmgbsaNumSteps.toLocaleString()} {t("auto_db10d518faf4")}</p>
+                    <p className="text-base text-zinc-300 font-sans leading-6">{t("ev_mmgbsa_puede_tardar")}</p>
                   </div>
                 </div>
               )}
 
               {mmgbsaState === "error" && (
                 <div className="flex flex-col items-center justify-center py-12 gap-3 px-6">
-                  <AlertTriangle size={40} className="text-rose-400/70" />
-                  <p className="text-sm font-black text-rose-300 uppercase tracking-widest font-mono">{t("ev_mmgbsa_fallo")}</p>
-                  <p className="text-xs font-mono text-white/40 text-center max-w-md leading-relaxed">
-                    {mmgbsaError ?? "Error desconocido al ejecutar MM-GBSA."}
+                  <AlertTriangle size={40} className="text-rose-400" />
+                  <p className="text-sm font-black text-rose-300 uppercase tracking-widest font-sans">{t("ev_mmgbsa_fallo")}</p>
+                  <p className="text-base font-sans text-zinc-300 text-center max-w-md leading-6">
+                    {mmgbsaError ?? t("ev_mmgbsa_error_desconocido")}
                   </p>
-                  <p className="text-[10px] font-mono text-white/25">{t("ev_mmgbsa_puedes_reintentar")}</p>
+                  <p className="text-base font-sans text-zinc-300 leading-6">{t("ev_mmgbsa_puedes_reintentar")}</p>
                 </div>
               )}
 
@@ -1877,7 +1983,7 @@ export default function ProEvaluation({
                 const totalKcal = r.delta_g_total_kcal;
 
                 const components = [
-                  { label: "Van der Waals", key: "vdw", value: r.delta_g_vdw, color: "#6366f1", desc: t("auto_898e5bcf715e") },
+                  { label: t("ev_mmgbsa_van_der_waals"), key: "vdw", value: r.delta_g_vdw, color: "#6366f1", desc: t("auto_898e5bcf715e") },
                   { label: t("ev_mmgbsa_electrostatica"), key: "elec", value: r.delta_g_electrostatic, color: "#f59e0b", desc: t("auto_56307dd72ba4") },
                   { label: t("ev_mmgbsa_solvatacion_gb"), key: "gb", value: r.delta_g_gb_polar, color: "#3b82f6", desc: t("auto_0ef026dc501a") },
                   { label: t("ev_mmgbsa_solvatacion_sasa"), key: "sasa", value: r.delta_g_nonpolar_sasa, color: "#14b8a6", desc: t("auto_f1b31204597b") },
@@ -1894,15 +2000,15 @@ export default function ProEvaluation({
                   <div className="p-6 space-y-6">
                     {/* ΔG Total Hero */}
                     <div className="rounded-2xl border border-emerald-500/20 bg-emerald-500/[0.05] p-5 text-center">
-                      <p className="mb-1 text-[10px] font-black uppercase tracking-widest text-emerald-300">{t("ev_mmgbsa_estimacion")}</p>
-                      <p className="font-mono text-4xl font-black text-emerald-300">
+                      <p className="mb-1 text-sm font-black uppercase tracking-widest text-emerald-300">{t("ev_mmgbsa_estimacion")}</p>
+                      <p className="font-sans text-4xl font-black text-emerald-300">
                         {totalKcal.toFixed(2)} <span className="text-xl font-bold">kcal/mol</span>
                       </p>
-                      <p className="mx-auto mt-3 max-w-md text-[10px] leading-4 text-white/35">
+                      <p className="mx-auto mt-3 max-w-md text-base leading-6 text-zinc-300 font-sans">
                         {t("ev_mmgbsa_post_hoc")}
                       </p>
-                      <p className="text-[10px] text-white/30 mt-2 font-mono">
-                        Pose #{(r.pose_rank ?? mmgbsaPoseRank)} {t("auto_b27be63607e8")} {r.minimized ? "✓" : "—"} · {r.platform ?? "OpenMM"} · {r.execution_time_s != null ? `${r.execution_time_s.toFixed(1)}s` : "—"}
+                      <p className="text-base text-zinc-300 mt-2 font-sans leading-6">
+                        {t("ev_mmgbsa_pose_numero", { rank: r.pose_rank ?? mmgbsaPoseRank })} {t("auto_b27be63607e8")} {r.minimized ? "✓" : "—"} · {r.platform ?? t("ev_mmgbsa_motor_predeterminado")} · {r.execution_time_s != null ? `${r.execution_time_s.toFixed(1)}s` : "—"}
                       </p>
                     </div>
 
@@ -1913,7 +2019,7 @@ export default function ProEvaluation({
                         proteína no significa lo que el lector supone que
                         significa, y esa frase es la mitad del dato. */}
                     {r.condicion_de_validez && (
-                      <p className="rounded-xl border border-amber-500/25 bg-amber-500/[0.05] p-3.5 text-[11px] leading-relaxed text-amber-100/80">
+                      <p className="rounded-xl border border-amber-500/25 bg-amber-500/[0.05] p-3.5 text-base leading-6 text-amber-800 dark:text-amber-100 font-sans">
                         <strong className="font-semibold">{t("ev_mmgbsa_como_usarlo")}</strong>{" "}
                         {r.condicion_de_validez}
                       </p>
@@ -1921,7 +2027,7 @@ export default function ProEvaluation({
 
                     {/* Decomposition */}
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-3">{t("ev_mmgbsa_descomposicion")}</p>
+                      <p className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-3">{t("ev_mmgbsa_descomposicion")}</p>
                       {hasDecomposition ? (
                         <div className="space-y-3">
                           {numericComponents.map((comp) => {
@@ -1932,10 +2038,10 @@ export default function ProEvaluation({
                               <div key={comp.key} className="rounded-xl p-3 border border-white/5 bg-white/[0.02]">
                                 <div className="flex items-center justify-between mb-1.5">
                                   <div>
-                                    <span className="text-xs font-bold text-white/80">{comp.label}</span>
-                                    <span className="ml-2 text-[10px] text-white/30 font-mono">{comp.desc}</span>
+                                    <span className="text-sm font-bold text-white/80">{comp.label}</span>
+                                    <span className="ml-2 text-sm text-zinc-400 font-mono">{comp.desc}</span>
                                   </div>
-                                  <span className={`text-xs font-black font-mono ${isFavorable ? "text-emerald-400" : "text-red-400"}`}>
+                                  <span className={`text-sm font-black font-mono ${isFavorable ? "text-emerald-400" : "text-red-400"}`}>
                                     {cvalue > 0 ? "+" : ""}{cvalue.toFixed(3)} kcal/mol
                                   </span>
                                 </div>
@@ -1949,7 +2055,7 @@ export default function ProEvaluation({
                                     }}
                                   />
                                 </div>
-                                <p className="text-[10px] mt-1 font-mono" style={{ color: isFavorable ? "#6ee7b7" : "#fca5a5" }}>
+                                <p className="text-base mt-1 font-sans leading-6" style={{ color: isFavorable ? "#6ee7b7" : "#fca5a5" }}>
                                   {isFavorable ? t("auto_2d325f1fbc1d") : t("auto_6dbd2d03ab5b")}
                                 </p>
                               </div>
@@ -1957,7 +2063,7 @@ export default function ProEvaluation({
                           })}
                         </div>
                       ) : (
-                        <div className="rounded-xl p-4 border border-white/5 bg-white/[0.02] text-[11px] text-slate-400/80 leading-relaxed">
+                        <div className="rounded-xl p-4 border border-white/5 bg-white/[0.02] text-base text-slate-400 leading-6 font-sans">
                           {t("ev_mmgbsa_sin_descomposicion")}
                         </div>
                       )}
@@ -1965,7 +2071,7 @@ export default function ProEvaluation({
 
                     {/* ΔG Bind */}
                     <div className="flex items-center justify-between p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
-                      <span className="text-xs font-bold font-mono text-white/70">{t("auto_da25b074a86c")}</span>
+                      <span className="text-sm font-bold font-mono text-white/70">{t("auto_da25b074a86c")}</span>
                       <span className="text-sm font-black font-mono text-emerald-400">{(r.delta_g_bind ?? r.delta_g_total_kcal).toFixed(2)} kcal/mol</span>
                     </div>
                   </div>

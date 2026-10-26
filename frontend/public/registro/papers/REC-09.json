@@ -1,0 +1,327 @@
+{
+ "id": "REC-09",
+ "meta": {
+  "titulo": "INCONCLUSIVE: retirar las aguas que chocan deja una lectura mixta",
+  "entradilla": "En 116 complejos, se normalizan 2 de 6 referencias con score clasificado como absurdo: fracción 0,3333. La salida es MIXTO e INCONCLUSIVE; el contraste de scoring no decide la política de aguas del docking."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Se mantiene la lectura MIXTO de la regla escrita. El experimento no autoriza una retirada general de aguas ni cambia por sí mismo una política de producto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se hizo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Algunas referencias cristalográficas tenían un score desfavorable en el receptor experimental. La pregunta era si las aguas conservadas que chocaban con la referencia podían explicar ese comportamiento. No se confundió esta prueba de scoring con el problema de encontrar una pose de novo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sobre 116 complejos de train se comparó el mismo PDBQT rígido de ligando frente al receptor CON y frente al receptor tras retirar los registros de agua a 2,6 Å o menos de algún átomo pesado del cristal. Se usaron score_only, caja de 25 Å y semilla 42. La diferencia es CON menos SIN: un valor positivo indica score menor al retirarlos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "«Absurdo» es aquí la etiqueta operacional para score CON ≥ -3,0 kcal/mol. La normalización exige bajar de ese corte. La regla conserva un tramo intermedio entre 0,30 y 0,70; la rama superior requiere además mediana de control menor que 0,5 kcal/mol. Estos nombres de ramas no son diagnósticos biológicos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El manifiesto no fija las versiones y hashes del ejecutable ni el helper del contenedor. Se revisan los valores almacenados; no se reproduce físicamente la corrida.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Cantidad",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Condición",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Reproducción G1 de scores de MF-13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1,0000",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Fracción dentro de 0,10 kcal/mol",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Referencias con score clasificado como absurdo",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Definición anterior",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Referencias normalizadas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Entre las anteriores",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Fracción primaria",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,3333",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Lectura MIXTO",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Mediana del delta en controles no absurdos",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,000 kcal/mol",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Mismo contraste pareado",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Complejos con algún registro bloqueante",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Criterio geométrico frente al cristal",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En 1fkh se marcaron 2 registros de agua: el score pasa de +2,550 a -10,369 kcal/mol y el delta archivado es 12,919 kcal/mol. Es un contraste de esa función de puntuación en ese sistema, no una medida de afinidad experimental ni una demostración sobre todos los fallos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Las aguas conservadas pueden cambiar mucho el score de una referencia concreta. La fracción global no alcanza una rama concluyente de la regla. El criterio geométrico no distingue un agua desplazable de una que media una interacción. No se evaluó su efecto sobre búsqueda de novo, ni se decide que todas deban retirarse.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vigentes al 2026-10-22.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-153:",
+      "m": "fuerte"
+     },
+     {
+      "t": " la comparación por identificador confirma coincidencia de los scores CON de REC-09 con los scores de cristal de MF-13. En 1fkh el valor archivado es +2,550; en 1ew8, +2,064; -0,610 kcal/mol corresponde a 1eld. Se retiran los ejemplos narrativos anteriores que mezclaban complejos. La discordancia estaba en el texto, no en una falta observada de reproducción entre esas salidas.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Detalle: ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "; estado en ",
+     "m": null
+    },
+    {
+     "t": "docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md",
+     "m": "codigo"
+    },
+    {
+     "t": ". Se contrastaron por identidad los valores almacenados. No comprobado por mí: regeneración del ligando, el receptor y los scores desde sus entradas originales, ausentes del worktree.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/REC-09.md"
+}

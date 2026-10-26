@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 eg5__estereo_sin_asignar__0",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "A",
+    "grid_center_x": 27.3319,
+    "grid_center_y": 9.2128,
+    "grid_center_z": 15.2072,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "1ac4ab31de8128bd8e75d971a98531f81574f5cbed01990a32664c6b35b3f224",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\fep09-1\\tmp\\inputs\\eg5__estereo_sin_asignar__0.pdb"
+}

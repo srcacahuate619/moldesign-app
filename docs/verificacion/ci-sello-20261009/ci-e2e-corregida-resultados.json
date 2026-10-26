@@ -1,0 +1,29 @@
+[
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "db6714c17238088b1fe232e1b78595c21a606cd8",
+    "inicio_utc": "2026-10-09T23:53:27.3612981Z",
+    "segundos": 61.94,
+    "salida": 0,
+    "registro": "ci-e2e-corregida-06.log"
+  },
+  {
+    "paso": "07",
+    "comando": "npm run test:ux",
+    "commit": "db6714c17238088b1fe232e1b78595c21a606cd8",
+    "inicio_utc": "2026-10-09T23:54:29.3407233Z",
+    "segundos": 51.81,
+    "salida": 0,
+    "registro": "ci-e2e-corregida-07.log"
+  },
+  {
+    "paso": "08",
+    "comando": "npm run build:desktop",
+    "commit": "db6714c17238088b1fe232e1b78595c21a606cd8",
+    "inicio_utc": "2026-10-09T23:55:21.1567079Z",
+    "segundos": 88.39,
+    "salida": 0,
+    "registro": "ci-e2e-corregida-08.log"
+  }
+]

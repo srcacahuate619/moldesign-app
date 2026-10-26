@@ -77,7 +77,9 @@ type data\gnn_fixed\ef_report_*_gs.json
 | ERα (3ert) | nuclear receptor | ... | ... | ... |
 | Factor Xa (1f0r) | protease | ... | ... | ... |
 
-**Primary paper claim**: Vina + XGB stacking. See `docs/metricas_experimentales.md`.
+**Primary paper claim** (historical): Vina + XGB stacking. `docs/metricas_experimentales.md`
+is unverified and cannot be reproduced from this repository (SCI-A-069, 2026-10-20), and the
+current M4 contract ranks with Vina alone; do not cite it as evidence.
 
 ## Documentation
 

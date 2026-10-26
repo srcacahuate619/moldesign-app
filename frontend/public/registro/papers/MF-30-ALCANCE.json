@@ -1,0 +1,297 @@
+{
+ "id": "MF-30-ALCANCE",
+ "meta": {
+  "titulo": "GO de alcance: el comparador de cobertura cambió, sin evaluar un modelo generativo",
+  "entradilla": "El GO de alcance mantiene MF-30 como benchmark externo opcional. El registro contrapone 3 y 26 casos cubiertos sobre 33 bajo protocolos distintos; no midió rendimiento, compatibilidad ni necesidad de GPU de un candidato generativo."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de registro de alcance.",
+     "m": "fuerte"
+    },
+    {
+     "t": " MF-30 deja de ser una dirección prioritaria de producto y queda como benchmark externo opcional. No se cancela su ID ni se incorpora un motor.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se hizo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La propuesta de evaluar un generador preentrenado conservaba una referencia de cobertura del conjunto rígido anterior. El programa ya disponía de un brazo flexible con mayor cobertura observada. Superar aquella referencia histórica no bastaría para demostrar una mejora sobre el comparador activo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se recopilaron agregados anteriores. No se ejecutó un generador ni una comparación nueva de docking. La cobertura es de oráculo: existe una pose con RMSD de bolsillo de 2 Å o menos. No evalúa qué pose selecciona el producto.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los conteos siguientes se refieren al estrato COLOCACION conservado, con 33 miembros:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Referencia",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Protocolo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cubiertos",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Gate histórico de MF-09",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Conjunto v2, fuente rígida",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-33, brazo C",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Ensemble rígido del protocolo comparado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-33, brazo A",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Conformero fijo flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "MF-33, brazo B",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Ensemble flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "26",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El cociente entre el comparador flexible y el gate histórico es 8,67. Es una descripción de coberturas entre protocolos diferentes. No identifica la causa de la diferencia ni el efecto aislado de una intervención.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El registro cita además un benchmark externo de PoseBusters. No comprobado por mí: la publicación externa original y sus cifras. Aquí no se reproducen sus porcentajes ni se convierten en una medición del programa. El parcial de MF-33-A3 archivado tampoco se presenta como su resultado final.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La decisión conserva el trabajo como comparación externa opcional. Reabrirlo requiere un candidato compatible con el runtime o un uso de laboratorio que produzca un entregable compatible, un comparador activo y control del solapamiento de entrenamiento. La restricción documentada se refiere al runtime CPU distribuido de aquella instalación. Este registro no demuestra una limitación universal de los modelos generativos ni mide sus tiempos o memoria.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vigentes al 2026-10-22.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-124:",
+      "m": "fuerte"
+     },
+     {
+      "t": " la revisión posterior verifica igualdad de miembros entre los grupos comparados. El productor original sólo contrastaba agregados. Se conserva el cociente descriptivo y se retira cualquier lectura causal de un cambio único.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-125:",
+      "m": "fuerte"
+     },
+     {
+      "t": " no se evaluó un candidato generativo. Compatibilidad, tiempo y memoria deben medirse por separado; la supuesta necesidad universal de GPU no está demostrada aquí.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Detalle: ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "; estado en ",
+     "m": null
+    },
+    {
+     "t": "docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md",
+     "m": "codigo"
+    },
+    {
+     "t": ". Las entradas propias y agregados están identificados en el manifiesto; la decisión no constituye una prueba de superioridad frente a una familia de métodos no evaluada.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MF-30-ALCANCE.md"
+}

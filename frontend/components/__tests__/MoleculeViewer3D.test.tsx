@@ -218,3 +218,33 @@ describe("MoleculeViewer3D con WebGL disponible", () => {
     expect(visor.removeAllModels).toHaveBeenCalled();
   });
 });
+
+
+describe("SCI-A-015: proximidad de la cadena dibujada", () => {
+  it("no transfiere una proximidad B a A, ni sin cadena, y conserva el gris de no alcanzado", () => {
+    equipoConWebGL(true);
+    for (const caso of [
+      { hotspot: "A:ASP1", hit: true, cercaA: false, color: "#52525b", radio: 0.5 },
+      { hotspot: "A:ASP1", hit: true, cercaA: true, color: "#10b981", radio: 0.65 },
+      { hotspot: "ASP1", hit: true, cercaA: false, color: "#52525b", radio: 0.5 },
+      { hotspot: "A:ASP1", hit: false, cercaA: false, color: "#71717a", radio: 0.5 },
+      { hotspot: "A:ASP1", hit: false, cercaA: true, color: "#71717a", radio: 0.65 },
+    ]) {
+      const { visor } = dobleDe3Dmol();
+      const atoms = [
+        { x: 0, y: 0, z: caso.cercaA ? 3 : 4, chain: "A", resi: 1, resn: "ASP", atom: "OD1", elem: "O" },
+        { x: 0, y: 0, z: 3, chain: "B", resi: 1, resn: "ASP", atom: "OD1", elem: "O" },
+      ];
+      visor.getModel.mockImplementation((index: number) => ({ selectedAtoms: () => index === 0 ? atoms : [{ x: 0, y: 0, z: 0, elem: "N" }] }));
+      const { unmount } = render(<MoleculeViewer3D proteinData="PROTEIN-MODEL-DATA" poseData={POSE_SDF}
+        hotspots={[caso.hotspot]} hotspotsHit={caso.hit ? [caso.hotspot] : []} />);
+      const marcas = visor.addStyle.mock.calls.filter((args: any[]) => args[1]?.sphere);
+      expect(marcas).toHaveLength(1);
+      expect(marcas[0]).toEqual([
+        expect.objectContaining({ chain: "A", resn: "ASP", resi: 1, atom: "OD1" }),
+        { sphere: { color: caso.color, radius: caso.radio } },
+      ]);
+      unmount();
+    }
+  });
+});

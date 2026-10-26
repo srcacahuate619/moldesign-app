@@ -50,6 +50,11 @@
 //                                  durante la hidratación. El nonce del
 //                                  middleware sólo aplica en browser.
 //   'unsafe-eval'   en script-src: molstar.js y 3Dmol-min.js. Ver arriba.
+//   data:           en connect-src: el módulo WebAssembly de Mol* viaja como `data:` URI dentro
+//                                  de molstar.js y se carga con fetch (QA1-010; Ketcher al abrir un
+//                                  receptor lo vio igual). Decisión del propietario, 2026-10-04.
+//                                  Un `data:` no abre ninguna conexión de red. Sólo en connect-src:
+//                                  nunca en default/script/style/worker/frame-src.
 //
 // -----------------------------------------------------------------------------
 // Lo que este script SÍ bloquea
@@ -85,6 +90,10 @@ const CONNECT_SRC_REQUERIDO = [
   ["'self'", "las peticiones al propio origen (registro científico, assets)"],
   ["http://tauri.localhost", "el origen real de la app en Windows (Tauri v2)"],
   ["http://127.0.0.1:*", "el backend local, en el puerto que elija Rust"],
+  ["ipc:", "el canal IPC de Tauri"],
+  ["http://ipc.localhost", "el canal IPC de Tauri en Windows"],
+  ["https://api.devnet.solana.com", "la prueba de concepto de Solana devnet (airdrop, firma y confirmación desde la ventana)"],
+  ["wss://api.devnet.solana.com", "la confirmación por suscripción de la transacción de devnet"],
 ];
 
 /** Directivas sin las cuales la aplicación no funciona. */
@@ -137,6 +146,21 @@ for (const [fuente, porque] of CONNECT_SRC_REQUERIDO) {
     );
   }
 }
+
+// Molcy necesita medios del backend local. Se conserva el resto de la CSP.
+function mediosMolcyPermitidos(policy) {
+  const directive = policy.split(";").map(item => item.trim()).find(item => item.startsWith("media-src "));
+  const sources = directive ? directive.split(/\s+/).slice(1) : [];
+  return ["'self'", "http://127.0.0.1:*", "http://localhost:*"].every(source => sources.includes(source));
+}
+// El guardián demuestra que detecta permisos ausentes y coincidencias parciales.
+if (!mediosMolcyPermitidos("media-src 'self' http://127.0.0.1:* http://localhost:*;") ||
+    mediosMolcyPermitidos("default-src 'self';") ||
+    mediosMolcyPermitidos("media-src 'self' http://127.0.0.1:*;") ||
+    mediosMolcyPermitidos("media-src 'self' http://127.0.0.1:8000 http://localhost:*;")) {
+  fail("El guardián de medios Molcy no pasó su autotest.");
+}
+if (!mediosMolcyPermitidos(csp)) fail("media-src no permite los videos del backend local de Molcy.");
 
 for (const [token, directiva, motivo] of DESVIACIONES) {
   if (csp.includes(token)) {
@@ -191,6 +215,117 @@ if (styleSrc.includes("'unsafe-inline'")) {
       "asi que los estilos en linea de React sobreviven.",
   );
 }
+
+// -----------------------------------------------------------------------------
+// `data:` en connect-src, y que el MSIX lleve la MISMA política que producción
+// -----------------------------------------------------------------------------
+// El MSIX (Microsoft Store) se construye con `tauri.conf.msix.json`, no con la config de
+// producción, y este script sólo miraba la segunda. Resultado: cuando Molcy añadió
+// `media-src` a la de producción, la del MSIX se quedó sin él y los vídeos de Molcy del backend
+// local habrían quedado bloqueados en el paquete de la Store. «Lo que se verifica tiene que ser lo que
+// se entrega»: las dos políticas se comparan directiva a directiva.
+const MSIX_CONFIG = path.join(__dirname, "..", "src-tauri", "tauri.conf.msix.json");
+
+function ipcPermitido(policy) {
+  const sources = directivasDe(policy).get("connect-src") || [];
+  return ["ipc:", "http://ipc.localhost"].every(source => sources.includes(source));
+}
+
+// No confundir el origen de la ventana con el del protocolo IPC. Tampoco
+// aceptar una coincidencia parcial como http://ipc.localhost.ejemplo.com.
+if (!ipcPermitido("connect-src ipc: http://ipc.localhost;") ||
+    ipcPermitido("connect-src 'self' http://tauri.localhost;") ||
+    ipcPermitido("connect-src http://ipc.localhost;") ||
+    ipcPermitido("connect-src ipc:;") ||
+    ipcPermitido("connect-src ipc: http://ipc.localhost.ejemplo.com;")) {
+  fail("El guardián de IPC no pasó su autotest.");
+}
+const proxySource = fs.readFileSync(path.join(__dirname, "..", "proxy.ts"), "utf8");
+const nextPolicy = proxySource.match(/`(connect-src [^`]+)`/);
+for (const [name, policy] of [["Next dev (proxy.ts)", nextPolicy?.[1] || ""],
+  ["Tauri dev", base.app?.security?.csp || ""], ["Tauri producción", csp]]) {
+  if (!ipcPermitido(policy)) fail(`${name}: connect-src bloquea el IPC de Tauri.`);
+}
+
+function directivasDe(policy) {
+  const mapa = new Map();
+  for (const trozo of policy.split(";")) {
+    const limpio = trozo.trim();
+    if (!limpio) continue;
+    const [nombre, ...fuentes] = limpio.split(/\s+/);
+    mapa.set(nombre, [...new Set(fuentes)].sort());
+  }
+  return mapa;
+}
+
+/** `data:` tiene que estar en connect-src y NO en las directivas que ejecutan o incrustan contenido. */
+function problemasDeData(policy) {
+  const d = directivasDe(policy);
+  const problemas = [];
+  if (!(d.get("connect-src") || []).includes("data:")) problemas.push("connect-src no trae `data:`");
+  for (const nombre of ["default-src", "script-src", "style-src", "worker-src", "frame-src", "object-src"]) {
+    if ((d.get(nombre) || []).includes("data:")) {
+      problemas.push(`${nombre} trae \`data:\` (sólo se admite en connect-src, img-src y font-src)`);
+    }
+  }
+  return problemas;
+}
+
+/** Diferencias entre dos políticas, directiva a directiva (el orden y los duplicados no cuentan). */
+function diferenciasDePoliticas(a, b) {
+  const da = directivasDe(a);
+  const db = directivasDe(b);
+  const salida = [];
+  for (const nombre of new Set([...da.keys(), ...db.keys()])) {
+    const x = da.get(nombre);
+    const y = db.get(nombre);
+    if (!x) salida.push(`${nombre}: sólo está en la segunda`);
+    else if (!y) salida.push(`${nombre}: falta en la segunda`);
+    else if (x.join(" ") !== y.join(" ")) salida.push(`${nombre}: «${x.join(" ")}» frente a «${y.join(" ")}»`);
+  }
+  return salida;
+}
+
+// El guardián demuestra que ve: casos que deben detectarse y casos que no.
+if (
+  problemasDeData("default-src 'self'; connect-src 'self' data:; img-src 'self' data: blob:").length !== 0 ||
+  problemasDeData("connect-src 'self'; img-src data:").length === 0 || // data: sólo en img-src no vale
+  problemasDeData("connect-src 'self' data:; script-src 'self' data:").length === 0 ||
+  problemasDeData("default-src 'self' data:; connect-src data:").length === 0 ||
+  diferenciasDePoliticas("a-src 'self' x; b-src y", "b-src y; a-src x 'self'").length !== 0 ||
+  diferenciasDePoliticas("a-src 'self'; media-src x", "a-src 'self'").length !== 1 ||
+  diferenciasDePoliticas("a-src 'self'", "a-src 'self' extra").length !== 1
+) {
+  fail("El guardián de `data:` y de paridad no pasó su autotest.");
+}
+
+for (const problema of problemasDeData(csp)) {
+  fail(`CSP de producción: ${problema}. Decisión del 2026-10-04: \`data:\` sólo en connect-src.`);
+}
+console.warn(
+  "[check-prod-csp] DESVIACIÓN DECLARADA en connect-src: data: — el módulo WebAssembly de Mol* viaja como " +
+    "`data:` URI y se carga con fetch; no abre ninguna conexión de red (decisión del propietario, 2026-10-04)",
+);
+
+if (!fs.existsSync(MSIX_CONFIG)) {
+  fail(`no se encontró ${MSIX_CONFIG}: el paquete de la Store se construye con esa configuración.`);
+}
+let cspMsix;
+try {
+  cspMsix = JSON.parse(fs.readFileSync(MSIX_CONFIG, "utf-8")).app.security.csp;
+} catch (e) {
+  fail(`tauri.conf.msix.json no tiene app.security.csp legible: ${e.message}`);
+}
+for (const problema of problemasDeData(cspMsix)) fail(`CSP del MSIX: ${problema}.`);
+const distintas = diferenciasDePoliticas(csp, cspMsix);
+if (distintas.length > 0) {
+  fail(
+    "la CSP del MSIX (Store) difiere de la de producción — " +
+      distintas.join("; ") +
+      ". Lo que se publica en la Store tiene que ser lo que este script verifica.",
+  );
+}
+console.log("[check-prod-csp] la CSP del MSIX coincide con la de producción, directiva a directiva.");
 
 console.log("[check-prod-csp] CSP de producción válida: trae el origen propio y el backend local.");
 console.log(`[check-prod-csp] ${csp}`);

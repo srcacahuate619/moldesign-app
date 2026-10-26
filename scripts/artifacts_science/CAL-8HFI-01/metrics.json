@@ -1,0 +1,83 @@
+{
+  "experimento": "CAL-8HFI-01",
+  "analizado_en": "2026-10-09T13:18:55+00:00",
+  "receptor_sha256_distintos": [
+    "30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60"
+  ],
+  "parametros_efectivos": [
+    [
+      8,
+      9
+    ]
+  ],
+  "verificacion": {
+    "semillas": [
+      {
+        "semilla": 42,
+        "estado": "SUCCESS",
+        "rmsd_A": 0.563,
+        "valida": true
+      },
+      {
+        "semilla": 43,
+        "estado": "SUCCESS",
+        "rmsd_A": 0.521,
+        "valida": true
+      },
+      {
+        "semilla": 44,
+        "estado": "SUCCESS",
+        "rmsd_A": 4.117,
+        "valida": true
+      },
+      {
+        "semilla": 45,
+        "estado": "SUCCESS",
+        "rmsd_A": 0.644,
+        "valida": true
+      },
+      {
+        "semilla": 46,
+        "estado": "SUCCESS",
+        "rmsd_A": 3.679,
+        "valida": true
+      }
+    ],
+    "semillas_rmsd_ok": 3,
+    "posebusters_valida": true,
+    "gate": "GO"
+  },
+  "calibracion": {
+    "n": 57,
+    "fallos": 0,
+    "rho_Q_pKi": 0.1293,
+    "rho_E_pKi": -0.1293,
+    "ic95_bootstrap": [
+      -0.1611,
+      0.4062
+    ],
+    "ic95_fisher": [
+      -0.1359,
+      0.3772
+    ],
+    "bootstrap": {
+      "n": 10000,
+      "semilla": 42
+    },
+    "rango_pki": [
+      5.974694,
+      8.853872
+    ],
+    "gate": "NO_GO"
+  },
+  "diagnostico_cloruro": {
+    "d_min_A": 7.944,
+    "n_top1_a_menos_de_8A": 1
+  },
+  "desviaciones": [],
+  "desviaciones_del_analisis": [
+    "Neutralización: se quitan los H antes del Uncharger. Con los H explícitos del SDF del producto la amina protonada seguía cargada y no casaba con el cristal neutro (el control previo usaba una molécula sin H explícitos y no lo vio).",
+    "Contraste SDF/PDBQT del top-1: se excluyen los pseudoátomos G0/G1… con que Meeko abre el anillo de siete de la desipramina y se acepta ≤ 0,05 Å por átomo; antes se exigía igualdad exacta de conjuntos y los pseudoátomos la rompían (el top-1 coincidía a 0,012 Å)."
+  ],
+  "decision": "NO_GO"
+}

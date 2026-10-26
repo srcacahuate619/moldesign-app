@@ -2,23 +2,31 @@
 import { useScrollLock } from "@/hooks/useScrollLock";
 import { useLanguage } from "../../../context/LanguageContext";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useId, useState, useRef, useEffect } from "react";
 import {
-  X, Dna, Cpu, Zap, Brain, Sparkles,
+  X, Dna, Cpu, Brain,
   Box, Crosshair, Sliders, Gauge,
-  Layers, ShieldCheck, Atom, Info, Target,
+  Layers, ShieldCheck, Atom, Target,
   ChevronDown, ChevronUp,
 } from "lucide-react";
 import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, Edges, Sphere } from "@react-three/drei";
 
+import { AntiDianasSelector } from "./AntiDianasSelector";
+import { BotonAyuda, DialogoDeAyuda, type TemaDeAyuda } from "./AyudaDelParametro";
+import { antiDianasParaEnviar, antiDianasPorDefecto, useAntiDianas } from "@/lib/antiDianas";
+
 // ── Tipos ─────────────────────────────────────────────────────
 import { encenderMotor, inventarioDeMotores, type InventarioDeMotores } from "../../../lib/api";
-import { BADGE_PROXIMAMENTE, esProximamente, textoProximamente } from "../../../lib/motores";
+import { puedeElegirse } from "../../../lib/motores";
+import { clavePluralDePoses } from "../../../lib/formatoNumerico";
+import { CAJA_CENTRO_MAX_A, CAJA_LADO_MAX_A, CAJA_LADO_MIN_A } from "../../../lib/limitesCaja";
 
 export interface DockingEngineConfig {
-  engine: "vina" | "qvina2" | "diffdock";
-  peptideEngine: "esmfold" | "esmfold-pro" | "esmfold-experimental" | "colabfold" | null;
+  /** Vina es el único motor de docking que esta versión ejecuta. */
+  engine: "vina";
+  /** ESMFold pliega el péptido antes del acoplamiento. `null` acopla con Vina directamente. */
+  peptideEngine: "esmfold" | null;
   gnnPrecision: "fp32" | "fp16";
 }
 
@@ -44,10 +52,12 @@ export interface AdvancedConfig {
    * adelante; lisina da tres especies distintas entre pH 1 y 12.
    */
   protonationPh: number;
+  tautomerMode?: "canonico" | "entrada";
   numWorkers: number;
   parallelDocks: number;
   enableSelectivity: boolean;
   selectedAntiTargets: string[];
+  antiTargetsPending?: boolean;
   enableMMGBSA: boolean;
   mmgbsaSteps: number;
   enableADMET: boolean;
@@ -60,16 +70,18 @@ interface Props {
     engine: DockingEngineConfig,
     gridBox: GridBoxConfig,
     advanced: AdvancedConfig,
-    hotspots?: string[]
+    hotspots?: string[],
+    conformers?: number,
   ) => void;
   initialEngine?: DockingEngineConfig;
   initialGridBox?: GridBoxConfig;
   initialAdvanced?: AdvancedConfig;
   initialHotspots?: readonly string[];
+  /** K vigente del caso; el borrador sólo se guarda al aplicar. */
+  initialConformers?: number;
   targetHotspots?: Array<{ name: string; importance: number }>;
   gpuAvailable?: boolean;
   gpuCuda?: boolean;
-  isPeptide?: boolean;
   /**
    * El caso ya tiene una corrida TERMINADA en su sistema estructural.
    *
@@ -83,12 +95,32 @@ interface Props {
   systemSealed?: boolean;
 }
 
+// Nombre propio: no se traduce. Titula la ayuda de la ruta peptídica.
+const NOMBRE_ESMFOLD = "ESMFold";
+
+function normalizarConformeros(value: number): number {
+  return Number.isFinite(value) ? Math.min(64, Math.max(1, Math.trunc(value))) : 1;
+}
+
 // ── Valores por defecto ─────────────────────────────────────────
 const DEFAULT_ENGINE: DockingEngineConfig = {
   engine: "vina",
   peptideEngine: null,
   gnnPrecision: "fp32",
 };
+
+/**
+ * Una configuración guardada puede traer motores que esta versión ya no ejecuta
+ * (QuickVina, DiffDock, ColabFold, RFdiffusion…). Se reducen a Vina sin plegado
+ * previo, en vez de dejar un radio sin marcar que nadie puede volver a elegir.
+ */
+function normalizarMotor(c: Partial<DockingEngineConfig> | null | undefined): DockingEngineConfig {
+  return {
+    engine: "vina",
+    peptideEngine: c?.peptideEngine === "esmfold" ? "esmfold" : null,
+    gnnPrecision: c?.gnnPrecision === "fp16" ? "fp16" : "fp32",
+  };
+}
 
 const DEFAULT_GRID: GridBoxConfig = {
   centerX: 0.0,
@@ -105,11 +137,14 @@ const DEFAULT_ADVANCED: AdvancedConfig = {
   numWorkers: 4,
   parallelDocks: 2,
   enableSelectivity: false,
-  selectedAntiTargets: ["5VA1", "4NC3"],
+  selectedAntiTargets: [],
+  antiTargetsPending: true,
   // 7.4 es el de siempre: una corrida que no lo toque produce exactamente el
   // mismo SMILES protonado, el mismo hash y la misma entrada de caché que
   // antes de que este campo existiera. Verificado sobre cuatro moléculas.
   protonationPh: 7.4,
+  // Decisión del propietario, 2026-10-10: por defecto se acopla el tautómero escrito.
+  tautomerMode: "entrada",
   enableMMGBSA: false,
   mmgbsaSteps: 1000,
   // OPT-IN, no opt-out. ADMET-AI es un modelo aparte que se carga en local y
@@ -121,16 +156,17 @@ const DEFAULT_ADVANCED: AdvancedConfig = {
 
 // ── Sub-componentes ─────────────────────────────────────────────
 
-function SectionHeader({ icon: Icon, label, subtitle }: { icon: any; label: string; subtitle?: string }) {
+function SectionHeader({ icon: Icon, label, subtitle, ayuda }: { icon: any; label: string; subtitle?: string; ayuda?: React.ReactNode }) {
   return (
     <div className="flex items-center gap-3 mb-4 pb-3 border-b border-zinc-800/60">
       <div className="h-8 w-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 shrink-0">
         <Icon size={16} />
       </div>
       <div className="min-w-0">
-        <h3 className="text-sm font-mono font-black text-white uppercase tracking-wider">{label}</h3>
-        {subtitle && <p className="text-sm font-mono text-zinc-500 mt-0.5 truncate">{subtitle}</p>}
+        <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider">{label}</h3>
+        {subtitle && <p className="text-xs font-mono text-zinc-500 mt-0.5 truncate">{subtitle}</p>}
       </div>
+      {ayuda && <div className="ml-auto shrink-0">{ayuda}</div>}
     </div>
   );
 }
@@ -141,6 +177,7 @@ function RadioCard({
   label,
   badge,
   badgeStyle,
+  badgeMayusculas = true,
   desc,
   meta,
   disabled,
@@ -150,7 +187,9 @@ function RadioCard({
   label: string;
   badge?: string;
   badgeStyle?: { bg: string; text: string };
-  desc: string;
+  /** Por defecto la insignia va en mayúsculas; la de ESMFold y la de ADMET se leen en tipo normal. */
+  badgeMayusculas?: boolean;
+  desc?: string;
   meta?: { icon: any; text: string };
   disabled?: boolean;
 }) {
@@ -161,7 +200,7 @@ function RadioCard({
           ? "opacity-30 cursor-not-allowed border-zinc-800/30 bg-transparent"
           : selected
           ? "border-purple-500/40 bg-purple-500/[0.06] cursor-pointer"
-          : "border-zinc-800/60 bg-zinc-900/40 hover:border-zinc-700 cursor-pointer"
+          : "border-zinc-800/60 bg-[var(--bg-secondary)] hover:border-zinc-700 cursor-pointer"
       }`}
     >
       <input
@@ -178,18 +217,20 @@ function RadioCard({
           </span>
           {badge && badgeStyle && (
             <span
-              className="text-sm px-1.5 py-0.5 rounded font-mono font-bold uppercase"
-              style={{ backgroundColor: badgeStyle.bg, color: badgeStyle.text }}
+              className={`text-xs px-1.5 py-0.5 rounded font-mono font-bold ${badgeMayusculas ? "uppercase" : "normal-case"}`}
+              style={{ backgroundColor: badgeStyle.bg, color: "var(--text)" }}
             >
               {badge}
             </span>
           )}
         </div>
-        <p className={`text-sm mt-1 leading-relaxed ${disabled ? "text-zinc-700" : "text-zinc-500"}`}>{desc}</p>
+        {desc && (
+          <p className={`text-xs mt-1 leading-relaxed ${disabled ? "text-zinc-700" : "text-zinc-500"}`}>{desc}</p>
+        )}
         {meta && !disabled && (
           <div className="flex items-center gap-1.5 mt-1.5">
             <meta.icon size={11} className="text-zinc-500" />
-            <span className="text-sm font-mono text-zinc-500">{meta.text}</span>
+            <span className="text-xs font-mono text-zinc-500">{meta.text}</span>
           </div>
         )}
       </div>
@@ -230,7 +271,11 @@ function NumberInput({
   max,
   step,
   label,
+  grupo,
   disabled = false,
+  integerOnly = false,
+  alignWithPeers = false,
+  ayuda,
 }: {
   value: number;
   onChange: (v: number) => void;
@@ -238,40 +283,141 @@ function NumberInput({
   max: number;
   step: number;
   label: string;
+  /** Lo que la etiqueta visible («X») no dice sola: «Centro del grid box (Å)». */
+  grupo?: string;
   disabled?: boolean;
+  integerOnly?: boolean;
+  /** Comparte las filas de etiqueta, control y aviso con los campos vecinos. */
+  alignWithPeers?: boolean;
+  /** Botón «?» junto a la etiqueta. */
+  ayuda?: React.ReactNode;
 }) {
+  const { t } = useLanguage();
+  const id = useId();
+  // SOL-14: el nombre accesible nombra eje y dimensión, no sólo «X».
+  const nombre = grupo ? `${grupo} · ${label}` : label;
+  // SOL-13. Lo tecleado vive en un borrador: sólo llega a `onChange` si es un
+  // número dentro de [min, max]. Antes cada pulsación se recortaba al rango
+  // («150» se volvía «100») sin decirlo, y el valor pedido se perdía. Ahora el
+  // valor vigente NO cambia con una entrada inválida y el rechazo se declara,
+  // con el número que se tecleó, el rango y el valor que se conserva.
+  const [borrador, setBorrador] = useState<string | null>(null);
+  const [rechazo, setRechazo] = useState<string | null>(null);
+
+  // Los pasos suman en coma flotante: sin redondear, 0.1 + 0.2 acaba escrito.
+  const paso = (delta: number) => {
+    setBorrador(null);
+    setRechazo(null);
+    onChange(Math.min(max, Math.max(min, Number((value + delta).toFixed(6)))));
+  };
+
+  const alEscribir = (crudo: string) => {
+    setBorrador(crudo);
+    // Vacío o «-» son una edición a medias, no un rechazo.
+    if (crudo.trim() === "" || crudo === "-") {
+      setRechazo(null);
+      return;
+    }
+    const v = Number(crudo);
+    if (!Number.isFinite(v)) {
+      setRechazo(t("op_numero_no_valido", { valor: crudo, vigente: value }));
+      return;
+    }
+    if (v < min || v > max) {
+      setRechazo(t("op_numero_fuera_de_rango", { valor: crudo, min, max, vigente: value }));
+      return;
+    }
+    if (integerOnly && !Number.isInteger(v)) {
+      setRechazo(t("op_numero_no_entero", { valor: crudo, vigente: value }));
+      return;
+    }
+    setRechazo(null);
+    onChange(v);
+  };
+
+  const botonPaso =
+    "w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-zinc-400 disabled:hover:border-zinc-700";
+
   return (
-    <div className="flex flex-col gap-1">
-      <label className={`text-sm font-mono uppercase tracking-wider ${disabled ? "text-zinc-600" : "text-zinc-500"}`}>{label}</label>
+    <div className={alignWithPeers ? "row-span-3 grid grid-rows-subgrid gap-1" : "flex flex-col gap-1"}>
+      <div className="flex items-center gap-1.5">
+        <label htmlFor={id} className={`text-xs font-mono uppercase tracking-wider ${disabled ? "text-zinc-600" : "text-zinc-500"}`}>{label}</label>
+        {ayuda}
+      </div>
       <div className="flex items-center gap-1.5">
         <button
-          onClick={() => onChange(Math.max(min, value - step))}
-          disabled={disabled}
-          className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-zinc-400 disabled:hover:border-zinc-700"
+          type="button"
+          onClick={() => paso(-step)}
+          disabled={disabled || value <= min}
+          aria-label={t("op_numero_disminuir", { campo: nombre })}
+          className={botonPaso}
         >
-          −
+          <span aria-hidden="true">−</span>
         </button>
         <input
+          id={id}
           type="number"
-          value={value}
+          value={borrador ?? String(value)}
           min={min}
           max={max}
           step={step}
           disabled={disabled}
-          onChange={(e) => {
-            const v = parseFloat(e.target.value);
-            if (!isNaN(v)) onChange(Math.min(max, Math.max(min, v)));
-          }}
-          className="w-16 text-center bg-black border border-zinc-700 rounded-lg py-1.5 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors disabled:cursor-not-allowed disabled:text-zinc-500"
+          aria-label={nombre}
+          aria-invalid={rechazo ? true : undefined}
+          aria-describedby={rechazo ? `${id}-rechazo` : undefined}
+          onChange={(e) => alEscribir(e.target.value)}
+          onBlur={() => setBorrador(null)}
+          className="w-20 text-center bg-[var(--bg)] border border-zinc-700 rounded-lg py-1.5 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors disabled:cursor-not-allowed disabled:text-zinc-500 aria-[invalid=true]:border-amber-500/60 [appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
         />
         <button
-          onClick={() => onChange(Math.min(max, value + step))}
-          disabled={disabled}
-          className="w-7 h-7 rounded-lg bg-zinc-800 border border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-600 flex items-center justify-center text-sm font-mono transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:text-zinc-400 disabled:hover:border-zinc-700"
+          type="button"
+          onClick={() => paso(step)}
+          disabled={disabled || value >= max}
+          aria-label={t("op_numero_aumentar", { campo: nombre })}
+          className={botonPaso}
         >
-          +
+          <span aria-hidden="true">+</span>
         </button>
       </div>
+      {rechazo && (
+        <p id={`${id}-rechazo`} role="alert" className="max-w-[12rem] text-xs leading-snug text-amber-800 dark:text-amber-300">
+          {rechazo}
+        </p>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Selector con su etiqueta ASOCIADA (SOL-14). Antes la etiqueta era un <label>
+ * suelto junto al <select>: sin `htmlFor`, el control no tenía nombre y un
+ * lector de pantalla anunciaba «cuadro combinado» sin decir de qué.
+ */
+function SelectorEtiquetado({
+  etiqueta,
+  value,
+  onChange,
+  children,
+}: {
+  etiqueta: string;
+  value: number;
+  onChange: React.ChangeEventHandler<HTMLSelectElement>;
+  children: React.ReactNode;
+}) {
+  const id = useId();
+  return (
+    <div className="flex flex-col gap-1">
+      <label htmlFor={id} className="text-xs font-mono uppercase tracking-wider text-zinc-500">
+        {etiqueta}
+      </label>
+      <select
+        id={id}
+        value={value}
+        onChange={onChange}
+        className="bg-[var(--bg)] border border-zinc-700 rounded-lg py-1.5 px-2 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors cursor-pointer"
+      >
+        {children}
+      </select>
     </div>
   );
 }
@@ -310,25 +456,26 @@ function CameraRig({ center, distance }: { center: [number, number, number]; dis
 }
 
 function GridBoxPreview({ config }: { config: GridBoxConfig }) {
+  const { t } = useLanguage();
   // Ajuste dinámico de cámara basado en el tamaño más grande
   const maxDim = Math.max(config.sizeX, config.sizeY, config.sizeZ);
   const cameraDistance = Math.max(50, maxDim * 2.5);
 
   return (
-    <div className="relative w-full aspect-[4/3] bg-black/60 rounded-xl border border-zinc-800/60 overflow-hidden">
-      
+    <div className="relative w-full aspect-[4/3] bg-[var(--bg-secondary)] rounded-xl border border-zinc-800/60 overflow-hidden">
+
       {/* HUD 2D superpuesto al 3D */}
       <div className="absolute top-3 left-3 z-10 pointer-events-none flex flex-col gap-1">
-        <span className="text-sm font-mono font-bold text-zinc-400">CENTRO</span>
-        <span className="text-sm font-mono text-zinc-500">
+        <span className="text-xs font-mono font-bold text-zinc-400">{t("pr_cfg_centro")}</span>
+        <span className="text-xs font-mono text-zinc-500">
           X: {config.centerX.toFixed(1)} / Y: {config.centerY.toFixed(1)} / Z: {config.centerZ.toFixed(1)}
         </span>
       </div>
-      
+
       <div className="absolute bottom-3 left-3 right-3 flex justify-between z-10 pointer-events-none">
-        <span className="text-sm font-mono text-zinc-500">X: {config.sizeX.toFixed(1)} Å</span>
-        <span className="text-sm font-mono text-zinc-500">Y: {config.sizeY.toFixed(1)} Å</span>
-        <span className="text-sm font-mono text-zinc-500">Z: {config.sizeZ.toFixed(1)} Å</span>
+        <span className="text-xs font-mono text-zinc-500">X: {config.sizeX.toFixed(1)} Å</span>
+        <span className="text-xs font-mono text-zinc-500">Y: {config.sizeY.toFixed(1)} Å</span>
+        <span className="text-xs font-mono text-zinc-500">Z: {config.sizeZ.toFixed(1)} Å</span>
       </div>
 
       {/* CameraRig re-centra la cámara cuando cambian las coordenadas, sin
@@ -340,7 +487,7 @@ function GridBoxPreview({ config }: { config: GridBoxConfig }) {
       >
         <ambientLight intensity={0.5} />
         <pointLight position={[config.centerX + 100, config.centerY + 100, config.centerZ + 100]} intensity={1} />
-        
+
         {/* Helper de ejes: X (rojo), Y (verde), Z (azul) — centrado en el grid */}
         <group position={[config.centerX, config.centerY, config.centerZ]}>
           <axesHelper args={[maxDim * 1.5]} />
@@ -374,22 +521,30 @@ export default function ProOptionsModal({
   initialGridBox,
   initialAdvanced,
   initialHotspots,
+  initialConformers = 1,
   targetHotspots = [],
-  gpuAvailable = false,
-  gpuCuda = false,
-  isPeptide = false,
   systemSealed = false,
 }: Props) {
   const { t } = useLanguage();
   useScrollLock(isOpen);
-  const [engine, setEngine] = useState<DockingEngineConfig>(initialEngine || DEFAULT_ENGINE);
+  const [engine, setEngine] = useState<DockingEngineConfig>(() => normalizarMotor(initialEngine));
+  const [conformers, setConformers] = useState(() => normalizarConformeros(initialConformers));
+  const conformersTitleId = useId();
+
+  // Ayuda de un parámetro («?»): un solo diálogo para todo el modal. Mientras está abierto,
+  // Escape lo cierra a él y no a este diálogo (`ayudaAbierta` lo dice sin esperar al render).
+  const [ayuda, setAyuda] = useState<{ tema: TemaDeAyuda; origen: HTMLElement } | null>(null);
+  const ayudaAbierta = useRef(false);
+  ayudaAbierta.current = ayuda !== null;
+  const abrirAyuda = (tema: TemaDeAyuda, origen: HTMLElement) => setAyuda({ tema, origen });
+  const botonAyuda = (tema: TemaDeAyuda) => <BotonAyuda tema={tema} onAbrir={abrirAyuda} />;
+  useEffect(() => {
+    if (!isOpen) setAyuda(null);
+  }, [isOpen]);
 
   // ENG-001. Este menú ofrecía siete motores sin comprobar ninguno. En una
-  // instalación limpia sólo AutoDock Vina existe: QuickVina 2 no se empaqueta, y
-  // DiffDock, ESMFold, ESMFold Pro/RFdiffusion y ColabFold son clientes de
-  // servicios externos que esta versión no instala ni levanta. Elegir uno llevaba
-  // a un preflight bloqueado —o, por la ruta peptídica, a una pose de Vina— tras
-  // haber configurado todo lo demás.
+  // instalación limpia sólo AutoDock Vina existe, así que el menú sólo muestra
+  // lo que la build ejecuta (decisión del 2026-10-07: los demás no se listan).
   //
   // `GET /evaluation/engines` dice qué puede ejecutar ESTA instalación. Mientras
   // la respuesta no llega no se apaga nada: un motor real no puede quedar
@@ -416,7 +571,7 @@ export default function ProOptionsModal({
     // Mientras el inventario no responde no se puede afirmar que un motor
     // exista en esta instalación. El backend es la autoridad; deshabilitar
     // provisionalmente evita seleccionar un motor fantasma durante la carrera.
-    const ausente = { disponible: false, motivo: "Comprobando motores disponibles…", accion: null, estado: "UNKNOWN", requiere: "" };
+    const ausente = { disponible: false, motivo: t("op_comprobando_motores"), accion: null, estado: "UNKNOWN", requiere: "" };
     if (!motores) return ausente;
     const encontrado = [...motores.docking, ...motores.peptido].find((m) => m.id === id);
     if (!encontrado) return ausente;
@@ -429,25 +584,16 @@ export default function ProOptionsModal({
     };
   };
 
-  // ENG-004. Un motor que esta version no ejecuta se anuncia como
-  // «Proximamente», no como averia. La distincion la hace `requiere`, que viene
-  // del backend: ESMFold no esta disponible hasta descargarlo, pero la
-  // aplicacion sabe resolverlo y por eso conserva su etiqueta real.
-  const badgeDe = (id: string, badgeReal: string): string => {
-    const st = estadoMotor(id);
-    if (st.disponible) return badgeReal;
-    return esProximamente(st) ? BADGE_PROXIMAMENTE : badgeReal;
-  };
-  const descDe = (id: string, etiqueta: string, descReal: string): string => {
-    const st = estadoMotor(id);
-    if (st.disponible) return descReal;
-    if (esProximamente(st)) return textoProximamente(etiqueta);
-    return st.motivo ?? descReal;
-  };
+  // ESMFold se elige igual que Vina, sin mirar la molécula. Sólo lo que de verdad
+  // no puede ejecutarse todavía —falta descargarlo, falta una librería o falló al
+  // arrancar— lo deshabilita. Instalado y apagado se enciende solo cuando la
+  // corrida lo necesita: `run_peptide_docking_helper` lo arranca al empezar.
+  const esm = estadoMotor("esmfold");
+  const esmfoldElegible = puedeElegirse(esm);
 
-  // Encender es un gesto del investigador, no un efecto de abrir el modal:
-  // cargar un checkpoint de 8.4 GB ocupa memoria y tarda. Al terminar se relee
-  // el inventario en vez de suponer el resultado.
+  // Sólo el reintento tras un arranque fallido pide algo al investigador. Encender
+  // es un gesto explícito —un modelo de 8 GB no arranca por abrir una pantalla—, y
+  // al terminar se relee el inventario en vez de suponer el resultado.
   const [encendiendo, setEncendiendo] = useState<string | null>(null);
   const encender = async (id: string) => {
     setEncendiendo(id);
@@ -466,6 +612,7 @@ export default function ProOptionsModal({
   };
   const [gridBox, setGridBox] = useState<GridBoxConfig>(initialGridBox || DEFAULT_GRID);
   const [advanced, setAdvanced] = useState<AdvancedConfig>(initialAdvanced || DEFAULT_ADVANCED);
+  const anti = useAntiDianas(isOpen);
   // Hotspots del receptor seleccionado: se inicializan con TODOS marcados.
   const [selectedHotspots, setSelectedHotspots] = useState<string[]>(
     () => targetHotspots.map((h) => h.name)
@@ -478,7 +625,8 @@ export default function ProOptionsModal({
   const prevOpen = useRef(isOpen);
   useEffect(() => {
     if (isOpen && !prevOpen.current) {
-      if (initialEngine) setEngine(initialEngine);
+      setConformers(normalizarConformeros(initialConformers));
+      if (initialEngine) setEngine(normalizarMotor(initialEngine));
       if (initialGridBox) setGridBox(initialGridBox);
       if (initialAdvanced) setAdvanced(initialAdvanced);
       setSelectedHotspots(
@@ -486,7 +634,7 @@ export default function ProOptionsModal({
       );
     }
     prevOpen.current = isOpen;
-  }, [initialAdvanced, initialEngine, initialGridBox, initialHotspots, isOpen, targetHotspots]);
+  }, [initialAdvanced, initialConformers, initialEngine, initialGridBox, initialHotspots, isOpen, targetHotspots]);
 
   const windowRef = useRef<HTMLDivElement>(null);
 
@@ -505,7 +653,7 @@ export default function ProOptionsModal({
   useEffect(() => {
     if (!isOpen) return;
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
+      if (event.key === "Escape" && !ayudaAbierta.current) {
         event.preventDefault();
         onClose();
       }
@@ -516,8 +664,23 @@ export default function ProOptionsModal({
 
   if (!isOpen) return null;
 
+  // La ausencia de una lista guardada significa «panel por defecto». Se deriva
+  // del catálogo al pintar: abrir el modal antes de que el fetch termine no
+  // produce una lista vacía que parezca la elección explícita «Ninguna».
+  const antiTargetSelection = advanced.antiTargetsPending && anti.targets
+    ? antiDianasPorDefecto(anti.targets)
+    : advanced.selectedAntiTargets;
+
   const handleApply = () => {
-    onApply(engine, gridBox, advanced, selectedHotspots);
+    if (advanced.enableSelectivity && (anti.targets === null || anti.error)) return;
+    const advancedToApply = {
+      ...advanced,
+      antiTargetsPending: false,
+      selectedAntiTargets: advanced.enableSelectivity
+        ? antiDianasParaEnviar(anti.targets, antiTargetSelection)
+        : antiTargetSelection,
+    };
+    onApply(engine, gridBox, advancedToApply, selectedHotspots, conformers);
     onClose();
   };
 
@@ -540,6 +703,44 @@ export default function ProOptionsModal({
     );
   };
 
+  // Lo que explica un parámetro se lee con su «?»: son las mismas claves de traducción de
+  // siempre, no copias. A la vista queda sólo lo que cambia con el estado (un pH fuera de
+  // 7.4, un motor sin descargar, un número rechazado).
+  const estadoLargoEsmfold = esm.disponible
+    ? t("op_esm_encendido")
+    : esm.accion === "encender"
+    ? t("op_esm_se_enciende")
+    : esm.motivo ?? t("op_esm_sin_estado");
+  const chipEsmfold = esm.disponible
+    ? t("op_esm_chip_listo")
+    : esm.accion === "encender"
+    ? t("op_esm_chip_instalado")
+    : esm.accion === "descargar"
+    ? t("op_esm_chip_sin_descargar")
+    : esm.accion === "reintentar"
+    ? t("op_esm_chip_no_arranco")
+    : esm.estado === "UNKNOWN"
+    ? t("op_esm_sin_estado")
+    : t("op_esm_chip_no_disponible");
+  const temas = {
+    caja: { titulo: t("op_parametros_bolsillo"), parrafos: [t("op_grid_explicacion")] },
+    sellado: { titulo: t("op_sistema_sellado_titulo"), parrafos: [t("op_sistema_sellado")] },
+    hotspots: {
+      titulo: t("op_hotspots"),
+      parrafos: [...(systemSealed ? [t("op_hotspots_fijados")] : []), t("op_hotspots_explicacion")],
+    },
+    ph: {
+      titulo: t("op_ph_protonacion"),
+      parrafos: [`${t("op_ph_cambia_a")} ${t("op_ph_especie")} ${t("op_ph_cambia_b")}`],
+    },
+    tautomero: { titulo: t("op_tautomero"), parrafos: [t("op_tautomero_ayuda")] },
+    conformeros: { titulo: t("ayuda_ensemble_titulo"), parrafos: [t("ayuda_ensemble")] },
+    peptidos: {
+      titulo: NOMBRE_ESMFOLD,
+      parrafos: [t("pr_pep_experimental_aviso"), t("op_esm_desc"), estadoLargoEsmfold, t("op_esm_alcance")],
+    },
+  } satisfies Record<string, TemaDeAyuda>;
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-in fade-in duration-200" role="presentation">
       {/* Backdrop */}
@@ -551,19 +752,19 @@ export default function ProOptionsModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="pro-options-title"
-        className="relative w-full max-w-6xl max-h-[90vh] bg-zinc-950/95 border border-purple-500/20 rounded-2xl shadow-[0_0_40px_-15px_rgba(168,85,247,0.18)] backdrop-blur-2xl flex flex-col overflow-hidden"
+        className="relative w-full max-w-6xl max-h-[90vh] bg-[var(--bg-card)] border border-purple-500/20 rounded-2xl shadow-[0_0_40px_-15px_rgba(168,85,247,0.18)] backdrop-blur-2xl flex flex-col overflow-hidden"
       >
         {/* ── Header ── */}
-        <div className="flex-none px-6 py-4 border-b border-zinc-800/80 bg-black/60 backdrop-blur-md flex items-center justify-between">
+        <div className="flex-none px-6 py-4 border-b border-zinc-800/80 bg-[var(--bg-secondary)] backdrop-blur-md flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-300">
               <Sliders size={18} />
             </div>
             <div>
-              <h2 id="pro-options-title" className="text-sm font-bold font-mono text-white uppercase tracking-wider">
+              <h2 id="pro-options-title" className="text-base font-bold font-mono text-white uppercase tracking-wider">
                 {t("op_titulo")}
               </h2>
-              <p className="text-sm text-zinc-500 font-mono mt-0.5">
+              <p className="text-xs text-zinc-500 font-mono mt-0.5">
                 {t("op_subtitulo")}
               </p>
             </div>
@@ -588,13 +789,13 @@ export default function ProOptionsModal({
 
               {/* Moléculas pequeñas */}
               <div className="space-y-2 mb-4">
-                <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                   <Atom size={12} /> {t("op_moleculas_pequenas")}
                 </p>
 
                 <RadioCard
-                  selected={engine.engine === "vina"}
-                  onClick={() => setEngine({ ...engine, engine: "vina" })}
+                  selected={engine.peptideEngine === null}
+                  onClick={() => setEngine({ ...engine, peptideEngine: null })}
                   disabled={!estadoMotor("vina").disponible}
                   label="AutoDock Vina 1.2.7"
                   badge={t("pr_mot_clasico")}
@@ -602,251 +803,187 @@ export default function ProOptionsModal({
                   desc={estadoMotor("vina").motivo ?? t("auto_2e24a6f6267b")}
                   meta={{ icon: Cpu, text: "~20s" }}
                 />
-
-                <RadioCard
-                  selected={engine.engine === "qvina2"}
-                  onClick={() => setEngine({ ...engine, engine: "qvina2" })}
-                  disabled={!estadoMotor("qvina2").disponible}
-                  label="QuickVina 2"
-                  badge={badgeDe("qvina2", t("pr_mot_rapido"))}
-                  badgeStyle={{ bg: "rgba(251,191,36,0.15)", text: "#fbbf24" }}
-                  desc={descDe("qvina2", "QuickVina 2", t("auto_09e250071934"))}
-                  meta={{ icon: Zap, text: "~8s" }}
-                />
-
-                <RadioCard
-                  selected={engine.engine === "diffdock"}
-                  onClick={() => setEngine({ ...engine, engine: "diffdock" })}
-                  disabled={!estadoMotor("diffdock").disponible}
-                  label="DiffDock"
-                  badge={badgeDe("diffdock", t("pr_mot_difusion"))}
-                  badgeStyle={{ bg: "rgba(139,92,246,0.15)", text: "#8b5cf6" }}
-                  desc={descDe("diffdock", "DiffDock", t("pr_mot_difusion_d"))}
-                  meta={{ icon: Sparkles, text: "~1-5 min" }}
-                />
               </div>
 
-              {/* Péptidos */}
+              {/* Péptidos. ESMFold se elige sin depender de la molécula: el aviso
+                  dice cuándo conviene y la decisión queda en el investigador. */}
               <div className="space-y-2 pt-3 border-t border-zinc-800/60">
-                <p className="text-sm font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
-                  <Brain size={12} /> {t("auto_7987f4801c2c")}
-                  {!isPeptide && <span className="text-sm text-zinc-500 ml-1 font-mono normal-case font-normal">{t("auto_a7ff1c2aeb72")}</span>}
+                <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                  <Brain size={12} /> {t("auto_7987f4801c2c")} {botonAyuda(temas.peptidos)}
                 </p>
 
-                {(["esmfold", "esmfold-pro", "colabfold", "esmfold-experimental"] as const).map((pe) => {
-                  const labels: Record<string, { label: string; badge: string; desc: string }> = {
-                    esmfold: { label: "ESMFold", badge: "PLEGADO", desc: t("auto_14578be07d4d") },
-                    "esmfold-pro": { label: "ESMFold Pro", badge: "PRECISO", desc: "Plegamiento + refinamiento OpenMM." },
-                    colabfold: { label: "ColabFold", badge: "PREDICTIVO", desc: t("auto_0ec637ca2747") },
-                    "esmfold-experimental": { label: "RFdiffusion", badge: "EXPERIMENTAL", desc: t("auto_9331807fc431") },
-                  };
-                  const info = labels[pe];
-                  const gpuNeeded = pe === "esmfold-experimental";
-                  return (
-                    <RadioCard
-                      key={pe}
-                      selected={engine.peptideEngine === pe}
-                      onClick={() => setEngine({ ...engine, peptideEngine: engine.peptideEngine === pe ? null : pe })}
-                      disabled={!isPeptide || (gpuNeeded && !gpuAvailable) || !estadoMotor(pe).disponible}
-                      label={info.label}
-                      badge={badgeDe(pe, info.badge)}
-                      badgeStyle={{
-                        bg: pe === "esmfold-experimental"
-                          ? "rgba(251,191,36,0.15)"
-                          : pe === "esmfold-pro"
-                          ? "rgba(168,85,247,0.15)"
-                          : pe === "colabfold"
-                          ? "rgba(52,211,153,0.15)"
-                          : "rgba(56,189,248,0.15)",
-                        text: pe === "esmfold-experimental"
-                          ? "#fbbf24"
-                          : pe === "esmfold-pro"
-                          ? "#a78bfa"
-                          : pe === "colabfold"
-                          ? "#34d399"
-                          : "#38bdf8",
-                      }}
-                      desc={descDe(pe, info.label, info.desc)}
-                    />
-                  );
-                })}
+                <RadioCard
+                  selected={engine.peptideEngine === "esmfold"}
+                  onClick={() => setEngine({ ...engine, peptideEngine: "esmfold" })}
+                  disabled={!esmfoldElegible}
+                  label="ESMFold"
+                  badge={t("pr_cfg_experimental")}
+                  badgeMayusculas={false}
+                  badgeStyle={{ bg: "rgba(251,191,36,0.15)", text: "#fbbf24" }}
+                />
 
-                {/* ENG-002. Un motor descargable no es un motor ausente: se
-                    puede resolver desde aquí. La acción sale del backend —él
-                    sabe si faltan los pesos, una librería o sólo encenderlo— y
-                    esta interfaz no la deduce por su cuenta. */}
-                {(["esmfold", "esmfold-pro", "colabfold", "esmfold-experimental"] as const)
-                  .map((pe) => ({ pe, st: estadoMotor(pe) }))
-                  .filter(({ st }) => st.accion === "descargar" || st.accion === "encender")
-                  .map(({ pe, st }) => (
-                    <div key={`accion-${pe}`} className="flex items-center justify-between gap-2 rounded-lg border border-zinc-800 bg-zinc-900/40 px-3 py-2">
-                      <span className="text-sm text-zinc-400">
-                        {st.accion === "descargar"
-                          ? `${pe} necesita descargarse una vez`
-                          : `${pe} está instalado y apagado`}
-                      </span>
-                      {st.accion === "encender" ? (
-                        <button
-                          type="button"
-                          onClick={() => encender(pe)}
-                          disabled={encendiendo === pe}
-                          className="rounded border border-purple-500/40 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-300 transition-colors hover:bg-purple-950/40 disabled:opacity-50"
-                        >
-                          {encendiendo === pe ? t("auto_43584ce3b53d") : "Encender"}
-                        </button>
-                      ) : (
-                        <a
-                          href="/launcher"
-                          className="rounded border border-cyan-500/40 px-2.5 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-cyan-300 transition-colors hover:bg-cyan-950/30"
-                        >
-                          Abrir gestor
-                        </a>
-                      )}
-                    </div>
-                  ))}
+                {/* Estado de ESMFold: informa siempre; la acción sólo aparece cuando algo impide usarlo. */}
+                <div className="flex flex-wrap items-center gap-2 pl-7 text-xs font-mono text-zinc-500">
+                  <span>{chipEsmfold}</span>
+                  {esm.accion === "descargar" && (
+                    <a
+                      href="/launcher"
+                      className="rounded border border-cyan-500/40 px-2.5 py-1 font-mono text-xs font-bold uppercase tracking-wider text-cyan-300 transition-colors hover:bg-cyan-950/30"
+                    >
+                      {t("pr_cfg_abrir_gestor")}
+                    </a>
+                  )}
+                  {esm.accion === "reintentar" && (
+                    <button
+                      type="button"
+                      onClick={() => encender("esmfold")}
+                      disabled={encendiendo === "esmfold"}
+                      className="rounded border border-purple-500/40 px-2.5 py-1 font-mono text-xs font-bold uppercase tracking-wider text-purple-300 transition-colors hover:bg-purple-950/40 disabled:opacity-50"
+                    >
+                      {encendiendo === "esmfold" ? t("auto_43584ce3b53d") : t("op_esm_reintentar")}
+                    </button>
+                  )}
+                </div>
               </div>
 
-              {/* {t("op_precision_gnn")} */}
-              {!isPeptide && (
-                <div className="space-y-2 pt-3 border-t border-zinc-800/60">
-                  <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
-                    <Gauge size={11} /> {t("op_precision_gnn")}
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {(["fp32", "fp16"] as const).map((p) => (
+              {/* Motor externo (Vía API). Sin conexión en esta versión: la plaza deja visible
+                  dónde irá un motor de terceros, en su propio grupo y no dentro de péptidos,
+                  porque un motor externo declara qué moléculas acepta. No es elegible hasta
+                  que exista una conexión verificada. Ver docs/96_DISENO_MOTOR_EXTERNO_VIA_API.md. */}
+              <div className="space-y-2 pt-3 border-t border-zinc-800/60">
+                <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                  <Layers size={12} /> {t("op_api_grupo")}
+                </p>
+                <div
+                  data-testid="plaza-motor-api"
+                  aria-disabled="true"
+                  className="flex items-start gap-3 p-3.5 rounded-xl border border-dashed border-zinc-800/60 opacity-60"
+                >
+                  <span aria-hidden="true" className="mt-0.5 w-3.5 h-3.5 shrink-0 rounded-full border border-zinc-700" />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-bold font-mono uppercase tracking-wider text-zinc-500">{t("op_api_titulo")}</span>
+                      <span className="text-xs px-1.5 py-0.5 rounded font-mono font-bold uppercase bg-zinc-800 text-zinc-400">{t("op_api_badge")}</span>
+                    </div>
+                    <p className="text-xs mt-1 leading-relaxed text-zinc-500">{t("op_api_desc")}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Muestreo del ligando: se aplica junto con el resto del protocolo.
+                  gnnPrecision se conserva para leer configuraciones anteriores. */}
+              <section aria-labelledby={conformersTitleId} className="space-y-2 pt-3 border-t border-zinc-800/60">
+                  <h4 id={conformersTitleId} className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                    <Atom size={12} aria-hidden="true" /> {t("ayuda_ensemble_titulo")} {botonAyuda(temas.conformeros)}
+                  </h4>
+                  <p className="text-xs font-mono text-zinc-500">{t("op_conformeros_descripcion")}</p>
+                  <div role="group" aria-labelledby={conformersTitleId} className="grid grid-cols-2 gap-2">
+                    {([false, true] as const).map((multiple) => (
                       <button
-                        key={p}
-                        disabled={p === "fp16" && (!gpuAvailable || !gpuCuda)}
-                        onClick={() => setEngine({ ...engine, gnnPrecision: p })}
-                        className={`p-2.5 rounded-lg border text-sm font-mono font-bold uppercase transition-all ${
-                          p === "fp16" && (!gpuAvailable || !gpuCuda)
-                            ? "opacity-30 cursor-not-allowed border-zinc-800/30 text-zinc-600"
-                            : engine.gnnPrecision === p
+                        key={String(multiple)}
+                        type="button"
+                        aria-pressed={(conformers > 1) === multiple}
+                        onClick={() => setConformers(multiple ? (conformers > 1 ? conformers : 30) : 1)}
+                        className={`p-2.5 rounded-lg border text-sm font-mono font-bold uppercase transition-colors focus-visible:outline-2 focus-visible:outline-purple-400 active:bg-purple-500/20 ${
+                          (conformers > 1) === multiple
                             ? "border-purple-500/40 bg-purple-500/10 text-purple-300"
-                            : "border-zinc-800/60 text-zinc-400 hover:border-zinc-700"
+                            : "border-zinc-800/60 text-zinc-400 hover:border-zinc-700 hover:text-white"
                         } cursor-pointer`}
                       >
-                        <span>{p.toUpperCase()}</span>
-                        {p === "fp16" && <Zap size={10} className="inline ml-1 text-amber-400" />}
+                        {t(multiple ? "op_conformeros_varios" : "pr_conformero_unico")}
                       </button>
                     ))}
                   </div>
-                </div>
-              )}
+                  {conformers > 1 && (
+                    <>
+                      <NumberInput
+                        value={conformers}
+                        onChange={setConformers}
+                        min={2}
+                        max={64}
+                        step={1}
+                        integerOnly
+                        label={t("op_conformeros_numero")}
+                      />
+                      <p className="text-xs font-mono leading-relaxed text-amber-800 dark:text-amber-300">{t("op_conformeros_aviso")}</p>
+                    </>
+                  )}
+              </section>
             </div>
 
             {/* ═══ COLUMNA 2: {t("op_parametros_bolsillo")} ═══ */}
             <div>
-              <SectionHeader icon={Box} label={t("op_parametros_bolsillo")} subtitle={t("op_sub_donde")} />
+              <SectionHeader icon={Box} label={t("op_parametros_bolsillo")} subtitle={t("op_sub_donde")} ayuda={botonAyuda(temas.caja)} />
 
-              {/* Lógica de aplicabilidad del Grid Box */}
+              {/* La caja de búsqueda la usan Vina y ESMFold (el acoplamiento va después
+                  del plegado): no depende de la molécula ni del motor elegido. */}
               {(() => {
-                const isVina = !isPeptide && (engine.engine === "vina" || engine.engine === "qvina2");
-                const isEsmVina = isPeptide && (engine.peptideEngine === "esmfold" || engine.peptideEngine === "esmfold-pro");
-                const usesGridBox = isVina || isEsmVina;
-                
-                if (!usesGridBox) {
-                  let reason = "";
-                  if (isPeptide && engine.peptideEngine === "colabfold") reason = "ColabFold pliega el complejo entero (proteína-péptido). No requiere definir un bolsillo de unión específico.";
-                  else if (isPeptide && engine.peptideEngine === "esmfold-experimental") reason = "RFdiffusion diseña/acopla mediante difusión global sobre la estructura. No utiliza un grid box clásico.";
-                  else if (!isPeptide && engine.engine === "diffdock") reason = "DiffDock es un modelo generativo de difusión que busca (blind-docking) a lo largo de toda la proteína. El grid box no aplica.";
-                  
-                  return (
-                    <div className="flex flex-col items-center justify-center h-48 border border-zinc-800/40 border-dashed rounded-xl bg-zinc-900/20 p-4 text-center">
-                      <Box className="w-8 h-8 text-zinc-600 mb-3" />
-                      <p className="text-sm font-semibold text-zinc-400">{t("op_no_aplica")}</p>
-                      <p className="text-sm text-zinc-500 mt-2 leading-relaxed max-w-[200px]">
-                        {reason}
-                      </p>
-                    </div>
-                  );
-                }
-
                 return (
                   <div className="animate-in fade-in duration-300">
                     {/* Grid Box Preview */}
                     <GridBoxPreview config={gridBox} />
 
                     {systemSealed && (
-                      <div className="mt-4 rounded-xl border border-purple-500/20 bg-purple-500/[0.04] p-3">
-                        <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-purple-200">
+                      <div className="mt-4 flex items-center justify-between gap-2 rounded-xl border border-purple-500/20 bg-purple-500/[0.04] px-3 py-2">
+                        <p className="text-xs font-mono font-bold uppercase tracking-wider text-purple-200">
                           {t("op_sistema_sellado_titulo")}
                         </p>
-                        <p className="mt-1 text-sm font-mono leading-relaxed text-zinc-300">
-                          {t("op_sistema_sellado")}
-                        </p>
+                        {botonAyuda(temas.sellado)}
                       </div>
                     )}
 
                     {/* Coordenadas del Centro */}
                     <div className="mt-4 space-y-3">
-                      <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500">
+                      <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400">
                         {t("op_centro_grid")}
                       </p>
                       <div className="grid grid-cols-3 gap-2">
-                        <NumberInput label="X" value={gridBox.centerX} onChange={(v) => setGridBox({ ...gridBox, centerX: v })} min={-100} max={100} step={0.5} disabled={systemSealed} />
-                        <NumberInput label="Y" value={gridBox.centerY} onChange={(v) => setGridBox({ ...gridBox, centerY: v })} min={-100} max={100} step={0.5} disabled={systemSealed} />
-                        <NumberInput label="Z" value={gridBox.centerZ} onChange={(v) => setGridBox({ ...gridBox, centerZ: v })} min={-100} max={100} step={0.5} disabled={systemSealed} />
+                        <NumberInput label="X" grupo={t("op_centro_grid")} value={gridBox.centerX} onChange={(v) => setGridBox({ ...gridBox, centerX: v })} min={-CAJA_CENTRO_MAX_A} max={CAJA_CENTRO_MAX_A} step={0.5} disabled={systemSealed} />
+                        <NumberInput label="Y" grupo={t("op_centro_grid")} value={gridBox.centerY} onChange={(v) => setGridBox({ ...gridBox, centerY: v })} min={-CAJA_CENTRO_MAX_A} max={CAJA_CENTRO_MAX_A} step={0.5} disabled={systemSealed} />
+                        <NumberInput label="Z" grupo={t("op_centro_grid")} value={gridBox.centerZ} onChange={(v) => setGridBox({ ...gridBox, centerZ: v })} min={-CAJA_CENTRO_MAX_A} max={CAJA_CENTRO_MAX_A} step={0.5} disabled={systemSealed} />
                       </div>
                     </div>
 
                     {/* Tamaño del Grid Box */}
                     <div className="mt-4 space-y-3">
-                      <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500">
+                      <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400">
                         {t("op_dimensiones_grid")}
                       </p>
                       <div className="grid grid-cols-3 gap-2">
-                        <NumberInput label={t("op_tamano_x")} value={gridBox.sizeX} onChange={(v) => setGridBox({ ...gridBox, sizeX: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
-                        <NumberInput label={t("op_tamano_y")} value={gridBox.sizeY} onChange={(v) => setGridBox({ ...gridBox, sizeY: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
-                        <NumberInput label={t("op_tamano_z")} value={gridBox.sizeZ} onChange={(v) => setGridBox({ ...gridBox, sizeZ: v })} min={5} max={50} step={0.5} disabled={systemSealed} />
+                        <NumberInput label={t("op_tamano_x")} grupo={t("op_dimensiones_grid")} value={gridBox.sizeX} onChange={(v) => setGridBox({ ...gridBox, sizeX: v })} min={CAJA_LADO_MIN_A} max={CAJA_LADO_MAX_A} step={0.5} disabled={systemSealed} />
+                        <NumberInput label={t("op_tamano_y")} grupo={t("op_dimensiones_grid")} value={gridBox.sizeY} onChange={(v) => setGridBox({ ...gridBox, sizeY: v })} min={CAJA_LADO_MIN_A} max={CAJA_LADO_MAX_A} step={0.5} disabled={systemSealed} />
+                        <NumberInput label={t("op_tamano_z")} grupo={t("op_dimensiones_grid")} value={gridBox.sizeZ} onChange={(v) => setGridBox({ ...gridBox, sizeZ: v })} min={CAJA_LADO_MIN_A} max={CAJA_LADO_MAX_A} step={0.5} disabled={systemSealed} />
                       </div>
                     </div>
 
                     {/* Exhaustiveness & Num Modes */}
                     <div className="mt-4 space-y-3">
-                      <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500">
+                      <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400">
                         {t("op_parametros_busqueda")}
                       </p>
                       <div className="grid grid-cols-2 gap-3">
-                        <div className="flex flex-col gap-1">
-                          <label className="text-sm font-mono uppercase tracking-wider text-zinc-500">
-                            {t("c_exhaustividad")}
-                          </label>
-                          <select
-                            value={gridBox.exhaustiveness}
-                            onChange={(e) => setGridBox({ ...gridBox, exhaustiveness: parseInt(e.target.value) })}
-                            className="bg-black border border-zinc-700 rounded-lg py-1.5 px-2 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors cursor-pointer"
-                          >
-                            {[1, 2, 4, 8, 16, 24, 32].map((n) => (
-                              <option key={n} value={n}>{n} {n <= 8 ? t("auto_78940da1bb6a") : n >= 24 ? t("auto_9af5776f1fea") : ""}</option>
-                            ))}
-                          </select>
-                        </div>
-                        <div className="flex flex-col gap-1">
-                          <label className="text-sm font-mono uppercase tracking-wider text-zinc-500">
-                            Num Modes
-                          </label>
-                          <select
-                            value={gridBox.numModes}
-                            onChange={(e) => setGridBox({ ...gridBox, numModes: parseInt(e.target.value) })}
-                            className="bg-black border border-zinc-700 rounded-lg py-1.5 px-2 font-mono text-sm text-white outline-none focus:border-purple-500/40 transition-colors cursor-pointer"
-                          >
-                            {[1, 3, 5, 9, 15, 20].map((n) => (
-                              <option key={n} value={n}>{n} poses</option>
-                            ))}
-                          </select>
-                        </div>
+                        <SelectorEtiquetado
+                          etiqueta={t("c_exhaustividad")}
+                          value={gridBox.exhaustiveness}
+                          onChange={(e) => setGridBox({ ...gridBox, exhaustiveness: parseInt(e.target.value) })}
+                        >
+                          {[1, 2, 4, 8, 16, 24, 32].map((n) => (
+                            <option key={n} value={n}>{n} {n <= 8 ? t("auto_78940da1bb6a") : n >= 24 ? t("auto_9af5776f1fea") : ""}</option>
+                          ))}
+                        </SelectorEtiquetado>
+                        <SelectorEtiquetado
+                          etiqueta={t("pr_cfg_num_modes")}
+                          value={gridBox.numModes}
+                          onChange={(e) => setGridBox({ ...gridBox, numModes: parseInt(e.target.value) })}
+                        >
+                          {[1, 3, 5, 9, 15, 20].map((n) => (
+                            <option key={n} value={n}>{n} {t(clavePluralDePoses(n))}</option>
+                          ))}
+                        </SelectorEtiquetado>
                       </div>
                     </div>
 
-                    {/* Info contextual */}
-                    <div className="mt-4 p-3 rounded-xl bg-purple-500/[0.04] border border-purple-500/10 flex items-start gap-2">
-                      <Info size={13} className="text-purple-400 mt-0.5 shrink-0" />
-                      <p className="text-sm font-mono text-zinc-400 leading-relaxed">
-                        {t("op_grid_explicacion")}
-                      </p>
-                    </div>
-                  </div>
+                                      </div>
                 );
               })()}
 
@@ -854,25 +991,22 @@ export default function ProOptionsModal({
               {targetHotspots.length > 0 && (
                 <div className="mt-6 space-y-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
-                      <Target size={11} /> {t("op_hotspots")}
+                    <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+                      <Target size={11} /> {t("op_hotspots")} {botonAyuda(temas.hotspots)}
                     </p>
                     <button
                       type="button"
                       onClick={toggleAllHotspots}
                       disabled={systemSealed}
-                      className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-zinc-800 disabled:hover:text-zinc-300"
+                      className="text-xs font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white border border-zinc-700 transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-zinc-800 disabled:hover:text-zinc-300"
                     >
                       {selectedHotspots.length === targetHotspots.length
                         ? t("op_desmarcar_todos")
                         : t("op_marcar_todos")}
                     </button>
                   </div>
-                  <p className="text-sm font-mono text-zinc-500 leading-relaxed">
-                    {systemSealed
-                      ? t("op_hotspots_fijados")
-                      : t("op_hotspots_explicacion")}
-                    {" "}({selectedHotspots.length}/{targetHotspots.length} activos)
+                  <p className="text-xs font-mono text-zinc-500 leading-relaxed">
+                    ({selectedHotspots.length}/{targetHotspots.length} {t("pr_cfg_activos")})
                   </p>
                   <div className="flex flex-wrap gap-1.5 max-h-36 overflow-y-auto pr-1">
                     {targetHotspots.map((h) => {
@@ -884,12 +1018,12 @@ export default function ProOptionsModal({
                           onClick={() => toggleHotspot(h.name)}
                           disabled={systemSealed}
                           title={`${h.name} · importancia ${h.importance?.toFixed?.(2) ?? h.importance}`}
-                          className={`px-2 py-1 rounded-lg text-[10px] font-mono font-bold transition-all border disabled:cursor-not-allowed ${
+                          className={`px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all border disabled:cursor-not-allowed ${
                             systemSealed ? "cursor-not-allowed" : "cursor-pointer"
                           } ${
                             active
                               ? "bg-purple-500/15 border-purple-500/40 text-purple-300"
-                              : "bg-zinc-900/60 border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700"
+                              : "bg-[var(--bg-secondary)] border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700"
                           }`}
                         >
                           {active ? "●" : "○"} {h.name}
@@ -907,18 +1041,20 @@ export default function ProOptionsModal({
 
               {/* Workers & Parallel Docks */}
               <div className="space-y-3">
-                <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
+                <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                   <Cpu size={11} /> {t("op_recursos")}
                 </p>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-x-3 gap-y-1">
                   <NumberInput
-                    label="Procesos"
+                    alignWithPeers
+                    label={t("pr_cfg_procesos")}
                     value={advanced.numWorkers}
                     onChange={(v) => setAdvanced({ ...advanced, numWorkers: v })}
                     min={1} max={16} step={1}
                   />
                   <NumberInput
-                    label="Docks Paralelos"
+                    alignWithPeers
+                    label={t("pr_cfg_docks_paralelos")}
                     value={advanced.parallelDocks}
                     onChange={(v) => setAdvanced({ ...advanced, parallelDocks: v })}
                     min={1} max={8} step={1}
@@ -931,7 +1067,7 @@ export default function ProOptionsModal({
                   no se enciende ni se apaga, siempre ocurre. Lo que se elige
                   aquí es QUÉ MOLÉCULA entra al motor. */}
               <div className="mt-4 pt-3 border-t border-zinc-800/60">
-                <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
+                <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                   <Atom size={11} /> {t("op_preparacion_ligando")}
                 </p>
 
@@ -939,6 +1075,7 @@ export default function ProOptionsModal({
                   <div className="flex flex-wrap items-end justify-between gap-3">
                     <NumberInput
                       label={t("op_ph_protonacion")}
+                      ayuda={botonAyuda(temas.ph)}
                       value={advanced.protonationPh}
                       onChange={(v) =>
                         // `NumberInput` suma y resta en coma flotante: sin
@@ -954,48 +1091,57 @@ export default function ProOptionsModal({
                         onClick={() =>
                           setAdvanced({ ...advanced, protonationPh: DEFAULT_ADVANCED.protonationPh })
                         }
-                        className="rounded-lg border border-zinc-700 px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white cursor-pointer"
+                        className="rounded-lg border border-zinc-700 px-2.5 py-1 font-mono text-xs uppercase tracking-wider text-zinc-400 transition-colors hover:border-zinc-600 hover:text-white cursor-pointer"
                       >
-                        Volver a 7.4
+                        {t("pr_cfg_volver_ph")}
                       </button>
                     )}
                   </div>
-                  <p className="text-sm font-mono text-zinc-600 mt-2 leading-relaxed">
-                    {t("op_ph_cambia_a")} <span className="text-zinc-400">{t("op_ph_especie")}</span> {t("op_ph_cambia_b")}
-                  </p>
-                  {advanced.protonationPh !== DEFAULT_ADVANCED.protonationPh && (
-                    <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-sm leading-relaxed text-amber-300">
+                                    {advanced.protonationPh !== DEFAULT_ADVANCED.protonationPh && (
+                    <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-2.5 py-1.5 text-xs leading-relaxed text-amber-800 dark:text-amber-300">
                       {t("op_ph_fuera_fisiologico")} {t("auto_f0d9b3df714d")}
                     </p>
                   )}
                 </div>
               </div>
 
+              <div className="mt-4 rounded-xl border border-zinc-700 p-3">
+                <div className="flex items-center gap-2">
+                  <label htmlFor="tautomer-mode" className="block text-xs font-mono uppercase tracking-wider text-zinc-500">{t("op_tautomero")}</label>
+                  {botonAyuda(temas.tautomero)}
+                </div>
+                <select id="tautomer-mode"
+                  className="mt-2 min-h-11 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 text-sm text-zinc-100 focus-visible:outline-2 focus-visible:outline-cyan-400"
+                  value={advanced.tautomerMode ?? "entrada"}
+                  onChange={(event) => setAdvanced({ ...advanced, tautomerMode: event.target.value as "canonico" | "entrada" })}>
+                  <option value="entrada">{t("op_tautomero_entrada")}</option>
+                  <option value="canonico">{t("op_tautomero_defecto")}</option>
+                </select>
+              </div>
+
               {/* Toggles */}
               <div className="mt-4 space-y-3 pt-3 border-t border-zinc-800/60">
-                <p className="text-sm font-mono font-bold uppercase tracking-widest text-zinc-500 flex items-center gap-1.5">
+                <p className="text-sm font-mono font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                   <Layers size={11} /> {t("op_modulos_pipeline")}
                 </p>
 
                 {[
                   {
                     key: "enableSelectivity" as const,
-                    label: "Selectividad Anti-Target",
-                    desc: t("auto_bf0382f209fa"),
+                    label: t("pr_cfg_selectividad_antitarget"),
+                    ayuda: [t("auto_bf0382f209fa")],
                     icon: ShieldCheck,
                     badge: undefined as string | undefined,
-                    note: undefined as string | undefined,
                   },
                   {
                     key: "enableADMET" as const,
-                    label: "Perfil ADMET",
-                    desc: t("auto_38997db9a692"),
+                    label: t("pr_cfg_perfil_admet"),
+                    ayuda: [t("auto_38997db9a692"), t("z_admet_note")],
                     icon: Gauge,
                     // Lo que el usuario necesita saber ANTES de encenderlo, no
                     // después de esperar. Cada frase corresponde a un hecho
                     // comprobado del runtime, no a una advertencia genérica.
                     badge: t("auto_e422c24500d4"),
-                    note: t("z_admet_note"),
                   },
                 ].map((mod) => (
                   <div
@@ -1008,18 +1154,15 @@ export default function ProOptionsModal({
                         <span className="text-sm font-mono font-bold text-white uppercase tracking-wider block">
                           {mod.label}
                           {mod.badge && (
-                            <span className="ml-2 align-middle rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold normal-case tracking-normal text-amber-300">
+                            <span className="ml-2 align-middle rounded border border-amber-500/30 bg-amber-500/10 px-1.5 py-0.5 text-xs font-bold normal-case tracking-normal text-amber-800 dark:text-amber-300">
                               {mod.badge}
                             </span>
                           )}
+                          <span className="ml-2 inline-block align-middle">
+                            {botonAyuda({ titulo: mod.label, parrafos: mod.ayuda })}
+                          </span>
                         </span>
-                        <p className="text-sm text-zinc-500 mt-0.5 leading-relaxed">{mod.desc}</p>
-                        {mod.note && (
-                          <p className="mt-1.5 rounded-lg border border-amber-500/20 bg-amber-500/[0.05] px-2.5 py-2 text-[11px] leading-relaxed text-amber-100/80">
-                            {mod.note}
-                          </p>
-                        )}
-                      </div>
+                                              </div>
                     </div>
                     <ToggleSwitch
                       label={mod.label}
@@ -1030,16 +1173,18 @@ export default function ProOptionsModal({
                 ))}
               </div>
 
+              {advanced.enableSelectivity && <div className="mt-3"><AntiDianasSelector targets={anti.targets} selected={antiTargetSelection} error={anti.error} onRetry={anti.retry} onChange={(ids) => setAdvanced({ ...advanced, antiTargetsPending: false, selectedAntiTargets: ids })} /></div>}
+
               {/* MMGBSA Steps (solo visible si enableMMGBSA) */}
               {advanced.enableMMGBSA && (
                 <div className="mt-3 pt-3 border-t border-zinc-800/60">
                   <NumberInput
-                    label="Pasos MM-GBSA"
+                    label={t("pr_cfg_pasos_mmgbsa")}
                     value={advanced.mmgbsaSteps}
                     onChange={(v) => setAdvanced({ ...advanced, mmgbsaSteps: v })}
                     min={100} max={5000} step={100}
                   />
-                  <p className="text-sm font-mono text-zinc-600 mt-1">
+                  <p className="text-xs font-mono text-zinc-600 mt-1">
                     {t("op_pasos_no_garantizan")}
                   </p>
                 </div>
@@ -1049,7 +1194,7 @@ export default function ProOptionsModal({
         </div>
 
         {/* ── Footer ── */}
-        <div className="flex-none px-6 py-4 border-t border-zinc-800/80 bg-black/60 backdrop-blur-md flex items-center justify-between">
+        <div className="flex-none px-6 py-4 border-t border-zinc-800/80 bg-[var(--bg-secondary)] backdrop-blur-md flex items-center justify-between">
           <button
             onClick={onClose}
             className="px-5 py-2 rounded-xl font-mono text-sm font-bold uppercase tracking-wider bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white transition-colors cursor-pointer"
@@ -1058,13 +1203,18 @@ export default function ProOptionsModal({
           </button>
           <button
             onClick={handleApply}
-            className="px-6 py-2.5 rounded-xl font-mono text-sm font-bold uppercase tracking-wider bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-950/50 border border-purple-400/30 transition-all flex items-center gap-2 cursor-pointer"
+            disabled={advanced.enableSelectivity && (anti.targets === null || anti.error)}
+            className="px-6 py-2.5 rounded-xl font-mono text-sm font-bold uppercase tracking-wider bg-purple-600 hover:bg-purple-500 text-[#fff] shadow-lg shadow-purple-950/50 border border-purple-400/30 transition-all flex items-center gap-2 cursor-pointer"
           >
             <CheckCircle size={14} />
             {t("op_aplicar")}
           </button>
         </div>
       </div>
+
+      {ayuda && (
+        <DialogoDeAyuda tema={ayuda.tema} origen={ayuda.origen} onCerrar={() => setAyuda(null)} />
+      )}
     </div>
   );
 }

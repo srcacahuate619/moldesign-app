@@ -1,0 +1,98 @@
+
+> moldesign-frontend@1.0.1 lint
+> eslint .
+
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\app\comunidad\page.tsx
+  54:6  warning  React Hook useCallback has a missing dependency: 't'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\app\evaluation\batch\page.tsx
+  223:6  warning  React Hook useCallback has a missing dependency: 't'. Either include it or remove the dependency array                react-hooks/exhaustive-deps
+  341:6  warning  React Hook useEffect has missing dependencies: 'corrida' and 't'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\KetcherEditorInner.tsx
+  199:6  warning  React Hook useEffect has a missing dependency: 'syncToKetcher'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\MoleculeTechViewer.tsx
+  126:6  warning  React Hook useEffect has a missing dependency: 'theme'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\PDFReportViewer.tsx
+  80:6  warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\cases\CaseDossierViewer.tsx
+  153:6  warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\cases\CaseRunTracker.tsx
+  159:6  warning  React Hook useEffect has a missing dependency: 'activeRun.executionState'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\evaluation\CaseEvaluationRunner.tsx
+   471:6   warning  React Hook useEffect has a missing dependency: 'activeRun'. Either include it or remove the dependency array                                                                                                                                                        react-hooks/exhaustive-deps
+   525:6   warning  React Hook useEffect has a missing dependency: 'isTerminal'. Either include it or remove the dependency array                                                                                                                                                       react-hooks/exhaustive-deps
+   900:5   warning  React Hook useCallback has a missing dependency: 't'. Either include it or remove the dependency array                                                                                                                                                              react-hooks/exhaustive-deps
+   970:6   warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array                                                                                                                                                                react-hooks/exhaustive-deps
+  1378:11  warning  Do not use `window.location.href` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\AdvancedMolstarViewer.tsx
+  392:6  warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array                       react-hooks/exhaustive-deps
+  470:6  warning  React Hook useEffect has missing dependencies: 'gnnAttention' and 't'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\LiquidOrb.tsx
+  91:34  warning  The ref value 'orbRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'orbRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\PoseComparisonDialog.tsx
+  102:6  warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\ProAnalysisTabs.tsx
+   67:6  warning  React Hook useEffect has a missing dependency: 'ranks'. Either include it or remove the dependency array      react-hooks/exhaustive-deps
+  255:6  warning  React Hook useEffect has a missing dependency: 'poseRanks'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\ProConfigPanel.tsx
+  69:6  warning  React Hook useEffect has a missing dependency: 'fetchHardware'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+  73:6  warning  React Hook useEffect has a missing dependency: 'updateEstimate'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\ProEvaluation.tsx
+  582:6  warning  React Hook useCallback has a missing dependency: 't'. Either include it or remove the dependency array            react-hooks/exhaustive-deps
+  793:6  warning  React Hook useEffect has a missing dependency: 'displayResult'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\ProSelectivityPanel.tsx
+  367:5  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/exhaustive-deps')
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\interfaces\pro\Web3DViewer.tsx
+  267:6  warning  React Hook useMemo has a missing dependency: 'hotspotColors'. Either include it or remove the dependency array   react-hooks/exhaustive-deps
+  943:6  warning  React Hook useMemo has a missing dependency: 'receptorChains'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\ui\AboutModal.tsx
+  198:6  warning  React Hook useEffect has a missing dependency: 'handleClose'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\ui\LegalModal.tsx
+  243:6  warning  React Hook useEffect has a missing dependency: 'handleClose'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\ui\LocalDocViewer.tsx
+  83:6  warning  React Hook useEffect has a missing dependency: 't'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\ui\OptionsMenu.tsx
+  93:30  warning  The ref value 'triggerRef.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'triggerRef.current' to a variable inside the effect, and use that variable in the cleanup function  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\components\ui\VirtualMoleculeList.tsx
+   76:6  warning  React Hook useEffect has missing dependencies: 'cache' and 'fetchPage'. Either include them or remove the dependency array. If 'fetchPage' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+  103:6  warning  React Hook useEffect has missing dependencies: 'cache' and 'fetchPage'. Either include them or remove the dependency array. If 'fetchPage' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+  114:6  warning  React Hook useEffect has a missing dependency: 'cache.selectedIndex'. Either include it or remove the dependency array                                                                                                                           react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\context\DownloadProvider.tsx
+  332:6  warning  React Hook useCallback has an unnecessary dependency: 'applyEngine'. Either exclude it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\hooks\useGsapText.ts
+  43:6  warning  React Hook useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies  react-hooks/exhaustive-deps
+  43:6  warning  React Hook useEffect has missing dependencies: 'delay', 'duration', 'enabled', 'stagger', and 'type'. Either include them or remove the dependency array              react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\lib\api.ts
+  311:11  warning  Do not use `window.location.href` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\lib\auth.tsx
+  179:6  warning  React Hook useEffect has a missing dependency: '_persist'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+D:\moldesign-build\.worktrees\catalogo-demostracion\frontend\scripts\finish-i18n-frontend.cjs
+  1:1  warning  Unused eslint-disable directive (no problems were reported from 'no-console')
+
+✖ 39 problems (0 errors, 39 warnings)
+  0 errors and 2 warnings potentially fixable with the `--fix` option.

@@ -1,0 +1,27 @@
+{
+  "pdb": "8WGR",
+  "semilla": 2026,
+  "inicio": "2026-10-23T05:57:12+00:00",
+  "resultado": "auditada",
+  "task_id": "88e7effa-0152-4ffb-ad59-67cf0f1a4bba",
+  "estado_global": "REVISION",
+  "metales": {
+    "estado": "REVISAR",
+    "valor": "Retirados a 6 Å o menos del ligando: K A:704 (4.35 Å). El ligando del cristal no toca ninguno (ni un N, O o S a 2,8 Å de un metal ni un átomo a 4 Å de un cofactor).",
+    "razon": "El receptor no contiene especies que estaban cerca del sitio, pero el ligando del cristal no las toca. Si sólo ocupan la segunda esfera, retirarlas puede ser aceptable; decide y justifícalo antes de un cálculo posterior.",
+    "accion_recomendada": "Si la especie es estructural o catalítica para este ligando, vuelve a evaluar con ella en la lista de cofactores del receptor; si no, registra por qué se retira."
+  },
+  "referencia": "Pose top-1 y ligando del cristal DSM A:701",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "879d835a40ae33677aff5227e80759e01d140afde3bc51064af8a37d5b6deb2b",
+  "afinidad_top1": -7.074,
+  "microestado": "C[NH2+]CCCN1c2ccccc2CCc2ccccc21",
+  "microestado_coincide": true,
+  "semilla_declarada": 2026,
+  "vina": "1.2.7",
+  "receptor_sha256": "459ba47c7cb54243e104af7ee419157874625a62814ce9df7d36501e1f271f76",
+  "segundos": 33.8,
+  "fin": "2026-10-23T05:57:46+00:00",
+  "brazo": "r1",
+  "commit": "f7c46736"
+}

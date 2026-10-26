@@ -1,0 +1,478 @@
+{
+  "id": "1J37-SIN-s45",
+  "entry": "1J37",
+  "arm": "SIN",
+  "seed": 45,
+  "outcome": "SUCCESS",
+  "cofactors_whitelist": [],
+  "receptor_sha256": "de4992c2ff5e27446fc9f651b44ef37846adbcc028aa08a4105a99a9b3ab82c1",
+  "recipe": 7,
+  "receptor_prep": {
+    "source": "meeko_report",
+    "recipe_hash": "ab4f99c7c0fab9ac12859a45afc30720f1329901ea72f8afbecca3d4203694e8",
+    "species_diff": {
+      "near_site": {
+        "margin_A": 6.0,
+        "preserved": [],
+        "protein_residues_removed": {},
+        "removed": [
+          {
+            "category": "metal",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "ZN",
+            "residue_number": "701"
+          },
+          {
+            "category": "other_heteroatom",
+            "chain": "A",
+            "distance_to_box_A": 0.0,
+            "insertion_code": "",
+            "name": "X8Z",
+            "residue_number": "801"
+          }
+        ]
+      },
+      "preserved": {
+        "atom_records": 4900,
+        "metals": 0,
+        "organic_cofactors": 0,
+        "waters": 0
+      },
+      "reason": "La fuente incluye 2 cadena(s); el receptor de la corrida sólo conserva 'A'.",
+      "removed": {
+        "metals": 2,
+        "organic_cofactors": 0,
+        "other_hetatm": 28,
+        "waters": 0
+      },
+      "removed_species": [
+        {
+          "atom_count": 28,
+          "category": "other_heteroatom",
+          "residue_code": "X8Z"
+        },
+        {
+          "atom_count": 2,
+          "category": "metal",
+          "residue_code": "ZN"
+        }
+      ],
+      "route_input": {
+        "atom_records": 4900,
+        "chains": [
+          "A"
+        ],
+        "hetatm_records": 0,
+        "metals": 0,
+        "organic_cofactors": 0,
+        "other_hetatm": 0,
+        "waters": 0
+      },
+      "site_ligand": null,
+      "source": {
+        "atom_records": 9800,
+        "chains": [
+          "A",
+          "B"
+        ],
+        "hetatm_records": 30,
+        "metals": 2,
+        "organic_cofactors": 0,
+        "other_hetatm": 28,
+        "waters": 0
+      },
+      "state": "evaluado"
+    },
+    "meeko_parameterized_json_sha256": "9e947dae598db893553af103d6e103fb574760fbacf4bbe4d2cc459f2bc156c3",
+    "protonation_method": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+    "removed_residues": [],
+    "cofactors_outside_site": [],
+    "truncated_sidechains": [],
+    "backbone_gaps": [],
+    "cofactor_templates_sha256": "11e19414717c112df6a7c598973d0199a7be1f590d8773fc75ce70dd94681fbd",
+    "chain": "A",
+    "prepared_chains": [
+      "A"
+    ],
+    "site_chains": [
+      "A"
+    ],
+    "cofactors_whitelist": [],
+    "modo_de_preparacion": "automatico",
+    "entrada": {
+      "archivo": "1J37.pdb",
+      "bytes": 858357,
+      "bytes_descomprimidos": 858357,
+      "comprimido": false,
+      "formato": "pdb",
+      "sha256": "f2ed50321264949499fd3d9f1ed9a08d339e2167244c3faf45cb92a813d57659",
+      "sha256_contenido": "f2ed50321264949499fd3d9f1ed9a08d339e2167244c3faf45cb92a813d57659"
+    },
+    "prediccion": {
+      "convencion": null,
+      "es_predicha": false,
+      "evidencia": [],
+      "fuente": null,
+      "metodo_declarado": "X-RAY DIFFRACTION",
+      "no_disponible": null,
+      "plddt": null
+    }
+  },
+  "microstate_smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+  "microstate_sha256": "2a6a6dc0f0401be2ec493b69c436751a2faf4274e727bd6ff4ecf09431cba32d",
+  "ligand_state": {
+    "smiles_entrada": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+    "identidad_entrada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+      "sha256": "a5af4922ccd929d9dab9844ae21355ee0250f0a2dfdca0a62fac6017ba8f053e"
+    },
+    "tautomeria": {
+      "aplicada": false,
+      "motor": null,
+      "alternativas": null,
+      "motivo": "se respeta el tautómero de la entrada (tautomero=entrada)",
+      "modo": "entrada",
+      "aviso_de_modo": null,
+      "declaracion_entrada": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+        "smiles_canonico": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "CC(CS)=C(O)N1CCCC1=C(O)O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "CC(CS)=C(O)N1CCC[C@H]1C(=O)O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T2",
+            "smiles": "C[C@H](CS)C(=O)N1CCCC1=C(O)O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T3",
+            "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+            "es_canonico": true,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 4,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          1,
+          5,
+          10,
+          12,
+          13
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "4 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante.",
+        "tautomero_acoplado": "entrada"
+      },
+      "declaracion": {
+        "version": 1,
+        "motor": "RDKit rdMolStandardize.TautomerEnumerator 2025.09.6 (tautomerRemoveSp3Stereo=False, maxTautomers=32)",
+        "smiles_entrada": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+        "smiles_canonico": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+        "candidatos": [
+          {
+            "id": "T0",
+            "smiles": "CC(CS)=C(O)N1CCCC1=C([O-])O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T1",
+            "smiles": "CC(CS)=C(O)N1CCC[C@H]1C(=O)[O-]",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T2",
+            "smiles": "C[C@H](CS)C(=O)N1CCCC1=C([O-])O",
+            "es_canonico": false,
+            "es_entrada": false
+          },
+          {
+            "id": "T3",
+            "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+            "es_canonico": true,
+            "es_entrada": true
+          }
+        ],
+        "n_candidatos": 4,
+        "enumeracion_completa": true,
+        "atomos_tautomericos": [
+          1,
+          5,
+          10,
+          12
+        ],
+        "estado": "MULTIESTADO_REQUERIDO",
+        "motivo": "4 tautómeros enumerados y ninguno descartado con evidencia; la especie acoplada se identifica aparte",
+        "poblaciones": null,
+        "poblaciones_motivo": "Sin modelo de poblaciones validado: no se descarta ningún candidato. El canónico de RDKit es una representación reproducible, no el estado dominante."
+      }
+    },
+    "protonacion": {
+      "aplicada": true,
+      "motor": "dimorphite-dl",
+      "ph": 7.4,
+      "ph_solicitado": null,
+      "aviso_de_ph": null,
+      "alternativas": 2,
+      "seleccion": {
+        "criterio": "cargas_esperadas_ph_7.4",
+        "ph": 7.4,
+        "cationes_esperados": 0,
+        "aniones_esperados": 1,
+        "desajuste": 0,
+        "clases_sin_pka": [],
+        "quimica_resuelta": true,
+        "revision_biguanida": false,
+        "empatados": 1,
+        "motivo": "Se comparan los recuentos de carga formal de cada microestado con los centros que Henderson-Hasselbalch predice ionizados a pH 7.4, usando los pKa por clase de este módulo. Los empates se rompen por orden alfabético del SMILES, no por el orden de dimorphite-dl, que no es reproducible entre corridas."
+      },
+      "motivo": null,
+      "version_motor": "2.0.2",
+      "parametros": {
+        "ph_min": 7.4,
+        "ph_max": 7.4,
+        "precision": 1.0,
+        "max_variants": 128
+      },
+      "candidatos_sha256": "bdecd2d57d98a3893edbd85c9f1c1d0f7ff6a15f7a77ea349a334a8646a62c51",
+      "recortado": false
+    },
+    "smiles_acoplado": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+    "identidad_acoplada": {
+      "version": 2,
+      "rdkit_version": "2025.09.6",
+      "canonical_smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+      "sha256": "d6cbc3e4d5c86f1f98ed84736ea5773d48be5bacc2a37a69240bdff72af4484f"
+    },
+    "cambio_respecto_a_la_entrada": true,
+    "carga_formal_neta": -1,
+    "formula_acoplada": "C9H14NO3S-",
+    "conformero": {
+      "rdkit_version": "2025.09.6",
+      "semilla": 42,
+      "estrategia_embebido": "ETKDGv3",
+      "intentos_etkdg": 1,
+      "mitigaciones": [],
+      "campo_fuerza_final": "MMFF94",
+      "optimizacion_convergida": true,
+      "sdf_sha256": "0eeca6a1ce4e7ac034cb3ef876deb8c60d9cfd74a44055d208bb5b850febd802"
+    },
+    "estereoquimica": {
+      "centros_sin_asignar": 0,
+      "dobles_sin_asignar": 0,
+      "declarada_por_el_usuario": true,
+      "smiles_3d_efectivo": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+      "dobles_sin_clasificar_3d": 0,
+      "motor": "RDKit AssignStereochemistryFrom3D 2025.09.6",
+      "semilla": 42,
+      "perdida_en_la_especie_acoplada": {
+        "centros": 0,
+        "dobles": 0
+      }
+    }
+  },
+  "task_id": "51852442-86c1-4c7c-8e31-f46e8f7540eb",
+  "molecule_id": "833e0d4a-79eb-4373-8330-c0992278c0e6",
+  "rmsd_top1_A": 0.5238211254126459,
+  "rmsd_poses_A": [
+    0.5238211254126459,
+    4.811668584953516,
+    6.767382217034041,
+    7.052163695328852,
+    5.148790294816832,
+    5.405320679002972,
+    7.582938937415455,
+    6.557003867185509,
+    4.61693097661825
+  ],
+  "best_of_returned_poses_A": 0.5238211254126459,
+  "returned_poses": 9,
+  "physical_status": "passed",
+  "physical_evidence": {
+    "rank": 1,
+    "observed_vina_affinity_kcal_mol": -5.639,
+    "status": "passed",
+    "label": "CONTROLES SUPERADOS",
+    "engine": "posebusters:0.6.5:dock",
+    "checks": [
+      {
+        "check": "mol_pred_loaded",
+        "estado": "PASA"
+      },
+      {
+        "check": "mol_cond_loaded",
+        "estado": "PASA"
+      },
+      {
+        "check": "sanitization",
+        "estado": "PASA"
+      },
+      {
+        "check": "inchi_convertible",
+        "estado": "PASA"
+      },
+      {
+        "check": "all_atoms_connected",
+        "estado": "PASA"
+      },
+      {
+        "check": "no_radicals",
+        "estado": "PASA"
+      },
+      {
+        "check": "bond_lengths",
+        "estado": "PASA"
+      },
+      {
+        "check": "bond_angles",
+        "estado": "PASA"
+      },
+      {
+        "check": "internal_steric_clash",
+        "estado": "PASA"
+      },
+      {
+        "check": "aromatic_ring_flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "non-aromatic_ring_non-flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "double_bond_flatness",
+        "estado": "PASA"
+      },
+      {
+        "check": "internal_energy",
+        "estado": "PASA"
+      },
+      {
+        "check": "protein-ligand_maximum_distance",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_protein",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_organic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_inorganic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "minimum_distance_to_waters",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_protein",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_organic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_inorganic_cofactors",
+        "estado": "PASA"
+      },
+      {
+        "check": "volume_overlap_with_waters",
+        "estado": "PASA"
+      }
+    ],
+    "checks_que_fallan": [],
+    "detail": "PoseBusters en configuracion `dock` -sin verdad de terreno, que en produccion no existe-. Ningun control de quimica o geometria falla. Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.",
+    "reason_code": null,
+    "canonicalization_invariants": {
+      "mapa_biyectivo": true,
+      "carga_formal_identica": true,
+      "n_enlaces_pesados_identico": true,
+      "n_atomos_pesados_identico": true,
+      "smiles_isomerico_identico": true,
+      "n_coordenadas_aplicadas": 14,
+      "h_sin_coordenada_eliminados": 0,
+      "n_atomos_en_pdbqt": 15,
+      "h_polares_declarados_descartados": 1,
+      "desplazamiento_pesado_max_A": 0.0,
+      "pesados_invariantes": true,
+      "n_h_heredados": 0,
+      "n_h_canonicos": 14
+    },
+    "provenance": {
+      "pose_pdbqt": "docking_poses[].pdbqt_block",
+      "template": "meeko_remark_smiles_idx_con_h_polares",
+      "index_map": "meeko_remark_smiles_idx",
+      "receptor": "cohort_runs.receptor_prepared_bytes",
+      "reader_route": "mapa_atomico_canonico"
+    }
+  },
+  "failed_checks": [],
+  "ion_distances": [],
+  "vina_energy_kcal": -5.639,
+  "preparation_requirements": [
+    {
+      "clave": "receptor.protonacion",
+      "etiqueta": "Protonación del receptor",
+      "valor": "Meeko 0.7.1; asignación por plantilla, sin pH experimental declarado",
+      "estado": "REVISAR",
+      "razon": "Asignación por plantilla, sin pH experimental: el estado de histidinas, ácidos y bases del sitio no está validado. His a 8 Å o menos del ligando: A:497 HIE (2.83 Å), A:337 HIE (2.93 Å), A:367 HIE (3.38 Å), A:371 HIE (3.99 Å), A:394 HIE (7.64 Å). Histidina(s) con un nitrógeno del anillo a 3.5 Å o menos del ligando: A:497 HIE (2.83 Å), A:337 HIE (2.93 Å), A:367 HIE (3.38 Å). La plantilla eligió su estado sin mirar el sitio: HID, HIE o HIP cambian los puentes de hidrógeno que forma con el ligando.",
+      "valor_es_clasificacion": true,
+      "fuente": "receptor_prep.protonation_method",
+      "imprescindible": false
+    },
+    {
+      "clave": "entorno.metales_cofactores",
+      "etiqueta": "Metales y cofactores junto al sitio",
+      "valor": "Retirados a 6 Å o menos del ligando: ZN A:701 (2.23 Å)",
+      "estado": "ABSTENCION",
+      "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+      "valor_es_clasificacion": true,
+      "fuente": "receptor_prep.species_diff.near_site",
+      "imprescindible": true
+    },
+    {
+      "clave": "entorno.referencia",
+      "etiqueta": "Referencia de las distancias",
+      "valor": "Pose top-1",
+      "estado": "REGISTRADO",
+      "razon": "Metales, cofactores y otras especies cuentan a 6 Å o menos del ligando; aguas, a 4 Å; huecos y residuos, a 8 Å.",
+      "valor_es_clasificacion": false,
+      "fuente": "pose top-1 · estructura de origen comprobada por la receta del receptor",
+      "imprescindible": false
+    }
+  ],
+  "histidine_warning": false,
+  "product_commit": "9ce8b10490fcdd1c21b5dc0cf1efa8f3eae76d70",
+  "seconds": 15.2,
+  "raw": "_work/confirmatory/shard-2/1J37-SIN-s45-attempt1.json.gz",
+  "raw_sha256": "e7600f6c697068d926fca55db50939b25e55f726618b6eb12b0ccb34b6d9ee88",
+  "attempts": 1,
+  "microstate_expected": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+  "phase": "confirmatory",
+  "total_seconds": 15.968000000000757
+}

@@ -1,0 +1,83 @@
+{
+  "projection_version": 1,
+  "case_id": "cdk8__tautomero_alternativo_proxy__0",
+  "name": "cdk8__tautomero_alternativo_proxy__0",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_D6DBBD",
+      "chain": "A",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "Cn1cc(-c2ccc(CC3=NN=C4C=CC(C(=O)N5CC[NH2+]CC5)C=C43)cc2)cn1",
+      "canonical_smiles": "Cn1cc(-c2ccc(CC3=NN=C4C=CC(C(=O)N5CC[NH2+]CC5)C=C43)cc2)cn1"
+    },
+    "config": {
+      "grid_center": [
+        -4.508,
+        11.948,
+        -9.569
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:18dec8e1e66d13a847b070b9cf0702a04ed23d6324221121987f8b7e3b6487a9",
+    "generated_at": "2026-10-11T20:02:50.909195+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "LIGANDO_REVISION_QUIMICA",
+      "ESPECIES_DEL_SITIO_RETIRADAS",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "d865ea8b-775b-479e-bef1-a32733283e3f",
+    "input_fingerprint": "sha256:18dec8e1e66d13a847b070b9cf0702a04ed23d6324221121987f8b7e3b6487a9",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

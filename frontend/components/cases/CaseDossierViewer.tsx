@@ -35,7 +35,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
-import { AlertCircle, Download, FileArchive, FileText, Loader2, RefreshCw } from "lucide-react";
+import { AlertCircle, Download, FileArchive, FileText, Loader2, Maximize2, Minimize2, RefreshCw } from "lucide-react";
 
 import {
   DossierError,
@@ -65,7 +65,7 @@ export function CaseDossierViewer({
   reportable,
   runRelation,
 }: CaseDossierViewerProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [state, setState] = useState<LoadState>("loading");
   const [error, setError] = useState<string | null>(null);
   const [blobUrl, setBlobUrl] = useState<string | null>(null);
@@ -81,6 +81,34 @@ export function CaseDossierViewer({
   const packageController = useRef<AbortController | null>(null);
   const objectUrl = useRef<string | null>(null);
   const [attempt, setAttempt] = useState(0);
+  const viewerRef = useRef<HTMLDivElement | null>(null);
+  const [nativeFullscreen, setNativeFullscreen] = useState(false);
+  const [fallbackFullscreen, setFallbackFullscreen] = useState(false);
+  const fullscreen = nativeFullscreen || fallbackFullscreen;
+
+  useEffect(() => {
+    const syncFullscreen = () => {
+      setNativeFullscreen(document.fullscreenElement === viewerRef.current);
+    };
+    document.addEventListener("fullscreenchange", syncFullscreen);
+    return () => document.removeEventListener("fullscreenchange", syncFullscreen);
+  }, []);
+
+  useEffect(() => {
+    if (!fallbackFullscreen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setFallbackFullscreen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape, true);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", closeOnEscape, true);
+    };
+  }, [fallbackFullscreen]);
 
   const caseId = caseRecord.id;
   const moleculeId = reportable.moleculeId;
@@ -150,7 +178,7 @@ export function CaseDossierViewer({
     // `caseId` está en las dependencias aunque no se use dentro: cambiar de
     // caso DEBE tirar la petición en vuelo y pedir el dossier del caso nuevo,
     // incluso en el caso improbable de que dos casos compartieran molécula.
-  }, [moleculeId, caseId, attempt, publishUrl]);
+  }, [moleculeId, caseId, attempt, publishUrl, locale]);
 
   // Revocación al desmontar. Va aparte del efecto de carga: aquel revoca al
   // sustituir, éste al desaparecer.
@@ -175,7 +203,30 @@ export function CaseDossierViewer({
       packageController.current?.abort();
       packageController.current = null;
     };
-  }, [caseId, moleculeId]);
+  }, [caseId, moleculeId, locale]);
+
+  const toggleFullscreen = useCallback(async () => {
+    if (fallbackFullscreen) {
+      setFallbackFullscreen(false);
+      return;
+    }
+    if (nativeFullscreen) {
+      try {
+        await document.exitFullscreen();
+      } catch {
+        setFallbackFullscreen(false);
+      }
+      return;
+    }
+    const element = viewerRef.current;
+    if (!element) return;
+    try {
+      if (typeof element.requestFullscreen !== "function") throw new Error("Fullscreen unavailable");
+      await element.requestFullscreen();
+    } catch {
+      setFallbackFullscreen(true);
+    }
+  }, [fallbackFullscreen, nativeFullscreen]);
 
   const refresh = useCallback(() => setAttempt((value) => value + 1), []);
 
@@ -230,9 +281,17 @@ export function CaseDossierViewer({
   const packaging = busy === "package";
 
   return (
-    <div className="flex h-full w-full flex-col overflow-hidden rounded-lg border border-surface-800 bg-surface-950">
+    <div
+      ref={viewerRef}
+      role="region"
+      aria-label={t("ca_dossier_caso")}
+      data-dossier-fullscreen={fullscreen || undefined}
+      className={fullscreen
+        ? "fixed inset-0 z-[200] flex h-[100dvh] w-screen flex-col overflow-hidden bg-surface-950 font-sans"
+        : "relative flex h-full min-h-0 w-full flex-col overflow-hidden rounded-lg border border-surface-800 bg-surface-950 font-sans"}
+    >
       {/* ── Barra de acciones ────────────────────────────────────────── */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-surface-800 bg-surface-900 px-4 py-3">
+      <div className="flex min-h-16 flex-wrap items-center justify-between gap-3 border-b border-surface-800 bg-surface-900 px-4 py-3">
         <div className="flex min-w-0 items-center gap-2">
           <FileText className="h-4 w-4 shrink-0 text-brand-400" aria-hidden="true" />
           <span className="truncate font-mono text-xs tracking-wider text-surface-300">
@@ -243,23 +302,34 @@ export function CaseDossierViewer({
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
+            onClick={() => void toggleFullscreen()}
+            aria-pressed={fullscreen}
+            aria-label={t(fullscreen ? "ca_dossier_reducir" : "ca_dossier_expandir")}
+            title={t(fullscreen ? "ca_dossier_reducir" : "ca_dossier_expandir")}
+            className="flex h-11 items-center gap-2 whitespace-nowrap rounded-md border border-surface-700 bg-surface-800 px-3 font-sans text-sm font-semibold text-surface-200 transition-colors hover:bg-surface-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400"
+          >
+            {fullscreen ? <Minimize2 className="h-4 w-4" aria-hidden="true" /> : <Maximize2 className="h-4 w-4" aria-hidden="true" />}
+            <span>{t(fullscreen ? "ca_dossier_reducir" : "ca_dossier_expandir")}</span>
+          </button>
+          <button
+            type="button"
             onClick={refresh}
             disabled={loading}
-            className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-mono text-xs font-bold text-surface-300 transition-colors hover:bg-surface-700 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-sans text-sm font-semibold text-surface-200 transition-colors hover:bg-surface-700 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? (
               <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
             ) : (
               <RefreshCw className="h-3 w-3" aria-hidden="true" />
             )}
-            <span>Actualizar dossier</span>
+            <span>{t("ca_dossier_update")}</span>
           </button>
 
           <button
             type="button"
             onClick={downloadPdf}
             disabled={!pdfBlob}
-            className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-mono text-xs font-bold text-surface-300 transition-colors hover:bg-brand-500 hover:text-surface-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-sans text-sm font-semibold text-surface-200 transition-colors hover:bg-brand-500 hover:text-surface-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <Download className="h-3 w-3" aria-hidden="true" />
             <span>{t("z_descargar_pdf")}</span>
@@ -269,7 +339,7 @@ export function CaseDossierViewer({
             type="button"
             onClick={exportPackage}
             disabled={packaging}
-            className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-mono text-xs font-bold text-surface-300 transition-colors hover:bg-brand-500 hover:text-surface-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-11 items-center gap-2 whitespace-nowrap rounded bg-surface-800 px-3 font-sans text-sm font-semibold text-surface-200 transition-colors hover:bg-brand-500 hover:text-surface-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {packaging ? (
               <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
@@ -286,7 +356,7 @@ export function CaseDossierViewer({
       {packageSaved && (
         <p
           role="status"
-          className="border-b border-surface-800 bg-surface-900/60 px-4 py-2 text-xs leading-relaxed text-zinc-400"
+          className="border-b border-surface-800 bg-surface-900/60 px-4 py-2 text-sm leading-6 text-zinc-400"
         >
           {t("ca_dossier_descargado")} <code className="font-mono text-zinc-300">{packageSaved}</code>{t("ca_dossier_manifiesto")}
         </p>
@@ -295,21 +365,21 @@ export function CaseDossierViewer({
       {packageError && (
         <p
           role="alert"
-          className="border-b border-red-500/20 bg-red-500/5 px-4 py-2 text-xs leading-relaxed text-red-300"
+          className="border-b border-red-500/20 bg-red-500/5 px-4 py-2 text-sm leading-6 text-red-300"
         >
           {t("auto_96129f3bbb7a")} {packageError}
         </p>
       )}
 
       {/* ── Cuerpo ───────────────────────────────────────────────────── */}
-      <div className="relative min-h-[26rem] flex-1 bg-surface-950">
+      <div className="relative min-h-0 flex-1 bg-surface-950">
         {loading && (
           <div
             role="status"
             className="absolute inset-0 flex flex-col items-center justify-center gap-3"
           >
             <Loader2 className="h-8 w-8 animate-spin text-brand-500" aria-hidden="true" />
-            <span className="font-mono text-xs uppercase tracking-wider text-surface-400">
+            <span className="font-sans text-sm text-surface-400">
               {t("ca_dossier_generando")}
             </span>
           </div>
@@ -325,7 +395,7 @@ export function CaseDossierViewer({
             <button
               type="button"
               onClick={refresh}
-              className="mt-1 flex h-11 items-center gap-2 rounded bg-surface-800 px-4 font-mono text-xs font-bold text-surface-200 transition-colors hover:bg-surface-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400"
+              className="mt-1 flex h-11 items-center gap-2 rounded bg-surface-800 px-4 font-sans text-sm font-semibold text-surface-200 transition-colors hover:bg-surface-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400"
             >
               <RefreshCw className="h-3 w-3" aria-hidden="true" />
               {t("c_reintentar")}
@@ -335,7 +405,7 @@ export function CaseDossierViewer({
 
         {state === "ready" && blobUrl && (
           <iframe
-            src={`${blobUrl}#toolbar=0`}
+            src={`${blobUrl}#toolbar=0&view=FitH`}
             className="absolute inset-0 h-full w-full border-none bg-transparent"
             title={t("ca_dossier_caso")}
           />

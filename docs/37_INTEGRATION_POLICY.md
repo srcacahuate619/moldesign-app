@@ -46,11 +46,13 @@ plataformas cloud privadas y NO debe violarse con integraciones silenciosas.
 
 - **Qué es**: el *Protein Data Bank* — base pública global de estructuras 3D de
   proteínas.
-- **Rol real en MolDesign**: los **387 targets curados vienen empaquetados
-  localmente** (`curated_targets.json` + `data/target_library/`, 302/387
-  estructuras .pdb incluidas). RCSB se usa on-demand para:
-  1. descargar la estructura de los ~85 targets curados cuyo .pdb aún no está
-     en el empaquetado local;
+- **Rol real en MolDesign**: los **381 targets curados vienen empaquetados
+  localmente** (`curated_targets.json` + `data/targets/`, 446 `.pdb.gz`; los 381
+  tienen archivo local, medido el 2026-10-20, SCI-A-060). La cifra anterior (387 curados,
+  302 con estructura en `data/target_library/`) era de agosto de 2026 y ese directorio ya
+  no viaja. RCSB se usa on-demand para:
+  1. descargar una estructura que no esté en el empaquetado local (hoy no falta
+     ninguna del catálogo curado);
   2. la feature online de búsqueda por nombre (`/targets/resolve-name`,
      backend listo; UI de frontend NO cableada aún).
 - **Default**: on-demand (solo cuando el usuario prepara un target cuya
@@ -129,7 +131,7 @@ plataformas cloud privadas y NO debe violarse con integraciones silenciosas.
 | Integración | Evidencia actual | Estado de consentimiento | Acción pendiente |
 |---|---|---|---|
 | LLM/web | `ChatPanel` ofrece selector **Offline/Web**; `AIContext` inicia `allowWeb=false` y sólo transmite el texto al activar Web. | 🟢 Explícito. | Mantener el copy de qué datos salen y evitar que un override de entorno se convierta en default UI. |
-| Solana | `CertificationModal` explica firma institucional (email como autoría) y firma con wallet; los botones de certificación requieren una acción del usuario. Hay otro camino desde evaluación que llama a certificar directamente. | 🟡 Acción explícita, disclosure no uniforme. | Enrutar todos los disparadores al mismo modal/confirmación e indicar payload, red y coste antes de transmitir. |
+| Solana | `CertificationModal` explica firma institucional (email como autoría) y firma con wallet; los botones de certificación requieren una acción del usuario. Los tres disparadores (Moldex, Evaluación y el visor del PDF) abren `CertificationModal`, y sólo él llama a la API de certificación (medido el 2026-10-20, SCI-A-061; esta fila decía que había otro camino desde Evaluación que certificaba directamente, y ya no existe). | 🟡 Acción explícita en un único modal. | Indicar en el modal payload, red y coste antes de transmitir. |
 | RCSB / AlphaFold | Endpoints `POST /targets/resolve-name` y `/targets/alphafold/*` están expuestos; la UI de búsqueda RCSB aún no está cableada. | 🟡 API explícita, sin UX porque no hay caller. | Cuando se conecte la UI, mostrar “consulta externa” y los identificadores que se enviarán. |
 | Comunidad | La página consulta el catálogo local; descargar un target puede usar `community_api_url` configurado y requiere clic en Descargar. | 🟡 Acción explícita, destino configurable no mostrado. | Si la URL no es loopback, mostrar dominio y confirmación antes de descargar. |
 | OAuth | En Tauri, `login/page.tsx` fuerza login local y `oauthEnabled=false`; `CloudLogin` sólo se renderiza fuera de desktop. | 🟢 Fuera del runtime desktop. | Conservar esta separación y probarla en el smoke de interfaz cuando exista suite E2E. |

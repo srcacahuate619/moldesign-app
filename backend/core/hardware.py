@@ -41,7 +41,21 @@ class HardwareInfo:
     warnings: list[str] = field(default_factory=list)
 
 
+def nucleos_logicos() -> int:
+    """Núcleos lógicos del equipo: el mismo número que `detect_hardware().cpu_cores_logical`, sin lo caro.
+
+    `detect_hardware` importa torch, pyopencl y openmm para mirar la GPU y duerme 0,3 s midiendo la carga. Para decidir
+    cuántos núcleos usa Vina no hace falta nada de eso, y llamarlo desde el bucle de eventos congelaba el backend en la
+    primera evaluación: `/health` dejaba de contestar y la interfaz decía «El motor se desconectó» (medido 2026-10-10).
+    """
+    if HAS_PSUTIL:
+        return psutil.cpu_count(logical=True) or os.cpu_count() or 1
+    return os.cpu_count() or 1
+
+
 def detect_hardware() -> HardwareInfo:
+    """Todo el hardware, GPU incluida. CARO (imports pesados, 0,3 s de medida): desde código `async`, en un hilo
+    (`await asyncio.to_thread(detect_hardware)`); para los núcleos, `nucleos_logicos()`."""
     info = HardwareInfo()
 
     # ── CPU ────────────────────────────────────────────────────────

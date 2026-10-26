@@ -18,8 +18,8 @@
 // recupera preguntando, no restaurando algo que la pestaña recordaba. Esa es la
 // diferencia con el Batch histórico, cuyo estado moría con el proceso.
 
-import { getApiUrl } from "./config";
-import { getAuthHeaders } from "./api";
+import { fetchBackend } from "./backendFetch";
+import { ApiError, getAuthHeaders, requestAuthenticatedJson } from "./api";
 
 // ── Contratos (espejo de backend/services/cohort) ────────────────────
 
@@ -38,6 +38,9 @@ export interface CohortStudy {
     readonly grid_center?: readonly [number, number, number];
     readonly grid_size?: readonly [number, number, number];
     readonly seed?: number;
+    // Sin declarar (cohortes anteriores al campo) es el canónico de RDKit:
+    // es lo que acoplaban. La interfaz lo declara siempre.
+    readonly tautomero?: "entrada" | "canonico" | null;
   };
 }
 
@@ -153,6 +156,9 @@ export interface CohortRun {
   readonly last_error: string | null;
   readonly rows: readonly {
     readonly source_row_index: number;
+    readonly molecule_id?: string | null;
+    readonly result_id?: string | null;
+    readonly task_id?: string | null;
     readonly canonical_smiles: string;
     readonly source_name: string | null;
     readonly control_role: ControlRole;
@@ -182,6 +188,7 @@ export interface EvidenceMolecule {
   readonly observed_vina_affinity_kcal_mol: number | null;
   readonly molecule_id: string | null;
   readonly result_id: string | null;
+  readonly task_id?: string | null;
   readonly active_label: boolean | null;
   readonly control_role: ControlRole;
   readonly duplicate_of_row: number | null;
@@ -293,20 +300,23 @@ function describe(status: number, body: unknown): { message: string; detail: unk
 }
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const base = await getApiUrl();
-  let response: Response;
   try {
-    response = await fetch(`${base}${path}`, {
+    return await requestAuthenticatedJson<T>(path, {
       ...init,
       headers: {
         "ngrok-skip-browser-warning": "true",
-        ...getAuthHeaders(),
         ...(init.headers || {}),
       },
       cache: "no-store",
     });
   } catch (error) {
     if ((error as { name?: string })?.name === "AbortError") throw error;
+    if (error instanceof ApiError) {
+      let cuerpo: unknown = null;
+      try { cuerpo = JSON.parse(error.responseBody); } catch { /* Sin JSON. */ }
+      const { message, detail } = describe(error.status, cuerpo);
+      throw new CohortError(message, error.status, detail);
+    }
     // El transporte NO se traduce a un diagnóstico científico.
     throw new CohortError(
       "Error de conexión: no se pudo contactar con el motor local de MolDesign. " +
@@ -315,25 +325,12 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     );
   }
 
-  if (!response.ok) {
-    let cuerpo: unknown = null;
-    try {
-      cuerpo = await response.json();
-    } catch {
-      /* respuesta sin JSON: queda el código */
-    }
-    const { message, detail } = describe(response.status, cuerpo);
-    throw new CohortError(message, response.status, detail);
-  }
-  if (response.status === 204) return undefined as T;
-  return (await response.json()) as T;
 }
 
 async function requestBlob(path: string, init: RequestInit = {}): Promise<{ blob: Blob; filename: string | null }> {
-  const base = await getApiUrl();
   let response: Response;
   try {
-    response = await fetch(`${base}${path}`, {
+    response = await fetchBackend(path, {
       ...init,
       headers: { "ngrok-skip-browser-warning": "true", ...getAuthHeaders(), ...(init.headers || {}) },
       cache: "no-store",
@@ -484,34 +481,37 @@ export function isRunActive(status: RunStatus): boolean {
 }
 
 /**
- * Etiquetas en castellano. La lógica NUNCA depende de estos textos: depende de
- * los códigos estables del backend. Cambiar una tilde aquí no puede romper un
- * recuento.
+ * Claves de traducción de los estados. La lógica NUNCA depende de los textos:
+ * depende de los códigos estables del backend. Antes eran las etiquetas ya
+ * escritas en castellano y la pantalla las pintaba tal cual, de modo que con la
+ * interfaz en inglés «Completada» y «Ejecutando» seguían saliendo en español
+ * (QA1-016). Ahora la constante lleva la CLAVE y la traduce quien pinta.
  */
-export const RUN_STATUS_LABELS: Record<RunStatus, string> = {
-  queued: "En cola",
-  running: "Ejecutando",
-  completed: "Completada",
-  completed_with_exceptions: "Completada con excepciones",
-  failed: "Sin resultados utilizables",
-  interrupted: "Interrumpida",
-  cancelled: "Cancelada",
+export const RUN_STATUS_KEYS: Record<RunStatus, string> = {
+  queued: "lo_estado_en_cola",
+  running: "lo_estado_ejecutando",
+  completed: "lo_estado_completada",
+  completed_with_exceptions: "lo_estado_completada_con_excepciones",
+  failed: "lo_estado_sin_resultados",
+  interrupted: "lo_estado_interrumpida",
+  cancelled: "lo_estado_cancelada",
 };
 
-export const ROW_STATUS_LABELS: Record<RowStatus, string> = {
-  pending: "Pendiente",
-  running: "Ejecutando",
-  completed: "Completada",
-  failed: "Fallida",
-  not_evaluated: "No evaluada",
-  duplicate_reused: "Duplicado reutilizado",
-  interrupted: "Interrumpida",
-  cancelled: "Cancelada",
+export const ROW_STATUS_KEYS: Record<RowStatus, string> = {
+  pending: "lo_estado_pendiente",
+  running: "lo_estado_ejecutando",
+  completed: "lo_estado_completada",
+  failed: "lo_estado_fallida",
+  not_evaluated: "lo_estado_no_evaluada",
+  duplicate_reused: "lo_estado_duplicado_reutilizado",
+  interrupted: "lo_estado_interrumpida",
+  cancelled: "lo_estado_cancelada",
 };
 
-export const CONTROL_ROLE_LABELS: Record<ControlRole, string> = {
-  reference: "Referencia",
-  positive: "Positivo",
-  negative: "Negativo",
-  none: "—",
+/** `none` no lleva texto: la pantalla pinta un guion. */
+export const CONTROL_ROLE_KEYS: Record<ControlRole, string | null> = {
+  reference: "lo_control_referencia",
+  positive: "lo_control_positivo",
+  negative: "lo_control_negativo",
+  none: null,
 };

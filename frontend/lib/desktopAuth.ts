@@ -1,5 +1,6 @@
 /** Credencial efímera del backend propio, obtenida sólo por IPC de Tauri. */
 import { getApiUrl } from "./config";
+import { fetchBackend } from "./backendFetch";
 import { invoke } from "./tauri";
 
 export interface DesktopLoginPayload {
@@ -11,10 +12,10 @@ export interface DesktopLoginPayload {
 }
 
 export async function desktopLogin(): Promise<DesktopLoginPayload> {
-  const base = await getApiUrl();
+  await getApiUrl();
   const launchToken = await invoke<string>("backend_launch_token");
   if (!launchToken) throw new Error("No se obtuvo el secreto del backend propio");
-  const response = await fetch(`${base}/auth/desktop-login`, {
+  const response = await fetchBackend("/auth/desktop-login", {
     headers: {
       "X-MolDesign-Launch": launchToken,
       "ngrok-skip-browser-warning": "true",

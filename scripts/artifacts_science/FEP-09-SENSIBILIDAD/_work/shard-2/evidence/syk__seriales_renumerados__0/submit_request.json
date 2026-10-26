@@ -1,0 +1,40 @@
+{
+  "smiles": "COc1ccc(Nc2nc(-c3cccc(C(=O)Nc4ccc(C(=O)[N-]S(C)(=O)=O)cc4)c3)cn3ccnc23)cc1OC",
+  "target_pdb_id": "USR_530EBF",
+  "chain": "A",
+  "molecule_name": "syk__seriales_renumerados__0",
+  "grid_center": [
+    -1.166,
+    2.265,
+    13.222
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:fadaa007eaa82045423e9a8efe5f184d6b52063ca7ee85c977ab1d5f18f462da"
+}

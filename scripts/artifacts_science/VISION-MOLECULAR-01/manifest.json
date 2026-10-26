@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "experiment_id": "VISION-MOLECULAR-01",
+  "hypothesis": "Alguna de seis alternativas para la elevacion 2D a 3D de ligandos grandes (E1 dibujo ajustado al 3D, E2 dE con xTB, E3 plegado restringido al dibujo, E4 ventana de energia, E5 enderezar cadenas y girar colas, E6 animacion por torsiones) mejora el producto 26df919c segun el criterio de su registro previo",
+  "protocol": "docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO.md (E1-E3, fcbb9d1e), REGISTRO_PREVIO_E4.md (4517768f), REGISTRO_PREVIO_E5.md (aa22435e), REGISTRO_PREVIO_E6.md (74b2d17f)",
+  "created_at": "2026-10-25T16:39:42.626696+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "b468858de789b6a2252d27a3604b0b87a19cc89b",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Cada experimento con el criterio de su registro previo, commiteado antes de su resultado; el conjunto es GO si alguna alternativa cumple y entra en el producto"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO.md": "122385312c01d3df64262091c2935a1f4c70a45bf38e5f44262d810a2ff6bf1e",
+    "docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO_E4.md": "d0bcf0e317144b013f14eb653135feaa66870cb5477b876f7c7cdff1d1ce2f06",
+    "docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO_E5.md": "baccb696f743944ea0899bbfb80c1186851236a3b28de01b690c3b93fb82ad06",
+    "docs/auditorias/elevacion-grandes-2026-10-24/REGISTRO_PREVIO_E6.md": "91fb4871bc53c7a8f4cce309458292691c1c143e57ccca582185b2baeef15198",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e1.jsonl": "de14f530d2864ef6838295f644088edd91ca7ab42035693e32ecb063234b89e8",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e2.jsonl": "931661b5185645620e4187e6d32d5bcd736c8e558b2f25c97a9bb5b689581037",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e3.jsonl": "30b0066d07331ca63bbf76e019d39be61cf37956cf947afcc866218607cfd6b5",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e4.jsonl": "41298e4201d872949912729a78ff3db85297b257cb0ae64058511762fe73e656",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e5.jsonl": "91e725eb67a1cd43b2e973e3a53f1641ec7979c1b1d0958117e630f131af20c6",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e6.jsonl": "e611da8965f7311730d4fd2187f446c1516f925efa2297104c97ff65e575cc0b",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e1_lamina.svg": "cd9f32b19d8bfe088485d9c75568e525cfcc22fe2980397743044176dde22054",
+    "docs/auditorias/elevacion-abstencion-2026-10-24/moleculas.jsonl": "95001250e6e1d603b73e4379d71857261ad63d73ad45d540807c3329fb161483",
+    "docs/auditorias/elevacion-abstencion-2026-10-24/grandes.jsonl": "ca9f6542523771f3dad85d61750b8939de5b49470f268c6ac4e28476e48ed3fc"
+  },
+  "assets_hashes": {
+    "docs/auditorias/elevacion-grandes-2026-10-24/comun.py": "8b406287b8f63ab852af2579910ddbd8cbaa138fd5aa90d2a640d70395d50d81",
+    "docs/auditorias/elevacion-grandes-2026-10-24/resumen.py": "02413295b0fcedcddb28e18a3a9f88625f0f67fe391d7638d3ac0bfe8cc3fd04",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e1_dibujo_ajustado.py": "30e7bf88b77d4293a7f169691d5e86b734739df13e120084d291daacdcdcc8fe",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e2_delta_e_xtb.py": "b40f9b31e39b28e2be5b74789aa931b1b74953cac9b6a9c99671a27d174606a4",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e3_plegado_restringido.py": "50034bae0c52d18da543dc384a016f2cf0d501c44079ef151b4a46afe978b2e2",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e4_ventana_de_energia.py": "ab8b8bd691ba0809f4dd8ffe4ce27d624c81db5eb2fafa537f7cae6e65a6a581",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e5_cadenas_y_colas.py": "c8a3c332e5eab50151e52f4f7fde7d1569e3b456de2f3e9336592321dcc409ed",
+    "docs/auditorias/elevacion-grandes-2026-10-24/e6_animacion_por_torsiones.py": "b2812d2c262288223dbae318ef7a75c514eb11769cf2341fec45b4b76c13c8d2",
+    "scripts/vision_molecular_01/resumir.py": "155eb9d980f598847827d313e34c49e7e39d24ebb07bfb4833bb78e88e3eebd5",
+    "scripts/artifacts_science/VISION-MOLECULAR-01/RESULTADOS.md": "d425d35242bdd7aaaeb3fb648b70e2b14f960749127124a34f0dc51d1f879cdb"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-25T16:40:27.374706+00:00",
+  "decision_rationale": "Seis alternativas para la elevacion 2D a 3D de ligandos grandes, cada una con registro previo commiteado antes de su resultado: E1 dibujo ajustado NO_GO (rescata 10 de 25, hacia falta 75 %), E2 dE con xTB parcial (ALPB = 0,69 MMFF), E3 plegado restringido NO_GO (5 de 37, hacia falta <= 4), E4 ventana de 5 kcal/mol NO_GO (abstencion 8 -> 23 en G37), E5 cadenas y colas NO_GO (8 -> 7, hacia falta <= 4), E6 torsiones NO_GO (2 cruces con linea recta, hacian falta >= 4). Ninguna entra en el producto (26df919c).",
+  "finished_at": "2026-10-25T16:40:30.107342+00:00"
+}

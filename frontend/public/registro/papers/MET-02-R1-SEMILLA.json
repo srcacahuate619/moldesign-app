@@ -1,0 +1,342 @@
+{
+ "id": "MET-02-R1-SEMILLA",
+ "meta": {
+  "titulo": "GO: con el lector arreglado, la regla de metales en dos niveles es estable con la semilla y coincide con el inventario",
+  "entradilla": "En 41 entradas con un metal junto al sitio y 5 semillas, ninguna cambia de estado con la semilla y las 39 del inventario dan el estado que predice la geometría del cristal. Cambian 7 decisiones respecto de la regla de antes: cinco iones que el ligando no coordina pasan a revisión, 1RKP deja de abstenerse y 4NY4 pide revisión por el Fe del hemo."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La regla de metales en dos niveles con el lector de coordenadas arreglado (",
+     "m": null
+    },
+    {
+     "t": "f7c46736",
+     "m": "codigo"
+    },
+    {
+     "t": ", rama ",
+     "m": null
+    },
+    {
+     "t": "claude/metales-dos-niveles",
+     "m": "codigo"
+    },
+    {
+     "t": ") puede integrarse en el producto. Repite el brazo nuevo de ",
+     "m": null
+    },
+    {
+     "t": "MET-02-SEMILLA",
+     "m": "codigo"
+    },
+    {
+     "t": ", que quedó INCONCLUSIVE porque el lector no reconocía el elemento con la carga escrita en la columna 79.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El mismo panel congelado de MET-02 (las 41 entradas del inventario de metales junto al sitio más 1RKP y 4NY4), las mismas cinco semillas y la misma configuración de un caso (exhaustividad 8, 9 poses, Vina 1.2.7, 4 CPU por proceso, cápsula de API aislada). Sólo cambia el producto del brazo nuevo: ",
+     "m": null
+    },
+    {
+     "t": "f7c46736",
+     "m": "codigo"
+    },
+    {
+     "t": " quita la carga del elemento al leer coordenadas. El comparador es el brazo de antes ya sellado en MET-02 (",
+     "m": null
+    },
+    {
+     "t": "861f6a0e",
+     "m": "codigo"
+    },
+    {
+     "t": ").",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla: un metal retirado que el ligando del cristal coordina (un N, O o S suyo a 2,8 Å o menos), o un cofactor sin metal a 4 Å o menos de él, sigue absteniendo; uno sólo cercano, a 6 Å o menos, pide revisión; un metal conservado que el ligando coordina pide revisión; las distancias de metales y cofactores se miden desde el ligando del cristal; sin ligando del cristal no se sabe si lo coordina y se abstiene.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Medida",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Entradas evaluables y primarias",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "41 de 43 (1VKG y 5I3T: Meeko rechaza el receptor)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "H2: cambian de estado con la semilla",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0 de 41 (IC 95 % 0–0,086)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "H3: coinciden con el inventario",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "39 de 39",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "H4: pose top-1 igual a la del brazo de antes de MET-02",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "205 de 205 pares",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Estados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "170 ABSTENCION, 30 REVISAR, 5 REGISTRADO",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Cambian siete decisiones respecto de la regla de antes, las mismas en las cinco semillas:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Entrada",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Antes → ahora",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Por qué",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "4PHL, 4QGE, 5A2R, 6KE5, 8WGR",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "ABSTENCION → REVISAR",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "ion a 6 Å o menos que el ligando del cristal no coordina (en 6KE5, un Ca a 4,06 Å)",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1RKP",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "ABSTENCION → REGISTRADO",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "el Zn está a 6,52 Å del ligando del cristal; la pose lo acercaba a 5,14–5,25 Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "4NY4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "REGISTRADO → REVISAR",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "el ligando coordina el Fe del hemo conservado (N32–Fe 2,58 Å) y Vina no modela esa coordinación",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En 5E92 y 9GKV, las dos discrepancias de MET-02, la regla ve ahora el metal coordinado (O1G–Mg 1,94 Å; O1–Zn 2,30 Å) y se abstiene. En 9GKV el «2,15 Å» de MET-02 y del inventario era la distancia a un hidrógeno que se contaba como átomo pesado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "La decisión de Preparación sobre metales no depende de la semilla en este panel, y separa los iones coordinados por el ligando de los que sólo están cerca, como lo hace la medida geométrica del inventario.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Dos de los falsos bloqueos que midió ABS-TR-01-VALIDEZ (1RKP y 6KE5) dejan de serlo, y una de sus autorizaciones con aviso (4NY4) pasa a pedir revisión por el hemo. No se ha repetido ABS-TR-01-VALIDEZ con la regla nueva.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No dice si abstenerse o pedir revisión es la decisión correcta para cada metal: el panel no tiene etiquetas de su función, y un ion en la segunda esfera puede seguir siendo necesario. Por eso el nivel bajo es revisión, no autorización.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No dice nada de la calidad del docking.",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MET-02-R1-SEMILLA.md"
+}

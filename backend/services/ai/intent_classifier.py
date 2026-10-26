@@ -138,15 +138,53 @@ def _resolve_name_list(names: list[str]) -> list[str]:
 # Classifier
 # ═══════════════════════════════════════════════════════════════
 
+#: Pedir un acoplamiento. «acopla X contra 1AJ6» caía en compute_properties:
+#: sólo se reconocían «afinidad» y «docking», no el verbo en español (medido el
+#: 2026-10-10 con el caso `docking` del arnés de herramientas).
+_DOCKING = {"afinidad", "docking", "acopl", "acópl"}
+
+#: La comprobación previa de Evaluación: «¿por qué está bloqueado 8HFI?», «¿está
+#: listo 7E2Y para acoplar?», «advertencias de la preparación de 6LU7», «is 7E2Y
+#: ready for docking?». Sin esta intención esas preguntas caían en `conceptual`
+#: o `unknown`, que en `chat_service` quitan las herramientas al modelo: MolChat
+#: contestaba de memoria lo que el servidor ya calcula (medido el 2026-10-10).
+_PREPARACION = {
+    "preparación", "preparacion", "preparar", "prepara", "preflight", "bloquead",
+    "bloquea", "listo", "lista para", "advertencia", "pierde metales", "metales",
+    "aguas", "huecos", "preparation", "prepared", "ready for", "blocked", "warning",
+}
+
+#: Un PDB ID suelto (8HFI, 7E2Y): cuatro caracteres que empiezan por dígito y
+#: llevan al menos una letra, para no tomar un año por un receptor.
+_PDB_SUELTO = re.compile(r"\b([0-9][A-Za-z0-9]{3})\b")
+
+
+def _pdb_suelto(text: str) -> str:
+    for m in _PDB_SUELTO.finditer(text):
+        if any(c.isalpha() for c in m.group(1)):
+            return m.group(1).upper()
+    return ""
+
+
 def classify(msg: str) -> Intent:
     """Único punto de entrada: clasificar el intent del mensaje."""
     lo = msg.lower()
 
+    # ── COMPROBACIÓN PREVIA: antes del SMILES explícito, para que «revisa la
+    # preparación de <SMILES> contra 1AJ6» no acabe en compute_properties. Exige
+    # un PDB en la frase: «advertencias del dossier» no es la comprobación
+    # previa de un receptor. ──
+    pdb_prep = _pdb_suelto(msg)
+    if pdb_prep and _has(lo, _PREPARACION):
+        s_prep = _extract_smiles(msg)
+        return Intent("preparation", smiles=s_prep, target=pdb_prep,
+                      tool="check_preparation", smiles_source="explicit" if s_prep else None)
+
     # ── N1: SMILES explícito en el mensaje ──
     s = _extract_smiles(msg)
     if s:
-        if _has(lo, {"afinidad", "docking"}):
-            pdb = _extract_pdb(msg)
+        if _has(lo, _DOCKING):
+            pdb = _extract_pdb(msg) or _pdb_suelto(msg)
             return Intent("docking", smiles=s, target=pdb, tool="run_docking", smiles_source="explicit")
         if _has(lo, {"similares", "análogos", "análogo"}):
             return Intent("analog", smiles=s, target=None, tool="molgraph_similar", smiles_source="explicit")
@@ -290,8 +328,8 @@ def classify(msg: str) -> Intent:
             en = _name_in_english(name)
             s = KNOWN.get(en, "")
         if s:
-            if _has(lo, {"afinidad", "docking"}):
-                pdb = _extract_pdb(msg)
+            if _has(lo, _DOCKING):
+                pdb = _extract_pdb(msg) or _pdb_suelto(msg)
                 return Intent("docking", smiles=s, target=pdb, tool="run_docking", smiles_source="name")
             if _has(lo, {"similares", "análogos"}):
                 return Intent("analog", smiles=s, target=None, tool="molgraph_similar", smiles_source="name")
@@ -299,8 +337,8 @@ def classify(msg: str) -> Intent:
         # name found but no SMILES
         if _has(lo, {"calcula", "propiedades"}):
             return Intent("chemical", smiles=None, target=None, tool="compute_properties", smiles_source=None)
-        if _has(lo, {"afinidad", "docking"}):
-            pdb = _extract_pdb(msg)
+        if _has(lo, _DOCKING):
+            pdb = _extract_pdb(msg) or _pdb_suelto(msg)
             if pdb:
                 return Intent("docking", smiles=None, target=pdb, tool=None, smiles_source=None)
             return Intent("docking_missing", target=pdb, tool=None, smiles_source=None)

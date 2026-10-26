@@ -1,0 +1,27 @@
+{
+  "pdb": "1C3R",
+  "semilla": 2026,
+  "inicio": "2026-10-23T05:33:21+00:00",
+  "resultado": "auditada",
+  "task_id": "a248f3a1-6569-4656-adf3-6032c9a2ddb2",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:501 (2.24 Å); más lejos: ZN B:503 (15.65 Å). En contacto con el ligando del cristal: ZN A:501 (O1–ZN 2.24 Å).",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal TSN A:502",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "bf8b1c083728881dd511b66d62c8a782d10ae963efe4a54be3a6e03f09df68b3",
+  "afinidad_top1": -9.05,
+  "microestado": "CC(/C=C/C(=O)NO)=C\\[C@@H](C)C(=O)c1ccc(N(C)C)cc1",
+  "microestado_coincide": true,
+  "semilla_declarada": 2026,
+  "vina": "1.2.7",
+  "receptor_sha256": "30bf30638c37145d815069a24fe5fa633217e23d6dd787448978db5c44541581",
+  "segundos": 21.0,
+  "fin": "2026-10-23T05:33:42+00:00",
+  "brazo": "r1",
+  "commit": "f7c46736"
+}

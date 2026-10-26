@@ -1,0 +1,74 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:10:10.4147957Z",
+    "segundos": 104.79,
+    "salida": 0,
+    "registro": "final-ci-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:11:55.4754411Z",
+    "segundos": 2.26,
+    "salida": 0,
+    "registro": "final-ci-02.log"
+  },
+  {
+    "paso": "03",
+    "comando": "npm run check:csp",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:11:57.7470580Z",
+    "segundos": 0.57,
+    "salida": 0,
+    "registro": "final-ci-03.log"
+  },
+  {
+    "paso": "04",
+    "comando": "npm run typecheck",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:11:58.3255163Z",
+    "segundos": 29.93,
+    "salida": 0,
+    "registro": "final-ci-04.log"
+  },
+  {
+    "paso": "05",
+    "comando": "npm run test:run",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:12:28.2663058Z",
+    "segundos": 163.87,
+    "salida": 0,
+    "registro": "final-ci-05.log"
+  },
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:15:12.1408556Z",
+    "segundos": 97.45,
+    "salida": 0,
+    "registro": "final-ci-06.log"
+  },
+  {
+    "paso": "07",
+    "comando": "npm run test:ux",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:16:49.6019070Z",
+    "segundos": 56.09,
+    "salida": 0,
+    "registro": "final-ci-07.log"
+  },
+  {
+    "paso": "08",
+    "comando": "npm run build:desktop",
+    "commit": "6d5b9b5a39fa88bc0b2dfceb0a85c1289fbcd9b4",
+    "inicio_utc": "2026-10-10T01:17:45.7036587Z",
+    "segundos": 57.45,
+    "salida": 0,
+    "registro": "final-ci-08.log"
+  }
+]

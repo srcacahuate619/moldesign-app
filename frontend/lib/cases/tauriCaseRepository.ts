@@ -312,6 +312,12 @@ export function createTauriCaseRepository(options: TauriCaseRepositoryOptions): 
       return { token: picked.token, displayPath: picked.display_path };
     },
 
+    async defaultParentDirectory(): Promise<PickedParentDirectory | null> {
+      // Sin argumentos: la carpeta la decide Rust, no el webview.
+      const picked = await call<PickedFolder>("case_default_parent_directory");
+      return { token: picked.token, displayPath: picked.display_path };
+    },
+
     async acceptRelocation(token: string, expectedCaseId: string): Promise<CaseRecord> {
       // Rust comprueba la identidad ANTES de tocar el registro. Aquí no se
       // decide nada: se dice qué caso se esperaba y él acepta o rechaza.

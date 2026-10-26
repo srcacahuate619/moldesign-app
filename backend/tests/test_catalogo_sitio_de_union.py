@@ -142,11 +142,14 @@ def test_todos_declaran_de_donde_salen_sus_hotspots(catalogo):
 
 
 def test_los_rederivados_son_los_que_medimos(catalogo):
-    """Nueve, y solo nueve. Ver `docs/auditorias/hotspots_reanotados.json`."""
+    """Los nueve de `docs/auditorias/hotspots_reanotados.json` y los catorce recentrados en su inhibidor
+    (`docs/auditorias/referencias_del_sitio_2026-10-11.json`): el cofactor no era el ligando del sitio."""
     rederivados = {t["pdb_id"].upper() for t in catalogo
                    if t.get("hotspots_source") == "box_ligand_contacts"}
     assert rederivados == {
         "1VKG", "1W22", "2NNJ", "2VE3", "4EJJ", "4JV6", "4JV8", "4NY4", "7JVU",
+        "1CX2", "1Q4G", "2OYE", "2OYU", "3KK6", "3N8W", "3N8X", "3N8Z", "3SRW", "5TBO", "5TFT", "5U6X", "5WBE",
+        "3N8Y",
     }, f"la lista de rederivados cambio: {sorted(rederivados)}"
 
 
@@ -162,8 +165,8 @@ def test_los_no_receptores_estan_fuera(catalogo):
     """Ninguno de los retirados vuelve al catalogo por accidente."""
     ids = {t["pdb_id"].upper() for t in catalogo}
     assert not ids & RETIRADOS, "un receptor retirado volvio al catalogo"
-    assert len(catalogo) == 380, (
-        f"el catalogo tiene {len(catalogo)} objetivos y se esperaban 380"
+    assert len(catalogo) == 381, (
+        f"el catalogo tiene {len(catalogo)} objetivos y se esperaban 381 (7SRQ añadido en el cierre de 1.0.2)"
     )
 
 

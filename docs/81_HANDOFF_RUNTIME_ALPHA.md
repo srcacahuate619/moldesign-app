@@ -191,6 +191,63 @@ Hugging Face, en la raíz). Medido el 2026-09-28 sobre la URL fijada: `X-Linked-
 La ruta va en la **raíz** del repositorio de Hugging Face, no en `v1.1.1/`: es
 donde quedó v1.1.0 y la que vale es la de la URL.
 
+### v1.1.2 (2026-10-10): publicado el 2026-10-11
+
+**Por qué.** v1.1.1 es anterior a la traza de Vina (2026-10-05) y no trae
+`tools/vina/vina_trace.exe` (medido sobre su directorio central). El manifiesto
+de la traza sí está en git, así que un clon aprovisionado con v1.1.1 lo exige,
+`search_trace.instrumented` se niega y **no se acopla nada**. Además, el binario
+de la traza cambió el 2026-10-10 (lee los ligandos CRLF de 4096 bytes o más; ver
+`docs/TRAZA_BUSQUEDA_MOLCY.md`).
+
+**Qué es.** `dist/runtime-base-v1.1.2.zip`, construido con
+`scripts/build_base_archive.py`:
+
+    sha256  a87247825565251a4664a180b894b7e2280c2504c203a1ad226365a78e79731f
+    bytes   586737407 · 31 697 archivos
+
+Comparado con v1.1.1 publicado por CRC-32 y tamaño de cada entrada: los 31 695
+archivos de v1.1.1 iguales y dos nuevos, `tools/vina/vina_trace.exe` (con el
+SHA-256 de `tools/vina/vina-trace-manifest.json`) y `data/molgraph_seed.db` (la
+de v1.1.0, que v1.1.1 había perdido). Ningún peso de ESMFold.
+
+**Dos guardas nuevas del empaquetador**, porque el primer intento de este
+artefacto pasaba de 7,8 GB cuando se detuvo: `esmfold/models/` se describía como
+«sólo el tokenizer» pero se reunía entero, y en una estación con ESMFold
+descargado eso metía los 8,4 GB de `pytorch_model.bin` mientras el inventario
+decía que no venían. Ahora el componente admite sólo los archivos del tokenizer
+(`FUERA_DEL_COMPONENTE` al inspeccionar), y `verificar_traza_de_vina` impide
+empaquetar si Vina o su traza no tienen los bytes que exige su manifiesto
+(`TRAZA_DE_VINA`).
+
+**Publicado (2026-10-11)** en la raíz de `hf.co/srcacahuate/moldesign-models`, en
+la revisión `a145ca262871aac663525afd5734738af796d1bd`. `RUNTIME_BASE` la fija por
+esa revisión, con `sha256` y `size_bytes`. Sobre esa URL, `X-Linked-Size` es
+586737407 y `X-Linked-ETag` el SHA-256 de arriba.
+
+**Probado desde la red (2026-10-11).** Una worktree nueva en `HEAD`, con el
+`RUNTIME_BASE` de este cambio: `bootstrap_dev_tree.py --fetch` descargó el zip,
+verificó su SHA-256 antes de extraer y dejó el árbol COMPLETO (31 697 archivos,
+sin más cambios en versionados que el de `RUNTIME_BASE`). Allí pasaron las 13
+pruebas de la traza: `test_vina_search_trace.py`,
+`test_vina_trace_lee_pdbqt_crlf.py` y `test_error_de_vina_en_el_estado.py`.
+
+**Probado en un clon limpio (2026-10-10)**, una worktree recién creada en el
+commit del artefacto: el bootstrap la aprovisionó desde el zip (COMPLETO, 31 697
+archivos, `git status` vacío) y allí pasaron las pruebas de la traza, incluida una
+corrida real de 1HSG + indinavir por `_run_vina_subprocess`. Con `vina_trace.exe`
+retirado —lo que deja v1.1.1— esa corrida falla con «The bundled Vina trace
+executable does not match its SHA-256».
+
+**Y el bootstrap no aprovisionaba ningún clon limpio sin `--force`.** Desde
+`ae7ff2f9` (2026-09-27) el tokenizer de ESMFold está versionado; su
+`config.json` es la sonda de `esmfold/models/`, así que el bootstrap veía en
+cualquier clon «una pieza del runtime que no puso ningún artefacto» y se negaba
+(AJENO). El clon sintético de las pruebas no versionaba ese archivo y no lo veía.
+Ahora una pieza cuya sonda versiona git no cuenta como rastro de un
+aprovisionamiento, y el clon sintético la versiona como el real (con él fallaban
+8 pruebas antes del arreglo).
+
 ### Por qué v1.1.1 y no seguir con v1.1.0
 
 **Un motivo, medido contra el artefacto publicado:** sus seis paquetes de
@@ -431,11 +488,10 @@ Dicho aquí y no sólo en un informe, porque es donde se va a leer dentro de sei
 meses.
 
 - **El setup completo no está validado.** No se ha construido ningún
-  instalador, no se ha ejecutado `tauri:build` y no se ha publicado nada.
-- **Ningún clon limpio se ha aprovisionado de verdad desde la red**, porque el
-  artefacto no está publicado y `--fetch` se niega a descargar sin SHA-256
-  declarado. Lo comprobado es el camino local (`--desde ARCHIVO --sha256 HEX`),
-  con artefactos construidos en el momento.
+  instalador, no se ha ejecutado `tauri:build` y no se ha publicado ningún instalador.
+- **Un clon limpio se aprovisionó desde la red una vez**: el 2026-10-11, `--fetch`
+  de v1.1.2 en una worktree nueva (ver la sección de v1.1.2). Antes de publicar
+  sólo se había comprobado el camino local, `--desde ARCHIVO --sha256 HEX`.
 - **Vina, `/health` y la conversión con el intérprete embebido no se
   comprobaron en estas pruebas.** Usan un `python-embed` de mentira de cuatro
   archivos, porque el real pesa 2,2 GB. Eso lo comprueba

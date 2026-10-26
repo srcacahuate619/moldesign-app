@@ -118,3 +118,9 @@ La razón por la que la validez física entró en este diseño sigue siendo buen
 medición fallara: **un selector que pase de 35 a 55 entregando poses inválidas no habría
 mejorado el producto.** Optimizar una métrica intermedia sin mirar la física es la forma
 estándar de mejorar un número y empeorar el resultado.
+
+## Correcciones
+
+**2026-10-20**, a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en `docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md`.
+
+- SCI-B-020. «De los 31 complejos ganados sobreviven 18 al top-5 y 13 al top-1» confunde saldos netos con identidades. Según el flujo por complejo que reconstruyó la auditoría, de esos 31 siguen 20 en el top-5 y 9 en el top-1. Los saldos +18 y +13 siguen siendo correctos como saldos.

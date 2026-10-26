@@ -32,6 +32,8 @@ import { Clock, TriangleAlert } from "lucide-react";
 
 import { estimarCorrida, type EstimacionDeCorrida as Estimacion } from "../../lib/api";
 import { useLanguage } from "../../context/LanguageContext";
+import { ConfigurationMetadataSlot, useConfigurationPresentation } from "./ConfigurationPresentation";
+import configurationStyles from "./ConfigurationPresentation.module.css";
 
 export interface EstimacionDeCorridaProps {
   readonly exhaustiveness: number;
@@ -71,6 +73,7 @@ export function EstimacionDeCorrida({
   visible = true,
 }: EstimacionDeCorridaProps) {
   const { t } = useLanguage();
+  const configuration = useConfigurationPresentation();
   const [estimacion, setEstimacion] = useState<Estimacion | null>(null);
 
   // La clave de las dependencias se serializa: `gridSize` es un array nuevo en
@@ -106,18 +109,43 @@ export function EstimacionDeCorrida({
   const { segundos_min, segundos_max, apoyo, detalle_apoyo, etapas, una_vez, avisos } = estimacion;
   const calibrado = apoyo === "historial";
 
+  if (configuration) return <section className={configurationStyles.estimate} data-configuration-estimate>
+    <h3>{(estimacion.ligandos ?? 1) > 1 ? t("ev_duracion_estimada_cohorte") : t("ev_duracion_estimada")}</h3>
+    {avisos.map(aviso => <p role="alert" className={configurationStyles.warning} key={aviso}>{aviso}</p>)}
+    <p className={configurationStyles.timeRange}>{formatearDuracion(segundos_min)} – {formatearDuracion(segundos_max)}</p>
+    <p className={configurationStyles.basis}>
+      <strong>{calibrado ? t("ev_calibrado_con_tu_equipo") : t("ev_sin_historial_todavia")}</strong>
+      {detalle_apoyo}
+    </p>
+    <section className={configurationStyles.breakdown}>
+      <h4>{t("ev_de_que_se_compone")}</h4>
+      <dl className={configurationStyles.stages}>
+        {etapas.map(etapa => <div key={etapa.etapa}>
+          <dt>{etapa.etapa}</dt>
+          <dd>{formatearDuracion(etapa.segundos_min)} – {formatearDuracion(etapa.segundos_max)}<p>{etapa.nota}</p></dd>
+        </div>)}
+      </dl>
+    </section>
+    <ConfigurationMetadataSlot />
+    {una_vez && <section className={configurationStyles.oneTime}>
+      <h4>{t("ev_solo_primera_vez")}</h4>
+      <p><strong>{una_vez.etapa}</strong> · {formatearDuracion(una_vez.segundos_min)} – {formatearDuracion(una_vez.segundos_max)}</p>
+      <p>{una_vez.nota} {t("ev_anade_entre", { min: formatearDuracion(una_vez.segundos_min), max: formatearDuracion(una_vez.segundos_max) })}</p>
+    </section>}
+  </section>;
+
   return (
     <div className="w-full max-w-[1600px] rounded-2xl border border-zinc-800 bg-zinc-950/70 px-4 py-3">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <Clock size={14} className="shrink-0 self-center text-purple-400" aria-hidden="true" />
-        <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
+        <span className="font-sans text-sm font-bold uppercase tracking-[0.14em] text-zinc-400">
           {(estimacion.ligandos ?? 1) > 1 ? t("ev_duracion_estimada_cohorte") : t("ev_duracion_estimada")}
         </span>
         <span className="font-mono text-sm font-bold text-zinc-100">
           {formatearDuracion(segundos_min)} – {formatearDuracion(segundos_max)}
         </span>
         <span
-          className={`rounded-md border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
+          className={`rounded-md border px-2 py-0.5 font-sans text-sm uppercase tracking-wider ${
             calibrado
               ? "border-emerald-500/30 bg-emerald-500/[0.07] text-emerald-200"
               : "border-zinc-700 bg-zinc-900 text-zinc-400"
@@ -127,14 +155,14 @@ export function EstimacionDeCorrida({
         </span>
       </div>
 
-      <p className="mt-1 text-sm leading-6 text-zinc-500">{detalle_apoyo}</p>
+      <p className="mt-1 text-base leading-6 text-zinc-300 font-sans">{detalle_apoyo}</p>
 
       {/* El coste de UNA vez va aparte y en su propio tono: no es que la
           aplicación sea lenta, es que este receptor todavía no está preparado.
           Confundir las dos cosas es lo que hace que una primera corrida
           parezca rota al lado de la segunda. */}
       {una_vez && (
-        <p className="mt-2 rounded-lg border border-purple-500/20 bg-purple-500/[0.04] px-3 py-2 text-sm leading-6 text-purple-100/90">
+        <p className="mt-2 rounded-lg border border-purple-500/20 bg-purple-500/[0.04] px-3 py-2 text-base leading-6 text-purple-100 font-sans">
           <span className="font-bold">{t("ev_solo_primera_vez")}</span>
           {una_vez.nota}{" "}
           {t("ev_anade_entre", {
@@ -148,7 +176,7 @@ export function EstimacionDeCorrida({
         <p
           key={aviso}
           role="alert"
-          className="mt-2 flex items-start gap-2 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] px-3 py-2 text-sm leading-6 text-amber-100"
+          className="mt-2 flex items-start gap-2 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] px-3 py-2 text-base leading-6 text-amber-100 font-sans"
         >
           <TriangleAlert size={14} className="mt-1 shrink-0 text-amber-300" aria-hidden="true" />
           {aviso}
@@ -156,17 +184,17 @@ export function EstimacionDeCorrida({
       ))}
 
       <details className="group mt-2">
-        <summary className="cursor-pointer list-none font-mono text-[10px] font-bold uppercase tracking-wider text-zinc-500 hover:text-zinc-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
+        <summary className="cursor-pointer list-none font-sans text-sm font-bold uppercase tracking-wider text-zinc-400 hover:text-zinc-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
           {t("ev_de_que_se_compone")}
         </summary>
         <ul className="mt-1.5 space-y-1">
           {etapas.map((etapa) => (
-            <li key={etapa.etapa} className="flex flex-wrap items-baseline gap-x-2 text-sm leading-6">
+            <li key={etapa.etapa} className="flex flex-wrap items-baseline gap-x-2 text-base leading-6 font-sans">
               <span className="text-zinc-300">{etapa.etapa}</span>
-              <span className="font-mono text-xs text-zinc-400">
+              <span className="font-mono text-sm text-zinc-400">
                 {formatearDuracion(etapa.segundos_min)} – {formatearDuracion(etapa.segundos_max)}
               </span>
-              <span className="w-full text-xs text-zinc-500 sm:w-auto">{etapa.nota}</span>
+              <span className="w-full text-sm text-zinc-400 sm:w-auto">{etapa.nota}</span>
             </li>
           ))}
         </ul>

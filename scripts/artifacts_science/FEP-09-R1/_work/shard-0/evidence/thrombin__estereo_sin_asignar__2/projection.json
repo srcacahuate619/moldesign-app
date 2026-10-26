@@ -1,0 +1,83 @@
+{
+  "projection_version": 1,
+  "case_id": "thrombin__estereo_sin_asignar__2",
+  "name": "thrombin__estereo_sin_asignar__2",
+  "context": {
+    "question": "Sensibilidad por requisito a un defecto preregistrado"
+  },
+  "inputs": {
+    "receptor": {
+      "pdb_id": "USR_4EB9B4",
+      "chain": "H",
+      "origin": "user"
+    },
+    "ligand": {
+      "input_smiles": "[NH3+]C(Cc1ccccc1)C(=O)N1CCC[C@H]1C(=O)NCc1cccc(F)c1",
+      "canonical_smiles": "[NH3+]C(Cc1ccccc1)C(=O)N1CCC[C@H]1C(=O)NCc1cccc(F)c1"
+    },
+    "config": {
+      "grid_center": [
+        16.441,
+        -12.518,
+        22.646
+      ],
+      "grid_size": [
+        20.0,
+        20.0,
+        20.0
+      ],
+      "docking_engine": "vina",
+      "exhaustiveness": 8,
+      "num_poses": 9,
+      "seed": 42,
+      "pipeline_config": {
+        "enabled_stages": [
+          "validation",
+          "properties",
+          "sa_filter",
+          "conformer",
+          "docking",
+          "xgb",
+          "clgnn"
+        ],
+        "stage_params": {
+          "conformer": {
+            "conformers": 1,
+            "ph": 7.4
+          },
+          "docking": {
+            "exhaustiveness": 8,
+            "num_poses": 9,
+            "seed": 42
+          }
+        },
+        "docking_engine": "vina"
+      }
+    }
+  },
+  "preflight": {
+    "fingerprint": "sha256:677f44efb56ee73c328f7f25784b8a0bb21c11025c650bec267de98f76cee9c2",
+    "generated_at": "2026-10-11T23:16:48.897131+00:00",
+    "schema_version": 4,
+    "execution_route": "docking_vina",
+    "blockers": [],
+    "warnings": [
+      "LIGANDO_REVISION_QUIMICA",
+      "ESPECIES_DEL_SITIO_RETIRADAS",
+      "RECEPTOR_PROTONACION_DECLARADA",
+      "CALIBRACION_RECEPTOR"
+    ],
+    "not_evaluated": [
+      "HOTSPOTS_EFECTIVOS",
+      "LIGANDO_PROTONACION_TAUTOMERO",
+      "ASSEMBLY_BIOLOGICA",
+      "HUECOS_CERCA_DEL_SITIO"
+    ]
+  },
+  "run": {
+    "task_id": "499e808d-5929-4bbe-9379-45dfcce1b74c",
+    "input_fingerprint": "sha256:677f44efb56ee73c328f7f25784b8a0bb21c11025c650bec267de98f76cee9c2",
+    "execution_state": "completed"
+  },
+  "run_inputs_relation": "corresponde"
+}

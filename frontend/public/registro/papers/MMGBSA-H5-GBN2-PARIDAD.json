@@ -72,52 +72,28 @@
       "m": "fuerte"
      },
      {
-      "t": " y fallan sólo en GBn2. Las cuatro recuperan la paridad",
+      "t": " y fallan sólo en GBn2. Las cuatro recuperan la paridad cuando el S se trata como elemento genérico en los dos programas: el desacuerdo es del azufre, no del halógeno.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "cuando el S se trata como elemento genérico en los dos programas: el desacuerdo es del azufre, no del halógeno.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "5mlj falla ya en vacío",
       "m": "fuerte"
      },
      {
-      "t": " (3,88 kcal/mol), y no por el bromo: el SDF de",
+      "t": " (3,88 kcal/mol), y no por el bromo: el SDF de PDBBind pone un hidrógeno a 0,26 Å de un carbono, con un ángulo de 1,2°. El gate no preveía esa excepción y no se cambió después de medir; se repitió como réplica con un filtro declarado antes (",
+      "m": null
+     },
+     {
+      "t": "MMGBSA-H5-R1",
+      "m": "codigo"
+     },
+     {
+      "t": ", GO 23/23).",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "PDBBind pone un hidrógeno a 0,26 Å de un carbono, con un ángulo de 1,2°. El gate no preveía esa excepción y no se cambió después de medir; se repitió como réplica con un filtro declarado antes (",
-     "m": null
-    },
-    {
-     "t": "MMGBSA-H5-R1",
-     "m": "codigo"
-    },
-    {
-     "t": ", GO 23/23).",
-     "m": null
-    }
    ]
   },
   {

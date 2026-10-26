@@ -1,0 +1,8 @@
+{
+  "attempted": 8,
+  "failed": 0,
+  "targets": [
+    "cdk2"
+  ],
+  "pilot": true
+}

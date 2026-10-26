@@ -2,7 +2,7 @@
  "id": "MF-09",
  "meta": {
   "titulo": "En 30 de 33 complejos, la pose correcta no está entre las 751 candidatas",
-  "entradilla": "Es muestreo, no puntuación. Ningún selector puede elegir algo que no existe. Y en el control ocurre lo contrario: la pose buena está y el score no la pone primera en 8 de 15."
+  "entradilla": "En esos 30 es muestreo: ningún selector puede elegir algo que no existe. En los otros 3 la pose buena está y la puntuación falla, como en el control: allí el score no la pone primera en 8 de 15."
  },
  "bloques": [
   {
@@ -24,44 +24,20 @@
       "m": "fuerte"
      },
      {
-      "t": ": entre todas las poses generadas no hay ninguna correcta. Ningún selector",
+      "t": ": entre todas las poses generadas no hay ninguna correcta. Ningún selector puede arreglarlo, porque no hay nada que elegir.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "puede arreglarlo, porque no hay nada que elegir.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": false,
-   "items": [
+    ],
     [
      {
       "t": "Puntuación",
       "m": "fuerte"
      },
      {
-      "t": ": la pose correcta está ahí y el score no la elige. Hay margen de mejora en",
+      "t": ": la pose correcta está ahí y el score no la elige. Hay margen de mejora en la selección.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "la selección.",
-     "m": null
-    }
    ]
   },
   {
@@ -384,6 +360,275 @@
    "frag": [
     {
      "t": "Ese margen de 8 de 15 es además el que después se convirtió en decisión de producto: entregar cinco poses en lugar de una sube la cobertura útil 13 puntos sin tocar el motor. La solución no era un selector mejor. Era dejar de fingir que hay que elegir una sola.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-030. Los complejos recuperables en el top-5 son 7 de 15, no 8: el 8 es el margen del oráculo (best-of-9).",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-069. «Es muestreo» vale para 30 de 33 complejos de COLOCACION, que no tienen ninguna pose ≤ 2 Å. Los otros ",
+      "m": null
+     },
+     {
+      "t": "3",
+      "m": "fuerte"
+     },
+     {
+      "t": " sí la tienen y el top-1 falla en los tres: en el estrato difícil también hay fallos de puntuación, no sólo de muestreo.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-070 y SCI-B-071. El manifiesto de ",
+      "m": null
+     },
+     {
+      "t": "MF-09",
+      "m": "codigo"
+     },
+     {
+      "t": " sella el informe, el agregado y el código, pero no las entradas que une; el de ",
+      "m": null
+     },
+     {
+      "t": "MF-09-SYM",
+      "m": "codigo"
+     },
+     {
+      "t": " sólo sella el analizador. «Verificado» se lee como consistencia de agregados, no como reconstrucción desde entradas selladas.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La entradilla decía «es muestreo, no puntuación» para todo el estrato; SCI-B-069 lo limita a 30 de 33 (hallazgo L2-SOL-009 de la revisión de papers de Sol).",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "MF-09-SYM: la simetría recupera cobertura y cambia la selección aparente",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de relectura de la métrica.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade el resultado simétrico a la auditoría ingenua; no demuestra que otra búsqueda sea inútil ni valida un selector.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sobre 21692 poses conservadas se minimizó el RMSD sin alinear sobre automorfismos, con corte de 2,0 Å.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Estrato",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Miembros",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Oráculo corregido",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Top-1 corregido",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "COLOCACION",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "33",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CONTROL",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "1l83",
+     "m": "codigo"
+    },
+    {
+     "t": " gana cobertura. Cambiar la métrica cambia también el margen aparente de selección, sin alterar coordenadas generadas. El alcance de ",
+     "m": null
+    },
+    {
+     "t": "SCI-B-070 y SCI-B-071",
+     "m": "fuerte"
+    },
+    {
+     "t": " ya está declarado arriba: no se completa aquí una procedencia que el sello no fija. No comprobado por mí: recalcular la métrica desde las poses originales. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "MF-09-SYM",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
      "m": null
     }
    ]

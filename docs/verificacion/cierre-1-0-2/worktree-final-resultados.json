@@ -1,0 +1,23 @@
+[
+  {
+    "salida": 0,
+    "segundos": 119.11,
+    "registro": "worktree-final-test.log",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "comando": "npm run test:run"
+  },
+  {
+    "salida": 0,
+    "segundos": 6.79,
+    "registro": "worktree-final-tsc.log",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "comando": "npx tsc --noEmit"
+  },
+  {
+    "salida": 0,
+    "segundos": 61.66,
+    "registro": "worktree-final-lint.log",
+    "commit": "4800880358d844e723c9d290a1101ed2b68c68bb",
+    "comando": "npm run lint"
+  }
+]

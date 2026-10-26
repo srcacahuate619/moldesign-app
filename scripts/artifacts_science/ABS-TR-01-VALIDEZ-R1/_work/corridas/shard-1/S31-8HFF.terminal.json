@@ -1,0 +1,16 @@
+{
+  "id_r2": "S31",
+  "pdb": "8HFF",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 24.7,
+      "crudo": "S31-8HFF-intento1.json.gz",
+      "crudo_sha256": "07008e9293607840b4be5c5dcfc164835e01fabd34d30811e51f2043c1ee2b90"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S31-8HFF-intento1.json.gz",
+  "crudo_sha256": "07008e9293607840b4be5c5dcfc164835e01fabd34d30811e51f2043c1ee2b90",
+  "registrado_en": "2026-10-25T01:36:27+00:00"
+}

@@ -6,7 +6,7 @@
 // entero en el atributo `title` de un chip de 10 px: hay que acertarle con el
 // ratón, no existe en táctil y con teclado no se alcanza. La frase que más
 // importa —«el ligando acoplará contra parte de la cavidad»— estaba enterrada
-// ahí, y aplica a 110 de los 380 receptores del catálogo.
+// ahí, y aplica a 110 de los 381 receptores del catálogo.
 //
 // LO QUE SE PRUEBA, en orden de importancia:
 //
@@ -25,13 +25,18 @@ import { fileURLToPath } from "node:url";
 
 import { describe, expect, it } from "vitest";
 
-import { explicarSitio } from "../sitioDelReceptor";
+import {
+  avisoDeEvidencia,
+  describirHotspots,
+  describirSitio,
+  explicarSitio,
+} from "../sitioDelReceptor";
 
 /**
  * El catálogo REAL que viaja en el instalador, no una maqueta.
  *
  * La pregunta que motivó esto era «¿podemos explicarlo para cada uno de los
- * 380?», y sólo se contesta ejecutándolo sobre los 380. Una maqueta de tres
+ * 381?», y sólo se contesta ejecutándolo sobre los 381. Una maqueta de tres
  * receptores demuestra que la función corre, no que el catálogo tenga los datos.
  *
  * Se lee la fuente versionada de la raíz, no la copia de `src-tauri/resources/`.
@@ -106,6 +111,31 @@ describe("la advertencia que cambia el número", () => {
     const secciones = explicarSitio(UNA_CADENA).secciones;
     expect(secciones.some((s) => /tu resultado/i.test(s.pregunta))).toBe(false);
     expect(textoEntero(UNA_CADENA)).not.toMatch(/parte de la cavidad/i);
+  });
+});
+
+describe("traducción inglesa del sitio", () => {
+  it("conserva cadenas, evidencia y advertencias científicas en inglés", () => {
+    const chip = describirSitio(INTERFAZ, "en");
+    const hotspots = describirHotspots(INTERFAZ, "en");
+    const explanation = explicarSitio(INTERFAZ, "en");
+    const text = [
+      chip.etiqueta,
+      chip.detalle,
+      hotspots.etiqueta ?? "",
+      hotspots.detalle,
+      explanation.titular,
+      ...explanation.secciones.flatMap((section) => [section.pregunta, section.respuesta]),
+    ].join(" ");
+
+    expect(chip.etiqueta).toBe("Interface B·A");
+    expect(chip.detalle).toContain("preparation keeps only 'A'");
+    expect(explanation.titular).toBe("The binding site lies at the junction of 2 chains: B and A.");
+    expect(text).toContain("docking uses only PART of the cavity");
+    expect(text).toContain("search box");
+    expect(text).not.toMatch(/[áéíóúñ¿¡]/i);
+    expect(avisoDeEvidencia({ site_evidence: "box_volume" }, "en"))
+      .toBe("No co-crystallized ligand");
   });
 });
 
@@ -199,9 +229,9 @@ describe("forma del texto", () => {
   });
 });
 
-describe("los 380 receptores del catálogo que viaja", () => {
-  it("son 380 y todos producen una explicación", () => {
-    expect(CATALOGO.length).toBe(380);
+describe("los 381 receptores del catálogo que viaja", () => {
+  it("son 381 y todos producen una explicación", () => {
+    expect(CATALOGO.length).toBe(381);
     for (const target of CATALOGO) {
       const e = explicarSitio(target);
       expect(e.titular.length).toBeGreaterThan(10);
@@ -209,7 +239,7 @@ describe("los 380 receptores del catálogo que viaja", () => {
     }
   });
 
-  it("cada explicación nombra SU receptor: 380 titulares, ningún hueco", () => {
+  it("cada explicación nombra SU receptor: 381 titulares, ningún hueco", () => {
     for (const target of CATALOGO) {
       const texto = explicarSitio(target).secciones.map((s) => s.respuesta).join(" ");
       expect(texto).toContain(target.pdb_id);
@@ -262,6 +292,31 @@ describe("los 380 receptores del catálogo que viaja", () => {
       const hs = explicarSitio(target).secciones
         .find((s) => /residuos marcados/i.test(s.pregunta));
       expect(hs?.respuesta).toMatch(/Ninguno viene del Protein Data Bank/);
+    }
+  });
+});
+
+// ── SOL-09: los hotspots no guían la búsqueda de Vina ─────────────────
+//
+// La auditoría lo midió inspeccionando el comando real: Vina recibe
+// receptor, ligando, caja, exhaustividad, poses, CPU y semilla — ningún
+// restraint ni mapa derivado de los hotspots. Éstos intervienen en la
+// caché y en el análisis de contactos. Decir que «guían la búsqueda»
+// hacía creer que desmarcar un residuo cambia el espacio explorado, cuando
+// la región la define la caja.
+
+describe("SOL-09: los hotspots son referencias, no guía de búsqueda", () => {
+  it("la explicación no les atribuye la búsqueda: la región la define la caja", () => {
+    // La única mención permitida de «guían la búsqueda» es la NEGADA. El
+    // texto antiguo la afirmaba como propiedad de los residuos.
+    for (const target of CATALOGO) {
+      const respuesta = explicarSitio(target).secciones
+        .find((s) => /residuos marcados/i.test(s.pregunta))?.respuesta ?? "";
+      const menciones = respuesta.match(/gu[ií]an la b[uú]squeda/gi) ?? [];
+      const negadas = respuesta.match(/no gu[ií]an la b[uú]squeda/gi) ?? [];
+      expect(menciones.length, `${target.pdb_id}: atribución de guía de búsqueda`)
+        .toBe(negadas.length);
+      expect(respuesta).toMatch(/la caja|referencia/i);
     }
   });
 });

@@ -23,13 +23,13 @@ const ajustes = readFileSync(
   "utf8",
 );
 
-/** Todas las llamadas `fetch` a `/ai/...` que aparecen en el contexto. */
+/** Llamadas al backend por transporte compartido o por fetch directo. */
 function llamadasAi(texto: string): string[] {
   const llamadas: string[] = [];
   // El cierre es `);` y no `)` seguido de `;` o `,`: una llamada cuyo cuerpo
   // termina en `getAuthHeaders(),` —la coma de un objeto multilínea— cortaba el
   // trozo antes de la propia cabecera y se denunciaba sola.
-  const patron = /fetch\(\s*`\$\{await getApiUrl\(\)\}(\/ai\/[^`]*)`([\s\S]*?)\)\s*;/g;
+  const patron = /(?:fetch|fetchBackend)\(\s*`(?:\$\{await getApiUrl\(\)\})?(\/ai\/[^`]*)`([\s\S]*?)\)\s*;/g;
   let m: RegExpExecArray | null;
   while ((m = patron.exec(texto)) !== null) {
     llamadas.push(m[1] + " ::" + m[2]);
@@ -38,6 +38,18 @@ function llamadasAi(texto: string): string[] {
 }
 
 describe("las llamadas de MolChat llevan sesión", () => {
+  it("el guardián detecta llamadas con y sin sesión en ambos transportes", () => {
+    expect(llamadasAi("fetch(`${await getApiUrl()}/ai/providers`, { headers: getAuthHeaders() });"))
+      .toHaveLength(1);
+    const shared = llamadasAi("fetchBackend(`/ai/chat`, { headers: getAuthHeaders() });");
+    expect(shared).toHaveLength(1);
+    expect(shared[0]).toContain("getAuthHeaders()");
+    const missingAuth = llamadasAi("fetchBackend(`/ai/chat`, { method: 'POST' });");
+    expect(missingAuth).toHaveLength(1);
+    expect(missingAuth[0]).not.toContain("getAuthHeaders()");
+    expect(llamadasAi("fetch(`/registro/index.json`);")).toEqual([]);
+  });
+
   it("encuentra las llamadas del contexto", () => {
     // Si el contexto se reescribe y el patrón deja de encajar, la prueba de
     // abajo pasaría en vacío. Este guardarraíl lo impide.

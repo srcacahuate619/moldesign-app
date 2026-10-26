@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 shp2__seriales_renumerados__0",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "A",
+    "grid_center_x": 22.6253,
+    "grid_center_y": 41.2671,
+    "grid_center_z": 4.6637,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "4961570eb9b49ad3d01a58592152432234689b6233ff6a908fb5bb6bce71cdbb",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\fep09-2\\tmp\\inputs\\shp2__seriales_renumerados__0.pdb"
+}

@@ -618,7 +618,23 @@
      "m": "fuerte"
     },
     {
-     "t": " propiedades del régimen de generación. La curva de confórmeros, la comparación de brazos generadores, la cobertura del oráculo: todo eso se midió con docking rígido y se remediría distinto con flexible. Son los que habría que rehacer primero.",
+     "t": " propiedades del régimen de generación. La curva de confórmeros, la comparación de brazos generadores, la cobertura del oráculo: todo eso se midió con docking rígido —salvo los comparadores ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-EXH4",
+     "m": "codigo"
+    },
+    {
+     "t": " y ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-EXH4-VAL",
+     "m": "codigo"
+    },
+    {
+     "t": ", con ligando flexible— y se remediría distinto con flexible. Son los que habría que rehacer primero.",
      "m": null
     }
    ]
@@ -940,6 +956,591 @@
     },
     {
      "t": " al número. Un dato así, suelto y sin sus condiciones de uso, se convierte en «el 94% del programa está mal» en la primera conversación en que alguien lo repita de memoria.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-147. La lista obtenida por coincidencias de nombres y rutas es un inventario de posibles referencias a la familia de datasets. Incluye versiones distintas y no constituye un grafo de consumidores directos del material v2. No se usa su tamaño para fijar cuántas corridas habría que repetir. Esa decisión exigiría enlazar ruta exacta, hash y dependencia efectiva, sin invalidar automáticamente conclusiones previas.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La categoría 1 atribuía docking rígido también a los comparadores EXH4, que usan ligando flexible (hallazgo L2-SOL-001 de la revisión de papers de Sol).",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "D-MF-HARD: la cohorte de desarrollo separa flexibilidad y controles",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO operacional.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Define la población de los comparadores históricos citados arriba; no prueba eficacia del generador.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se seleccionaron 22 ligandos hard con al menos 15 torsiones y otros tantos controles con no más de 4. En cada estrato hay 17 de train y 5 de val. El emparejamiento sin reemplazo se hizo dentro del split, minimizando primero diferencia de átomos pesados y después masa y tamaño del receptor. No garantiza equilibrio químico.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El universo conservado tiene 156 miembros de train+val; la intersección con test es 0. Oracle_gap es un indicador secundario dependiente de etiqueta; no decide pertenencia, emparejamiento ni parámetros. Val es piloto, no confirmatorio. Esto no convierte el inventario de SCI-B-147 en un grafo de dependencias directas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Fuente: ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD",
+     "m": "codigo"
+    },
+    {
+     "t": ". No comprobado por mí: regenerar las propiedades moleculares usadas en la selección.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "D-MF-HARD-CURVE: el presupuesto elegido no rehabilita la cobertura hard",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de elección de presupuesto para el piloto.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade el comparador de desarrollo sin cambiar la composición del conjunto descrito en este paper.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se compararon prefijos de confórmeros bajo el protocolo congelado. La cobertura es oráculo con RMSD de bolsillo de 2.0 Å o menos, no precisión de una pose seleccionada.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Train",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Miembros",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cubiertos con K = 15",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cubiertos con K = 30",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Hard",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "17",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "17",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La regla enmendada elige el menor presupuesto admisible por pérdida de cubiertos y degradación del RMSD mediano. El gate técnico también fue enmendado: acepta modelos efectivamente emitidos si el proceso termina bien y sus scores de REMARK VINA RESULT son finitos. No se atribuye esa enmienda al diseño original.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No se demuestra saturación ni equivalencia entre presupuestos. La propia lectura califica NO_GO la cobertura hard del presupuesto elegido. No comprobado por mí: repetir las corridas. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-CURVE",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "D-MF-HARD-CURVE-VAL: la validación del presupuesto es un piloto descriptivo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de ejecución piloto.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade val del presupuesto fijado sin reajustarlo ni convertir train en confirmación externa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se conservó K = 15, configuración y métrica de bolsillo del ensayo de desarrollo. Los intervalos Wilson son los archivados.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Val",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cubiertos / miembros",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "IC 95 % de cobertura",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Hard",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2 / 5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,118; 0,769]",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4 / 5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,376; 0,964]",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No hubo fallos ITT registrados. El tamaño limitado y los intervalos no prueban equivalencia con train. No comprobado por mí: reconstruir las corridas. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-CURVE-VAL",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "D-MF-HARD-EXH4: el comparador flexible supera a MolFlex en esta cohorte de desarrollo",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO limitado al contraste de desarrollo.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade el comparador histórico, sin demostrar superioridad en sitios desconocidos ni modificar v2.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Usó vina 1.2.7, ligando flexible, receptor rígido, exhaustividad 4, semilla 42 y caja cristalográfica de 25 Å. También la conformación inicial era cristalográfica. La cobertura es el oráculo sobre todas las poses del brazo, con el criterio de bolsillo, no el top-1.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Train hard",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Cubiertos por el comparador flexible",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "11 / 17",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Cubiertos por MolFlex del presupuesto elegido",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3 / 17",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Discordancias a favor / en contra del comparador",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8 / 0",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "McNemar exacto bilateral archivado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,0078125",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CPU-h hard del comparador, medida",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,67",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "CPU-h hard de MolFlex, estimación con P50 por corrida",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2,214",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El coste de referencia es un estimador, no una medición pareada. Los otros contrastes y control no establecen la misma superioridad. El ajuste de multiplicidad del registro es sensibilidad post-hoc, no parte del prerregistro. No comprobado por mí: repetir docking, inferencia o tiempos. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-EXH4",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "D-MF-HARD-EXH4-VAL: la extensión a val no es confirmación ciega",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO de ejecución descriptiva.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Añade val sin modificar el presupuesto ni la decisión de train.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con la configuración del comparador flexible anterior se cubrieron 2 de 5 hard y 2 de 5 controles. Ambas fracciones tienen IC Wilson del 95 % archivado [0,118; 0,769]. No hubo fallos ITT registrados.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Es la primera ejecución de este brazo sobre val, pero esa cohorte ya se examinó con MolFlex. El sello la declara no ciega ni confirmatoria. La igualdad observada entre estratos no demuestra equivalencia. No comprobado por mí: repetir corridas o intervalos. Fuente: ",
+     "m": null
+    },
+    {
+     "t": "D-MF-HARD-EXH4-VAL",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
      "m": null
     }
    ]

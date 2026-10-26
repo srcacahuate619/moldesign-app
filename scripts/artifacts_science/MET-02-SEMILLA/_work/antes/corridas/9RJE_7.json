@@ -1,0 +1,27 @@
+{
+  "pdb": "9RJE",
+  "semilla": 7,
+  "inicio": "2026-10-23T03:29:13+00:00",
+  "resultado": "auditada",
+  "task_id": "ef0d50a8-28a9-4a5e-a6a1-f91db653ab61",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN A:407 (2.14 Å); más lejos: K A:408 (7.4 Å), NA A:411 (19.52 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal 6NA A:401",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "2ff20c450ac441c8ba9de8ea1dc79ed595cb3a5e7b405f64e56c886250b42419",
+  "afinidad_top1": -4.544,
+  "microestado": "CCCCCC(=O)[O-]",
+  "microestado_coincide": true,
+  "semilla_declarada": 7,
+  "vina": "1.2.7",
+  "receptor_sha256": "ffb7c1a3ae50772b41be3e36e0cae51a5f8d55fd2cf4cd140bb5c88bef2ee8a3",
+  "segundos": 11.1,
+  "fin": "2026-10-23T03:29:24+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

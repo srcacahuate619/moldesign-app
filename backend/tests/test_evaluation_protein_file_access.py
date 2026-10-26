@@ -43,6 +43,12 @@ class _Repository:
         self.molecule = molecule
         self.demo_user = demo_user
 
+    async def get_evaluation_result(self, _molecule_id):
+        import hashlib
+        from tests.test_evaluation_files import RECEPTOR, RECEPTOR_PATH
+        return SimpleNamespace(receptor_path=RECEPTOR_PATH,
+            receptor_sha256=hashlib.sha256(RECEPTOR.encode()).hexdigest())
+
     async def get_molecule(self, _molecule_id):
         return self.molecule
 
@@ -134,11 +140,12 @@ async def test_el_propietario_sigue_descargando_su_receptor(monkeypatch):
     import utils.local_storage as local_storage
 
     async def exists(object_name):
-        return object_name == "targets/7E2Y/raw.pdb"
+        return object_name == "runs/receptors/example.pdbqt"
 
     async def read_text(object_name):
-        assert object_name == "targets/7E2Y/raw.pdb"
-        return "ATOM      1  N   ALA A   1\nEND\n"
+        assert object_name == "runs/receptors/example.pdbqt"
+        from tests.test_evaluation_files import RECEPTOR
+        return RECEPTOR
 
     monkeypatch.setattr(local_storage, "exists", exists)
     monkeypatch.setattr(local_storage, "read_text", read_text)

@@ -144,3 +144,70 @@ def test_la_etiqueta_levantada_no_convive_con_la_abierta(taxonomia: Dict[str, An
     assert not (abiertos & levantados), (
         f"registros en las dos listas: {', '.join(sorted(abiertos & levantados))}"
     )
+
+
+def test_cada_paper_publicado_coincide_con_su_markdown(construido: Dict[str, Any]) -> None:
+    """El indice no cambia cuando cambia la prosa: hay que comparar los papers uno a uno.
+
+    `test_el_registro_publicado_esta_al_dia` solo mira `index.json`, y 27 papers
+    estuvieron publicados con listas partidas sin que nada fallara.
+    """
+    distintos = [
+        exp_id for exp_id, paper in construido["papers"].items()
+        if json.loads((PUBLICADO / "papers" / f"{exp_id}.json").read_text(encoding="utf-8"))
+        != paper
+    ]
+    assert not distintos, (
+        f"papers desactualizados: {', '.join(distintos)}; "
+        "corre python scripts/build_registro_cientifico.py"
+    )
+
+
+def _textos(bloques: list) -> list:
+    return ["".join(f["t"] for f in b["frag"]) for b in bloques if "frag" in b]
+
+
+def test_un_elemento_de_lista_que_sigue_en_otra_linea_es_el_mismo_elemento() -> None:
+    bloques = REGISTRO.markdown_a_bloques(
+        "1. **Pose:** reproduce la pose (RMSD ≤ 2 Å, sin\n"
+        "   alinear) en 3 de 5 semillas.\n"
+        "2. **Calibración:** el IC 95 %\n"
+        "   no incluye el cero.\n"
+        "\n"
+        "Párrafo siguiente."
+    )
+    assert [b["tipo"] for b in bloques] == ["lista", "parrafo"]
+    items = ["".join(f["t"] for f in it) for it in bloques[0]["items"]]
+    assert items == [
+        "Pose: reproduce la pose (RMSD ≤ 2 Å, sin alinear) en 3 de 5 semillas.",
+        "Calibración: el IC 95 % no incluye el cero.",
+    ]
+    assert bloques[0]["items"][0][0] == {"t": "Pose:", "m": "fuerte"}
+
+
+def test_un_numero_a_mitad_de_parrafo_no_abre_una_lista() -> None:
+    """CommonMark: solo «1.» interrumpe un parrafo. «169. Queda…» es texto."""
+    bloques = REGISTRO.markdown_a_bloques(
+        "La tarea cambia de ordenar unos 9 candidatos a ordenar unos\n"
+        "169. Queda prohibido comparar cifras.\n"
+        "\n"
+        "Lista real:\n"
+        "1. uno\n"
+        "- dos"
+    )
+    assert [b["tipo"] for b in bloques] == ["parrafo", "parrafo", "lista"]
+    assert _textos(bloques)[0].endswith("unos 169. Queda prohibido comparar cifras.")
+    assert len(bloques[2]["items"]) == 2
+
+
+def test_la_continuacion_no_se_traga_el_bloque_siguiente() -> None:
+    bloques = REGISTRO.markdown_a_bloques(
+        "- uno\n"
+        "  sigue\n"
+        "## Encabezado\n"
+        "| a | b |\n"
+        "|---|---|\n"
+        "| 1 | 2 |"
+    )
+    assert [b["tipo"] for b in bloques] == ["lista", "encabezado", "tabla"]
+    assert ["".join(f["t"] for f in it) for it in bloques[0]["items"]] == ["uno sigue"]

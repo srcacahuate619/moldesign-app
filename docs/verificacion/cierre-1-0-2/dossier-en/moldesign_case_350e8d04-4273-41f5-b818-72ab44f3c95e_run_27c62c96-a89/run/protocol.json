@@ -1,0 +1,257 @@
+{
+  "entradas": {
+    "Box declared by the case": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Box declared by the case",
+      "razon": "Value declared by the case; it does not replace the box used.",
+      "valor": "center (100.281, 100.843, 101.442) · size (30.0, 30.0, 30.0) Å",
+      "valor_es_clasificacion": false
+    },
+    "Canonical ligand (the one docked)": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Canonical ligand (the one docked)",
+      "razon": null,
+      "valor": "FC(F)(F)C[NH2+]Cc1ccccc1",
+      "valor_es_clasificacion": false
+    },
+    "Declared receptor": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Declared receptor",
+      "razon": null,
+      "valor": "8HFI · chain A",
+      "valor_es_clasificacion": false
+    },
+    "Docked receptor (prepared unit)": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Docked receptor (prepared unit)",
+      "razon": null,
+      "valor": "8HFI · cadenas A (measured from the hashed PDBQT bytes)",
+      "valor_es_clasificacion": false
+    },
+    "Effective search box": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Effective search box",
+      "razon": null,
+      "valor": "center (100.281, 100.843, 101.442) · size (30.0, 30.0, 30.0) Å",
+      "valor_es_clasificacion": false
+    },
+    "Input fingerprint (preflight)": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Input fingerprint (preflight)",
+      "razon": null,
+      "valor": "sha256:f5434a08d18f4ae81fa2791292d093caf2769638797d0149fafa660121e34e74",
+      "valor_es_clasificacion": false
+    },
+    "Input ligand": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Input ligand",
+      "razon": null,
+      "valor": "c1ccccc1CNCC(F)(F)F",
+      "valor_es_clasificacion": false
+    },
+    "Receptor source": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor source",
+      "razon": null,
+      "valor": "curado",
+      "valor_es_clasificacion": false
+    },
+    "Reference residues": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Reference residues",
+      "razon": null,
+      "valor": "A:ALA145, A:ASP75, A:GLY149, A:GLY320, A:GLY423, A:LEU319, A:PHE317, A:PHE323, A:PHE72, A:SER318, A:SER419, A:SER420, A:TYR152, A:VAL148, A:VAL325",
+      "valor_es_clasificacion": false
+    },
+    "Relationship of the run with current inputs": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Relationship of the run with current inputs",
+      "razon": "This run used the inputs described in this dossier.",
+      "valor": "This run used the inputs described in this dossier.",
+      "valor_es_clasificacion": false
+    }
+  },
+  "molecule_id": "e5655ee8-fa0b-4c1a-aebe-995548b0281b",
+  "parametros": {
+    "CPUs requested for Vina": {
+      "estado": "REGISTRADO",
+      "etiqueta": "CPUs requested for Vina",
+      "razon": null,
+      "valor": "4",
+      "valor_es_clasificacion": false
+    },
+    "Code commit": {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Code commit",
+      "razon": "This run did not declare a verifiable commit (bundle or modified tree).",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "Declared PRO settings": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Declared PRO settings",
+      "razon": null,
+      "valor": "{\"docking_engine\": \"vina\", \"enabled_stages\": [\"validation\", \"properties\", \"sa_filter\", \"conformer\", \"docking\", \"xgb\", \"clgnn\"], \"gnn_precision\": \"fp32\", \"pro_anti_targets\": [], \"pro_mmgbsa\": false, \"pro_mmgbsa_steps\": 1000, \"pro_parallel_docks\": 2, \"pro_selectivity\": true, \"pro_workers\": 4, \"stage_params\": {\"conformer\": {\"conformers\": 1, \"ph\": 7.4}, \"docking\": {\"exhaustiveness\": 8, \"num_poses\": 9}, \"properties\": {\"run_admet_ai\": false}}}",
+      "valor_es_clasificacion": false
+    },
+    "Declared error": {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Declared error",
+      "razon": "This run did not record errors.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "Docking engine": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Docking engine",
+      "razon": null,
+      "valor": "vina",
+      "valor_es_clasificacion": false
+    },
+    "Engine version": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Engine version",
+      "razon": null,
+      "valor": "1.2.7",
+      "valor_es_clasificacion": false
+    },
+    "Exhaustiveness": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustiveness",
+      "razon": null,
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    "Exhaustiveness declared by the case": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustiveness declared by the case",
+      "razon": "Value declared by the case; execution is documented separately.",
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    "Fallback reason": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Fallback reason",
+      "razon": null,
+      "valor": "Familia 'transporter' sin modelo entrenado disponible — modelo universal usado.",
+      "valor_es_clasificacion": false
+    },
+    "Input ligand SDF SHA-256": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Input ligand SDF SHA-256",
+      "razon": null,
+      "valor": "680cf104e8d0268e11eaef32c731cb79f0331119ebc5f49b3c5ad86ffe6ed4e5",
+      "valor_es_clasificacion": false
+    },
+    "Log SHA-256": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Log SHA-256",
+      "razon": null,
+      "valor": "e6a12bf94ad5a88297ee6ff5e8238302681241ecb8a7dab705b1584dabcd391b",
+      "valor_es_clasificacion": false
+    },
+    "MolDesign version": {
+      "estado": "REGISTRADO",
+      "etiqueta": "MolDesign version",
+      "razon": null,
+      "valor": "1.0.1",
+      "valor_es_clasificacion": false
+    },
+    "PDBQT ligand SHA-256": {
+      "estado": "REGISTRADO",
+      "etiqueta": "PDBQT ligand SHA-256",
+      "razon": null,
+      "valor": "8efe1b0ab321873f882f4737d1eb3dff756741c479e747ca24cd42b4e6473f40",
+      "valor_es_clasificacion": false
+    },
+    "Parser source": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Parser source",
+      "razon": null,
+      "valor": "sdf",
+      "valor_es_clasificacion": false
+    },
+    "Pose SDF SHA-256": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Pose SDF SHA-256",
+      "razon": null,
+      "valor": "6131119e2272eb427c1eb97c7f81b64a66596900c1f2a71c9b2a825b7b07a79e",
+      "valor_es_clasificacion": false
+    },
+    "Poses declared by the case": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses declared by the case",
+      "razon": "Value declared by the case; execution is documented separately.",
+      "valor": "9",
+      "valor_es_clasificacion": false
+    },
+    "Poses requested": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses requested",
+      "razon": null,
+      "valor": "9",
+      "valor_es_clasificacion": false
+    },
+    "Preparation versions": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Preparation versions",
+      "razon": null,
+      "valor": "{\"dimorphite_dl\": \"2.0.2\", \"meeko\": \"0.7.1\", \"rdkit\": \"2025.9.6\", \"vina\": \"1.2.7\"}",
+      "valor_es_clasificacion": false
+    },
+    "Prepared receptor SHA-256": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Prepared receptor SHA-256",
+      "razon": null,
+      "valor": "30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60",
+      "valor_es_clasificacion": false
+    },
+    "Random seed": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Random seed",
+      "razon": null,
+      "valor": "42",
+      "valor_es_clasificacion": false
+    },
+    "Receptor preparation recipe": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor preparation recipe",
+      "razon": null,
+      "valor": "cde3e715fd357bd60903e848e66001d195d8d31699beef3ee666f26c400d0efc",
+      "valor_es_clasificacion": false
+    },
+    "Rescoring model": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Rescoring model",
+      "razon": null,
+      "valor": "universal",
+      "valor_es_clasificacion": false
+    }
+  },
+  "procedencia": {
+    "campos_ausentes": [
+      "configuracion_sha256",
+      "vocabulario_especies"
+    ],
+    "completo": false,
+    "configuracion": {
+      "exhaustiveness": 8,
+      "grid_center": null,
+      "grid_size": null,
+      "num_modes": 9,
+      "random_seed": 42,
+      "vina_version": "1.2.7"
+    },
+    "configuracion_sha256": null,
+    "ligando_smiles_sha256": "e3dc5e9f3439b3ff841416be2b6dc76e8b3b1538e77c1add165bcfc75d8259b3",
+    "modelo": "universal",
+    "motor": "vina",
+    "nota": "These hashes let a third party verify that this dossier's conclusions were calculated from the inputs it declares. An on-chain record certifies WHEN the document was issued; it does not certify WHAT it was calculated from. Both are necessary; neither replaces the other.",
+    "poses_sha256": "c49f7d5ef53c292a65f29da5923838ef1e5d0f2c4a042e3459aa0c9fae179170",
+    "receptor_referencia": "runs/receptors/30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60.pdbqt",
+    "vocabulario_especies": null
+  },
+  "schema_version": 1,
+  "target": "8HFI · CRYO-EM STRUCTURE OF HUMAN NOREPINEPHRINE TRANSPORTER NET IN THE",
+  "task_id": "27c62c96-a890-47f6-b0c1-095dc6801edb"
+}

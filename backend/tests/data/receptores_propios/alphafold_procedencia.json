@@ -1,0 +1,12 @@
+{
+  "fuente": "https://alphafold.ebi.ac.uk/files/AF-P23975-F1-model_v6.pdb y .cif (descargados el 2026-10-09)",
+  "originales": {
+    "AF-P23975-F1-model_v6.pdb": "8743112110ad3f60b93a957b49e1572094556e4c637c9c92961d84b5719bc30b",
+    "AF-P23975-F1-model_v6.cif": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+  },
+  "recortes": {
+    "af_p23975_recortado.pdb": "b3c5f644f763e5a373b11ed6e327ca2b207618a044ea2e8dfd64af2549189dbe",
+    "af_p23975_recortado.cif": "2a412d08542abbaf7c3cf7b0fdadc88fcdceced22cdb54bfa92749e208769102"
+  },
+  "recorte": "residuos 1-90; cabecera y métricas (_ma_qa_metric_local) tal cual"
+}

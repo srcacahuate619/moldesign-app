@@ -1,0 +1,205 @@
+{
+  "_doc": "Intentos de verificación publicados, pasen o no. Un receptor sólo entra en Verificados si supera el protocolo (receptores_verificados.json); un intento que no lo supera se publica aquí con sus cifras y su receptor sigue en Demostración. Cada entrada copia las cifras de su experimento sellado en scripts/artifacts_science/<experimento>/metrics.json, y backend/tests/test_intentos_de_verificacion.py comprueba que coinciden: el archivo no se edita a mano para mejorar un resultado.",
+  "schema": 1,
+  "intentos": [
+    {
+      "pdb_id": "8HFI",
+      "experimento": "CAL-8HFI-01",
+      "fecha": "2026-10-09",
+      "decision": "NO_GO",
+      "conclusion": "CALIBRACION_NO_SUPERADA",
+      "receta_receptor": 7,
+      "receptor_sha256": "30e6695403f7b072cbe436daefa3479f9c8e33ee670590e5f04e01d3a7ff0e60",
+      "protocolo": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "semilla": 42
+      },
+      "condiciones": [
+        "RECEPTOR_SIN_IONES",
+        "SERIE_CONGENERICA",
+        "CONDICIONES_DEL_ENSAYO_NO_DOCUMENTADAS"
+      ],
+      "pose": {
+        "gate": "GO",
+        "semillas": 5,
+        "semillas_rmsd_ok": 3,
+        "rmsd_top1_A": [
+          0.563,
+          0.521,
+          4.117,
+          0.644,
+          3.679
+        ],
+        "posebusters_valida": true,
+        "protocolo_h": "MF-33-H-COR"
+      },
+      "calibracion": {
+        "gate": "NO_GO",
+        "metrica": "spearman",
+        "rho": 0.1293,
+        "ic95": [
+          -0.1611,
+          0.4062
+        ],
+        "n": 57,
+        "fallos": 0,
+        "endpoint": "Ki",
+        "panel": "CHEMBL853189"
+      }
+    },
+    {
+      "pdb_id": "8T69",
+      "fecha": "2026-10-22",
+      "receta_receptor": 7,
+      "receptor_sha256": "8fc027cae876631f30518b27823ce175e844bbe9e7bc10554653a7766e21468d",
+      "protocolo": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "semilla": 42
+      },
+      "condiciones": [
+        "SERIE_CONGENERICA",
+        "ENSAYO_DTBZ_PLAQUETAS",
+        "KD_POR_LOTE_NO_ADJUDICADO"
+      ],
+      "pose": {
+        "gate": "GO",
+        "semillas": 5,
+        "semillas_rmsd_ok": 5,
+        "rmsd_top1_A": [
+          0.714,
+          0.679,
+          0.697,
+          0.671,
+          0.678
+        ],
+        "posebusters_valida": true,
+        "protocolo_h": "MF-33-H-COR"
+      },
+      "experimento": "CAL-D-01-R4-VMAT2-8T69",
+      "decision": "NO_GO",
+      "conclusion": "FALLO_TECNICO_PERSISTENTE",
+      "calibracion": {
+        "gate": "NO_GO",
+        "metrica": "spearman",
+        "rho": 0.3908,
+        "ic95": [
+          0.2186,
+          0.5368
+        ],
+        "n": 88,
+        "fallos": 1,
+        "endpoint": "Ki",
+        "panel": "US11718618B2 Example 11",
+        "rho_peor": 0.3205,
+        "ic95_rho_peor": [
+          0.1386,
+          0.4731
+        ]
+      }
+    },
+    {
+      "pdb_id": "8T69",
+      "fecha": "2026-10-22",
+      "receta_receptor": 7,
+      "receptor_sha256": "8fc027cae876631f30518b27823ce175e844bbe9e7bc10554653a7766e21468d",
+      "protocolo": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "semilla": 42
+      },
+      "condiciones": [
+        "SERIE_CONGENERICA",
+        "ENSAYO_DTBZ_PLAQUETAS",
+        "KD_POR_LOTE_NO_ADJUDICADO"
+      ],
+      "pose": {
+        "gate": "GO",
+        "semillas": 5,
+        "semillas_rmsd_ok": 5,
+        "rmsd_top1_A": [
+          0.714,
+          0.679,
+          0.697,
+          0.671,
+          0.678
+        ],
+        "posebusters_valida": true,
+        "protocolo_h": "MF-33-H-COR"
+      },
+      "experimento": "CAL-D-01-R4B-VMAT2-8T69",
+      "decision": "INCONCLUSIVE",
+      "conclusion": "CRITERIO_ENMENDADO_CUMPLIDO_NO_CONFIRMATORIO",
+      "calibracion": {
+        "gate": "INCONCLUSIVE",
+        "metrica": "spearman",
+        "rho": 0.3908,
+        "ic95": [
+          0.2186,
+          0.5368
+        ],
+        "n": 88,
+        "fallos": 0,
+        "endpoint": "Ki",
+        "panel": "US11718618B2 Example 11",
+        "rho_peor": 0.3205,
+        "ic95_rho_peor": [
+          0.1386,
+          0.4731
+        ]
+      }
+    },
+    {
+      "pdb_id": "8T69",
+      "fecha": "2026-10-24",
+      "receta_receptor": 7,
+      "receptor_sha256": "8fc027cae876631f30518b27823ce175e844bbe9e7bc10554653a7766e21468d",
+      "protocolo": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "semilla": 42
+      },
+      "condiciones": [
+        "SERIE_CONGENERICA",
+        "ENSAYO_DTBZ_PLAQUETAS",
+        "KD_POR_LOTE_NO_ADJUDICADO"
+      ],
+      "pose": {
+        "gate": "GO",
+        "semillas": 5,
+        "semillas_rmsd_ok": 5,
+        "rmsd_top1_A": [
+          0.714,
+          0.679,
+          0.697,
+          0.671,
+          0.678
+        ],
+        "posebusters_valida": true,
+        "protocolo_h": "MF-33-H-COR"
+      },
+      "experimento": "CAL-D-01-R4-2-VMAT2-8T69",
+      "decision": "GO",
+      "conclusion": "CALIBRACION_SUPERADA",
+      "calibracion": {
+        "gate": "GO",
+        "metrica": "spearman",
+        "rho": 0.3918,
+        "ic95": [
+          0.216,
+          0.5404
+        ],
+        "n": 89,
+        "fallos": 0,
+        "endpoint": "Ki",
+        "panel": "US11718618B2 Example 11",
+        "rho_peor": 0.3215,
+        "ic95_rho_peor": [
+          0.1402,
+          0.4745
+        ]
+      }
+    }
+  ]
+}

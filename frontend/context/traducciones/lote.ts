@@ -18,6 +18,16 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const lote: ModuloDeTraduccion = {
   es: {
+    lo_view_run_result: "Ver resultado de esta corrida",
+    lo_result_no_task: "Esta fila no conserva la referencia a una corrida exacta; no se abrirá otro resultado.",
+    lo_result_limit: "El docking completado no demuestra actividad ni validez física de la pose.",
+    lo_seed_default: "Usar la semilla por defecto (42)",
+    lo_seed_help: "Semilla por defecto: 42. Puedes elegir un entero entre 1 y 2147483647. Se congela antes de ejecutar y se declara por fila.",
+    lo_tautomero_help: "Es el mismo para todas las filas y entra en la huella de la cohorte. Por defecto se acopla el tautómero escrito en el archivo. El canónico de RDKit lo sustituye por una forma normalizada, que no predice el tautómero dominante y a veces elige una minoritaria (hidroxamatos, lactamas).",
+    // Nombre literal del campo del CSV/SDF; no se localiza porque forma parte
+    // del formato que el usuario debe entregar al importador.
+    lo_campo_active: "active",
+
     // ── Los seis pasos ────────────────────────────────────────────
     lo_paso_definir: "Definir",
     lo_paso_comprobar: "Comprobar",
@@ -53,10 +63,37 @@ export const lote: ModuloDeTraduccion = {
     lo_msg_FILAS_INVALIDAS:
       "Algunas filas no entrarán en la corrida. Revisa la cobertura antes de continuar.",
     lo_msg_CAJA_NO_DECLARADA:
-      "La caja de búsqueda se tomará de la configuración validada del receptor.",
+      "La caja de búsqueda se tomará de la que guarda el receptor.",
     lo_msg_SEMILLA_NO_DECLARADA:
-      "No se indicó semilla; se congelará la semilla predeterminada de esta instalación.",
+      "No se indicó semilla; se congelará la semilla por defecto: 42.",
     lo_msg_desconocido: "La comprobación detectó una condición que requiere revisión.",
+    lo_msg_SMILES_AUSENTE: "La fila no trae SMILES.",
+    lo_msg_SMILES_ILEGIBLE: "El SMILES no se puede leer.",
+    lo_msg_SMILES_NO_ADMISIBLE:
+      "El SMILES se lee, pero este producto no lo evalúa: tiene menos de 5 átomos pesados o una estructura química inválida.",
+    lo_msg_REGISTRO_ILEGIBLE: "El registro de la fila no se puede leer.",
+    lo_msg_ROL_CONTROL_INVALIDO: "El rol de control no es válido (usa reference, positive, negative o none).",
+    lo_filas_rechazadas_titulo: "Filas que no entrarán en la corrida ({n})",
+    lo_filas_rechazadas_ayuda: "Corrige estas filas en el archivo y vuelve a comprobar, o continúa sin ellas.",
+    lo_fila_numero: "Fila {n}",
+    lo_y_n_mas: "…y {n} más.",
+    lo_cobertura_n_de_m: "{n} de {m}",
+    lo_estado_en_cola: "En cola",
+    lo_estado_ejecutando: "Ejecutando",
+    lo_estado_completada: "Completada",
+    lo_estado_completada_con_excepciones: "Completada con excepciones",
+    lo_estado_sin_resultados: "Sin resultados utilizables",
+    lo_estado_interrumpida: "Interrumpida",
+    lo_estado_cancelada: "Cancelada",
+    lo_estado_pendiente: "Pendiente",
+    lo_estado_fallida: "Fallida",
+    lo_estado_no_evaluada: "No evaluada",
+    lo_estado_duplicado_reutilizado: "Duplicado reutilizado",
+    lo_control_referencia: "Referencia",
+    lo_control_positivo: "Positivo",
+    lo_control_negativo: "Negativo",
+    lo_etiqueta_activa: "activa",
+    lo_etiqueta_inactiva: "inactiva",
     lo_operacion_fallida: "La operación no se pudo completar.",
     lo_catalogo_no_cargado: "No se pudo cargar el catálogo: {detalle}",
     lo_seguimiento_interrumpido:
@@ -99,6 +136,8 @@ export const lote: ModuloDeTraduccion = {
     lo_formatos_activa: "para activa y",
     lo_formatos_inactiva: "para inactiva. Para",
     lo_archivo_moleculas: "Archivo de moléculas",
+    lo_elegir_archivo: "Elegir archivo",
+    lo_sin_archivo: "No se eligió ningún archivo",
 
     // ── Receptor y motor ──────────────────────────────────────────
     lo_reintentar_catalogo: "Reintentar catálogo de receptores",
@@ -123,6 +162,7 @@ export const lote: ModuloDeTraduccion = {
 
     // ── 4 · Ejecución ─────────────────────────────────────────────
     lo_titulo_ejecucion: "4 · Ejecución",
+    lo_run_id_label: "Corrida {id}",
     lo_paralelismo: "Paralelismo",
     lo_ejecutar_cohorte: "Ejecutar cohorte",
     lo_preparando: "Preparando y abriendo…",
@@ -168,6 +208,14 @@ export const lote: ModuloDeTraduccion = {
     lo_elegibles_sufijo: "elegibles",
   },
   en: {
+    lo_view_run_result: "View this run’s result",
+    lo_result_no_task: "This row has no reference to an exact run; another result will not be opened.",
+    lo_result_limit: "Completed docking does not demonstrate activity or physical pose validity.",
+    lo_seed_default: "Use the default seed (42)",
+    lo_seed_help: "Default seed: 42. You can choose an integer from 1 to 2147483647. It is frozen before execution and declared per row.",
+    lo_tautomero_help: "It is the same for every row and is part of the cohort fingerprint. By default, the tautomer written in the file is docked. The RDKit canonical option replaces it with a normalized form that does not predict the dominant tautomer and sometimes picks a minor one (hydroxamates, lactams).",
+    lo_campo_active: "active",
+
     lo_paso_definir: "Define",
     lo_paso_comprobar: "Check",
     lo_paso_guardar: "Save",
@@ -199,12 +247,39 @@ export const lote: ModuloDeTraduccion = {
     lo_msg_FILAS_INVALIDAS:
       "Some rows will not enter the run. Check the coverage before continuing.",
     lo_msg_CAJA_NO_DECLARADA:
-      "The search box will be taken from the validated configuration of the receptor.",
+      "The search box will be taken from the one stored with the receptor.",
     lo_msg_SEMILLA_NO_DECLARADA:
-      "No seed was given; the default seed of this installation will be frozen.",
+      "No seed was given; the default seed, 42, will be frozen.",
     lo_msg_desconocido: "The check found a condition that needs review.",
+    lo_msg_SMILES_AUSENTE: "The row has no SMILES.",
+    lo_msg_SMILES_ILEGIBLE: "The SMILES cannot be read.",
+    lo_msg_SMILES_NO_ADMISIBLE:
+      "The SMILES reads, but this product does not evaluate it: it has fewer than 5 heavy atoms or an invalid chemical structure.",
+    lo_msg_REGISTRO_ILEGIBLE: "The row record cannot be read.",
+    lo_msg_ROL_CONTROL_INVALIDO: "The control role is not valid (use reference, positive, negative or none).",
+    lo_filas_rechazadas_titulo: "Rows that will not enter the run ({n})",
+    lo_filas_rechazadas_ayuda: "Fix these rows in the file and check again, or continue without them.",
+    lo_fila_numero: "Row {n}",
+    lo_y_n_mas: "…and {n} more.",
+    lo_cobertura_n_de_m: "{n} of {m}",
+    lo_estado_en_cola: "Queued",
+    lo_estado_ejecutando: "Running",
+    lo_estado_completada: "Completed",
+    lo_estado_completada_con_excepciones: "Completed with exceptions",
+    lo_estado_sin_resultados: "No usable results",
+    lo_estado_interrumpida: "Interrupted",
+    lo_estado_cancelada: "Canceled",
+    lo_estado_pendiente: "Pending",
+    lo_estado_fallida: "Failed",
+    lo_estado_no_evaluada: "Not evaluated",
+    lo_estado_duplicado_reutilizado: "Reused duplicate",
+    lo_control_referencia: "Reference",
+    lo_control_positivo: "Positive",
+    lo_control_negativo: "Negative",
+    lo_etiqueta_activa: "active",
+    lo_etiqueta_inactiva: "inactive",
     lo_operacion_fallida: "The operation could not be completed.",
-    lo_catalogo_no_cargado: "The catalogue could not be loaded: {detalle}",
+    lo_catalogo_no_cargado: "The catalog could not be loaded: {detalle}",
     lo_seguimiento_interrumpido:
       "Tracking of the cohort was interrupted. The run keeps its state in the "
       + "backend; you can retry.",
@@ -239,10 +314,12 @@ export const lote: ModuloDeTraduccion = {
     lo_formatos_activa: "for active and",
     lo_formatos_inactiva: "for inactive. For",
     lo_archivo_moleculas: "Molecule file",
+    lo_elegir_archivo: "Choose file",
+    lo_sin_archivo: "No file selected",
 
-    lo_reintentar_catalogo: "Retry the receptor catalogue",
-    lo_abrir_catalogo: "Open the receptor catalogue",
-    lo_catalogo_con_cuenta: "Catalogue ({n})",
+    lo_reintentar_catalogo: "Retry the receptor catalog",
+    lo_abrir_catalogo: "Open the receptor catalog",
+    lo_catalogo_con_cuenta: "Catalog ({n})",
     lo_motor_disponible: "Engine available for new cohorts.",
     lo_qvina_proximamente: "QuickVina 2 · Coming soon",
     lo_qvina_no_disponible:
@@ -260,6 +337,7 @@ export const lote: ModuloDeTraduccion = {
     lo_cobertura: "{porcentaje} % · {elegibles} of {total}",
 
     lo_titulo_ejecucion: "4 · Run",
+    lo_run_id_label: "Run {id}",
     lo_paralelismo: "Parallelism",
     lo_ejecutar_cohorte: "Run cohort",
     lo_preparando: "Preparing and opening…",
@@ -268,7 +346,7 @@ export const lote: ModuloDeTraduccion = {
     lo_filas_del_archivo: "Rows in the file",
     lo_no_evaluadas: "Not evaluated",
     lo_no_elegibles: "Not eligible",
-    lo_metricas_etiquetadas: "Labelled metrics",
+    lo_metricas_etiquetadas: "Labeled metrics",
     lo_controles_declarados:
       "Declared controls (outside the metric population)",
     lo_sin_afinidad: "no affinity",

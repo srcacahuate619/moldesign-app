@@ -1,0 +1,24 @@
+{
+  "experimento": "CAL-D-01-R4B-VMAT2-8T69",
+  "congelado_en": "2026-10-22T13:26:07+00:00",
+  "no_acopla": true,
+  "reanaliza": "CAL-D-01-R4-VMAT2-8T69",
+  "r4_decision": "NO_GO",
+  "enmienda": "un fallo persistente del producto en un compuesto, declarado, no impide el criterio si quedan >= 85 padres",
+  "excluido": {
+    "padre": "4-67",
+    "causa": "el pipeline del producto no completa el compuesto (biciclo[1.1.1]pentano): 'Timeout: evaluación excedió 1200s' en los dos intentos"
+  },
+  "minimo_padres": 85,
+  "decision_por_construccion": "INCONCLUSIVE (criterio enmendado tras ver los scores)",
+  "hashes": {
+    "REGISTRO_R4B.md": "cb7b722e5769072fe81cb71ba9f0ea59d6341575e80882e1114bfb0b8dfbf006",
+    "reanalisis_r4b.py": "bb0991d9bd353580f0452701167276e45fd29844eec6ba68dc263a65a90767c9",
+    "rho_peor.py": "4741948f8428d13ac185ae1e352ba9ce71f5098f3e43cf19c6120f766e4c4769",
+    "r4/per_complex.jsonl": "768414202f5d148d1726e87f6cee4eca5eeac607f50de3acc0374686d404ccff",
+    "r4/failures.jsonl": "b769a850a6adb147a87079d2cdcbf2513337d8a94bcfee41cfc9fd261ecb91b7",
+    "r4/metrics.json": "2a635fe0d98abeb87301fd72de73bd10358b66a5454bff2b9849b045ea55d9d7",
+    "r4/puerta_pose.json": "d1629d2b1f7b9d8395ef20107e7c68785cc9d55cc402e5ad59c248118fe29b42",
+    "r4/entrada/protocolo.json": "b8312d7ddb676bdd48561016993b6fbe09b01e9580ee818d52f0d9800bd4451b"
+  }
+}

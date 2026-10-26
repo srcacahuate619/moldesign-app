@@ -160,7 +160,7 @@ describe("CaseDossierViewer", () => {
 
     expect(screen.getByTitle("Dossier del caso")).toHaveAttribute(
       "src",
-      `${created[0]}#toolbar=0`,
+      `${created[0]}#toolbar=0&view=FitH`,
     );
   });
 
@@ -271,7 +271,7 @@ describe("CaseDossierViewer", () => {
     await waitFor(() =>
       expect(screen.getByTitle("Dossier del caso")).toHaveAttribute(
         "src",
-        `${created[1]}#toolbar=0`,
+        `${created[1]}#toolbar=0&view=FitH`,
       ),
     );
   });

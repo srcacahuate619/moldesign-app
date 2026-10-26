@@ -1,0 +1,27 @@
+{
+  "pdb": "4CVL",
+  "semilla": 7,
+  "inicio": "2026-10-23T03:16:47+00:00",
+  "resultado": "auditada",
+  "task_id": "507d3c31-5725-4ff7-adfa-7013efb10675",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: MG A:1453 (1.9 Å), MG A:1454 (2.19 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal ACP A:1452",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "f1306f7b5de2132383b0030d2dd0d16f5893b340ddfa311d84ac6cd70cbbf360",
+  "afinidad_top1": -6.681,
+  "microestado": "Nc1ncnc2c1ncn2[C@@H]1O[C@H](CO[P@@](=O)(O)O[P@@](=O)(O)CP(=O)([O-])[O-])[C@@H](O)[C@H]1O",
+  "microestado_coincide": true,
+  "semilla_declarada": 7,
+  "vina": "1.2.7",
+  "receptor_sha256": "eb6516b63bd54d6b4bff2c5c9327ca161a9bdee7d5b969b481964bfd8abe212e",
+  "segundos": 39.1,
+  "fin": "2026-10-23T03:17:26+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

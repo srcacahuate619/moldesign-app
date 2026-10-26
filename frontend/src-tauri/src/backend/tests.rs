@@ -82,6 +82,8 @@ fn dev_layout_points_at_the_live_repository_tree() {
         root.join("tools").join("vina").join(VINA_BIN)
     );
     assert_eq!(layout.openbabel_dir, root.join("tools").join("openbabel"));
+    // El motor Molcy es opcional: se informa su ruta aunque la carpeta no exista.
+    assert_eq!(layout.molcy_dir, root.join("tools").join("molcy"));
 
     let _ = fs::remove_dir_all(root);
 }
@@ -152,6 +154,7 @@ fn bundled_layout_uses_the_installed_resource_shape() {
     assert_eq!(layout.python_exe, root.join("python").join(PYTHON_BIN));
     assert_eq!(layout.backend_dir, root.join("backend"));
     assert_eq!(layout.openbabel_dir, root.join("tools").join("openbabel"));
+    assert_eq!(layout.molcy_dir, root.join("tools").join("molcy"));
     assert_eq!(layout.log_dir, logs);
     assert_ne!(layout.log_dir, root);
 

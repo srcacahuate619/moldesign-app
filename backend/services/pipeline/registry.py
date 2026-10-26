@@ -1,6 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass, field
 
+from core.config import get_settings
+
 
 def admet_requested(properties_params: dict | None) -> bool:
     """ADMET-AI sólo corre ante un booleano ``True`` explícito."""
@@ -67,7 +69,16 @@ STAGE_REGISTRY: dict[str, Stage] = {
         description="Acoplamiento estocástico contra el receptor usando AutoDock Vina.",
         dependencies=["conformer"],
         required=True,
-        params={"exhaustiveness": 32, "num_poses": 9},
+        # SOL-02: el protocolo de docking lo resuelve
+        # `services.docking.protocolo.resolver_parametros_docking`
+        # (`stage_params` anidado ?? settings) y lo consumen preflight y
+        # runner. Estos params son ECO del defecto de settings, no una
+        # segunda fuente: los 32/9 anteriores contradecían los 8/5/42 de
+        # settings y declaraban un protocolo que ninguna puerta ejecutaba.
+        params={
+            "exhaustiveness": int(get_settings().vina_exhaustiveness),
+            "num_poses": int(get_settings().vina_num_poses),
+        },
         cost_estimate="Alto"
     ),
     "xgb": Stage(

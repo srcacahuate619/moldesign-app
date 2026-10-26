@@ -130,13 +130,10 @@ export interface GenerationView {
   parsingSource: string | null;
   receptorSha256: string | null;
   receptorSource: string | null;
-  /**
-   * Conformeros y restarts. La corrida NO los persiste en el resultado, así
-   * que siempre viajan como `null` y la interfaz lo declara. Rellenarlos con
-   * la configuración del caso sería atribuir a esta corrida un parámetro que
-   * nadie guardó con ella.
-   */
+  /** Conteos del protocolo ejecutado; null en corridas que no los registraron. */
   conformers: number | null;
+  conformersRequested: number | null;
+  /** No se deducen reinicios independientes del número de conformaciones. */
   restarts: number | null;
   /** Qué trazas de reproducibilidad existen, sin convertirlo en una nota. */
   provenancePresent: number;
@@ -268,6 +265,10 @@ function finiteOrNull(value: unknown): number | null {
   return value != null && Number.isFinite(n) ? n : null;
 }
 
+function countOrNull(value: unknown): number | null {
+  return typeof value === "number" && Number.isInteger(value) && value >= 0 ? value : null;
+}
+
 /**
  * Una pose es «físicamente válida» SÓLO con `passed`.
  *
@@ -322,8 +323,9 @@ export function deriveStructuralEvidence(
     parsingSource,
     receptorSha256: evidence?.receptor_sha256 ?? null,
     receptorSource: evidence?.receptor_source ?? null,
-    // La corrida no los persiste. Se declaran ausentes, no se inventan.
-    conformers: null,
+    // Sólo el protocolo ejecutado acredita estos conteos, nunca el caso actual.
+    conformers: countOrNull(result?.docking_protocol?.conformers_generated),
+    conformersRequested: countOrNull(result?.docking_protocol?.conformers_requested),
     restarts: null,
     provenancePresent,
     provenanceTotal: 3,

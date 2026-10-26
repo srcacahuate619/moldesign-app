@@ -1,0 +1,40 @@
+{
+  "smiles": "O=c1[nH]c(-c2ccc(C3CC[NH2+]CC3)cc2)nc2c(F)cc(F)cc12",
+  "target_pdb_id": "USR_4AE0D6",
+  "chain": "A",
+  "molecule_name": "tnks2__hueco_en_el_sitio__0",
+  "grid_center": [
+    -39.007,
+    -12.037,
+    10.985
+  ],
+  "grid_size": [
+    20.0,
+    20.0,
+    20.0
+  ],
+  "pipeline_config": {
+    "enabled_stages": [
+      "validation",
+      "properties",
+      "sa_filter",
+      "conformer",
+      "docking",
+      "xgb",
+      "clgnn"
+    ],
+    "stage_params": {
+      "conformer": {
+        "conformers": 1,
+        "ph": 7.4
+      },
+      "docking": {
+        "exhaustiveness": 8,
+        "num_poses": 9,
+        "seed": 42
+      }
+    },
+    "docking_engine": "vina"
+  },
+  "preflight_fingerprint": "sha256:a627303d7b666f3e63f1492706058272173d0de6d570c726c44748b4a053fc71"
+}

@@ -676,19 +676,67 @@
     ],
     [
      {
-      "t": "La permutación asume intercambiabilidad bajo la nula — que es la hipótesis contrastada, no",
+      "t": "La permutación asume intercambiabilidad bajo la nula — que es la hipótesis contrastada, no un supuesto del método.",
       "m": null
      }
     ]
    ]
   },
   {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
    "tipo": "parrafo",
    "frag": [
     {
-     "t": "un supuesto del método.",
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-136. El análisis no detectó una diferencia del rango medio de conf0 frente al valor de referencia. Ese resultado no demuestra equivalencia de distribución ni intercambiabilidad. La permutación tampoco apoya que el orden real produzca una desviación mayor en la dirección contrastada; no excluye efectos de orden en otra dirección. Se retiran «exactamente medio» y la exclusión general de efectos de posición. No se establece heterogeneidad por descarte.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-137. Reanálisis posterior del multiconjunto de resultados por confórmero: entre los 107 cubiertos, las bandas de m/K son 64 con p ≥ 0,80, 36 con 0,20 < p < 0,80 y 7 con p ≤ 0,20. La condición exacta para cambiar G1/G2 con una permutación es 0 < m < K: la cumplen 62/107 = 57,94%; 45 tienen m = K. Se retiran 43/107 y 40,2%, que contaban sólo las dos bandas inferiores. Estas probabilidades describen una permutación uniforme de resultados observados, no la respuesta de una nueva corrida. Productor: ",
+      "m": null
+     },
+     {
+      "t": "scripts/analisis_fase1b_cohortes.py",
+      "m": "codigo"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
    ]
   }
  ],

@@ -108,7 +108,7 @@
     "requires_cns": 0,
     "structural_family": "metalloenzyme",
     "organism": "Homo sapiens",
-    "resolution": 2.0,
+    "resolution": 2.1,
     "hotspots": [
       {
         "name": "A:THR199",
@@ -794,9 +794,9 @@
     "name": "CYCLOOXYGENASE-2 (PROSTAGLANDIN SYNTHASE-2) COMPLEXED WITH A SELECTIVE",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato, con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el araquidonato (AA, C20:4(n-6)) a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 al hidroxi endoperóxido PGH2, el precursor de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. De manera similar, cataliza la ciclooxigenación y peroxidación sucesivas de dihomo-gamma-linoleato (DGLA, C20:3(n-6)) y eicosapentaenoato (EPA, C20:5(n-3)) a las correspondientes PGH1 y PGH3, los precursores de las prostaglandinas de las series 1 y 3 (por similitud). En una vía alternativa de biosíntesis de prostanoides, convierte los 2-araquidonoil lisofofolípidos en lisofofolípidos prostanoides, que luego son hidrolizados por fosfolipasas intracelulares para liberar prostanoides libres (por similitud). Metaboliza el 2-araquidonoilglicerol produciendo el éster de glicerilo de PGH2, un proceso que puede contribuir a la respuesta al dolor (por similitud). Genera mediadores lipídicos a partir de ácidos grasos poliinsaturados (PUFA) n-3 y n-6 mediante un mecanismo de tipo lipoxigenasa. Oxigena los PUFA a compuestos hidroperoxi y luego los reduce a los alcoholes correspondientes (por similitud). Desempeña un papel en la generación de productos de interacción de la fase de resolución (resolvinas) durante la inflamación tanto estéril como infecciosa. Metaboliza el docosahexaenoato (DHA, C22:6(n-3)) a 17R-HDHA, un precursor de las resolvinas de la serie D (RvD). Como componente de la vía biosintética de las resolvinas de la serie E (RvE), convierte el eicosapentaenoato (EPA, C20:5(n-3)) principalmente en 18S-HEPE, que luego se metaboliza mediante ALOX5 y LTA4H para generar 18S-RvE1 y 18S-RvE2. En las células endoteliales vasculares, convierte el docosapentaenoato (DPA, C22:5(n-3)) en 13R-HDPA, un precursor de las resolvinas de la serie 13 (RvT) que se ha demostrado que activa la fagocitosis de los macrófagos durante la infección bacteriana (por similitud). En leucocitos activados, contribuye a la oxigenación de hidroxieicosatetraenoatos (HETE) a diHETES (5,15-diHETE y 5,11-diHETE) (Por similitud). También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos (por similitud). Durante la neuroinflamación, desempeña un papel en la secreción neuronal de mediadores de preresolución especializados (SPM) 15R-lipoxina A4 que regula la microglía fagocítica.",
-    "grid_center_x": 22.7,
-    "grid_center_y": 35.37,
-    "grid_center_z": 1.86,
+    "grid_center_x": 24.664,
+    "grid_center_y": 21.747,
+    "grid_center_z": 16.451,
     "grid_size_x": 31.1,
     "grid_size_y": 31.1,
     "grid_size_z": 31.1,
@@ -806,64 +806,64 @@
     "resolution": 3.0,
     "hotspots": [
       {
-        "name": "A:HIS388",
-        "importance": 1.0
-      },
-      {
-        "name": "A:GLN203",
-        "importance": 0.82
-      },
-      {
-        "name": "A:HIS386",
-        "importance": 0.8
-      },
-      {
-        "name": "A:HIS207",
-        "importance": 0.74
-      },
-      {
-        "name": "A:THR212",
+        "name": "A:ARG513",
         "importance": 0.68
       },
       {
-        "name": "A:TRP387",
-        "importance": 0.67
+        "name": "A:HIS90",
+        "importance": 0.51
       },
       {
-        "name": "A:ASN382",
-        "importance": 0.65
+        "name": "A:ARG120",
+        "importance": 0.42
       },
       {
-        "name": "A:VAL447",
-        "importance": 0.64
+        "name": "A:TYR355",
+        "importance": 0.36
       },
       {
-        "name": "A:LEU391",
-        "importance": 0.63
+        "name": "A:PHE518",
+        "importance": 0.25
       },
       {
-        "name": "A:LYS211",
-        "importance": 0.6
+        "name": "A:VAL523",
+        "importance": 0.25
       },
       {
-        "name": "A:HIS214",
-        "importance": 0.59
-      },
-      {
-        "name": "A:GLN454",
-        "importance": 0.57
-      },
-      {
-        "name": "A:PHE210",
-        "importance": 0.57
+        "name": "A:LEU352",
+        "importance": 0.25
       },
       {
         "name": "A:TYR385",
-        "importance": 0.56
+        "importance": 0.23
       },
       {
-        "name": "A:VAL295",
-        "importance": 0.53
+        "name": "A:VAL349",
+        "importance": 0.2
+      },
+      {
+        "name": "A:LEU359",
+        "importance": 0.17
+      },
+      {
+        "name": "A:ALA527",
+        "importance": 0.16
+      },
+      {
+        "name": "A:GLN192",
+        "importance": 0.16
+      },
+      {
+        "name": "A:ALA516",
+        "importance": 0.14
+      },
+      {
+        "name": "A:SER353",
+        "importance": 0.13
+      },
+      {
+        "name": "A:GLY526",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -882,11 +882,11 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 91
+      "A": 88
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "S58",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "1DIY",
@@ -1199,7 +1199,7 @@
     "requires_cns": 0,
     "structural_family": "protease",
     "organism": "Homo sapiens",
-    "resolution": 2.8,
+    "resolution": 2.1,
     "hotspots": [
       {
         "name": "A:PHE174",
@@ -1694,7 +1694,7 @@
     "requires_cns": 0,
     "structural_family": "hydrolase",
     "organism": "Torpedo californica",
-    "resolution": 2.5,
+    "resolution": 2.1,
     "hotspots": [
       {
         "name": "A:TRP84",
@@ -1993,7 +1993,7 @@
     "requires_cns": 0,
     "structural_family": "methyltransferase",
     "organism": "Homo sapiens",
-    "resolution": 2.2,
+    "resolution": 1.9,
     "hotspots": [
       {
         "name": "A:LEU221",
@@ -3672,9 +3672,9 @@
     "name": "2.0 ANGSTROM CRYSTAL STRUCTURE OF OVINE PROSTAGLANDIN H2 SYNTHASE-1,",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": 22.08,
-    "grid_center_y": 45.36,
-    "grid_center_z": 186.62,
+    "grid_center_x": 26.617,
+    "grid_center_y": 33.7,
+    "grid_center_z": 201.931,
     "grid_size_x": 32.3,
     "grid_size_y": 32.3,
     "grid_size_z": 32.3,
@@ -3684,64 +3684,64 @@
     "resolution": 2.0,
     "hotspots": [
       {
-        "name": "A:HIS388",
-        "importance": 1.0
+        "name": "A:TYR355",
+        "importance": 0.48
       },
       {
-        "name": "A:GLN203",
-        "importance": 0.88
+        "name": "A:ARG120",
+        "importance": 0.39
       },
       {
-        "name": "A:HIS386",
-        "importance": 0.71
-      },
-      {
-        "name": "A:THR212",
-        "importance": 0.62
-      },
-      {
-        "name": "A:PHE210",
-        "importance": 0.61
-      },
-      {
-        "name": "A:HIS207",
-        "importance": 0.61
+        "name": "A:SER530",
+        "importance": 0.38
       },
       {
         "name": "A:TRP387",
-        "importance": 0.6
+        "importance": 0.29
       },
       {
-        "name": "A:MET391",
-        "importance": 0.6
+        "name": "A:VAL116",
+        "importance": 0.28
       },
       {
-        "name": "A:VAL447",
-        "importance": 0.6
+        "name": "A:ALA527",
+        "importance": 0.27
       },
       {
-        "name": "A:ASN382",
-        "importance": 0.58
+        "name": "A:VAL349",
+        "importance": 0.27
       },
       {
         "name": "A:TYR385",
-        "importance": 0.57
+        "importance": 0.26
       },
       {
-        "name": "A:LYS211",
-        "importance": 0.56
+        "name": "A:LEU352",
+        "importance": 0.25
       },
       {
-        "name": "A:ILE444",
-        "importance": 0.55
+        "name": "A:GLY526",
+        "importance": 0.24
       },
       {
-        "name": "A:LEU295",
-        "importance": 0.54
+        "name": "A:LEU531",
+        "importance": 0.24
       },
       {
-        "name": "A:ALA202",
-        "importance": 0.54
+        "name": "A:LEU359",
+        "importance": 0.22
+      },
+      {
+        "name": "A:ILE523",
+        "importance": 0.22
+      },
+      {
+        "name": "A:MET522",
+        "importance": 0.19
+      },
+      {
+        "name": "A:LEU384",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -3760,11 +3760,11 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 84
+      "A": 41
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "BFL",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "1RKP",
@@ -5334,7 +5334,7 @@
     "requires_cns": 0,
     "structural_family": "phosphodiesterase",
     "organism": "Homo sapiens",
-    "resolution": 1.8,
+    "resolution": 1.79,
     "hotspots": [
       {
         "name": "A:PHE820",
@@ -6621,7 +6621,7 @@
   },
   {
     "pdb_id": "2HZI",
-    "name": "ABL1 Kinase Imatinib",
+    "name": "ABL1 Kinase PD180970",
     "chain": "A",
     "description": "Tirosina-proteína quinasa no receptora que desempeña un papel en muchos procesos clave relacionados con el crecimiento y la supervivencia celular, como la remodelación del citoesqueleto en respuesta a estímulos extracelulares, la motilidad y adhesión celular, la endocitosis del receptor, la autofagia, la respuesta al daño del ADN y la apoptosis. Coordina la remodelación de actina mediante la fosforilación de tirosina de proteínas que controlan la dinámica del citoesqueleto como WASF3 (implicada en la formación de ramas); ANXA1 (implicado en el anclaje de membranas); DBN1, DBNL, CTTN, RAPH1 y ENAH (implicados en la señalización); o MAPT y PXN (proteínas de unión a microtúbulos). La fosforilación de WASF3 es fundamental para la estimulación de la formación de lamellipodios y la migración celular. Implicado en la regulación de la adhesión y motilidad celular mediante la fosforilación de reguladores clave de estos procesos como BCAR1, CRK, CRKL, DOK1, EFS o NEDD9. Fosforila múltiples receptores tirosina quinasas y, más particularmente, promueve la endocitosis de EGFR, facilita la formación de sinapsis neuromusculares a través de MUSK, inhibe la quimiotaxis mediada por PDGFRB y modula la endocitosis de complejos de receptores de células B activados. Otros sustratos que intervienen en la regulación de la endocitosis son la caveolina (CAV1) y RIN1. Además, ABL1 regula la familia CBL de ubiquitina ligasas que impulsan la regulación negativa del receptor y la remodelación de actina. La fosforilación de CBL conduce a una mayor estabilidad del EGFR. Participa en la autofagia en etapa tardía al regular positivamente el tráfico y la función de los componentes lisosomales. ABL1 se dirige a las mitocondrias en respuesta al estrés oxidativo y, por tanto, media en la disfunción mitocondrial y la muerte celular. \"En respuesta al estrés oxidativo, fosforila la serina/treonina quinasa PRKD2 en 'Tyr-717'\". ABL1 también se transloca en el núcleo, donde tiene actividad de unión al ADN y participa en la respuesta al daño del ADN y la apoptosis. Muchos sustratos son mediadores conocidos de la reparación del ADN: DDB1, DDB2, ERCC3, ERCC6, RAD9A, RAD51, RAD52 o WRN. Activa la vía proapoptótica cuando el daño al ADN es demasiado grave para repararse. Fosforila TP73, un regulador primario para este tipo de apoptosis inducida por daño. Fosforila la caspasa CASP9 en 'Tyr-153' y regula su procesamiento en la respuesta apoptótica al daño del ADN. Fosforila PSMA7, lo que conduce a una inhibición de la actividad proteasomal y bloqueos de la transición del ciclo celular. ABL1 también actúa como regulador de múltiples cascadas de señalización patológica durante la infección. Se han identificado varias proteínas microbianas fosforiladas en tirosina conocidas como sustratos de ABL1. Este es el caso de A36R del virus Vaccinia, Tir (receptor de intimina translocado) de E. coli patógena y posiblemente Citrobacter, CagA (gen A asociado a citotoxina) de H.pylori, o AnkA (proteína A que contiene repeticiones de anquirina) de A.phagocytophilum. Los patógenos pueden secuestrar la señalización de la quinasa ABL1 para reorganizar el citoesqueleto de actina del huésped para múltiples propósitos, como facilitar el movimiento intracelular y la salida de la célula huésped. Finalmente, funciona como su propio regulador mediante actividad autocatalítica y mediante la fosforilación de su inhibidor, ABI1. Regula la diferenciación de células T de manera dependiente de TBX21 (por similitud). Regula positivamente la migración, polarización y localización de células T mediadas por quimiocinas a ganglios linfáticos y tejidos inmunodeprimidos, potencialmente mediante la activación de NEDD9/HEF1 y RAP1 (por similitud). Fosforila TBX21 en residuos de tirosina, lo que lleva a una mejora de su actividad activadora transcripcional (por similitud)",
     "grid_center_x": 16.2,
@@ -7487,9 +7487,9 @@
     "name": "INDOMETHACIN-(R)-ALPHA-ETHYL-ETHANOLAMIDE BOUND TO CYCLOOXYGENASE-1",
     "chain": "P",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": 241.58,
-    "grid_center_y": 90.91,
-    "grid_center_z": -42.43,
+    "grid_center_x": 251.281,
+    "grid_center_y": 108.483,
+    "grid_center_z": -39.571,
     "grid_size_x": 31.5,
     "grid_size_y": 31.5,
     "grid_size_z": 31.5,
@@ -7499,64 +7499,64 @@
     "resolution": 2.85,
     "hotspots": [
       {
-        "name": "P:HIS388",
-        "importance": 1.0
+        "name": "P:ARG120",
+        "importance": 0.36
       },
       {
-        "name": "P:GLN203",
-        "importance": 0.88
+        "name": "P:TYR355",
+        "importance": 0.31
       },
       {
-        "name": "P:VAL447",
-        "importance": 0.72
+        "name": "P:GLU524",
+        "importance": 0.29
       },
       {
-        "name": "P:HIS386",
-        "importance": 0.72
+        "name": "P:MET522",
+        "importance": 0.22
+      },
+      {
+        "name": "P:ALA527",
+        "importance": 0.22
+      },
+      {
+        "name": "P:LEU93",
+        "importance": 0.21
+      },
+      {
+        "name": "P:SER353",
+        "importance": 0.2
+      },
+      {
+        "name": "P:GLY526",
+        "importance": 0.2
+      },
+      {
+        "name": "P:SER530",
+        "importance": 0.19
+      },
+      {
+        "name": "P:LEU384",
+        "importance": 0.17
+      },
+      {
+        "name": "P:LEU352",
+        "importance": 0.16
+      },
+      {
+        "name": "P:VAL349",
+        "importance": 0.16
+      },
+      {
+        "name": "P:ILE523",
+        "importance": 0.16
       },
       {
         "name": "P:TRP387",
-        "importance": 0.61
+        "importance": 0.16
       },
       {
-        "name": "P:THR212",
-        "importance": 0.6
-      },
-      {
-        "name": "P:HIS207",
-        "importance": 0.6
-      },
-      {
-        "name": "P:TYR385",
-        "importance": 0.59
-      },
-      {
-        "name": "P:MET391",
-        "importance": 0.58
-      },
-      {
-        "name": "P:PHE210",
-        "importance": 0.57
-      },
-      {
-        "name": "P:ASN382",
-        "importance": 0.57
-      },
-      {
-        "name": "P:ILE444",
-        "importance": 0.56
-      },
-      {
-        "name": "P:ASP450",
-        "importance": 0.56
-      },
-      {
-        "name": "P:LEU295",
-        "importance": 0.54
-      },
-      {
-        "name": "P:LYS211",
-        "importance": 0.54
+        "name": "P:PHE518",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -7575,20 +7575,20 @@
       "P"
     ],
     "site_chain_atoms": {
-      "P": 75
+      "P": 70
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "IM8",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "2OYU",
     "name": "INDOMETHACIN-(S)-ALPHA-ETHYL-ETHANOLAMIDE BOUND TO CYCLOOXYGENASE-1",
     "chain": "P",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": 30.68,
-    "grid_center_y": 66.48,
-    "grid_center_z": 9.64,
+    "grid_center_x": 20.064,
+    "grid_center_y": 49.311,
+    "grid_center_z": 11.742,
     "grid_size_x": 31.4,
     "grid_size_y": 31.4,
     "grid_size_z": 31.4,
@@ -7598,64 +7598,64 @@
     "resolution": 2.7,
     "hotspots": [
       {
-        "name": "P:GLN203",
-        "importance": 1.0
+        "name": "P:SER353",
+        "importance": 0.29
       },
       {
-        "name": "P:HIS388",
-        "importance": 0.91
+        "name": "P:ARG120",
+        "importance": 0.29
       },
       {
-        "name": "P:HIS386",
-        "importance": 0.68
+        "name": "P:LEU352",
+        "importance": 0.28
       },
       {
-        "name": "P:VAL447",
-        "importance": 0.66
+        "name": "P:ALA527",
+        "importance": 0.27
       },
       {
-        "name": "P:HIS207",
-        "importance": 0.65
+        "name": "P:HIS90",
+        "importance": 0.27
       },
       {
-        "name": "P:THR212",
-        "importance": 0.61
+        "name": "P:TYR355",
+        "importance": 0.23
       },
       {
-        "name": "P:PHE210",
-        "importance": 0.6
+        "name": "P:VAL116",
+        "importance": 0.22
       },
       {
-        "name": "P:MET391",
-        "importance": 0.6
+        "name": "P:LEU359",
+        "importance": 0.21
       },
       {
-        "name": "P:TRP387",
-        "importance": 0.6
+        "name": "P:MET113",
+        "importance": 0.21
       },
       {
-        "name": "P:LEU295",
-        "importance": 0.59
+        "name": "P:GLY526",
+        "importance": 0.18
       },
       {
-        "name": "P:ASN382",
-        "importance": 0.56
+        "name": "P:PHE518",
+        "importance": 0.18
       },
       {
-        "name": "P:TYR385",
-        "importance": 0.56
+        "name": "P:ILE523",
+        "importance": 0.17
       },
       {
-        "name": "P:ALA202",
-        "importance": 0.54
+        "name": "P:GLN192",
+        "importance": 0.15
       },
       {
-        "name": "P:ILE444",
-        "importance": 0.54
+        "name": "P:VAL349",
+        "importance": 0.15
       },
       {
-        "name": "P:ALA199",
-        "importance": 0.53
+        "name": "P:SER516",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -7674,11 +7674,11 @@
       "P"
     ],
     "site_chain_atoms": {
-      "P": 77
+      "P": 71
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "IMS",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "2P4E",
@@ -7694,7 +7694,7 @@
     "requires_cns": 0,
     "structural_family": "protease",
     "organism": "Homo sapiens",
-    "resolution": 1.9,
+    "resolution": 1.98,
     "hotspots": [
       {
         "name": "A:ARG495",
@@ -7991,7 +7991,7 @@
     "grid_size_y": 22.0,
     "grid_size_z": 22.0,
     "requires_cns": 0,
-    "structural_family": "nuclear_receptor",
+    "structural_family": "cytochrome_p450",
     "organism": "SYNECHOCYSTIS SP.",
     "resolution": 2.1,
     "hotspots": [
@@ -10892,9 +10892,9 @@
     "name": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH CELECOXIB",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": -40.98,
-    "grid_center_y": 60.62,
-    "grid_center_z": -6.8,
+    "grid_center_x": -32.211,
+    "grid_center_y": 42.708,
+    "grid_center_z": -5.452,
     "grid_size_x": 32.5,
     "grid_size_y": 32.5,
     "grid_size_z": 32.5,
@@ -10904,64 +10904,64 @@
     "resolution": 2.75,
     "hotspots": [
       {
-        "name": "A:GLN203",
-        "importance": 1.0
+        "name": "A:LEU352",
+        "importance": 0.62
       },
       {
-        "name": "A:VAL447",
-        "importance": 0.91
+        "name": "A:GLN192",
+        "importance": 0.53
       },
       {
-        "name": "A:HIS386",
-        "importance": 0.86
-      },
-      {
-        "name": "A:MET391",
-        "importance": 0.76
-      },
-      {
-        "name": "A:TYR385",
-        "importance": 0.73
+        "name": "A:ILE517",
+        "importance": 0.38
       },
       {
         "name": "A:TRP387",
-        "importance": 0.73
+        "importance": 0.37
       },
       {
-        "name": "A:HIS388",
-        "importance": 0.72
+        "name": "A:ILE523",
+        "importance": 0.37
       },
       {
-        "name": "A:PHE210",
-        "importance": 0.7
+        "name": "A:VAL116",
+        "importance": 0.32
       },
       {
-        "name": "A:ILE444",
-        "importance": 0.68
+        "name": "A:LEU359",
+        "importance": 0.31
       },
       {
-        "name": "A:ASN382",
-        "importance": 0.66
+        "name": "A:MET522",
+        "importance": 0.29
       },
       {
-        "name": "A:THR212",
-        "importance": 0.63
+        "name": "A:VAL349",
+        "importance": 0.29
       },
       {
-        "name": "A:LEU295",
-        "importance": 0.62
+        "name": "A:SER353",
+        "importance": 0.28
       },
       {
-        "name": "A:THR206",
-        "importance": 0.62
+        "name": "A:HIS90",
+        "importance": 0.28
       },
       {
-        "name": "A:HIS207",
-        "importance": 0.61
+        "name": "A:ALA527",
+        "importance": 0.22
       },
       {
-        "name": "A:ASP450",
-        "importance": 0.58
+        "name": "A:TYR355",
+        "importance": 0.19
+      },
+      {
+        "name": "A:SER516",
+        "importance": 0.19
+      },
+      {
+        "name": "A:LEU531",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -10980,11 +10980,11 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 198
+      "A": 179
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "CEL",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "3KYL",
@@ -11573,9 +11573,9 @@
     "name": "CRYSTAL STRUCTURE OF R120Q/NATIVE CYCLOOXYGENASE-1 HETERODIMER MUTANT",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": 41.66,
-    "grid_center_y": -61.03,
-    "grid_center_z": -2.68,
+    "grid_center_x": 32.297,
+    "grid_center_y": -44.194,
+    "grid_center_z": 1.154,
     "grid_size_x": 31.5,
     "grid_size_y": 31.5,
     "grid_size_z": 31.5,
@@ -11585,64 +11585,64 @@
     "resolution": 2.75,
     "hotspots": [
       {
-        "name": "A:HIS388",
-        "importance": 1.0
+        "name": "A:ARG120",
+        "importance": 0.45
       },
       {
-        "name": "A:GLN203",
-        "importance": 0.85
+        "name": "A:TYR355",
+        "importance": 0.42
       },
       {
-        "name": "A:HIS386",
-        "importance": 0.68
+        "name": "A:SER530",
+        "importance": 0.31
       },
       {
-        "name": "A:HIS207",
-        "importance": 0.66
-      },
-      {
-        "name": "A:PHE210",
-        "importance": 0.63
-      },
-      {
-        "name": "A:VAL447",
-        "importance": 0.61
-      },
-      {
-        "name": "A:THR212",
-        "importance": 0.6
+        "name": "A:ALA527",
+        "importance": 0.29
       },
       {
         "name": "A:TRP387",
-        "importance": 0.59
+        "importance": 0.27
       },
       {
         "name": "A:TYR385",
-        "importance": 0.57
+        "importance": 0.27
       },
       {
-        "name": "A:LEU295",
-        "importance": 0.57
+        "name": "A:VAL349",
+        "importance": 0.25
       },
       {
-        "name": "A:ASN382",
-        "importance": 0.57
+        "name": "A:GLY526",
+        "importance": 0.24
       },
       {
-        "name": "A:MET391",
-        "importance": 0.56
+        "name": "A:LEU352",
+        "importance": 0.24
       },
       {
-        "name": "A:LYS211",
-        "importance": 0.55
+        "name": "A:VAL116",
+        "importance": 0.22
       },
       {
-        "name": "A:ALA199",
-        "importance": 0.54
+        "name": "A:LEU531",
+        "importance": 0.21
       },
       {
-        "name": "A:ILE444",
-        "importance": 0.54
+        "name": "A:LEU359",
+        "importance": 0.2
+      },
+      {
+        "name": "A:MET522",
+        "importance": 0.18
+      },
+      {
+        "name": "A:SER353",
+        "importance": 0.14
+      },
+      {
+        "name": "A:ILE523",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -11661,20 +11661,20 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 73
+      "A": 41
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "FLP",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "3N8X",
     "name": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH NIMESULIDE",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": -30.4,
-    "grid_center_y": -66.82,
-    "grid_center_z": -0.24,
+    "grid_center_x": -20.561,
+    "grid_center_y": -50.082,
+    "grid_center_z": 1.9,
     "grid_size_x": 31.5,
     "grid_size_y": 31.5,
     "grid_size_z": 31.5,
@@ -11684,64 +11684,64 @@
     "resolution": 2.75,
     "hotspots": [
       {
-        "name": "A:HIS388",
-        "importance": 1.0
+        "name": "A:LEU352",
+        "importance": 0.42
       },
       {
-        "name": "A:GLN203",
-        "importance": 0.81
+        "name": "A:ARG120",
+        "importance": 0.41
       },
       {
-        "name": "A:HIS386",
-        "importance": 0.68
+        "name": "A:SER353",
+        "importance": 0.33
       },
       {
-        "name": "A:HIS207",
-        "importance": 0.65
+        "name": "A:LEU531",
+        "importance": 0.31
       },
       {
-        "name": "A:PHE210",
-        "importance": 0.62
+        "name": "A:ALA527",
+        "importance": 0.3
       },
       {
-        "name": "A:THR212",
-        "importance": 0.59
+        "name": "A:PHE518",
+        "importance": 0.27
       },
       {
-        "name": "A:VAL447",
-        "importance": 0.59
+        "name": "A:SER530",
+        "importance": 0.26
       },
       {
-        "name": "A:MET391",
-        "importance": 0.58
+        "name": "A:TYR355",
+        "importance": 0.26
+      },
+      {
+        "name": "A:GLY526",
+        "importance": 0.25
+      },
+      {
+        "name": "A:ILE523",
+        "importance": 0.25
+      },
+      {
+        "name": "A:VAL349",
+        "importance": 0.2
+      },
+      {
+        "name": "A:MET522",
+        "importance": 0.18
+      },
+      {
+        "name": "A:HIS90",
+        "importance": 0.14
+      },
+      {
+        "name": "A:LEU359",
+        "importance": 0.13
       },
       {
         "name": "A:TRP387",
-        "importance": 0.57
-      },
-      {
-        "name": "A:ILE444",
-        "importance": 0.57
-      },
-      {
-        "name": "A:TYR385",
-        "importance": 0.56
-      },
-      {
-        "name": "A:ASN382",
-        "importance": 0.56
-      },
-      {
-        "name": "A:LYS211",
-        "importance": 0.55
-      },
-      {
-        "name": "A:THR206",
-        "importance": 0.54
-      },
-      {
-        "name": "A:LEU295",
-        "importance": 0.54
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -11760,20 +11760,20 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 75
+      "A": 61
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "NIM",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "3N8Y",
     "name": "STRUCTURE OF ASPIRIN ACETYLATED CYCLOOXYGENASE-1 IN COMPLEX WITH",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": 41.32,
-    "grid_center_y": -61.09,
-    "grid_center_z": -7.19,
+    "grid_center_x": 33.364,
+    "grid_center_y": -45.304,
+    "grid_center_z": -3.403,
     "grid_size_x": 31.5,
     "grid_size_y": 31.5,
     "grid_size_z": 31.5,
@@ -11783,64 +11783,64 @@
     "resolution": 2.6,
     "hotspots": [
       {
-        "name": "A:HIS388",
-        "importance": 1.0
-      },
-      {
-        "name": "A:GLN203",
-        "importance": 0.85
-      },
-      {
-        "name": "A:HIS386",
-        "importance": 0.73
-      },
-      {
-        "name": "A:TRP387",
-        "importance": 0.6
-      },
-      {
-        "name": "A:HIS207",
-        "importance": 0.59
+        "name": "A:SER530",
+        "importance": 0.5
       },
       {
         "name": "A:TYR385",
-        "importance": 0.59
+        "importance": 0.47
       },
       {
-        "name": "A:THR212",
-        "importance": 0.59
+        "name": "A:VAL349",
+        "importance": 0.37
       },
       {
-        "name": "A:VAL447",
-        "importance": 0.58
+        "name": "A:MET522",
+        "importance": 0.35
       },
       {
-        "name": "A:PHE210",
-        "importance": 0.57
+        "name": "A:ILE523",
+        "importance": 0.33
       },
       {
-        "name": "A:LEU295",
-        "importance": 0.56
+        "name": "A:ALA527",
+        "importance": 0.32
       },
       {
-        "name": "A:ASN382",
-        "importance": 0.55
+        "name": "A:GLY526",
+        "importance": 0.32
       },
       {
-        "name": "A:MET391",
-        "importance": 0.55
+        "name": "A:TYR355",
+        "importance": 0.3
       },
       {
-        "name": "A:ILE444",
-        "importance": 0.54
+        "name": "A:TRP387",
+        "importance": 0.29
       },
       {
-        "name": "A:ASP450",
-        "importance": 0.53
+        "name": "A:LEU352",
+        "importance": 0.29
       },
       {
-        "name": "A:ALA199",
-        "importance": 0.53
+        "name": "A:SER353",
+        "importance": 0.28
+      },
+      {
+        "name": "A:LEU531",
+        "importance": 0.28
+      },
+      {
+        "name": "A:TYR348",
+        "importance": 0.26
+      },
+      {
+        "name": "A:LEU384",
+        "importance": 0.19
+      },
+      {
+        "name": "A:PHE518",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -11859,20 +11859,20 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 76
+      "A": 45
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "DIF",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "3N8Z",
     "name": "CRYSTAL STRUCTURE OF CYCLOOXYGENASE-1 IN COMPLEX WITH FLURBIPROFEN",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": -30.52,
-    "grid_center_y": 67.02,
-    "grid_center_z": 13.94,
+    "grid_center_x": -21.013,
+    "grid_center_y": 50.235,
+    "grid_center_z": 10.106,
     "grid_size_x": 31.7,
     "grid_size_y": 31.7,
     "grid_size_z": 31.7,
@@ -11882,64 +11882,64 @@
     "resolution": 2.9,
     "hotspots": [
       {
-        "name": "A:GLN203",
-        "importance": 1.0
+        "name": "A:ARG120",
+        "importance": 0.42
       },
       {
-        "name": "A:HIS388",
-        "importance": 0.91
-      },
-      {
-        "name": "A:HIS386",
-        "importance": 0.76
-      },
-      {
-        "name": "A:VAL447",
-        "importance": 0.72
-      },
-      {
-        "name": "A:PHE210",
-        "importance": 0.69
-      },
-      {
-        "name": "A:HIS207",
-        "importance": 0.68
-      },
-      {
-        "name": "A:THR212",
-        "importance": 0.64
+        "name": "A:SER530",
+        "importance": 0.31
       },
       {
         "name": "A:TYR385",
-        "importance": 0.59
+        "importance": 0.31
+      },
+      {
+        "name": "A:TYR355",
+        "importance": 0.29
+      },
+      {
+        "name": "A:VAL349",
+        "importance": 0.28
+      },
+      {
+        "name": "A:LEU531",
+        "importance": 0.28
+      },
+      {
+        "name": "A:LEU352",
+        "importance": 0.28
+      },
+      {
+        "name": "A:ALA527",
+        "importance": 0.27
+      },
+      {
+        "name": "A:VAL116",
+        "importance": 0.27
       },
       {
         "name": "A:TRP387",
-        "importance": 0.58
+        "importance": 0.27
       },
       {
-        "name": "A:MET391",
-        "importance": 0.58
+        "name": "A:GLY526",
+        "importance": 0.26
       },
       {
-        "name": "A:ILE444",
-        "importance": 0.58
+        "name": "A:MET522",
+        "importance": 0.18
       },
       {
-        "name": "A:LEU295",
-        "importance": 0.57
+        "name": "A:LEU359",
+        "importance": 0.17
       },
       {
-        "name": "A:ALA202",
-        "importance": 0.56
+        "name": "A:SER353",
+        "importance": 0.14
       },
       {
-        "name": "A:ASN382",
-        "importance": 0.55
-      },
-      {
-        "name": "A:ALA199",
-        "importance": 0.54
+        "name": "A:LEU384",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -11958,11 +11958,11 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 65
+      "A": 45
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "FLP",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "3O96",
@@ -11978,7 +11978,7 @@
     "requires_cns": 0,
     "structural_family": "kinase",
     "organism": "Homo sapiens",
-    "resolution": 2.5,
+    "resolution": 2.7,
     "hotspots": [
       {
         "name": "A:TRP80",
@@ -12077,7 +12077,7 @@
     "requires_cns": 0,
     "structural_family": "protein_interaction",
     "organism": "Homo sapiens",
-    "resolution": 2.5,
+    "resolution": 1.8,
     "hotspots": [
       {
         "name": "A:MET99",
@@ -12338,7 +12338,7 @@
     "requires_cns": 0,
     "structural_family": "kinase",
     "organism": "Homo sapiens",
-    "resolution": 2.7,
+    "resolution": 2.25,
     "hotspots": [
       {
         "name": "A:ASP863",
@@ -12534,7 +12534,7 @@
     "grid_size_y": 30.0,
     "grid_size_z": 30.0,
     "requires_cns": 0,
-    "structural_family": "kinase",
+    "structural_family": "nuclear_receptor",
     "organism": "Homo sapiens",
     "resolution": 3.0,
     "hotspots": [
@@ -12633,7 +12633,7 @@
     "grid_size_y": 30.0,
     "grid_size_z": 30.0,
     "requires_cns": 0,
-    "structural_family": "kinase",
+    "structural_family": "nuclear_receptor",
     "organism": "Homo sapiens",
     "resolution": 2.5,
     "hotspots": [
@@ -13115,9 +13115,9 @@
     "name": "S. aureus Dihydrofolate Reductase complexed with novel 7-aryl-2,4-diaminoquinazolines",
     "chain": "X",
     "description": "Enzima clave en el metabolismo del folato. Cataliza una reacción esencial para la síntesis de novo de glicina y purina y para la síntesis de precursores de ADN.",
-    "grid_center_x": 6.85,
-    "grid_center_y": -31.58,
-    "grid_center_z": 6.12,
+    "grid_center_x": -5.147,
+    "grid_center_y": -32.121,
+    "grid_center_z": 6.066,
     "grid_size_x": 38.4,
     "grid_size_y": 38.4,
     "grid_size_z": 38.4,
@@ -13127,64 +13127,64 @@
     "resolution": 1.7,
     "hotspots": [
       {
-        "name": "X:ARG45",
-        "importance": 1.0
+        "name": "X:ASP28",
+        "importance": 0.42
       },
       {
-        "name": "X:GLY95",
-        "importance": 0.94
+        "name": "X:LEU6",
+        "importance": 0.42
       },
       {
-        "name": "X:LEU63",
-        "importance": 0.9
+        "name": "X:PHE93",
+        "importance": 0.4
       },
       {
-        "name": "X:LYS46",
-        "importance": 0.88
+        "name": "X:LEU21",
+        "importance": 0.3
       },
       {
-        "name": "X:ILE15",
-        "importance": 0.83
+        "name": "X:VAL32",
+        "importance": 0.29
+      },
+      {
+        "name": "X:VAL7",
+        "importance": 0.28
+      },
+      {
+        "name": "X:ALA8",
+        "importance": 0.28
       },
       {
         "name": "X:THR47",
-        "importance": 0.81
+        "importance": 0.23
       },
       {
-        "name": "X:THR97",
-        "importance": 0.75
+        "name": "X:ILE51",
+        "importance": 0.22
       },
       {
-        "name": "X:THR64",
-        "importance": 0.74
+        "name": "X:LEU29",
+        "importance": 0.22
       },
       {
-        "name": "X:SER65",
-        "importance": 0.72
+        "name": "X:SER50",
+        "importance": 0.2
       },
       {
-        "name": "X:GLN96",
-        "importance": 0.71
-      },
-      {
-        "name": "X:GLY44",
-        "importance": 0.7
+        "name": "X:THR112",
+        "importance": 0.19
       },
       {
         "name": "X:GLN20",
-        "importance": 0.68
+        "importance": 0.15
       },
       {
-        "name": "X:THR122",
-        "importance": 0.68
+        "name": "X:LEU55",
+        "importance": 0.15
       },
       {
-        "name": "X:GLU101",
-        "importance": 0.67
-      },
-      {
-        "name": "X:ASN19",
-        "importance": 0.66
+        "name": "X:PHE99",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -13203,11 +13203,11 @@
       "X"
     ],
     "site_chain_atoms": {
-      "X": 113
+      "X": 49
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "NAP",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "Q27",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "3V94",
@@ -17058,7 +17058,7 @@
     "requires_cns": 0,
     "structural_family": "gpcr",
     "organism": "Homo sapiens",
-    "resolution": 2.7,
+    "resolution": 2.8,
     "hotspots": [
       {
         "name": "A:LEU209",
@@ -17442,7 +17442,7 @@
     "requires_cns": 0,
     "structural_family": "cytochrome_p450",
     "organism": "Homo sapiens",
-    "resolution": 2.6,
+    "resolution": 2.95,
     "hotspots": [
       {
         "name": "A:SER119",
@@ -19279,7 +19279,7 @@
     "requires_cns": 0,
     "structural_family": "methyltransferase",
     "organism": "Homo sapiens",
-    "resolution": 2.3,
+    "resolution": 1.9,
     "hotspots": [
       {
         "name": "A:TYR907",
@@ -23781,9 +23781,9 @@
     "name": "Crystal structure of Plasmodium falciparum dihydroorotate dehydrogenase bound with Inhibitor DSM421",
     "chain": "A",
     "description": "Cataliza la conversión de dihidroorotato en orotato con quinona como aceptor de electrones.",
-    "grid_center_x": 22.49,
-    "grid_center_y": -9.12,
-    "grid_center_z": -6.54,
+    "grid_center_x": 23.216,
+    "grid_center_y": -17.511,
+    "grid_center_z": -14.763,
     "grid_size_x": 30.0,
     "grid_size_y": 30.0,
     "grid_size_z": 30.0,
@@ -23793,64 +23793,64 @@
     "resolution": 2.15,
     "hotspots": [
       {
-        "name": "A:TYR528",
-        "importance": 1.0
-      },
-      {
-        "name": "A:LYS429",
-        "importance": 0.81
-      },
-      {
-        "name": "A:SER477",
-        "importance": 0.77
-      },
-      {
-        "name": "A:ASN274",
-        "importance": 0.77
-      },
-      {
-        "name": "A:THR459",
-        "importance": 0.71
-      },
-      {
-        "name": "A:ALA225",
-        "importance": 0.71
-      },
-      {
-        "name": "A:GLY226",
-        "importance": 0.66
-      },
-      {
-        "name": "A:ASN458",
-        "importance": 0.66
-      },
-      {
-        "name": "A:LYS229",
-        "importance": 0.64
+        "name": "A:ILE272",
+        "importance": 0.38
       },
       {
         "name": "A:ILE263",
-        "importance": 0.63
+        "importance": 0.38
       },
       {
-        "name": "A:SER505",
-        "importance": 0.62
+        "name": "A:HIS185",
+        "importance": 0.36
       },
       {
-        "name": "A:THR249",
-        "importance": 0.61
+        "name": "A:LEU172",
+        "importance": 0.35
       },
       {
-        "name": "A:SER529",
-        "importance": 0.61
+        "name": "A:ARG265",
+        "importance": 0.35
       },
       {
-        "name": "A:LEU481",
-        "importance": 0.6
+        "name": "A:VAL532",
+        "importance": 0.27
       },
       {
-        "name": "A:ALA224",
-        "importance": 0.6
+        "name": "A:LEU176",
+        "importance": 0.25
+      },
+      {
+        "name": "A:LEU531",
+        "importance": 0.24
+      },
+      {
+        "name": "A:PHE188",
+        "importance": 0.24
+      },
+      {
+        "name": "A:MET536",
+        "importance": 0.21
+      },
+      {
+        "name": "A:GLY181",
+        "importance": 0.2
+      },
+      {
+        "name": "A:CYS175",
+        "importance": 0.19
+      },
+      {
+        "name": "A:PHE227",
+        "importance": 0.18
+      },
+      {
+        "name": "A:LEU240",
+        "importance": 0.17
+      },
+      {
+        "name": "A:CYS184",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -23869,20 +23869,20 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 199
+      "A": 182
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "FMN",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "78Z",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "5TFT",
     "name": "CYP2D6",
     "chain": "A",
     "description": "\"Una monooxigenasa del citocromo P450 implicada en el metabolismo de los ácidos grasos, esteroides y retinoides\". Mecánicamente, utiliza oxígeno molecular insertando un átomo de oxígeno en un sustrato y reduciendo el segundo a una molécula de agua, con dos electrones proporcionados por el NADPH a través de la citocromo P450 reductasa (NADPH - hemoproteína reductasa). Cataliza la epoxidación de dobles enlaces de ácidos grasos poliinsaturados (PUFA). Metaboliza la araquidonoiletanolamida endocannabinoide (anandamida) en etanolamida del ácido 20-hidroxieicosatetraenoico (20-HETE-EA) y etanolamidas del ácido 8,9, 11,12 y 14,15-epoxieicosatrienoico (EpETrE-EA), modulando potencialmente la señalización del sistema endocannabinoide. Cataliza la hidroxilación de los enlaces carbono-hidrógeno. Metaboliza el colesterol hacia 25-hidroxicolesterol, un regulador fisiológico de la homeostasis celular del colesterol. Cataliza las transformaciones oxidativas del retinol todo trans en retinal todo trans, un precursor de la forma activa del ácido todo transretinoico. También participa en el metabolismo oxidativo de fármacos como los antiarrítmicos, los antagonistas de los receptores adrenérgicos y los antidepresivos tricíclicos.",
-    "grid_center_x": -8.84,
-    "grid_center_y": 26.62,
-    "grid_center_z": -3.58,
+    "grid_center_x": -3.751,
+    "grid_center_y": 28.528,
+    "grid_center_z": 6.335,
     "grid_size_x": 31.6,
     "grid_size_y": 31.6,
     "grid_size_z": 31.6,
@@ -23892,64 +23892,64 @@
     "resolution": 2.71,
     "hotspots": [
       {
-        "name": "A:CYS443",
-        "importance": 1.0
+        "name": "A:ALA209",
+        "importance": 0.39
       },
       {
-        "name": "A:ARG441",
-        "importance": 0.89
+        "name": "A:GLU216",
+        "importance": 0.37
       },
       {
-        "name": "A:PHE436",
-        "importance": 0.8
+        "name": "A:SER304",
+        "importance": 0.34
       },
       {
-        "name": "A:THR309",
-        "importance": 0.75
+        "name": "A:LEU121",
+        "importance": 0.31
+      },
+      {
+        "name": "A:PHE247",
+        "importance": 0.29
+      },
+      {
+        "name": "A:GLN244",
+        "importance": 0.29
       },
       {
         "name": "A:PHE120",
-        "importance": 0.69
+        "importance": 0.27
       },
       {
-        "name": "A:ARG101",
-        "importance": 0.69
+        "name": "A:LEU110",
+        "importance": 0.26
       },
       {
-        "name": "A:GLY445",
-        "importance": 0.67
+        "name": "A:ASP301",
+        "importance": 0.25
       },
       {
-        "name": "A:GLY306",
-        "importance": 0.66
+        "name": "A:VAL308",
+        "importance": 0.24
+      },
+      {
+        "name": "A:LEU248",
+        "importance": 0.23
       },
       {
         "name": "A:ALA305",
-        "importance": 0.64
+        "importance": 0.21
       },
       {
-        "name": "A:SER437",
-        "importance": 0.64
+        "name": "A:LEU213",
+        "importance": 0.19
       },
       {
-        "name": "A:LEU444",
-        "importance": 0.62
+        "name": "A:ALA300",
+        "importance": 0.17
       },
       {
-        "name": "A:VAL374",
-        "importance": 0.62
-      },
-      {
-        "name": "A:HIS376",
-        "importance": 0.61
-      },
-      {
-        "name": "A:VAL119",
-        "importance": 0.6
-      },
-      {
-        "name": "A:TRP128",
-        "importance": 0.59
+        "name": "A:GLY212",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -23968,11 +23968,11 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 104
+      "A": 53
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "P6U",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "5TGZ",
@@ -24773,9 +24773,9 @@
     "name": "COX-1:P6 COMPLEX STRUCTURE",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": 17.47,
-    "grid_center_y": 163.44,
-    "grid_center_z": 29.62,
+    "grid_center_x": 37.477,
+    "grid_center_y": 163.684,
+    "grid_center_z": 27.102,
     "grid_size_x": 30.9,
     "grid_size_y": 30.9,
     "grid_size_z": 30.9,
@@ -24785,64 +24785,56 @@
     "resolution": 2.93,
     "hotspots": [
       {
-        "name": "A:HIS388",
-        "importance": 1.0
+        "name": "A:ARG120",
+        "importance": 0.38
       },
       {
-        "name": "A:GLN203",
-        "importance": 0.89
+        "name": "A:SER353",
+        "importance": 0.36
       },
       {
-        "name": "A:HIS386",
-        "importance": 0.78
+        "name": "A:SER530",
+        "importance": 0.32
       },
       {
-        "name": "A:THR212",
-        "importance": 0.66
+        "name": "A:PHE518",
+        "importance": 0.29
       },
       {
-        "name": "A:HIS207",
-        "importance": 0.65
+        "name": "A:ILE523",
+        "importance": 0.27
       },
       {
-        "name": "A:ILE444",
-        "importance": 0.64
+        "name": "A:LEU352",
+        "importance": 0.25
       },
       {
-        "name": "A:VAL447",
-        "importance": 0.62
+        "name": "A:GLY526",
+        "importance": 0.23
       },
       {
-        "name": "A:MET391",
-        "importance": 0.62
+        "name": "A:ALA527",
+        "importance": 0.22
       },
       {
-        "name": "A:PHE210",
-        "importance": 0.62
+        "name": "A:VAL349",
+        "importance": 0.21
       },
       {
-        "name": "A:TRP387",
-        "importance": 0.61
+        "name": "A:LEU531",
+        "importance": 0.2
       },
       {
-        "name": "A:LEU295",
-        "importance": 0.57
+        "name": "A:TYR355",
+        "importance": 0.19
       },
       {
-        "name": "A:TYR385",
-        "importance": 0.56
+        "name": "A:VAL116",
+        "importance": 0.18
       },
       {
-        "name": "A:LYS211",
-        "importance": 0.54
-      },
-      {
-        "name": "A:ASN382",
-        "importance": 0.54
-      },
-      {
-        "name": "A:ALA202",
-        "importance": 0.53
+        "name": "A:MET522",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -24861,11 +24853,11 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 64
+      "A": 46
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "P6A",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "5VA1",
@@ -24881,7 +24873,7 @@
     "requires_cns": 0,
     "structural_family": "ion_channel",
     "organism": "Homo sapiens",
-    "resolution": 2.8,
+    "resolution": 3.7,
     "hotspots": [
       {
         "name": "A:THR623",
@@ -24981,9 +24973,9 @@
     "name": "COX-1:MOFEZOLAC COMPLEX STRUCTURE",
     "chain": "A",
     "description": "Ciclooxigenasa dual y peroxidasa que juega un papel importante en la vía de biosíntesis de prostanoides, una clase de oxilipinas C20 derivadas principalmente del araquidonato ((5Z,8Z,11Z,14Z)-eicosatetraenoato, AA, C20:4(n-6)), con un papel particular en la respuesta inflamatoria. La actividad ciclooxigenasa oxigena el AA a la prostaglandina G2 hidroperoxi endoperóxido (PGG2), y la actividad peroxidasa reduce la PGG2 a la prostaglandina hidroxi endoperóxido H2 (PGH2), precursora de todas las prostaglandinas y tromboxanos de la serie 2. Esta compleja transformación se inicia mediante la extracción de hidrógeno en el carbono 13 (con estereoquímica S), seguida de la inserción de O2 molecular para formar el puente endoperóxido entre los carbonos 9 y 11 que define las prostaglandinas. La inserción de una segunda molécula de O2 (actividad bisoxigenasa) produce un grupo hidroperoxi en PGG2 que luego se reduce a PGH2 mediante dos electrones. Interviene en la producción constitutiva de prostanoides, en particular en el estómago y las plaquetas. En las células epiteliales gástricas, es un paso clave en la generación de prostaglandinas, como la prostaglandina E2 (PGE2), que juega un papel importante en la citoprotección. En las plaquetas, participa en la generación de tromboxano A2 (TXA2), que promueve la activación y agregación plaquetaria, la vasoconstricción y la proliferación de las células del músculo liso vascular. También puede utilizar linoleato (LA, (9Z,12Z)-octadecadienoato, C18:2(n-6)) como sustrato y producir hidroxioctadecadienoatos (HODE) de manera regio y estereoespecífica, siendo (9R)-HODE ((9R)-hidroxi-(10E,12Z)-octadecadienoato) y (13S)-HODE ((13S)-hidroxi-(9Z,11E)-octadecadienoato) sus principales productos",
-    "grid_center_x": 17.49,
-    "grid_center_y": 163.13,
-    "grid_center_z": 29.92,
+    "grid_center_x": 37.206,
+    "grid_center_y": 163.298,
+    "grid_center_z": 27.41,
     "grid_size_x": 31.4,
     "grid_size_y": 31.4,
     "grid_size_z": 31.4,
@@ -24993,64 +24985,64 @@
     "resolution": 2.75,
     "hotspots": [
       {
-        "name": "A:HIS388",
-        "importance": 1.0
+        "name": "A:TYR355",
+        "importance": 0.44
       },
       {
-        "name": "A:GLN203",
-        "importance": 0.93
+        "name": "A:ARG120",
+        "importance": 0.42
       },
       {
-        "name": "A:HIS386",
-        "importance": 0.69
+        "name": "A:ILE523",
+        "importance": 0.26
       },
       {
-        "name": "A:VAL447",
-        "importance": 0.65
-      },
-      {
-        "name": "A:HIS207",
-        "importance": 0.63
-      },
-      {
-        "name": "A:THR212",
-        "importance": 0.61
-      },
-      {
-        "name": "A:TYR385",
-        "importance": 0.61
-      },
-      {
-        "name": "A:PHE210",
-        "importance": 0.6
+        "name": "A:LEU352",
+        "importance": 0.25
       },
       {
         "name": "A:TRP387",
-        "importance": 0.6
+        "importance": 0.24
       },
       {
-        "name": "A:MET391",
-        "importance": 0.59
+        "name": "A:TYR385",
+        "importance": 0.21
       },
       {
-        "name": "A:ASN382",
-        "importance": 0.56
+        "name": "A:ALA527",
+        "importance": 0.21
       },
       {
-        "name": "A:ILE444",
-        "importance": 0.56
+        "name": "A:GLY526",
+        "importance": 0.19
       },
       {
-        "name": "A:LEU295",
-        "importance": 0.55
+        "name": "A:VAL116",
+        "importance": 0.18
       },
       {
-        "name": "A:ALA199",
-        "importance": 0.54
+        "name": "A:LEU384",
+        "importance": 0.18
       },
       {
-        "name": "A:ALA202",
-        "importance": 0.54
+        "name": "A:VAL349",
+        "importance": 0.17
+      },
+      {
+        "name": "A:SER353",
+        "importance": 0.17
+      },
+      {
+        "name": "A:LEU531",
+        "importance": 0.15
+      },
+      {
+        "name": "A:ILE517",
+        "importance": 0.13
+      },
+      {
+        "name": "A:HIS90",
+        "importance": 0.13
       }
     ],
     "affinity_threshold": -7.5,
@@ -25069,11 +25061,11 @@
       "A"
     ],
     "site_chain_atoms": {
-      "A": 65
+      "A": 60
     },
     "site_evidence": "cocrystal_ligand",
-    "site_ligand": "HEM",
-    "hotspots_source": "auto_pocket_top15"
+    "site_ligand": "63X",
+    "hotspots_source": "box_ligand_contacts"
   },
   {
     "pdb_id": "5WIU",
@@ -25750,7 +25742,7 @@
     "grid_size_y": 26.0,
     "grid_size_z": 26.0,
     "requires_cns": 0,
-    "structural_family": "kinase",
+    "structural_family": "nuclear_receptor",
     "organism": "Homo sapiens",
     "resolution": 2.88,
     "hotspots": [
@@ -36586,5 +36578,94 @@
     "site_evidence": "cocrystal_ligand",
     "site_ligand": "SRO",
     "hotspots_source": "auto_pocket_top15"
+  },
+  {
+    "pdb_id": "7SRQ",
+    "name": "5-HT2B (HTR2B), LSD-bound cryo-EM receptor",
+    "chain": "R",
+    "description": "Human HTR2B/P41595 receptor bound to LSD (7LD), cryo-EM 2.7 Å. No backbone gaps within 6 Å of the measured docking box; four incomplete side chains there were truncated during preparation. Structurally curated; exploratory docking scores, without receptor-specific affinity calibration.",
+    "structural_family": "gpcr",
+    "organism": "Homo sapiens",
+    "resolution": 2.7,
+    "requires_cns": 0,
+    "hotspots": [
+      {
+        "name": "R:PHE340",
+        "importance": 1.0
+      },
+      {
+        "name": "R:ASP135",
+        "importance": 0.83
+      },
+      {
+        "name": "R:VAL136",
+        "importance": 0.68
+      },
+      {
+        "name": "R:VAL366",
+        "importance": 0.68
+      },
+      {
+        "name": "R:THR140",
+        "importance": 0.58
+      },
+      {
+        "name": "R:PHE341",
+        "importance": 0.57
+      },
+      {
+        "name": "R:GLY221",
+        "importance": 0.56
+      },
+      {
+        "name": "R:MET218",
+        "importance": 0.55
+      },
+      {
+        "name": "R:SER222",
+        "importance": 0.55
+      },
+      {
+        "name": "R:TYR370",
+        "importance": 0.55
+      },
+      {
+        "name": "R:SER139",
+        "importance": 0.54
+      },
+      {
+        "name": "R:ASN344",
+        "importance": 0.54
+      },
+      {
+        "name": "R:TRP131",
+        "importance": 0.53
+      },
+      {
+        "name": "R:PHE217",
+        "importance": 0.53
+      },
+      {
+        "name": "R:LEU209",
+        "importance": 0.52
+      }
+    ],
+    "hotspots_source": "auto_pocket_top15",
+    "cofactors_whitelist": [],
+    "affinity_threshold": -7.5,
+    "site_chains": [
+      "R"
+    ],
+    "site_chain_atoms": {
+      "R": 30
+    },
+    "site_evidence": "cocrystal_ligand",
+    "site_ligand": "7LD",
+    "grid_center_x": 152.587,
+    "grid_size_x": 18.0,
+    "grid_center_y": 158.245,
+    "grid_size_y": 18.0,
+    "grid_center_z": 155.595,
+    "grid_size_z": 18.0
   }
 ]

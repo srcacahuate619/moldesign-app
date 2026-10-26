@@ -1,0 +1,56 @@
+[
+  {
+    "paso": "01",
+    "comando": "npm ci",
+    "commit": "7cef1d3ccd987ede224625b95ab6d895c07ad73f",
+    "inicio_utc": "2026-10-09T23:42:21.3310753Z",
+    "segundos": 107.49,
+    "salida": 0,
+    "registro": "ci-corregida-01.log"
+  },
+  {
+    "paso": "02",
+    "comando": "npm audit --omit=dev --audit-level=critical",
+    "commit": "7cef1d3ccd987ede224625b95ab6d895c07ad73f",
+    "inicio_utc": "2026-10-09T23:44:08.8686786Z",
+    "segundos": 2.6,
+    "salida": 0,
+    "registro": "ci-corregida-02.log"
+  },
+  {
+    "paso": "03",
+    "comando": "npm run check:csp",
+    "commit": "7cef1d3ccd987ede224625b95ab6d895c07ad73f",
+    "inicio_utc": "2026-10-09T23:44:11.4785604Z",
+    "segundos": 0.77,
+    "salida": 0,
+    "registro": "ci-corregida-03.log"
+  },
+  {
+    "paso": "04",
+    "comando": "npm run typecheck",
+    "commit": "7cef1d3ccd987ede224625b95ab6d895c07ad73f",
+    "inicio_utc": "2026-10-09T23:44:12.2721965Z",
+    "segundos": 46.78,
+    "salida": 0,
+    "registro": "ci-corregida-04.log"
+  },
+  {
+    "paso": "05",
+    "comando": "npm run test:run",
+    "commit": "7cef1d3ccd987ede224625b95ab6d895c07ad73f",
+    "inicio_utc": "2026-10-09T23:44:59.0621506Z",
+    "segundos": 171.32,
+    "salida": 0,
+    "registro": "ci-corregida-05.log"
+  },
+  {
+    "paso": "06",
+    "comando": "npm run test:e2e",
+    "commit": "7cef1d3ccd987ede224625b95ab6d895c07ad73f",
+    "inicio_utc": "2026-10-09T23:47:50.3933599Z",
+    "segundos": 224.96,
+    "salida": 1,
+    "registro": "ci-corregida-06.log"
+  }
+]

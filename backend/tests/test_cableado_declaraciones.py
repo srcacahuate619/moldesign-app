@@ -41,8 +41,11 @@ def test_se_mide_sobre_el_pdb_depositado_no_sobre_el_preparado():
     """El preparado ya no tiene aguas: censarlo daría siempre cero."""
     fuente = (RAIZ / "services" / "docking" / "vina_service.py").read_text(encoding="utf-8")
     indice = fuente.index("censar_aguas(")
-    contexto = fuente[max(0, indice - 600):indice]
-    assert "StoragePath.target_raw(" in contexto
+    contexto = fuente[max(0, indice - 900):indice]
+    # Desde FEP-06-PRE (2026-10-24) el origen es el mismo que leyó la preparación: el crudo depositado o, en el árbol de
+    # desarrollo, la estructura de `data/target_library`. Nunca el PDBQT preparado.
+    assert "receptor_source_path_no_network(" in contexto
+    assert "receptor_content" not in contexto.split("receptor_source_path_no_network(")[1]
 
 
 def test_si_no_se_puede_censar_se_dice():

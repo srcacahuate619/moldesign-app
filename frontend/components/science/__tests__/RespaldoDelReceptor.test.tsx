@@ -19,6 +19,7 @@ import {
   RespaldoDelReceptor,
   nivelLegible,
   necesitaAdvertencia,
+  rhoSinMedir,
   type Calibracion,
 } from "../RespaldoDelReceptor";
 
@@ -47,12 +48,24 @@ describe("los cuatro niveles se distinguen a la vista", () => {
           requiere_advertencia: false,
           resumen: "Calibrado para este receptor (Spearman ρ medido)",
           advertencia: "",
+          respaldo: { rho: 0.62, ic95: [0.31, 0.8], n: 48, panel: "CHEMBL0" },
         })}
       />,
     );
 
     expect(screen.getByTestId("respaldo-receptor")).toHaveTextContent(/calibrado/i);
     expect(screen.getByTestId("respaldo-receptor")).toHaveTextContent("0.62");
+    expect(screen.getByTestId("respaldo-receptor")).toHaveTextContent("n = 48");
+  });
+
+  it("un «calibrado» sin su medida advierte y no enseña la ρ (SCI-D-001)", () => {
+    const sinMedida = calibracion({
+      nivel: "calibrado", spearman_rho: 0.62, requiere_advertencia: false, advertencia: "",
+    });
+    expect(necesitaAdvertencia(sinMedida)).toBe(true);
+    render(<RespaldoDelReceptor calibracion={sinMedida} mostrarAdvertencia />);
+    expect(screen.getByTestId("respaldo-receptor")).not.toHaveTextContent("0.62");
+    expect(screen.getByTestId("advertencia-calibracion")).toBeInTheDocument();
   });
 
   it("un receptor con pipeline de familia no se presenta como calibrado", () => {
@@ -111,6 +124,7 @@ describe("la advertencia no se pierde", () => {
           spearman_rho: 0.62,
           requiere_advertencia: false,
           advertencia: "",
+          respaldo: { rho: 0.62, ic95: [0.31, 0.8], n: 48, panel: "CHEMBL0" },
         })}
         mostrarAdvertencia
       />,
@@ -145,6 +159,12 @@ describe("la interfaz no vuelve a decidir por su cuenta", () => {
     expect(nivelLegible("algo_que_no_existe" as Calibracion["nivel"])).toMatch(
       /sin comprobar/i,
     );
+  });
+
+  it("el nivel y la ausencia de rho usan inglés cuando el idioma lo pide", () => {
+    expect(nivelLegible("curado_estructural", "en")).toBe("Structurally curated");
+    expect(nivelLegible(null, "en")).toBe("Support not assessed");
+    expect(rhoSinMedir("en")).toBe("ρ not measured");
   });
 });
 

@@ -1,0 +1,25 @@
+{
+ "C_chembl_5ht1a_actives.txt": {
+  "origen": "data/chembl_5ht1a_actives.txt",
+  "sha256_origen": "8a94f9830790c579ab586303d73e2c2fa41a7eb16557b15cd7faf9ee3dcceed6"
+ },
+ "D_dude_5ht1a_decoys.smi": {
+  "origen": "data/dude_5ht1a_decoys.smi",
+  "sha256_origen": "d66bcb0a449ea33bd4b112dfe710772b04a855d5020af74bb34410f316f694d4"
+ },
+ "E_benchmark_smiles.txt": {
+  "origen": "completed_smiles de los diez checkpoints, en este orden y sin duplicados",
+  "sha256_origen": {
+   "data/benchmark_checkpoint_1o86.json": "c79f9f8aa18aaffa1b459c619daea4300eb32fc37ce67b6092e5eec09a45761a",
+   "data/benchmark_checkpoint_5ht1a.json": "ae91d9ba010c72c95fd657adb6b5aa23ee1de2fef510f99da164f45d1fa1cb24",
+   "data/benchmark_checkpoint_ace.json": "f646d7fb7b2e3946f638beaa213cf57d9dff9c6d37630fd1d8db593182973fb2",
+   "data/benchmark_checkpoint_ca2.json": "a9029082de2a139137c6674bbc763aab4c69b57e233fadaed0e6c4b6e0e41fd5",
+   "data/benchmark_checkpoint_cdk2.json": "e3b2883699cc639c74944bbb9270378b88de8050484a5578b72b7690cb5e7da4",
+   "data/benchmark_checkpoint_er_alpha.json": "708dbb691688ba6e724584db93ef694957154994c8eece54b58b9f1a63d49463",
+   "data/benchmark_checkpoint_factor_xa.json": "b5548748b4a900c9ba2f726adee4c0eb51bb47fa8c6d0ebd566377a26518a261",
+   "data/benchmark_checkpoint_hiv_protease.json": "ba5876b6c5b09e65fa21680951a1d8e9acf79af4b9c7b9c7a868a22ea50bb14b",
+   "data/benchmark_checkpoint_mmp9.json": "593b50762830bb475ea361bcb7e5f5e525811545f562339675304eeae94c4bf3",
+   "data/benchmark_checkpoint_thrombin.json": "c319cf564f8bc43f649586096040c91dbaf3535fff94d15a36d4988cf8785e7c"
+  }
+ }
+}

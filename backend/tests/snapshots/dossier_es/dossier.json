@@ -1,0 +1,944 @@
+{
+  "apendice_heredado": [
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Índice compuesto heredado (total_score)",
+      "razon": "Sin fórmula ni versión publicadas: no es interpretable como probabilidad, confianza ni calidad. No decisional.",
+      "valor": "84.5",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Índice de afinidad heredado",
+      "razon": "Sin fórmula ni versión publicadas: no es interpretable como probabilidad, confianza ni calidad. No decisional.",
+      "valor": "87.3",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Índice ADME heredado",
+      "razon": "Sin fórmula ni versión publicadas: no es interpretable como probabilidad, confianza ni calidad. No decisional.",
+      "valor": "79.0",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Índice de similitud a fármaco heredado",
+      "razon": "Sin fórmula ni versión publicadas: no es interpretable como probabilidad, confianza ni calidad. No decisional.",
+      "valor": "81.0",
+      "valor_es_clasificacion": true
+    }
+  ],
+  "avisos_integridad": [],
+  "case": {
+    "case_id": "caso-serie-a-001",
+    "case_schema_version": 3,
+    "name": "Serie A · exploración del bolsillo ortostérico"
+  },
+  "controles": [
+    {
+      "codigo": "VALIDEZ_FISICA_POSES",
+      "estado": "REVISAR",
+      "observacion": "La batería no corrió entera sobre todas las poses, o la pose principal pasa y alguna alternativa falla. «Revisión necesaria» describe una comprobación que hay que mirar, NO una pose aprobada. Motor: posebusters:1.0:dock. Cobertura 3/3 poses.",
+      "procedencia": "eval_result.structural_evidence",
+      "protocolo": "Reconstrucción de la pose desde PDBQT con plantilla del SMILES y validación geométrica. La representación con la que se valida NO es la del cristal: los hidrógenos se añaden en la reconstrucción.",
+      "titulo": "Validez física y geométrica de las poses"
+    },
+    {
+      "codigo": "SEPARACION_ENTRE_POSES",
+      "estado": "REGISTRADO",
+      "observacion": "Diferencia pose 1-2 1.40 kcal/mol. El protocolo no informa si hubo ensemble; no se registraron réplicas.",
+      "procedencia": "eval_result.docking_poses",
+      "protocolo": "Diferencia de afinidad entre la pose 1 y la 2, y recuento a ≤1 kcal/mol.",
+      "titulo": "Separación energética entre poses"
+    },
+    {
+      "codigo": "TRAZA_REPRODUCIBILIDAD",
+      "estado": "REGISTRADO",
+      "observacion": "3/3 trazas: versión del motor, semilla y parser.",
+      "procedencia": "eval_result",
+      "protocolo": "Presencia de los tres campos que permiten repetir la corrida.",
+      "titulo": "Traza de reproducibilidad técnica"
+    }
+  ],
+  "decisiones": [
+    {
+      "aplica_a_los_inputs_actuales": true,
+      "control": "ESPECIES_DEL_SITIO_RETIRADAS",
+      "decision": "reconocida",
+      "fecha": "2026-08-24T09:10:00+00:00",
+      "fingerprint": "sha256:a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4",
+      "nota": "Las especies retiradas son detergentes de cristalización, no del sitio."
+    }
+  ],
+  "dimensiones": [
+    {
+      "codigo": "SYSTEM",
+      "estado": "REGISTRADO",
+      "observacion": "El inventario registra receptor preparado, grid y referencias estructurales.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Preparación del sistema"
+    },
+    {
+      "codigo": "DOCKING",
+      "estado": "REGISTRADO",
+      "observacion": "3 poses serializadas; mejor afinidad cruda -9.50 kcal/mol · vina 1.2.5.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Señal de docking"
+    },
+    {
+      "codigo": "SAMPLING",
+      "estado": "REGISTRADO",
+      "observacion": "Diferencia pose 1-2 1.40 kcal/mol. El protocolo no informa si hubo ensemble; no se registraron réplicas.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Muestreo de poses"
+    },
+    {
+      "codigo": "REPRODUCIBILITY",
+      "estado": "REVISAR",
+      "observacion": "Trazas mínimas 3/3 (versión del motor, semilla y parser); elementos de reconstrucción 1/7 — faltan: caja de búsqueda efectiva, hash del receptor, hashes de entrada del ligando, hashes de salida (poses y registro), preparación del ligando, versión de la aplicación. Reconstrucción por un tercero: no demostrada.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Reproducibilidad técnica"
+    },
+    {
+      "codigo": "PHYSICAL",
+      "estado": "REVISAR",
+      "observacion": "La batería no corrió entera sobre todas las poses, o la pose principal pasa y alguna alternativa falla. «Revisión necesaria» describe una comprobación que hay que mirar, NO una pose aprobada. Motor: posebusters:1.0:dock. Cobertura 3/3 poses.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Validez física de poses"
+    },
+    {
+      "codigo": "MODEL",
+      "estado": "REGISTRADO",
+      "observacion": "model_a_universal. El motor de acoplamiento y su version se declaran en la traza de reproducibilidad, no aqui: son identidades distintas.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Dominio del modelo"
+    },
+    {
+      "codigo": "PHYSICOCHEMICAL",
+      "estado": "REGISTRADO",
+      "observacion": "Se reportan valores y reglas por separado; no se convierten en una calificación global.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Descriptores fisicoquímicos"
+    },
+    {
+      "codigo": "SELECTIVITY",
+      "estado": "NO_EVALUADO",
+      "observacion": "La corrida no registró un panel de anti-targets.",
+      "procedencia": "build_evidence_summary",
+      "protocolo": null,
+      "titulo": "Evidencia de selectividad"
+    }
+  ],
+  "ejecucion": {
+    "cientifico": {
+      "estado": "REVISAR",
+      "etiqueta": "Disposición científica de la evidencia",
+      "razon": "La corrida produjo evidencia útil, pero contiene reservas que deben revisarse antes de continuar.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "disposicion_final": {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Disposición final del caso",
+      "razon": "El caso aún no tiene una disposición científica final.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    "humano": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Revisión humana",
+      "razon": null,
+      "valor": "1 control(es) reconocido(s)",
+      "valor_es_clasificacion": false
+    },
+    "tecnico": {
+      "estado": "REGISTRADO",
+      "etiqueta": "Estado de ejecución (técnico)",
+      "razon": null,
+      "valor": "completed",
+      "valor_es_clasificacion": false
+    }
+  },
+  "entradas": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor declarado",
+      "razon": null,
+      "valor": "7E2Y · cadena R",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Receptor acoplado (unidad preparada)",
+      "razon": "La corrida no registró las cadenas del receptor preparado; la cadena declarada por el caso no prueba contra cuáles se acopló.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Origen del receptor",
+      "razon": null,
+      "valor": "curado",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Ligando introducido",
+      "razon": null,
+      "valor": "CC(=O)Oc1ccccc1C(=O)O",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Ligando canónico (el que se acopla)",
+      "razon": null,
+      "valor": "CC(=O)Oc1ccccc1C(=O)O",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Caja de búsqueda efectiva",
+      "razon": "La corrida no persistió la caja de búsqueda efectiva; la caja declarada por el caso no prueba la ejecutada.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Residuos de referencia",
+      "razon": null,
+      "valor": "R:TYR390, R:ASP116",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Huella de los inputs (preflight)",
+      "razon": null,
+      "valor": "sha256:a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4a1b2c3d4",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Relación de la corrida con los inputs actuales",
+      "razon": "La corrida se ejecutó con los inputs que este dossier describe.",
+      "valor": "La corrida se ejecutó con los inputs que este dossier describe.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Caja declarada por el caso",
+      "razon": "Valor declarado por el caso; no sustituye la caja ejecutada.",
+      "valor": "centro (103.03, 114.79, 108.36) · tamaño (25.0, 25.0, 25.0) Å",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "generacion": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses producidas",
+      "razon": null,
+      "valor": "3",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses solicitadas al motor",
+      "razon": null,
+      "valor": "9",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustividad",
+      "razon": null,
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Semilla aleatoria",
+      "razon": null,
+      "valor": "42",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Residuos de referencia",
+      "razon": "Esta corrida es anterior al sellado de los residuos de referencia. No se sustituyen por los del catálogo: podrían no ser los que se usaron.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Motor y versión",
+      "razon": null,
+      "valor": "vina · 1.2.5",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Generación conformacional",
+      "razon": "El protocolo sellado no declara el número de conformaciones.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Mejor afinidad Vina observada",
+      "razon": null,
+      "valor": "-9.50 kcal/mol",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Cobertura de validación física",
+      "razon": null,
+      "valor": "3/3 poses con veredicto",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Observación · afinidad AutoDock Vina",
+      "razon": null,
+      "valor": "-9.50 kcal/mol (score de Vina, sin transformar)",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Interpretación · regresión XGBoost (pKi)",
+      "razon": "El rescoring de ML no produjo regresión para esta corrida. En evaluaciones anteriores al 2026-09-04 este campo está vacío porque el valor se perdía al sobrescribir la afinidad de Vina.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Modelo de rescoring y familia estructural",
+      "razon": null,
+      "valor": "model_a_universal",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Motor ejecutado",
+      "razon": null,
+      "valor": "vina",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Eficiencia por átomo pesado",
+      "razon": "Sin afinidad o sin recuento de átomos: no se calcula.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    }
+  ],
+  "generated_at": "2026-08-24T12:00:00+00:00",
+  "glosario": {
+    "ABSTENCION": "Falta evidencia indispensable o existe un bloqueo declarado.",
+    "NO_APLICA": "El control no corresponde a este caso.",
+    "NO_DEFINIDO": "El caso no declaró este contexto.",
+    "NO_DISPONIBLE": "El resultado o artefacto esperado no está disponible.",
+    "NO_EVALUADO": "El control no se ejecutó en esta corrida.",
+    "PASA": "El control se ejecutó y lo superó.",
+    "REGISTRADO": "El dato existe y quedó serializado por la corrida.",
+    "REVISAR": "Hay evidencia, pero no autoriza una conclusión por sí sola."
+  },
+  "incertidumbres": [
+    "Este receptor no está curado: no se le conoce familia estructural ni preparación verificada, y no tiene Spearman ρ. El pipeline corre con el contrato alpha conservador común y sin family-gating. Cualquier score de esta corrida es orientativo; no lo cites como evidencia de afinidad.",
+    "Los controles físicos no corrieron enteros sobre todas las poses, o una pose alternativa falla; «revisión necesaria» no equivale a pose aprobada.",
+    "La pose sugerida (#2) y la top-1 de Vina (#1) no son la misma. Ambas se conservan.",
+    "La pose sugerida no está confirmada como físicamente válida, y NO se sustituye por otra: elegir «la siguiente que pase» sería una decisión que nadie tomó.",
+    "Faltan elementos para reconstruir la corrida: caja de búsqueda efectiva, hash del receptor, hashes de entrada del ligando, hashes de salida (poses y registro), preparación del ligando, versión de la aplicación.",
+    "Declarado por el caso: No se conoce el efecto de las aguas estructurales del bolsillo."
+  ],
+  "portada": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Caso",
+      "razon": null,
+      "valor": "Serie A · exploración del bolsillo ortostérico",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Molécula",
+      "razon": null,
+      "valor": "11111111-2222-4333-8444-555555555555",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Receptor",
+      "razon": null,
+      "valor": "7E2Y · Receptor 5-HT1A acoplado a proteína G",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Respaldo del receptor",
+      "razon": null,
+      "valor": "Sin curar: sin familia estructural conocida — falta curar el receptor: familia estructural, preparación y Spearman ρ",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Sección del catálogo",
+      "razon": "Receptor preparado automáticamente desde el PDB, sin verificación de pose ni calibración. Sirve para explorar la aplicación, no para decidir qué sintetizar.",
+      "valor": "Demostración",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Corrida",
+      "razon": null,
+      "valor": "task-completa-0001",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Fecha de la corrida",
+      "razon": null,
+      "valor": "2026-08-24 09:30:00+00:00",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Esquema del dossier",
+      "razon": null,
+      "valor": "v1",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "poses": {
+    "estado": "REGISTRADO",
+    "items": [
+      {
+        "afinidad_kcal_mol": -9.5,
+        "rango": 1,
+        "rmsd_lb": 0.0,
+        "rmsd_ub": 0.0
+      },
+      {
+        "afinidad_kcal_mol": -8.1,
+        "rango": 2,
+        "rmsd_lb": 1.2,
+        "rmsd_ub": 1.9
+      },
+      {
+        "afinidad_kcal_mol": -7.4,
+        "rango": 3,
+        "rmsd_lb": 2.1,
+        "rmsd_ub": 3.3
+      }
+    ],
+    "razon": null
+  },
+  "preparacion": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Política de heteroátomos declarada",
+      "razon": null,
+      "valor": "docking_vina",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Metales y cofactores junto al sitio",
+      "razon": "La corrida no serializó qué retiró la preparación: su receptor se preparó antes de registrarlo. No se reconstruye con la receta de hoy.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Aguas junto al sitio",
+      "razon": "La corrida no serializó qué retiró la preparación: su receptor se preparó antes de registrarlo. No se reconstruye con la receta de hoy.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Otras especies junto al sitio",
+      "razon": "La corrida no serializó qué retiró la preparación: su receptor se preparó antes de registrarlo. No se reconstruye con la receta de hoy.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_EVALUADO",
+      "etiqueta": "Protonación, tautomería y estereoquímica",
+      "razon": "El pipeline no registra la forma protonada ni el tautómero elegidos.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Advertencias de la comprobación previa",
+      "razon": "Advertencias científicas registradas antes de ejecutar.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "ABSTENCION",
+      "etiqueta": "Controles sin evaluar en la comprobación previa",
+      "razon": "El preflight no pudo ejecutar estos controles. No se evaluaron: eso no equivale a que los pasaran.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    }
+  ],
+  "procedencia": {
+    "campos_ausentes": [
+      "configuracion_sha256",
+      "receptor_referencia",
+      "vocabulario_especies"
+    ],
+    "completo": false,
+    "configuracion": {
+      "exhaustiveness": 8,
+      "grid_center": null,
+      "grid_size": null,
+      "num_modes": 9,
+      "random_seed": 42,
+      "vina_version": "1.2.5"
+    },
+    "configuracion_sha256": null,
+    "ligando_smiles_sha256": "56de9fefcf1645df78a35f02ff437bcf080afd064ee8d85dd7e9a2c5c5e7b6db",
+    "modelo": "model_a_universal",
+    "motor": "vina",
+    "nota": "Estos hashes permiten a un tercero comprobar que las conclusiones de este dossier se calcularon sobre las entradas que declara. El registro en devnet, si existe, guarda en su memo el hash del SMILES, el score redondeado, el PDB, una fecha declarada por quien firma y la wallet: no identifica la revisión de este documento, no acredita su fecha de emisión ni certifica sobre qué se calculó. Ninguno de los dos sustituye al otro.",
+    "poses_sha256": "30a2b3ca7c90a7e81b6c212fc2a143b0e8cef1ae5469ed6db096f352a4e896f0",
+    "receptor_referencia": null,
+    "vocabulario_especies": null
+  },
+  "proposito": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Tipo de estudio",
+      "razon": null,
+      "valor": "explore-hypothesis",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "¿Qué intenta responder este caso?",
+      "razon": null,
+      "valor": "¿El andamio de la serie A tolera un sustituyente polar en la posición 4 sin perder el anclaje al bolsillo ortostérico?",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "¿Qué decisión se pretende tomar?",
+      "razon": null,
+      "valor": "Decidir si se sintetizan los tres análogos polares o si la serie se abandona a favor del andamio B.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "¿Qué justifica la elección del sistema?",
+      "razon": null,
+      "valor": "7E2Y es la única estructura con el receptor en conformación activa y con densidad interpretable en el bolsillo.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "¿Qué controles o referencias existen?",
+      "razon": null,
+      "valor": "Redock del ligando cristalográfico y un negativo conocido de la misma serie.",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Notas del caso (contexto libre; no entra en ningún cálculo)",
+      "razon": null,
+      "valor": "Serie heredada del proyecto anterior.",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "protocolo": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Motor de acoplamiento",
+      "razon": null,
+      "valor": "vina",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Versión del motor",
+      "razon": null,
+      "valor": "1.2.5",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Versión MolDesign",
+      "razon": "La corrida no registró la versión de la aplicación.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Commit de código",
+      "razon": "La corrida no declaró un commit verificable (bundle o árbol modificado).",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "CPU solicitadas a Vina",
+      "razon": "La corrida no registró el argumento CPU de Vina.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "SHA-256 receptor preparado",
+      "razon": "La corrida no registró el hash del receptor preparado.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "SHA-256 ligando SDF de entrada",
+      "razon": "La corrida no registró el hash del conformero de entrada.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "SHA-256 ligando PDBQT",
+      "razon": "La corrida no registró el hash del PDBQT acoplado.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "SHA-256 poses SDF",
+      "razon": "La corrida no registró el hash del SDF de salida.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "SHA-256 log",
+      "razon": "La corrida no registró el hash del log.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Receta de receptor",
+      "razon": "La corrida no registró el hash de receta del receptor.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Versiones de preparación",
+      "razon": "La corrida no registró la cadena de herramientas.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Semilla aleatoria",
+      "razon": null,
+      "valor": "42",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Origen del parseo",
+      "razon": null,
+      "valor": "sdf",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Modelo de rescoring",
+      "razon": null,
+      "valor": "model_a_universal",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Configuración PRO declarada",
+      "razon": "El caso no declaró opciones PRO avanzadas; este campo no acredita su ejecución.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustiveness",
+      "razon": null,
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses solicitadas",
+      "razon": null,
+      "valor": "9",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Motivo de fallback",
+      "razon": "No se registró ningún fallback.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Error declarado",
+      "razon": "La corrida no registró errores.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Exhaustividad declarada por el caso",
+      "razon": "Valor declarado por el caso; la ejecución se documenta por separado.",
+      "valor": "8",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Poses declaradas por el caso",
+      "razon": "Valor declarado por el caso; la ejecución se documenta por separado.",
+      "valor": "9",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "run": {
+    "catalogo": {
+      "aplica_a_esta_corrida": false,
+      "avisos": [],
+      "difiere_en": [],
+      "pdb_id": "7E2Y",
+      "seccion": "demostracion",
+      "sin_declarar": [],
+      "verificacion": null
+    },
+    "molecule_id": "11111111-2222-4333-8444-555555555555",
+    "target": "7E2Y · Receptor 5-HT1A acoplado a proteína G",
+    "task_id": "task-completa-0001"
+  },
+  "schema_version": 1,
+  "seleccion": [
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Estado de la etapa de selección",
+      "razon": "El selector emitió una recomendación.",
+      "valor": "RECOMENDACIÓN EMITIDA",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Pose principal del producto (Vina top-1)",
+      "razon": null,
+      "valor": "#1",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Pose recomendada por el selector",
+      "razon": null,
+      "valor": "#2",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Pose que habría recomendado (abstención)",
+      "razon": "No aplica: la etapa no se abstuvo con una candidata medida.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Margen de confianza y umbral",
+      "razon": null,
+      "valor": "0.412233 (umbral 0.097663)",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Referencia declarada",
+      "razon": "Cuando no hay recomendación, la referencia es Vina top-1 por defecto.",
+      "valor": "Recomendación del selector, junto a Vina top-1",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "NO_DISPONIBLE",
+      "etiqueta": "Razón de abstención",
+      "razon": "La etapa no registró razón de abstención.",
+      "valor": null,
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Modelo del selector",
+      "razon": null,
+      "valor": "pose_selector_v06",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "SHA-256 del modelo",
+      "razon": null,
+      "valor": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "SHA-256 de la metadata del modelo",
+      "razon": null,
+      "valor": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "valor_es_clasificacion": false
+    },
+    {
+      "estado": "REVISAR",
+      "etiqueta": "Discordancia entre la sugerida y Vina top-1",
+      "razon": "Ambas se conservan y ambas se declaran. La pose principal del producto sigue siendo la de Vina; la del selector es una recomendación.",
+      "valor": "La sugerida (#2) NO es la top-1 de Vina (#1)",
+      "valor_es_clasificacion": true
+    },
+    {
+      "estado": "REGISTRADO",
+      "etiqueta": "Alternativas físicamente válidas",
+      "razon": "Se listan para comparar. NINGUNA se selecciona automáticamente.",
+      "valor": "#1, #3",
+      "valor_es_clasificacion": false
+    }
+  ],
+  "siguiente_accion": {
+    "estado": "REVISAR",
+    "etiqueta": "Siguiente acción justificable",
+    "razon": "Comprobar choques, valencias, geometría, strain y consistencia del complejo antes de MM-GBSA, dinámica molecular o priorización experimental.",
+    "valor": "VALIDAR GEOMETRÍA ANTES DE CONTINUAR",
+    "valor_es_clasificacion": true
+  },
+  "supuestos": [
+    "Las afinidades se interpretan como señales de ranking dentro del protocolo, no como mediciones de energía libre experimental.",
+    "La mejor pose cruda se identifica por el orden de afinidad serializado; ese orden no demuestra validez geométrica.",
+    "No se atribuyen operaciones de preparación, protonación o minimización que la corrida no haya registrado.",
+    "Preparación en condición desolvatada: se eliminaron todas las aguas cristalográficas del receptor. Si esta diana requiere aguas puente conservadas para el reconocimiento molecular, los contactos y las afinidades de esta corrida no las incluyen.",
+    "Declarado por el caso: Se asume el receptor rígido y protonación estándar a pH 7.4."
+  ],
+  "validacion_fisica": {
+    "campos": [
+      {
+        "estado": "REVISAR",
+        "etiqueta": "Veredicto de la etapa",
+        "razon": "La batería no corrió entera sobre todas las poses, o la pose principal pasa y alguna alternativa falla. «Revisión necesaria» describe una comprobación que hay que mirar, NO una pose aprobada. Motor: posebusters:1.0:dock. Cobertura 3/3 poses.",
+        "valor": "REVISIÓN NECESARIA",
+        "valor_es_clasificacion": true
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Motor de validación",
+        "razon": null,
+        "valor": "posebusters:1.0:dock",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Cobertura",
+        "razon": null,
+        "valor": "3 de 3 poses",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_DISPONIBLE",
+        "etiqueta": "Código de razón",
+        "razon": "La etapa no registró código de razón.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REGISTRADO",
+        "etiqueta": "Estado físico de la pose recomendada",
+        "razon": null,
+        "valor": "failed",
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "NO_DISPONIBLE",
+        "etiqueta": "Estado físico de la pose que habría recomendado",
+        "razon": "No aplica: el selector no se abstuvo con una candidata medida.",
+        "valor": null,
+        "valor_es_clasificacion": false
+      },
+      {
+        "estado": "REVISAR",
+        "etiqueta": "Sustitución automática",
+        "razon": "La pose recomendada no está confirmada como físicamente válida. No se elige otra en su lugar: escoger la siguiente que pase sería una decisión que nadie tomó y para la que el modelo no fue entrenado.",
+        "valor": "NO SE SUSTITUYE. Se declara revisión",
+        "valor_es_clasificacion": true
+      }
+    ],
+    "por_pose": [
+      {
+        "afinidad_kcal_mol": -9.5,
+        "checks_que_fallan": [],
+        "checks_totales": 2,
+        "detalle": "Ningun control falla.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:1.0:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": true
+        },
+        "puntuacion_selector": 0.11,
+        "rango": 1,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -8.1,
+        "checks_que_fallan": [
+          "internal_energy"
+        ],
+        "checks_totales": 2,
+        "detalle": "Falla 1 control de quimica o geometria: internal_energy.",
+        "estado_fisico": "ABSTENCION",
+        "estado_fisico_codigo": "failed",
+        "fisicamente_valida": false,
+        "motor": "posebusters:1.0:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": false,
+          "sugerida_por_selector": true,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.52,
+        "rango": 2,
+        "razon": null
+      },
+      {
+        "afinidad_kcal_mol": -7.4,
+        "checks_que_fallan": [],
+        "checks_totales": 2,
+        "detalle": "Ningun control falla.",
+        "estado_fisico": "PASA",
+        "estado_fisico_codigo": "passed",
+        "fisicamente_valida": true,
+        "motor": "posebusters:1.0:dock",
+        "papeles": {
+          "alternativa_fisicamente_valida": true,
+          "sugerida_por_selector": false,
+          "vina_top1": false
+        },
+        "puntuacion_selector": 0.09,
+        "rango": 3,
+        "razon": null
+      }
+    ]
+  }
+}

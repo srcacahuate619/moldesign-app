@@ -13,10 +13,16 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { EvaluationSelect } from "@/components/preparacion/EvaluationSelect";
+import { InsigniaDeCorridaGuardada } from "@/components/science/InsigniaDeCorridaGuardada";
 import { useLanguage } from "@/context/LanguageContext";
 import { useAuth } from "@/lib/auth";
+import { useKeepAliveActive } from "@/context/KeepAliveContext";
 import { crearRepositorioDeCasos } from "@/lib/cases/factory";
-import type { CaseIndexEntry, CaseRecord, RunInputsRelation } from "@/lib/cases/types";
+import { pedirEvaluacion } from "@/lib/peticionDeEvaluacion";
+import { escucharPeticionesDePreparacion } from "@/lib/peticionDePreparacion";
+import { anotarDecision } from "@/lib/decisionesDeCaso";
+import type { CaseIndexEntry, CaseRecord, CaseRun, RunInputsRelation } from "@/lib/cases/types";
 import {
   buildCaseProjection,
   DossierError,
@@ -27,10 +33,10 @@ import {
 } from "@/lib/dossier";
 import {
   corridaDelCaso,
+  corridasDelCaso,
   valorVisible,
   type AuditoriaPreparacion,
   type BloquePreparacionId,
-  type CorridaAuditable,
   type EstadoBloque,
   type EstadoCampo,
   type EstadoPreparacion,
@@ -48,7 +54,7 @@ type Locale = "es" | "en";
 const gates = {
   receptor: {
     number: "01", icon: Boxes,
-    es: { name: "Receptor y sitio", summary: "Identidad de la estructura, cadenas, residuos y sitio de unión.", details: ["Estructura y cadena trazables", "Huecos o residuos incompletos declarados", "Sitio y caja de trabajo identificados"] },
+    es: { name: "Receptor y sitio", summary: "Identidad de la estructura, cadenas, residuos y sitio de unión.", details: ["Estructura y cadena trazables", "Huecos o residuos incompletos declarados", "Sitio y caja de búsqueda identificados"] },
     en: { name: "Receptor and site", summary: "Structure identity, chains, residues and binding site.", details: ["Traceable structure and chain", "Gaps or incomplete residues declared", "Site and search box identified"] },
   },
   ligando: {
@@ -75,19 +81,30 @@ const gates = {
 
 /** Nombre de cada requisito por su clave estable. Sin entrada, se usa la etiqueta del backend. */
 const requisitos: Record<string, Record<Locale, string>> = {
+  "receptor.seccion_catalogo": { es: "Sección del catálogo", en: "Catalog section" },
   "receptor.identidad": { es: "Receptor preparado", en: "Prepared receptor" },
   "receptor.cadenas": { es: "Cadenas del receptor", en: "Receptor chains" },
-  "receptor.caja": { es: "Caja de trabajo", en: "Search box" },
+  "receptor.caja": { es: "Caja de búsqueda", en: "Search box" },
   "receptor.cadenas_excluidas": { es: "Cadenas excluidas junto al sitio", en: "Excluded chains near the site" },
   "receptor.residuos_retirados": { es: "Residuos retirados por la preparación", en: "Residues removed by preparation" },
   "receptor.cadenas_truncadas": { es: "Cadenas laterales truncadas", en: "Truncated side chains" },
   "receptor.huecos": { es: "Huecos del esqueleto", en: "Backbone gaps" },
   "receptor.protonacion": { es: "Protonación del receptor", en: "Receptor protonation" },
+  "receptor.entrada": { es: "Archivo del receptor", en: "Receptor file" },
+  "receptor.confianza_estructural": { es: "Confianza de la estructura (pLDDT)", en: "Structure confidence (pLDDT)" },
+  "receptor.recorte": { es: "Recorte del receptor", en: "Receptor crop" },
+  "receptor.disulfuros": { es: "Puentes disulfuro", en: "Disulfide bridges" },
+  "receptor.altlocs": { es: "Conformaciones alternativas", en: "Alternate conformations" },
+  "receptor.constructo": { es: "Constructo cristalizado", en: "Crystallized construct" },
+  "receptor.ocupacion_cero": { es: "Ocupación cero en el depósito", en: "Zero occupancy in the deposit" },
+  "receptor.campo_de_fuerzas": { es: "Cobertura del campo de fuerzas", en: "Force-field coverage" },
   "ligando.identidad": { es: "Ligando acoplado", en: "Docked ligand" },
   "ligando.ph": { es: "pH de protonación", en: "Protonation pH" },
   "ligando.especie": { es: "Especie acoplada", en: "Docked species" },
   "ligando.tautomero": { es: "Tautómero", en: "Tautomer" },
   "ligando.estereoquimica": { es: "Estereoquímica", en: "Stereochemistry" },
+  "ligando.covalente": { es: "Unión covalente", en: "Covalent binding" },
+  "ligando.campo_de_fuerzas": { es: "Cobertura del campo de fuerzas", en: "Force-field coverage" },
   "pose.origen": { es: "Poses de la corrida", en: "Run poses" },
   "pose.validez_fisica": { es: "Validez física de la pose principal", en: "Physical validity of the main pose" },
   "pose.regla_de_seleccion": { es: "Regla de selección", en: "Selection rule" },
@@ -96,6 +113,12 @@ const requisitos: Record<string, Record<Locale, string>> = {
   "entorno.aguas": { es: "Aguas junto al sitio", en: "Waters near the site" },
   "entorno.otras_especies": { es: "Otras especies junto al sitio", en: "Other species near the site" },
   "entorno.politica": { es: "Política de heteroátomos", en: "Heteroatom policy" },
+  "entorno.referencia": { es: "Referencia de las distancias", en: "Distance reference" },
+  "entorno.membrana": { es: "Proteína de membrana", en: "Membrane protein" },
+  "entorno.ensayo": { es: "Contexto de ensayo", en: "Assay context" },
+  "entorno.ensayo.ph": { es: "pH del ensayo frente al de protonación", en: "Assay pH versus protonation pH" },
+  "entorno.ensayo.cadenas": { es: "Cadenas del constructo frente a las del receptor", en: "Construct chains versus receptor chains" },
+  "entorno.ensayo.cofactores": { es: "Cofactores del ensayo frente a los conservados", en: "Assay cofactors versus kept cofactors" },
   "procedencia.hashes": { es: "Hashes de entrada y salida", en: "Input and output hashes" },
   "procedencia.versiones": { es: "Versiones de la corrida", en: "Run versions" },
   "procedencia.semilla": { es: "Semilla y parámetros", en: "Seed and parameters" },
@@ -126,19 +149,52 @@ const copy = {
     sourceTitle: "Selecciona una corrida",
     sourceMissing: "Aún no hay una evaluación vinculada.",
     sourceDetail: "Aquí aparecerán el receptor, el ligando y la ejecución exacta elegida. El estado de preparación dependerá de esa evidencia.",
-    sourceAction: "Se audita la última corrida terminada de cada caso",
     sourceLogin: "Inicia sesión para elegir uno de tus casos.",
     sourceLoading: "Cargando casos…",
     sourceEmpty: "Todavía no hay casos. Crea uno y evalúa una molécula en Evaluación.",
     sourceGo: "Ir a Evaluación",
+    reevaluarCon: "Volver a evaluar en este caso con",
+    desdeMoldexBuscando: "Buscando el caso de la corrida guardada…",
+    desdeMoldexSinCaso: "Ningún caso tuyo contiene esa corrida guardada. La auditoría necesita el caso que la produjo: sus inputs, su comprobación previa y sus decisiones.",
+    decidir: "Asumir esta incertidumbre",
+    decidirBloqueante: "Dejar escrita una decisión (no levanta el bloqueo)",
+    decidirAyuda: "Queda en el caso y en el informe, con la fecha y la corrida sobre la que decidiste.",
+    decidirEtiqueta: "Justificación",
+    decidirEjemplo: "Por qué se puede seguir con esta incertidumbre",
+    decidirGuardar: "Registrar",
+    decidirCancelar: "Cancelar",
+    decidirCorta: "Escribe una justificación breve.",
+    decidida: "Decisión del investigador",
+    decididaNoLevanta: "Queda registrada; el bloqueo sigue.",
+    decididaOtras: (n: number) => n === 1
+      ? "Hay 1 decisión de otra corrida de este caso: no se aplica a ésta."
+      : `Hay ${n} decisiones de otras corridas de este caso: no se aplican a ésta.`,
     sourcePick: "Caso",
     sourcePlaceholder: "Elige un caso…",
+    evaluationPick: "Evaluación del caso",
+    evaluationPlaceholder: "Elige una evaluación…",
+    evaluationHint: "Elige cualquier evaluación completada con resultado guardado. Al abrir el caso se selecciona la más reciente disponible.",
+    evaluationLoading: "Cargando evaluaciones…",
+    evaluationLabel: (n: number) => `Evaluación ${n}`,
+    evaluationDate: "Fecha de la evaluación",
+    evaluationMode: "Modo",
+    evaluationSingle: "Único",
+    evaluationEnsemble: (k: number) => `Ensamble · K=${k}`,
+    evaluationModeMissing: "Modo no registrado",
+    evaluationRunning: "En curso",
+    evaluationFailed: "Fallida",
+    evaluationCancelled: "Cancelada",
+    evaluationNoResult: "Sin resultado guardado",
+    evaluationMissing: "La evaluación seleccionada ya no está en este caso. Elige otra evaluación.",
+    sourceDataPending: "Se identifica al auditar la evaluación",
+    sourceNotRecorded: "No registrado en esta evaluación",
     sourceRun: "Corrida",
     sourceReceptor: "Receptor",
     sourceLigand: "Ligando",
     sourceListError: "No se pudieron leer los casos",
     sinCorrida: "Este caso no tiene ninguna corrida. Evalúa una molécula antes de auditar su preparación.",
-    sinTerminar: "La última corrida de este caso no ha terminado. Sólo se audita una corrida terminada.",
+    sinTerminar: "La evaluación no ha terminado. Sólo se auditan evaluaciones completadas.",
+    sinCompletar: "La evaluación se canceló o falló. Elige una evaluación completada o genera una nueva en Evaluación.",
     sinMolecula: "La corrida terminó, pero el caso no guardó su molécula. Ábrelo en Evaluación para recuperar el resultado.",
     relation: {
       corresponde: "La corrida corresponde a los inputs actuales del caso.",
@@ -158,20 +214,28 @@ const copy = {
     auditing: "Auditando la corrida…",
     globalState: { BLOQUEADO: "Bloqueado", REVISION: "Revisión", TRANSFERIBLE: "Transferible" } as Record<EstadoPreparacion, string>,
     counts: (b: number, r: number) => `${b} imprescindible(s) sin resolver · ${r} para revisar`,
+    countsRutinarias: (n: number) => n === 1 ? " (1 rutinaria)" : ` (${n} rutinarias)`,
+    countsDecididos: (n: number) => n === 1 ? " · 1 decidido" : ` · ${n} decididos`,
+    revisionDe: { caso: "Del caso", rutinaria: "Sólo rutinaria" },
+    rutinaria: "Rutinaria",
+    blockRutinaria: "RUTINARIA",
     razon: {
       BLOQUEADO: "Falta evidencia imprescindible o hay una abstención declarada.",
       REVISION: "Hay decisiones científicas abiertas que el cálculo siguiente heredaría.",
+      rutinaria: "Nada propio de este caso pide revisión: sólo quedan las revisiones que esta ruta pide en toda corrida. Aun resueltas, la transferencia a un cálculo FEP no está demostrada: FEP-06 sigue sin sellar.",
       techo: "Todos los requisitos tienen dato registrado, pero la transferencia a un cálculo FEP no está demostrada: FEP-06 sigue sin sellar.",
+      techoDecidido: "Todos los requisitos tienen dato registrado o una decisión justificada, pero la transferencia a un cálculo FEP no está demostrada: FEP-06 sigue sin sellar.",
       TRANSFERIBLE: "Controles superados para el alcance declarado.",
     },
     alcance: "Auditor de readiness para FEP en desarrollo",
     refresh: "Volver a auditar",
     auditError: "No se pudo auditar la corrida",
+    auditIdentityError: "La auditoría recibida no corresponde a la evaluación seleccionada.",
     legend: "ESTADOS POSIBLES",
     blocked: "Bloqueado",
     blockedDesc: "Falta evidencia imprescindible.",
     review: "Revisión",
-    reviewDesc: "Hay una decisión científica abierta.",
+    reviewDesc: "Hay una decisión científica abierta. Si sólo queda lo que pide toda corrida de esta ruta, se marca como rutinaria.",
     ready: "Transferible",
     readyDesc: "Controles superados para el alcance declarado. No se emite mientras FEP-06 no esté sellado.",
     transfer: "PAQUETE DE TRANSFERENCIA",
@@ -187,25 +251,58 @@ const copy = {
   },
   en: {
     eyebrow: "STRUCTURAL PREPARATION",
-    intro: "Gather the decisions that turn a pose into a transferable system. An honest review separates what is resolved, what needs judgement and what prevents progress.",
+    intro: "Gather the decisions that turn a pose into a transferable system. An honest review separates what is resolved, what needs judgment and what prevents progress.",
     draft: "Auditor in development",
     source: "SOURCE EVALUATION",
     sourceTitle: "Select a run",
     sourceMissing: "No evaluation is linked yet.",
     sourceDetail: "The exact selected receptor, ligand and run will appear here. Preparation status will depend on that evidence.",
-    sourceAction: "Each case's latest finished run is audited",
     sourceLogin: "Sign in to choose one of your cases.",
     sourceLoading: "Loading cases…",
     sourceEmpty: "There are no cases yet. Create one and evaluate a molecule in Evaluation.",
     sourceGo: "Go to Evaluation",
+    reevaluarCon: "Evaluate again in this case with",
+    desdeMoldexBuscando: "Looking for the saved run's case…",
+    desdeMoldexSinCaso: "None of your cases contains that saved run. The audit needs the case that produced it: its inputs, its pre-check and its decisions.",
+    decidir: "Accept this uncertainty",
+    decidirBloqueante: "Record a decision (does not lift the block)",
+    decidirAyuda: "It is kept in the case and in the report, with the date and the run you decided on.",
+    decidirEtiqueta: "Justification",
+    decidirEjemplo: "Why work can continue with this uncertainty",
+    decidirGuardar: "Record",
+    decidirCancelar: "Cancel",
+    decidirCorta: "Write a brief justification.",
+    decidida: "Researcher decision",
+    decididaNoLevanta: "It is recorded; the block remains.",
+    decididaOtras: (n: number) => n === 1
+      ? "There is 1 decision from another run of this case: it does not apply to this one."
+      : `There are ${n} decisions from other runs of this case: they do not apply to this one.`,
     sourcePick: "Case",
     sourcePlaceholder: "Choose a case…",
+    evaluationPick: "Case evaluation",
+    evaluationPlaceholder: "Choose an evaluation…",
+    evaluationHint: "Choose any completed evaluation with a saved result. The most recent available is selected when you open the case.",
+    evaluationLoading: "Loading evaluations…",
+    evaluationLabel: (n: number) => `Evaluation ${n}`,
+    evaluationDate: "Evaluation date",
+    evaluationMode: "Mode",
+    evaluationSingle: "Single",
+    evaluationEnsemble: (k: number) => `Ensemble · K=${k}`,
+    evaluationModeMissing: "Mode not recorded",
+    evaluationRunning: "In progress",
+    evaluationFailed: "Failed",
+    evaluationCancelled: "Canceled",
+    evaluationNoResult: "No saved result",
+    evaluationMissing: "The selected evaluation is no longer in this case. Choose another evaluation.",
+    sourceDataPending: "Identified when auditing the evaluation",
+    sourceNotRecorded: "Not recorded for this evaluation",
     sourceRun: "Run",
     sourceReceptor: "Receptor",
     sourceLigand: "Ligand",
     sourceListError: "Cases could not be read",
     sinCorrida: "This case has no run. Evaluate a molecule before auditing its preparation.",
-    sinTerminar: "This case's latest run has not finished. Only a finished run is audited.",
+    sinTerminar: "The evaluation has not finished. Only completed evaluations can be audited.",
+    sinCompletar: "The evaluation was canceled or failed. Choose a completed evaluation or start a new one in Evaluation.",
     sinMolecula: "The run finished, but the case did not store its molecule. Open it in Evaluation to recover the result.",
     relation: {
       corresponde: "The run matches the case's current inputs.",
@@ -225,20 +322,28 @@ const copy = {
     auditing: "Auditing the run…",
     globalState: { BLOQUEADO: "Blocked", REVISION: "Review", TRANSFERIBLE: "Transferable" } as Record<EstadoPreparacion, string>,
     counts: (b: number, r: number) => `${b} essential item(s) unresolved · ${r} to review`,
+    countsRutinarias: (n: number) => ` (${n} routine)`,
+    countsDecididos: (n: number) => n === 1 ? " · 1 decided" : ` · ${n} decided`,
+    revisionDe: { caso: "Case-specific", rutinaria: "Routine only" },
+    rutinaria: "Routine",
+    blockRutinaria: "ROUTINE",
     razon: {
       BLOQUEADO: "Essential evidence is missing or an abstention is declared.",
       REVISION: "Scientific decisions remain open that the next calculation would inherit.",
+      rutinaria: "Nothing specific to this case needs review: only the reviews this route requests for every run remain. Even once resolved, transfer to an FEP calculation is not demonstrated: FEP-06 is still unsealed.",
       techo: "Every requirement has recorded data, but transfer to an FEP calculation is not demonstrated: FEP-06 is still unsealed.",
+      techoDecidido: "Every requirement has recorded data or a justified decision, but transfer to an FEP calculation is not demonstrated: FEP-06 is still unsealed.",
       TRANSFERIBLE: "Checks passed for the declared scope.",
     },
     alcance: "FEP readiness auditor in development",
     refresh: "Audit again",
     auditError: "The run could not be audited",
+    auditIdentityError: "The received audit does not match the selected evaluation.",
     legend: "POSSIBLE STATES",
     blocked: "Blocked",
     blockedDesc: "Essential evidence is missing.",
     review: "Review",
-    reviewDesc: "A scientific decision remains open.",
+    reviewDesc: "A scientific decision remains open. If only what every run of this route requests remains, it is marked as routine.",
     ready: "Transferable",
     readyDesc: "Checks passed for the declared scope. Not issued while FEP-06 is unsealed.",
     transfer: "HANDOFF PACKAGE",
@@ -273,10 +378,20 @@ function mensaje(error: unknown): string {
 }
 
 export default function PreparacionPage() {
+  const auth = useAuth();
+  return <PreparacionDelUsuario key={auth.user?.user_id ?? "invitado"} user={auth.user} isLoading={auth.isLoading} />;
+}
+
+/** La última evaluación completada del caso, con molécula: la que se abre por defecto. */
+function ultimaCompletada(record: CaseRecord): string {
+  return [...corridasDelCaso(record)].reverse()
+    .find((run) => run.executionState === "completed" && run.moleculeId)?.taskId || "";
+}
+
+function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType<typeof useAuth>, "user" | "isLoading">) {
   const { t, locale } = useLanguage();
   const c = copy[locale];
-  const { user, isLoading: authLoading } = useAuth();
-  const [expanded, setExpanded] = useState<GateId>("receptor");
+  const [expanded, setExpanded] = useState<GateId | null>("receptor");
 
   const ownerId = user?.user_id ?? null;
   const repository = useMemo(() => (ownerId ? crearRepositorioDeCasos(ownerId) : null), [ownerId]);
@@ -285,15 +400,38 @@ export default function PreparacionPage() {
   const [listError, setListError] = useState<string | null>(null);
   const [casoId, setCasoId] = useState<string>("");
   const [caso, setCaso] = useState<CaseRecord | null>(null);
-  const [corrida, setCorrida] = useState<CorridaAuditable | null>(null);
+  const [corridaId, setCorridaId] = useState("");
+  const [cargandoCaso, setCargandoCaso] = useState(false);
+  const [caseError, setCaseError] = useState<string | null>(null);
+  const seleccion = useRef("");
+  // Si la evaluación la eligió el investigador (y no la última por defecto): al volver a la pestaña se respeta.
+  const seleccionExplicita = useRef(false);
+  const lectura = useRef(0);
+  const corridas = useMemo(() => caso ? corridasDelCaso(caso) : [], [caso]);
+  const corrida = useMemo(() => caso ? corridaDelCaso(caso, corridaId || undefined) : null, [caso, corridaId]);
   const [auditoria, setAuditoria] = useState<AuditoriaPreparacion | null>(null);
   const [auditando, setAuditando] = useState(false);
   const [auditError, setAuditError] = useState<string | null>(null);
   const [intento, setIntento] = useState(0);
   const [exportando, setExportando] = useState(false);
   const [exportMsg, setExportMsg] = useState<{ ok: boolean; texto: string } | null>(null);
-  // Sólo manda la última petición: una respuesta tardía de otro caso se descarta.
+  // Sólo manda la última selección, incluso si cambia durante una descarga.
   const token = useRef(0);
+  const exportController = useRef<AbortController | null>(null);
+
+  const invalidar = useCallback(() => {
+    ++token.current;
+    exportController.current?.abort();
+    setExportando(false);
+    setExportMsg(null);
+    setAuditoria(null);
+    setAuditError(null);
+  }, []);
+
+  useEffect(() => () => {
+    ++token.current;
+    exportController.current?.abort();
+  }, []);
 
   useEffect(() => {
     if (!repository) return;
@@ -314,30 +452,76 @@ export default function PreparacionPage() {
   }, [repository]);
 
   useEffect(() => {
+    let vivo = true;
+    const mio = ++lectura.current;
+    invalidar();
+    setCaso(null);
+    setCaseError(null);
+    setCargandoCaso(Boolean(repository && casoId));
+    if (!repository || !casoId) {
+      setCorridaId("");
+      return;
+    }
+    repository.readCase(casoId).then((record) => {
+      if (!vivo || mio !== lectura.current) return;
+      // Al reauditar se conserva la elección. Abrir otro caso empieza en la
+      // última evaluación disponible, visible en el selector.
+      const elegida = seleccion.current || ultimaCompletada(record);
+      seleccion.current = elegida;
+      setCorridaId(elegida);
+      setCaso(record);
+    }).catch((error: unknown) => {
+      if (vivo && mio === lectura.current) setCaseError(mensaje(error));
+    }).finally(() => {
+      if (vivo && mio === lectura.current) setCargandoCaso(false);
+    });
+    return () => { vivo = false; };
+  }, [repository, casoId, intento, invalidar]);
+
+  // Preparación no se desmonta al cambiar de pestaña (PersistentKeepAliveLayout): conserva el caso abierto y su
+  // auditoría, que es lo caro. Al VOLVER se refresca en silencio: la lista de casos y el caso abierto. Si el caso no
+  // cambió no se toca nada (ni se repite la auditoría). Si tiene una evaluación nueva y la que se veía era la última por
+  // defecto, pasa a la nueva —el flujo de evaluar y venir a auditarla—; si el investigador había elegido otra, se respeta.
+  const activa = useKeepAliveActive();
+  const vistaAntes = useRef(activa);
+  useEffect(() => {
+    const volvio = activa && !vistaAntes.current;
+    vistaAntes.current = activa;
+    if (!volvio || !repository) return;
+    let vivo = true;
+    repository.listCases()
+      .then((lista) => { if (vivo) setCasos(lista.filter((entrada) => !entrada.archived && !entrada.unavailable)); })
+      .catch(() => { /* se queda la lista que había */ });
+    const abierto = caso;
+    if (abierto && casoId === abierto.id) {
+      const mio = lectura.current;
+      repository.readCase(casoId).then((record) => {
+        if (!vivo || mio !== lectura.current || record.updatedAt === abierto.updatedAt) return;
+        const sigue = corridasDelCaso(record).some((run) => run.taskId === seleccion.current);
+        const elegida = seleccionExplicita.current && sigue ? seleccion.current : ultimaCompletada(record) || seleccion.current;
+        seleccion.current = elegida;
+        setCorridaId(elegida);
+        setCaso(record);
+      }).catch(() => { /* se queda el caso que había */ });
+    }
+    return () => { vivo = false; };
+  }, [activa, repository, casoId, caso]);
+
+  useEffect(() => {
     const mio = ++token.current;
     setAuditoria(null);
     setAuditError(null);
-    setExportMsg(null);
-    if (!repository || !casoId) {
-      setCaso(null);
-      setCorrida(null);
-      setAuditando(false);
-      return;
-    }
+    setAuditando(false);
+    if (!caso || corrida?.kind !== "auditable") return;
     const controller = new AbortController();
     setAuditando(true);
     (async () => {
       try {
-        const record = await repository.readCase(casoId);
-        if (mio !== token.current) return;
-        const resuelta = corridaDelCaso(record);
-        setCaso(record);
-        setCorrida(resuelta);
-        if (resuelta.kind !== "auditable") return;
-        const projection = buildCaseProjection(record, resuelta.reportable, resuelta.relation);
+        const projection = buildCaseProjection({ ...caso, activeRun: corrida.run }, corrida.reportable, corrida.relation);
         const resultado = await requestPreparacion(
-          resuelta.reportable.moleculeId, projection, controller.signal,
+          corrida.reportable.moleculeId, projection, controller.signal,
         );
+        if (resultado.corrida?.task_id !== corrida.reportable.taskId) throw new Error(c.auditIdentityError);
         if (mio === token.current) setAuditoria(resultado);
       } catch (error) {
         if ((error as { name?: string } | null)?.name === "AbortError") return;
@@ -347,27 +531,131 @@ export default function PreparacionPage() {
       }
     })();
     return () => controller.abort();
-  }, [repository, casoId, intento]);
+  }, [caso, corrida, locale, c.auditIdentityError]);
 
   const exportar = useCallback(async () => {
-    if (!caso || corrida?.kind !== "auditable" || exportando) return;
+    if (!caso || corrida?.kind !== "auditable" || !auditoria || auditando || exportando) return;
+    const mio = token.current;
+    const controller = new AbortController();
+    exportController.current = controller;
     setExportando(true);
     setExportMsg(null);
     try {
-      const projection = buildCaseProjection(caso, corrida.reportable, corrida.relation);
-      const artefacto = await requestDossierPackage(corrida.reportable.moleculeId, projection);
+      const projection = buildCaseProjection({ ...caso, activeRun: corrida.run }, corrida.reportable, corrida.relation);
+      const artefacto = await requestDossierPackage(corrida.reportable.moleculeId, projection, controller.signal);
+      if (mio !== token.current || controller.signal.aborted) return;
       const nombre = artefacto.filename ?? dossierPackageFilename(caso.id, corrida.reportable.taskId);
       saveBlobAs(artefacto.blob, nombre);
       setExportMsg({ ok: true, texto: `${c.exportSaved}: ${nombre}` });
     } catch (error) {
-      setExportMsg({ ok: false, texto: `${c.exportError}: ${mensaje(error)}` });
+      if (mio === token.current && !controller.signal.aborted) setExportMsg({ ok: false, texto: `${c.exportError}: ${mensaje(error)}` });
     } finally {
-      setExportando(false);
+      if (exportController.current === controller) {
+        exportController.current = null;
+        setExportando(false);
+      }
     }
-  }, [caso, corrida, exportando, c.exportSaved, c.exportError]);
+  }, [caso, corrida, auditoria, auditando, exportando, c.exportSaved, c.exportError]);
+
+  // Moldex pide auditar una corrida guardada. Trae el `task_id`, no el caso: se busca
+  // cuál lo tiene en su libro, primero por la última corrida del índice y, si no, leyendo
+  // los casos. Si ninguno lo tiene, se dice; el caso es lo que la auditoría necesita.
+  const [desdeMoldex, setDesdeMoldex] = useState<{ buscando: boolean; sinCaso: boolean }>({
+    buscando: false, sinCaso: false,
+  });
+  useEffect(() => escucharPeticionesDePreparacion(({ taskId }) => {
+    if (!repository) return;
+    setDesdeMoldex({ buscando: true, sinCaso: false });
+    void (async () => {
+      const indice = (await repository.listCases().catch(() => [] as CaseIndexEntry[]))
+        .filter((entrada) => !entrada.unavailable);
+      const directo = indice.find((entrada) => entrada.activeRun?.taskId === taskId);
+      let encontrado = directo?.id ?? null;
+      for (const entrada of encontrado ? [] : indice) {
+        const record = await repository.readCase(entrada.id).catch(() => null);
+        if (record && corridasDelCaso(record).some((run) => run.taskId === taskId)) {
+          encontrado = entrada.id;
+          break;
+        }
+      }
+      setDesdeMoldex({ buscando: false, sinCaso: !encontrado });
+      if (!encontrado) return;
+      ++lectura.current;
+      invalidar();
+      // La corrida que pidió Moldex, no la última del caso.
+      seleccion.current = taskId;
+      seleccionExplicita.current = true;
+      setCorridaId(taskId);
+      setCaso(null);
+      setCasoId(encontrado);
+    })();
+  }), [repository, invalidar]);
+
+  const cambiarCaso = (id: string) => {
+    ++lectura.current;
+    invalidar();
+    seleccion.current = "";
+    seleccionExplicita.current = false;
+    setCorridaId("");
+    setCaso(null);
+    setCasoId(id);
+  };
+  const cambiarCorrida = (id: string) => {
+    invalidar();
+    seleccion.current = id;
+    seleccionExplicita.current = true;
+    setCorridaId(id);
+  };
+  const fecha = (iso: string) => {
+    const date = new Date(iso);
+    return Number.isFinite(date.getTime())
+      ? new Intl.DateTimeFormat(locale, { dateStyle: "short", timeStyle: "short" }).format(date)
+      : c.sourceNotRecorded;
+  };
+  const fechaCorrida = (run: CaseRun) => fecha(run.startedAt);
+  const modoCorrida = (run: CaseRun) => !run.protocol ? c.evaluationModeMissing
+    : run.protocol.conformers > 1 ? c.evaluationEnsemble(run.protocol.conformers) : c.evaluationSingle;
+  const motivoCorrida = (run: CaseRun) => run.executionState === "failed" ? c.evaluationFailed
+    : run.executionState === "cancelled" ? c.evaluationCancelled
+      : run.executionState !== "completed" ? c.evaluationRunning
+        : !run.moleculeId ? c.evaluationNoResult : null;
+
+  // Una decisión abierta: la clave del requisito, el texto y el error del último intento.
+  const [decidiendo, setDecidiendo] = useState<{ clave: string; texto: string; error: string | null } | null>(null);
+  const [guardandoDecision, setGuardandoDecision] = useState(false);
+
+  const registrarDecision = useCallback(async (clave: string, justificacion: string) => {
+    const huella = auditoria?.huella_de_decision;
+    if (!repository || !casoId || !huella) return;
+    if (justificacion.trim().length < 3) {
+      setDecidiendo((abierta) => (abierta ? { ...abierta, error: c.decidirCorta } : abierta));
+      return;
+    }
+    setGuardandoDecision(true);
+    try {
+      const actualizado = await anotarDecision(repository, casoId, {
+        controlCode: `preparacion:${clave}`,
+        fingerprint: huella,
+        note: justificacion.trim(),
+      });
+      setDecidiendo(null);
+      // El caso nuevo vuelve a auditarse: la decisión viaja en la proyección.
+      setCaso(actualizado);
+    } catch (error: unknown) {
+      const detalle = mensaje(error);
+      setDecidiendo((abierta) => (abierta ? { ...abierta, error: detalle } : abierta));
+    } finally {
+      setGuardandoDecision(false);
+    }
+  }, [repository, casoId, auditoria?.huella_de_decision, c.decidirCorta]);
 
   const bloque = (id: GateId) => auditoria?.bloques.find((b) => b.id === id) ?? null;
   const nombreRequisito = (r: RequisitoPreparacion) => requisitos[r.clave]?.[locale] ?? r.etiqueta;
+  /** Se decide sobre lo que está abierto, no sobre lo que ya tiene dato ni sobre lo ya decidido. */
+  const decidible = (r: RequisitoPreparacion) => Boolean(
+    auditoria?.huella_de_decision && repository && !r.decision
+    && (auditoria.bloqueantes.includes(r.clave) || auditoria.en_revision.includes(r.clave)),
+  );
   const colorRequisito = (r: RequisitoPreparacion) =>
     auditoria?.bloqueantes.includes(r.clave)
       ? "var(--categoria-refutacion)"
@@ -379,16 +667,23 @@ export default function PreparacionPage() {
 
   /** La frase del backend, por estado; la de techo cuando no queda nada pendiente. */
   const razonGlobal = (a: AuditoriaPreparacion) =>
+    a.bloqueantes.includes("receptor.huecos") ? t("pe_hueco_estado") :
     a.estado === "REVISION" && a.en_revision.length === 0 && a.bloqueantes.length === 0
-      ? c.razon.techo
+      ? (a.decididos?.length ? c.razon.techoDecidido : c.razon.techo)
+      : a.estado === "REVISION" && a.solo_rutinaria ? c.razon.rutinaria
       : c.razon[a.estado];
+  /** Lo rutinario sigue abierto: se nombra aparte, no se esconde. */
+  const rutinariaAbierta = (r: RequisitoPreparacion) =>
+    Boolean(r.rutinaria && auditoria?.en_revision_rutinaria?.includes(r.clave));
 
   const motivoNoAuditable =
-    corrida?.kind === "sin_corrida" ? c.sinCorrida
+    corrida?.kind === "corrida_no_encontrada" ? c.evaluationMissing
+      : corrida?.kind === "sin_corrida" ? c.sinCorrida
       : corrida?.kind === "sin_terminar" ? c.sinTerminar
-        : corrida?.kind === "sin_molecula" ? c.sinMolecula
+        : corrida?.kind === "sin_completar" ? c.sinCompletar
+          : corrida?.kind === "sin_molecula" ? c.sinMolecula
           : null;
-  const puedeExportar = Boolean(auditoria && corrida?.kind === "auditable" && !exportando);
+  const puedeExportar = Boolean(auditoria && corrida?.kind === "auditable" && !auditando && !cargandoCaso && !exportando);
 
   return (
     <main className="min-h-[calc(100dvh-56px)] bg-[var(--bg)] px-4 pb-16 pt-8 text-[var(--text)] sm:px-7 lg:px-10">
@@ -403,7 +698,7 @@ export default function PreparacionPage() {
         </header>
 
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(235px,0.8fr)_minmax(360px,1.45fr)_minmax(250px,0.9fr)]">
-          <section aria-labelledby="prep-source-title" className="border border-[var(--border)] bg-[var(--bg-card)]">
+          <section aria-labelledby="prep-source-title" className="min-w-0 border border-[var(--border)] bg-[var(--bg-card)]">
             <div className="border-b border-[var(--border)] p-5">
               <p className="font-mono text-[10px] tracking-[0.18em] text-[var(--accent-strong)]">{c.source}</p>
               <h2 id="prep-source-title" className="mt-2 font-display text-xl font-bold">{c.sourceTitle}</h2>
@@ -425,8 +720,8 @@ export default function PreparacionPage() {
                   <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.sourcePick}</span>
                   <select
                     value={casoId}
-                    onChange={(event) => setCasoId(event.target.value)}
-                    className="mt-2 w-full cursor-pointer border border-[var(--border-light)] bg-[var(--bg-secondary)] px-3 py-2.5 text-sm text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
+                    onChange={(event) => cambiarCaso(event.target.value)}
+                    className="mt-2 min-h-11 w-full cursor-pointer border border-[var(--border-light)] bg-[var(--bg-secondary)] px-3 py-2.5 text-sm text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
                   >
                     <option value="">{c.sourcePlaceholder}</option>
                     {casos.map((entrada) => <option key={entrada.id} value={entrada.id}>{entrada.name}</option>)}
@@ -434,14 +729,41 @@ export default function PreparacionPage() {
                 </label>
               )}
 
+              {casoId && (
+                <div className="mt-5" aria-busy={cargandoCaso}>
+                  <EvaluationSelect
+                    key={`${casoId}:${cargandoCaso}`}
+                    id="prep-evaluation"
+                    label={c.evaluationPick}
+                    hintId="prep-evaluation-hint"
+                    value={corridaId}
+                    onChange={cambiarCorrida}
+                    disabled={cargandoCaso || !caso || corridas.length === 0}
+                    placeholder={cargandoCaso ? c.evaluationLoading : corridaId ? c.evaluationMissing : c.evaluationPlaceholder}
+                    options={corridas.map((run, index) => ({
+                      value: run.taskId,
+                      summary: `${c.evaluationLabel(index + 1)} · ${fechaCorrida(run)}`,
+                      mode: modoCorrida(run),
+                      disabledReason: motivoCorrida(run),
+                    })).reverse()}
+                  />
+                  <p id="prep-evaluation-hint" className="mt-2 text-xs leading-5 text-[var(--text-muted)]">{c.evaluationHint}</p>
+                  {cargandoCaso && <p role="status" className="mt-3 flex items-center gap-2 text-xs text-[var(--text-muted)]"><LoaderCircle aria-hidden="true" size={14} className="animate-spin motion-reduce:animate-none" />{c.evaluationLoading}</p>}
+                </div>
+              )}
+
               {caso && corrida?.kind === "auditable" ? (
-                <dl className="mt-5 space-y-3 border-t border-[var(--border)] pt-4 text-xs">
-                  <div><dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.sourceReceptor}</dt><dd className="mt-1 font-semibold">{caso.inputs?.receptor ? `${caso.inputs.receptor.pdbId}${caso.inputs.receptor.chain ? ` · ${caso.inputs.receptor.chain}` : ""}` : "—"}</dd></div>
-                  <div><dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.sourceLigand}</dt><dd className="mt-1 break-all font-mono text-[11px] leading-5">{caso.inputs?.ligand?.inputSmiles ?? "—"}</dd></div>
+                <div className="mt-5 border-t border-[var(--border)] pt-4 text-xs">
+                <dl className="space-y-3">
+                  <div><dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.evaluationDate}</dt><dd className="mt-1">{fechaCorrida(corrida.run)}</dd></div>
+                  <div><dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.evaluationMode}</dt><dd className="mt-1">{modoCorrida(corrida.run)}</dd></div>
+                  <div><dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.sourceReceptor}</dt><dd className="mt-1 break-words font-semibold">{auditoria?.corrida.target || c.sourceDataPending}</dd></div>
+                  <div><dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.sourceLigand}</dt><dd className="mt-1 break-all font-mono text-[11px] leading-5">{corrida.run.ligandSmiles ?? (corrida.relation === "corresponde" ? caso.inputs?.ligand?.inputSmiles : undefined) ?? c.sourceNotRecorded}</dd></div>
                   <div><dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-[var(--text-dim)]">{c.sourceRun}</dt><dd className="mt-1 break-all font-mono text-[11px]">{corrida.reportable.taskId}</dd></div>
-                  <p className="leading-5" style={{ color: corrida.relation === "corresponde" ? "var(--text-muted)" : "var(--categoria-corrigendum)" }}>{c.relation[corrida.relation]}</p>
                 </dl>
-              ) : (
+                <p className="mt-3 leading-5" style={{ color: corrida.relation === "corresponde" ? "var(--text-muted)" : "var(--categoria-corrigendum)" }}>{c.relation[corrida.relation]}</p>
+                </div>
+              ) : !cargandoCaso && (
                 <>
                   <div className="mt-5 flex h-40 flex-col items-center justify-center border border-dashed border-[var(--border-light)] bg-[var(--bg-secondary)] p-4 text-center">
                     <SquareDashed size={25} className="text-[var(--accent-strong)]" />
@@ -450,13 +772,16 @@ export default function PreparacionPage() {
                   {!motivoNoAuditable && <p className="mt-5 text-xs leading-6 text-[var(--text-muted)]">{c.sourceDetail}</p>}
                 </>
               )}
-              <div className="mt-6 flex items-center gap-2 border-t border-[var(--border)] pt-4 font-mono text-[10px] leading-5 text-[var(--text-dim)]"><LockKeyhole size={15} className="shrink-0" />{c.sourceAction}</div>
+              <div className="mt-6 flex items-center gap-2 border-t border-[var(--border)] pt-4 font-mono text-[10px] leading-5 text-[var(--text-dim)]"><LockKeyhole aria-hidden="true" size={15} className="shrink-0" />{t("pe_ultima_completada")}</div>
             </div>
           </section>
 
           <section aria-labelledby="prep-board-title" className="min-w-0">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div><p className="font-mono text-[10px] tracking-[0.18em] text-[var(--accent-strong)]">{c.board}</p><h2 id="prep-board-title" className="mt-2 font-display text-2xl font-bold">{c.boardTitle}</h2></div>
+              {desdeMoldex.buscando && <p role="status" className="mb-3 text-xs text-[var(--text-muted)]">{c.desdeMoldexBuscando}</p>}
+              {desdeMoldex.sinCaso && <p role="status" className="mb-3 text-xs leading-5 text-[var(--categoria-corrigendum)]">{c.desdeMoldexSinCaso}</p>}
+              {auditoria && <InsigniaDeCorridaGuardada pdbId={auditoria.corrida?.pdb_id ?? auditoria.corrida?.target?.split(" · ")[0] ?? caso?.structuralSystem?.receptor.pdbId ?? caso?.inputs?.receptor?.pdbId} moleculeId={auditoria.corrida?.molecule_id} taskId={auditoria.corrida?.task_id} />}
               <p className="max-w-[225px] text-xs leading-5 text-[var(--text-dim)]">{c.boardHint}</p>
             </div>
             <div className="mt-5 border-t border-[var(--border)]">
@@ -467,13 +792,16 @@ export default function PreparacionPage() {
                 const datos = bloque(id);
                 return (
                   <div key={id} className="border-b border-[var(--border)]">
-                    <button type="button" aria-expanded={isOpen} aria-controls={`prep-details-${id}`} onClick={() => setExpanded(id)} className="group flex w-full cursor-pointer items-start gap-4 py-5 text-left transition-colors hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] active:bg-[var(--bg-card)]">
+                    <button type="button" aria-expanded={isOpen} aria-controls={`prep-details-${id}`} onClick={() => setExpanded(current => current === id ? null : id)} className="group flex w-full cursor-pointer items-start gap-4 py-5 text-left transition-colors hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)] active:bg-[var(--bg-card)]">
                       <span className="mt-0.5 font-mono text-[11px] text-[var(--text-dim)]">{item.number}</span>
                       <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center border border-[var(--border-light)] text-[var(--accent-strong)]"><Icon size={17} /></span>
                       <span className="min-w-0 flex-1"><span className="block text-sm font-bold">{item[locale].name}</span><span className="mt-1 block text-xs leading-5 text-[var(--text-muted)]">{item[locale].summary}</span></span>
                       <span className="flex shrink-0 items-center gap-2">
                         {datos ? (
-                          <span className="font-mono text-[9px] font-bold tracking-[0.08em]" style={{ color: colorEstadoBloque[datos.estado] }}>{c.blockState[datos.estado]}</span>
+                          <span className="font-mono text-[9px] font-bold tracking-[0.08em]" style={{ color: colorEstadoBloque[datos.estado] }}>
+                            {c.blockState[datos.estado]}
+                            {datos.estado === "REVISION" && datos.solo_rutinaria && <span className="text-[var(--text-dim)]"> · {c.blockRutinaria}</span>}
+                          </span>
                         ) : (
                           <span className="hidden font-mono text-[9px] tracking-[0.08em] text-[var(--text-dim)] sm:block">{c.unevaluated}</span>
                         )}
@@ -486,16 +814,74 @@ export default function PreparacionPage() {
                           {datos.requisitos.map((r) => {
                             const valor = valorVisible(r);
                             const color = colorRequisito(r);
+                            const rutinaria = rutinariaAbierta(r);
                             return (
                               <li key={r.clave} className="flex items-start gap-3 text-xs leading-5">
-                                <span className="mt-1.5 size-2 shrink-0 rounded-full" style={{ backgroundColor: color }} />
+                                {/* Rutinaria: anillo en vez de punto. Sigue abierta, pero no dice nada de este caso. */}
+                                <span className="mt-1.5 size-2 shrink-0 rounded-full" style={rutinaria ? { border: `1.5px solid ${color}` } : { backgroundColor: color }} />
                                 <div className="min-w-0 flex-1">
                                   <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
                                     <span className="font-semibold text-[var(--text-secondary)]">{nombreRequisito(r)}{r.imprescindible && <span className="ml-2 font-mono text-[9px] uppercase tracking-[0.08em] text-[var(--text-dim)]">{c.essential}</span>}</span>
-                                    <span className="font-mono text-[9px] font-bold tracking-[0.08em]" style={{ color }}>{estadosCampo[r.estado][locale]}</span>
+                                    <span className="font-mono text-[9px] font-bold tracking-[0.08em]" style={{ color }}>
+                                      {estadosCampo[r.estado][locale]}
+                                      {rutinaria && <span className="text-[var(--text-dim)]"> · {c.blockRutinaria}</span>}
+                                    </span>
                                   </div>
                                   {valor && <p className="mt-1 break-words text-[var(--text)] [overflow-wrap:anywhere]">{valor}</p>}
                                   {r.razon && <p className="mt-1 text-[var(--text-muted)]">{r.razon}</p>}
+                                  {rutinaria && r.rutinaria && <p className="mt-1 text-[var(--text-dim)]"><span className="font-semibold">{c.rutinaria}.</span> {r.rutinaria.motivo}</p>}
+                                  {r.accion_recomendada && <div className="mt-2 border-l-2 border-[var(--accent-strong)] pl-3">
+                                    <p className="font-semibold">{t("pe_accion")}</p>
+                                    <p>{r.accion_recomendada}</p>
+                                    {/* El tautómero se corrige volviendo a evaluar. Con la acción en datos, el enlace abre ESTE caso en
+                                        Evaluación con el ligando y el modo ya puestos; sin ella, sólo lleva a la pestaña. */}
+                                    {r.clave === "ligando.tautomero" && (r.reevaluar?.length && caso
+                                      ? <div className="mt-1 flex flex-col items-start gap-1">
+                                          {r.reevaluar.map((opcion) => (
+                                            // La petición se deja al pulsar y el enlace navega: Evaluación abre el caso y pone el ligando y el modo.
+                                            <Link key={opcion.smiles} href="/evaluation"
+                                              onClick={() => pedirEvaluacion({ casoId: caso.id, tautomero: opcion.tautomero, smiles: opcion.smiles })}
+                                              className="inline-flex max-w-full items-center gap-1.5 text-left font-semibold text-[var(--accent-strong)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]">
+                                              <span className="min-w-0">{c.reevaluarCon} <span className="break-all font-mono font-normal">{opcion.smiles}</span></span>
+                                              <ArrowRight aria-hidden="true" size={13} className="shrink-0" />
+                                            </Link>
+                                          ))}
+                                        </div>
+                                      : <Link href="/evaluation" className="mt-1 inline-flex items-center gap-1.5 font-semibold text-[var(--accent-strong)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]">{c.sourceGo}<ArrowRight aria-hidden="true" size={13} /></Link>)}
+                                  </div>}
+                                  {/* Una decisión justificada resuelve lo que pedía revisión; sobre un bloqueo queda escrita
+                                      y no lo levanta (lo decide el backend con `resuelve`). */}
+                                  {r.decision && <div className="mt-2 border-l-2 border-[var(--text-dim)] pl-3">
+                                    <p className="font-semibold">{c.decidida}{r.decision.registrada && <span className="ml-2 font-normal text-[var(--text-dim)]">{fecha(r.decision.registrada)}</span>}</p>
+                                    <p className="[overflow-wrap:anywhere]">{r.decision.justificacion}</p>
+                                    {!r.decision.resuelve && <p className="text-[var(--text-dim)]">{c.decididaNoLevanta}</p>}
+                                  </div>}
+                                  {decidible(r) && (decidiendo?.clave === r.clave
+                                    ? <div className="mt-2 border-l-2 border-[var(--accent-strong)] pl-3">
+                                        <label className="block">
+                                          <span className="font-semibold">{c.decidirEtiqueta}</span>
+                                          <textarea className="mt-1 block w-full border border-[var(--border-light)] bg-[var(--bg-secondary)] p-2 text-xs text-[var(--text)]"
+                                            rows={3} value={decidiendo.texto} autoFocus
+                                            aria-label={`${c.decidirEtiqueta}: ${nombreRequisito(r)}`}
+                                            placeholder={c.decidirEjemplo}
+                                            onChange={(e) => setDecidiendo({ clave: r.clave, texto: e.target.value, error: null })} />
+                                        </label>
+                                        <p className="mt-1 text-[var(--text-dim)]">{c.decidirAyuda}</p>
+                                        {decidiendo.error && <p role="alert" className="mt-1 text-[var(--categoria-refutacion)]">{decidiendo.error}</p>}
+                                        <div className="mt-2 flex flex-wrap gap-3">
+                                          <button type="button" disabled={guardandoDecision}
+                                            className="font-semibold text-[var(--accent-strong)] hover:underline disabled:opacity-50"
+                                            onClick={() => void registrarDecision(r.clave, decidiendo.texto)}>{c.decidirGuardar}</button>
+                                          <button type="button" disabled={guardandoDecision}
+                                            className="text-[var(--text-dim)] hover:underline disabled:opacity-50"
+                                            onClick={() => setDecidiendo(null)}>{c.decidirCancelar}</button>
+                                        </div>
+                                      </div>
+                                    : <button type="button"
+                                        className="mt-2 font-semibold text-[var(--accent-strong)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-strong)]"
+                                        onClick={() => setDecidiendo({ clave: r.clave, texto: "", error: null })}>
+                                        {auditoria?.bloqueantes.includes(r.clave) ? c.decidirBloqueante : c.decidir}
+                                      </button>)}
                                   <p className="mt-1 break-all font-mono text-[10px] text-[var(--text-dim)]">{c.source_}: {r.fuente}</p>
                                 </div>
                               </li>
@@ -519,17 +905,34 @@ export default function PreparacionPage() {
               <p className="font-mono text-[10px] tracking-[0.18em] text-[var(--accent-strong)]">{c.status}</p>
               {auditoria ? (
                 <>
-                  <div className="mt-5 flex items-center gap-3"><ShieldAlert size={22} className="shrink-0" style={{ color: colorEstadoGlobal[auditoria.estado] }} /><h2 className="font-display text-lg font-bold" style={{ color: colorEstadoGlobal[auditoria.estado] }}>{c.globalState[auditoria.estado]}</h2></div>
+                  <div className="mt-5 flex flex-wrap items-center gap-3">
+                    <ShieldAlert size={22} className="shrink-0" style={{ color: colorEstadoGlobal[auditoria.estado] }} />
+                    <h2 className="font-display text-lg font-bold" style={{ color: colorEstadoGlobal[auditoria.estado] }}>{c.globalState[auditoria.estado]}</h2>
+                    {/* Sin esto, «Revisión» salía igual con un tautómero abierto que sin nada propio del caso. */}
+                    {auditoria.estado === "REVISION" && auditoria.en_revision.length > 0 && (
+                      <span className="border border-[var(--border-light)] px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] text-[var(--text-secondary)]">
+                        {auditoria.solo_rutinaria ? c.revisionDe.rutinaria : c.revisionDe.caso}
+                      </span>
+                    )}
+                  </div>
                   <p className="mt-4 text-xs leading-6 text-[var(--text-secondary)]">{razonGlobal(auditoria)}</p>
-                  <p className="mt-3 font-mono text-[10px] leading-5 text-[var(--text-dim)]">{c.counts(auditoria.bloqueantes.length, auditoria.en_revision.length)}</p>
+                  <p className="mt-3 font-mono text-[10px] leading-5 text-[var(--text-dim)]">
+                    {c.counts(auditoria.bloqueantes.length, auditoria.en_revision.length)}
+                    {auditoria.en_revision_rutinaria?.length ? c.countsRutinarias(auditoria.en_revision_rutinaria.length) : null}
+                    {auditoria.decididos?.length ? c.countsDecididos(auditoria.decididos.length) : null}
+                  </p>
+                  {/* Una decisión se registra sobre UNA corrida: si el caso tiene otras, se dice en vez de aplicarlas. */}
+                  {auditoria.decisiones_de_otras_corridas ? (
+                    <p className="mt-2 text-[11px] leading-5 text-[var(--text-muted)]">{c.decididaOtras(auditoria.decisiones_de_otras_corridas)}</p>
+                  ) : null}
                   <p className="mt-3 border-t border-[var(--border)] pt-3 text-[11px] leading-5 text-[var(--text-muted)]">{c.alcance}</p>
                   <button type="button" onClick={() => setIntento((n) => n + 1)} disabled={auditando} className="mt-4 inline-flex cursor-pointer items-center gap-1.5 text-xs font-semibold text-[var(--accent-strong)] hover:underline disabled:cursor-not-allowed disabled:opacity-60"><RefreshCw size={13} />{c.refresh}</button>
                 </>
-              ) : auditando ? (
+              ) : auditando || cargandoCaso ? (
                 <p className="mt-5 flex items-center gap-2 text-xs text-[var(--text-muted)]"><LoaderCircle size={15} className="animate-spin" />{c.auditing}</p>
-              ) : auditError ? (
+              ) : auditError || caseError ? (
                 <>
-                  <p role="alert" className="mt-5 text-xs leading-6 text-[var(--categoria-refutacion)]">{c.auditError}: {auditError}</p>
+                  <p role="alert" className="mt-5 text-xs leading-6 text-[var(--categoria-refutacion)]">{c.auditError}: {auditError ?? caseError}</p>
                   <button type="button" onClick={() => setIntento((n) => n + 1)} className="mt-3 inline-flex cursor-pointer items-center gap-1.5 text-xs font-semibold text-[var(--accent-strong)] hover:underline"><RefreshCw size={13} />{c.refresh}</button>
                 </>
               ) : (
@@ -543,7 +946,7 @@ export default function PreparacionPage() {
               <h2 className="font-mono text-[10px] tracking-[0.18em] text-[var(--text-dim)]">{c.legend}</h2>
               <dl className="mt-5 space-y-4">
                 {([
-                  { name: c.blocked, desc: c.blockedDesc, color: "var(--categoria-refutacion)" },
+                  { name: c.blocked, desc: t("pe_bloqueado_desc"), color: "var(--categoria-refutacion)" },
                   { name: c.review, desc: c.reviewDesc, color: "var(--categoria-corrigendum)" },
                   { name: c.ready, desc: c.readyDesc, color: "var(--categoria-hallazgo)" },
                 ]).map((item) => <div key={item.name} className="flex gap-3"><span className="mt-1 size-2 shrink-0 rounded-full" style={{ backgroundColor: item.color }} /><div><dt className="text-xs font-bold">{item.name}</dt><dd className="mt-1 text-xs leading-5 text-[var(--text-muted)]">{item.desc}</dd></div></div>)}

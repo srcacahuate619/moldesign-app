@@ -1,0 +1,5 @@
+
+> moldesign-frontend@1.0.1 check:no-remote-assets
+> node scripts/check-no-remote-assets.js
+
+[check-no-remote-assets] 18 archivos CSS/HTML revisados: ningun recurso remoto.

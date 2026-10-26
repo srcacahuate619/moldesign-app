@@ -1,0 +1,6 @@
+{
+  "commit": "32e552ebe823d8e289582102d52424bce3cd6d4a",
+  "protocol_sha256": "5383ba76b97b34425ac0970cd074b845945452f191ac60ce6e4eff8a041682e5",
+  "product_commit": "f0e6408668fa8ecbecb417cf39621928fdfee886",
+  "scope": "Committed before the first Vina attempt; gate and ligand states unchanged at closure."
+}

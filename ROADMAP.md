@@ -46,6 +46,12 @@ como hace VS Code, Battle.net o Riot Games.
 
 ## Fases
 
+> **Estado comprobado en el árbol el 2026-10-20 (auditoría científica, SCI-A-065).** Las
+> casillas marcadas existen en el código; la ruta va al lado. Las fases 1 y 6 (Hugging
+> Face, `.pak`, CI de publicación) no se pueden comprobar desde el árbol y quedan sin
+> marcar; el runtime base sí se publica en Hugging Face (`scripts/deploy-hf.py`), pero no
+> con el formato `.pak` de este plan. Los costes son una proyección, no una medida.
+
 ### Fase 1 — Pesar la distribución
 - [ ] Subir modelos a Hugging Face
 - [ ] Crear `manifest.json` (versión, checksums SHA-256, URLs)
@@ -53,25 +59,25 @@ como hace VS Code, Battle.net o Riot Games.
 - [ ] Compilar installer liviano (~2.5 GB raw → ~1.8 GB LZMA2)
 
 ### Fase 2 — Módulo de descarga nativo (Rust)
-- [ ] Comando `download_model` en `lib.rs` con reqwest streaming
-- [ ] Eventos `download:progress` y `download:complete`
-- [ ] Reanudación automática (Range headers + .part files)
-- [ ] Verificación SHA-256 post-descarga
+- [x] Comando `download_model` con reqwest streaming (`src-tauri/src/downloader.rs`, no `lib.rs`)
+- [x] Eventos `download:progress` y `download:complete` (`downloader.rs`)
+- [x] Reanudación (cabecera `Range` + archivo `.part`, `downloader.rs`)
+- [x] Verificación SHA-256 post-descarga (`verify_sha256`, `downloader.rs`)
 
 ### Fase 3 — Estado global de descarga (frontend)
-- [ ] `DownloadProvider.tsx` — estado `missing|downloading|ready`
-- [ ] `checkModels()` — escanea FS vía Tauri API
-- [ ] `startDownload()` / `pauseDownload()` / `verifyModels()`
+- [x] `DownloadProvider.tsx` — montado en `app/layout.tsx`
+- [x] Escaneo del disco vía Tauri — existe como `checkModules()` (`file_exists`, `verify_model`)
+- [x] `startDownload()` y `cancelDownload()`; no hay `pauseDownload()`: se cancela y se reanuda desde el `.part`. La verificación va dentro de `checkModules()`
 
 ### Fase 4 — UI del Launcher
-- [ ] `LauncherScreen.tsx` — layout principal tipo Riot
-- [ ] `DownloadCard.tsx` — barra de progreso + velocidad + pausa
-- [ ] `PlayButton.tsx` — habilitado solo al 100%
-- [ ] `ModelSettings.tsx` — panel de gestión en Settings
+- [x] `LauncherScreen.tsx` — en `app/launcher/page.tsx`
+- [x] `DownloadCard.tsx` — barra de progreso (sin pausa: cancelar y reanudar)
+- [ ] `PlayButton.tsx` — no existe con ese nombre
+- [ ] `ModelSettings.tsx` — no existe con ese nombre
 
 ### Fase 5 — Guards en páginas existentes
-- [ ] `RequireModel` wrapper — muestra blocker si falta el modelo
-- [ ] Aplicar a `/evaluacion` (requiere ESMFold)
+- [x] `RequireModel` wrapper — existe (`components/RequireModel.tsx`) y tiene prueba, **pero no lo monta ninguna página**
+- [ ] Aplicar a `/evaluacion` (requiere ESMFold) — sin aplicar; ESMFold se enciende al empezar la corrida
 - [ ] Aplicar a `/batch` (requiere LLM)
 - [ ] Aplicar a `/molchat` (requiere LLM)
 

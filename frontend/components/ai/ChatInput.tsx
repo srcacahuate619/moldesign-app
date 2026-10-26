@@ -109,7 +109,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
               animation: "blink 0.8s step-end infinite",
             }}
           />
-          Escuchando...{" "}
+          {t("ia_chat_listening")} {" "}
           <span style={{ color: "var(--text-dim)" }}>
             {t("auto_98a41efc81b2")}
           </span>
@@ -157,10 +157,10 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
           onKeyDown={handleKeyDown}
           placeholder={
             isListening
-              ? "Escuchando..."
+              ? t("ia_chat_listening")
               : isStreaming
               ? t("auto_6be8b77110ff")
-              : "Pregunta a MolChat..."
+              : t("ia_chat_ask_molchat")
           }
           rows={1}
           disabled={disabled || isListening}
@@ -207,7 +207,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
                 ? isListening
                   ? t("auto_b6ade7ce617a")
                   : t("auto_1416d9865ffd")
-                : "Dictado no disponible"
+                : t("ia_chat_dictation_unavailable_short")
             }
             aria-describedby={!isSupported ? "dictado-no-disponible" : undefined}
             style={{
@@ -238,7 +238,7 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
         {isStreaming ? (
           <button
             onClick={onStop}
-            title="Detener"
+            title={t("ia_chat_stop")}
             style={{
               background: "var(--accent)",
               color: "#fff",
@@ -260,8 +260,8 @@ export function ChatInput({ onSend, onStop, isStreaming, disabled }: Props) {
             type="button"
             onClick={() => void handleSubmit()}
             disabled={!canSend}
-            title="Enviar"
-            aria-label="Enviar mensaje"
+            title={t("ia_chat_send")}
+            aria-label={t("ia_chat_send_message")}
             style={{
               background: canSend
                 ? "var(--accent)"

@@ -62,6 +62,14 @@ use windows_sys::Win32::System::JobObjects::{
 pub const PORT_RANGE_START: u16 = 8000;
 pub const PORT_RANGE_END: u16 = 8020;
 
+// Rust fija esta autoridad al iniciar la app. La webview no puede elegir una
+// ruta de escritura para el backend pasando un directorio en una petición.
+static CASE_REGISTRY_PATH: OnceLock<Option<PathBuf>> = OnceLock::new();
+
+pub fn configure_case_registry(path: Option<PathBuf>) {
+    let _ = CASE_REGISTRY_PATH.set(path);
+}
+
 // Presupuesto del probe de salud. Un arranque frío comparte CPU y disco con la
 // compilación de Next y la carga inicial de RDKit/ML; en la máquina de prueba
 // se midieron más de 30 s antes del primer byte de log. El estado `Starting`
@@ -260,6 +268,13 @@ pub struct RuntimeLayout {
     /// instalador, así que su ausencia es una instalación dañada y no una
     /// función opcional. Ver `docs/79_ADR_FRONTERA_OPEN_BABEL.md`.
     pub openbabel_dir: PathBuf,
+    /// El motor Molcy, programa independiente GPL-3.0-or-later que se ejecuta
+    /// dentro de Blender. A diferencia de Open Babel NO se exige para arrancar:
+    /// Molcy es una función opcional (Beta) y el backend verifica el motor contra
+    /// su manifiesto antes de usarlo, así que una carpeta ausente o alterada se
+    /// declara en pantalla en vez de impedir abrir la aplicación. Ver
+    /// `docs/95_ADR_MOTOR_MOLCY_EN_EL_INSTALADOR.md`.
+    pub molcy_dir: PathBuf,
     /// Dónde se escriben los logs del backend.
     pub log_dir: PathBuf,
     /// Para el log: de qué árbol salió esto.
@@ -329,6 +344,7 @@ pub fn dev_layout(repo_root: &Path) -> Result<RuntimeLayout, String> {
         backend_dir,
         vina_exe,
         openbabel_dir,
+        molcy_dir: repo_root.join("tools").join("molcy"),
         log_dir: repo_root.join("logs"),
         kind: "desarrollo (árbol vivo del repositorio)",
     })
@@ -374,6 +390,7 @@ fn bundled_layout_with_log_dir(
         backend_dir,
         vina_exe,
         openbabel_dir,
+        molcy_dir: resource_dir.join("tools").join("molcy"),
         log_dir,
         kind: "instalado (recursos empaquetados)",
     })
@@ -671,6 +688,21 @@ fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, Stri
     .arg(&layout.backend_dir)
     .current_dir(&layout.backend_dir)
     .env("APP_MODE", "DESKTOP")
+    .env(
+        "MOLDESIGN_INSTALL_DIR",
+        if cfg!(debug_assertions) {
+            layout
+                .backend_dir
+                .parent()
+                .unwrap_or(&layout.backend_dir)
+                .to_path_buf()
+        } else {
+            std::env::current_exe()
+                .ok()
+                .and_then(|p| p.parent().map(|p| p.to_path_buf()))
+                .ok_or_else(|| "No se pudo resolver la instalación de MolDesign".to_string())?
+        },
+    )
     .env("MOLDESIGN_LAUNCH_TOKEN", &launch_token)
     .env("ENVIRONMENT", "production")
     .env("PYTHONPATH", &layout.backend_dir)
@@ -703,7 +735,21 @@ fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, Stri
     // ajeno del equipo del usuario produciría un resultado que el informe
     // atribuiría a la versión y al hash declarados en el manifiesto.
     .env("MOLDESIGN_OPENBABEL_DIR", &layout.openbabel_dir)
+    // El motor Molcy viaja en `tools/molcy`. Es sólo un lugar donde mirar: el
+    // backend lo ejecuta únicamente si coincide con su manifiesto.
+    .env("MOLDESIGN_MOLCY_DIR", &layout.molcy_dir)
     .env("TABPFN_NO_BROWSER", "true");
+
+    cmd.env_remove("MOLDESIGN_CASE_REGISTRY");
+    cmd.env_remove("MOLDESIGN_MOLCY_OUTPUTS");
+    if let Some(Some(path)) = CASE_REGISTRY_PATH.get() {
+        cmd.env("MOLDESIGN_CASE_REGISTRY", path);
+        // Carpetas de salida de Molcy que la persona eligió con el selector nativo: el backend sólo las lee.
+        cmd.env(
+            "MOLDESIGN_MOLCY_OUTPUTS",
+            crate::salidas::outputs_path(path),
+        );
+    }
 
     if let Some(file) = log_file {
         if let Ok(clone) = file.try_clone() {

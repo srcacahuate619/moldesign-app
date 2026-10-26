@@ -1,0 +1,172 @@
+{
+  "SIN": {
+    "state": "PREPARED",
+    "target": {
+      "id": "20976173-35d7-4884-a712-369a56c2213f",
+      "pdb_id": "USR_3B6895",
+      "name": "MET01R1-confirmatory-3QXX-SIN",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Helicobacter Pylori",
+      "resolution": 1.36,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 64
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "GDP",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 13.87,
+      "grid_center_y": -31.22,
+      "grid_center_z": -23.2,
+      "grid_size_x": 29.3,
+      "grid_size_y": 29.3,
+      "grid_size_z": 29.3,
+      "cofactors_whitelist": [],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "fbe8168c-7227-45ce-907a-4a4cff183e20",
+      "receptor_source_sha256": "109b43a4a24f52015565b15148008a11ff5b7f1de951e3b815f4dc239e161ed1",
+      "prepared_receptor_sha256": "fbe0564c7050a515ad2153dc171f0c68cfe23b1b6eac279df9f22ae7adc0f542",
+      "preparation_fingerprint": "29cfd72c6f091dec66cb34509c075a3c9e76b31aef7d1d044680898787e82af2",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "3QXX",
+        "chain": "A",
+        "grid_center": [
+          13.87,
+          -31.22,
+          -23.2
+        ],
+        "grid_size": [
+          29.3,
+          29.3,
+          29.3
+        ],
+        "cofactors_whitelist": [],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": []
+  },
+  "CON": {
+    "state": "PREPARED",
+    "target": {
+      "id": "5a350d42-a3a8-4519-8f07-ae2c103e9a26",
+      "pdb_id": "USR_ED1B25",
+      "name": "MET01R1-confirmatory-3QXX-CON",
+      "chain": "A",
+      "description": null,
+      "is_prepared": true,
+      "requires_cns": false,
+      "structural_family": null,
+      "therapeutic_family": null,
+      "organism": "Helicobacter Pylori",
+      "resolution": 1.36,
+      "hotspots": [],
+      "site_chains": [
+        "A"
+      ],
+      "site_chain_atoms": {
+        "A": 64
+      },
+      "site_evidence": "cocrystal_ligand",
+      "site_ligand": "GDP",
+      "hotspots_source": null,
+      "retired_reason": null,
+      "disponible": true,
+      "motivo_no_disponible": null,
+      "cadenas_truncadas_en_sitio": null,
+      "affinity_threshold": -7.5,
+      "is_hot": false,
+      "spearman_rho": null,
+      "calibration_date": null,
+      "grid_center_x": 13.87,
+      "grid_center_y": -31.22,
+      "grid_center_z": -23.2,
+      "grid_size_x": 29.3,
+      "grid_size_y": 29.3,
+      "grid_size_z": 29.3,
+      "cofactors_whitelist": [
+        "MG"
+      ],
+      "is_private": true,
+      "calibracion": null,
+      "seccion_catalogo": null,
+      "verificacion": null,
+      "avisos_catalogo": null,
+      "intentos_verificacion": null,
+      "is_community": false,
+      "is_anti_target": false,
+      "anti_target_risk": null,
+      "creator_username": "Desktop User",
+      "preparation_parent_id": "fbe8168c-7227-45ce-907a-4a4cff183e20",
+      "receptor_source_sha256": "109b43a4a24f52015565b15148008a11ff5b7f1de951e3b815f4dc239e161ed1",
+      "prepared_receptor_sha256": "93a644b79086dbae3218e685130a5fb9685f58242db7327ad77bfc615d923d85",
+      "preparation_fingerprint": "11ed15918eb93b7e0dc3ed5f81346b5e552814fba8cd583133198e22e2c7b9e8",
+      "preparation_recipe": {
+        "schema_version": 1,
+        "mode": "automatic_meeko",
+        "parent_pdb_id": "3QXX",
+        "chain": "A",
+        "grid_center": [
+          13.87,
+          -31.22,
+          -23.2
+        ],
+        "grid_size": [
+          29.3,
+          29.3,
+          29.3
+        ],
+        "cofactors_whitelist": [
+          "MG"
+        ],
+        "waters": "remove_all",
+        "altloc": "majority_or_default"
+      },
+      "preparation_toolchain": {
+        "moldesign_preparation_policy": "1",
+        "meeko": "0.7.1"
+      },
+      "calibration_status": "listo",
+      "hotspot_count": 0,
+      "grid_calibrated": true
+    },
+    "whitelist": [
+      "MG"
+    ]
+  }
+}

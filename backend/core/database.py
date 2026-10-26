@@ -51,11 +51,18 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 28  # tabla aditiva revoked_tokens para revocación JWT
+SCHEMA_VERSION = 29  # evaluation_runs.saved_at/saved_name: Moldex guarda corridas
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella
 la versión "de facto" en la tabla schema_meta al arrancar.
+
+v29: ``evaluation_runs.saved_at`` y ``saved_name`` (aditivas, nullable). Guardar
+en Moldex pasa a ser un hecho de la CORRIDA: antes ``molecules.is_saved`` marcaba
+la molécula y Moldex leía la proyección mutable, así que reevaluar la misma
+molécula contra el mismo receptor pisaba la evaluación guardada. La migración
+rellena, una sola vez (cuando la columna se crea), la corrida vigente de cada
+molécula ya guardada; ``is_saved`` se conserva como «tiene al menos una ficha».
 
 v24 (fase 2): `evaluation_results.muegge_violations` es aditiva y nullable.
 Las filas históricas conservan NULL: su filtro tenía otra semántica y no se
@@ -479,6 +486,10 @@ def _migrate_sqlite_db(db_path: Path) -> None:
     log.info("Iniciando verificación de esquema SQLite", db_path=str(db_path))
     conn = sqlite3.connect(str(db_path))
     cursor = conn.cursor()
+    # Columnas que ESTA migración acaba de crear. Un relleno de datos que no es
+    # idempotente (v29) sólo debe correr cuando su columna es nueva: repetirlo en
+    # cada arranque resucitaría fichas que el usuario ya no guardó.
+    added_columns: set[tuple[str, str]] = set()
 
     try:
         for table_name, table_obj in Base.metadata.tables.items():
@@ -517,6 +528,7 @@ def _migrate_sqlite_db(db_path: Path) -> None:
                     type=sqlite_type,
                 )
                 cursor.execute(alter_query)
+                added_columns.add((table_name, col_name))
 
         # C-08 / schema v3: ``celery_task_id`` sólo era el ID del dispatcher
         # local. SQLite no tiene RENAME COLUMN portable para todas las bases
@@ -550,6 +562,30 @@ def _migrate_sqlite_db(db_path: Path) -> None:
                     "UPDATE evaluation_runs SET status = 'SUCCESS' "
                     "WHERE status IS NULL OR TRIM(status) = ''"
                 )
+
+            # v29: lo que Moldex mostraba hasta ahora era la proyección vigente
+            # de cada molécula guardada. Se conserva exactamente eso, ahora como
+            # una ficha de corrida: la corrida cuyo task_id es el de la
+            # proyección. Una molécula guardada cuya proyección no tiene
+            # snapshot (anterior a v11) sigue apareciendo por la vía heredada.
+            cursor.execute(
+                "SELECT COUNT(*) FROM sqlite_master WHERE type='table' "
+                "AND name IN ('molecules', 'evaluation_results')"
+            )
+            if ("evaluation_runs", "saved_at") in added_columns and cursor.fetchone()[0] == 2:
+                cursor.execute(
+                    "UPDATE evaluation_runs SET "
+                    "saved_at = COALESCE((SELECT m.updated_at FROM molecules m "
+                    "WHERE m.id = evaluation_runs.molecule_id), CURRENT_TIMESTAMP), "
+                    "saved_name = (SELECT m.name FROM molecules m "
+                    "WHERE m.id = evaluation_runs.molecule_id) "
+                    "WHERE saved_at IS NULL AND status = 'SUCCESS' AND EXISTS ("
+                    "SELECT 1 FROM evaluation_results r "
+                    "JOIN molecules m ON m.id = r.molecule_id "
+                    "WHERE r.molecule_id = evaluation_runs.molecule_id "
+                    "AND m.is_saved = 1 AND r.task_id = evaluation_runs.task_id)"
+                )
+                log.info("sqlite_moldex_fichas_por_corrida", filas=cursor.rowcount)
 
         # Sprint 3 / contrato receptor: una recalibración histórica escribió
         # para 7E2Y la cadena A y el centro de la proteína G, aunque el target

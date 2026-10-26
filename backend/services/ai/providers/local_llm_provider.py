@@ -93,6 +93,17 @@ class LocalLLMProvider(AIProvider):
         return True, "OK"
 
     def get_info(self) -> ProviderInfo:
+        # Los `.gguf` que este backend encuentra en MODEL_SEARCH_PATHS, que son
+        # los que puede cargar. La interfaz decidía «Modelo LLM no descargado»
+        # mirando otro sitio —el destino de la descarga de Tauri, con el SHA-256
+        # de Qwen2.5 1.5B—, así que el aviso salía con un modelo en disco que
+        # MolChat sí cargaba (en `tauri dev` esos dos sitios no coinciden) o con
+        # otro modelo elegido. Lo que decide es lo que hay aquí.
+        try:
+            from services.ai.model_registry import get_local_models
+            en_disco = [m["filename"] for m in get_local_models()]
+        except ImportError:
+            en_disco = []
         return ProviderInfo(
             id=self.id,
             name=self.name,
@@ -102,6 +113,7 @@ class LocalLLMProvider(AIProvider):
             # default_model dinámico: el primero disponible localmente.
             # La UI usa esto como sugerencia inicial, no como restricción.
             default_model=self._pick_first_available_model(),
+            available_models=en_disco,
             configured=self.validate_config()[0],
         )
 

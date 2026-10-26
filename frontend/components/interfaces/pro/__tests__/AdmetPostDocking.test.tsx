@@ -53,7 +53,7 @@ function abrirPostDocking(props: Record<string, unknown> = {}) {
       {...props}
     />,
   );
-  fireEvent.click(screen.getByRole("tab", { name: /Análisis avanzado/ }));
+  fireEvent.click(screen.getByRole("tab", { name: /^Análisis$/ }));
   fireEvent.click(screen.getByRole("tab", { name: /ADMET/ }));
 }
 
@@ -66,7 +66,7 @@ describe("ADMET post-docking", () => {
         moleculeId="mol-1"
       />,
     );
-    fireEvent.click(screen.getByRole("tab", { name: /Análisis avanzado/ }));
+    fireEvent.click(screen.getByRole("tab", { name: /^Análisis$/ }));
 
     // El sitio importa: es donde el usuario ya va a buscar lo post-docking.
     const etiquetas = screen
@@ -106,7 +106,7 @@ describe("ADMET post-docking", () => {
         onRequestAdmet={onRequestAdmet}
       />,
     );
-    fireEvent.click(screen.getByRole("tab", { name: /Análisis avanzado/ }));
+    fireEvent.click(screen.getByRole("tab", { name: /^Análisis$/ }));
     fireEvent.click(screen.getByRole("tab", { name: /ADMET/ }));
 
     expect(screen.getByRole("button", { name: /Calcular ADMET/i })).toBeDisabled();
@@ -142,10 +142,10 @@ describe("ADMET post-docking", () => {
         onRequestAdmet={vi.fn()}
       />,
     );
-    fireEvent.click(screen.getByRole("tab", { name: /Análisis avanzado/ }));
+    fireEvent.click(screen.getByRole("tab", { name: /^Análisis$/ }));
     const pestana = screen.getByRole("tab", { name: /ADMET/ });
     // El punto verde del selector dice «este panel tiene resultado».
-    expect(pestana.getAttribute("aria-label")).toMatch(/con resultado/);
+    expect(pestana.getAttribute("aria-label")).toMatch(/con resultado/i);
   });
 
   it("SI SE CALCULÓ PERO NO SE GUARDÓ, se dice", () => {

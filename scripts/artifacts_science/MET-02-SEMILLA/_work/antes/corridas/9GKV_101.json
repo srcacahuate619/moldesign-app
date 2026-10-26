@@ -1,0 +1,27 @@
+{
+  "pdb": "9GKV",
+  "semilla": 101,
+  "inicio": "2026-10-23T04:25:50+00:00",
+  "resultado": "auditada",
+  "task_id": "02565e7c-d648-4a8e-a24f-7899e1ab8d38",
+  "estado_global": "BLOQUEADO",
+  "metales": {
+    "estado": "ABSTENCION",
+    "valor": "Retirados a 6 Å o menos del ligando: ZN B:402 (2.15 Å); más lejos: K B:403 (6.93 Å), K B:404 (19.36 Å), K B:406 (12.14 Å)",
+    "razon": "El receptor que se entregaría no contiene especies que estaban en el sitio. Hay que decidir sobre ellas antes de cualquier cálculo posterior.",
+    "accion_recomendada": null
+  },
+  "referencia": "Pose top-1 y ligando del cristal SHH B:401",
+  "cristal_en_la_referencia": true,
+  "pose_top1_sha256": "3fc3e42ae9a4d2f5edd6a25c21be4e8605096109e9166170a1e899bdf5aee414",
+  "afinidad_top1": -7.217,
+  "microestado": "O=C(CCCCCCC(=O)Nc1ccccc1)NO",
+  "microestado_coincide": true,
+  "semilla_declarada": 101,
+  "vina": "1.2.7",
+  "receptor_sha256": "c94c8b1d55f1ab3222adc84924730b5b24903e5e3f4fb49379f4c90517d9b6d7",
+  "segundos": 21.5,
+  "fin": "2026-10-23T04:26:11+00:00",
+  "brazo": "antes",
+  "commit": "861f6a0e"
+}

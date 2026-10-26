@@ -1,0 +1,8 @@
+{
+  "abstention_threshold": 0.097663,
+  "meta_sha256": "9ac4e379f9c54aef24acc72fe7e61ffff751a70bf80b751f610bf93f34e4fc96",
+  "model_path": "pose_selector_v06.xgb",
+  "model_sha256": "9827ddb94c5ded5b2ef1dda1250606d73f73163becc310641d5bd493196e5d31",
+  "name": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)",
+  "version": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)"
+}

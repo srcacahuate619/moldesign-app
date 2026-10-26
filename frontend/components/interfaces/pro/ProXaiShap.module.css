@@ -1,0 +1,47 @@
+/* Hallmark · macrostructure: Workbench · tone: restrained · existing MolDesign
+ * Diverging SHAP chart restored · pre-emit critique: P5 H5 E4 S5 R5 V4 */
+.chart { min-width: 0; container-type: inline-size; }
+.legend { position: relative; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 32px; margin-block: 20px 12px; font-size: 12px; line-height: 1.6; color: var(--text-muted); }
+.legend > span:first-child { text-align: right; color: var(--reading-critical); }
+.legend > span:last-child { color: var(--reading-positive); }
+.origin { position: absolute; inset-inline-start: 50%; transform: translateX(-50%); padding-inline: 4px; background: var(--bg); color: var(--text-muted); }
+.plot { position: relative; min-width: 0; }
+.axis { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--border); pointer-events: none; }
+.row { position: relative; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); width: 100%; min-width: 0; min-height: 52px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); background: transparent; color: var(--text); font: 14px/1.65 var(--font-sans); text-align: left; cursor: pointer; }
+.row:hover { background: var(--bg-secondary); }
+.row:active { background: var(--reading-selected); }
+.row:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: -2px; }
+.featureLabel { display: flex; min-width: 0; align-items: center; gap: 8px; color: var(--text); overflow-wrap: anywhere; }
+.featureLabel svg { flex: 0 0 auto; color: var(--text-muted); }
+.row[data-direction=positive] .featureLabel { grid-column: 1; grid-row: 1; justify-content: flex-end; text-align: right; padding: 0 16px 0 8px; }
+.row[data-direction=negative] .featureLabel,.row[data-direction=zero] .featureLabel { grid-column: 2; grid-row: 1; padding: 0 8px 0 16px; }
+.graphHalf { display: grid; min-width: 0; align-items: center; gap: 8px; height: 24px; padding-inline: 8px; }
+.row[data-direction=positive] .graphHalf { grid-column: 2; grid-row: 1; grid-template-columns: minmax(0,1fr) 4.5rem; }
+.row[data-direction=negative] .graphHalf,.row[data-direction=zero] .graphHalf { grid-column: 1; grid-row: 1; grid-template-columns: 4.5rem minmax(0,1fr); }
+.barSpace { display: flex; align-items: center; min-width: 0; height: 16px; }
+.row[data-direction=negative] .barSpace,.row[data-direction=zero] .barSpace { grid-column: 2; grid-row: 1; justify-content: flex-end; }
+.bar { display: block; height: 16px; border-radius: 0 4px 4px 0; background: var(--reading-positive); }
+.row[data-direction=negative] .bar { border-radius: 4px 0 0 4px; background: var(--reading-critical); }
+.value { min-width: 0; white-space: nowrap; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--reading-positive); }
+.row[data-direction=negative] .value,.row[data-direction=zero] .value { grid-column: 1; grid-row: 1; text-align: right; color: var(--reading-critical); }
+.row[data-direction=zero] .value { color: var(--text-muted); }
+.dialog { width: min(560px,calc(100vw - 32px)); max-height: calc(100dvh - 48px); margin: auto; padding: 24px; overflow: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-card); color: var(--text); font: 14px/1.65 var(--font-sans); }
+.dialog::backdrop { background: color-mix(in srgb,var(--color-black) 55%,transparent); }
+.dialogHeader { display: flex; align-items: start; justify-content: space-between; gap: 16px; }
+.dialogHeader h4 { font: 600 16px/1.5 var(--font-sans); }
+.dialogHeader button { flex: 0 0 auto; }
+.detailRows > div { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 16px; padding-block: 12px; border-bottom: 1px solid var(--border); }
+.detailRows dt { color: var(--text-muted); }
+.detailRows dd { text-align: right; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+@container(max-width:600px) {
+ .row { grid-template-columns: minmax(0,1fr); gap: 8px; }
+ .row[data-direction] .featureLabel { grid-column: 1; grid-row: 1; justify-content: flex-start; padding-inline: 8px; text-align: left; }
+ .row[data-direction] .graphHalf { position: relative; grid-column: 1; grid-row: 2; width: 50%; }
+ .row[data-direction=positive] .graphHalf { justify-self: end; }
+ .axis { display: none; }
+ .graphHalf::before { content: ""; position: absolute; inset-block: -4px; width: 1px; background: var(--border); }
+ .row[data-direction=positive] .graphHalf::before { left: 0; }
+ .row[data-direction=negative] .graphHalf::before,.row[data-direction=zero] .graphHalf::before { right: 0; }
+ .legend { font-size: 12px; }
+}
+@media(max-width:400px) { .dialog { padding: 16px; } }

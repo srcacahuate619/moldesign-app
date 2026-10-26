@@ -214,25 +214,10 @@
    "items": [
     [
      {
-      "t": "El conjunto de validación se procesó junto con el de entrenamiento, en vez de por",
+      "t": "El conjunto de validación se procesó junto con el de entrenamiento, en vez de por separado.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "separado.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "Se eligió como representante ",
@@ -243,19 +228,10 @@
       "m": "fuerte"
      },
      {
-      "t": " en lugar del centro",
+      "t": " en lugar del centro geométrico del grupo.",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "geométrico del grupo.",
-     "m": null
-    }
    ]
   },
   {
@@ -318,6 +294,87 @@
      "t": "La versión corregida —centro geométrico, umbral re-derivado sobre el conjunto denso— es la que acabó adoptándose, y llegó a un umbral distinto (2.0 Å en vez de 1.5 Å) con reducciones del 31.7% al 38.2% y cero pérdidas en los tres conjuntos.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-22",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos, ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "). Ninguna cifra sellada cambia.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-074. ",
+      "m": null
+     },
+     {
+      "t": "run_mf11r2_dedup_v2.py",
+      "m": "codigo"
+     },
+     {
+      "t": " elige el umbral con la misma partición que evalúa: el resultado de ",
+      "m": null
+     },
+     {
+      "t": "MF-11-R2",
+      "m": "codigo"
+     },
+     {
+      "t": " es por partición, no una prueba independiente del umbral elegido.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-072 y SCI-B-075. El contrato detallado de ",
+      "m": null
+     },
+     {
+      "t": "MF-11-R1",
+      "m": "codigo"
+     },
+     {
+      "t": " (cinco umbrales y la regla) no quedó capturado antes del sellado, y el sello de ",
+      "m": null
+     },
+     {
+      "t": "MF-11-R2",
+      "m": "codigo"
+     },
+     {
+      "t": " fija el runner, no sus métricas ni sus entradas. Los GO se mantienen como declarados, con procedencia incompleta.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

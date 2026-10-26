@@ -25,6 +25,12 @@ un fingerprint que incluye un valor que nadie declaró es una cohorte cuya
 identidad cambia el día que cambie el ajuste por defecto. Aquí se declara o no
 se ejecuta.
 
+`tautomero` llegó después y las cohortes ya congeladas no lo traen, así que es
+opcional; pero su ausencia tiene un significado fijo, el de entonces
+(`TAUTOMERO_SIN_DECLARAR`). Pasó justo lo que este párrafo teme: el defecto del
+producto cambió a «entrada» y, sin ese significado fijo, las cohortes viejas
+habrían acoplado otra especie con la misma huella.
+
 # Workers no entra
 
 El número de trabajadores es una propiedad OPERACIONAL: cambia cuánto tarda,
@@ -69,6 +75,19 @@ MAX_COHORT_FILE_BYTES = 8 * 1024 * 1024
 #: este contrato acepta una caja declarada a mano.
 MAX_GRID_COORDINATE = 1000.0
 MAX_GRID_SIDE = 100.0
+
+#: Tautómero de una cohorte que no declara `tautomero`. NO es el defecto del
+#: producto (`chem.conformer.TAUTOMERO_POR_DEFECTO`, «entrada» desde el
+#: 2026-10-10): es lo que hacían las cohortes congeladas antes de que existiera
+#: el campo, y por lo dicho arriba una cohorte no cambia de química porque
+#: cambie un ajuste por defecto.
+TAUTOMERO_SIN_DECLARAR = "canonico"
+
+
+def modo_tautomero_de(config: dict | None) -> str:
+    """El modo con el que se acopla una cohorte, declarado o histórico."""
+    valor = (config or {}).get("tautomero")
+    return valor if valor in ("entrada", "canonico") else TAUTOMERO_SIN_DECLARAR
 
 _PDB_ID = re.compile(r"^[A-Z0-9_-]{4,10}$")
 
@@ -146,6 +165,11 @@ class CohortConfig(_Base):
     exhaustiveness: int = Field(ge=1, le=128)
     num_poses: int = Field(ge=1, le=20)
     seed: int | None = Field(default=None, ge=0, le=2**31 - 1)
+    #: Qué tautómero del ligando se acopla: «entrada» conserva el escrito y
+    #: «canonico» lo sustituye por el canónico de RDKit. Sin declarar vale
+    #: `TAUTOMERO_SIN_DECLARAR`, no el defecto del producto. La interfaz lo
+    #: declara siempre.
+    tautomero: Literal["entrada", "canonico"] | None = None
 
     @field_validator("grid_center")
     @classmethod
@@ -278,6 +302,8 @@ class CohortPreflightResult(_Base):
     generated_at: str
     cohort_fingerprint: str
     normalized_study: CohortStudy
+    # Aditivo: los snapshots anteriores no tenían esta declaración.
+    seed_resolution: dict[str, int | str | None] | None = None
     decision: Decision
     blockers: list[str] = Field(default_factory=list)
     warnings: list[str] = Field(default_factory=list)

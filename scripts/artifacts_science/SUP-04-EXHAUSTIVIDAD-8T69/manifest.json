@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "experiment_id": "SUP-04-EXHAUSTIVIDAD-8T69",
+  "hypothesis": "La exhaustividad 8 por defecto ordena la serie de 8T69 (89 Ki de VMAT2) y reproduce la pose del cristal igual que 16 y 32: subirla no cambia lo que el producto afirma",
+  "protocol": "scripts/artifacts_science/SUP-04-EXHAUSTIVIDAD-8T69/entrada/REGISTRO_PREVIO.md",
+  "created_at": "2026-10-26T02:49:58.904792+00:00",
+  "status": "created",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "2f5eb0e8381e6bffbb42a60bbb2656cad25edf6d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Delta rho (e32 menos e8) con IC95 bootstrap pareado por padre: NO_GO si el IC excluye el cero por encima o el redocking de e8 deja menos semillas a <= 2 A que el de e32; GO si no es NO_GO y el IC cae dentro de +-0,10; si no, INCONCLUSIVE"
+  },
+  "decision": "PENDING"
+}

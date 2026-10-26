@@ -159,9 +159,9 @@ async def detect_startup_mode(
         nombres = ", ".join(f["name"] for f in sin_permiso)
         return _result(StartupMode.AUTO_START, local_available, working, failed,
                        f"No consulté los proveedores cloud configurados ({nombres}): su destino no "
-                       "está autorizado para esta cuenta, o el equipo está en modo offline. MolChat "
-                       "se inicia con el modo local (Qwen 1.5B), que no sale de tu máquina. Para "
-                       "usarlos, autorizá el destino en Opciones > Intérprete IA.")
+                       "está autorizado para esta cuenta, o el equipo está en modo offline. Para "
+                       "usar uno, elígelo en Opciones ▸ Intérprete IA y pulsa «Autorizar» en la "
+                       "barra de MolChat; sin eso no sale nada de tu máquina.")
 
     any_configured = any(
         p.id in _CLOUD_PROVIDER_IDS and bool(p.config.api_key)
@@ -169,9 +169,9 @@ async def detect_startup_mode(
     )
     if not any_configured:
         return _result(StartupMode.AUTO_START, local_available, working, failed,
-                       "No se configuró ninguna clave de API. MolChat se inicia con el modo local "
-                       "(Qwen 1.5B). Para usar un proveedor cloud, abre 'Intérprete IA Online' "
-                       "en el menú de Opciones. Tus claves se almacenarán de forma encriptada y segura.")
+                       "No se configuró ninguna clave de API. Para usar un proveedor en la nube, "
+                       "abre Opciones ▸ Intérprete IA ▸ Clave de API. La clave se guarda cifrada "
+                       "en este equipo.")
 
     return _result(StartupMode.MANUAL_ONLY, local_available, working, failed,
                    "No se detectaron proveedores. MolChat se puede activar manualmente.")

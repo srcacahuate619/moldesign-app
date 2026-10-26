@@ -8,6 +8,7 @@ import { User, Bot, Globe, X } from "lucide-react";
 import { MarkdownRenderer } from "./MarkdownRenderer";
 import { BloqueDeEvidencia, separarEvidencia } from "./BloqueDeEvidencia";
 import { BotonDeReporte } from "./AvisoDeIAGenerativa";
+import { MARCADOR_DE_PROPUESTA, PropuestaDeDocking } from "./PropuestaDeDocking";
 import { useAI } from "@/context/AIContext";
 import type { AIMessage } from "@/context/AIContext";
 
@@ -26,9 +27,17 @@ export function ChatMessage({ message, isStreaming }: Props) {
   // Detectar si este mensaje de assistant tiene un marcador de permiso web.
   // Extraerlo ANTES de renderizar para que el user no lo vea.
   const markerMatch = !isUser ? message.content.match(PENDING_MARKER_RE) : null;
-  const sinMarcador = markerMatch
+  const sinMarcadorWeb = markerMatch
     ? message.content.replace(PENDING_MARKER_RE, "").trim()
     : message.content;
+
+  // LUNA-05: una propuesta de docking de MolChat trae su marcador al final. Se
+  // extrae igual que el de arriba, pero su tarjeta NO manda «sí» por el chat: aprueba
+  // con una llamada autenticada propia (ver `PropuestaDeDocking`).
+  const propuestaMatch = !isUser ? sinMarcadorWeb.match(MARCADOR_DE_PROPUESTA) : null;
+  const sinMarcador = propuestaMatch
+    ? sinMarcadorWeb.replace(MARCADOR_DE_PROPUESTA, "").trim()
+    : sinMarcadorWeb;
 
   // MOLCHAT-AUD-01 (FE/UX): la evidencia sale de la prosa. El bloque de
   // resultados de herramientas llega etiquetado con la clase y la fuente de
@@ -109,6 +118,12 @@ export function ChatMessage({ message, isStreaming }: Props) {
                 animation: "blink 0.8s step-end infinite",
               }}
             />
+          )}
+
+          {/* Mientras se escribe no hay tarjeta: el marcador llega al final y una
+              propuesta a medias no se puede aprobar. */}
+          {propuestaMatch && !isStreaming && (
+            <PropuestaDeDocking id={propuestaMatch[1]} hash={propuestaMatch[2]} />
           )}
 
           {/* Botones clickeables de permiso web — solo en mensajes con marcador */}

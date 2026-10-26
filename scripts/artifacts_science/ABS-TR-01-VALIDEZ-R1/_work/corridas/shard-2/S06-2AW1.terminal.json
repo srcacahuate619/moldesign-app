@@ -1,0 +1,16 @@
+{
+  "id_r2": "S06",
+  "pdb": "2AW1",
+  "intentos": [
+    {
+      "n": 1,
+      "segundos": 24.6,
+      "crudo": "S06-2AW1-intento1.json.gz",
+      "crudo_sha256": "b5f5b1fcf8717ede84b9da0ca76af09100dd6f4249ce1c69dc602d6b77271b4b"
+    }
+  ],
+  "estado": "AUDITADO",
+  "crudo": "S06-2AW1-intento1.json.gz",
+  "crudo_sha256": "b5f5b1fcf8717ede84b9da0ca76af09100dd6f4249ce1c69dc602d6b77271b4b",
+  "registrado_en": "2026-10-25T01:26:26+00:00"
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "experiment_id": "SUP-03-VALIDADOR-LIGANDO",
+  "hypothesis": "Las cuatro reglas bloqueantes del validador del ligando (carga neta y atomica mayor que 2 en valor absoluto, radicales, varios fragmentos tras quitar sales) no rechazan moleculas con actividad medida",
+  "protocol": "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/entrada/REGISTRO_PREVIO.md",
+  "created_at": "2026-10-25T18:34:52.111737+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "52cfa4523854c7c09187d30fd444872a555f2aa6",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Por regla: GO si rechaza 0 moleculas con actividad medida; si rechaza alguna, NO_GO (la regla bloquea quimica real y, por la preferencia del propietario, deberia avisar y no bloquear salvo que el pipeline no pueda ejecutarla)"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/entrada/C_chembl_5ht1a_actives.txt": "8a94f9830790c579ab586303d73e2c2fa41a7eb16557b15cd7faf9ee3dcceed6",
+    "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/entrada/D_dude_5ht1a_decoys.smi": "d66bcb0a449ea33bd4b112dfe710772b04a855d5020af74bb34410f316f694d4",
+    "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/entrada/E_benchmark_smiles.txt": "ae7ccb298ce91deeafb1e9e3e5f395f1cb2d4953f70c4fc1e9de333f40ad10f8",
+    "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/entrada/REGISTRO_PREVIO.md": "12b5746d10866499748ba81f531537d5b9fd42117dfaa9e2dd228deb1297e5e0",
+    "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/entrada/fuentes.json": "7dcaaacad81fc7d9acfa0cac3700d6827169d58068a13450ed8aa44b23b0a0a3"
+  },
+  "assets_hashes": {
+    "scripts/sup03_validador/medir.py": "b7510fa44281970566bbf0c87d3837ee7f0224478ef9fdf25b528046d04b07ea",
+    "scripts/artifacts_science/SUP-03-VALIDADOR-LIGANDO/RESULTADOS.md": "fe7544a0be55bcf42200a2d113fca73f78cacc97f293912e75d777237dabb271"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-25T18:40:31.840497+00:00",
+  "decision_rationale": "Las cuatro reglas bloqueantes del validador (carga neta y atomica >2 en valor absoluto, radicales, varios fragmentos tras SaltRemover) rechazan 0 de 640 moleculas con actividad medida (VMAT2 89, NET 57, 5-HT1A 494). En los descriptivos, R4 rechaza 6 solvatos; 19 con boro y 49 peptidos > 1000 Da caen por otras reglas.",
+  "finished_at": "2026-10-25T18:40:32.447547+00:00"
+}

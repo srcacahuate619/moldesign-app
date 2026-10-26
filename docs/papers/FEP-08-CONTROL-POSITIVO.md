@@ -59,3 +59,15 @@ Con 15 dianas, cada receptor mueve la fracción siete puntos. El control dice si
 el auditor distingue una preparación experta, no si las elecciones de los
 curadores son correctas. El artefacto guarda nombres y resultados, no
 estructuras del benchmark.
+
+## Correcciones
+
+**2026-10-22**, a raíz de la Fase B de la auditoría científica (fase 1b del plan de arreglos,
+`docs/102_FASE_1B_CORRECCIONES.md`). Ninguna cifra sellada cambia.
+
+- SCI-B-051. La variable de receptor es la de `FEP-02` (sin huecos de numeración y sin sitio
+  entre cadenas). El experimento es un control positivo de ese filtro, no del auditor de
+  readiness completo, y los 12 de 15 no son «listos para FEP».
+- SCI-B-050. 67 de 369 ligandos (18.2 %) frente a 1003 de 4641 (21.6 %) es una diferencia
+  puntual dentro del margen fijado, no una prueba de equivalencia; y las moléculas no están
+  emparejadas. «Depende de la molécula y no del preparador» no está medido.

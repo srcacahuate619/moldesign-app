@@ -24,7 +24,9 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Keypair, LAMPORTS_PER_SOL, PublicKey, sendAndConfirmTransaction, Transaction, TransactionInstruction } from "@solana/web3.js";
 
 import {
+  authorizeNetworkDestination,
   checkBlockchainHealth,
+  type BlockchainHealth,
   linkCertification,
   prepareCertification,
 } from "../lib/api";
@@ -42,6 +44,11 @@ export interface CertificationSuccess {
 
 interface CertificationModalProps {
   moleculeId: string;
+  /**
+   * Corrida que se certifica. El sello atestigua el score de UNA evaluación: sin
+   * esto el backend sellaría el de la última, aunque la ficha abierta sea otra.
+   */
+  taskId?: string | null;
   onClose: () => void;
   onSuccess: (result: CertificationSuccess) => void;
 }
@@ -75,7 +82,7 @@ function ChoiceIcon({ children }: { children: React.ReactNode }) {
   );
 }
 
-export function CertificationModal({ moleculeId, onClose, onSuccess }: CertificationModalProps) {
+export function CertificationModal({ moleculeId, taskId, onClose, onSuccess }: CertificationModalProps) {
   const { t } = useLanguage();
   const { publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
@@ -86,14 +93,28 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
   const [step, setStep] = useState<FlowStep>("select");
   const [error, setError] = useState<string | null>(null);
   const [receipt, setReceipt] = useState<CertificationSuccess | null>(null);
-  const [health, setHealth] = useState<{
-    available: boolean;
-    network: string;
-    signer?: string;
-    reason?: string | null;
-  } | null>(null);
+  const [health, setHealth] = useState<BlockchainHealth | null>(null);
+  const [autorizando, setAutorizando] = useState(false);
 
   const isProcessing = PROCESSING_STEPS.has(step);
+  const necesitaPermiso = health?.reason_code === "consent_required";
+
+  // La salida hacia devnet es un permiso de la cuenta, por destino: se pide aquí, explícito,
+  // y nunca se concede por el simple hecho de abrir la ventana.
+  const handleAutorizar = async () => {
+    const destino = health?.destino;
+    if (!destino) return;
+    setAutorizando(true);
+    setError(null);
+    try {
+      await authorizeNetworkDestination(destino.servicio, destino.host);
+      setHealth(await checkBlockchainHealth());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("ce_devnet_no_disponible"));
+    } finally {
+      setAutorizando(false);
+    }
+  };
 
   useEffect(() => {
     let active = true;
@@ -111,10 +132,15 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && !isProcessing) onClose();
+      if (event.key === "Escape" && !isProcessing) {
+        event.preventDefault();
+        event.stopPropagation();
+        onClose();
+      }
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    // El visor puede consumir Escape antes de que llegue al burbujeo de window.
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
   }, [isProcessing, onClose]);
 
   const complete = (result: CertificationSuccess) => {
@@ -134,7 +160,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
       // Identity is intentionally ephemeral: it exists only for this devnet
       // proof. No secret is persisted or sent to the backend.
       const ephemeralSigner = Keypair.generate();
-      const prepared = await prepareCertification(moleculeId, ephemeralSigner.publicKey.toBase58());
+      const prepared = await prepareCertification(moleculeId, ephemeralSigner.publicKey.toBase58(), taskId);
 
       if (prepared.already_certified && prepared.signature) {
         complete({ signature: prepared.signature, signer: "experimental" });
@@ -142,10 +168,23 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
       }
       if (!prepared.memo) throw new Error(t("ce_memo_fallido"));
 
-      const fundingSignature = await connection.requestAirdrop(
-        ephemeralSigner.publicKey,
-        0.01 * LAMPORTS_PER_SOL,
-      );
+      // 0,001 SOL sobra (la comisión de un memo son 5000 lamports) y el faucet público rechaza menos
+      // las peticiones pequeñas.
+      let fundingSignature: string;
+      try {
+        fundingSignature = await connection.requestAirdrop(
+          ephemeralSigner.publicKey,
+          0.001 * LAMPORTS_PER_SOL,
+        );
+      } catch (airdropError) {
+        // El faucet público de devnet limita por IP y por día: es una indisponibilidad externa,
+        // no un fallo de la aplicación ni del expediente.
+        throw new Error(
+          /429|airdrop|faucet|Internal error/i.test(String(airdropError))
+            ? t("ce_faucet_agotado")
+            : String(airdropError instanceof Error ? airdropError.message : airdropError),
+        );
+      }
       await connection.confirmTransaction(fundingSignature, "confirmed");
 
       setStep("poc-signing");
@@ -164,7 +203,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
       );
 
       setStep("verifying");
-      await linkCertification(moleculeId, signature);
+      await linkCertification(moleculeId, signature, taskId);
       complete({ signature, signer: "experimental" });
     } catch (err) {
       setError(
@@ -185,11 +224,11 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
     setStep("web3-prepare");
     setError(null);
     try {
-      const prepared = await prepareCertification(moleculeId, publicKey.toBase58());
+      const prepared = await prepareCertification(moleculeId, publicKey.toBase58(), taskId);
 
       if (prepared.already_certified && prepared.signature) {
         setStep("verifying");
-        await linkCertification(moleculeId, prepared.signature);
+        await linkCertification(moleculeId, prepared.signature, taskId);
         complete({ signature: prepared.signature, signer: "wallet" });
         return;
       }
@@ -208,7 +247,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
 
       setStep("verifying");
       await connection.confirmTransaction(signature, "confirmed");
-      await linkCertification(moleculeId, signature);
+      await linkCertification(moleculeId, signature, taskId);
       complete({ signature, signer: "wallet" });
     } catch (err) {
       setError(err instanceof Error ? err.message : t("ce_error_firma"));
@@ -258,13 +297,13 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
             </span>
             <div className="min-w-0">
               <h2 id={titleId} className="text-base font-bold text-white sm:text-lg">
-                Registrar evidencia en Solana
+                {t("ce_record_evidence_solana")}
               </h2>
               <p className="mt-1 text-xs leading-relaxed text-surface-400">
                 {t("ce_poc_resumen")}
               </p>
               <div className="mt-2 flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-wider">
-                <span className="text-surface-400">{health?.network || "comprobando red"}</span>
+                <span className="text-surface-400">{health?.network || t("ce_checking_network")}</span>
                 <span aria-hidden="true" className="text-surface-700">·</span>
                 <span className={health?.available ? "text-emerald-400" : health ? "text-red-400" : "text-surface-400"}>
                   {health?.available ? t("ce_devnet_accesible") : health ? t("ce_devnet_etiqueta") : t("ce_verificando")}
@@ -290,6 +329,28 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 {t("ce_poc_experimental")}
               </div>
 
+              {necesitaPermiso && health?.destino && (
+                <div role="group" aria-label={t("ce_permiso_titulo")} className="mb-2 space-y-3 rounded-lg border border-amber-500/30 bg-amber-500/[0.07] p-4 text-xs leading-relaxed text-amber-100/85">
+                  <p className="font-bold text-amber-100">{t("ce_permiso_titulo")}</p>
+                  <p>{t("ce_permiso_detalle")}</p>
+                  <p className="font-mono text-[11px] text-amber-100">{health.destino.host}</p>
+                  <button
+                    type="button"
+                    onClick={() => void handleAutorizar()}
+                    disabled={autorizando}
+                    className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-amber-400/50 bg-amber-500/15 px-4 text-xs font-bold uppercase tracking-wider text-amber-50 transition-colors hover:bg-amber-500/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <ShieldCheck size={16} /> {autorizando ? t("ce_verificando") : t("ce_permiso_autorizar")}
+                  </button>
+                </div>
+              )}
+              {error && step === "select" && (
+                <div role="alert" className="flex gap-2 rounded-lg border border-red-500/25 bg-red-500/[0.07] p-3 text-xs leading-relaxed text-red-300">
+                  <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                  {error}
+                </div>
+              )}
+
               <button
                 ref={primaryChoiceRef}
                 type="button"
@@ -299,9 +360,9 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 <ChoiceIcon><FlaskConical size={19} /></ChoiceIcon>
                 <span className="min-w-0 flex-1">
                   <span className="flex flex-wrap items-center gap-2 font-bold text-white">
-                    Ejecutar prueba devnet
+                    {t("ce_run_devnet_test")}
                     <span className="rounded border border-brand-500/30 bg-brand-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-brand-400">
-                      Experimental
+                      {t("ce_experimental_badge")}
                     </span>
                   </span>
                   <span className="mt-1 block text-xs leading-relaxed text-surface-400">
@@ -357,10 +418,10 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 </p>
               </div>
               <dl className="divide-y divide-white/5 rounded-lg border border-white/10 bg-black/20 px-4">
-                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Fondos</dt><dd className="font-bold text-white">{t("ce_faucet_sin_valor")}</dd></div>
-                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Firma</dt><dd className="font-bold text-white">{t("ce_identidad_efimera")}</dd></div>
-                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">Red</dt><dd className="font-mono text-white">{health?.network || "—"}</dd></div>
-                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">{t("ce_datos_cientificos")}</dt><dd className="font-bold text-white">Permanecen locales</dd></div>
+                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">{t("ce_funds")}</dt><dd className="font-bold text-white">{t("ce_faucet_sin_valor")}</dd></div>
+                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">{t("ce_signature")}</dt><dd className="font-bold text-white">{t("ce_identidad_efimera")}</dd></div>
+                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">{t("ce_network")}</dt><dd className="font-mono text-white">{health?.network || "—"}</dd></div>
+                <div className="flex items-center justify-between gap-4 py-3 text-xs"><dt className="text-surface-400">{t("ce_datos_cientificos")}</dt><dd className="font-bold text-white">{t("ce_stay_local")}</dd></div>
               </dl>
               {health && !health.available && (
                 <div role="alert" className="flex gap-2 rounded-lg border border-red-500/25 bg-red-500/[0.07] p-3 text-xs leading-relaxed text-red-300">
@@ -374,7 +435,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 disabled={!health?.available}
                 className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg bg-brand-500 px-4 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-40"
               >
-                <FlaskConical size={16} /> Ejecutar POC
+                <FlaskConical size={16} /> {t("ce_run_poc")}
               </button>
             </div>
           )}
@@ -397,7 +458,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                     {t("ce_webview_sin_extensiones")}
                   </p>
                   <ExternalLink href={SOLANA_WALLETS_URL} className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg border border-amber-500/30 px-3 text-xs font-bold text-amber-200 hover:bg-amber-500/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300">
-                    Ver wallets en Solana <IconoEnlaceExterno size={14} />
+                    {t("ce_browse_wallets")} <IconoEnlaceExterno size={14} />
                   </ExternalLink>
                 </div>
               ) : (
@@ -405,7 +466,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                   <WalletMultiButton className="!min-h-11 !w-full !rounded-lg !bg-brand-500 !text-xs !font-bold hover:!bg-brand-400" />
                   {publicKey && (
                     <button type="button" onClick={() => void handleWeb3()} className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-brand-500/40 bg-brand-500/10 px-4 text-xs font-bold uppercase tracking-wider text-brand-400 hover:bg-brand-500/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 active:bg-brand-500/25">
-                      <CheckCircle2 size={16} /> Firmar y publicar
+                      <CheckCircle2 size={16} /> {t("ce_sign_and_publish")}
                     </button>
                   )}
                 </div>
@@ -447,7 +508,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
 
           {step === "done" && receipt && (
             <div aria-live="polite" className="flex min-h-64 flex-col items-center justify-center gap-4 py-6 text-center">
-              <ThinkingOrb state="complete" size="md" label="Comprobante registrado" />
+              <ThinkingOrb state="complete" size="md" label={t("ce_receipt_recorded")} />
               <p className="max-w-md text-xs leading-relaxed text-surface-400">
                 {t("ce_flujo_termino")}
               </p>
@@ -456,7 +517,7 @@ export function CertificationModal({ moleculeId, onClose, onSuccess }: Certifica
                 <p className="mt-2 break-all font-mono text-[10px] leading-relaxed text-emerald-100/60">{receipt.signature}</p>
               </div>
               <ExternalLink href={urlDelExplorador(receipt.signature, health?.network)} className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-white/10 px-4 text-xs font-bold text-white/70 hover:border-brand-500/40 hover:text-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400">
-                Ver en Solana Explorer <IconoEnlaceExterno size={14} />
+                {t("ev_ver_en_solana_explorer")} <IconoEnlaceExterno size={14} />
               </ExternalLink>
               <button type="button" onClick={onClose} className="min-h-11 rounded-lg bg-brand-500 px-6 text-xs font-bold uppercase tracking-wider text-white hover:bg-brand-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:bg-brand-600">
                 {t("c_cerrar")}

@@ -213,7 +213,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                     type="button"
                     onClick={() => setActiveView("options")}
                     className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-alt)] hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] active:bg-[var(--bg)]"
-                    aria-label="Volver a Opciones"
+                    aria-label={t("op_menu_back_options")}
                   >
                     <ArrowLeft size={17} aria-hidden="true" />
                   </button>
@@ -228,7 +228,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                 type="button"
                 onClick={onClose}
                 className="grid h-8 w-8 shrink-0 place-items-center rounded-md text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-alt)] hover:text-[var(--text)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)] active:bg-[var(--bg)]"
-                aria-label="Cerrar opciones"
+                aria-label={t("op_menu_close_options")}
               >
                 <X size={18} aria-hidden="true" />
               </button>
@@ -248,7 +248,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                         ) : (
                           <Sun size={16} className="text-amber-400" aria-hidden="true" />
                         )}
-                        <span className={optionTextClass}>{t("opt_theme")} {theme === "dark" ? "oscuro" : "claro"}</span>
+                        <span className={optionTextClass}>{t(theme === "dark" ? "op_menu_theme_dark" : "op_menu_theme_light")}</span>
                       </span>
                       <span
                         aria-hidden="true"
@@ -264,7 +264,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                   </section>
 
                   <section>
-                    <h3 className={sectionLabelClass}>Idioma</h3>
+                    <h3 className={sectionLabelClass}>{t("op_language")}</h3>
                     <button
                       type="button"
                       aria-expanded={showLangPicker}
@@ -309,7 +309,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                   </section>
 
                   <section>
-                    <h3 className={sectionLabelClass}>Sonidos</h3>
+                    <h3 className={sectionLabelClass}>{t("op_menu_sounds")}</h3>
                     <div className="space-y-2 rounded-[10px] border border-[var(--border)] bg-[var(--bg)] px-3.5 py-2.5">
                       <button type="button" onClick={toggleSounds} className="flex min-h-6 w-full items-center justify-between focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-strong)]">
                         <span className="flex items-center gap-3">
@@ -363,7 +363,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                       >
                         <span className="flex items-center gap-3">
                           <Download size={16} className="text-[var(--accent)]" aria-hidden="true" />
-                          <span className={optionTextClass}>Gestionar descargas</span>
+                          <span className={optionTextClass}>{t("op_menu_downloads")}</span>
                         </span>
                         <ChevronRight size={14} className="text-[var(--text-dim)]" aria-hidden="true" />
                       </button>
@@ -372,7 +372,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
 
 
                   <section>
-                    <h3 className={sectionLabelClass}>Datos y respaldo</h3>
+                    <h3 className={sectionLabelClass}>{t("op_menu_data_backup")}</h3>
                     <div className="space-y-1">
                       <button type="button" onClick={() => exportData("json")} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
@@ -391,7 +391,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                       <button type="button" onClick={deleteLegacyData} className={optionButtonClass}>
                         <span className="flex items-center gap-3">
                           <Trash2 size={16} className="text-red-400" aria-hidden="true" />
-                          <span className="text-sm font-medium text-red-400">Limpiar datos locales heredados</span>
+                          <span className="text-sm font-medium text-red-400">{t("op_menu_clear_legacy")}</span>
                         </span>
                       </button>
                     </div>
@@ -420,7 +420,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                     <button type="button" onClick={() => setActiveView("support")} className={optionButtonClass}>
                       <span className="flex items-center gap-3">
                         <LifeBuoy size={16} className="text-[var(--accent)]" aria-hidden="true" />
-                        <span className={optionTextClass}>Soporte y ayuda</span>
+                        <span className={optionTextClass}>{t("op_menu_support")}</span>
                       </span>
                       <ChevronRight size={14} className="text-[var(--text-dim)]" aria-hidden="true" />
                     </button>

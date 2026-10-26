@@ -37,6 +37,7 @@ import {
   downloadComplexFile,
   getEvaluationResult,
   getJobStatus,
+  mensajeDelError,
   saveMolecule,
   submitEvaluation,
   validateSmiles,
@@ -64,12 +65,22 @@ import type {
 } from "../../lib/cases/types";
 import {
   describeRunBlock,
-  inputsAreComplete,
   requestPreflight,
   summarizePreflight,
   type PreflightReport,
 } from "../../lib/preflight";
 import { PreparationPanel } from "./PreparationPanel";
+import type { PeticionRecibida } from "../../lib/peticionDeEvaluacion";
+import type { CaseOperationScope } from "../../context/CaseContext";
+
+interface EvaluationIntent {
+  readonly id: string;
+  readonly scope: CaseOperationScope;
+  readonly controller: AbortController;
+  phase: "preflight" | "submitting";
+  cancelRequested: boolean;
+  invalidated: boolean;
+}
 
 const ProEvaluation = dynamic(() => import("../interfaces/pro/ProEvaluation"), {
   ssr: false,
@@ -136,6 +147,12 @@ export interface CaseEvaluationRunnerProps {
   /** Identidad del caso. El padre lo pasa tambien como `key`. */
   readonly caseId: string;
   /**
+   * Libro de corridas del caso, sólo de lectura. El runner no lo escribe (eso es
+   * `onRunRegistered`); lo pasa a Evaluación para ofrecer al SAR la cohorte
+   * histórica del mismo protocolo (CAS-02).
+   */
+  readonly caseRuns?: readonly CaseRun[];
+  /**
    * Última corrida persistida del caso, si la hay. Al montarse se consulta el
    * backend una vez para recuperar el resultado; si no es terminal, además se
    * REANUDA el polling. Así se conserva tanto el trabajo vivo como su evidencia.
@@ -152,7 +169,7 @@ export interface CaseEvaluationRunnerProps {
    * progreso posteriores siguen por `onActiveRunChange`, con su debounce: ahí
    * perder una actualización no pierde la tarea.
    */
-  readonly onRunRegistered?: (run: CaseRun) => Promise<boolean>;
+  readonly onRunRegistered?: (run: CaseRun, scope?: CaseOperationScope) => Promise<boolean>;
   /**
    * Publica la referencia MÍNIMA al resultado con el que se puede armar un
    * informe, o `null` si no hay ninguno.
@@ -186,16 +203,89 @@ export interface CaseEvaluationRunnerProps {
   /** Abre el historial de corridas del caso, si el contenedor lo ofrece. */
   readonly onOpenRunHistory?: () => void;
   /** Persiste receptor/ligando/caja. Invalida el preflight si algo cambió. */
-  readonly onInputsChange?: (patch: Partial<CaseInputs>) => void;
+  readonly onInputsChange?: (patch: Partial<CaseInputs>, scope?: CaseOperationScope) => void;
   /** Resumen del último preflight guardado en el caso. */
   readonly preflight?: PreflightSummary;
-  readonly onPreflightChange?: (summary: PreflightSummary) => void;
+  readonly onPreflightChange?: (summary: PreflightSummary, scope?: CaseOperationScope) => void;
   readonly decisions?: readonly HumanDecision[];
   readonly onDecision?: (controlCode: string, fingerprint: string) => void;
+  /**
+   * Preparación pidió volver a evaluar ESTE caso con un ligando y un modo de tautómero
+   * (`lib/peticionDeEvaluacion`). Se aplica una vez por `nonce`: el ligando entra como si
+   * se escribiera y el modo como si se eligiera en Opciones. No se ejecuta nada.
+   */
+  readonly peticion?: PeticionRecibida;
+}
+
+/**
+ * La configuración que firma la comprobación y que luego se ejecuta: la del
+ * caso si pasó por Opciones, o esta completa por defecto. Toda modificación
+ * parcial (p. ej. el número de conformaciones) tiene que partir de aquí.
+ *
+ * Una configuración guardada a medias —la que dejaba QA-036 en los casos que
+ * cambiaron a ensemble sin pasar por Opciones— se completa con los valores por
+ * defecto; la que viene de Opciones ya trae todas las claves y no cambia.
+ *
+ * El merge es PROFUNDO, por etapa y clave (CAS-05). El shallow de antes
+ * reemplazaba la etapa entera: un guardado con `conformer: {ph}` sin
+ * `conformers` borraba el K del caso y lo devolvía a 1 sin que nadie lo
+ * decidiera — y el siguiente preflight firmaba una corrida distinta de la
+ * que el panel de preparación mostraba.
+ */
+export function configuracionDelPipeline(inputs: CaseInputs | undefined): CasePipelineConfig {
+  const porDefecto = configuracionPorDefecto(inputs);
+  const guardada = inputs?.pipelineConfig;
+  if (!guardada) return porDefecto;
+
+  const paramsDefecto = porDefecto.stage_params ?? {};
+  const paramsGuardada = guardada.stage_params ?? {};
+  const etapas = new Set([...Object.keys(paramsDefecto), ...Object.keys(paramsGuardada)]);
+  const stage_params: Record<string, Record<string, unknown>> = {};
+  for (const etapa of etapas) {
+    const guardadaEtapa = paramsGuardada[etapa];
+    if (guardadaEtapa === undefined) {
+      if (paramsDefecto[etapa] !== undefined) stage_params[etapa] = { ...paramsDefecto[etapa] };
+      continue;
+    }
+    stage_params[etapa] = { ...(paramsDefecto[etapa] ?? {}), ...guardadaEtapa };
+  }
+  return {
+    ...porDefecto,
+    ...guardada,
+    stage_params,
+  };
+}
+
+function configuracionPorDefecto(inputs: CaseInputs | undefined): CasePipelineConfig {
+  return {
+    enabled_stages: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"],
+    stage_params: {
+      docking: {
+        exhaustiveness: inputs?.exhaustiveness ?? 8,
+        num_poses: inputs?.numPoses ?? 9,
+      },
+      conformer: { conformers: inputs?.conformers ?? 1 },
+      // ADMET-AI es opt-in y aquí se DICE, no se deja al defecto del
+      // backend. Este objeto es el que firma el preflight y el que se
+      // ejecuta luego: si la clave falta, el documento inspeccionado no
+      // declara qué se hizo con ADMET, y el usuario que abra el dossier
+      // no puede saberlo. Un caso que nunca pasó por Opciones corre sin
+      // ADMET, y así queda escrito.
+      properties: { run_admet_ai: false },
+    },
+    docking_engine: inputs?.dockingEngine ?? "vina",
+    pro_workers: 4,
+    pro_parallel_docks: 2,
+    pro_selectivity: false,
+    pro_mmgbsa: false,
+    pro_mmgbsa_steps: 1000,
+    gnn_precision: "fp32",
+  };
 }
 
 export default function CaseEvaluationRunner({
   caseId,
+  caseRuns,
   activeRun,
   onLiveWorkChange,
   onActiveRunChange,
@@ -212,6 +302,7 @@ export default function CaseEvaluationRunner({
   onPreflightChange,
   decisions,
   onDecision,
+  peticion,
 }: CaseEvaluationRunnerProps) {
   const { t } = useLanguage();
   const {
@@ -278,7 +369,17 @@ export default function CaseEvaluationRunner({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isControl, setIsControl] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
+  // «Guardada en Moldex» es un hecho de la EVALUACIÓN que se está viendo, no del
+  // caso ni de la molécula: una molécula se reevalúa varias veces en el mismo
+  // caso y cada evaluación se guarda por separado. Un booleano suelto dejaba
+  // «Guardado» pegado al resultado siguiente y no permitía guardarlo.
+  const [savedTaskIds, setSavedTaskIds] = useState<ReadonlySet<string>>(() => new Set());
+  const resultTaskId = status?.result?.task_id ?? null;
+  const isSaved = resultTaskId !== null && savedTaskIds.has(resultTaskId);
+  const setIsSaved = (saved: boolean) => {
+    if (!saved) setSavedTaskIds(new Set());
+    else if (resultTaskId) setSavedTaskIds((prev) => new Set(prev).add(resultTaskId));
+  };
   const pollingRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   /**
    * Invalida respuestas HTTP que salieron antes de detener/cambiar el polling.
@@ -306,6 +407,18 @@ export default function CaseEvaluationRunner({
   const [submitting, setSubmitting] = useState(false);
   // MM-GBSA y cualquier otro calculo largo lo reporta `ProEvaluation`.
   const [analysisBusy, setAnalysisBusy] = useState(false);
+  const runnerMounted = useRef(true);
+  const operationScope = useRef<CaseOperationScope>({ caseId, ownerUserId: authUser?.user_id });
+  operationScope.current = { caseId, ownerUserId: authUser?.user_id };
+  const pendingIntent = useRef<EvaluationIntent | null>(null);
+  const nextIntentId = useRef(0);
+  const cancellingTask = useRef<string | null>(null);
+  const scopeIsCurrent = useCallback((scope: CaseOperationScope) =>
+    runnerMounted.current && operationScope.current.caseId === scope.caseId &&
+    operationScope.current.ownerUserId === scope.ownerUserId, []);
+  const intentIsCurrent = useCallback((intent: EvaluationIntent) =>
+    pendingIntent.current === intent && !intent.invalidated && !intent.cancelRequested &&
+    scopeIsCurrent(intent.scope), [scopeIsCurrent]);
 
   const isTerminal = status?.status === "SUCCESS" || status?.status === "FAILURE";
   // Una interrupcion conserva el taskId para reintentar, pero ya no representa
@@ -343,8 +456,13 @@ export default function CaseEvaluationRunner({
       source: "evaluation",
       runId: taskId,
       successful: status?.status === "SUCCESS",
+      outcome: cancelledTaskRef.current === taskId ? "cancelled"
+        : status?.status === "SUCCESS" ? "completed" : "failed",
+      taskId,
+      caseId,
+      ownerId: authUser?.user_id,
     });
-  }, [taskId, isTerminal, status?.status]);
+  }, [taskId, isTerminal, status?.status, caseId, authUser?.user_id]);
 
   const notifyLiveWork = useRef(onLiveWorkChange);
   notifyLiveWork.current = onLiveWorkChange;
@@ -474,7 +592,15 @@ export default function CaseEvaluationRunner({
   // Al desmontar, libera el bloqueo. Sin esto, un caso cerrado con una corrida
   // a medias dejaria el workspace bloqueado para siempre.
   useEffect(() => {
+    runnerMounted.current = true;
     return () => {
+      runnerMounted.current = false;
+      const intent = pendingIntent.current;
+      if (intent) {
+        intent.invalidated = true;
+        intent.controller.abort();
+        pendingIntent.current = null;
+      }
       notifyLiveWork.current?.({ evaluation: false, analysis: false, taskId: null });
     };
   }, []);
@@ -490,6 +616,27 @@ export default function CaseEvaluationRunner({
 
   const notifyInputs = useRef(onInputsChange);
   notifyInputs.current = onInputsChange;
+
+  // Se persiste lo que la persona escribe, tal cual. El canónico llega
+  // después, con el preflight; escribirlo aquí sería inventarlo.
+  const escribirSmiles = useCallback((next: string) => {
+    setSmiles(next);
+    notifyInputs.current?.({
+      ligand: { inputSmiles: next },
+    });
+  }, []);
+
+  // Cerrar el aviso no la vuelve a aplicar: lo aplicado se recuerda aparte.
+  const peticionAplicada = useRef<number | null>(null);
+  const [avisoDePeticion, setAvisoDePeticion] = useState<PeticionRecibida | null>(null);
+  useEffect(() => {
+    if (!peticion || peticionAplicada.current === peticion.nonce) return;
+    peticionAplicada.current = peticion.nonce;
+    setAvisoDePeticion(peticion);
+    escribirSmiles(peticion.smiles);
+    // La validación era de otro SMILES.
+    setValidation(null);
+  }, [peticion, escribirSmiles]);
   const notifyPreflight = useRef(onPreflightChange);
   notifyPreflight.current = onPreflightChange;
 
@@ -503,67 +650,55 @@ export default function CaseEvaluationRunner({
   const preflightStale = preflightReport !== null && !preflight;
 
   const grid = inputs?.grid;
-  const runBlockedReason = describeRunBlock(inputs, preflight);
-  const canCheckPreparation = inputsAreComplete(inputs) && !runActive;
 
-  const missingInputs = !inputs?.receptor?.pdbId
-    ? "Elige un receptor para poder comprobar la preparación."
-    : !inputs?.ligand?.inputSmiles?.trim()
-      ? "Introduce o dibuja un ligando para poder comprobar la preparación."
-      : runActive
-        ? "Hay una corrida en curso: la comprobación previa se puede repetir cuando termine."
-        : null;
+  // LA MOLÉCULA DE EJEMPLO CUENTA COMO LIGANDO AL PULSAR «EVALUAR». El editor de
+  // un caso nuevo trae una aspirina de muestra que no se guarda como hipótesis
+  // hasta que alguien la cambia (decisión de arriba): guardarla al abrir sería
+  // atribuirle una decisión que no tomó. Pero quien pulsa «Evaluar» con ella a la
+  // vista SÍ está decidiendo, así que en ese momento —y sólo en ese— entra al caso.
+  // Antes había que editarla (aunque fuera para dejarla igual) antes de poder
+  // siquiera comprobar: la primera experiencia empezaba por un callejón sin salida.
+  const ligandoDeEjemplo = !inputs?.ligand?.inputSmiles?.trim() && smiles.trim().length > 0;
+  const entradas: CaseInputs | undefined = ligandoDeEjemplo
+    ? { ...inputs, ligand: { inputSmiles: smiles.trim() } }
+    : inputs;
 
-  const handleCheckPreparation = useCallback(async () => {
-    const receptorPdbId = inputs?.receptor?.pdbId;
-    const ligandSmiles = inputs?.ligand?.inputSmiles;
-    if (!receptorPdbId || !ligandSmiles) return;
+  const runBlockedReason = describeRunBlock(entradas, preflight, t);
+
+  /**
+   * La comprobación previa. Ya no es un botón: la lanza `handleSubmit` dentro de
+   * «Evaluar». Devuelve el resumen para que quien la pidió ejecute CON ÉL, sin
+   * esperar a que el estado del caso se entere: lo que se ejecuta es lo que se
+   * acaba de inspeccionar, no lo que había en pantalla un instante antes.
+   */
+  const comprobar = useCallback(async (entradasAComprobar: CaseInputs, intent: EvaluationIntent): Promise<PreflightSummary | null> => {
+    const receptorPdbId = entradasAComprobar.receptor?.pdbId;
+    const ligandSmiles = entradasAComprobar.ligand?.inputSmiles;
+    if (!receptorPdbId || !ligandSmiles) throw new Error(t("ev_elige_receptor_ejecutar"));
 
     setPreflightLoading(true);
     setPreflightError(null);
     try {
-      const pipelineConfig = inputs?.pipelineConfig ?? {
-        enabled_stages: ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"],
-        stage_params: {
-          docking: {
-            exhaustiveness: inputs?.exhaustiveness ?? 8,
-            num_poses: inputs?.numPoses ?? 9,
-          },
-          conformer: { conformers: inputs?.conformers ?? 1 },
-          // ADMET-AI es opt-in y aquí se DICE, no se deja al defecto del
-          // backend. Este objeto es el que firma el preflight y el que se
-          // ejecuta luego: si la clave falta, el documento inspeccionado no
-          // declara qué se hizo con ADMET, y el usuario que abra el dossier
-          // no puede saberlo. Un caso que nunca pasó por Opciones corre sin
-          // ADMET, y así queda escrito.
-          properties: { run_admet_ai: false },
-        },
-        docking_engine: inputs?.dockingEngine ?? "vina",
-        pro_workers: 4,
-        pro_parallel_docks: 2,
-        pro_selectivity: false,
-        pro_anti_targets: ["5VA1", "4NC3"],
-        pro_mmgbsa: false,
-        pro_mmgbsa_steps: 1000,
-        gnn_precision: "fp32",
-      } satisfies CasePipelineConfig;
+      const pipelineConfig = configuracionDelPipeline(entradasAComprobar);
       const report = await requestPreflight({
         smiles: ligandSmiles,
         targetPdbId: receptorPdbId,
-        chain: inputs?.receptor?.chain,
-        gridCenter: inputs?.grid?.center as [number, number, number] | undefined,
-        gridSize: inputs?.grid?.size as [number, number, number] | undefined,
-        customHotspots: inputs?.customHotspots,
-        dockingEngine: inputs?.dockingEngine ?? "vina",
-        exhaustiveness: inputs?.exhaustiveness ?? 8,
-        numPoses: inputs?.numPoses ?? 9,
+        chain: entradasAComprobar.receptor?.chain,
+        gridCenter: entradasAComprobar.grid?.center as [number, number, number] | undefined,
+        gridSize: entradasAComprobar.grid?.size as [number, number, number] | undefined,
+        customHotspots: entradasAComprobar.customHotspots,
+        dockingEngine: entradasAComprobar.dockingEngine ?? "vina",
+        exhaustiveness: entradasAComprobar.exhaustiveness ?? 8,
+        numPoses: entradasAComprobar.numPoses ?? 9,
         // El protocolo declarado entra en la comprobación, así que la huella
         // que sale describe la corrida que de verdad se ejecutará.
-        conformers: inputs?.conformers ?? 1,
+        conformers: entradasAComprobar.conformers ?? 1,
         pipelineConfig,
-      });
+      }, intent.controller.signal);
+      if (!intentIsCurrent(intent)) return null;
+      const resumen = summarizePreflight(report);
       setPreflightReport(report);
-      notifyPreflight.current?.(summarizePreflight(report));
+      notifyPreflight.current?.(resumen, intent.scope);
       // El canónico se guarda junto al texto introducido. No lo sustituye: el
       // dossier tiene que poder enseñar los dos.
       if (report.ligand.canonical_smiles) {
@@ -571,16 +706,19 @@ export default function CaseEvaluationRunner({
           ligand: {
             inputSmiles: ligandSmiles,
             canonicalSmiles: report.ligand.canonical_smiles,
-            ...(inputs?.ligand?.name ? { name: inputs.ligand.name } : {}),
+            ...(entradasAComprobar.ligand?.name ? { name: entradasAComprobar.ligand.name } : {}),
           },
-        });
+        }, intent.scope);
       }
+      return resumen;
     } catch (err) {
+      if (!intentIsCurrent(intent)) return null;
       setPreflightError(err instanceof Error ? err.message : String(err));
+      throw err;
     } finally {
-      setPreflightLoading(false);
+      if (intentIsCurrent(intent)) setPreflightLoading(false);
     }
-  }, [inputs]);
+  }, [t, intentIsCurrent]);
 
   const preparationSlot = (
     <PreparationPanel
@@ -589,27 +727,7 @@ export default function CaseEvaluationRunner({
       loading={preflightLoading}
       error={preflightError}
       stale={preflightStale}
-      canCheck={canCheckPreparation}
-      missingInputs={missingInputs}
-      onCheck={() => void handleCheckPreparation()}
       conformers={inputs?.conformers ?? 1}
-      // Cambiar el protocolo escribe en los INPUTS del caso, que es lo que
-      // invalida el preflight guardado: el informe anterior describía otra
-      // corrida. Sin eso, se podría ejecutar con K=30 un preflight comprobado
-      // con K=1, y el resultado diría haber inspeccionado algo que no.
-      onConformersChange={(k) => onInputsChange?.({
-        conformers: k,
-        pipelineConfig: {
-          ...(inputs?.pipelineConfig ?? {}),
-          stage_params: {
-            ...(inputs?.pipelineConfig?.stage_params ?? {}),
-            conformer: {
-              ...(inputs?.pipelineConfig?.stage_params?.conformer ?? {}),
-              conformers: k,
-            },
-          },
-        },
-      })}
       decisions={decisions ?? []}
       onAcknowledge={(code) => {
         const fingerprint = preflight?.fingerprint;
@@ -852,6 +970,25 @@ export default function CaseEvaluationRunner({
   // Al montar con cualquier corrida persistida se pregunta de inmediato. Para
   // una terminal, esta lectura recupera el `result` que no se guarda dentro de
   // case.json; para una viva, además reanuda el polling.
+  const previousOperationScope = useRef(operationScope.current);
+  useEffect(() => {
+    const previous = previousOperationScope.current;
+    const current = operationScope.current;
+    previousOperationScope.current = current;
+    if (previous.caseId === current.caseId && previous.ownerUserId === current.ownerUserId) return;
+    const intent = pendingIntent.current;
+    if (intent) {
+      intent.invalidated = true;
+      intent.controller.abort();
+      pendingIntent.current = null;
+      setSubmitting(false);
+      setBusy(false);
+      setPreflightLoading(false);
+      notifyLiveWork.current?.({ evaluation: false, taskId: null });
+    }
+    stopPolling();
+  }, [caseId, authUser?.user_id, stopPolling]);
+
   const resumedIdentityRef = useRef<string | null>(null);
   useEffect(() => {
     if (authLoading || !activeRun) return;
@@ -881,12 +1018,21 @@ export default function CaseEvaluationRunner({
   useEffect(() => {
     const handleAuthChange = () => {
       stopPolling();
+      const intent = pendingIntent.current;
+      if (intent) {
+        intent.invalidated = true;
+        intent.controller.abort();
+        pendingIntent.current = null;
+        setSubmitting(false);
+        setPreflightLoading(false);
+        notifyLiveWork.current?.({ evaluation: false, taskId: null });
+      }
       // Se limpian los RESULTADOS, que pueden pertenecer a otra cuenta y cuyo
       // `molecule_id` no se puede guardar con la sesión nueva.
       setSuggestions([]);
       setProteinData(null);
       setPoseData(null);
-      setIsSaved(false);
+      setSavedTaskIds(new Set());
       setBusy(false);
 
       // Pero NO la IDENTIDAD DE LA TAREA. Antes esto ponía `taskId` a null y
@@ -927,10 +1073,78 @@ export default function CaseEvaluationRunner({
         setSmiles(result.canonical_smiles);
       }
     } catch (e) {
-      setError((e as Error).message);
+      setError(mensajeDelError(e));
     } finally {
       setBusy(false);
     }
+  };
+
+  const cancelKnownRun = async (tid: string, acceptedRun?: CaseRun) => {
+    if (cancellingTask.current === tid) return;
+    const scope = { ...operationScope.current };
+    cancellingTask.current = tid;
+    stopPolling();
+    try {
+      const result = await cancelEvaluation(tid);
+      if (!scopeIsCurrent(scope)) return;
+      if (!result.cancelled) {
+        const run = acceptedRun ?? (activeRun?.taskId === tid ? activeRun : undefined);
+        await resumeRun(tid, run?.executionState === "completed", run?.moleculeId);
+        if (scopeIsCurrent(scope)) setError(t("auto_567d82bb53d9"));
+        return;
+      }
+      setPollingInterrupted(false);
+      cancelledTaskRef.current = tid;
+      isTerminalRef.current = true;
+      setStatus((prev) => ({
+        ...(prev?.task_id === tid ? prev : {
+          task_id: tid, progress: 0, result: null,
+          started_at: acceptedRun?.startedAt ?? null, finished_at: null,
+        }),
+        status: "FAILURE", error: t("auto_aa7e38e37678"),
+      }));
+      notifyActiveRun.current?.({
+        ...(acceptedRun ?? (activeRun?.taskId === tid ? activeRun : {})),
+        taskId: tid,
+        executionState: "cancelled",
+        startedAt: acceptedRun?.startedAt ?? statusRef.current?.started_at ??
+          activeRun?.startedAt ?? new Date().toISOString(),
+        ...(runFingerprintRef.current ? { inputFingerprint: runFingerprintRef.current } : {}),
+        lastError: t("auto_aa7e38e37678"),
+      });
+      setBusy(false);
+    } catch (cause) {
+      if (!scopeIsCurrent(scope)) return;
+      setPollingInterrupted(true);
+      setError(`No se pudo confirmar la cancelación: ${(cause as Error).message}. ` +
+        t("auto_9efee153557b"));
+    } finally {
+      if (cancellingTask.current === tid) cancellingTask.current = null;
+    }
+  };
+
+  const handleCancel = async () => {
+    const intent = pendingIntent.current;
+    if (intent && scopeIsCurrent(intent.scope)) {
+      intent.cancelRequested = true;
+      if (intent.phase === "submitting") {
+        // La petición puede haber sido aceptada: esperar su ID evita perderla
+        // o mandar la cancelación a la corrida terminal anterior.
+        setError(t("ev_cancelacion_envio_pendiente"));
+        return;
+      }
+      intent.controller.abort();
+      pendingIntent.current = null;
+      setSubmitting(false);
+      setBusy(false);
+      setPreflightLoading(false);
+      setError(null);
+      notifyLiveWork.current?.({ evaluation: false, taskId: taskIdRef.current });
+      notifyRunFinished({ source: "evaluation", runId: `intent:${intent.scope.caseId}:${intent.id}`,
+        successful: false, outcome: "cancelled", caseId: intent.scope.caseId, ownerId: intent.scope.ownerUserId });
+      return;
+    }
+    if (taskIdRef.current) await cancelKnownRun(taskIdRef.current);
   };
 
   const handleSubmit = async (
@@ -944,30 +1158,78 @@ export default function CaseEvaluationRunner({
     // garantía de que la corrida corresponde exactamente a lo que se mostró:
     // sin ella, el panel podría estar describiendo unos inputs y el submit
     // enviando otros.
-    const blocked = describeRunBlock(inputs, preflight);
-    if (blocked) {
-      setError(blocked);
+    //
+    // La comprobación va DENTRO de «Evaluar»: antes era un botón aparte que había
+    // que pulsar primero, y quien no lo sabía se quedaba con «Evaluar»
+    // deshabilitado sin entender por qué. Se hace cuando no hay una vigente (caso
+    // nuevo, o inputs cambiados: `CaseContext.setInputs` retira el resumen en
+    // cuanto cambia algo que afecte a la corrida) y se usa el resumen que
+    // devuelve, no el estado del caso, que todavía no se enteró. Un resumen
+    // vigente se reutiliza tal cual, como siempre: describe exactamente estos
+    // inputs, y repetir la comprobación daría la misma huella.
+    const bloqueoPrevio = describeRunBlock(entradas, preflight, t);
+    if (bloqueoPrevio) {
+      setError(bloqueoPrevio);
       return;
     }
-    const execution = preflight?.executionConfig;
-    const inspectedFingerprint = preflight?.fingerprint;
-    if (!execution || !inspectedFingerprint) {
-      setError(t("auto_dc96db7f7404"));
-      return;
-    }
-
+    if (authLoading || pendingIntent.current || runActive) return;
+    const intent: EvaluationIntent = {
+      id: globalThis.crypto?.randomUUID?.() ?? `${Date.now()}:${++nextIntentId.current}:${Math.random()}`,
+      scope: { ...operationScope.current },
+      controller: new AbortController(), phase: "preflight",
+      cancelRequested: false, invalidated: false,
+    };
+    const registerAcceptedRun = onRunRegistered;
+    pendingIntent.current = intent;
+    setSubmitting(true);
     setBusy(true);
     setError(null);
-    setSuggestions([]);
-    stopPolling();
-    setPollingInterrupted(false);
-    // La corrida terminal anterior sólo se reemplaza cuando el backend entrega
-    // un taskId nuevo. Si el submit falla, el caso conserva su última evidencia.
-    initialRegistrationDone.current = false;
-    // ANTES de la peticion: a partir de aqui hay trabajo que puede quedar
-    // huerfano si se cambia de caso.
-    setSubmitting(true);
+    notifyLiveWork.current?.({ evaluation: true, taskId: taskIdRef.current });
     try {
+      let inspeccion: PreflightSummary | null | undefined = preflight;
+      const hayQueComprobar = !inspeccion?.executionConfig || !inspeccion.fingerprint;
+      if (hayQueComprobar && entradas) {
+        setBusy(true);
+        setError(null);
+        if (ligandoDeEjemplo) {
+          notifyInputs.current?.({ ligand: { inputSmiles: smiles.trim() } });
+        }
+        try {
+          inspeccion = await comprobar(entradas, intent);
+          if (!inspeccion || !intentIsCurrent(intent)) return;
+        } catch (err) {
+          if (!intentIsCurrent(intent)) return;
+          setError(err instanceof Error ? err.message : String(err));
+          setBusy(false);
+          return;
+        }
+        const bloqueoTrasComprobar = describeRunBlock(entradas, inspeccion, t);
+        if (bloqueoTrasComprobar) {
+          // La comprobación encontró algo que haría fallar la corrida: no se ejecuta
+          // nada y el panel de preparación enseña qué y por qué.
+          setError(bloqueoTrasComprobar);
+          setBusy(false);
+          return;
+        }
+      }
+      if (!intentIsCurrent(intent)) return;
+      const execution = inspeccion?.executionConfig;
+      const inspectedFingerprint = inspeccion?.fingerprint;
+      if (!execution || !inspectedFingerprint) {
+        setError(t("auto_dc96db7f7404"));
+        setBusy(false);
+        return;
+      }
+
+      setBusy(true);
+      setError(null);
+      setSuggestions([]);
+      stopPolling();
+      setPollingInterrupted(false);
+      // La corrida terminal anterior sólo se reemplaza cuando el backend entrega
+      // un taskId nuevo. Si el submit falla, el caso conserva su última evidencia.
+      initialRegistrationDone.current = false;
+      intent.phase = "submitting";
       const inspectedTarget = structuralSystem?.receptor.pdbId ?? inputs?.receptor?.pdbId ?? target;
       const inspectedChain = structuralSystem?.receptor.chain ?? inputs?.receptor?.chain;
       if (!inspectedTarget || inspectedTarget.length < 4) {
@@ -980,7 +1242,7 @@ export default function CaseEvaluationRunner({
       // inspeccionó, no lo que traigan los argumentos del componente de
       // presentación. Si esas dos cosas pudieran diferir, el fingerprint
       // dejaría de significar nada.
-      const inspectedSmiles = inputs?.ligand?.inputSmiles ?? smiles;
+      const inspectedSmiles = entradas?.ligand?.inputSmiles ?? smiles;
       const inspectedCenter = [...execution.gridCenter] as [number, number, number];
       const inspectedSize = [...execution.gridSize] as [number, number, number];
       const inspectedHotspots = [...execution.customHotspots];
@@ -1015,7 +1277,7 @@ export default function CaseEvaluationRunner({
         // La huella de los inputs inspeccionados viaja con la corrida. Es lo
         // que permitirá, más tarde, decir si el informe guardado corresponde a
         // la hipótesis que haya entonces en pantalla o a una anterior.
-        ...(preflight?.fingerprint ? { inputFingerprint: preflight.fingerprint } : {}),
+        ...(inspeccion?.fingerprint ? { inputFingerprint: inspeccion.fingerprint } : {}),
         // Lo justo para que la fila del libro se pueda pintar SIN backend. El
         // ligando y el protocolo salen de lo INSPECCIONADO, no de los controles
         // de la pantalla: si esas dos cosas pudieran diferir, la fila afirmaría
@@ -1030,12 +1292,15 @@ export default function CaseEvaluationRunner({
       };
       let registered = true;
       try {
-        registered = onRunRegistered ? await onRunRegistered(newRun) : true;
+        registered = registerAcceptedRun ? await registerAcceptedRun(newRun, intent.scope) : true;
       } catch {
         // La tarea ya existe en el backend: aun si el adaptador de persistencia
         // falla de una forma inesperada, el identificador debe llegar a la UI.
         registered = false;
       }
+      // La tarea aceptada ya se preservó en su origen. Una instancia antigua
+      // no vuelve a mostrarla ni inicia polling bajo otra sesión/caso.
+      if (!scopeIsCurrent(intent.scope) || intent.invalidated) return;
       runFingerprintRef.current = newRun.inputFingerprint;
       initialRegistrationDone.current = true;
 
@@ -1060,18 +1325,28 @@ export default function CaseEvaluationRunner({
             t("auto_f3beed6bd3c8"),
         );
       }
-      startPolling(result.task_id);
+      if (intent.cancelRequested) {
+        await cancelKnownRun(result.task_id, newRun);
+      } else {
+        startPolling(result.task_id);
+      }
     } catch (e) {
-      setError((e as Error).message);
+      if (scopeIsCurrent(intent.scope) && !intent.invalidated) setError(mensajeDelError(e));
     } finally {
-      setBusy(false);
-      // Se apaga sólo el flag de "enviando": si hubo `taskId`, `runActive`
-      // sigue en true por el estado de la corrida.
-      setSubmitting(false);
+      // Una respuesta retirada no puede apagar la intención que vino después.
+      if (pendingIntent.current === intent) {
+        pendingIntent.current = null;
+        if (scopeIsCurrent(intent.scope)) {
+          setBusy(false);
+          setSubmitting(false);
+        }
+      }
     }
   };
 
   const handleReset = () => {
+    // No se puede borrar la identidad de un envío que aún espera aceptación.
+    if (pendingIntent.current || runActive) return;
     stopPolling();
     cancelledTaskRef.current = null;
     initialRegistrationDone.current = false;
@@ -1085,62 +1360,7 @@ export default function CaseEvaluationRunner({
     setSuggestions([]);
     setPoseData(null);
     setProteinData(null);
-    setIsSaved(false);
-  };
-
-  const handleCancel = async () => {
-    if (!taskId) return;
-
-    // Cancela únicamente esta tarea y sus subprocesses auxiliares registrados.
-    try {
-      const result = await cancelEvaluation(taskId);
-      if (!result.cancelled) {
-        // El proceso pudo terminar o desaparecer entre el ultimo poll y este
-        // clic. Reconciliar inmediatamente evita dejar la UI en EJECUTANDO con
-        // un boton de cancelar que ya no puede actuar sobre nada.
-        await resumeRun(
-          taskId,
-          activeRun?.executionState === "completed",
-          activeRun?.moleculeId,
-        );
-        setError(
-          t("auto_567d82bb53d9"),
-        );
-        return;
-      }
-    } catch (e) {
-      console.error("Error cancelando evaluación:", e);
-      stopPolling();
-      setPollingInterrupted(true);
-      setError(
-        `No se pudo confirmar la cancelación: ${(e as Error).message}. ` +
-          t("auto_9efee153557b"),
-      );
-      return;
-    }
-    stopPolling();
-    setPollingInterrupted(false);
-    cancelledTaskRef.current = taskId;
-    isTerminalRef.current = true;
-    setStatus((prev) =>
-      prev
-        ? { ...prev, status: "FAILURE", error: t("auto_aa7e38e37678") }
-        : prev
-    );
-    // Cancelar termina el trabajo, pero conserva su identidad como parte del
-    // historial mínimo del caso. `cancelled` no bloquea y el caso pasa a review.
-    notifyActiveRun.current?.({
-      taskId,
-      ...(activeRun?.moleculeId ? { moleculeId: activeRun.moleculeId } : {}),
-      executionState: "cancelled",
-      startedAt: status?.started_at ?? activeRun?.startedAt ?? new Date().toISOString(),
-      ...(runFingerprintRef.current
-        ? { inputFingerprint: runFingerprintRef.current }
-        : {}),
-      ...(typeof status?.progress === "number" ? { lastKnownProgress: status.progress } : {}),
-      lastError: t("auto_aa7e38e37678"),
-    });
-    setBusy(false);
+    setSavedTaskIds(new Set());
   };
 
   const handleUseSuggestion = async (sug: MolecularSuggestion) => {
@@ -1195,17 +1415,34 @@ export default function CaseEvaluationRunner({
           </button>
         </div>
       )}
+      {avisoDePeticion && (
+        <div
+          role="status"
+          className="flex flex-wrap items-center gap-2 border-b border-purple-400/30 bg-purple-500/10 px-4 py-2 text-xs leading-relaxed text-purple-100"
+        >
+          <span className="min-w-0 flex-1 break-all">
+            {t("ev_peticion_preparacion", {
+              smiles: avisoDePeticion.smiles,
+              modo: t(avisoDePeticion.tautomero === "entrada" ? "op_tautomero_entrada" : "op_tautomero_defecto"),
+            })}
+          </span>
+          <button
+            type="button"
+            onClick={() => setAvisoDePeticion(null)}
+            aria-label={t("c_cerrar")}
+            className="shrink-0 rounded border border-purple-400/40 px-2 py-0.5 text-[11px] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
+          >
+            {t("c_cerrar")}
+          </button>
+        </div>
+      )}
       <div className="min-h-0 flex-1">
       <ProEvaluation
+      activeConformers={inputs?.conformers ?? 1}
+      caseRuns={caseRuns}
+      ejemploEnEditor={!inputs?.ligand?.inputSmiles}
       smiles={smiles}
-      setSmiles={(next) => {
-        setSmiles(next);
-        // Se persiste lo que la persona escribe, tal cual. El canónico llega
-        // después, con el preflight; escribirlo aquí sería inventarlo.
-        notifyInputs.current?.({
-          ligand: { inputSmiles: next },
-        });
-      }}
+      setSmiles={escribirSmiles}
       target={target}
       setTarget={(next) => {
         if (structuralSystem) {
@@ -1252,7 +1489,12 @@ export default function CaseEvaluationRunner({
                 ],
               }
             : undefined,
-          customHotspots: [],
+          // `undefined` BORRA la selección del receptor anterior, pero no decide nada por
+          // la investigadora: `[]` es «no quiero residuos de referencia» y el backend lo
+          // respeta (SOL-08). Fijar `[]` aquí hacía que toda corrida por defecto fuera sin
+          // residuos —sin análisis de contactos— con «Opciones» diciendo «15/15 activos»
+          // y el preflight atribuyéndolo a una decisión (QA1-007).
+          customHotspots: undefined,
         });
       }}
       targets={targets}
@@ -1271,6 +1513,11 @@ export default function CaseEvaluationRunner({
       taskId={taskId}
       setTaskId={setTaskId}
       status={status}
+      cancelled={
+        Boolean(taskId) &&
+        (cancelledTaskRef.current === taskId ||
+          (activeRun?.taskId === taskId && activeRun?.executionState === "cancelled"))
+      }
       resultRecovery={resultRecovery}
       onRetryResultRecovery={() => {
         if (!taskId) return;
@@ -1308,9 +1555,10 @@ export default function CaseEvaluationRunner({
           setError(t("auto_3c658efb0bdc"));
           return;
         }
+        const guardada = status.result.task_id ?? null;
         try {
-          await saveMolecule(status.result.molecule_id, customName);
-          setIsSaved(true);
+          await saveMolecule(status.result.molecule_id, customName, guardada);
+          if (guardada) setSavedTaskIds((prev) => new Set(prev).add(guardada));
           playSound("bloom");
           // Notificar a /moldex (y a cualquier otra ruta keep-alive) que la
           // biblioteca cambió. Sin esto, navegar a /moldex tras guardar puede
@@ -1320,7 +1568,7 @@ export default function CaseEvaluationRunner({
           // keep-alive sin necesidad de un Context compartido.
           if (typeof window !== "undefined") {
             window.dispatchEvent(new CustomEvent("moldex:invalidated", {
-              detail: { moleculeId: status.result.molecule_id },
+              detail: { moleculeId: status.result.molecule_id, taskId: guardada },
             }));
           }
         } catch (e) {
@@ -1355,7 +1603,7 @@ export default function CaseEvaluationRunner({
       handleDownloadCertificate={async () => {
         if (!status?.result?.molecule_id) return;
         try {
-          await downloadCertificate(status.result.molecule_id, "evaluation");
+          await downloadCertificate(status.result.molecule_id, "evaluation", status.result.task_id);
         } catch (e) {
           setError(`No se pudo descargar el certificado: ${(e as Error).message}`);
         }
@@ -1363,7 +1611,7 @@ export default function CaseEvaluationRunner({
       handleDownloadComplex={async () => {
         if (!status?.result?.molecule_id) return;
         try {
-          await downloadComplexFile(status.result.molecule_id, "evaluation");
+          await downloadComplexFile(status.result.molecule_id, "evaluation", status.result.task_id);
         } catch (e) {
           setError(`No se pudo descargar el complejo: ${(e as Error).message}`);
         }
@@ -1383,6 +1631,7 @@ export default function CaseEvaluationRunner({
       preparationSlot={preparationSlot}
       runBlockedReason={runBlockedReason}
       initialRunConfiguration={initialRunConfiguration}
+      tautomeroPedido={peticion ? { modo: peticion.tautomero, nonce: peticion.nonce } : undefined}
       onRunConfigurationChange={(config) => {
         // Con el sistema SELLADO viaja sólo el protocolo. La caja y los
         // residuos no se reenvían siquiera: `setInputs` los restituiría desde
@@ -1396,6 +1645,7 @@ export default function CaseEvaluationRunner({
             dockingEngine: config.dockingEngine,
             exhaustiveness: config.exhaustiveness,
             numPoses: config.numPoses,
+            conformers: config.conformers,
             pipelineConfig: config.pipelineConfig,
           });
           return;
@@ -1406,6 +1656,7 @@ export default function CaseEvaluationRunner({
           dockingEngine: config.dockingEngine,
           exhaustiveness: config.exhaustiveness,
           numPoses: config.numPoses,
+          conformers: config.conformers,
           pipelineConfig: config.pipelineConfig,
         });
       }}

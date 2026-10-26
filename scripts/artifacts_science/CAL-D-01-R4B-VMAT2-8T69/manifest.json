@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment_id": "CAL-D-01-R4B-VMAT2-8T69",
+  "hypothesis": "Reanálisis enmendado de CAL-D-01-R4 sin el compuesto 4-67 (fallo persistente del producto): con los 88 scores ya medidos, el límite inferior del IC95 % de rho y el de rho de peor caso son > 0. No es confirmatorio: la enmienda se redactó después de ver los scores.",
+  "protocol": "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/entrada/protocolo.json",
+  "created_at": "2026-10-22T13:25:40.640646+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "claude/cal-d-01-r4",
+    "commit": "764846d596f325916a39b783efda3f788a1b03f2",
+    "dirty": false
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "R4 con una sola enmienda: un fallo persistente del producto en un compuesto, declarado con su nombre, no impide el criterio si quedan >= 85 padres evaluados; el criterio P1 (IC95 inferior de rho y de rho_peor > 0, puerta de pose superada) no cambia. Decisión INCONCLUSIVE por construcción: criterio enmendado tras ver los datos; no promociona."
+  },
+  "decision": "INCONCLUSIVE",
+  "dataset_hashes": {
+    "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/entrada/REGISTRO_R4B.md": "cb7b722e5769072fe81cb71ba9f0ea59d6341575e80882e1114bfb0b8dfbf006",
+    "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/entrada/protocolo.json": "bbc9b8ea0ce883bf2af04399d0e7cbb34cf2f90a5871d1005a4b0affbcb6cd29",
+    "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/metrics.json": "22eaf528238acf80e61ad038e3b9a042a94051cdd9ddda0a1e04542758a93323",
+    "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/per_complex.jsonl": "768414202f5d148d1726e87f6cee4eca5eeac607f50de3acc0374686d404ccff",
+    "scripts/artifacts_science/CAL-D-01-R4B-VMAT2-8T69/failures.jsonl": "4590f5f2ec93a8fc8913a088b97c2ce2a54a07b8292748b34f0ccef9c76b9b2f"
+  },
+  "assets_hashes": {
+    "scripts/cal_d01r4/reanalisis_r4b.py": "bb0991d9bd353580f0452701167276e45fd29844eec6ba68dc263a65a90767c9",
+    "scripts/cal_d01r4/rho_peor.py": "4741948f8428d13ac185ae1e352ba9ce71f5098f3e43cf19c6120f766e4c4769"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-22T13:28:49.328912+00:00",
+  "decision_rationale": "Reanalisis de R4 sin el compuesto 4-67 (fallo persistente del producto: Timeout de 1200 s en los dos intentos). 88 padres; puerta de pose superada (5 de 5). rho = 0,391 IC95 [0,219; 0,537]; rho de peor caso = 0,320 IC95 [0,139; 0,473]; ambos limites inferiores > 0, asi que el criterio enmendado se cumple. La enmienda (un fallo persistente del producto, declarado, no impide el criterio si quedan >= 85 padres) se redacto despues de ver los scores: no es confirmatorio y no promociona a Verificados. Decision INCONCLUSIVE por construccion. No se acoplo nada; los numeros coinciden exactamente con R4.",
+  "finished_at": "2026-10-22T13:28:49.515360+00:00",
+  "duration_seconds": 600.0
+}

@@ -18,13 +18,11 @@
 // `truncate` en cada fila).
 
 import { useEffect, useMemo, useState } from "react";
-import { useLanguage } from "../../context/LanguageContext";
+import { useLanguage, type ValoresDeTraduccion } from "../../context/LanguageContext";
 import { AlertTriangle, Archive, ArchiveRestore, FolderOpen, PanelLeftClose, Plus, Search } from "lucide-react";
 
 import { filterCaseEntries } from "../../lib/cases/repository";
 import {
-  CASE_RECOVERY_LABELS,
-  CASE_STATUS_LABELS,
   isTerminalRunState,
   type CaseIndexEntry,
   type CaseRecoveryAction,
@@ -50,25 +48,32 @@ export interface CaseSidebarProps {
   readonly onCollapse?: () => void;
 }
 
-function formatRelative(iso: string, now: number): string {
+type Translator = (key: string, values?: ValoresDeTraduccion) => string;
+
+export function formatRelative(iso: string, now: number, t: Translator, locale: string): string {
   const parsed = Date.parse(iso);
   if (Number.isNaN(parsed) || parsed === 0) return "—";
   const deltaMs = Math.max(0, now - parsed);
   const minutes = Math.floor(deltaMs / 60000);
-  if (minutes < 1) return "hace instantes";
-  if (minutes < 60) return `hace ${minutes} min`;
+  if (minutes < 1) return t("ca_time_just_now");
+  if (minutes < 60) return t("ca_time_minutes_ago", { count: minutes });
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `hace ${hours} h`;
+  if (hours < 24) return t("ca_time_hours_ago", { count: hours });
   const days = Math.floor(hours / 24);
-  if (days < 30) return `hace ${days} d`;
-  return new Date(parsed).toLocaleDateString();
+  if (days < 30) return t("ca_time_days_ago", { count: days });
+  return new Date(parsed).toLocaleDateString(locale);
 }
 
-function formatEvaluationActivity(entry: CaseIndexEntry, now: number): string {
-  if (!entry.activeRun) return "sin evaluaciones";
-  const relative = formatRelative(entry.activeRun.startedAt, now);
-  if (relative === "—") return "evaluación sin fecha";
-  return `${isTerminalRunState(entry.activeRun.executionState) ? "evaluada" : "iniciada"} ${relative}`;
+export function formatEvaluationActivity(entry: CaseIndexEntry, now: number, t: Translator, locale: string): string {
+  if (!entry.activeRun) return t("ca_case_activity_no_evaluations");
+  const relative = formatRelative(entry.activeRun.startedAt, now, t, locale);
+  if (relative === "—") return t("ca_case_activity_undated");
+  return t(
+    isTerminalRunState(entry.activeRun.executionState)
+      ? "ca_case_activity_evaluated"
+      : "ca_case_activity_started",
+    { time: relative },
+  );
 }
 
 export function CaseSidebar({
@@ -85,7 +90,7 @@ export function CaseSidebar({
   workLockedReason,
   onCollapse,
 }: CaseSidebarProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [query, setQuery] = useState("");
   const [now, setNow] = useState(() => Date.now());
 
@@ -131,7 +136,7 @@ export function CaseSidebar({
               onClick={() => onRecover(entry.id, action)}
               className="whitespace-nowrap rounded border border-surface-700 px-2 py-0.5 text-[11px] text-zinc-300 transition-colors hover:border-surface-600 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
             >
-              {CASE_RECOVERY_LABELS[action]}
+              {t(`ca_recovery_${action}`)}
             </button>
           ))}
         </div>
@@ -162,7 +167,7 @@ export function CaseSidebar({
           >
             <span className="block truncate text-sm text-zinc-200">{entry.name}</span>
             <span className="mt-0.5 block truncate font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-              {CASE_STATUS_LABELS[entry.status]} · {formatEvaluationActivity(entry, now)}
+              {t(`ca_case_status_${entry.status}`)} · {formatEvaluationActivity(entry, now, t, locale)}
               {entry.recoveredFromBackup ? t("auto_53678bc8e56b") : ""}
             </span>
           </button>
@@ -181,8 +186,8 @@ export function CaseSidebar({
             <button
               type="button"
               onClick={() => onArchive(entry.id, !entry.archived)}
-              aria-label={entry.archived ? `Restaurar ${entry.name}` : `Archivar ${entry.name}`}
-              title={entry.archived ? "Restaurar" : "Archivar (reversible)"}
+              aria-label={entry.archived ? `${t("ca_sidebar_restore")} ${entry.name}` : `${t("ca_sidebar_archive")} ${entry.name}`}
+              title={entry.archived ? t("ca_sidebar_restore") : t("ca_sidebar_archive")}
               className="rounded p-1 text-zinc-500 transition-colors hover:text-zinc-200 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
             >
               {entry.archived
@@ -196,9 +201,9 @@ export function CaseSidebar({
   };
 
   return (
-    <nav aria-label="Casos" className="flex h-full min-w-0 flex-col border-r border-surface-800 bg-surface-950">
+    <nav aria-label={t("ca_sidebar_cases")} className="flex h-full min-w-0 flex-col border-r border-surface-800 bg-surface-950">
       <div className="flex items-center justify-between gap-2 border-b border-surface-800 px-3 py-3">
-        <h2 className="truncate text-xs font-semibold uppercase tracking-wider text-zinc-400">Casos</h2>
+        <h2 className="truncate text-xs font-semibold uppercase tracking-wider text-zinc-400">{t("ca_sidebar_cases")}</h2>
         <button
           type="button"
           onClick={onCreate}
@@ -207,7 +212,7 @@ export function CaseSidebar({
           className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md border border-surface-700 px-2 py-1 text-xs text-zinc-300 transition-colors hover:border-brand-500/40 hover:text-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-surface-700"
         >
           <Plus className="h-3.5 w-3.5" aria-hidden="true" />
-          Nuevo caso
+          {t("ca_sidebar_new_case")}
         </button>
         {onCollapse && (
           <button
@@ -225,7 +230,7 @@ export function CaseSidebar({
       </div>
 
       <div className="border-b border-surface-800 px-3 py-2">
-        <label htmlFor="case-search" className="sr-only">Buscar casos</label>
+        <label htmlFor="case-search" className="sr-only">{t("ca_sidebar_search_cases")}</label>
         <div className="relative">
           <Search
             className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-600"
@@ -236,7 +241,7 @@ export function CaseSidebar({
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Buscar"
+            placeholder={t("ca_sidebar_search")}
             className="w-full min-w-0 rounded-md border border-surface-800 bg-surface-900 py-1.5 pl-7 pr-2 text-xs text-zinc-200 placeholder:text-zinc-600 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand-500"
           />
         </div>
@@ -254,7 +259,7 @@ export function CaseSidebar({
             {active.length > 0 && (
               <>
                 <h3 className="flex items-center justify-between px-2 pb-1 pt-1 font-mono text-[10px] uppercase tracking-wider text-zinc-600">
-                  <span>Casos activos</span>
+                  <span>{t("ca_sidebar_active_cases")}</span>
                   <span aria-label={`${active.length} casos`}>{active.length}</span>
                 </h3>
                 <ul className="space-y-0.5">{active.map(renderRow)}</ul>
@@ -263,7 +268,7 @@ export function CaseSidebar({
             {archived.length > 0 && (
               <>
                 <h3 className="px-2 pb-1 pt-4 font-mono text-[10px] uppercase tracking-wider text-zinc-600">
-                  Archivados
+                  {t("ca_sidebar_archived")}
                 </h3>
                 <ul className="space-y-0.5 opacity-70">{archived.map(renderRow)}</ul>
               </>

@@ -24,44 +24,20 @@
       "m": "fuerte"
      },
      {
-      "t": " Si el proceso de medición mueve las cosas tanto",
+      "t": " Si el proceso de medición mueve las cosas tanto como el efecto buscado, no puede detectarlo.",
       "m": null
      }
-    ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "como el efecto buscado, no puede detectarlo.",
-     "m": null
-    }
-   ]
-  },
-  {
-   "tipo": "lista",
-   "ordenada": true,
-   "items": [
+    ],
     [
      {
       "t": "¿Estaba convergido el minimizador?",
       "m": "fuerte"
      },
      {
-      "t": " Si se paró antes de tiempo, el «no se mueve» sólo",
+      "t": " Si se paró antes de tiempo, el «no se mueve» sólo significa «no le dio tiempo».",
       "m": null
      }
     ]
-   ]
-  },
-  {
-   "tipo": "parrafo",
-   "frag": [
-    {
-     "t": "significa «no le dio tiempo».",
-     "m": null
-    }
    ]
   },
   {
@@ -343,6 +319,63 @@
      "t": "La mayoría de los resultados negativos publicados en este campo no tienen su equivalente, y por eso no se distinguen de un montaje que no funcionaba.",
      "m": null
     }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "2026-10-20",
+     "m": "fuerte"
+    },
+    {
+     "t": ", a raíz de la Fase B de la auditoría científica del producto. Ninguna cifra sellada cambia y no se repitió ningún cálculo; esto corrige lo que el texto afirmaba a partir de ellas. Detalle y procedencia en ",
+     "m": null
+    },
+    {
+     "t": "docs/101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md",
+     "m": "codigo"
+    },
+    {
+     "t": ".",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-010. Los 0,401 Å son la ",
+      "m": null
+     },
+     {
+      "t": "deriva nativa",
+      "m": "fuerte"
+     },
+     {
+      "t": " del cristal minimizado bajo este protocolo, no un «suelo» de resolución del instrumento.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "SCI-B-009. El PASS de C3 no demuestra que el minimizador convergiera en MF-10.",
+      "m": null
+     }
+    ]
    ]
   }
  ],

@@ -2,24 +2,31 @@ import io
 import os
 from datetime import datetime, timezone
 from pathlib import Path
+from xml.sax.saxutils import escape
 from rdkit import Chem
+from core.i18n import current_locale, translate_text
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch, cm
 from reportlab.lib.utils import ImageReader
-from reportlab.platypus import KeepTogether, SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.platypus import (
+    KeepTogether, SimpleDocTemplate, Paragraph as _ReportLabParagraph,
+    Spacer, Table as _ReportLabTable, TableStyle,
+)
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from core.models import MoleculeORM, EvaluationResultORM
+from core.version import APP_VERSION
 from services.blockchain.certificate_context import generate_physiological_context
 from services.blockchain.evidence_summary import build_evidence_summary
 from services.docking.selectividad_margen import (
-    ESCALA_DE_MARGEN, INCERTIDUMBRE_VINA_KCAL, factor_de_selectividad,
+    ESCALA_DE_MARGEN,
 )
 from services.blockchain.certificate_figures import (
     generate_2d_interaction_diagram,
+    primera_pose,
     generate_energy_profile_plot,
     generate_shap_image,
     get_2d_image,
@@ -76,6 +83,118 @@ def _get_logo_watermark():
     _LOGO_WATERMARK_CACHE = False
     return None
 
+def _ajustar_a_ancho(cabeza: str, resto: str, fuente: str, tamano: float, ancho: float) -> str:
+    """`cabeza + resto` dentro de `ancho` pt, acortando sólo la `cabeza` con «…».
+
+    El `resto` (afinidad, estado) es lo que el pie existe para decir y no se
+    toca; la cabeza es el nombre largo del receptor, que ya está completo en la
+    primera página.
+    """
+    if pdfmetrics.stringWidth(cabeza + resto, fuente, tamano) <= ancho:
+        return cabeza + resto
+    disponible = ancho - pdfmetrics.stringWidth(resto + "…", fuente, tamano)
+    corte = len(cabeza)
+    while corte > 1 and pdfmetrics.stringWidth(cabeza[:corte], fuente, tamano) > disponible:
+        corte -= 1
+    return cabeza[:corte].rstrip() + "…" + resto
+
+
+def _nota_de_cofactores(eval_result, mol) -> str:
+    """Qué dice la metodología de los cofactores, sin confundir «vacía» con «ausente».
+
+    Los cofactores son los que conservó la corrida, no los que declara la diana:
+    hasta el arreglo de MET-01 (2026-10-11) la evaluación descartaba la lista de la
+    diana y acoplaba sin el metal, y la metodología describía un receptor que no se
+    usó.
+
+    SCI-A-068: una lista vacía registrada por la corrida es una decisión (no se
+    conservó ningún cofactor) y se imprimía «sin whitelist registrada», que es lo
+    que se dice cuando la corrida no la registró. Y cuando la lista viene de la
+    diana, no de la corrida, se dice de dónde sale.
+    """
+    from services.blockchain.evidence_summary import _value
+
+    protocolo = getattr(eval_result, "docking_protocol", None) or {}
+    preparacion = _value(_value(protocolo, "execution_provenance") or {}, "receptor_prep") or {}
+    if isinstance(preparacion, dict) and "cofactors_whitelist" in preparacion:
+        lista = list(preparacion.get("cofactors_whitelist") or [])
+        if not lista:
+            return "ninguno conservado (la corrida registró una lista vacía)"
+        return ", ".join(str(item) for item in lista)
+    de_la_diana = list(getattr(getattr(mol, "target", None), "cofactors_whitelist", None) or [])
+    if de_la_diana:
+        return ("lista de la diana (la corrida no registró la suya): "
+                + ", ".join(str(item) for item in de_la_diana))
+    return "la corrida no registró la lista de cofactores"
+
+
+def _nota_de_validez_fisica(resumen: dict) -> str:
+    """La nota de validez fisica que corresponde a ESTA corrida.
+
+    Decia siempre «la version actual no ejecuta un validador geometrico de poses
+    en produccion», que desde P0-A es falso: el validador corre por pose y su
+    veredicto vive en `structural_evidence`. El mismo defecto ya se corrigio en
+    el dossier y en el resumen (`evidence_summary`); aqui quedaba la frase
+    impresa a mano. Sin validacion ejecutada se dice que NO se evaluo (y que eso
+    no dice nada de las poses); con ella, se remite al veredicto y se recuerda
+    su limite.
+    """
+    validez = resumen.get("physical_validity") or {}
+    if validez.get("status") in (None, "not_evaluated"):
+        return translate_text(
+            "· <b>Validez fisica:</b> En esta corrida los controles de quimica y geometria no se evaluaron "
+            "(la corrida es anterior a esa etapa o el validador no llego a emitir veredicto). "
+            "Eso no dice nada sobre las poses: ausencia de evaluacion no es ausencia de choques, "
+            "enlaces imposibles o artefactos de preparación.<br/><br/>"
+        )
+    return (
+        translate_text(
+            f"· <b>Validez fisica:</b> Los controles de quimica y geometria de las poses se describen en su seccion "
+            f"(estado: {translate_text(str(validez.get('label') or 'sin datos'))}). Superarlos no demuestra validez experimental ni descarta artefactos "
+            "de preparacion, y «requiere revision» no es una pose aprobada.<br/><br/>"
+        )
+    )
+
+
+#: Cada frase en su propio literal: el catálogo inglés traduce por frase, y
+#: `scripts/auditar_catalogo_i18n.py` sólo reconoce como viva una entrada que
+#: aparece entera en el código. Con las dos frases en un único literal, las dos
+#: quedaban como claves muertas.
+_VALIDEZ_FISICA_SIN_VEREDICTO = (
+    "<b>Validez física:</b> en esta corrida los controles de química y geometría no "
+    "llegaron a emitir veredicto, y esa ausencia no habla de las poses."
+)
+_LIMITE_DEL_ANALISIS_GEOMETRICO = (
+    "El análisis geométrico externo debe documentarse antes de cálculos posteriores "
+    "o decisiones experimentales."
+)
+
+
+def _frase_de_validez_fisica_en_metodologia(resumen: dict) -> str:
+    """La frase de validez fisica de la metodologia, condicionada a ESTA corrida.
+
+    `_nota_de_validez_fisica` (arriba) y `evidence_summary` ya se corrigieron
+    para no negar el validador que corre desde P0-A. Esta frase quedo impresa a
+    mano en la seccion de metodologia y seguia diciendo «no evaluada en esta
+    version de produccion» dentro del MISMO PDF cuya matriz imprime el
+    veredicto. Un informe que se contradice a si mismo no transfiere nada, y
+    encima firma la contradiccion con su SHA-256. Lo midio SCI-A-008 de la
+    auditoria de ciencia.
+
+    El limite —que el analisis geometrico externo hay que documentarlo antes de
+    un calculo posterior— es cierto en las dos ramas y se conserva en ambas.
+    """
+    validez = resumen.get("physical_validity") or {}
+    if validez.get("status") in (None, "not_evaluated"):
+        return _VALIDEZ_FISICA_SIN_VEREDICTO + " " + _LIMITE_DEL_ANALISIS_GEOMETRICO
+    return (
+        "<b>Validez física:</b> los controles de química y geometría de esta corrida emitieron "
+        f"veredicto ({translate_text(str(validez.get('label') or 'sin datos'))}) y su cobertura se "
+        "detalla en su sección; superarlos no demuestra validez experimental ni descarta "
+        "artefactos de preparación. "
+    ) + _LIMITE_DEL_ANALISIS_GEOMETRICO
+
+
 class NumberedCanvas(canvas.Canvas):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -128,13 +247,24 @@ class NumberedCanvas(canvas.Canvas):
         affinity_info = getattr(self, "affinity_info", "")
         score_info = getattr(self, "score_info", "")
 
-        # Left executive summary
-        summary_text = f"{target_info} | {affinity_info} | {score_info} | MolDesign"
-        self.drawString(1.5*cm, 0.8*cm, summary_text)
-
         # Right page number
-        page_text = f"Página {self._pageNumber} de {page_count}"
+        page_text = translate_text(f"Página {self._pageNumber} de {page_count}")
         self.drawRightString(A4[0] - 1.5*cm, 0.8*cm, page_text)
+
+        # Left executive summary. AMP-08: con el nombre largo de un receptor
+        # (3F75) esta línea pisaba «Página 1 de 7», que va en la misma altura.
+        # Se ajusta al ancho que deja el número de página; sólo se acorta la
+        # parte del receptor, que la primera página imprime completa.
+        ancho_disponible = (
+            (A4[0] - 3.0*cm)
+            - pdfmetrics.stringWidth(page_text, "Helvetica", 7)
+            - 0.6*cm
+        )
+        resto = f" | {affinity_info} | {score_info} | MolDesign"
+        self.drawString(
+            1.5*cm, 0.8*cm,
+            _ajustar_a_ancho(target_info, resto, "Helvetica", 7, ancho_disponible),
+        )
 
         # Thin divider line
         self.setStrokeColor(colors.HexColor("#e2e8f0"))
@@ -204,13 +334,10 @@ def compute_residue_interactions(receptor_pdb: str | None, ligand_sdf: str | Non
                 except (ValueError, IndexError):
                     continue
 
-        suppl = Chem.SDMolSupplier()
-        suppl.SetData(ligand_sdf)
-        poses = [m for m in suppl if m is not None]
-        if not poses:
+        best_pose = primera_pose(ligand_sdf)
+        if best_pose is None:
             return []
 
-        best_pose = poses[0]
         ligand_atoms = []
         conf = best_pose.GetConformer()
         for i, atom in enumerate(best_pose.GetAtoms()):
@@ -289,7 +416,10 @@ def compute_residue_interactions(receptor_pdb: str | None, ligand_sdf: str | Non
                     "residue": f"{res_name}{res_num} ({chain})",
                     "type": "/".join(sorted(list(int_types))),
                     "distance": f"{min_dist:.2f} Å",
-                    "min_dist_val": min_dist
+                    "min_dist_val": min_dist,
+                    # SCI-A-057: los átomos de la pose que forman el contacto polar,
+                    # para que el diagrama rotule sólo ésos.
+                    "ligand_atoms": sorted(atoms_in_hb | atoms_in_sb),
                 })
         classified.sort(key=lambda x: x["min_dist_val"])
         return classified[:10]  # Top 10 interactions
@@ -329,12 +459,48 @@ def generate_certificate_pdf(
     pose_sdf_content: str | None = None,
     receptor_pdb_content: str | None = None
 ) -> io.BytesIO:
+    protected_text = {str(target_name)}
+    identity_fields = {
+        "name", "pdb_id", "chain", "smiles", "canonical_smiles", "smiles_hash",
+        "id", "task_id", "celery_task_id", "receptor_path", "filename",
+        "source_name", "model_used", "engine_used", "vina_version", "parsing_source",
+        "description",
+    }
+    for obj in (mol, getattr(mol, "target", None), eval_result):
+        if obj is None:
+            continue
+        for campo in identity_fields:
+            valor = obj.get(campo) if isinstance(obj, dict) else getattr(obj, campo, None)
+            if isinstance(valor, str):
+                protected_text.add(valor)
+
+    def _texto_de_presentacion(valor):
+        if isinstance(valor, str):
+            return valor if valor in protected_text else translate_text(valor)
+        if isinstance(valor, list):
+            return [_texto_de_presentacion(item) for item in valor]
+        if isinstance(valor, tuple):
+            return tuple(_texto_de_presentacion(item) for item in valor)
+        return valor
+
+    def Paragraph(text, *args, **kwargs):
+        return _ReportLabParagraph(_texto_de_presentacion(text), *args, **kwargs)
+
+    def Table(data, *args, **kwargs):
+        return _ReportLabTable(_texto_de_presentacion(data), *args, **kwargs)
+
     buf = io.BytesIO()
     doc = SimpleDocTemplate(
         buf,
         pagesize=A4,
         rightMargin=1.5*cm, leftMargin=1.5*cm,
-        topMargin=1.5*cm, bottomMargin=1.5*cm
+        topMargin=1.5*cm, bottomMargin=1.5*cm,
+        # AMP-07/AMP-08: sin esto Title y Author salían «(anonymous)» y dos
+        # documentos distintos no se distinguían en el visor ni en el gestor de
+        # archivos.
+        title=translate_text(f"Informe de evaluación · {mol.target.pdb_id.upper() if getattr(mol, 'target', None) else target_name}"),
+        author="MolDesign",
+        subject=translate_text("Informe de evaluación de una corrida (no es el dossier del caso)"),
     )
 
     styles = getSampleStyleSheet()
@@ -459,7 +625,7 @@ def generate_certificate_pdf(
     evidence_summary = build_evidence_summary(eval_result, getattr(mol, "target", None))
 
     # HEADER
-    story.append(Paragraph("DOSSIER DE EVIDENCIA COMPUTACIONAL", title_style))
+    story.append(Paragraph("INFORME DE EVALUACIÓN", title_style))
 
     # Fecha real de la evaluación (no la de descarga). evaluated_at es la
     # autoridad temporal del pipeline; se formatea en UTC y en zona local.
@@ -475,7 +641,22 @@ def generate_certificate_pdf(
         cert_date = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
 
     story.append(Paragraph("Evidencia, reproducibilidad, supuestos, controles e incertidumbres", subtitle_style))
-    story.append(Paragraph(f"Registro temporal de la evaluación: {cert_date} &nbsp;·&nbsp; MolDesign", meta_style))
+    story.append(Paragraph(f"Registro temporal de la evaluación: {cert_date} &nbsp;·&nbsp; MolDesign {APP_VERSION}", meta_style))
+    # AMP-07. Este documento y el dossier del caso se titulaban igual y cada uno
+    # se presentaba como «el» documento. Aquí se dice qué es y cuál es el otro:
+    # el informe describe UN resultado de molécula; el dossier agrupa el caso
+    # (contexto, decisiones vigentes e históricas, procedencia y el paquete
+    # verificable). La corrida se identifica para poder cruzarlos.
+    _corrida = getattr(eval_result, "task_id", None) or getattr(eval_result, "celery_task_id", None)
+    story.append(Paragraph(
+        translate_text(
+            (f"Corrida: <font name='{font_name}'>{_corrida}</font>. " if _corrida else "Corrida no identificada en el resultado. ")
+            + "Este informe describe el resultado de una molécula en una corrida. "
+            "El <b>dossier del caso</b> (contexto, decisiones, procedencia y paquete verificable) es otro documento: "
+            "se obtiene desde el informe del caso."
+        ),
+        ParagraphStyle('Identidad', parent=normal_style, fontSize=8, leading=11, textColor=SLATE, spaceAfter=10),
+    ))
 
     # EXECUTIVE EVIDENCE SUMMARY - first-page decision surface. El dossier
     # describe una corrida; no califica si la molécula es un "buen fármaco".
@@ -489,17 +670,21 @@ def generate_certificate_pdf(
     )
     model_label = " / ".join(
         str(value) for value in (model_context["engine"], model_context["model"]) if value
-    ) or "motor y modelo no informados"
+    ) or translate_text("motor y modelo no informados")
     dimension_colors = {
         "available": GOOD,
         "review": WARN,
+        # SCI-A-059: un control fallido no es una comprobación pendiente. Antes
+        # llegaba aquí aplanado a `review` y se pintaba del ámbar de «falta
+        # mirarlo», no del rojo de «falló».
+        "failed": BAD,
         "missing": BAD,
         "not_evaluated": SLATE,
     }
     next_action = evidence_summary["next_action"]
     action_color = {"proceed": GOOD, "review": WARN, "abstain": BAD}[next_action["status"]]
 
-    story.append(Paragraph("Propósito del dossier", section_title_style))
+    story.append(Paragraph("Propósito del informe", section_title_style))
     story.append(Paragraph(
         "Este documento responde qué evidencia computacional produjo la corrida, qué partes son reproducibles, "
         "qué supuestos hizo, qué controles superó, qué incertidumbres permanecen y qué sería justificable hacer después. "
@@ -509,8 +694,10 @@ def generate_certificate_pdf(
 
     story.append(Paragraph("Conclusión operativa de la corrida", section_title_style))
     story.append(Paragraph(
-        f"<font color='{evidence_color.hexval()}'><b>{evidence_summary['label']}</b></font> - "
-        f"{evidence_summary['summary']}",
+        # SCI-A-026: rótulo y resumen se traducen por separado; la línea entera no
+        # tiene plantilla y salía en castellano en el informe inglés.
+        f"<font color='{evidence_color.hexval()}'><b>{translate_text(evidence_summary['label'])}</b></font> - "
+        f"{translate_text(evidence_summary['summary'])}",
         normal_style,
     ))
     story.append(Paragraph(
@@ -543,30 +730,67 @@ def generate_certificate_pdf(
     ]))
     story.append(evidence_table)
 
-    assumptions_text = "<br/>".join(f"- {item}" for item in evidence_summary["assumptions"])
-    uncertainty_items = evidence_summary["uncertainties"] or ["No se registraron incertidumbres adicionales a las limitaciones generales del protocolo."]
-    uncertainties_text = "<br/>".join(f"- {item}" for item in uncertainty_items)
+    # ── Supuestos e incertidumbres: una fila por ítem (CAS-06 / AMP-04) ────
+    #
+    # Esto era UNA fila con dos celdas que concatenaban todos los supuestos
+    # y todas las incertidumbres con <br/>. ReportLab fragmenta tablas ENTRE
+    # filas, nunca DENTRO de una: con los avisos que un ensemble duplica por
+    # conformación, la fila medía 5336 puntos contra un marco de ~745, y el
+    # documento moría con LayoutError en vez de paginar (HTTP 500 al pedir
+    # el PDF desde el historial).
+    #
+    # Una fila por PAR de ítems se fragmenta entre páginas de forma nativa y
+    # el encabezado reaparece en cada página (repeatRows=1). NADA se recorta
+    # para caber: si un aviso entró a la corrida, sale en el documento.
+    assumptions = list(evidence_summary["assumptions"])
+    uncertainty_items = list(evidence_summary["uncertainties"] or [
+        "No se registraron incertidumbres adicionales a las limitaciones generales del protocolo."
+    ])
+    assumption_headers = translate_text("Supuestos registrados | Incertidumbres abiertas").split(" | ")
+    filas_supuestos = [
+        [
+            Paragraph(f"- {assumptions[i]}", normal_style) if i < len(assumptions) else "",
+            Paragraph(f"- {uncertainty_items[i]}", normal_style) if i < len(uncertainty_items) else "",
+        ]
+        for i in range(max(len(assumptions), len(uncertainty_items)))
+    ]
     story.append(KeepTogether([
         Paragraph("Supuestos e incertidumbres abiertas", section_title_style),
-        Table([
-            [Paragraph("<b>Supuestos registrados</b>", normal_style), Paragraph("<b>Incertidumbres abiertas</b>", normal_style)],
-            [Paragraph(assumptions_text, normal_style), Paragraph(uncertainties_text, normal_style)],
-        ], colWidths=[245, 245], style=TableStyle([
-            ('GRID', (0, 0), (-1, -1), 0.5, LINE),
-            ('BACKGROUND', (0, 0), (-1, 0), HEAD_BG),
-            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-            ('PADDING', (0, 0), (-1, -1), 5),
-        ])),
+        Table(
+            [
+                [
+                    Paragraph(f"<b>{assumption_headers[0]}</b>", normal_style),
+                    Paragraph(f"<b>{assumption_headers[1]}</b>", normal_style),
+                ],
+            ]
+            + filas_supuestos,
+            colWidths=[245, 245],
+            repeatRows=1,
+            style=TableStyle([
+                ('GRID', (0, 0), (-1, -1), 0.5, LINE),
+                ('BACKGROUND', (0, 0), (-1, 0), HEAD_BG),
+                ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                ('PADDING', (0, 0), (-1, -1), 5),
+            ]),
+        ),
     ]))
 
     # TARGET SECTION
     target_heading = Paragraph("Receptor Biológico (Target)", section_title_style)
-    rho_val = f" | <b>Spearman ρ:</b> {mol.target.spearman_rho:.3f}" if (mol.target and mol.target.spearman_rho is not None) else ""
+    rho_val = translate_text(f" | <b>Spearman ρ:</b> {mol.target.spearman_rho:.3f}") if (mol.target and mol.target.spearman_rho is not None) else ""
 
     ref_ligand = CO_CRYSTAL_LIGANDS.get(mol.target.pdb_id.upper() if mol.target else "", "N/A")
-    ref_str = f" | <b>Ligando Co-cristalizado:</b> {ref_ligand}" if ref_ligand != "N/A" else ""
+    if ref_ligand != "N/A":
+        ref_ligand = translate_text(ref_ligand)
+        ref_str = translate_text(f" | <b>Ligando Co-cristalizado:</b> {ref_ligand}")
+    else:
+        ref_str = ""
 
-    target_identity = Paragraph(f"<b>PDB ID:</b> {mol.target.pdb_id.upper() if mol.target else 'N/A'} | <b>Nombre:</b> {target_name}{rho_val}{ref_str}", normal_style)
+    target_identity = Paragraph(
+        f"<b>PDB ID:</b> {mol.target.pdb_id.upper() if mol.target else 'N/A'} | "
+        f"<b>{translate_text('Nombre')}:</b> {target_name}{rho_val}{ref_str}",
+        normal_style,
+    )
 
     # QA Check on Target Origin
     is_custom = mol.target and (mol.target.pdb_id.upper().startswith("USR_") or mol.target.is_private)
@@ -596,7 +820,9 @@ def generate_certificate_pdf(
         Spacer(1, 6),
     ]))
 
-    target_desc = mol.target.description
+    from services.targets.context_localization import physiological_description
+
+    target_desc = physiological_description(mol.target)
     # Una description genérica del seed ("Target pre-curado...") o los fallbacks
     # del fetch NO son contexto fisiológico: en ese caso se genera el contexto
     # a partir de los headers del PDB local.
@@ -613,8 +839,11 @@ def generate_certificate_pdf(
         or any(target_desc.startswith(p) for p in _generic_prefixes)
     )
     if _desc_is_generic:
-        target_desc = generate_physiological_context(mol.target.pdb_id if mol.target else "7E2Y", receptor_pdb_content)
-    story.append(Paragraph(f"<b>Contexto Fisiológico:</b> {target_desc}", normal_style))
+        target_desc = translate_text(generate_physiological_context(
+            mol.target.pdb_id if mol.target else "7E2Y", receptor_pdb_content))
+    # External annotations and researcher input are data, not catalogue messages.
+    story.append(_ReportLabParagraph(
+        f"<b>{translate_text('Contexto Fisiológico:')}</b> {escape(target_desc or '')}", normal_style))
     story.append(Spacer(1, 10))
 
     # MOLECULE SECTION
@@ -622,6 +851,7 @@ def generate_certificate_pdf(
 
     # Fetch common and IUPAC name from PubChem
     common_name, iupac_name = get_pubchem_names(mol.smiles)
+    protected_text.update(value for value in (common_name, iupac_name) if value)
 
     # IUPAC Truncation to avoid visual table overflow
     if iupac_name and len(iupac_name) > 80:
@@ -749,11 +979,11 @@ def generate_certificate_pdf(
     if not pose_sdf_content or not receptor_pdb_content:
         faltan = []
         if not pose_sdf_content:
-            faltan.append("pose SDF")
+            faltan.append(translate_text("pose SDF"))
         if not receptor_pdb_content:
-            faltan.append("estructura PDB del receptor")
+            faltan.append(translate_text("estructura PDB del receptor"))
         story.append(Paragraph(
-            "Mapa de contactos no evaluado: faltan " + ", ".join(faltan) + ".",
+            translate_text("Mapa de contactos no evaluado: faltan " + ", ".join(faltan) + "."),
             normal_style,
         ))
 
@@ -778,7 +1008,8 @@ def generate_certificate_pdf(
         ]))
 
         # Draw 2D Interaction Diagram side-by-side
-        diag_img = generate_2d_interaction_diagram(mol.smiles, contacts, 180, 180)
+        diag_img = generate_2d_interaction_diagram(mol.smiles, contacts, 180, 180,
+                                                   pose_sdf=pose_sdf_content)
         if diag_img:
             layout_table = Table([[contact_table, diag_img]], colWidths=[310, 180])
             layout_table.setStyle(TableStyle([
@@ -838,9 +1069,10 @@ def generate_certificate_pdf(
         story.append(Paragraph("Alertas Científicas del Pipeline", section_title_style))
         for item in sci_warnings:
             color, badge = _ESTILO_POR_SEVERIDAD.get(item["severidad"], (SLATE, "NOTA"))
+            badge = translate_text(badge)
             story.append(Paragraph(
                 f"<font color='{color.hexval() if hasattr(color, 'hexval') else '#b91c1c'}'>"
-                f"<b>[{badge}]</b></font> {item['mensaje']}",
+                f"<b>[{badge}]</b></font> {translate_text(item['mensaje'])}",
                 ParagraphStyle('SciWarning', parent=normal_style, fontSize=8, leading=11, spaceAfter=3)
             ))
 
@@ -862,17 +1094,15 @@ def generate_certificate_pdf(
                 else "#b45309" if selectivity_delta_delta_g >= ESCALA_DE_MARGEN[1][0]
                 else "#b91c1c"
             )
-            banda_min = factor_de_selectividad(
-                selectivity_delta_delta_g - INCERTIDUMBRE_VINA_KCAL)
-            banda_max = factor_de_selectividad(
-                selectivity_delta_delta_g + INCERTIDUMBRE_VINA_KCAL)
+            # SCI-A-037: sin el factor de unión que se imprimía: convertir la diferencia de scores
+            # en una razón de unión no está validado.
             anti_section.append(Paragraph(
-                f"<b>Margen computacional ΔΔG:</b> "
-                f"<font color='{margen_color}'>{selectivity_delta_delta_g:.2f} kcal/mol</font> "
-                f"(factor orientativo {banda_min:.1g}x–{banda_max:.1g}x). "
+                f"<b>Margen de score de Vina (ΔΔG de docking):</b> "
+                f"<font color='{margen_color}'>{selectivity_delta_delta_g:.2f} kcal/mol</font>. "
                 f"{selectivity_verdict or 'sin clasificación'}. "
                 "Los scores de Vina entre receptores distintos no son energías libres "
-                "experimentales directamente comparables.",
+                "experimentales directamente comparables, y esta diferencia no es una razón "
+                "de afinidades medida.",
                 normal_style,
             ))
         else:
@@ -992,7 +1222,7 @@ def generate_certificate_pdf(
     story.append(Spacer(1, 10))
 
     # ADMET-AI Pharmacokinetics Table
-    admet_headers = ["Propiedad modelada (ADMET-AI)", "Salida", "Alcance de la señal"]
+    admet_headers = [translate_text(label) for label in ("Propiedad modelada (ADMET-AI)", "Salida", "Alcance de la señal")]
 
     # 1. Solubility qualitative tier classification
     solubility_val = "N/A"
@@ -1064,7 +1294,7 @@ def generate_certificate_pdf(
     admet_data = [
         [Paragraph(f"<b>{h}</b>", tbl_cell_bold) for h in admet_headers],
         [
-            Paragraph("Solubilidad Acuosa (LogS)", tbl_cell_bold),
+            Paragraph(translate_text("Solubilidad Acuosa (LogS)"), tbl_cell_bold),
             Paragraph(solubility_val, tbl_cell_center),
             Paragraph("Estimación del modelo; no sustituye una medición de solubilidad.", tbl_cell_style)
         ],
@@ -1108,19 +1338,19 @@ def generate_certificate_pdf(
     # Analyze infractions dynamically from pre-calculated values
     infractions = []
     if eval_result.molecular_weight and eval_result.molecular_weight > 500:
-        infractions.append(f"MW alto ({eval_result.molecular_weight:.1f} Da)")
+        infractions.append(translate_text(f"MW alto ({eval_result.molecular_weight:.1f} Da)"))
     if eval_result.log_p and eval_result.log_p > 5.0:
-        infractions.append(f"LogP alto ({eval_result.log_p:.2f})")
+        infractions.append(translate_text(f"LogP alto ({eval_result.log_p:.2f})"))
     if eval_result.hbd and eval_result.hbd > 5:
-        infractions.append(f"Exceso Donadores H-Bond ({eval_result.hbd})")
+        infractions.append(translate_text(f"Exceso Donadores H-Bond ({eval_result.hbd})"))
     if eval_result.hba and eval_result.hba > 10:
-        infractions.append(f"Exceso Aceptores H-Bond ({eval_result.hba})")
+        infractions.append(translate_text(f"Exceso Aceptores H-Bond ({eval_result.hba})"))
     if eval_result.tpsa and eval_result.tpsa > 140:
-        infractions.append(f"TPSA alta ({eval_result.tpsa:.1f} Å²)")
+        infractions.append(translate_text(f"TPSA alta ({eval_result.tpsa:.1f} Å²)"))
     if eval_result.rotatable_bonds and eval_result.rotatable_bonds > 10:
-        infractions.append(f"Flexibilidad alta ({eval_result.rotatable_bonds} rot. bonds)")
+        infractions.append(translate_text(f"Flexibilidad alta ({eval_result.rotatable_bonds} rot. bonds)"))
 
-    infractions_str = ", ".join(infractions) if infractions else "No se registraron infracciones frente a estas reglas"
+    infractions_str = ", ".join(infractions) if infractions else translate_text("No se registraron infracciones frente a estas reglas")
 
     reglas_v24 = getattr(eval_result, "muegge_violations", None) is not None
     veber_txt = "NO EVALUADO" if not reglas_v24 else ("CUMPLE" if eval_result.veber_pass else "NO CUMPLE")
@@ -1155,9 +1385,11 @@ def generate_certificate_pdf(
 
     story.append(Spacer(1, 4))
 
-    diagnostics_text = f"<b>Lectura de las reglas:</b> {infractions_str}. Estas reglas describen propiedades; no califican por sí solas la idoneidad farmacológica."
+    diagnostics_text = translate_text(
+        f"<b>Lectura de las reglas:</b> {infractions_str}. Estas reglas describen propiedades; no califican por sí solas la idoneidad farmacológica."
+    )
     if eval_result.qed and eval_result.qed < 0.5:
-        diagnostics_text += " <i>QED quedó por debajo de 0.5; se conserva como descriptor heurístico, no como veredicto.</i>"
+        diagnostics_text += " <i>" + translate_text("QED quedó por debajo de 0.5; se conserva como descriptor heurístico, no como veredicto.") + "</i>"
     story.append(Paragraph(diagnostics_text, normal_style))
 
     if eval_result.sa_reasons:
@@ -1201,6 +1433,7 @@ def generate_certificate_pdf(
             "La señal affinity_kcal puede diferir porque la serializa otra etapa del pipeline. "
             "Ninguna de las dos equivale por sí sola a una energía libre experimental."
         )
+        pose_note = translate_text(pose_note)
         pose_note_paragraph = Paragraph(
             f"<font color='#64748b' size='7.5'><i>{pose_note}</i></font>",
             ParagraphStyle('PoseNote', parent=normal_style, spaceAfter=4)
@@ -1263,8 +1496,9 @@ def generate_certificate_pdf(
                     provenance = "No se puede atribuir esta explicación a un modelo exacto."
                 story.append(Paragraph(heading, xai_header_style))
                 story.append(Paragraph(
-                    provenance + " Estas contribuciones no explican el total_score "
-                    "ni la probabilidad del clasificador que entra al ranking.",
+                    translate_text(provenance) + " " + translate_text(
+                        "Estas contribuciones no explican el total_score "
+                        "ni la probabilidad del clasificador que entra al ranking."),
                     normal_style,
                 ))
                 story.append(shap_img)
@@ -1294,7 +1528,7 @@ def generate_certificate_pdf(
     # them in the scientific narrative or decision surface.
     story.append(Paragraph("Apéndice técnico: salidas heredadas", section_title_style))
     story.append(Paragraph(
-        "Esta tabla existe únicamente para compatibilidad y auditoría de registros anteriores. Sus escalas no son comparables entre sí y no alimentan la conclusión operativa de este dossier.",
+        "Esta tabla existe únicamente para compatibilidad y auditoría de registros anteriores. Sus escalas no son comparables entre sí y no alimentan la conclusión operativa de este informe.",
         ParagraphStyle('LegacyAppendixIntro', parent=normal_style, fontSize=8, textColor=SLATE, spaceAfter=5),
     ))
     signal_rows = []
@@ -1311,11 +1545,12 @@ def generate_certificate_pdf(
     )
     for label, value, suffix in signal_fields:
         if value is not None:
-            signal_rows.append([label, f"{value:.3f}{suffix}"])
+            signal_rows.append([label, f"{value:.3f}{translate_text(suffix)}"])
     if eval_result.target_family:
         signal_rows.append(["Familia estructural", eval_result.target_family.upper()])
     if signal_rows:
-        signal_table = Table([["Señal", "Valor serializado"]] + signal_rows, colWidths=[245, 245], repeatRows=1)
+        signal_header = translate_text("Señal / Valor serializado").split(" / ")
+        signal_table = Table([signal_header] + signal_rows, colWidths=[245, 245], repeatRows=1)
         signal_table.setStyle(TableStyle([
             ('GRID', (0, 0), (-1, -1), 0.5, LINE),
             ('BACKGROUND', (0, 0), (-1, 0), HEAD_BG),
@@ -1346,18 +1581,21 @@ def generate_certificate_pdf(
         weights_parts.append(f"GNN legacy {eval_result.stacking_gnn_weight:.2f}")
     if weights_parts:
         story.append(Paragraph(
-            f"<b>Pesos de combinación registrados (familia {eval_result.target_family.upper() if eval_result.target_family else 'N/A'}):</b> " + " / ".join(weights_parts),
+            translate_text(
+                f"<b>Pesos de combinación registrados (familia {eval_result.target_family.upper() if eval_result.target_family else 'N/A'}):</b> "
+                + " / ".join(weights_parts)
+            ),
             ParagraphStyle('StackWeights', parent=normal_style, fontSize=8, textColor=SLATE)
         ))
 
     factor_parts = []
     if getattr(eval_result, "affinity_multiplier", None) is not None:
-        factor_parts.append(f"Afinidad ×{eval_result.affinity_multiplier:.2f}")
+        factor_parts.append(f"{translate_text('Afinidad')} ×{eval_result.affinity_multiplier:.2f}")
     if getattr(eval_result, "specificity_multiplier", None) is not None:
-        factor_parts.append(f"Especificidad ×{eval_result.specificity_multiplier:.2f}")
+        factor_parts.append(f"{translate_text('Especificidad')} ×{eval_result.specificity_multiplier:.2f}")
     if factor_parts:
         story.append(Paragraph(
-            "<b>Factores correctivos registrados:</b> " + " / ".join(factor_parts),
+            translate_text("<b>Factores correctivos registrados:</b> " + " / ".join(factor_parts)),
             ParagraphStyle('ScoreFactors', parent=normal_style, fontSize=8, textColor=SLATE)
         ))
     story.append(Spacer(1, 10))
@@ -1382,7 +1620,7 @@ def generate_certificate_pdf(
         story.append(bc_table)
     else:
         story.append(Paragraph("Integridad y registro temporal (Solana)", section_title_style))
-        story.append(Paragraph("<i>La huella de este dossier todavía no está registrada en Solana. El registro acredita integridad y fecha, no descubrimiento ni validez científica.</i>", normal_style))
+        story.append(Paragraph("<i>La huella de este informe todavía no está registrada en Solana. El registro acredita integridad y fecha, no descubrimiento ni validez científica.</i>", normal_style))
 
     # OBSERVED METHODOLOGY - only facts serialized by this run.
     story.append(Spacer(1, 10))
@@ -1397,22 +1635,23 @@ def generate_certificate_pdf(
         alignment=4 # Justified
     )
 
-    cofactor_whitelist = getattr(getattr(mol, "target", None), "cofactors_whitelist", None) or []
-    cofactor_note = ", ".join(str(item) for item in cofactor_whitelist) if cofactor_whitelist else "sin whitelist registrada"
+    cofactor_note = _nota_de_cofactores(eval_result, mol)
+    engine_for_report = model_context["engine"] or translate_text("no informado")
+    model_for_report = model_context["model"] or translate_text("no informado")
     methodology_text = (
         f"<b>Sistema de entrada:</b> receptor {pdb_upper or 'N/A'}, estado de preparación "
-        f"{evidence_summary['target_readiness'].replace('_', ' ')}, cofactores: {cofactor_note}. "
-        "El dossier no atribuye protonación, eliminación de aguas, minimización ni estados de carga cuando esas operaciones no fueron serializadas por la corrida.<br/>"
+        f"{({'listo': 'ready', 'revisar': 'review', 'sin_datos': 'no data'}.get(evidence_summary['target_readiness'], evidence_summary['target_readiness'].replace('_', ' ')) if current_locale() == 'en' else evidence_summary['target_readiness'].replace('_', ' '))}, cofactores: {translate_text(cofactor_note)}. "
+        "El informe no atribuye protonación, eliminación de aguas, minimización ni estados de carga cuando esas operaciones no fueron serializadas por la corrida.<br/>"
         f"<b>Exploración de poses:</b> el resultado registra {evidence_summary['pose_count']} poses, "
         f"motor {eval_result.vina_version or 'no informado'}, semilla "
         f"{eval_result.vina_random_seed if eval_result.vina_random_seed is not None else 'no informada'} y parser "
         f"{eval_result.parsing_source or 'no informado'}. Las afinidades son señales de la función de scoring y ranking; no son medidas experimentales de energía libre.<br/>"
-        f"<b>Modelos derivados:</b> motor {model_context['engine'] or 'no informado'}, modelo "
-        f"{model_context['model'] or 'no informado'}, {domain_label}. "
-        "Cada salida se reporta por separado; el dossier no convierte el índice compuesto heredado en una conclusión científica.<br/>"
-        "<b>Validez física:</b> no evaluada en esta versión de producción. El análisis geométrico externo debe documentarse antes de cálculos posteriores o decisiones experimentales."
+        f"<b>Modelos derivados:</b> motor {engine_for_report}, modelo "
+        f"{model_for_report}, {translate_text(domain_label)}. "
+        "Cada salida se reporta por separado; el informe no convierte el índice compuesto heredado en una conclusión científica.<br/>"
+        + _frase_de_validez_fisica_en_metodologia(evidence_summary)
     )
-    story.append(Paragraph(methodology_text, methodology_style))
+    story.append(Paragraph(translate_text(methodology_text), methodology_style))
     story.append(Spacer(1, 8))
 
     # TECHNICAL TRACE - no hard-coded versions.
@@ -1431,10 +1670,14 @@ def generate_certificate_pdf(
         f"- <b>Semilla:</b> {eval_result.vina_random_seed if eval_result.vina_random_seed is not None else 'no informada'}<br/>"
         f"- <b>Parser de poses:</b> {eval_result.parsing_source or 'no informado'}<br/>"
         f"- <b>Motor/modelo derivado:</b> {model_label}<br/>"
-        f"- <b>Dominio de aplicabilidad:</b> {domain_label}<br/>"
+        f"- <b>Dominio de aplicabilidad:</b> {translate_text(domain_label)}<br/>"
         f"- <b>Fallback:</b> {model_context['fallback_reason'] or 'no registrado'}"
     )
-    story.append(Paragraph(tech_info, tech_style))
+    tech_info = tech_info.replace(
+        str(model_context['fallback_reason'] or 'no registrado'),
+        translate_text(str(model_context['fallback_reason'] or 'no registrado')),
+    )
+    story.append(Paragraph(translate_text(tech_info), tech_style))
 
     # ── Scientific Caveats / Limitaciones ───────────────────────────
     caveat_title = Paragraph(
@@ -1442,44 +1685,27 @@ def generate_certificate_pdf(
         ParagraphStyle('CaveatTitle', parent=section_title_style, fontSize=9, textColor=colors.HexColor('#64748b'))
     )
 
-    caveats = (
-        "· <b>Naturaleza computacional:</b> Todas las predicciones presentadas en este documento "
-        "provienen de modelos computacionales (AutoDock Vina, XGBoost, RDKit). "
-        "NO constituyen evidencia experimental y DEBEN ser validadas mediante ensayos in vitro e in vivo.<br/><br/>"
-
-        "· <b>Alcance del docking:</b> Las afinidades son valores de una funcion de scoring y sirven para ranking dentro de un protocolo. "
-        "No constituyen mediciones de energia libre. Las poses son hipotesis estructurales y no representan la flexibilidad completa del receptor ni el solvente explicito.<br/><br/>"
-
-        "· <b>Limitaciones ADMET:</b> Las predicciones de toxicidad y farmacocinetica provienen "
-        "de modelos QSAR entrenados en datos historicos. Pueden no generalizar a quimiotipos novedosos. "
-        "Los falsos negativos en cardiotoxicidad (hERG) y hepatotoxicidad son posibles.<br/><br/>"
-
-        "· <b>PAINS y falsos positivos:</b> Los filtros PAINS cubren ~480 subestructuras conocidas "
-        "pero no son exhaustivos. Pueden existir otros mecanismos de interferencia en ensayos "
-        "no cubiertos por estos filtros.<br/><br/>"
-
-        "· <b>Selectividad:</b> " +
-        (f"Se evaluo la selectividad frente a {len(anti_results)} anti-targets "
-         f"(margen ΔΔG: {selectivity_delta_delta_g:.2f} kcal/mol). "
-         if selectivity_ran and anti_results and selectivity_delta_delta_g is not None else
-         "El margen frente a anti-targets no se pudo evaluar. ") +
-        "Los scores de Vina entre receptores distintos no son energias libres experimentales comparables. " +
-        "La selectividad in vivo puede diferir debido a metabolitos activos, union a proteinas plasmaticas y efectos de dosis.<br/><br/>"
-
-        "· <b>Sintesis:</b> El SA Score es una estimacion heuristica de la dificultad sintetica. "
-        "No reemplaza el analisis de un quimico medicinal experimentado ni un estudio "
-        "de retrosintesis completo.<br/><br/>"
-
-        "· <b>Reproducibilidad:</b> Este dossier registra version del motor, semilla y parser cuando el pipeline los entrega. "
-        "Los campos ausentes quedan marcados y deben completarse antes de comparar corridas.<br/><br/>"
-
-        "· <b>Validez fisica:</b> La version actual no ejecuta un validador geometrico de poses en produccion. "
-        "Ausencia de alertas no significa ausencia de choques, enlaces imposibles o artefactos de preparacion.<br/><br/>"
-
-        "<b>Este reporte es una herramienta de apoyo a la investigacion. "
-        "Las decisiones sobre desarrollo de farmacos deben basarse en evidencia experimental "
-        "y criterio cientifico profesional.</b>"
+    selectivity_note = (
+        f"· <b>Selectividad:</b> Se evaluo la selectividad frente a {len(anti_results)} anti-targets "
+        f"(margen ΔΔG: {selectivity_delta_delta_g:.2f} kcal/mol). Los scores de Vina entre receptores distintos "
+        "no son energias libres experimentales comparables. La selectividad in vivo puede diferir debido a "
+        "metabolitos activos, union a proteinas plasmaticas y efectos de dosis."
+        if selectivity_ran and anti_results and selectivity_delta_delta_g is not None else
+        "· <b>Selectividad:</b> El margen frente a anti-targets no se pudo evaluar. Los scores de Vina entre receptores distintos "
+        "no son energias libres experimentales comparables. La selectividad in vivo puede diferir debido a "
+        "metabolitos activos, union a proteinas plasmaticas y efectos de dosis."
     )
+    caveats = "<br/><br/>".join(translate_text(bloque) for bloque in (
+        "· <b>Naturaleza computacional:</b> Todas las predicciones presentadas en este documento provienen de modelos computacionales (AutoDock Vina, XGBoost, RDKit). NO constituyen evidencia experimental y DEBEN ser validadas mediante ensayos in vitro e in vivo.",
+        "· <b>Alcance del docking:</b> Las afinidades son valores de una funcion de scoring y sirven para ranking dentro de un protocolo. No constituyen mediciones de energia libre. Las poses son hipotesis estructurales y no representan la flexibilidad completa del receptor ni el solvente explicito.",
+        "· <b>Limitaciones ADMET:</b> Las predicciones de toxicidad y farmacocinetica provienen de modelos QSAR entrenados en datos historicos. Pueden no generalizar a quimiotipos novedosos. Los falsos negativos en cardiotoxicidad (hERG) y hepatotoxicidad son posibles.",
+        "· <b>PAINS y falsos positivos:</b> Los filtros PAINS cubren ~480 subestructuras conocidas pero no son exhaustivos. Pueden existir otros mecanismos de interferencia en ensayos no cubiertos por estos filtros.",
+        selectivity_note,
+        "· <b>Sintesis:</b> El SA Score es una estimacion heuristica de la dificultad sintetica. No reemplaza el analisis de un quimico medicinal experimentado ni un estudio de retrosintesis completo.",
+        "· <b>Reproducibilidad:</b> Este informe registra version del motor, semilla y parser, y los elementos de reconstruccion (caja de búsqueda efectiva, hashes de receptor, entradas y salidas, preparacion del ligando) cuando la corrida los midio. Los campos ausentes quedan marcados y deben completarse antes de comparar corridas. Que un tercero reconstruya la corrida con estos datos no esta demostrado.",
+        _nota_de_validez_fisica(evidence_summary).replace("<br/><br/>", ""),
+        "<b>Este reporte es una herramienta de apoyo a la investigacion. Las decisiones sobre desarrollo de farmacos deben basarse en evidencia experimental y criterio cientifico profesional.</b>",
+    ))
 
     caveat_style = ParagraphStyle(
         'Caveats',
@@ -1505,7 +1731,7 @@ def generate_certificate_pdf(
 
     doc.target_info = f"{mol.target.pdb_id.upper() if mol.target else 'N/A'} ({target_name})"
     doc.affinity_info = f"{eval_result.affinity_kcal:.2f} kcal/mol" if eval_result.affinity_kcal is not None else "N/A"
-    doc.score_info = f"Estado: {evidence_summary['label']}"
+    doc.score_info = f"{'Status' if current_locale() == 'en' else 'Estado'}: {translate_text(evidence_summary['label'])}"
 
     # Feed custom canvas info during build
     def canvas_maker(*args, **kwargs):

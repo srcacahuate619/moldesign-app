@@ -1,0 +1,1159 @@
+{
+ "id": "FEP-09-SENSIBILIDAD",
+ "meta": {
+  "titulo": "Preparación detecta cortes del sitio; la sensibilidad completa queda abierta",
+  "entradilla": "Un ensayo pareado por la API, con 15 dianas de OpenFF, defectos sembrados y controles independientes. Resultado INCONCLUSIVE: la tabla conserva las detecciones, los límites y una comprobación de origen que no reconoce la receta de receptores ya preparados."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Se completaron 127 intentos confirmatorios: 127 auditados, 0 rechazados antes de Preparación y 0 fallos de infraestructura. El piloto de ocho corridas se conserva aparte y no entra en estas cifras.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "MolDesign pretende comunicar qué evidencia estructural produjo una corrida y dónde debe abstenerse. Un control positivo sobre estructuras preparadas por expertos, como FEP-08, no demuestra que la pestaña Preparación reaccione a defectos. Este experimento mide esa reacción por requisito, sin ejecutar energía libre ni cambiar el producto para mejorar su resultado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Producto ",
+     "m": null
+    },
+    {
+     "t": "f183e0af",
+     "m": "codigo"
+    },
+    {
+     "t": ", Python embebido 3.11.9, Meeko 0.7.1, camino B (",
+     "m": null
+    },
+    {
+     "t": "respetar",
+     "m": "codigo"
+    },
+    {
+     "t": ", receta B versión 1, distinta de la receta automática 7), Vina 1.2.7, exhaustividad 8, nueve poses solicitadas, semilla 42, pH 7,4, un confórmero y modo tautomérico efectivo ",
+     "m": null
+    },
+    {
+     "t": "entrada",
+     "m": "codigo"
+    },
+    {
+     "t": ". Se usaron tres cápsulas aisladas, cuatro núcleos por Vina, con datos y perfiles propios. No se ejerció el frontend externo ni el instalador.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Benchmark de OpenFF en commit ",
+     "m": null
+    },
+    {
+     "t": "fd88824f9114244f95a14b485e6d6c96c1de716d",
+     "m": "codigo"
+    },
+    {
+     "t": ": 15 dianas con PDB y SDF en las rutas prescritas, de las 21 entradas en targets.yml. Se excluyeron seis por archivos ausentes, antes de ver resultados. Se eligió el primer registro SDF legible por diana; la caja fija de 20 Å por lado se centró en sus átomos pesados. Los archivos permanecen en el clon externo; aquí se conservan nombres, hashes, intervenciones y respuestas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Para cada diana se repitió tres veces una subida y preparación independiente de la línea base. Cada variante del brazo A cambia una característica: cortes del esqueleto, cadena o especie ausente, estado químico o protonación local. Los generadores usan geometría directa y RDKit, sin importar las funciones del producto. La ruta fue upload → preflight → submit → status → result → POST preparacion, conservando estados y datos de todos los requisitos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El ",
+     "m": null
+    },
+    {
+     "t": "prerregistro",
+     "m": "enlace",
+     "href": "../auditorias/FEP-09-prerregistro.md"
+    },
+    {
+     "t": " se fijó en ",
+     "m": null
+    },
+    {
+     "t": "9cdd0eab826bbbbe10d9b2469c52fbd0a0cf1638",
+     "m": "codigo"
+    },
+    {
+     "t": " antes de la primera corrida. Una alerta ya presente en la base no cuenta como detección. Para categoría declarada con n≥8 se exige límite inferior del IC exacto bilateral 95 % de Clopper–Pearson ≥0,5 y falsa alarma de controles inocuos ≤0,10. Las categorías con n insuficiente quedan INCONCLUSIVE; no se retiran del gate.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Desviación declarada.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El prerregistro llama «canónico» al modo por defecto, pero el arnés no especificó ese parámetro y la API de f183e0af aplicó ",
+     "m": null
+    },
+    {
+     "t": "entrada",
+     "m": "codigo"
+    },
+    {
+     "t": ", como muestran preflight y ligand_state. Esa descripción era incorrecta; no se modificaron las peticiones entre brazos ni se reintentaron corridas. El texto preregistrado queda intacto. Las métricas describen la condición efectiva y el cierre queda INCONCLUSIVE; los proxies no validan minoría tautomérica ni el comportamiento bajo un modo canónico forzado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué salió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Categoría",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "n",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Auditor",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Detectado antes",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "IC 95 % ruta",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Decisión / alcance",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "agua_puente_retirada",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,336]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "cadena_del_sitio_ausente",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,975]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "especie_del_ligando",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "no estimable",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "INCONCLUSIVE",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "especie_opuesta_proxy",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "7",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,004; 0,579]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "proxy",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "estereo_sin_asignar",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,292; 1,000]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "INCONCLUSIVE",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "hueco_en_el_sitio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "15",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,782; 1,000]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "GO",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "metal_o_cofactor_retirado",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,975]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "protonacion_del_sitio",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,000; 0,522]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "límite",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "tautomero_alternativo_proxy",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "13",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "[0,753; 1,000]",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "proxy",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "tautomero_minoritario",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "no estimable",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "INCONCLUSIVE",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate global exige que todas las categorías declaradas pasen. Estereoquímica tiene n=3; minoría tautomérica y especie con pKa independiente, n=0. Aunque una categoría suficiente pase, estas tres quedan INCONCLUSIVE.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "«Auditor» cuenta un aumento de riesgo del requisito esperado respecto a su base, con el mínimo preregistrado; «detectado antes» guarda el rechazo explícito anterior. Las tasas de los límites y proxies son respuestas al ensayo, no sensibilidad bajo una cobertura que el producto no declara. ",
+     "m": null
+    },
+    {
+     "t": "metrics.json",
+     "m": "codigo"
+    },
+    {
+     "t": " conserva también saturación, ausencias, casos evaluables y cambios colaterales, sin excluirlos para favorecer una tasa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Hay saturación previa en 1 caso de cadena, 5 de especie proxy y 5 de protonación del receptor: su aviso base ya alcanza el mínimo, sin incremento atribuible a la intervención. Esos casos permanecen en el denominador descriptivo.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La falsa alarma de renumeración inocua fue 4/ 555 requisitos comparables (0,72 %). El acuerdo de las bases fue 99,55 %, sobre 1110 comparaciones; cambiaron 5. Requisitos no reproducibles por estado o riesgo: procedencia.commit (5). Las tres bases conservan un hash único de receptor por diana: 15/15.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "En 5 comparaciones de base y 4 de renumeración cambió ",
+     "m": null
+    },
+    {
+     "t": "procedencia.commit",
+     "m": "codigo"
+    },
+    {
+     "t": " entre REGISTRADO y NO_DISPONIBLE. El producto declara commit sólo con árbol general limpio (",
+     "m": null
+    },
+    {
+     "t": "vina_service.py::_source_commit",
+     "m": "codigo"
+    },
+    {
+     "t": "); los scripts y metadatos de este experimento se editaron y commitearon durante la fase larga, con diff de producto vacío. Las razones registradas explican esa ausencia por árbol modificado. Se mantienen estos cambios en el conteo preregistrado y se declara el factor de confusión: no prueban variación de química o de preparación, ni son evidencia de no determinismo de protonación.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Los 10 cortes lejanos son un control espacial, con 2 cambios no previstos entre requisitos comparables. El prerregistro permite revisión de esos extremos nuevos: el producto la declara aun lejos del sitio. Esa revisión legítima no se presenta como una falsa alarma ni se confunde con bloquear la cavidad.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Una comprobación de procedencia que falla",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La referencia de distancias quedó sin evaluar por discrepancia de receta en 127/127 auditorías de este camino B. En la reproducción mínima de cdk2, el archivo de origen existe y el hash del receptor se verifica; la receta B recalculada coincide con la registrada. Sin embargo, el comprobador del origen usa la fórmula de la receta automática y concluye que no coincide.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La auditoría lo declara en ",
+     "m": null
+    },
+    {
+     "t": "entorno.referencia",
+     "m": "codigo"
+    },
+    {
+     "t": ": «NO_EVALUADO». Por eso los otros requisitos usan la caja como referencia y no pueden ofrecer toda la geometría al ligando que declaran cuando reconocen el origen. El expediente separa este defecto de las especies borradas ",
+     "m": null
+    },
+    {
+     "t": "antes",
+     "m": "fuerte"
+    },
+    {
+     "t": " del upload: el auditor declara el diff que MolDesign produce, no reconstruir un origen que no recibió. No se aplicó ningún parche durante el experimento.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Concordancia descriptiva con FEP-08",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Diana",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Huecos físicos que declara Preparación",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cadenas del sitio declaradas",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "cdk2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "REGISTRADO: Ninguno: el esqueleto de las cadenas del receptor es continuo (C–N ≤ 2 Å entre residuos consecutivos).",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "A",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "thrombin",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "REGISTRADO: Ninguno: el esqueleto de las cadenas del receptor es continuo (C–N ≤ 2 Å entre residuos consecutivos).",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "H",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "tnks2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "REGISTRADO: Ninguno: el esqueleto de las cadenas del receptor es continuo (C–N ≤ 2 Å entre residuos consecutivos).",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "A",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "FEP-08 marcó saltos de numeración en cdk2 y thrombin, y un sitio entre cadenas en tnks2. Un salto de numeración no prueba un corte físico. Además, aquí se observa la preparación de MolDesign por API y su referencia efectiva de caja. Esta comparación no entra al gate ni convierte documentabilidad preliminar en readiness de un cálculo posterior.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Lo publicado por terceros",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Diana",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Fuente abierta",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Qué comunica la fuente",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Observación de esta versión",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "izquierda",
+    "izquierda",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "tnks2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "lig_7",
+       "m": "enlace",
+       "href": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101"
+      }
+     ],
+     [
+      {
+       "t": "La incidencia comunica un N de amida sin H y carga negativa en lig_7 frente al resto de la serie; se comprueba su representación en el commit fijado, sin adjudicar su población a pH experimental.",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "lig_7: ligando.especie=REGISTRADO, Microestado más próximo al predicho a pH 7.4, de 2 enumerados; global REVISION",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "eg5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "lig_CHEMBL1084935",
+       "m": "enlace",
+       "href": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101"
+      }
+     ],
+     [
+      {
+       "t": "La incidencia pregunta por las dos representaciones de estereoquímica de una amina protonada y nombres repetidos. Es una preocupación publicada, no una demostración de que alguna sea incorrecta.",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "lig_CHEMBL1084935: ligando.estereoquimica=REVISAR, La entrada declaraba 1 estereocentro(s) y 0 doble(s) E/Z que la especie acoplada no conserva (la normalización cambió esos átomos): lo acoplado no es el estereoisómero escrito.; global REVISION",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "thrombin",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "lig_7d",
+       "m": "enlace",
+       "href": "https://github.com/openforcefield/protein-ligand-benchmark/issues/101"
+      }
+     ],
+     [
+      {
+       "t": "La incidencia pregunta si la medida de lig_7d corresponde a un estereoisómero o una mezcla, ante varias entradas. Se documenta la incertidumbre experimental, sin atribuir un error a los autores.",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Sin registro con el nombre indicado en el commit fijado",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "tyk2",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "construcción del receptor",
+       "m": "enlace",
+       "href": "https://github.com/openforcefield/protein-ligand-benchmark/issues/112"
+      }
+     ],
+     [
+      {
+       "t": "La incidencia propone revisar D1023N respecto al sistema del ensayo. El auditor no declara comparar secuencia y construcción experimental; se mide como límite. La correspondencia de numeración con 4GIH no se ha probado.",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "lig_ejm_54: sin requisito declarado de identidad del constructo experimental; global REVISION",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se abrieron las incidencias el 2026-10-11. Son preocupaciones públicas y preguntas, no demostraciones de que los curadores se equivocaron. El estado de la versión fijada debe contrastarse por separado: por ejemplo, su tnks2 lig_7 contiene [nH] neutro en la representación leída, y eg5 aporta un registro con el nombre buscado. Con cuatro preocupaciones y tres registros medidos, el brazo C es no concluyente y no tiene tasa.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "No mide la fracción de problemas reales de preparación que MolDesign detecta.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No demuestra transferencia a FEP, compatibilidad con FEP+ ni ejecución de energía libre.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No valida poblaciones tautoméricas, pKa individuales, protonación del receptor ni identidad experimental.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No audita interfaz, WebView2, runtime staged o instalador.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No atribuye errores a los autores de PLB. Los estados químicos proxy están fuera del gate.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No prueba un protocolo forzado a tautómero canónico: la API usó entrada por defecto, discrepante con la descripción del prerregistro.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La variación de procedencia.commit está confundida por ediciones y commits del arnés durante la medición; no demuestra no determinismo químico.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Las tasas de ausencia previa al upload no evalúan el diff que produce la preparación.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "No se verificó una población independiente para llamar minoritario a cada alternativo RDKit ni un pKa individual que cumpla distancia >3 a pH 7,4. Estas dos categorías estrictas tienen n=0 verificable; los proxies se publican por separado. Tampoco se validó el carácter catalítico de cada Asp/Glu intervenido, ni la correspondencia de numeración TYK2–4GIH.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Consecuencia y reproducción",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El resultado conserva qué categorías discriminan y cuáles quedan abiertas. La comprobación del origen de modo B necesita un encargo de corrección separado, y la cobertura química necesita una cohorte con estados verificados independientemente. No se cambia el producto de 1.0.2 ni se publica la rama.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Manifiesto, datos agregados, shards y verificación: ",
+     "m": null
+    },
+    {
+     "t": "scripts/artifacts_science/FEP-09-SENSIBILIDAD/",
+     "m": "codigo"
+    },
+    {
+     "t": ". Arnés: ",
+     "m": null
+    },
+    {
+     "t": "scripts/fep09_inputs.py",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "fep09_run.py",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "fep09_analyze.py",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "fep09_verify.py",
+     "m": "codigo"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "fep09_reproduce.py",
+     "m": "codigo"
+    },
+    {
+     "t": ". El analizador incluye autotest positivo y negativo; sus IC se contrastaron con scipy.stats.beta en 5.150 combinaciones, tolerancia 1e-9. La producción usa biblioteca estándar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Datos CC BY 4.0 de OpenFF, atribuidos a ",
+     "m": null
+    },
+    {
+     "t": "Hahn et al., LiveCoMS 2022",
+     "m": "enlace",
+     "href": "https://doi.org/10.33011/livecoms.4.1.1497"
+    },
+    {
+     "t": ", ",
+     "m": null
+    },
+    {
+     "t": "Best Practices for Constructing, Preparing, and Evaluating Protein-Ligand Binding Affinity Benchmarks",
+     "m": "enfasis"
+    },
+    {
+     "t": ". Código del benchmark MIT. El clon externo y su obtención están declarados en sellos_no_distribuidos.json.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/FEP-09-SENSIBILIDAD.md"
+}

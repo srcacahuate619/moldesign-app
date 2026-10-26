@@ -1,0 +1,386 @@
+{
+ "id": "MMGBSA-H5-R1",
+ "meta": {
+  "titulo": "GO: la paridad de implementación pasa con el filtro geométrico y la excepción de azufre",
+  "entradilla": "Pasan 23 topologías Br/I evaluables y 1 queda indeterminada por geometría. La revisión conserva GO al conjugar ese resultado con las comparaciones Windows/Linux y la ausencia de fallos de ejecución. No demuestra calidad física de los parámetros."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO del gate conjunto conservado.",
+     "m": "fuerte"
+    },
+    {
+     "t": " Se sostiene la paridad de implementación bajo las condiciones declaradas. No se activa MMGBSA ni se valida su precisión como energía de unión.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué se repitió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "H5 había dejado NO_GO por la letra de su gate: una entrada con geometría degenerada fallaba ya en vacío. R1 declara un filtro geométrico antes de medir esta réplica. El diseño se hizo después de conocer aquel caso; no cambia retroactivamente el gate ni la decisión de H5.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se conservaron 55 topologías, 24 con Br o I, y controles F/Cl. Se compararon OpenMM 8.5.2, plataforma Reference, y sander en vacío y GBn2 sin superficie, sobre la misma topología y coordenadas. Se convierten analíticamente las constantes de Coulomb; no se ajustan contra el resultado.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El gate exige residuo de energía menor que 0,001 kcal/mol y error de fuerza convertido menor que 0,001 kcal/mol/Å. Para los casos con S se admite la excepción declarada: vacío conforme y desacuerdo de GBn2 que desaparece al tratar S como elemento genérico en ambos programas.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El filtro marca geometría imposible si algún par está a menos de 0,5 Å o un ángulo de valencia es menor que 30 grados. Esos casos quedan indeterminados. El gate exige al menos 20 Br/I evaluables y paridad directa Windows/Linux con entradas iguales.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Clasificación de R1 con el filtro, no los agregados anteriores que el script base deja también en metrics:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Grupo",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Pasa R1",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Indeterminado por geometría",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Condición",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "izquierda"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Br/I",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "23",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "19 directamente y 4 con la excepción de S",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control F/Cl",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "30",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "Misma clasificación geométrica y excepción escrita",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "5mlj y 6gnp son las entradas indeterminadas. Recolocar sus H y repetir la comparación fue un diagnóstico fuera del gate; no sustituye sus resultados sobre la geometría original.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Comprobación directa entre plataformas",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Resultado archivado",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Comparaciones presentes / esperadas",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "110 / 110",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Entradas iguales según sus hashes registrados",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "55",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Tolerancia",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1e-06 kcal/mol y kcal/mol/Å",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Máxima diferencia de energía",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8,53e-14 kcal/mol",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Máxima diferencia de fuerza",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "1,63e-13 kcal/mol/Å",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "La comparación entre plataformas usa sus diferencias directas. El flag de coincidencia de Windows contra sander responde otra pregunta. Los registros geométricos de failures no son fallos de ejecución; metrics conserva aparte la lista de fallos de ejecución vacía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Con entradas y geometrías iguales, estas implementaciones concuerdan bajo el tratamiento descrito. Eso no demuestra que los parámetros representen correctamente la solvatación ni la afinidad, y la excepción de S no es un parámetro físico recomendado. No se extiende la conclusión a otras versiones, topologías o protocolos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Correcciones",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Vigentes al 2026-10-22.",
+     "m": "fuerte"
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "SCI-B-139:",
+      "m": "fuerte"
+     },
+     {
+      "t": " el booleano original de R1 sólo evaluaba el requisito Br/I. El GO requiere también ausencia de fallos de ejecución y paridad Windows/Linux con las mismas entradas y geometrías. La conjunción se cumple en los resultados conservados; no se le atribuye al booleano aislado esa comprobación completa.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El log compara primero con el gate antiguo de H5 y muestra NO PASA; la salida final de R1 es PASA. Ambas líneas quedan preservadas y no se elige la primera como decisión de R1.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Detalle: ",
+     "m": null
+    },
+    {
+     "t": "docs/102_FASE_1B_CORRECCIONES.md",
+     "m": "codigo"
+    },
+    {
+     "t": "; estado en ",
+     "m": null
+    },
+    {
+     "t": "docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md",
+     "m": "codigo"
+    },
+    {
+     "t": ". Se comprobaron tablas, hashes declarados, logs y productores. No comprobado por mí: las energías y fuerzas originales por átomo ni las topologías crudas, que no están distribuidas en esta carpeta. Sus hashes y metadatos no sustituyen una reproducción física; aquí no se recalcularon.",
+     "m": null
+    }
+   ]
+  }
+ ],
+ "fuente": "docs/papers/MMGBSA-H5-R1.md"
+}

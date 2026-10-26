@@ -1,0 +1,16 @@
+{
+  "fields": {
+    "name": "FEP09 pfkfb3__hueco_en_el_sitio__0",
+    "is_curated": "false",
+    "modo_preparacion": "respetar",
+    "chain_id": "A",
+    "grid_center_x": 91.8576,
+    "grid_center_y": 49.1921,
+    "grid_center_z": 267.5116,
+    "grid_size_x": 20.0,
+    "grid_size_y": 20.0,
+    "grid_size_z": 20.0
+  },
+  "input_sha256": "1ba415884d65b98ae62fbf12612d07b6980301163f073ef65eaae6950b612bab",
+  "input_file": "D:\\moldesign-build\\.worktrees\\.sandbox\\fep09-3\\tmp\\inputs\\pfkfb3__hueco_en_el_sitio__0.pdb"
+}

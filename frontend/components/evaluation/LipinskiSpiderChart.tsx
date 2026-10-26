@@ -95,18 +95,18 @@ export function LipinskiSpiderChart({
           })}
         </svg>
 
-        <span className="absolute top-[-8px] left-1/2 -translate-x-1/2 text-[9px] font-mono font-bold text-zinc-400 uppercase">Peso M.</span>
+        <span className="absolute top-[-8px] left-1/2 -translate-x-1/2 text-[9px] font-mono font-bold text-zinc-400 uppercase">{t("pn_spider_peso_molecular")}</span>
         <span className="absolute top-[35%] right-[-10px] text-[9px] font-mono font-bold text-zinc-400 uppercase">LogP</span>
-        <span className="absolute bottom-[2%] right-[10%] text-[9px] font-mono font-bold text-zinc-400 uppercase">Donadores H</span>
-        <span className="absolute bottom-[2%] left-[10%] text-[9px] font-mono font-bold text-zinc-400 uppercase">Aceptores H</span>
-        <span className="absolute top-[35%] left-[-12px] text-[9px] font-mono font-bold text-zinc-400 uppercase">Rotables</span>
+        <span className="absolute bottom-[2%] right-[10%] text-[9px] font-mono font-bold text-zinc-400 uppercase">{t("pn_spider_donadores_h")}</span>
+        <span className="absolute bottom-[2%] left-[10%] text-[9px] font-mono font-bold text-zinc-400 uppercase">{t("pn_spider_aceptores_h")}</span>
+        <span className="absolute top-[35%] left-[-12px] text-[9px] font-mono font-bold text-zinc-400 uppercase">{t("pn_spider_rotables")}</span>
       </div>
 
       <div className="text-[10px] text-zinc-400 text-center font-mono leading-relaxed pt-2">
         <span className="inline-block w-2 h-2 border border-dashed border-zinc-400 mr-1.5" />
         {t("z_limite_ideal")}
         <span className="inline-block w-2 h-2 bg-zinc-900 dark:bg-white ml-3 mr-1.5" />
-        Tu Compuesto
+        {t("pn_spider_tu_compuesto")}
       </div>
     </div>
   );

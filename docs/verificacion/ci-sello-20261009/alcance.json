@@ -1,0 +1,29 @@
+{
+  "base": "d514fe537539cdfcd37a44eeb0cd1819455555e8",
+  "codigo": "112a8476f92ec250e16699bf0f58485f7a41e837",
+  "arbol_frontend": "f56ccc5115c4f6d9694cebf0c1bb62c9651f7c82",
+  "cambios_protegidos": [],
+  "archivos": [
+    "docs/versions/1.0.2_cambios.md",
+    "frontend/app/evaluation/batch/__tests__/cohortes.test.tsx",
+    "frontend/app/evaluation/batch/page.tsx",
+    "frontend/app/molcy/__tests__/page.test.tsx",
+    "frontend/app/molcy/page.tsx",
+    "frontend/app/preparacion/__tests__/pdbDelCatalogo.test.tsx",
+    "frontend/app/preparacion/page.tsx",
+    "frontend/components/evaluation/BatchRowResult.tsx",
+    "frontend/components/science/InsigniaDeCorridaGuardada.tsx",
+    "frontend/components/science/InsigniaDelCatalogo.tsx",
+    "frontend/components/science/IntentosDeVerificacion.tsx",
+    "frontend/components/science/__tests__/InsigniaDeCorridaGuardada.test.tsx",
+    "frontend/components/science/__tests__/InsigniaDelCatalogo.test.tsx",
+    "frontend/components/science/__tests__/IntentosDeVerificacion.test.tsx",
+    "frontend/components/science/__tests__/ListasDelCatalogo.test.tsx",
+    "frontend/context/traducciones/catalogo.ts",
+    "frontend/e2e/session-persistence.spec.ts",
+    "frontend/lib/__tests__/comparacionConElSello.test.ts",
+    "frontend/lib/seccionCatalogo.ts",
+    "frontend/package-lock.json",
+    "frontend/package.json"
+  ]
+}
