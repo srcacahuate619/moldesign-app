@@ -1,6 +1,6 @@
 # FEP-06-HUM review form
 
-One form per package. Copy it into a Reddit private message or an email (the contacts are in the announcement post).
+One form per package. Copy it into a Reddit private message to [u/MolDesign](https://www.reddit.com/user/MolDesign/) or an email to [moldesign619@gmail.com](mailto:moldesign619@gmail.com).
 Please **don't post it publicly** until the round closes: every review has to be independent.
 
 ---

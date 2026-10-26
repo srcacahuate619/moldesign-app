@@ -9,7 +9,7 @@ body:
         Thank you for taking part. Rules and the 14 needs: `challenge/FEP-06-HUM/README.md`.
         **Do not post findings here.** Issues are public, and each review has to be independent. We reply with the two
         packages assigned to you and how to reach us privately; send your review with `challenge/FEP-06-HUM/REVIEW_FORM.md` by Reddit
-        message or email.
+        message to [u/MolDesign](https://www.reddit.com/user/MolDesign/) or email to moldesign619@gmail.com.
   - type: input
     id: nombre
     attributes:

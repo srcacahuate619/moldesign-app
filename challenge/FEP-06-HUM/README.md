@@ -9,12 +9,12 @@ only been tested by LLM reviewers. This challenge asks **people who prepare free
 
 ## What you do (about 30–60 min per package)
 
-1. **Sign up** by Reddit private message or by email (both are in the announcement post), or open an issue with the
+1. **Sign up** by Reddit private message to [u/MolDesign](https://www.reddit.com/user/MolDesign/) or by email to [moldesign619@gmail.com](mailto:moldesign619@gmail.com), or open an issue with the
    **"FEP-06-HUM sign-up"** template. Name and background are enough. We assign you **two packages** from `packages/`,
    first come first served, and reply privately. You can review more if you like.
 2. Treat each package as if a colleague handed it to you for an FEP setup. Use **only the package**, plus public sources
    such as the PDB entry or the literature. Do not contact us about the content.
-3. Fill in [`REVIEW_FORM.md`](REVIEW_FORM.md), one per package, and **send it privately**, by Reddit message or email:
+3. Fill in [`REVIEW_FORM.md`](REVIEW_FORM.md), one per package, and **send it privately**, by Reddit message to [u/MolDesign](https://www.reddit.com/user/MolDesign/) or email to [moldesign619@gmail.com](mailto:moldesign619@gmail.com):
    - your verdict:
      - `READY_TO_PREPARE`: you could set up the calculation without asking anything that changes the result;
      - `PREPARABLE_WITH_QUESTIONS`: workable, but with open scientific questions for the sender;
