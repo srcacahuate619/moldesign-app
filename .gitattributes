@@ -308,3 +308,7 @@ tools/molcy/**                    -text
 # el lector avisaba «incorrect startxref pointer». Se detectó al estampar el deck
 # institucional (auditoría científica, 2026-10-20).
 *.pdf                             -text
+
+# Sumas del reto FEP-06-HUM: con autocrlf el checkout las dejaba en CRLF y `sha256sum -c` buscaba
+# «P01.zip\r» (2026-10-26).
+SHA256SUMS                        text eol=lf
