@@ -802,7 +802,7 @@ pub fn validate_manifest(contents: &str) -> Result<(), String> {
         if values.len() != 3
             || values
                 .iter()
-                .any(|v| v.as_f64().map_or(true, |number| !number.is_finite()))
+                .any(|v| v.as_f64().is_none_or(|number| !number.is_finite()))
         {
             return Err(format!(
                 "INVALID_MANIFEST: `{path}` debe contener tres números finitos."
@@ -1142,7 +1142,7 @@ fn validate_structural_system(value: &serde_json::Value) -> Result<(), String> {
         if system
             .get(key)
             .and_then(|v| v.as_str())
-            .map_or(true, str::is_empty)
+            .is_none_or(str::is_empty)
         {
             return Err(format!(
                 "INVALID_MANIFEST: `structuralSystem.{key}` falta o no es una cadena."
@@ -1167,7 +1167,7 @@ fn validate_structural_system(value: &serde_json::Value) -> Result<(), String> {
     if receptor
         .get("pdbId")
         .and_then(|v| v.as_str())
-        .map_or(true, str::is_empty)
+        .is_none_or(str::is_empty)
     {
         return Err(
             "INVALID_MANIFEST: `structuralSystem.receptor.pdbId` falta o no es una cadena.".into(),
@@ -1190,7 +1190,7 @@ fn validate_structural_system(value: &serde_json::Value) -> Result<(), String> {
         if values.len() != 3
             || values
                 .iter()
-                .any(|v| v.as_f64().map_or(true, |n| !n.is_finite()))
+                .any(|v| v.as_f64().is_none_or(|n| !n.is_finite()))
         {
             return Err(format!(
                 "INVALID_MANIFEST: `{path}` debe contener tres números finitos."
@@ -1307,7 +1307,7 @@ fn validate_run_entry(value: Option<&serde_json::Value>, path: &str) -> Result<(
         }
     }
     if let Some(affinity) = run.get("affinityKcal") {
-        if affinity.as_f64().map_or(true, |v| !v.is_finite()) {
+        if affinity.as_f64().is_none_or(|v| !v.is_finite()) {
             return Err(format!(
                 "INVALID_MANIFEST: `{path}.affinityKcal` debe ser un número finito."
             ));

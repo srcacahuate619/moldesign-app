@@ -42,7 +42,9 @@ pub(crate) fn bootstrap_log(message: &str) {
 /// Atención nativa: una ruta web por sí sola no demuestra foco o visibilidad.
 #[tauri::command]
 fn job_notification_attention(app: tauri::AppHandle) -> Result<serde_json::Value, String> {
-    let window = app.get_webview_window("main").ok_or("Ventana principal no disponible")?;
+    let window = app
+        .get_webview_window("main")
+        .ok_or("Ventana principal no disponible")?;
     Ok(serde_json::json!({
         "focused": window.is_focused().map_err(|e| e.to_string())?,
         "visible": window.is_visible().map_err(|e| e.to_string())?,
@@ -53,19 +55,31 @@ fn job_notification_attention(app: tauri::AppHandle) -> Result<serde_json::Value
 /// Sólo el contenido genérico se transmite al SO; la identidad queda en memoria JS.
 /// Ok significa solicitud preparada, no recepción de Windows ni banner observado.
 #[tauri::command]
-fn job_notification_send(app: tauri::AppHandle, id: i32, token: String, body: String) -> Result<(), String> {
+fn job_notification_send(
+    app: tauri::AppHandle,
+    id: i32,
+    token: String,
+    body: String,
+) -> Result<(), String> {
     use tauri_plugin_notification::NotificationExt;
     if token.len() > 128 || token.is_empty() || body.len() > 400 {
         return Err("Solicitud de notificación inválida".into());
     }
-    app.notification().builder().id(id).title("MolDesign").body(body)
+    app.notification()
+        .builder()
+        .id(id)
+        .title("MolDesign")
+        .body(body)
         .extra("jobToken", token)
-        .show().map_err(|e| e.to_string())
+        .show()
+        .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
 fn job_notification_restore(app: tauri::AppHandle) -> Result<(), String> {
-    let window = app.get_webview_window("main").ok_or("Ventana principal no disponible")?;
+    let window = app
+        .get_webview_window("main")
+        .ok_or("Ventana principal no disponible")?;
     window.unminimize().map_err(|e| e.to_string())?;
     window.show().map_err(|e| e.to_string())?;
     window.set_focus().map_err(|e| e.to_string())
@@ -78,7 +92,9 @@ fn product_audit_attention_probe(app: tauri::AppHandle) {
         use std::time::Duration;
         std::thread::sleep(Duration::from_millis(600));
         let initial = job_notification_attention(app.clone());
-        let minimized = app.get_webview_window("main").ok_or("missing main window".to_string())
+        let minimized = app
+            .get_webview_window("main")
+            .ok_or("missing main window".to_string())
             .and_then(|window| window.minimize().map_err(|e| e.to_string()));
         std::thread::sleep(Duration::from_millis(400));
         let while_minimized = job_notification_attention(app.clone());
@@ -97,13 +113,20 @@ fn product_audit_attention_probe(app: tauri::AppHandle) {
             "native_toast_requested": false,
             "installed_notification_activation_verified": false,
         });
-        let result = app.path().app_data_dir().map_err(|e| e.to_string()).and_then(|dir| {
-            std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-            let path = dir.join("native-attention-probe.json");
-            std::fs::write(&path, serde_json::to_vec_pretty(&report).map_err(|e| e.to_string())?)
+        let result = app
+            .path()
+            .app_data_dir()
+            .map_err(|e| e.to_string())
+            .and_then(|dir| {
+                std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+                let path = dir.join("native-attention-probe.json");
+                std::fs::write(
+                    &path,
+                    serde_json::to_vec_pretty(&report).map_err(|e| e.to_string())?,
+                )
                 .map_err(|e| e.to_string())?;
-            Ok(path)
-        });
+                Ok(path)
+            });
         bootstrap_log(&format!("productaudit_attention_probe:{result:?}"));
         app.exit(if result.is_ok() { 0 } else { 1 });
     });
@@ -458,9 +481,15 @@ pub fn run() {
         ])
         .setup(|app| {
             bootstrap_log("setup:start");
-            let audit_probe_requested = std::env::var("MOLDESIGN_PRODUCTAUDIT_PROBE").as_deref() == Ok("1");
-            if audit_probe_requested && (!cfg!(debug_assertions) || app.config().identifier != "dev.moldesign.productaudit") {
-                return Err("El diagnóstico nativo exige debug e identidad productaudit separada".into());
+            let audit_probe_requested =
+                std::env::var("MOLDESIGN_PRODUCTAUDIT_PROBE").as_deref() == Ok("1");
+            if audit_probe_requested
+                && (!cfg!(debug_assertions)
+                    || app.config().identifier != "dev.moldesign.productaudit")
+            {
+                return Err(
+                    "El diagnóstico nativo exige debug e identidad productaudit separada".into(),
+                );
             }
 
             // Los recursos instalados no son un directorio de datos. Publicar
@@ -488,7 +517,9 @@ pub fn run() {
 
             // Autotest instalado del registro de casos: inerte sin la variable
             // de entorno. Ver `run_case_self_test`.
-            if app.config().identifier != "dev.moldesign.productaudit" { run_case_self_test(app.handle()); }
+            if app.config().identifier != "dev.moldesign.productaudit" {
+                run_case_self_test(app.handle());
+            }
 
             if let Err(e) = app.handle().plugin(
                 tauri_plugin_log::Builder::default()
@@ -515,22 +546,21 @@ pub fn run() {
             // se lanza en un hilo aparte para no bloquear la ventana: el probe
             // de salud puede tardar decenas de segundos en un arranque frío.
             if !audit_probe_requested {
-            let bootstrap_handle = app.handle().clone();
-            std::thread::spawn(move || {
-                bootstrap_log("backend_thread:start");
-                let resource_dir = resolve_resource_dir(&bootstrap_handle);
-                bootstrap_log(&format!(
-                    "backend_thread:resource_dir={}",
-                    resource_dir
-                        .as_deref()
-                        .map(|path| path.display().to_string())
-                        .unwrap_or_else(|| "<none>".to_string())
-                ));
-                let status = ensure_backend_sync(resource_dir);
-                bootstrap_log(&format!("backend_thread:status={:?}", status.state));
-                log::info!("Arranque automático del motor: {:?}", status.state);
-            });
-
+                let bootstrap_handle = app.handle().clone();
+                std::thread::spawn(move || {
+                    bootstrap_log("backend_thread:start");
+                    let resource_dir = resolve_resource_dir(&bootstrap_handle);
+                    bootstrap_log(&format!(
+                        "backend_thread:resource_dir={}",
+                        resource_dir
+                            .as_deref()
+                            .map(|path| path.display().to_string())
+                            .unwrap_or_else(|| "<none>".to_string())
+                    ));
+                    let status = ensure_backend_sync(resource_dir);
+                    bootstrap_log(&format!("backend_thread:status={:?}", status.state));
+                    log::info!("Arranque automático del motor: {:?}", status.state);
+                });
             }
 
             // Al cerrar se termina EL PROCESO PROPIO, y sólo ese.
@@ -587,7 +617,9 @@ pub fn run() {
                 });
             }
 
-            if audit_probe_requested { product_audit_attention_probe(app.handle().clone()); }
+            if audit_probe_requested {
+                product_audit_attention_probe(app.handle().clone());
+            }
 
             Ok(())
         })

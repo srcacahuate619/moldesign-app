@@ -618,7 +618,7 @@ pub async fn extract_archive(
             }
 
             let pct = ((i + 1) as f64 / total as f64 * 100.0) as u32;
-            if pct % 10 == 0 || i == total - 1 {
+            if pct.is_multiple_of(10) || i == total - 1 {
                 let _ = app.emit(
                     "extract:progress",
                     serde_json::json!({
