@@ -37,7 +37,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from core.i18n import translate_text
-from services.dossier.package import CHECKSUMS_NAME, MANIFEST_VERSION
+from services.dossier.contrato_paquete import CHECKSUMS_NAME, MANIFEST_VERSION
 
 #: Archivos que el manifiesto no declara por construcción, porque no pueden
 #: contener su propio hash. Documentado en el README del propio paquete para que

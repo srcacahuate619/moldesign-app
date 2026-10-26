@@ -9,17 +9,22 @@ only been tested by LLM reviewers. This challenge asks **people who prepare free
 
 ## What you do (about 30–60 min per package)
 
-1. Open an issue with the **"FEP-06-HUM review"** template saying you want to take part. We assign you **two packages** from
-   `packages/`, first come first served. You can review more if you like.
+1. **Sign up** by Reddit private message or by email (both are in the announcement post), or open an issue with the
+   **"FEP-06-HUM sign-up"** template. Name and background are enough. We assign you **two packages** from `packages/`,
+   first come first served, and reply privately. You can review more if you like.
 2. Treat each package as if a colleague handed it to you for an FEP setup. Use **only the package**, plus public sources
    such as the PDB entry or the literature. Do not contact us about the content.
-3. Fill in the template:
+3. Fill in [`REVIEW_FORM.md`](REVIEW_FORM.md), one per package, and **send it privately**, by Reddit message or email:
    - your verdict:
      - `READY_TO_PREPARE`: you could set up the calculation without asking anything that changes the result;
      - `PREPARABLE_WITH_QUESTIONS`: workable, but with open scientific questions for the sender;
      - `NOT_PREPARABLE`: something critical is missing or hidden;
    - the **14 handoff needs** below, each marked RECONSTRUCTIBLE / AMBIGUOUS / MISSING / NOT_APPLICABLE;
    - **anything the package dropped or changed from the source structure without saying so**, with the file and the line.
+
+**Please keep your findings private until the round closes.** Each review has to be independent: don't post them in issues,
+comments or social media, and don't read anyone else's. The form asks whether you saw another review; that doesn't
+disqualify you, but it is reported separately. Every review is published, with credit, when the round closes.
 
 **Good to know:** some packages were built to be hard, and **at least one has a known problem that the product does not
 declare**. We don't say which one. Abstaining is a valid answer for the product: a package that says "blocked" because of a
@@ -59,8 +64,17 @@ real problem is doing its job.
 | P09 | p38α (OpenFF protein-ligand-benchmark, PDB 3FLY) | B: structure prepared by the user |
 | P10 | HIV-1 protease (1HSG) | A: from the catalog |
 
-Every package was exported unchanged by the product. `packages/SHA256SUMS` lists their hashes. Each package also verifies itself:
-`python scripts/verify_dossier_package.py challenge/FEP-06-HUM/packages/P0X.zip` from the repository root.
+Every package was exported unchanged by the product. To check that yours arrived intact, either of these is enough:
+
+- `sha256sum -c SHA256SUMS` inside `packages/` (on Windows: `Get-FileHash P0X.zip`, and compare with `SHA256SUMS`);
+- the package verifier, which also checks every file inside the zip against the package's own manifest. It needs only
+  Python 3 and its standard library (tested with 3.11 and 3.14), nothing to install. Clone or download the repository and
+  run, from its root:
+
+      python scripts/verify_dossier_package.py challenge/FEP-06-HUM/packages/P0X.zip --lang en
+
+  It prints `VALID` or `INVALID`. When a package says `29 present / 30 declared`, the missing file is declared as not
+  available in its manifest, with the reason.
 
 The ten packages were generated on 2026-10-26 (UTC) through the product's own API, in English, from one build whose
 `backend/` and `tools/` are identical to commit `b361d730` of this repository. Each run started from the public PDB entry or
@@ -99,6 +113,8 @@ It is published in full when the round closes, so anyone can check that it was n
 - **Allowed:** the package, the PDB, the OpenFF benchmark and the literature.
 - **Please declare** if you used a language model. A review written by a model does not count; an assisted one does, and is
   reported separately.
+- Reviews arrive by private message or email and are kept unpublished until the round closes. Then they are published
+  together with the answer key, under the name you chose or anonymously if you prefer; the form asks which.
 - The packages come from the current **development build (1.0.4, not yet released)**. The source code is in this repository.
 - Some JSON keys and a few strings are still in Spanish (`corrida` = run, `decididos` = decided). The translation is in progress
   and is not one of the problems you are asked to find.

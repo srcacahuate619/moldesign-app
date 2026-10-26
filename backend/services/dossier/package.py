@@ -51,15 +51,12 @@ from dataclasses import dataclass
 from typing import Any, Iterable
 
 from core.i18n import current_locale, translate_text
+from services.dossier.contrato_paquete import CHECKSUMS_NAME, MANIFEST_VERSION  # noqa: F401 (se reexportan)
 from services.dossier.localization import dossier_dict_localizado, traducir_dossier
 from services.dossier.model import Artefacto, CaseDossier, hash_canonico
 from services.dossier.taxonomy import ETIQUETA, GLOSARIO, Estado
 
-#: Versión del manifiesto. El verificador la comprueba antes de nada.
-MANIFEST_VERSION = 1
-
-#: Nombre del índice de hashes. No se hashea a sí mismo.
-CHECKSUMS_NAME = "checksums.sha256"
+# MANIFEST_VERSION y CHECKSUMS_NAME viven en `contrato_paquete.py`, que el verificador importa sin el backend.
 
 #: Fecha fija dentro del ZIP. Los timestamps reales harían que dos paquetes de
 #: la misma corrida difirieran en bytes sin diferir en contenido.

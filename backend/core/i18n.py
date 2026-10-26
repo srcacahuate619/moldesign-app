@@ -8,13 +8,23 @@ import re
 import threading
 from contextvars import ContextVar, Token
 from pathlib import Path
-from typing import Any
-
-from starlette.responses import Response
-from starlette.concurrency import iterate_in_threadpool
+from typing import TYPE_CHECKING, Any
 
 from core.i18n_catalog import ENGLISH_MESSAGES
 from core.i18n_plantillas import traducir
+
+# Starlette sólo hace falta para traducir respuestas HTTP: el verificador de paquetes
+# (`scripts/verify_dossier_package.py`) traduce sus mensajes con este módulo y tiene que
+# correr con un Python sin el backend instalado (FEP-06-HUM, 2026-10-26).
+if TYPE_CHECKING:
+    from starlette.responses import Response
+
+
+def iterate_in_threadpool(iterator):
+    """La de Starlette, importada al usarla (las pruebas la sustituyen por su nombre en este módulo)."""
+    from starlette.concurrency import iterate_in_threadpool as _iterar
+
+    return _iterar(iterator)
 
 _locale: ContextVar[str] = ContextVar("moldesign_locale", default="es")
 
