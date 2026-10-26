@@ -282,6 +282,7 @@
         "tests/test_pdb_assembly.py": 2,
         "tests/test_pdf_cofactores_de_la_corrida.py": 7,
         "tests/test_pdf_extraible.py": 5,
+        "tests/test_pdf_fila_mas_alta_que_una_pagina.py": 2,
         "tests/test_pdf_i18n_layer3.py": 2,
         "tests/test_pdf_ingles_sin_restos.py": 16,
         "tests/test_pdf_paginacion_ensemble.py": 4,
@@ -425,7 +426,7 @@
         "tests/test_windows_maquina_limpia.py": 6,
         "tests/test_workspace_lock.py": 2
       },
-      "total": 5605
+      "total": 5607
     }
   }
 }

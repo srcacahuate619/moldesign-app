@@ -59,7 +59,7 @@ que había terminado».
     python scripts/bootstrap_dev_tree.py --check
     python scripts/bootstrap_dev_tree.py --check --hashes    # lento y exhaustivo
     python scripts/bootstrap_dev_tree.py --fetch
-    python scripts/bootstrap_dev_tree.py --desde ARCHIVO.zip --sha256 HEX
+    python scripts/bootstrap_dev_tree.py --fetch --desde ARCHIVO.zip --sha256 HEX
 
 Nada de esto necesita el intérprete embebido: corre con el Python del sistema,
 porque en un clon limpio el embebido es justamente lo que no hay. Después del
@@ -750,7 +750,7 @@ def aprovisionar(raiz: Path, desde: Path | None, sha_declarado: str | None,
                 f"sha256={'sí' if RUNTIME_BASE.sha256 else 'NO'}.\n"
                 "Descargar sin hash declarado sería confiar en la red, que es "
                 "exactamente lo que este script existe para no hacer.\n"
-                "Mientras tanto: --desde ARCHIVO.zip --sha256 HEX.",
+                "Mientras tanto: --fetch --desde ARCHIVO.zip --sha256 HEX.",
                 file=sys.stderr,
             )
             return 1

@@ -873,7 +873,11 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   máquina limpia siguen sin probarse aquí. El anterior era de 18/18 (2026-10-03); repítelo
   si cambia el frontend, el CSP o el empaquetado.
 - Sellos: **187** experimentos sellados (`python scripts/validar_sellos.py --check`,
-  paso de la CI; 172 con MET-01-R1, 2 más con CAL-D-01 R4 y R4B, 1 con ABS-TR-01-VALIDEZ y 3 de la fase 1b: REC-07-R1, RS-03-PARAM-A-R1 y MF-33-EXT-MOD-R1, integrados el 2026-10-22; MET-02-SEMILLA y MET-02-R1-SEMILLA el 2026-10-23; y FEP-06-PRE, sellado al cerrar, ABS-TR-01-VALIDEZ-R1 y CAL-D-01-R4-2-VMAT2-8T69, el 2026-10-24; FEP-06-PRE-2, VISION-MOLECULAR-01, SUP-02-TOTAL-SCORE y SUP-03-VALIDADOR-LIGANDO, el 2026-10-25). El 2026-10-23, 7035 ficheros verificados, cero ausentes y cero distintos. El 2026-10-21, con MET-01-R1 integrado en `claude/auditoria-ciencia-arreglos`:
+  paso de la CI; 172 con MET-01-R1, 2 más con CAL-D-01 R4 y R4B, 1 con ABS-TR-01-VALIDEZ y 3 de la fase 1b: REC-07-R1, RS-03-PARAM-A-R1 y MF-33-EXT-MOD-R1, integrados el 2026-10-22; MET-02-SEMILLA y MET-02-R1-SEMILLA el 2026-10-23; y FEP-06-PRE, sellado al cerrar, ABS-TR-01-VALIDEZ-R1 y CAL-D-01-R4-2-VMAT2-8T69, el 2026-10-24; FEP-06-PRE-2, VISION-MOLECULAR-01, SUP-02-TOTAL-SCORE y SUP-03-VALIDADOR-LIGANDO, el 2026-10-25). **Un clon del repositorio público
+  valida 185**, no 187: FEP-06-PRE y FEP-06-PRE-2 están en `scripts/retenidos_del_publico.txt` mientras la
+  ronda FEP-06-HUM pueda reutilizar sus paquetes, y el registro y la web públicos se regeneran sin ellos
+  (medido el 2026-10-25 sobre `b361d730` en un clon limpio: 6684 ficheros verificados, cero ausentes y cero
+  distintos). El 2026-10-23, 7035 ficheros verificados, cero ausentes y cero distintos. El 2026-10-21, con MET-01-R1 integrado en `claude/auditoria-ciencia-arreglos`:
   5304 ficheros verificados, cero ausentes y cero distintos (723 no distribuidos, todos
   declarados). El 2026-10-11, con FEP-09, FEP-09-R1 y MET-01 integrados, validaban con
   python-embed desde un worktree sin archivos ignorados en `scripts/artifacts_science/`:
