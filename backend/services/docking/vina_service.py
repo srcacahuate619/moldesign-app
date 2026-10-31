@@ -763,10 +763,12 @@ def _sin_rutas_locales(texto: str, rutas: tuple[Path | str, ...]) -> str:
     """Cambia cada ruta absoluta que Vina repite («Rigid receptor: C:\\Users\\…») por el nombre de su archivo.
 
     Vina escribe las rutas tal como se le pasaron, así que basta reemplazarlas exactas, con las dos barras.
+    El nombre se saca a mano: `Path` sólo parte por la barra de su plataforma, y fuera de Windows no separaba
+    `C:\\Users\\…` y dejaba la ruta entera en el log.
     """
     for ruta in rutas:
         completa = str(ruta)
-        nombre = Path(completa).name
+        nombre = completa.replace("\\", "/").rstrip("/").rsplit("/", 1)[-1]
         for forma in {completa, completa.replace("\\", "/")}:
             if forma and forma != nombre:
                 texto = texto.replace(forma, nombre)

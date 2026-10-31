@@ -8,13 +8,13 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight, BookOpenText, FlaskConical, Megaphone, Radio, ShieldCheck, Sparkles } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 import { ExternalLink } from "@/components/ui/ExternalLink";
-import { TutorialMolcy } from "@/components/inicio/TutorialMolcy";
+import { Tutoriales } from "@/components/inicio/Tutoriales";
 import { cargarIndice, type IndiceRegistro } from "@/lib/registro";
 import { PRODUCT } from "@/lib/softwareCatalog";
 import { SITE, VERSION_DE_LAS_NOTAS, versionAlcanza } from "@/lib/inicio";
 
 const CLAVES_DE_LAS_NOTAS = [
-  "ini_nota_1", "ini_nota_2", "ini_nota_3", "ini_nota_4", "ini_nota_5", "ini_nota_6", "ini_nota_7", "ini_nota_8",
+  "ini_nota_1", "ini_nota_2", "ini_nota_3", "ini_nota_4", "ini_nota_5", "ini_nota_6", "ini_nota_7", "ini_nota_8", "ini_nota_9",
 ] as const;
 
 const CLAVES_DE_LO_QUE_ES = ["ini_es_1", "ini_es_2", "ini_es_3"] as const;
@@ -86,7 +86,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <TutorialMolcy />
+        <Tutoriales />
 
         <section data-testid="llamada-a-la-accion" aria-labelledby="home-cta-title" className="flex flex-wrap items-center justify-between gap-6 py-10">
           <div className="max-w-2xl"><h2 id="home-cta-title" className="font-display text-2xl font-bold tracking-tight [overflow-wrap:anywhere] sm:text-3xl">{t("ini_cta_titulo")}</h2><p className="mt-3 text-sm leading-7 text-[var(--text-secondary)]">{t("ini_cta_texto")}</p></div>

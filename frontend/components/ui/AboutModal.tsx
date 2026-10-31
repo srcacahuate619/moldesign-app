@@ -151,7 +151,7 @@ function SoftwareCardView({ card }: { card: SoftwareCard }) {
       <div className="mt-auto border-t border-white/[0.06] pt-2">
         <p className="text-[10px] font-medium text-white/50">{t(KIND_TRANSLATION_KEYS[card.kind])}</p>
         <p className="mt-0.5 text-[10px] leading-relaxed text-white/40">
-          {t("auto_9546d6dbdeab")} {translations?.credit ? t(translations.credit) : card.credit}
+          {t("auto_9546d6dbdeab")} {translations?.credit ? t(translations.credit) : card.creditKey ? t(card.creditKey) : card.credit}
         </p>
       </div>
     </article>

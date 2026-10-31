@@ -592,7 +592,7 @@ def summarize_adme_profile(props: PhysicochemicalProperties) -> str:
     Genera un resumen textual del perfil ADME para el reporte de IA.
 
     Este string se incluye en el AIReportRequest que recibe
-    services/ai/interpreter.py — le da contexto estructurado
+    services/evaluation/interpreter.py — le da contexto estructurado
     a Claude para que el reporte narrativo sea científicamente preciso.
 
     Ejemplo de output:

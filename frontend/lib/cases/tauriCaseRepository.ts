@@ -27,6 +27,7 @@ import type {
 } from "./repository";
 import { sortCaseEntries } from "./repository";
 import { invoke, TauriBridgeError } from "../tauri";
+import { frontendMessage } from "../frontendError";
 import {
   CaseError,
   recoveryActionsFor,
@@ -74,7 +75,7 @@ interface AuthorizedCase {
 function toCaseError(error: unknown): CaseError {
   if (error instanceof CaseError) return error;
   if (error instanceof TauriBridgeError) {
-    return new CaseError("UNSUPPORTED_OPERATION", error.message);
+    return new CaseError("UNSUPPORTED_OPERATION", error.frontendMessage ?? error.message);
   }
   const message = error instanceof Error ? error.message : String(error);
   const match = /^([A-Z_]+):\s*(.*)$/s.exec(message);
@@ -148,7 +149,7 @@ export function createTauriCaseRepository(options: TauriCaseRepositoryOptions): 
   ): Promise<CaseRecord> => {
     if (record.ownerUserId === ownerUserId) return record;
     if (record.ownerUserId) {
-      throw new CaseError("UNAUTHORIZED", "Este caso pertenece a otra cuenta.");
+      throw new CaseError("UNAUTHORIZED", frontendMessage("ca_diag_foreign_case"));
     }
     const authorized = record.activeRun
       ? await canClaimLegacyCase?.(record)
@@ -156,7 +157,7 @@ export function createTauriCaseRepository(options: TauriCaseRepositoryOptions): 
     if (!authorized) {
       throw new CaseError(
         "UNAUTHORIZED",
-        "Este caso legacy todavía no está asignado a tu cuenta.",
+        frontendMessage("ca_diag_legacy_owner"),
       );
     }
     const claimed: CaseRecord = { ...record, ownerUserId };
@@ -171,7 +172,7 @@ export function createTauriCaseRepository(options: TauriCaseRepositoryOptions): 
 
   const write = async (record: CaseRecord): Promise<CaseRecord> => {
     if (record.ownerUserId !== ownerUserId) {
-      throw new CaseError("UNAUTHORIZED", "No se puede guardar un caso de otra cuenta.");
+      throw new CaseError("UNAUTHORIZED", frontendMessage("ca_diag_foreign_save"));
     }
     await call<void>("case_write", { caseId: record.id, contents: manifestFor(record), ownerUserId });
     return record;
@@ -211,9 +212,11 @@ export function createTauriCaseRepository(options: TauriCaseRepositoryOptions): 
           if (caseError.code === "UNAUTHORIZED") continue;
           // NO se omite. Un caso que se movió o cuyo manifiesto está roto sigue
           // siendo un caso conocido, y su fila tiene que decir qué le pasa.
+          const folderName = item.path.split(/[\\/]/).pop();
           entries.push({
             id: item.case_id,
-            name: item.path.split(/[\\/]/).pop() || `Caso ${item.case_id.slice(0, 8)}`,
+            name: folderName || `Caso ${item.case_id.slice(0, 8)}`,
+            ...(!folderName ? { generatedName: true } : {}),
             status: "draft",
             createdAt: new Date(0).toISOString(),
             updatedAt: new Date(0).toISOString(),
@@ -225,6 +228,7 @@ export function createTauriCaseRepository(options: TauriCaseRepositoryOptions): 
               code: caseError.code,
               message: caseError.message,
               detail: caseError.detail,
+              error: caseError,
               // `repair` SÓLO si de verdad hay copia de la que restaurar.
               actions: item.can_repair
                 ? ["repair", ...recoveryActionsFor(caseError.code)]
@@ -238,7 +242,7 @@ export function createTauriCaseRepository(options: TauriCaseRepositoryOptions): 
 
     async createCase(request: CreateCaseRequest): Promise<CaseRecord> {
       if (!request.parentDirectory) {
-        throw new CaseError("UNSUPPORTED_OPERATION", "Elige una carpeta donde crear el caso.");
+        throw new CaseError("UNSUPPORTED_OPERATION", frontendMessage("ca_diag_choose_folder"));
       }
       // `parentDirectory` es aquí un TOKEN, no una ruta: lo devolvió
       // `case_pick_directory` y sólo Rust sabe a qué carpeta corresponde.

@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **147**
-- Operaciones HTTP: **158**
+- Paths: **139**
+- Operaciones HTTP: **147**
 - Versión declarada: `1.0.4`
-- SHA-256: `efdb16a448416074518a013509ae4d15d81492d768b0125f64707fe92c44acd3`
+- SHA-256: `82fd722fc4e05d3e712e3f07bd8a197321f6d329e9929609e83ee101724025c7`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -20,36 +20,16 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | Método | Ruta | operationId | Resumen | Tags |
 |---|---|---|---|---|
 | `GET` | `/` | `root__get` | Root | Meta |
-| `POST` | `/ai/chat` | `chat_completion_ai_chat_post` | Chat Completion | MolChat |
-| `GET` | `/ai/consent` | `listar_consentimientos_ai_consent_get` | Listar Consentimientos | MolChat |
-| `POST` | `/ai/consent` | `otorgar_consentimiento_ai_consent_post` | Otorgar Consentimiento | MolChat |
 | `GET` | `/ai/consent/red` | `listar_destinos_de_red_ai_consent_red_get` | Listar Destinos De Red | MolChat |
 | `POST` | `/ai/consent/red` | `otorgar_destino_de_red_ai_consent_red_post` | Otorgar Destino De Red | MolChat |
 | `DELETE` | `/ai/consent/red/{servicio}` | `revocar_destino_de_red_ai_consent_red__servicio__delete` | Revocar Destino De Red | MolChat |
-| `DELETE` | `/ai/consent/{provider_id}` | `revocar_consentimiento_ai_consent__provider_id__delete` | Revocar Consentimiento | MolChat |
-| `GET` | `/ai/conversations` | `list_conversations_ai_conversations_get` | List Conversations | MolChat |
-| `POST` | `/ai/conversations` | `create_conversation_ai_conversations_post` | Create Conversation | MolChat |
-| `DELETE` | `/ai/conversations/{conv_id}` | `delete_conversation_ai_conversations__conv_id__delete` | Delete Conversation | MolChat |
-| `GET` | `/ai/conversations/{conv_id}` | `get_conversation_ai_conversations__conv_id__get` | Get Conversation | MolChat |
-| `GET` | `/ai/models` | `list_models_ai_models_get` | List Models | MolChat |
-| `POST` | `/ai/models/download` | `start_model_download_ai_models_download_post` | Start Model Download | MolChat |
-| `GET` | `/ai/models/download/{dl_id}` | `get_model_download_status_ai_models_download__dl_id__get` | Get Model Download Status | MolChat |
-| `GET` | `/ai/models/local` | `list_local_models_ai_models_local_get` | List Local Models | MolChat |
-| `POST` | `/ai/models/open-folder` | `open_models_folder_ai_models_open_folder_post` | Open Models Folder | MolChat |
-| `GET` | `/ai/models/recommend-quant` | `recommend_quantization_ai_models_recommend_quant_get` | Recommend Quantization | MolChat |
-| `GET` | `/ai/models/search` | `search_models_ai_models_search_get` | Search Models | MolChat |
+| `GET` | `/ai/idempotency/{idempotency_key}` | `reconciliar_operacion_ai_idempotency__idempotency_key__get` | Reconciliar Operacion | MolChat |
+| `POST` | `/ai/proposals` | `crear_propuesta_de_docking_ai_proposals_post` | Crear Propuesta De Docking | MolChat |
 | `GET` | `/ai/proposals/{proposal_id}` | `consultar_propuesta_de_docking_ai_proposals__proposal_id__get` | Consultar Propuesta De Docking | MolChat |
 | `POST` | `/ai/proposals/{proposal_id}/approve` | `aprobar_propuesta_de_docking_ai_proposals__proposal_id__approve_post` | Aprobar Propuesta De Docking | MolChat |
 | `POST` | `/ai/proposals/{proposal_id}/reject` | `rechazar_propuesta_de_docking_ai_proposals__proposal_id__reject_post` | Rechazar Propuesta De Docking | MolChat |
-| `GET` | `/ai/providers` | `list_providers_ai_providers_get` | List Providers | MolChat |
-| `GET` | `/ai/providers/active` | `get_active_provider_ai_providers_active_get` | Get Active Provider | MolChat |
-| `POST` | `/ai/providers/active` | `set_active_provider_ai_providers_active_post` | Set Active Provider | MolChat |
-| `POST` | `/ai/providers/configure` | `configure_provider_ai_providers_configure_post` | Configure Provider | MolChat |
-| `PATCH` | `/ai/settings` | `update_ai_settings_ai_settings_patch` | Update Ai Settings | MolChat |
 | `POST` | `/ai/speech-to-text` | `speech_to_text_ai_speech_to_text_post` | Speech To Text | MolChat |
 | `GET` | `/ai/speech-to-text/status` | `speech_to_text_status_ai_speech_to_text_status_get` | Speech To Text Status | MolChat |
-| `GET` | `/ai/startup` | `startup_detection_ai_startup_get` | Startup Detection | MolChat |
-| `GET` | `/ai/status` | `ai_status_ai_status_get` | Ai Status | MolChat |
 | `GET` | `/auth/desktop-login` | `desktop_auto_login_auth_desktop_login_get` | Auto-login para modo DESKTOP | Autenticación |
 | `POST` | `/auth/login` | `login_auth_login_post` | Iniciar sesión | Autenticación |
 | `POST` | `/auth/logout` | `logout_auth_logout_post` | Logout | Autenticación |
@@ -115,6 +95,15 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/history/receipts/{task_id}` | `get_run_receipt_history_receipts__task_id__get` | Recibo PDF de una corrida conservada | Historial de evaluaciones |
 | `POST` | `/history/save/{molecule_id}` | `save_molecule_history_save__molecule_id__post` | Guardar molécula explícitamente en la cuenta | Historial de evaluaciones |
 | `GET` | `/history/stats` | `get_stats_history_stats_get` | Estadísticas del usuario | Historial de evaluaciones |
+| `GET` | `/molchat-host/contract` | `contrato_molchat_host_contract_get` | Contrato | MolChatHost |
+| `POST` | `/molchat-host/credencial` | `credencial_molchat_host_credencial_post` | Credencial | MolChatHost |
+| `POST` | `/molchat-host/properties` | `propiedades_molchat_host_properties_post` | Propiedades | MolChatHost |
+| `GET` | `/molchat-host/proveedores` | `proveedores_de_cuenta_molchat_host_proveedores_get` | Proveedores De Cuenta | MolChatHost |
+| `PUT` | `/molchat-host/proveedores/activo` | `elegir_activo_molchat_host_proveedores_activo_put` | Elegir Activo | MolChatHost |
+| `DELETE` | `/molchat-host/proveedores/{proveedor}/clave` | `retirar_clave_molchat_host_proveedores__proveedor__clave_delete` | Retirar Clave | MolChatHost |
+| `PUT` | `/molchat-host/proveedores/{proveedor}/clave` | `guardar_clave_molchat_host_proveedores__proveedor__clave_put` | Guardar Clave | MolChatHost |
+| `POST` | `/molchat-host/session` | `sesion_nueva_molchat_host_session_post` | Sesion Nueva | MolChatHost |
+| `GET` | `/molchat-host/status` | `estado_molchat_host_status_get` | Estado | MolChatHost |
 | `GET` | `/molcy/addon` | `estado_addon_molcy_addon_get` | Estado Addon | Molcy |
 | `POST` | `/molcy/addon` | `instalar_addon_molcy_addon_post` | Instalar Addon | Molcy |
 | `GET` | `/molcy/blender` | `estado_blender_molcy_blender_get` | Estado Blender | Molcy |

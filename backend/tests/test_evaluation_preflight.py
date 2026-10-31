@@ -492,6 +492,41 @@ def test_fingerprint_changes_when_the_source_artifact_changes(monkeypatch, tmp_p
 
 
 @rdkit_available
+def test_aparicion_de_cache_no_cambia_huella_del_catalogo(monkeypatch, tmp_path):
+    """La misma fuente y receta se firman igual antes y después de preparar."""
+    source = tmp_path / "1ABC.pdb"
+    source.write_text(MINIMAL_PDB, encoding="utf-8")
+    prepared = tmp_path / "prepared.pdbqt"
+    monkeypatch.setattr(pf, "_source_pdb_path", lambda pdb_id: source)
+    monkeypatch.setattr(pf, "_prepared_pdbqt_path", lambda pdb_id, recipe_hash=None: prepared if prepared.exists() else None)
+    antes = _build()
+    prepared.write_text("ATOM      1  N   ALA A   1       0.0   0.0   0.0  1.00  0.00     0.000 N\n", encoding="utf-8")
+    despues = _build()
+    assert antes["input_fingerprint"] == despues["input_fingerprint"]
+    assert json.loads(despues["input_document"])["prepared_sha256"] is None
+    assert "fuente y la receta" in _control(despues, "RECEPTOR_PREPARADO_DISPONIBLE")["reason"]
+
+
+@rdkit_available
+def test_la_huella_del_preflight_firma_el_pdbqt_subido(monkeypatch, tmp_path):
+    from services.docking import preparer
+    from tests.receptores_propios_ayudas import pdbqt_sintetico
+
+    receptor = tmp_path / "receptor.pdbqt"
+    receptor.write_text(pdbqt_sintetico(residuos=30), encoding="utf-8")
+    perfil = {"modo": "pdbqt", "almacen": {"receptor": "subida/receptor.pdbqt"},
+              "receptor_sha256": "a" * 64, "origen": None}
+    monkeypatch.setattr(preparer, "distinto_del_automatico", lambda _pdb_id: perfil)
+    monkeypatch.setattr(pf, "_source_pdb_path", lambda _pdb_id: None)
+    monkeypatch.setattr(pf, "path_for", lambda _ruta: receptor)
+    primero = _build(target_pdb_id="USR_C0C0C0")
+    assert json.loads(primero["input_document"])["prepared_sha256"] == primero["receptor"]["prepared_sha256"]
+    receptor.write_text(pdbqt_sintetico(residuos=30) + "REMARK cambiado\n", encoding="utf-8")
+    segundo = _build(target_pdb_id="USR_C0C0C0")
+    assert primero["input_fingerprint"] != segundo["input_fingerprint"]
+
+
+@rdkit_available
 def test_prepared_receptor_absent_is_not_evaluated(monkeypatch, tmp_path):
     source = tmp_path / "1ABC.pdb"
     source.write_text(MINIMAL_PDB, encoding="utf-8")

@@ -306,12 +306,13 @@ function mismoProtocolo(a: Record<string, unknown>, b: Record<string, unknown>):
 export function compararMoleculas(
   a: MoldexMolecule,
   b: MoldexMolecule,
+  t?: (key: string, values?: Readonly<Record<string, string | number>>) => string,
 ): VeredictoComparacion {
   const motivos: string[] = [];
 
   if (a.target?.pdb_id !== b.target?.pdb_id) {
     motivos.push(
-      `Son targets distintos (${a.target?.pdb_id ?? "sin target"} y ${b.target?.pdb_id ?? "sin target"}): sus afinidades no están en la misma escala.`,
+      t?.("mx_compare_targets", { a: a.target?.pdb_id ?? t("mx_compare_no_target"), b: b.target?.pdb_id ?? t("mx_compare_no_target") }) ?? `Son targets distintos (${a.target?.pdb_id ?? "sin target"} y ${b.target?.pdb_id ?? "sin target"}): sus afinidades no están en la misma escala.`,
     );
   }
 
@@ -320,11 +321,11 @@ export function compararMoleculas(
 
   if (hashA === null || hashB === null) {
     motivos.push(
-      "No consta el receptor de al menos una de las dos corridas, así que no puede comprobarse que se midieran contra la misma estructura.",
+      t?.("mx_compare_receptor_missing") ?? "No consta el receptor de al menos una de las dos corridas, así que no puede comprobarse que se midieran contra la misma estructura.",
     );
   } else if (hashA !== hashB) {
     motivos.push(
-      "El receptor preparado no es el mismo: cambia la caja, la protonación o la variante, y con ellas la escala del score.",
+      t?.("mx_compare_receptor_changed") ?? "El receptor preparado no es el mismo: cambia la caja, la protonación o la variante, y con ellas la escala del score.",
     );
   }
 
@@ -333,11 +334,11 @@ export function compararMoleculas(
 
   if (protoA === null || protoB === null) {
     motivos.push(
-      "No consta el protocolo de docking de al menos una de las dos corridas.",
+      t?.("mx_compare_protocol_missing") ?? "No consta el protocolo de docking de al menos una de las dos corridas.",
     );
   } else if (!mismoProtocolo(protoA, protoB)) {
     motivos.push(
-      "El protocolo de docking difiere (motor, exhaustividad, número de poses o conformaciones): los scores no son directamente restables.",
+      t?.("mx_compare_protocol_changed") ?? "El protocolo de docking difiere (motor, exhaustividad, número de poses o conformaciones): los scores no son directamente restables.",
     );
   }
 
@@ -347,7 +348,7 @@ export function compararMoleculas(
   const calB = b.provenance?.protocolo?.calibracion_ranking ?? null;
   if (calA !== null && calB !== null && calA !== calB) {
     motivos.push(
-      `El índice compuesto se calculó con calibraciones del ranking distintas (${calA} y ${calB}): no está en la misma escala.`,
+      t?.("mx_compare_calibration", { a: calA, b: calB }) ?? `El índice compuesto se calculó con calibraciones del ranking distintas (${calA} y ${calB}): no está en la misma escala.`,
     );
   }
 
@@ -357,8 +358,8 @@ export function compararMoleculas(
 /** SCI-A-013: la resta del índice exige calibraciones registradas e iguales.
  * El faltante se expone aparte para que la pantalla lo traduzca sin llamarlo diferencia.
  */
-export function compararIndices(a: MoldexMolecule, b: MoldexMolecule): VeredictoComparacion & { calibracionAusente: boolean } {
-  const base = compararMoleculas(a, b);
+export function compararIndices(a: MoldexMolecule, b: MoldexMolecule, t?: (key: string, values?: Readonly<Record<string, string | number>>) => string): VeredictoComparacion & { calibracionAusente: boolean } {
+  const base = compararMoleculas(a, b, t);
   const calA = a.provenance?.protocolo?.calibracion_ranking;
   const calB = b.provenance?.protocolo?.calibracion_ranking;
   const calibracionAusente = calA == null || calB == null || calA === "" || calB === "";

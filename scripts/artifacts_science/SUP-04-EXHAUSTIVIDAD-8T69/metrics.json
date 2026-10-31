@@ -1,1 +1,161 @@
-{}
+{
+  "experimento": "SUP-04-EXHAUSTIVIDAD-8T69",
+  "analizado_en": "2026-10-26T08:21:27+00:00",
+  "decision": "INCONCLUSIVE",
+  "razon": "Δρ(e32−e8) = +0.043 (IC95 -0.006 a +0.116): ni excluye el cero ni cabe en ±0.1",
+  "primaria_delta_rho_e32_menos_e8": {
+    "delta": 0.042696125901533155,
+    "ic95": [
+      -0.005501359530092176,
+      0.11591518289632446
+    ],
+    "n": 89,
+    "replicas": 10000,
+    "semilla": 20261025
+  },
+  "brazos": {
+    "e8": {
+      "n": 89,
+      "rho": 0.3918159063684028,
+      "rho_peor": 0.3215375646664398,
+      "cpu_core_h": 3.7,
+      "redocking": {
+        "redock-s42": {
+          "rmsd_A": 0.7143002656902894,
+          "valida": true,
+          "E_kcal": -10.557
+        },
+        "redock-s44": {
+          "rmsd_A": 0.6970004366538444,
+          "valida": true,
+          "E_kcal": -10.541
+        },
+        "redock-s46": {
+          "rmsd_A": 0.6778478731473836,
+          "valida": true,
+          "E_kcal": -10.599
+        },
+        "redock-s43": {
+          "rmsd_A": 0.6793296247996496,
+          "valida": true,
+          "E_kcal": -10.608
+        },
+        "redock-s45": {
+          "rmsd_A": 0.6709453745664941,
+          "valida": true,
+          "E_kcal": -10.6
+        }
+      },
+      "redocking_a_2A": 5
+    },
+    "e8s43": {
+      "n": 89,
+      "rho": 0.367056444322182,
+      "rho_peor": 0.2974032445911748,
+      "cpu_core_h": 3.42
+    },
+    "e16": {
+      "n": 89,
+      "rho": 0.4277742121734125,
+      "rho_peor": 0.3572380159290506,
+      "cpu_core_h": 5.56,
+      "redocking": {
+        "redock-s42": {
+          "rmsd_A": 0.6942574700949262,
+          "valida": true,
+          "E_kcal": -10.576
+        },
+        "redock-s44": {
+          "rmsd_A": 0.6970004366538444,
+          "valida": true,
+          "E_kcal": -10.541
+        },
+        "redock-s46": {
+          "rmsd_A": 0.6873787956401128,
+          "valida": true,
+          "E_kcal": -10.599
+        },
+        "redock-s43": {
+          "rmsd_A": 0.6793296247996496,
+          "valida": true,
+          "E_kcal": -10.608
+        },
+        "redock-s45": {
+          "rmsd_A": 0.69079768006458,
+          "valida": true,
+          "E_kcal": -10.565
+        }
+      },
+      "redocking_a_2A": 5
+    },
+    "e32": {
+      "n": 89,
+      "rho": 0.43451203226993595,
+      "rho_peor": 0.3646555580833871,
+      "cpu_core_h": 9.78,
+      "redocking": {
+        "redock-s42": {
+          "rmsd_A": 0.7127008641352468,
+          "valida": true,
+          "E_kcal": -10.563
+        },
+        "redock-s44": {
+          "rmsd_A": 0.6970004366538444,
+          "valida": true,
+          "E_kcal": -10.541
+        },
+        "redock-s46": {
+          "rmsd_A": 0.6940432889643999,
+          "valida": true,
+          "E_kcal": -10.56
+        },
+        "redock-s43": {
+          "rmsd_A": 0.7089371407714609,
+          "valida": true,
+          "E_kcal": -10.573
+        },
+        "redock-s45": {
+          "rmsd_A": 0.7163245560255593,
+          "valida": true,
+          "E_kcal": -10.544
+        }
+      },
+      "redocking_a_2A": 5
+    }
+  },
+  "declaradas": {
+    "delta_e16_menos_e8": {
+      "delta": 0.035958305805009694,
+      "ic95": [
+        -0.008011805796902638,
+        0.10952575346751786
+      ],
+      "n": 89,
+      "replicas": 10000,
+      "semilla": 20261025
+    },
+    "delta_e8s43_menos_e8": {
+      "delta": -0.024759462046220815,
+      "ic95": [
+        -0.13499578465680026,
+        0.0781981223510238
+      ],
+      "n": 89,
+      "replicas": 10000,
+      "semilla": 20261025
+    },
+    "energia_e32_frente_a_e8": {
+      "baja_mas_de_0_1": 2,
+      "baja_mas_de_0_5": 2,
+      "sube_mas_de_0_1": 2,
+      "media_kcal": 0.0121,
+      "rho_e8_e32": 0.968232079505954
+    },
+    "e8_frente_a_R4_2": {
+      "comunes": 89,
+      "misma_energia": 89,
+      "max_diferencia_kcal": 0.0
+    }
+  },
+  "fallos": []
+}

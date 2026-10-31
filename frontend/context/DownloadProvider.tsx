@@ -1,5 +1,11 @@
 "use client";
 
+import { frontendMessage, type FrontendMessage } from "../lib/frontendError";
+
+import { presentError } from "../lib/frontendError";
+
+import { useLanguage } from "./LanguageContext";
+
 import { createContext, useCallback, useEffect, useRef, useState } from "react";
 import type { ModuleEntry, ModelStatus, DownloadProgressEvent, DownloadCompleteEvent } from "../lib/types";
 
@@ -42,6 +48,8 @@ export interface EngineStatus {
   readonly port: number | null;
   /** Razón exacta del último fallo, tal como la reportó Rust. */
   readonly detail: string | null;
+  /** Descriptor efímero de mensajes propios; nunca se serializa con casos. */
+  readonly detailMessage?: FrontendMessage;
 }
 
 export const ENGINE_IDLE: EngineStatus = { state: "idle", port: null, detail: null };
@@ -84,7 +92,8 @@ export function toEngineStatus(raw: unknown): EngineStatus {
   return {
     state: "spawn_failed",
     port: null,
-    detail: "El motor devolvió un estado que esta versión no reconoce.",
+    detail: String(frontendMessage("c_engine_unknown")),
+    detailMessage: frontendMessage("c_engine_unknown"),
   };
 }
 
@@ -116,14 +125,14 @@ export function isMolDesignHealthPayload(raw: unknown): boolean {
  * un único proceso. Aquí NO se silencia el fallo — el `catch {}` anterior es
  * exactamente lo que hacía invisible el problema de arranque.
  */
-async function ensureEngine(command: "ensure_backend" | "restart_backend"): Promise<EngineStatus> {
+async function ensureEngine(command: "ensure_backend" | "restart_backend", t: (key: string, values?: Readonly<Record<string, string | number>>) => string): Promise<EngineStatus> {
   try {
     return toEngineStatus(await invoke<BackendStatusPayload>(command));
   } catch (err) {
     return {
       state: "spawn_failed",
       port: null,
-      detail: err instanceof Error ? err.message : String(err),
+      detail: err instanceof Error ? presentError(err, t) : String(err),
     };
   }
 }
@@ -266,6 +275,7 @@ function isTauri(): boolean {
 }
 
 export function DownloadProvider({ children }: { children: React.ReactNode }) {
+  const { t } = useLanguage();
   const [models, setModels] = useState<Record<string, ModelStatus>>({});
   const [progress, setProgress] = useState<Record<string, DownloadProgressEvent>>({});
   const [manifest] = useState<ModuleEntry[]>(FALLBACK_MANIFEST);
@@ -304,8 +314,8 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
     // `restart_backend` cierra el proceso propio antes de reintentar: un motor
     // a medias seguiría ocupando su puerto y el intento nuevo dejaría huérfano
     // al anterior.
-    applyEngine(await ensureEngine("restart_backend"));
-  }, [applyEngine]);
+    applyEngine(await ensureEngine("restart_backend", t));
+  }, [applyEngine, t]);
 
   const checkModules = useCallback(async (rd: string | null, mod: ModuleEntry[]) => {
     const statuses: Record<string, ModelStatus> = {};
@@ -525,7 +535,7 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
         // Se pide el motor SIEMPRE, esté el manifiesto de modelos como esté.
         // Rust ya lo habrá arrancado desde su `setup`; esta llamada es
         // idempotente y sirve para conocer el puerto y el estado real.
-        const status = await ensureEngine("ensure_backend");
+        const status = await ensureEngine("ensure_backend", t);
         if (cancelled) return;
 
         if (status.state === "ready" && status.port) {
@@ -540,6 +550,7 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
                 state: "disconnected",
                 port: status.port,
                 detail: `El motor dejó de responder en el puerto ${status.port}.`,
+                detailMessage: frontendMessage("c_engine_lost_port", { port: status.port }),
               });
             }
           }
@@ -556,7 +567,7 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
           setEngine({
             state: "spawn_failed",
             port: null,
-            detail: err instanceof Error ? err.message : String(err),
+            detail: err instanceof Error ? presentError(err, t) : String(err),
           });
           const s: Record<string, ModelStatus> = {};
           manifest.forEach((m) => (s[m.id] = "missing"));
@@ -568,7 +579,7 @@ export function DownloadProvider({ children }: { children: React.ReactNode }) {
     }
     bootstrap();
     return () => { cancelled = true; clearTimeout(retryTimer); };
-  }, [checkModules, manifest, applyEngine]);
+  }, [checkModules, manifest, applyEngine, t]);
 
   // Optional model downloads must not put the installed application into a
   // legacy "launcher mode". Required modules are embedded in the installer;

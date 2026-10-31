@@ -356,7 +356,7 @@ export function ProParametersTab({ result }: Props) {
           {([
             {
               label: t("pr_param_ppb"),
-              value: etiquetaPPB(result.blood_ppb_category) ?? t("auto_185e750ee009"),
+              value: etiquetaPPB(result.blood_ppb_category, t) ?? t("auto_185e750ee009"),
               ok: undefined,
               neutral: true,
             },

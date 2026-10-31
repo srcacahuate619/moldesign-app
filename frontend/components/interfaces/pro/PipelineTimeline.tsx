@@ -10,6 +10,7 @@ export type StageState = "pending" | "running" | "done" | "error" | "skipped";
 export interface Stage {
   id: string;
   label: string;
+  labelKey?: string;
   color: string;
   optional?: boolean; // se atenúa visualmente (no siempre corre en el pipeline)
 }
@@ -60,7 +61,7 @@ export function stagesForPipeline(config?: {
     return enabled.has(stage.id);
   }).map((stage) =>
     stage.id === "properties"
-      ? { ...stage, label: admet ? PROPERTIES_ADMET_LABEL : PROPERTIES_LABEL }
+      ? { ...stage, label: admet ? PROPERTIES_ADMET_LABEL : PROPERTIES_LABEL, labelKey: admet ? "pr_properties_admet" : undefined }
       : stage,
   );
 }
@@ -191,7 +192,7 @@ export function PipelineTimeline({
                   color: isDoneNode ? "#6ee7b7" : isError ? "#f87171" : isSkipped ? "#64748b" : isRunning ? s.color : `${s.color}`,
                 }}
               >
-                {isRunning ? t("auto_bbaf37d0b894") : t(s.label)}
+                {isRunning ? t("auto_bbaf37d0b894") : t(s.labelKey ?? s.label)}
               </span>
 
               {/* Mensaje de error / razón de skip */}
@@ -200,7 +201,7 @@ export function PipelineTimeline({
                   className="text-sm font-mono leading-tight max-w-[140px] text-center"
                   style={{ color: isError ? "#f87171" : "#94a3b8" }}
                 >
-                  {isSkipped && !message.toLowerCase().includes(t("auto_47083d99db42")) ? `no se calculó por ${message.toLowerCase()}` : message}
+                  {message}
                 </span>
               )}
             </div>

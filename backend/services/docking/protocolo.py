@@ -56,6 +56,20 @@ MOTORES_DOCKING_EJECUTABLES = frozenset({"vina"})
 MOTORES_PEPTIDICOS_EJECUTABLES = frozenset({"esmfold"})
 
 
+def configuracion_pipeline_predeterminada(settings, *, docking_engine="vina", run_admet_ai=False):
+    """El perfil normal efectivo compartido entre la comprobación y el ejecutor."""
+    return {
+        "execution_profile": "default",
+        "docking_engine": docking_engine,
+        "enabled_stages": ["validation", "properties", "sa_filter", "conformer", "docking", "xgb", "clgnn"],
+        "stage_params": {
+            "properties": {"run_admet_ai": bool(run_admet_ai)},
+            "docking": {"exhaustiveness": int(settings.vina_exhaustiveness), "num_poses": int(settings.vina_num_poses)},
+            "xgb": {"run_gnn": True},
+        },
+    }
+
+
 def validar_motor_solicitado(
     docking_engine: str = "vina", peptide_engine: str | None = None,
 ) -> None:

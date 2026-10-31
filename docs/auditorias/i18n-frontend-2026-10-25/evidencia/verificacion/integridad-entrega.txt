@@ -1,0 +1,50 @@
+Validación Fase A: esquema, IDs, rutas/líneas, PNG/DOM y 8 controles del ledger, OK.
+{
+  "base": "4fc7a9281fecb209a94784d15983475d64b517e8",
+  "rama": "sol/i18n-frontend",
+  "fase": "A",
+  "entradas": 293,
+  "por_origen": {
+    "backend": 39,
+    "formato": 6,
+    "frontend_lib": 90,
+    "frontend_tsx": 155,
+    "rust": 3
+  },
+  "por_superficie": {
+    "Acceso": 6,
+    "Batch": 5,
+    "Casos": 50,
+    "Comunidad": 2,
+    "Estado del motor": 14,
+    "Evaluación": 130,
+    "Evaluación / Moldex": 1,
+    "MolChat": 52,
+    "Molcy": 3,
+    "Moldex": 10,
+    "Opciones y legal": 8,
+    "Preparación y dossier": 10,
+    "Registro científico": 2
+  },
+  "por_barrido": {
+    "ambos": 35,
+    "dinamico": 39,
+    "estatico": 219
+  },
+  "candidatos_estaticos": 4627,
+  "filas_estaticas_inventariadas": 246,
+  "filas_estaticas_excluidas": 4381,
+  "candidatos_sin_decision": 0,
+  "estados": 137,
+  "png_con_estado": 136,
+  "png_faltantes": [
+    "84-batch-informe"
+  ],
+  "estados_A2_inicial": 101,
+  "matriz_presencia": {
+    "sin productor en A1 / ausente del DOM A2 inicial": 2,
+    "sin productor en A1 / presente en DOM A2 inicial": 37,
+    "trazado en A1 / ausente del DOM A2 inicial": 234,
+    "trazado en A1 / presente en DOM A2 inicial": 20
+  }
+}

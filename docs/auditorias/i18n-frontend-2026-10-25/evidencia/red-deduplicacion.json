@@ -1,0 +1,10 @@
+{
+  "formato": "respuestas-unicas-con-indices-originales/v1",
+  "original_respuestas": 8262,
+  "respuestas_unicas": 154,
+  "original_bytes": 44672704,
+  "original_sha256": "b6ba8d9fecc59d5bbde3de8f0302fce75c410c30b0a5d353a37922df2147d668",
+  "normalizado_bytes": 16848929,
+  "normalizado_sha256": "9509640e91e2394bcc6c3eebb61905c96b525dbfae023868e4b5213dc2d2a399",
+  "reconstruccion": "Quitar indices_originales de cada fila, asignar cada fila a sus índices, JSON.stringify(array, null, 2), sin salto final. Se conserva el orden completo; no se registraron cabeceras de credenciales."
+}

@@ -1,5 +1,9 @@
 "use client";
 
+import { FrontendMessage, frontendMessage, presentError } from "../lib/frontendError";
+
+import { useLanguage } from "./LanguageContext";
+
 // =====================================================================
 // CaseContext — el caso activo, su guardado y el guard de corridas
 // =====================================================================
@@ -47,6 +51,7 @@ import { caseWithRun, touchCase } from "../lib/cases/schema";
 import { conDecision, registrarEscritorDeDecisiones } from "../lib/decisionesDeCaso";
 import {
   CaseError,
+  presentCaseErrorDetail,
   hasCompletedRun,
   inputsForStructuralSystem,
   pideOtroSistema,
@@ -83,6 +88,8 @@ function matchesScope(record: CaseRecord, scope: CaseOperationScope): boolean {
   return record.id === scope.caseId &&
     (scope.ownerUserId === undefined || record.ownerUserId === scope.ownerUserId);
 }
+
+const conservarError = (err: unknown): Error | string => err instanceof Error ? err : String(err);
 
 /** Trabajo vivo que impide reemplazar el caso activo. */
 export interface LiveWork {
@@ -202,13 +209,6 @@ function inputsReadyForPersistence(inputs: CaseInputs): CaseInputs {
 
 export const AUTOSAVE_DELAY_MS = 600;
 
-export const SYSTEM_SEALED_MESSAGE =
-  "Este caso ya está fijado a su sistema estructural. Puedes cambiar el ligando y el " +
-  "protocolo; para cambiar receptor, caja o residuos crea otro caso.";
-
-export const LIVE_WORK_MESSAGE =
-  "Hay trabajo en curso en este caso. Espera a que termine o cancélalo antes de cambiar de caso: cambiar ahora dejaría la ejecución sin seguimiento.";
-
 export function CaseProvider({
   children,
   repository: injected,
@@ -223,6 +223,7 @@ export function CaseProvider({
   /** Inyectable para tests: un debounce de 0 hace el guardado observable. */
   autosaveDelayMs?: number;
 }) {
+  const { t } = useLanguage();
   const [repository] = useState<CaseRepository>(
     () => {
       if (injected) return injected;
@@ -251,7 +252,9 @@ export function CaseProvider({
   const [cases, setCases] = useState<readonly CaseIndexEntry[]>([]);
   const [activeCase, setActiveCase] = useState<CaseRecord | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // Los diagnósticos propios conservan su identidad hasta mostrarse; los
+  // errores externos mantienen exactamente el texto recibido.
+  const [errorState, setError] = useState<string | Error | FrontendMessage | { key: string; cause: unknown } | null>(null);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [liveWork, setLiveWorkState] = useState<LiveWork>(NO_WORK);
   const [registryHealth, setRegistryHealth] = useState<RegistryHealth | null>(null);
@@ -277,19 +280,26 @@ export function CaseProvider({
 
   const describeError = useCallback((err: unknown): string => {
     if (err instanceof CaseError) {
-      return err.detail ? `${err.message} (${err.detail})` : err.message;
+      const detalle = presentCaseErrorDetail(err, t);
+      return detalle ? `${presentError(err, t)} (${detalle})` : presentError(err, t);
     }
-    return err instanceof Error ? err.message : String(err);
-  }, []);
+    return err instanceof Error ? presentError(err, t) : String(err);
+  }, [t]);
+
+  const error = errorState === null ? null
+    : typeof errorState === "string" ? errorState
+      : errorState instanceof FrontendMessage ? errorState.render(t)
+        : errorState instanceof Error ? describeError(errorState)
+          : t(errorState.key, { v0: describeError(errorState.cause) });
 
   const refresh = useCallback(async () => {
     try {
       const list = await repository.listCases();
       if (mounted.current) setCases(list);
     } catch (err) {
-      if (mounted.current) setError(describeError(err));
+      if (mounted.current) setError(conservarError(err));
     }
-  }, [repository, describeError]);
+  }, [repository]);
 
   // ── Cola de guardado ────────────────────────────────────────────────
   const onOutcome = useCallback(
@@ -315,14 +325,12 @@ export function CaseProvider({
         void refresh();
       } else if (outcome.kind === "failed") {
         if (activeCaseRef.current?.id === caseId) setSaveState("error");
-        setError(
-          `${describeError(outcome.error)} El cambio no se ha perdido: puedes reintentar.`,
-        );
+        setError({ key: "ca_runtime_15", cause: outcome.error });
       }
       // `superseded` no toca nada a proposito: llego tarde y ya hay algo mas
       // nuevo aplicado.
     },
-    [refresh, describeError],
+    [refresh],
   );
 
   const queueRef = useRef<CaseSaveQueue | null>(null);
@@ -352,7 +360,7 @@ export function CaseProvider({
         const list = await repository.listCases();
         if (!cancelled && mounted.current) setCases(list);
       } catch (err) {
-        if (!cancelled && mounted.current) setError(describeError(err));
+        if (!cancelled && mounted.current) setError(conservarError(err));
       } finally {
         if (!cancelled && mounted.current) setLoading(false);
       }
@@ -360,7 +368,7 @@ export function CaseProvider({
     return () => {
       cancelled = true;
     };
-  }, [repository, describeError]);
+  }, [repository]);
 
   // La salud del índice se CONSUME, no sólo se expone. Un registro corrupto
   // produce una lista vacía idéntica a la de un primer arranque, y presentarla
@@ -378,14 +386,11 @@ export function CaseProvider({
         setRegistryHealth(health);
         if (health.state === "corrupted") {
           setError(
-            "El índice de casos no se pudo leer y tampoco su copia de seguridad. " +
-              "La lista puede estar incompleta: usa «Abrir carpeta existente» para recuperar " +
-              `tus casos antes de crear otros. (${health.detail})`,
+            t("ca_runtime_16", { v0: health.detail }),
           );
         } else if (health.state === "recovered_from_backup") {
           setError(
-            "El índice de casos se recuperó de su copia de seguridad. " +
-              "Puede faltar algún caso reciente; ábrelo por carpeta si no aparece.",
+            t("ca_runtime_17"),
           );
         }
       })
@@ -395,7 +400,7 @@ export function CaseProvider({
     return () => {
       cancelled = true;
     };
-  }, [repository]);
+  }, [repository, t]);
 
   // ── Guard de trabajo vivo ───────────────────────────────────────────
   //
@@ -424,11 +429,11 @@ export function CaseProvider({
 
   const guardAgainstLiveWork = useCallback((): boolean => {
     if (hasLiveWorkRef.current || liveWorkRef.current.evaluation || liveWorkRef.current.analysis) {
-      setError(LIVE_WORK_MESSAGE);
+      setError(t("ca_live_work_block"));
       return false;
     }
     return true;
-  }, []);
+  }, [t]);
 
   /**
    * Drena el guardado del caso activo antes de reemplazarlo.
@@ -446,14 +451,13 @@ export function CaseProvider({
       if (mounted.current) {
         setSaveState("error");
         setError(
-          "No se pudo guardar el cambio pendiente, así que la operación se ha cancelado. " +
-            "El caso y su texto siguen aquí: usa «Reintentar».",
+          t("ca_runtime_18"),
         );
       }
       return false;
     }
     return true;
-  }, [queue]);
+  }, [queue, t]);
 
   // ── Operaciones ─────────────────────────────────────────────────────
 
@@ -471,11 +475,11 @@ export function CaseProvider({
         await refresh();
         return record;
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
         throw err;
       }
     },
-    [repository, refresh, guardAgainstLiveWork, drainActive, describeError],
+    [repository, refresh, guardAgainstLiveWork, drainActive],
   );
 
   const selectCase = useCallback(
@@ -492,11 +496,11 @@ export function CaseProvider({
         void refresh();
         return true;
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
         return false;
       }
     },
-    [repository, refresh, guardAgainstLiveWork, drainActive, describeError],
+    [repository, refresh, guardAgainstLiveWork, drainActive],
   );
 
   const closeCase = useCallback(async () => {
@@ -551,7 +555,7 @@ export function CaseProvider({
           ? inputsForStructuralSystem(current.structuralSystem, requestedInputs)
           : requestedInputs;
         if (sealed && pideOtroSistema(patch, nextInputs)) {
-          setError(SYSTEM_SEALED_MESSAGE);
+          setError(t("ca_runtime_19"));
         }
         const invalidates = inputsAffectRun(current.inputs, nextInputs);
         if (!invalidates && JSON.stringify(nextInputs) === JSON.stringify(current.inputs ?? {})) {
@@ -583,7 +587,7 @@ export function CaseProvider({
         return withPreflight;
       });
     },
-    [queue],
+    [queue, t],
   );
 
   const setPreflight = useCallback(
@@ -636,9 +640,9 @@ export function CaseProvider({
     queue.enqueue(next);
     setSaveState("saving");
     const drained = await queue.drain(casoId);
-    if (!drained.ok) throw new Error("No se pudo guardar la decisión en el caso abierto en Evaluación.");
+    if (!drained.ok) throw new Error(t("ca_runtime_20"));
     return true;
-  }), [queue]);
+  }), [queue, t]);
 
   const setDisposition = useCallback(
     async (kind: CaseDispositionKind, rationale: string): Promise<boolean> => {
@@ -646,15 +650,15 @@ export function CaseProvider({
       const current = activeCaseRef.current;
       const fingerprint = current?.activeRun?.inputFingerprint ?? current?.preflight?.fingerprint;
       if (!current || !fingerprint) {
-        setError("No se puede cerrar el caso sin una corrida vinculada a una huella de inputs.");
+        setError(t("ca_runtime_21"));
         return false;
       }
       if (kind !== "abstain" && runMatchesInputs(current.activeRun, current.preflight?.fingerprint ?? null) !== "corresponde") {
-        setError("La evidencia no corresponde a los inputs actuales; sólo se puede registrar una abstención.");
+        setError(t("ca_runtime_22"));
         return false;
       }
       if (trimmed.length < 3) {
-        setError("Escribe una justificación breve antes de cerrar el caso.");
+        setError(t("ca_runtime_23"));
         return false;
       }
       const vigente: CaseDisposition = {
@@ -684,7 +688,7 @@ export function CaseProvider({
       setError(null);
       return true;
     },
-    [queue],
+    [queue, t],
   );
 
   const setArchived = useCallback(
@@ -695,7 +699,7 @@ export function CaseProvider({
       if (!drained.ok) {
         setSaveState("error");
         setError(
-          "No se pudo guardar el cambio pendiente, así que no se ha archivado. Usa «Reintentar».",
+          t("ca_runtime_24"),
         );
         return;
       }
@@ -706,10 +710,10 @@ export function CaseProvider({
         }
         await refresh();
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
       }
     },
-    [repository, refresh, queue, describeError],
+    [repository, refresh, queue, t],
   );
 
   const forgetCase = useCallback(
@@ -722,7 +726,7 @@ export function CaseProvider({
       const drained = await queue.drain(id);
       if (!drained.ok && mounted.current) {
         setError(
-          "Se retira del índice un caso con cambios sin guardar. Su contenido en disco no se toca.",
+          t("ca_runtime_25"),
         );
       }
       try {
@@ -730,10 +734,10 @@ export function CaseProvider({
         if (mounted.current && activeCaseRef.current?.id === id) setActiveCase(null);
         await refresh();
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
       }
     },
-    [repository, refresh, queue, guardAgainstLiveWork, describeError],
+    [repository, refresh, queue, guardAgainstLiveWork, t],
   );
 
   /**
@@ -746,7 +750,7 @@ export function CaseProvider({
   const repairCase = useCallback(
     async (id: string) => {
       if (!repository.repairCase) {
-        setError("Este almacenamiento no guarda copias de seguridad, así que no hay nada que restaurar.");
+        setError(frontendMessage("ca_diag_no_backup"));
         return;
       }
       try {
@@ -754,15 +758,15 @@ export function CaseProvider({
         if (mounted.current) {
           setActiveCase((current) => (current && current.id === id ? record : current));
           setError(
-            "El caso se ha restaurado desde su copia de seguridad. Revisa si falta algún cambio reciente.",
+            t("ca_runtime_26"),
           );
         }
         await refresh();
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
       }
     },
-    [repository, refresh, describeError],
+    [repository, refresh, t],
   );
 
   const acceptRelocation = useCallback(
@@ -779,16 +783,16 @@ export function CaseProvider({
         }
         await refresh();
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
       }
     },
-    [repository, refresh, describeError],
+    [repository, refresh],
   );
 
   const relocateCase = useCallback(
     async (id: string) => {
       if (!repository.relocateCase) {
-        setError("Relocalizar una carpeta requiere la aplicación de escritorio.");
+        setError(frontendMessage("ca_diag_relocate_desktop"));
         return;
       }
       if (!guardAgainstLiveWork()) return;
@@ -799,14 +803,14 @@ export function CaseProvider({
           setActiveCase(outcome.record);
           setError(null);
         } else if (outcome.kind === "empty" && mounted.current) {
-          setError("Esa carpeta no contiene un caso. No se ha importado nada.");
+          setError(t("ca_runtime_27"));
         }
         await refresh();
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
       }
     },
-    [repository, refresh, guardAgainstLiveWork, drainActive, describeError],
+    [repository, refresh, guardAgainstLiveWork, drainActive, t],
   );
 
   const openExistingFolder = useCallback(async (): Promise<OpenFolderOutcome> => {
@@ -823,15 +827,15 @@ export function CaseProvider({
       return outcome;
     } catch (err) {
       // Todos los errores de abrir se presentan; antes se perdían.
-      if (mounted.current) setError(describeError(err));
+      if (mounted.current) setError(conservarError(err));
       return { kind: "cancelled" };
     }
-  }, [repository, refresh, guardAgainstLiveWork, drainActive, describeError]);
+  }, [repository, refresh, guardAgainstLiveWork, drainActive]);
 
   const initializeFolder = useCallback(
     async (path: string, name: string, studyKind: CaseStudyKind) => {
       if (!repository.initializeFolder) {
-        setError("Este entorno no puede inicializar carpetas.");
+        setError(frontendMessage("ca_diag_no_initialize"));
         return null;
       }
       if (!guardAgainstLiveWork()) return null;
@@ -845,11 +849,11 @@ export function CaseProvider({
         await refresh();
         return record;
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
         return null;
       }
     },
-    [repository, refresh, guardAgainstLiveWork, drainActive, describeError],
+    [repository, refresh, guardAgainstLiveWork, drainActive],
   );
 
   const revealInFileManager = useCallback(
@@ -858,10 +862,10 @@ export function CaseProvider({
       try {
         await repository.revealInFileManager(id);
       } catch (err) {
-        if (mounted.current) setError(describeError(err));
+        if (mounted.current) setError(conservarError(err));
       }
     },
-    [repository, describeError],
+    [repository],
   );
 
   const setLiveWork = useCallback((patch: Partial<LiveWork>) => {
@@ -989,8 +993,7 @@ export function CaseProvider({
         setUnregisteredRun(run);
         setSaveState("error");
         setError(
-          "La corrida arrancó pero su identificador no se pudo guardar en el caso. " +
-            "Se conserva en memoria: reintenta o cópialo antes de cerrar.",
+          t("ca_runtime_28"),
         );
         return false;
       }
@@ -999,7 +1002,7 @@ export function CaseProvider({
       void refresh();
       return true;
     },
-    [queue, refresh, repository],
+    [queue, refresh, repository, t],
   );
 
   const retryRegisterRun = useCallback(async (): Promise<boolean> => {
@@ -1038,11 +1041,9 @@ export function CaseProvider({
       void refresh();
     } else {
       setSaveState("error");
-      setError(
-        `${describeError(result.error)} El reintento volvió a fallar; el cambio continúa pendiente.`,
-      );
+      setError({ key: "ca_runtime_14", cause: result.error });
     }
-  }, [queue, refresh, describeError]);
+  }, [queue, refresh]);
 
   const dismissError = useCallback(() => setError(null), []);
 

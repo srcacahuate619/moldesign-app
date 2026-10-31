@@ -34,7 +34,8 @@ vi.mock("@/lib/auth", () => ({ useAuth: () => ({ user: { user_id: auth.userId } 
 const language = vi.hoisted(() => ({ locale: "es" as "es" | "en" }));
 vi.mock("@/context/LanguageContext", async () => {
   const { resultados } = await import("@/context/traducciones/resultados");
-  return { useLanguage: () => ({ locale: language.locale, t: (key: string) => (resultados[language.locale] as Record<string,string>)[key] ?? key }) };
+  const t = (key: string) => (resultados[language.locale] as Record<string,string>)[key] ?? key;
+  return { useLanguage: () => ({ locale: language.locale, t }) };
 });
 vi.mock("@/components/interfaces/pro/CustomReceptorModal", () => ({
   CustomReceptorModal: () => <div role="dialog">Formulario existente</div>,

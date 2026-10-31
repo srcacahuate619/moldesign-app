@@ -1,0 +1,20 @@
+{
+  "id": "panel-4-86",
+  "smiles": "COc1cc2c(cc1OCS(=O)(=O)N(C)C)CCN1C[C@@H](CC(C)(C)C)[C@H](O)C[C@H]21",
+  "semilla": 42,
+  "intentos": [
+    {
+      "n": 1,
+      "ok": true,
+      "segundos": 28.4,
+      "crudo": "panel-4-86-intento1.json.gz",
+      "crudo_sha256": "20d9ee8cefb0d1855a3600b80fd24065b047fe0609358a5a7c5ecc7ab049721e",
+      "task_id": "ecdde2b5-29eb-497f-9a63-1a009968bc46"
+    }
+  ],
+  "estado": "SUCCESS",
+  "task_id": "ecdde2b5-29eb-497f-9a63-1a009968bc46",
+  "crudo": "panel-4-86-intento1.json.gz",
+  "crudo_sha256": "20d9ee8cefb0d1855a3600b80fd24065b047fe0609358a5a7c5ecc7ab049721e",
+  "registrado_en": "2026-10-26T03:17:46+00:00"
+}

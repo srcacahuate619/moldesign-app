@@ -115,7 +115,7 @@ const INPUTS: CaseInputs = {
 
 const PREFLIGHT: PreflightSummary = {
   fingerprint: "sha256:huella-inspeccionada",
-  inputDocument: '{"chain":"A"}',
+  inputDocument: '{"target_pdb_id":"7E2Y","chain":"A"}',
   generatedAt: "2026-08-24T10:00:00.000Z",
   schemaVersion: 1,
   executionRoute: "docking_vina",
@@ -207,6 +207,54 @@ describe("puerta de ejecución", () => {
     requestPreflight.mockReset();
     latestProProps = {};
     submitEvaluation.mockResolvedValue({ task_id: "task-nueva" });
+  });
+
+  it("la evaluación de MolChat espera el preflight firmado y el registro", async () => {
+    requestPreflight.mockResolvedValue(REPORTE);
+    const onResult = vi.fn(), register = vi.fn().mockResolvedValue(true);
+    montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS} onRunRegistered={register}
+      evaluacionDesdeChat={{ requestId: "chat-run", deadline: Date.now() + 5000, onResult }} />);
+    await screen.findByTestId("run");
+    await waitFor(() => expect(latestProProps.evaluacionDesdeChat).toBeDefined());
+    latestProProps.evaluacionDesdeChat.onInvoke();
+    fireEvent.click(screen.getByTestId("run"));
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith({ status: "started", task_id: "task-nueva" }));
+    expect(requestPreflight).toHaveBeenCalledTimes(1);
+    expect(requestPreflight.mock.invocationCallOrder[0]).toBeLessThan(submitEvaluation.mock.invocationCallOrder[0]);
+    expect((submitEvaluation.mock.calls[0] as unknown as unknown[])[8]).toBe("sha256:nueva-huella");
+    expect(register).toHaveBeenCalledTimes(1);
+  });
+
+  it("una comprobación bloqueante impide el envío solicitado por MolChat", async () => {
+    requestPreflight.mockResolvedValue({ ...REPORTE, technical_blockers: ["RECEPTOR_CADENA_PRESENTE"] });
+    const onResult = vi.fn();
+    montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS}
+      evaluacionDesdeChat={{ requestId: "chat-blocked", deadline: Date.now() + 5000, onResult }} />);
+    await screen.findByTestId("run");
+    await waitFor(() => expect(latestProProps.evaluacionDesdeChat).toBeDefined());
+    latestProProps.evaluacionDesdeChat.onInvoke();
+    fireEvent.click(screen.getByTestId("run"));
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith(expect.objectContaining({ status: "blocked" })));
+    expect(submitEvaluation).not.toHaveBeenCalled();
+  });
+
+  it("no envía una tarea si la solicitud venció durante el preflight", async () => {
+    let finishPreflight!: (value: typeof REPORTE) => void;
+    requestPreflight.mockImplementation(() => new Promise(resolve => { finishPreflight = resolve; }));
+    const onResult = vi.fn(), deadline = Date.now() + 60000;
+    montar(<CaseEvaluationRunner caseId="c1" inputs={INPUTS}
+      evaluacionDesdeChat={{ requestId: "chat-expired", deadline, onResult }} />);
+    await screen.findByTestId("run");
+    await waitFor(() => expect(latestProProps.evaluacionDesdeChat).toBeDefined());
+    latestProProps.evaluacionDesdeChat.onInvoke();
+    fireEvent.click(screen.getByTestId("run"));
+    await waitFor(() => expect(requestPreflight).toHaveBeenCalled());
+    const clock = vi.spyOn(Date, "now").mockReturnValue(deadline + 1);
+    try {
+      finishPreflight(REPORTE);
+      await waitFor(() => expect(onResult).toHaveBeenCalledWith({ status: "unknown" }));
+      expect(submitEvaluation).not.toHaveBeenCalled();
+    } finally { clock.mockRestore(); }
   });
 
   it("sin comprobación previa, «Evaluar» NO está bloqueado: comprueba sola antes de ejecutar", async () => {

@@ -205,15 +205,20 @@ def test_el_pdf_de_cohorte_imprime_el_embudo_y_las_exclusiones(cohorte):
     datos = render_cohort_dossier_pdf(evidencia).getvalue()
     assert datos.startswith(b"%PDF")
     texto = "\n".join(p.extract_text() or "" for p in pypdf.PdfReader(_io.BytesIO(datos)).pages)
+    # El texto extraído parte las líneas donde las partió reportlab: «NO es una
+    # \npose aprobada» no matchea la frase con espacios. Se colapsa el blanco
+    # (mismo remedio que el `or` de test_dossier_estructural: la extracción de
+    # pypdf no es contrato del PDF).
+    plano = " ".join(texto.split())
 
-    assert "Embudo estructural" in texto
-    assert "Seleccionables" in texto
-    assert "Físicamente evaluadas" in texto
-    assert "Exclusiones y sus causas" in texto
-    assert "DOCKING_TIMEOUT" in texto
-    assert "no_elegible_en_preflight" in texto
+    assert "Embudo estructural" in plano
+    assert "Seleccionables" in plano
+    assert "Físicamente evaluadas" in plano
+    assert "Exclusiones y sus causas" in plano
+    assert "DOCKING_TIMEOUT" in plano
+    assert "no_elegible_en_preflight" in plano
     # Y la advertencia que impide leer «revisión» como aprobado.
-    assert "no es una pose aprobada" in texto.lower()
+    assert "no es una pose aprobada" in plano.lower()
 
 
 def test_el_dossier_de_cohorte_sirve_pdf_y_readme_en_ingles_sin_traducir_el_nombre(cohorte):

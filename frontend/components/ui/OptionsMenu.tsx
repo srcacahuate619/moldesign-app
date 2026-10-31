@@ -26,6 +26,7 @@ import {
 import { useTheme } from "../../context/ThemeContext";
 import { LANGUAGES, useLanguage } from "../../context/LanguageContext";
 import { SupportContent } from "../SupportPanel";
+import { ProveedoresIA } from "../ai/ProveedoresIA";
 import { AboutModal } from "./AboutModal";
 import { LegalModal } from "./LegalModal";
 import { useAuth } from "../../lib/auth";
@@ -38,7 +39,7 @@ interface OptionsMenuProps {
   triggerRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
-type PanelView = "options" | "support";
+type PanelView = "options" | "support" | "providers";
 type ExportFormat = "json" | "csv";
 
 const sectionLabelClass =
@@ -162,16 +163,16 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
       const url = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
       anchor.href = url;
-      anchor.download = `moldesign_bioteca.${format}`;
+      anchor.download = t("op_frontend_158", { v0: format });
       anchor.click();
       URL.revokeObjectURL(url);
     } catch {
-      window.alert("No se pudieron exportar los datos locales.");
+      window.alert(t("op_frontend_159"));
     }
   };
 
   const deleteLegacyData = () => {
-    if (!window.confirm("¿Limpiar las preferencias y el historial local heredado? Los casos de estudio no se eliminarán.")) {
+    if (!window.confirm(t("op_frontend_160"))) {
       return;
     }
     removeUserItem("moldesign_moldex", user?.user_id);
@@ -207,7 +208,7 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
           >
             <header className="flex shrink-0 items-center justify-between border-b border-[var(--border)] px-5 py-4">
               <div className="flex min-w-0 items-center gap-2.5">
-                {activeView === "support" ? (
+                {activeView !== "options" ? (
                   <button
                     ref={firstControlRef}
                     type="button"
@@ -221,7 +222,11 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                   <Settings size={20} className="shrink-0 text-[var(--accent)]" aria-hidden="true" />
                 )}
                 <h2 id="options-panel-title" className="truncate text-base font-semibold text-[var(--text)]">
-                  {activeView === "support" ? t("support") : t("ev_opciones")}
+                  {activeView === "support"
+                    ? t("support")
+                    : activeView === "providers"
+                      ? t("ia_prov_titulo")
+                      : t("ev_opciones")}
                 </h2>
               </div>
               <button
@@ -237,6 +242,8 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
             <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain">
               {activeView === "support" ? (
                 <SupportContent />
+              ) : activeView === "providers" ? (
+                <ProveedoresIA />
               ) : (
                 <div className="space-y-1 p-4">
                   <section>
@@ -364,6 +371,17 @@ export function OptionsMenu({ isOpen, onClose, triggerRef }: OptionsMenuProps) {
                         <span className="flex items-center gap-3">
                           <Download size={16} className="text-[var(--accent)]" aria-hidden="true" />
                           <span className={optionTextClass}>{t("op_menu_downloads")}</span>
+                        </span>
+                        <ChevronRight size={14} className="text-[var(--text-dim)]" aria-hidden="true" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setActiveView("providers")}
+                        className={optionButtonClass}
+                      >
+                        <span className="flex items-center gap-3">
+                          <Shield size={16} className="text-[var(--accent)]" aria-hidden="true" />
+                          <span className={optionTextClass}>{t("ia_prov_titulo")}</span>
                         </span>
                         <ChevronRight size={14} className="text-[var(--text-dim)]" aria-hidden="true" />
                       </button>

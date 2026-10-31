@@ -1,0 +1,176 @@
+{
+ "note": "Demo dataset shipped with MolChat (8 molecules, RDKit values recorded 2026-10-26). Full property coverage needs platform API CR-01; unknown structures abstain.",
+ "molecules": [
+  {
+   "name": "aspirina",
+   "smiles": "CC(=O)Oc1ccccc1C(=O)O",
+   "canonical": "CC(=O)Oc1ccccc1C(=O)O.",
+   "properties": {
+    "mw": 180.2,
+    "logp": 1.31,
+    "tpsa": 63.6,
+    "hbd": 1,
+    "hba": 3,
+    "rot_bonds": 2,
+    "heavy_atoms": 13,
+    "rings": 1
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": []
+   }
+  },
+  {
+   "name": "ibuprofeno",
+   "smiles": "CC(C)Cc1ccc(C(C)C(=O)O)cc1",
+   "canonical": "CC(C)Cc1ccc(C(C)C(=O)O)cc1.",
+   "properties": {
+    "mw": 206.3,
+    "logp": 3.07,
+    "tpsa": 37.3,
+    "hbd": 1,
+    "hba": 1,
+    "rot_bonds": 4,
+    "heavy_atoms": 15,
+    "rings": 1
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": []
+   }
+  },
+  {
+   "name": "paracetamol",
+   "smiles": "CC(=O)Nc1ccc(O)cc1",
+   "canonical": "CC(=O)Nc1ccc(O)cc1.",
+   "properties": {
+    "mw": 151.2,
+    "logp": 1.35,
+    "tpsa": 49.3,
+    "hbd": 2,
+    "hba": 2,
+    "rot_bonds": 1,
+    "heavy_atoms": 11,
+    "rings": 1
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": []
+   }
+  },
+  {
+   "name": "cafeina",
+   "smiles": "Cn1c(=O)c2c(ncn2C)n(C)c1=O",
+   "canonical": "Cn1c(=O)c2c(ncn2C)n(C)c1=O.",
+   "properties": {
+    "mw": 194.2,
+    "logp": -1.03,
+    "tpsa": 61.8,
+    "hbd": 0,
+    "hba": 3,
+    "rot_bonds": 0,
+    "heavy_atoms": 14,
+    "rings": 2
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": []
+   }
+  },
+  {
+   "name": "morfina",
+   "smiles": "Oc1ccc2C[C@H]3N(C)CC[C@@]45[C@@H](Oc1c24)[C@H](O)C=C[C@H]35",
+   "canonical": "CN1CC[C@]23c4c5ccc(O)c4O[C@H]2[C@H](O)C=C[C@@H]3[C@H]1C5.",
+   "properties": {
+    "mw": 285.3,
+    "logp": 1.2,
+    "tpsa": 52.9,
+    "hbd": 2,
+    "hba": 4,
+    "rot_bonds": 0,
+    "heavy_atoms": 21,
+    "rings": 5
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": []
+   }
+  },
+  {
+   "name": "etanol",
+   "smiles": "CCO",
+   "canonical": "CCO.",
+   "properties": {
+    "mw": 46.1,
+    "logp": -0.0,
+    "tpsa": 20.2,
+    "hbd": 1,
+    "hba": 1,
+    "rot_bonds": 0,
+    "heavy_atoms": 3,
+    "rings": 0
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": []
+   }
+  },
+  {
+   "name": "dopamina",
+   "smiles": "C1=CC(=C(C=C1CCN)O)O",
+   "canonical": "NCCc1ccc(O)c(O)c1.",
+   "properties": {
+    "mw": 153.2,
+    "logp": 0.6,
+    "tpsa": 66.5,
+    "hbd": 3,
+    "hba": 3,
+    "rot_bonds": 2,
+    "heavy_atoms": 11,
+    "rings": 1
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": [
+     "catechol_A(92)",
+     "catechol_A(92)"
+    ]
+   }
+  },
+  {
+   "name": "glucosa",
+   "smiles": "OC[C@H]1O[C@@H](O)[C@H](O)[C@@H](O)[C@@H]1O",
+   "canonical": "OC[C@H]1O[C@@H](O)[C@H](O)[C@@H](O)[C@@H]1O.",
+   "properties": {
+    "mw": 180.2,
+    "logp": -3.22,
+    "tpsa": 110.4,
+    "hbd": 5,
+    "hba": 6,
+    "rot_bonds": 1,
+    "heavy_atoms": 12,
+    "rings": 1
+   },
+   "druglikeness": {
+    "lipinski": true,
+    "veber": true,
+    "pains_evaluated": true,
+    "pains_alerts": []
+   }
+  }
+ ]
+}

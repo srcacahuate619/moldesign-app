@@ -1,4 +1,6 @@
 "use client";
+
+import { presentError } from "../../lib/frontendError";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { FALTA_PARA_EL_PAQUETE, configurarMolcy, instalacionMolcy, type MolcyInstallation, type MolcyRenderer } from "@/lib/molcy";
@@ -27,9 +29,9 @@ export function RendererSettings({ renderer, onChanged, busy }: {
   useEffect(() => {
     let alive = true;
     instalacionMolcy().then(value => { if (alive) setStatus(value); })
-      .catch((e: Error) => { if (alive) setError(e.message); });
+      .catch((e: Error) => { if (alive) setError(presentError(e, t)); });
     return () => { alive = false; };
-  }, [renderer?.blender]);
+  }, [renderer?.blender, t]);
   // La propuesta se decide UNA vez, con la instalación y los Blender encontrados ya a la vista. Después sólo la cambia el
   // investigador; una consulta nueva no la pisa.
   useEffect(() => {
@@ -43,7 +45,7 @@ export function RendererSettings({ renderer, onChanged, busy }: {
   const perform = async (action: () => Promise<MolcyInstallation>, refresh = false) => {
     setPending(true); setError(null);
     try { setStatus(await action()); if (refresh) await onChanged(); }
-    catch (e) { setError((e as Error).message); }
+    catch (e) { setError(presentError((e as Error), t)); }
     finally { setPending(false); }
   };
   const installing = status?.estado === "instalando";

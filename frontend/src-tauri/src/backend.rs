@@ -763,6 +763,7 @@ fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, Stri
         cmd.creation_flags(0x08000000);
     }
 
+    #[cfg_attr(not(target_os = "windows"), allow(unused_mut))]
     let mut child = cmd
         .spawn()
         .map_err(|e| format!("no se pudo lanzar {}: {}", layout.python_exe.display(), e))?;

@@ -1,38 +1,28 @@
 import { describe, expect, it } from "vitest";
 import { pro } from "../../context/traducciones/pro";
-import { FAMILY_LABELS, localizePipelineText, PIPELINES_BY_FAMILY } from "../pipelineDefinitions";
-
-describe("localizePipelineText", () => {
-  it("traduce la procedencia persistida sin cambiar el valor científico", () => {
-    expect(localizePipelineText("de esta corrida", key => pro.en[key])).toBe("from this run");
-    expect(localizePipelineText("de esta corrida", key => pro.es[key])).toBe("de esta corrida");
-    expect(localizePipelineText("-6.95 kcal/mol", key => pro.en[key])).toBe("-6.95 kcal/mol");
-  });
-  it("localizes every fixed pipeline note, stage note, label, and family label", () => {
-    const values = new Set<string>();
-    for (const [family, pipeline] of Object.entries(PIPELINES_BY_FAMILY)) {
-      values.add(pipeline.label);
-      values.add(pipeline.note);
-      values.add(FAMILY_LABELS[family]);
-      for (const stage of pipeline.stages) {
-        values.add(stage.label);
-        values.add(stage.value);
-        values.add(stage.sub);
-        if (stage.note) values.add(stage.note);
-      }
+import { FAMILY_LABEL_KEYS, localizePipeline, PIPELINES_BY_FAMILY } from "../pipelineDefinitions";
+import { describirEtapa } from "../procedenciaDeSenales";
+import { stageEventToOrbUpdate, type PipelineEvent } from "../pipelineStream";
+describe.each(["es", "en"] as const)("procedencia por claves en %s", locale => {
+  const t = (key: string) => pro[locale][key] ?? key;
+  it("localiza las definiciones sin modificar pesos ni los originales", () => {
+    const bytes = JSON.stringify(PIPELINES_BY_FAMILY);
+    for (const pipeline of Object.values(PIPELINES_BY_FAMILY)) {
+      const shown = localizePipeline(pipeline, t);
+      expect(shown.stages.map(s => [s.id, s.weight, s.post_hoc])).toEqual(pipeline.stages.map(s => [s.id, s.weight, s.post_hoc]));
+      if (locale === "es") expect(shown.note).toBe(pipeline.note);
+      else expect(shown.note).not.toMatch(/Contrato provisional|Target sin curación/);
     }
-
-    const english = (key: string) => pro.en[key as keyof typeof pro.en] as string;
-    const localized = [...values].map((value) => localizePipelineText(value, english));
-    expect(localized).not.toContain(undefined);
-    expect(localized).not.toContain("Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.");
-    expect(localized).toContain("Provisional contract: Vina 1.00; XGBoost 0.00; CL-GNN runs and is reported as an experimental signal with zero weight until the exact checkpoint is validated externally.");
-    expect(localized).toContain("M4 Protease · default weights");
+    expect(JSON.stringify(PIPELINES_BY_FAMILY)).toBe(bytes);
+    expect(t(FAMILY_LABEL_KEYS.protease)).toBe(locale === "es" ? "Proteasa" : "Protease");
   });
-
-  it("keeps the Spanish UI wording byte for byte", () => {
-    const spanish = (key: string) => pro.es[key as keyof typeof pro.es] as string;
-    const value = PIPELINES_BY_FAMILY.gpcr.note;
-    expect(localizePipelineText(value, spanish)).toBe(value);
+  it("traduce ausencias locales y conserva valores y texto del backend", () => {
+    expect(describirEtapa({ id: "vina" }, { value: "-6.95 kcal/mol" }, t)).toMatchObject({ value: "-6.95 kcal/mol", sub: locale === "es" ? "de esta corrida" : "from this run" });
+    expect(describirEtapa({ id: "xgb" }, undefined, t)).toMatchObject({ value: locale === "es" ? "no reportado" : "not reported", sub: locale === "es" ? "sin salida serializada" : "no serialized output" });
+    expect(describirEtapa({ id: "mmgbsa", post_hoc: true }, undefined, t)).toMatchObject({ value: locale === "es" ? "no calculado" : "not calculated", sub: locale === "es" ? "cálculo opcional" : "optional calculation" });
+    expect(describirEtapa({ id: "vina" }, { value: "dato externo", sub: "origen externo" }, t).sub).toBe("origen externo");
+    const event = { type: "stage_error", stage_id: "xgb" } as PipelineEvent;
+    expect(stageEventToOrbUpdate(event, t)?.message).toBe(locale === "es" ? "Error en la etapa" : "Stage error");
+    expect(stageEventToOrbUpdate({ ...event, error: "fallo del backend" }, t)?.message).toBe("fallo del backend");
   });
 });

@@ -19,6 +19,8 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const certificacion: ModuloDeTraduccion = {
   es: {
+    ce_frontend_206: "No se pudo descargar el certificado",
+    ce_frontend_207: "No se pudo cargar la vista previa del certificado",
     // ── Las advertencias que sostienen todo lo anterior ───────────
     //
     // Son las que dicen que esto NO es una certificación. Se traducen palabra
@@ -135,6 +137,8 @@ export const certificacion: ModuloDeTraduccion = {
       + "devnet sí funciona aquí.",
   },
   en: {
+    ce_frontend_206: "The certificate could not be downloaded",
+    ce_frontend_207: "The certificate preview could not be loaded",
     ce_poc_resumen:
       "Proof of concept on devnet. The files stay local; the network receives a "
       + "fingerprint and minimal metadata.",

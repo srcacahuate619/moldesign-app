@@ -106,7 +106,7 @@ RESCORING_DIRS_FUERA_DEL_RUNTIME = frozenset(
 #: (`generate_sbom.py`) inventaría: una sola fuente, porque con dos copias el
 #: SBOM callaba lo que el instalador llevaba (el guardado decía 2 binarios y
 #: se empaquetaban 4).
-HERRAMIENTAS_EMPAQUETADAS = ("vina", "xtb", "llama", "openbabel", "molcy")
+HERRAMIENTAS_EMPAQUETADAS = ("vina", "xtb", "llama", "openbabel", "molcy", "molchat")
 
 #: Sin estas el instalador no se construye. Las demás se omiten si no están, y
 #: el SBOM lo declara en vez de callarlo.

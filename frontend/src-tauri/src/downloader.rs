@@ -673,11 +673,21 @@ mod tests {
 
     #[test]
     fn las_rutas_parent_no_salen_de_la_raiz() {
-        let root = PathBuf::from(r"C:\app\resources");
-        let inside =
-            lexical_normalize(Path::new(r"C:\app\resources\models\..\models\peso.bin")).unwrap();
+        let root = PathBuf::from(if cfg!(windows) {
+            r"C:\app\resources"
+        } else {
+            "/app/resources"
+        });
+        let inside = lexical_normalize(
+            &root
+                .join("models")
+                .join("..")
+                .join("models")
+                .join("peso.bin"),
+        )
+        .unwrap();
         assert!(inside.starts_with(&root));
-        let escape = lexical_normalize(Path::new(r"C:\app\resources\..\secreto.bin")).unwrap();
+        let escape = lexical_normalize(&root.join("..").join("secreto.bin")).unwrap();
         assert!(!escape.starts_with(&root));
     }
 

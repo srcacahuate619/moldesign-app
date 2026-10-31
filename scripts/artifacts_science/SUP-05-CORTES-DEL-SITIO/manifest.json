@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "experiment_id": "SUP-05-CORTES-DEL-SITIO",
+  "hypothesis": "El estado de Preparacion casi no depende de sus cortes sin medir: mover el de huecos (8 A) entre 7 y 9 A y el de especies junto al sitio (6 A) entre 5 y 7 A cambia la decision en <= 5 % de las entradas del catalogo",
+  "protocol": "scripts/artifacts_science/SUP-05-CORTES-DEL-SITIO/entrada/REGISTRO_PREVIO.md",
+  "created_at": "2026-10-26T03:12:02.582468+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "claude/sup05-cortes",
+    "commit": "3ca7f633dd64ef08aa311d26a0e6e0b74f4bbb8d",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "GO si las entradas cuyo estado por huecos cambia entre 7 y 9 A y las cuyo estado por especies cambia entre 5 y 7 A son ambas <= 5 % de las medibles; NO_GO si alguna supera el 5 %; INCONCLUSIVE con < 300 medibles"
+  },
+  "decision": "INCONCLUSIVE",
+  "dataset_hashes": {
+    "curated_targets.json": "f66cd263f2a20ac548bf2ee5492e17a28ba04a898c7b6f124bba86c4f24e4593",
+    "scripts/artifacts_science/ABS-TR-01-VALIDEZ-R1/per_system.jsonl": "f888e1de7b567d88b3e62cc7ff6eb49b48d08c3004010a77862878bdd5117a45"
+  },
+  "assets_hashes": {
+    "scripts/sup05_cortes/medir.py": "7eb15558016bdf49b4eff6494d0f719bf496375b618c3b7b753e2bc162b55b16",
+    "scripts/artifacts_science/SUP-05-CORTES-DEL-SITIO/RESULTADOS.md": "e1423cdb92e6d3d47b9be0ffeaa239e09ed6fa80914261cfb0c923207f494d25"
+  },
+  "sealed": true,
+  "sealed_at": "2026-10-26T03:15:15.230946+00:00",
+  "decision_rationale": "272 de 381 entradas medibles (< 300 del registro): 109 no declaran site_ligand. Declarado sin decidir: entre 7 y 9 A cambia el estado por huecos en 8 de 272 (2,9 %); entre 5 y 7 A el de especies en 18 (6,6 %), sobre todo metales (10 a 6 A, 20 a 7 A). Control: 4JVB 6,12 A frente a 6,09 publicados; 36 metales coordinados frente a 35 del inventario.",
+  "finished_at": "2026-10-26T03:15:18.147337+00:00"
+}

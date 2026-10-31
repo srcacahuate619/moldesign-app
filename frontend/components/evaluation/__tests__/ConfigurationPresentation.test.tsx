@@ -24,7 +24,7 @@ vi.mock("../../../context/LanguageContext", () => ({ useLanguage: () => ({
 const smiles = "CC(C)Cc1ccc([C@H](C)C(=O)O)cc1";
 const fingerprint = `sha256:${"a".repeat(64)}`;
 const summary: PreflightSummary = {
-  fingerprint, inputDocument: "{}", generatedAt: "2026-10-24T12:00:00Z", schemaVersion: 3,
+  fingerprint, inputDocument: JSON.stringify({ target_pdb_id: "1CX2", chain: "A" }), generatedAt: "2026-10-24T12:00:00Z", schemaVersion: 3,
   executionRoute: "docking_vina", blockers: [], warnings: ["REVISAR"], notEvaluated: ["NO_MEDIDO"],
   receptorLabel: "1CX2 · cadena A", ligandLabel: smiles, gridLabel: "descripción antigua de la caja",
   executionConfig: { gridCenter: [-24.664125, 0, 16.451], gridSize: [31.1, 24.5, 18.25], customHotspots: ["A:TYR385", "A:ARG120"], dockingEngine: "vina", exhaustiveness: 4, numPoses: 9, seed: 0, conformers: 5 },
@@ -41,7 +41,7 @@ describe("Configuración completa y legible", () => {
     mocks.locale = locale;
     render(<ConfigurationPresentation><ConfigurationInputs summary={summary} /></ConfigurationPresentation>);
     expect(screen.getByText(smiles, { exact: true })).toBeVisible();
-    expect(screen.getByText(summary.gridLabel, { exact: false })).toBeVisible();
+    expect(screen.queryByText(summary.gridLabel, { exact: false })).not.toBeInTheDocument();
     expect(screen.getByRole("table", { name: pro[locale].pr_preflight_effective_box })).toBeVisible();
     for (const number of ["-24.664125", "16.451", "31.1", "24.5", "18.25"]) expect(screen.getByRole("cell", { name: number })).toBeVisible();
     expect(screen.getAllByText("0", { exact: true })).toHaveLength(2); // centro Y y semilla, ambos válidos
@@ -72,7 +72,7 @@ describe("Configuración completa y legible", () => {
 
   it("un resumen antiguo sin configuración no inventa coordenadas ni protocolo", () => {
     render(<ConfigurationInputs summary={{ ...summary, executionConfig: undefined }} />);
-    expect(screen.getByText(summary.gridLabel, { exact: true })).toBeVisible();
+    expect(screen.getByText(comun.es.c_no_definido, { exact: true })).toBeVisible();
     expect(screen.getByText(resultados.es.cf_legacy_box)).toBeVisible();
     expect(screen.getByText(resultados.es.cf_missing_protocol)).toBeVisible();
     expect(screen.queryByRole("table")).toBeNull();

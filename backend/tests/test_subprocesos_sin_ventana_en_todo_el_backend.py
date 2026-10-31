@@ -126,7 +126,7 @@ def test_el_recorrido_encuentra_el_backend_de_verdad():
     nombres = {p.relative_to(RAIZ).as_posix() for p in fuentes}
     assert len(fuentes) > 150
     for esperado in ("services/molcy/renderer.py", "services/docking/vina_service.py", "sidecars/esmfold/predictor.py",
-                     "api/routers/ai.py"):
+                     "api/routers/agent_platform.py"):
         assert esperado in nombres, esperado
     assert not any(n.startswith(("tests/", "audits/", "scripts/")) for n in nombres)
 

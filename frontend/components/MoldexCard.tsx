@@ -105,7 +105,7 @@ const MoldexCard = memo(function MoldexCard({ molecule, onClick, isSelected, onC
           )}
           <div className="mt-3 flex items-end justify-between gap-2">
             <div>
-              <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]">{t("mx_indice_compuesto")}</span>
+              <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.1em] text-[var(--text-dim)]" title={t("mx_indice_compuesto_nota")}>{t("mx_indice_compuesto")}</span>
               <span className="font-display text-lg font-bold tabular-nums text-[var(--accent-strong)]">{score !== null ? score.toFixed(1) : "—"}</span>
               {/* B-2: una corrida de 1.0.1 (otra receta u otro ranking) no se
                   ordena contra las de hoy como si fuera la misma escala. */}

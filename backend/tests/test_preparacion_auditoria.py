@@ -68,6 +68,12 @@ def _con_procedencia(species_diff: dict | None = None, **ligand_state) -> dict:
 
 
 class TestForma:
+    def test_huellas_distintas_no_prueban_que_hayan_cambiado_los_inputs(self):
+        requisito = _requisito(_auditar(caso_parcial()), "procedencia.relacion")
+        assert requisito["estado"] == "REVISAR"
+        assert "no se puede confirmar" in requisito["razon"].lower()
+        assert "cambiaron después" not in requisito["razon"].lower()
+
     def test_cinco_bloques_en_el_orden_de_la_interfaz(self):
         auditoria = _auditar(caso_completo())
         assert [b["id"] for b in auditoria["bloques"]] == list(BLOQUES)

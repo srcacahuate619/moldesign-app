@@ -472,7 +472,7 @@ async def run_pipeline(
             ausente); el engine re-normaliza pesos o degrada. El warning es
             explícito con molecule_id + error.
             """
-            from services.ai.clgnn_inference import predict_clgnn
+            from services.clgnn_inference import predict_clgnn
             try:
                 # La POSE, no el SMILES: ver `predict_clgnn`. Sin pose devuelve
                 # None, que es lo correcto para un scorer post-docking.

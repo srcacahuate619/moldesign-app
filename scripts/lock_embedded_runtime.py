@@ -85,6 +85,13 @@ _GUION = (
 )
 
 
+#: ProDy 2.3.1 sólo publica ruedas `win_amd64`, y su sdist no llega a dar metadatos en la compilación
+#: aislada de pip porque pide numpy antes. Con la marca, el lockfile se instala también en Linux. Sólo lo
+#: usa un script de desarrollo (`rescoring/RTMScore/feats/extract_pocket_prody.py`).
+SOLO_WINDOWS = frozenset({"prody"})
+MARCA_WINDOWS = '; sys_platform == "win32"'
+
+
 def inventario() -> dict:
     if not PYTHON_EMBED.is_file():
         raise SystemExit(
@@ -129,8 +136,15 @@ def serializar(datos: dict) -> str:
         f"# {len(paquetes)} distribuciones.",
         "",
     ]
-    lineas += [f"{p['nombre']}=={p['version']}" for p in paquetes]
+    lineas += [
+        f"{p['nombre']}=={p['version']}" + (MARCA_WINDOWS if p["nombre"].lower() in SOLO_WINDOWS else "")
+        for p in paquetes
+    ]
     return "\n".join(lineas) + "\n"
+
+
+def _paquetes(texto: str) -> int:
+    return sum(1 for linea in texto.splitlines() if linea and not linea.startswith("#"))
 
 
 def main() -> int:
@@ -174,12 +188,12 @@ def main() -> int:
                 file=sys.stderr,
             )
             return 1
-        print(f"Lockfile del runtime embebido verificado: {texto.count('==')} paquetes")
+        print(f"Lockfile del runtime embebido verificado: {_paquetes(texto)} paquetes")
         return 0
 
     SALIDA.write_text(texto, encoding="utf-8")
     print(f"Generado: {SALIDA.relative_to(RAIZ).as_posix()}")
-    print(f"  {texto.count('==')} paquetes del intérprete distribuido")
+    print(f"  {_paquetes(texto)} paquetes del intérprete distribuido")
     return 0
 
 

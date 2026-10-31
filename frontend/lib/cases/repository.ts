@@ -14,6 +14,7 @@
 // en vez de ofrecer un boton que falla al pulsarlo.
 
 import type { CaseIndexEntry, CaseRecord, CaseStudyKind } from "./types";
+import type { FrontendMessage } from "../frontendError";
 
 export interface CaseRepositoryCapabilities {
   /** Puede abrir una carpeta existente del sistema de archivos. */
@@ -22,6 +23,8 @@ export interface CaseRepositoryCapabilities {
   readonly canRevealInFileManager: boolean;
   /** Razon por la que `canOpenFolder` es false. Obligatoria si lo es. */
   readonly openFolderUnavailableReason?: string;
+  /** Sólo para un motivo producido por el frontend; los textos externos quedan literales. */
+  readonly openFolderUnavailableMessage?: FrontendMessage;
   /** Etiqueta honesta del almacenamiento, para la cabecera del caso. */
   readonly storageLabel: string;
 }

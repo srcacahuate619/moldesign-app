@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 import { useEffect, useId, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import { getEvaluationResult } from "../../lib/api";
@@ -29,10 +31,10 @@ export function BatchRowResult({ row, pdbId }: { row: EvidenceMolecule; pdbId?: 
     let alive = true;
     getEvaluationResult(moleculeId, taskId).then(
       (result) => { if (alive) setDetail({ identidad, pdbId, moleculeId, taskId, result }); },
-      (error: unknown) => { if (alive) setDetail({ identidad, pdbId, moleculeId, taskId, error: error instanceof Error ? error.message : null }); },
+      (error: unknown) => { if (alive) setDetail({ identidad, pdbId, moleculeId, taskId, error: error instanceof Error ? presentError(error, t) : null }); },
     );
     return () => { alive = false; };
-  }, [consultar, identidad, pdbId, moleculeId, taskId]);
+  }, [consultar, identidad, pdbId, moleculeId, taskId, t]);
   const motivo = detail && detail.error !== undefined ? detail.error || t("lo_operacion_fallida") : undefined;
   return <div className="mt-2">
     <InsigniaDelCatalogo compacta pdbId={pdbId} corrida={detail?.result} comprobando={!detail?.result} motivo={motivo} />

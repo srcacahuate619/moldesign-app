@@ -1,0 +1,1 @@
+Autotest fase A: 13 muestras lingüísticas + 4 comprobaciones AST + 4 de formato + 2 de DOM, OK.

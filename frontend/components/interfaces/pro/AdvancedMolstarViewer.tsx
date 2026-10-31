@@ -1,5 +1,7 @@
 "use client";
 
+import { newlyLoadedStructureRef, structureByRef } from "../../../lib/molstarStructureIdentity";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useRef, useState } from "react";
@@ -222,6 +224,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
+  const candidateStructureRef = useRef<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   /**
@@ -241,17 +244,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
       try {
         const structures = viewer.plugin.managers.structure.hierarchy.current.structures;
         
-        let candidate = structures.find((s: any) => {
-          const label1 = (s.cell?.obj?.label || "").toLowerCase();
-          const label2 = (s.cell?.obj?.data?.label || "").toLowerCase();
-          return label1.includes("candidato") || label1.includes("diseño") || label1.includes("ligando") || label1.includes("sdf") || label1.includes("unknown") ||
-                 label2.includes("candidato") || label2.includes("diseño") || label2.includes("ligando") || label2.includes("sdf") || label2.includes("unknown");
-        });
-
-        if (!candidate && poseData && structures.length > 1) {
-          console.warn("Candidate not found by label. Falling back to the last loaded structure.");
-          candidate = structures[structures.length - 1];
-        }
+        const candidate = structureByRef<any>(structures, candidateStructureRef.current);
 
         if (candidate && candidate.cell?.obj?.data) {
           const data = candidate.cell.obj.data;
@@ -389,7 +382,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
         try { viewer.dispose(); } catch (e) { /* ignore */ }
       }
     };
-  }, []);
+  }, [t]);
 
   // 2. Dynamic Reload of Models when Data changes (Fast reload without WebGL flashing)
   useEffect(() => {
@@ -403,6 +396,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
         setLoading(true);
 
         // Clear previous structures
+        candidateStructureRef.current = null;
         await viewer.plugin.clear();
 
         const hasProtein = !!proteinData && proteinData.trim().length > 10;
@@ -420,7 +414,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           // Always load crystallographic reference ligand as a separate named structure
           const refLig = extractReferenceLigand(proteinData!);
           if (refLig) {
-            await viewer.loadStructureFromData(refLig, "pdb", { dataLabel: "Referencia (Cristalografía)" });
+            await viewer.loadStructureFromData(refLig, "pdb", { dataLabel: t("pr_frontend_078") });
           }
 
           if (cancelled) return;
@@ -429,7 +423,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           if (hotspots.length > 0) {
             const hotspotsPdb = createHotspotsPdb(proteinData!, hotspots, hotspotsHit);
             if (hotspotsPdb) {
-              await viewer.loadStructureFromData(hotspotsPdb, "pdb", { dataLabel: "Hotspots (Puntos Clave)" });
+              await viewer.loadStructureFromData(hotspotsPdb, "pdb", { dataLabel: t("pr_frontend_079") });
             }
           }
         }
@@ -440,7 +434,10 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           // Load candidate ligand (patched to avoid "unknown" label in tooltip)
           const singlePoseData = poseData!.split("$$$$")[0] + "\n$$$$\n";
           const patchedSdf = patchSdfTitle(singlePoseData);
-          await viewer.loadStructureFromData(patchedSdf, "sdf", { dataLabel: "Mi Diseño MolDesign (Candidato)" });
+          const before = viewer.plugin.managers.structure.hierarchy.current.structures.map((structure: any) => structure.cell.transform.ref);
+          await viewer.loadStructureFromData(patchedSdf, "sdf", { dataLabel: t("pr_frontend_080") });
+          if (cancelled) return;
+          candidateStructureRef.current = newlyLoadedStructureRef(before, viewer.plugin.managers.structure.hierarchy.current.structures);
 
           if (cancelled) return;
 
@@ -448,7 +445,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           if (gnnAttention && gnnAttention.length > 0) {
             const attPdb = createGnnAttentionPdb(singlePoseData, gnnAttention);
             if (attPdb) {
-              await viewer.loadStructureFromData(attPdb, "pdb", { dataLabel: "Atención GNN 3D (RTMScore)" });
+              await viewer.loadStructureFromData(attPdb, "pdb", { dataLabel: t("pr_frontend_081") });
             }
           }
         }
@@ -467,7 +464,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
     return () => {
       cancelled = true;
     };
-  }, [viewerReady, proteinData, poseData, hotspots, hotspotsHit]);
+  }, [viewerReady, proteinData, poseData, hotspots, hotspotsHit, t]);
 
   const prevExpandedRef = useRef<boolean>(isExpanded);
 
@@ -604,7 +601,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
       clearTimeout(initT);
       clearInterval(interval);
     };
-  }, [viewerReady, onCameraChange, isActive]);
+  }, [viewerReady, onCameraChange, isActive, t]);
 
   // NIVEL 2: Recovery del render loop cuando el wrapper vuelve a ser visible.
   // Cuando el KeepAlive deja el wrapper en display:none, el canvas WebGL pasa

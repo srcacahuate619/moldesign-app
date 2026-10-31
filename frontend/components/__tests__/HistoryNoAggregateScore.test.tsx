@@ -22,6 +22,7 @@ vi.mock("../../lib/api", () => ({
 import { getEvaluationHistory } from "../../lib/api";
 vi.mock("../../lib/history", () => ({ downloadRunReceipt: vi.fn(async () => {}) }));
 import { downloadRunReceipt } from "../../lib/history";
+import { FrontendError, frontendMessage } from "../../lib/frontendError";
 import HistoryPage from "../../app/history/page";
 import { TRANSLATIONS } from "../../context/LanguageContext";
 
@@ -80,7 +81,7 @@ it("las corridas de una misma molécula se distinguen por hora y sólo la guarda
 });
 it.each(["es", "en"] as const)("QA2-016: el error de conexión usa el idioma de Historial (%s)", async (locale) => {
   state.locale = locale;
-  vi.mocked(getEvaluationHistory).mockRejectedValueOnce(new Error("Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. Revisa su estado en la aplicación y vuelve a intentarlo."));
+  vi.mocked(getEvaluationHistory).mockRejectedValueOnce(new FrontendError(frontendMessage("pg_hist_error_conexion")));
   render(<HistoryPage />);
   expect(await screen.findByText(locale === "es"
     ? "Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. Revisa su estado en la aplicación y vuelve a intentarlo."

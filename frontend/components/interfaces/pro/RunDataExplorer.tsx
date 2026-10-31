@@ -48,7 +48,7 @@ export function RunDataExplorer({ result }: { result: object }) {
   const exported = JSON.stringify({ schema: "moldesign.resultado-consultable/1", representation: "Consultable view. Absolute local file paths are reserved and replaced with distinct field references; logical relative locators are preserved. This is not the original backend payload.", fields }, null, 2);
   const download = () => {
     const url = URL.createObjectURL(new Blob([exported], { type: "application/json" }));
-    const a = document.createElement("a"); a.href = url; a.download = "datos-corrida.json"; a.click();
+    const a = document.createElement("a"); a.href = url; a.download = t("pr_frontend_109"); a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
   return <section className={styles.section} aria-labelledby={`${uid}-data-title`} data-run-data="true">

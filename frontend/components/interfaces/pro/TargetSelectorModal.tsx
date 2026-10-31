@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../../lib/frontendError";
+
 import { useLanguage } from "@/context/LanguageContext";
 import { useScrollLock } from "@/hooks/useScrollLock";
 
@@ -172,19 +174,19 @@ export default function TargetSelectorModal({
       if (!res.success) {
         setShareFeedback({
           kind: "error",
-          message: res.message || "No fue posible compartir el receptor.",
+          message: res.message || t("ca_frontend_110"),
         });
         return;
       }
       onTargetUploadSuccess?.();
       setShareFeedback({
         kind: "success",
-        message: res.message || "El receptor ya está disponible en la comunidad.",
+        message: res.message || t("ca_frontend_111"),
       });
     } catch (err: unknown) {
       setShareFeedback({
         kind: "error",
-        message: err instanceof Error ? err.message : "No fue posible compartir el receptor.",
+        message: err instanceof Error ? presentError(err, t) : t("ca_frontend_110"),
       });
     } finally {
       setSharingTargetId(null);

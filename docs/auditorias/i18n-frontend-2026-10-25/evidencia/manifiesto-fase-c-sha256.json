@@ -1,0 +1,67 @@
+{
+  "archivo": "manifiesto-sha256.json",
+  "generado_utc": "2026-10-26T18:36:50Z",
+  "destino": "F:\\Backups\\moldesign-evidencia\\2026-10-26-i18n-fase-c",
+  "archivos": [
+    {
+      "archivo": "candidatos-c.json",
+      "bytes": 44849,
+      "sha256": "0f86a5f1e4574611db5d7b37ce8b810f9e41f9dda0fb5cb402aa95e9d60d4d72"
+    },
+    {
+      "archivo": "export-c-inicial.json",
+      "bytes": 46544,
+      "sha256": "f965853ef8ccbad2ce80d9e380f80f8080d389e85d90950c05610da8096a778e"
+    },
+    {
+      "archivo": "export-c-mutante-conexion.jpg",
+      "bytes": 49454,
+      "sha256": "9f8dd7ec01ce8727e22d398322cae2b76fb89b88f57f725f16cd51c82d8fcb01"
+    },
+    {
+      "archivo": "export-c-mutante-conexion.json",
+      "bytes": 58343,
+      "sha256": "a9c2904c7a50cec3bb3e83aea7463225ef71cd6e62fc8bb5aa6805c045bf0409"
+    },
+    {
+      "archivo": "export-c-mutante.jpg",
+      "bytes": 97073,
+      "sha256": "ca91fc40266dbe731e76ff97521f0e36c43b727c53873840b772b157545ff2b7"
+    },
+    {
+      "archivo": "export-c-mutante.json",
+      "bytes": 52682,
+      "sha256": "3687931f8e2e1a2071cc186861681c8d4a0c25384d76d6ff5743501447d47eba"
+    },
+    {
+      "archivo": "export-c.jpg",
+      "bytes": 49440,
+      "sha256": "937dd4e472b19993dbf47ab6467361e169c46a81693dd6ed10c38a6d90424480"
+    },
+    {
+      "archivo": "export-c.json",
+      "bytes": 173679,
+      "sha256": "b0a3c7da5a38285003041c84d5dfe1c3e2acc258d6af19f3310d25dcd1f85bf9"
+    },
+    {
+      "archivo": "I18N-402-antes.jpg",
+      "bytes": 72898,
+      "sha256": "321a7fbc1a533dd2ae686ad54b3b784000cfa92ec1db2e737c0eafd6dcebd7e0"
+    },
+    {
+      "archivo": "I18N-402-despues.jpg",
+      "bytes": 72893,
+      "sha256": "edbaf7d55ef1ecb35a6e8ffe30e5fc35a3063122244fa80ac4658d568d7d6445"
+    },
+    {
+      "archivo": "I18N-403-despues.jpg",
+      "bytes": 96502,
+      "sha256": "ce4a9227e16f01837db6203b7696ae92f1cd3285faaa95a2dae9f45cf8632c91"
+    },
+    {
+      "archivo": "revision-c-actual.json",
+      "bytes": 129253,
+      "sha256": "206324a005fff52113dd86ccefc160aae11bcc73d04b9e40842839dea1afa37a"
+    }
+  ]
+}

@@ -52,9 +52,9 @@ export interface CaseContextPanelProps {
 }
 
 const SEVERITY_LABEL: Record<CaseFieldSeverity, string> = {
-  blocker: "Bloqueante técnico",
-  warning: "Advertencia científica",
-  info: "Contexto opcional",
+  blocker: "ca_context_blocker",
+  warning: "auto_6e112a1280e7",
+  info: "ca_context_optional",
 };
 
 const SEVERITY_CLASS: Record<CaseFieldSeverity, string> = {
@@ -64,10 +64,11 @@ const SEVERITY_CLASS: Record<CaseFieldSeverity, string> = {
 };
 
 function SaveIndicator({ state }: { state: SaveState }) {
+  const { t } = useLanguage();
   const text =
-    state === "saving" ? "Guardando…"
-    : state === "saved" ? "Guardado."
-    : state === "error" ? "Error al guardar."
+    state === "saving" ? t("ca_context_saving")
+    : state === "saved" ? t("ca_context_saved")
+    : state === "error" ? t("ca_context_save_error")
     : "";
   if (!text) return null;
   return (
@@ -234,8 +235,8 @@ export function CaseContextPanel({
           <dt>{t("auto_711741f4bb14")}</dt>
           <dd className="text-zinc-400">
             {pending.total === 0
-              ? "ninguna"
-              : `${pending.warnings} advertencia${pending.warnings === 1 ? "" : "s"}, ${pending.info} opcional${pending.info === 1 ? "" : t("auto_09cd68a2a77b")}`}
+              ? t("ca_context_none")
+              : t(`ca_context_pending_${pending.warnings === 1 ? "one" : "many"}_${pending.info === 1 ? "one" : "many"}`, { warnings: pending.warnings, info: pending.info })}
           </dd>
         </div>
       </dl>

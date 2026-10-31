@@ -5,6 +5,8 @@
  */
 "use client";
 
+import { presentError } from "../lib/frontendError";
+
 import React, { useEffect, useId, useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 import { urlDelExplorador } from "../lib/moldex";
@@ -110,7 +112,7 @@ export function CertificationModal({ moleculeId, taskId, onClose, onSuccess }: C
       await authorizeNetworkDestination(destino.servicio, destino.host);
       setHealth(await checkBlockchainHealth());
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("ce_devnet_no_disponible"));
+      setError(err instanceof Error ? presentError(err, t) : t("ce_devnet_no_disponible"));
     } finally {
       setAutorizando(false);
     }
@@ -208,7 +210,7 @@ export function CertificationModal({ moleculeId, taskId, onClose, onSuccess }: C
     } catch (err) {
       setError(
         err instanceof Error
-          ? err.message
+          ? presentError(err, t)
           : t("ce_prueba_fallida"),
       );
       setStep("error");
@@ -250,7 +252,7 @@ export function CertificationModal({ moleculeId, taskId, onClose, onSuccess }: C
       await linkCertification(moleculeId, signature, taskId);
       complete({ signature, signer: "wallet" });
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("ce_error_firma"));
+      setError(err instanceof Error ? presentError(err, t) : t("ce_error_firma"));
       setStep("error");
     }
   };

@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 import { useEffect, useRef, useState } from "react";
 import { Camera, FolderOpen, MonitorPlay, Play, X } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -44,11 +46,11 @@ export function JobHistory({ userId, current, onSelect, onRemoved, onActive, onE
         onActive?.(enCurso !== null);
         onEnCurso?.(enCurso);
       }
-    }).catch((e: Error) => { if (alive) setError(e.message); });
+    }).catch((e: Error) => { if (alive) setError(presentError(e, t)); });
     refresh();
     const timer = window.setInterval(refresh, 5000);
     return () => { alive = false; window.clearInterval(timer); };
-  }, [userId, activa, current?.id, current?.estado, onActive, onEnCurso]);
+  }, [userId, activa, current?.id, current?.estado, onActive, onEnCurso, t]);
 
   useEffect(() => {
     const element = dialog.current;
@@ -82,7 +84,7 @@ export function JobHistory({ userId, current, onSelect, onRemoved, onActive, onE
       onRemoved(id);
       setConfirm(null);
     } catch (e) {
-      setError((e as Error).message);
+      setError(presentError((e as Error), t));
     } finally {
       setDeleting(false);
     }
@@ -94,7 +96,7 @@ export function JobHistory({ userId, current, onSelect, onRemoved, onActive, onE
     try {
       await revelarMolcy(job.id);
     } catch (e) {
-      setRevealError({ id: job.id, message: (e as Error).message });
+      setRevealError({ id: job.id, message: presentError((e as Error), t) });
     } finally {
       setRevealing(null);
     }

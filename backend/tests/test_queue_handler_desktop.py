@@ -168,12 +168,7 @@ def fake_pipeline(monkeypatch):
         return _fake_eval_result(**kwargs)
 
     monkeypatch.setattr(qh, "_run_full_evaluation_async", _stub_pipeline)
-    # Aislar la memoria IA (escribe sqlite en ~/MolDesign/data). Import
-    # explícito: depender de que otro test haya cargado el submódulo volvía la
-    # suite sensible al orden.
-    import services.ai.memory_store as memory_store
-
-    monkeypatch.setattr(memory_store, "store_evaluation", lambda **kwargs: None)
+    # (Fase 6.6) Sin memoria de asistente que aislar: queue_handler ya no la toca.
     return _stub_pipeline
 
 
@@ -270,9 +265,6 @@ class TestGetJobStatus:
             return _fake_eval_result(**kwargs)
 
         monkeypatch.setattr(qh, "_run_full_evaluation_async", _gated_pipeline)
-        monkeypatch.setattr(
-            "services.ai.memory_store.store_evaluation", lambda **kwargs: None
-        )
 
         task = qh.submit_evaluation_job(smiles="CCO", target_pdb_id="7E2Y")
 
@@ -363,9 +355,6 @@ class TestCancelEvaluation:
             return _fake_eval_result(**kwargs)
 
         monkeypatch.setattr(qh, "_run_full_evaluation_async", _gated_pipeline)
-        monkeypatch.setattr(
-            "services.ai.memory_store.store_evaluation", lambda **kwargs: None
-        )
         task = qh.submit_evaluation_job(smiles="CCO", target_pdb_id="7E2Y")
         await pipeline_started.wait()
 

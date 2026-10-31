@@ -155,7 +155,7 @@ describe("comparabilidad visible", () => {
         onClose={vi.fn()}
       />,
     );
-    expect(screen.getByText(/Otra hipótesis/i)).toBeInTheDocument();
+    expect(screen.getByText(/Correspondencia no confirmada/i)).toBeInTheDocument();
   });
 });
 

@@ -1,0 +1,5 @@
+smiles,name,control_role
+CC(=O)Oc1ccccc1C(=O)O,Aspirin QA,reference
+CCO,Ethanol QA,none
+CCO,Duplicate QA,none
+INVALID_SMILES,Invalid QA,none

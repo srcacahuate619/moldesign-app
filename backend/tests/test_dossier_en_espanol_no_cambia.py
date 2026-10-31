@@ -5,6 +5,7 @@ import pytest
 from tests.dossier_snapshot import (
     DEPENDEN_DE_REPORTLAB,
     SNAPSHOT_DIR,
+    fuente_de_la_instantanea,
     reportlab_de_este_interprete,
     reportlab_del_runtime,
     salidas_espanol,
@@ -23,6 +24,8 @@ def test_dossier_en_espanol_no_cambia(actuales, nombre):
         pytest.skip(f"{nombre} lleva el hash del PDF, que depende de reportlab: la instantánea se fija con "
                     f"la {reportlab_del_runtime()} del runtime distribuido y este intérprete trae "
                     f"la {reportlab_de_este_interprete()}")
+    if nombre in DEPENDEN_DE_REPORTLAB and not fuente_de_la_instantanea():
+        pytest.skip(f"{nombre} lleva el hash del PDF, y la instantánea se fija con Arial, que sólo está en Windows")
     ruta = SNAPSHOT_DIR / nombre
     assert ruta.is_file(), f"falta la instantánea {nombre}"
     assert ruta.read_bytes() == actuales[nombre], f"la salida española cambió: {nombre}"

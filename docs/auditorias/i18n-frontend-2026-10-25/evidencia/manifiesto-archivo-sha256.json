@@ -1,0 +1,2230 @@
+{
+  "schema": "moldesign.evidencia-archivo/1",
+  "commit_original": "f4a60be7204f4af7417b053d60d5f8f396f30654",
+  "creado_utc": "2026-10-26T03:57:51.1610474Z",
+  "raiz": "F:\\Backups\\moldesign-evidencia\\2026-10-25-i18n-fase-a",
+  "archivos": [
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/glosario.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/glosario.md",
+      "bytes": 5807,
+      "sha256": "5867def37861c3f2b51fd79a328edf01a625e7791f3b5a9b5e7d0390c155b930",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/INFORME_FASE_A.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/INFORME_FASE_A.md",
+      "bytes": 10823,
+      "sha256": "9367bcace895fb2a7e740be4ca5678030dd0010b731dfd331b293ad5a7406c2d",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/inventario.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/inventario.json",
+      "bytes": 289433,
+      "sha256": "cf746f37f5e27b9fc1180eceec3ad82728fcab933872654e727d2d33bab704e6",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/lo_que_no_pude.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/lo_que_no_pude.md",
+      "bytes": 3831,
+      "sha256": "f94e2dc529cb1905f01c855ee64bef6816292f6cacb2ab20275a8df7ee13f833",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/observaciones.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/observaciones.md",
+      "bytes": 2628,
+      "sha256": "977d7a380706ce6f9278e1f5ae681f03c9a843aafc2b2d6d403ee6f687de8e61",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/PROGRESO.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/PROGRESO.md",
+      "bytes": 3754,
+      "sha256": "9a349430db8173feec664f39327cedf9ec66a68cabd406ad7fc29a59d332b031",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/RECORRIDO.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/RECORRIDO.md",
+      "bytes": 3777,
+      "sha256": "674d9ead591db243960b46a5270ebaf71c053eb36a05ee7ee0ccc8b2799ff3ee",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/REVISION_A1.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/REVISION_A1.md",
+      "bytes": 4821,
+      "sha256": "3103b7e95b9c8c986f6e384c20f55056780bf4274f3e836a8ddafe0877d5f376",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/01-inicio-primer-uso.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/01-inicio-primer-uso.png",
+      "bytes": 304985,
+      "sha256": "af5c28b6d672668bbd67e5665348baa52c87cbbeeff1a9fbb250e8389aa5ecb4",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/02-notificaciones.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/02-notificaciones.png",
+      "bytes": 323980,
+      "sha256": "dd1deab36a8ddf0d2aabada21bc113717a91362e3269340aded4c4c4c5b7eaf8",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/03-opciones.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/03-opciones.png",
+      "bytes": 553515,
+      "sha256": "b3aa0215573def3476fe1999c9107b22841b4fcd63764d6ca0e541c43014020c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/04-descargas-no-instalado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/04-descargas-no-instalado.png",
+      "bytes": 112204,
+      "sha256": "7c429c0cbefb141d93f21ba5c0b41d9f28343a8ab2e9ec6a2fcb363c88290f8e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/05-descargas-blender-ausente.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/05-descargas-blender-ausente.png",
+      "bytes": 116296,
+      "sha256": "a9a9e63a86538e409eb4a799ce588e903832d785ed7cd598362ad1a3e2dd167d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/06-legal.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/06-legal.png",
+      "bytes": 294443,
+      "sha256": "0a74c733c0dceaf1b2102d1cef4ab5182f6e2a3b38f96bb2b5fe8e411010e56b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/07-privacidad.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/07-privacidad.png",
+      "bytes": 136661,
+      "sha256": "2abb435014588960088cf6f9054cf7e5d55723f89793a6bc00d3bce9a8feedc0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/08-licencias.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/08-licencias.png",
+      "bytes": 151310,
+      "sha256": "54d60ac44c976a34c69b2c491301bcb8f6bd14983e43042a6e99ba171d72a2cd",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/09-acerca-de.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/09-acerca-de.png",
+      "bytes": 301823,
+      "sha256": "0c8fd5d2abd827e707b98e6f692e0b0395b1fd33513e0d9cbdc0bf7ac89f5f44",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/10-ayuda.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/10-ayuda.png",
+      "bytes": 233480,
+      "sha256": "30ad1fe0d4a870de5d935fb4d396ff4ffcfb6675c9346ef16653ab9683f5dae3",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/100-controles-no-evaluados.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/100-controles-no-evaluados.png",
+      "bytes": 120429,
+      "sha256": "3f699c1f64a909290cbb542d3b2f329f1d2d11274a019a87ab74a2931077c02d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/101-evidencia-no-evaluada.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/101-evidencia-no-evaluada.png",
+      "bytes": 109995,
+      "sha256": "04c3efc486e13c4424d9295e52be65ade563b0ff595c702a48d057380d7d7412",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/102-historial-corridas-formato.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/102-historial-corridas-formato.png",
+      "bytes": 106648,
+      "sha256": "1dd0f5fcacda187f2067fea5575a5ddaf7906690d03c7430f9a2cf8169310a42",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/103-backend-detenido-molchat.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/103-backend-detenido-molchat.png",
+      "bytes": 210063,
+      "sha256": "714f523b7f153380d0c117f545409aaa79b900c3027062cfe1cd2d3a44fa0d7b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/104-backend-detenido-historial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/104-backend-detenido-historial.png",
+      "bytes": 46522,
+      "sha256": "adbc95227b8a4416e17262d622acd076da08ace1f46176549953819b87346ff0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/105-capsula-restaurada.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/105-capsula-restaurada.png",
+      "bytes": 110227,
+      "sha256": "d1cf1035d22f0260e61af0980a9b981b2c1ab0491ebba1eb9e8934e6cb6c30be",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-0.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-0.png",
+      "bytes": 145688,
+      "sha256": "320b239164e456058deaf1a82ab6dd7fbcffb2a33279ddc8d523fe1a18630e95",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-1.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-1.png",
+      "bytes": 139163,
+      "sha256": "3f953b6a11665814d914216cbe6ccef3bf7ebe9d253022215cbf2480cc90e6cc",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-2.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-2.png",
+      "bytes": 147122,
+      "sha256": "c8f1d7c831337c117f7280a298c06a36853d135048891742dc0c5d72b47c626f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-3.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/106-about-3.png",
+      "bytes": 152574,
+      "sha256": "c19035eb557fd787a0881abc32403c98a6ab46fb93a65da942803896a1ad8a6b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/107-legal-doc-0.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/107-legal-doc-0.png",
+      "bytes": 232879,
+      "sha256": "a126c389abe55a9d86bd2f8418c63feaaf2d708fb49b491eac5c2aa153beb14d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/108-legal-doc-0.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/108-legal-doc-0.png",
+      "bytes": 141900,
+      "sha256": "b34d78ab56bf4f3c20098772758a58dfe5abb74b5d607705233271bcdf899e6b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/108-legal-doc-1.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/108-legal-doc-1.png",
+      "bytes": 153860,
+      "sha256": "c7d13723ef8bdd0921041a46aa948c2e09c26b78ede85448f6abb486080da0ca",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/109-contexto-caso.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/109-contexto-caso.png",
+      "bytes": 223494,
+      "sha256": "37d610e5fccd0b486d985450af088303da2233629675ebc4e8042e416ae00386",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-1.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-1.png",
+      "bytes": 301623,
+      "sha256": "6d3401f6dd7a41b49515150f6116a0d3b62d693157878b21239809acc74f15b8",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-2.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-2.png",
+      "bytes": 413951,
+      "sha256": "3e8da2c4c54b095351cade0e056a954c8f447fc280c0e6a2291bc02d7f74f500",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-3.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-3.png",
+      "bytes": 445565,
+      "sha256": "db60716c2526c20c516d972c9d28040456aefaa2de90c2c7c1c1fd9ec9dfc8a1",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-4.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-4.png",
+      "bytes": 413482,
+      "sha256": "55b4a38969a9229805b2c5b9fdd85c5623a39e40656a70a22c9c9da4761198f8",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-5.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-5.png",
+      "bytes": 494462,
+      "sha256": "f4626b7a4ec1620812ef389b03021ec2460416f0f7ccaf026c895e9d8caa539e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-6.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/11-tutorial-6.png",
+      "bytes": 463504,
+      "sha256": "9b835c54f79df10264102f28dd63dccf4bc61a30338a2f2bc6f6528a4640251a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/110-contexto-guardando.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/110-contexto-guardando.png",
+      "bytes": 222210,
+      "sha256": "ed39d93c0368a2fef43fc268b14474db8e248acdec6925fc09be2c3f20d7e4b0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/111-nombre-caso-invalido.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/111-nombre-caso-invalido.png",
+      "bytes": 173571,
+      "sha256": "ae9375c46eb5686def7d85fc98dd987644d159b2c6418852d3808284cdd6ca4a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/112-visor-web3d.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/112-visor-web3d.png",
+      "bytes": 138271,
+      "sha256": "30c1c24395a8e09a10e502cf29e083a97aaf3eb873e7981645b905d9903add9b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/113-editor-dibujo.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/113-editor-dibujo.png",
+      "bytes": 88731,
+      "sha256": "69a4ce5d37d54c5f1b8969a5d8b6f762519e2ebf8bd0c23903b450b7575c148c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/114-visor-leyenda-tipos.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/114-visor-leyenda-tipos.png",
+      "bytes": 245363,
+      "sha256": "00f7d23b797d353d54257b37a03fa7e16cadbe631b891b68172cbfa1d52acf82",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/115-disposicion-formato.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/115-disposicion-formato.png",
+      "bytes": 216708,
+      "sha256": "d1f45827382f12cb98cbd435ca265b8e95021703d7da714ce2e0ef7edf2d40dd",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/116-metal-procedencia-final.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/116-metal-procedencia-final.png",
+      "bytes": 122177,
+      "sha256": "0931fa4f4aef666b376d88f17ccb239418c96232da9ee1b30556852759ad5b4f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/117-sar-consulta-terminada.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/117-sar-consulta-terminada.png",
+      "bytes": 129096,
+      "sha256": "ed4ccd39c96d204b7a1efceafd70400f8391ee32948f13080d6a2914fbd05013",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/118-sar-visible.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/118-sar-visible.png",
+      "bytes": 138630,
+      "sha256": "079b33195c9ba380e13254f241f4ffb7a15ad9619e999efaf0521c49b2693d6c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/119-contexto-opcional-visible.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/119-contexto-opcional-visible.png",
+      "bytes": 113797,
+      "sha256": "fbb6076ceddadb1186fe70214f42bf06bcb0b7d32bb1d44ead82ef59d9826f5a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/12-evaluacion-sin-casos.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/12-evaluacion-sin-casos.png",
+      "bytes": 38810,
+      "sha256": "8e7bb8830eec9cc0bd650cf076fca1b36ed9e50065917bed0b9735681ea95735",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/120-comparacion-indice-visible.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/120-comparacion-indice-visible.png",
+      "bytes": 261027,
+      "sha256": "9d7261c860b92dae19441768c0f0ddccf8fb84adbb137d7393a5ceba68db3f84",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/13-crear-caso.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/13-crear-caso.png",
+      "bytes": 53771,
+      "sha256": "199f8fc99aee3db0558e64cca91b9a16405e0d1d6a05e6206604ceb3baf9ec8b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/14-caso-creado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/14-caso-creado.png",
+      "bytes": 76223,
+      "sha256": "3c7e2ef0461441411f014a49772de1ad8c55181afd16f2cd3d0e698be1e176e0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/15-catalogo-secciones.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/15-catalogo-secciones.png",
+      "bytes": 123175,
+      "sha256": "a7f1281a9e384ba7cc7d975d246fc26287ab863bc912ac8aac8e397acfde9191",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/16-catalogo-verificados.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/16-catalogo-verificados.png",
+      "bytes": 115563,
+      "sha256": "9ce21bbe9dc9f81559f83b94e58c9c3e00f5145f7561147a902e4d2330eb86c2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/17-catalogo-propios.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/17-catalogo-propios.png",
+      "bytes": 68382,
+      "sha256": "3b4da98406d715216c491ccb2cc37c7e4a8caced998bcf3a6dac2a39473a083f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/18-subir-receptor.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/18-subir-receptor.png",
+      "bytes": 187495,
+      "sha256": "1227c83a0199a4d2a05acb1b5ab970a5f3b00f2a5ee9818054953f90cd3b9bf4",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/19-subida-invalida.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/19-subida-invalida.png",
+      "bytes": 146927,
+      "sha256": "1cbc41c3317b261ffad1d5a2f77b82b17f1d274f1b4eb6a79448c29d8669f0ea",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/20-subida-modo-b.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/20-subida-modo-b.png",
+      "bytes": 136757,
+      "sha256": "fc65c2f050c7786da47c4b654e6715b6560228803fe0f3e836306693b40bf38e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/21-subida-modo-c.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/21-subida-modo-c.png",
+      "bytes": 140918,
+      "sha256": "564cd1feb0f2696d02b34db316e1c518163888b2be30a26a7549f43b2d71f32a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/22-subida-a-procesando.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/22-subida-a-procesando.png",
+      "bytes": 136555,
+      "sha256": "f282e06ae3507b8d581e91f39f9193816874263dd37618226adab3e2f6eeac9a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/23-subida-a-respuesta.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/23-subida-a-respuesta.png",
+      "bytes": 86450,
+      "sha256": "5529f6c43257ac66df1664b05edfe093a082a90183ebd26f675704edf96e1ea9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/24-subida-b-respuesta.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/24-subida-b-respuesta.png",
+      "bytes": 86450,
+      "sha256": "5529f6c43257ac66df1664b05edfe093a082a90183ebd26f675704edf96e1ea9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/25-subida-c-respuesta.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/25-subida-c-respuesta.png",
+      "bytes": 89809,
+      "sha256": "e221ed7ef6fdbb35b1c169ead5ec212e5cfa8b30c27e2067817f2f059d8a2ab2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/26-busqueda-demo.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/26-busqueda-demo.png",
+      "bytes": 87808,
+      "sha256": "3d72187e5b23f78088e48c807283159d36866a4e77a3b3ad59811597a865b96b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/27-smiles-invalido.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/27-smiles-invalido.png",
+      "bytes": 86442,
+      "sha256": "498a83d1fe545602fc0c9cea64f98b9d483138a62ae3c5ae81c097a82eba5460",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/28-parametros.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/28-parametros.png",
+      "bytes": 171145,
+      "sha256": "6cc7a2201b7ca6c609270cc98724b5f9a8f59f675b99eeee17a195240732f5d9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/29-preflight-progreso.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/29-preflight-progreso.png",
+      "bytes": 121110,
+      "sha256": "654ca10a9eb6514c7a3a80c21eab870ea1c43bf145f491b89a74a86c80a76008",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/30-preflight-detalle.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/30-preflight-detalle.png",
+      "bytes": 129920,
+      "sha256": "122d51b37a0e7e16cd1292f6a28a8dbbeab7fae97c5d27317702172306bc15d6",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/31-corrida-cancelada.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/31-corrida-cancelada.png",
+      "bytes": 101098,
+      "sha256": "6ff3b36b5d24e681654402d59949300f04968dffa83d2ca90aff68d1c825de12",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/32-vina-segunda-progreso.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/32-vina-segunda-progreso.png",
+      "bytes": 132647,
+      "sha256": "5330664c45f730713d4d7518706768834c1dbd432b493c97e367f7ec184cebf4",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/33-moldex-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/33-moldex-inicial.png",
+      "bytes": 322800,
+      "sha256": "09d66a7455f9c6f24219997524224a31f29cc87c2f63de90067a9540a3d0cfbf",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/34-historial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/34-historial.png",
+      "bytes": 64400,
+      "sha256": "8f0d94ff91aea2b315bbf48ea3357c552818634824b4c09a1f5705cd7e79a1a4",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/35-preparacion-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/35-preparacion-inicial.png",
+      "bytes": 128129,
+      "sha256": "a60ea1e8152ae383e05076fbfd1173a00b7e0b86bb1eaee8e9f0072a2c003f79",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/36-molcy-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/36-molcy-inicial.png",
+      "bytes": 164185,
+      "sha256": "66b9f08b0f074edf1fe178fd7992faf5cabb72dd474f552c89bb47d500858acf",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/37-batch-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/37-batch-inicial.png",
+      "bytes": 126670,
+      "sha256": "fafa8e1a94439909a0677d86147150afc11c4e1bfe6a05ccc7684064191ca508",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/38-vina-estado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/38-vina-estado.png",
+      "bytes": 100863,
+      "sha256": "993a009f50e9596f770c905684363f01c825d08e82f0b21d80017c078d09f950",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/39-propiedades.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/39-propiedades.png",
+      "bytes": 118863,
+      "sha256": "ba70ed7e9390314ff3b29e1f7b46532878698f4779e55f036cf88444089ccb73",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/40-analisis.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/40-analisis.png",
+      "bytes": 121439,
+      "sha256": "43b7c84e9fbfc810e4d960a50b8e6cb9b714f68ece76ea28cf6c51fb4b95ea5a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/41-procedencia.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/41-procedencia.png",
+      "bytes": 111801,
+      "sha256": "2eb4a37055b7e2bc1cd837d8317f71473cc134ca7e907540b9e10c4b5573f618",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/42-caso-restaurado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/42-caso-restaurado.png",
+      "bytes": 96774,
+      "sha256": "4968dd795561c6e88fd956b4400986cc51c09389334f8a5a3477b89649da0be4",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/43-pose-controles.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/43-pose-controles.png",
+      "bytes": 116352,
+      "sha256": "4d59973d98443c3399a83f2ce75ace8927da6b5bc95938fcce2477a62efa7d4d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/44-evidencia-estructural.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/44-evidencia-estructural.png",
+      "bytes": 96598,
+      "sha256": "8aca40601e025865aaa18ed8f4b52cba39c03328163c5db1da571b592c1b0097",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/45-comparar-poses.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/45-comparar-poses.png",
+      "bytes": 119735,
+      "sha256": "0973a2ac69b2fff7ab61af0d0287692ca0e76ede095937aa0612ad57ceb2ccd2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/46-descarga-dossier.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/46-descarga-dossier.png",
+      "bytes": 131138,
+      "sha256": "9f3451f72813ca9f838e427187ff53df8c4225b9113eb772f23d893e570e8d48",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/47-guardar-moldex.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/47-guardar-moldex.png",
+      "bytes": 130305,
+      "sha256": "0bdd934d50b83f29e0f9254de647319dfaddc06e4c3f69b36619ba50a7d0b1c7",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/48-tooltip-afinidad.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/48-tooltip-afinidad.png",
+      "bytes": 138413,
+      "sha256": "0ae397d4eb7d53c543ac3230df17a1057aa291caf5451f5308240dc0410dc397",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/49-certificacion-vista-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/49-certificacion-vista-inicial.png",
+      "bytes": 149167,
+      "sha256": "bd2a1a10fe57856a12b7d894af5cd25690b8a399ba6d662f6d27f073a915e9ba",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/50-metal-preflight.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/50-metal-preflight.png",
+      "bytes": 123841,
+      "sha256": "4bcd20e0f5187b71fdf8553a3c6181b19baace923eac77a6056e4e2d900d62ef",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/51-copia-preflight.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/51-copia-preflight.png",
+      "bytes": 129843,
+      "sha256": "616171ae73f767d346feda092330a92cf9e586ff845c9bf566166a2ed5c69f63",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/52-moldex-lista.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/52-moldex-lista.png",
+      "bytes": 457894,
+      "sha256": "ec737bc6d2610ded6c57271a92d145f99e44e9a051113883475c8cfb39c7de04",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/53-moldex-orden.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/53-moldex-orden.png",
+      "bytes": 460179,
+      "sha256": "dd69099fee0a05b61993f28fde18d20546a249c05f768bf941275fd327407ed1",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/54-moldex-comparacion.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/54-moldex-comparacion.png",
+      "bytes": 460692,
+      "sha256": "075a1acac30cccdbe10a8ce921934f691409acb18b7482d704be5bf99ac8c689",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/55-batch-formatos.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/55-batch-formatos.png",
+      "bytes": 196648,
+      "sha256": "015c3d8b4f578faed8d1c87a37642901b1d20dd27e2166526b21817973297ff3",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/56-batch-csv-comprobada.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/56-batch-csv-comprobada.png",
+      "bytes": 246793,
+      "sha256": "92eaeff5611f7ceb9d72d1c9e8971fd038b55baeaf9a11f37feb14d8be677fba",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/57-batch-duplicados-excepciones.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/57-batch-duplicados-excepciones.png",
+      "bytes": 238921,
+      "sha256": "ece4f5de72f6816826e000feb7ec5d3c00e9952e9c68ad2776190648ee5322c2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/58-batch-guardada.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/58-batch-guardada.png",
+      "bytes": 273047,
+      "sha256": "054761df79d94a4a5b2a5673ef75f79e9c3f2f45226e6e4b32e9d4ddd7550cb6",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/59-batch-ejecutando.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/59-batch-ejecutando.png",
+      "bytes": 265127,
+      "sha256": "90228314b1fcf6e9e1de1788c9dbc06642c84fb12d35b9af204466b51e7a6573",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/60-preparacion-selector.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/60-preparacion-selector.png",
+      "bytes": 128148,
+      "sha256": "915cf64d1e56025c776e3bb988eec7ab291fb482285f7bb30af1260a7ade459a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/61-metal-resultado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/61-metal-resultado.png",
+      "bytes": 135330,
+      "sha256": "028b3f07460e170c339a1dafd7f38d5de5aafa6ae9fd93e4a265d195c98d77ba",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/62-copia-resultado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/62-copia-resultado.png",
+      "bytes": 139258,
+      "sha256": "72fc348630c1e9d41d1858b2810be15a496689d62eefdfee6858bddae164916a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/63-preparacion-metal.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/63-preparacion-metal.png",
+      "bytes": 315120,
+      "sha256": "eb50d4672d1acf2b693cf7254a306d7edd7db318f493ae5ca5e17ff4f5c40f9b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-1.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-1.png",
+      "bytes": 130593,
+      "sha256": "94ed4f281ca70fce223a2b7b3b9a5657f751c9623295244b937184e6b046f23a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-2.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-2.png",
+      "bytes": 134208,
+      "sha256": "6af2e95a869bde39fb36e666696aabc4f03678a5049a00dff752c1190dd8c9fa",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-3.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-3.png",
+      "bytes": 133940,
+      "sha256": "883bbedae802d63e1bb21a7c6a8fbd9659925e3b7f3ac06e6840661c7146a250",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-4.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-4.png",
+      "bytes": 134406,
+      "sha256": "24663dbdaba7d4d6eb5a635f66cad88cbae567e5b5d32255ee8480adf2e25b3e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-5.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/64-prep-metal-bloque-5.png",
+      "bytes": 134467,
+      "sha256": "04f814618d7b03b9f24910687789ba50a5646b4a105c77d1a4a49ff714e202fd",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-1.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-1.png",
+      "bytes": 318736,
+      "sha256": "701558e7411f4a517016caf7d65ea1b85446a65f86bd2b3ad9fe7f89111c0a5b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-2.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-2.png",
+      "bytes": 211997,
+      "sha256": "ca388ce0db4eba0ffe65a4083d051762cf9b92205d52539593e6c4341579486d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-3.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-3.png",
+      "bytes": 184351,
+      "sha256": "4381a24485764e79f42b78ab8ae1f75b9f54fec0e6460c1738acd95aca499b2c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-4.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-4.png",
+      "bytes": 235359,
+      "sha256": "8c6381d439d9e455be7414a298920de3d4d2f62183f91fc64656b5b7dbf6b401",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-5.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/65-prep-copia-bloque-5.png",
+      "bytes": 217126,
+      "sha256": "cbca425aa05bd5358c71b861038001989ea06bf1832c5bf931bf58ed8df7c33f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-1.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-1.png",
+      "bytes": 188740,
+      "sha256": "0f97ce9f1e525a63cbfb9d60770ea1ba1048d231d534eecfb2b3216ce1d2979b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-2.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-2.png",
+      "bytes": 250178,
+      "sha256": "db9a72cc3ea063452df880984d06f112dda8fddb680b7f779241f99ffc8221ff",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-3.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-3.png",
+      "bytes": 218870,
+      "sha256": "b1b5c490bcae123126c8c3678433e994be70dc37460c7026882336e3ecce4a43",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-4.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-4.png",
+      "bytes": 252428,
+      "sha256": "de1e7e19fa57287f7a9775e6d037fd7b3d79500fa6e3437ba14e6f12dd280b5a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-5.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/66-prep-8hfi-bloque-5.png",
+      "bytes": 269425,
+      "sha256": "236977a448fdff6841156f7829479d1116b4550405e29def7195675c75d15e60",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/67-molcy-fotos-cpu.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/67-molcy-fotos-cpu.png",
+      "bytes": 183045,
+      "sha256": "d734021e19b1e5ceaba0c15a431e79225b15b03488d17abde2f957336c56f47d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/68-molcy-presentacion.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/68-molcy-presentacion.png",
+      "bytes": 251450,
+      "sha256": "b7dc1895a19eec60bc3b1e17eb2373c60ea2203004964ee051497938053a57da",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/69-molcy-configuracion.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/69-molcy-configuracion.png",
+      "bytes": 269413,
+      "sha256": "3dd3b00a1c5694227cbda9a72de0cccdddc8a85a6ff1014b35c2dc3fc8022cd7",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/70-molchat-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/70-molchat-inicial.png",
+      "bytes": 296321,
+      "sha256": "71537b923161f9044e86b69efe922c2c294b5c86f4939b9fad47a4613e06b2dd",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/71-molchat-turno-fallido.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/71-molchat-turno-fallido.png",
+      "bytes": 275596,
+      "sha256": "1b0bd74d753f4d8ca09399a43eb9cebe89efbe2430ab2167596e0cb26a422ae0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/72-molchat-ajustes.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/72-molchat-ajustes.png",
+      "bytes": 351080,
+      "sha256": "aa479ab459f74f6eec43fd51c946b707fe13166675dd02ccc1089a044f8b6721",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/73-molchat-proveedor-api.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/73-molchat-proveedor-api.png",
+      "bytes": 320599,
+      "sha256": "6a2ab099f6877c6902ee0ea7c97539fd4e3375aa26b2321b6957601a431c3de6",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/74-molchat-ollama.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/74-molchat-ollama.png",
+      "bytes": 321722,
+      "sha256": "d440daae3387157cfb56dc06cf81d8780b79eb3fdc0aa323647bd9e7d40989e1",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/75-comunidad.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/75-comunidad.png",
+      "bytes": 168771,
+      "sha256": "18070755380d07ad9fb1e31d1e614ae8eef472fdecf830f8c223c0e23b69d4e2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/76-registro-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/76-registro-inicial.png",
+      "bytes": 841076,
+      "sha256": "c6e723fb7f745eb6a64fc223e90580453b7079e7fba1bcdd91efc8e9166e7f6d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/77-registro-expediente.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/77-registro-expediente.png",
+      "bytes": 275106,
+      "sha256": "6e174f8cef707b971a0a8932c40762bb8b063924076c60291e421a8fcea5849e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/82-batch-resultados.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/82-batch-resultados.png",
+      "bytes": 265614,
+      "sha256": "b629c88dca5463b56ec5831b58a1220393537dcacb6845f64edafed5a35e6aff",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/83-batch-evidencia.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/83-batch-evidencia.png",
+      "bytes": 343262,
+      "sha256": "dfba1b0e4f61a81aeab1d2156d0ecc4d20e68efffd6a56e6537d0efab09b81bd",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/85-batch-sdf.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/85-batch-sdf.png",
+      "bytes": 271597,
+      "sha256": "afc4414d0dc4a39ed0a3b27958d50e08e5d2afc72c723af8458bd30e53d71cc5",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/86-receptor-no-disponible.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/86-receptor-no-disponible.png",
+      "bytes": 99346,
+      "sha256": "0726f358d45dc159e0db6be21da890a7af4fdc6864f8aaaa8a66c652daad0036",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/87-cola-guardado-error.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/87-cola-guardado-error.png",
+      "bytes": 97002,
+      "sha256": "4aea43f3b0bc2b4e59bba5e002ef0b85a1b6c6533f621b827a71734e83a5181a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/88-cola-guardado-recuperada.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/88-cola-guardado-recuperada.png",
+      "bytes": 88266,
+      "sha256": "fb310900aa6f13bd21ad194d73842223a43007251e60b3b8936835c0a63e8aac",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/89-moldex-seleccion-comparacion.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/89-moldex-seleccion-comparacion.png",
+      "bytes": 91418,
+      "sha256": "4b7a7e80e476b652daa19ac5a10702e44a9b7c786c79c28f6ae05adf9bfa4792",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/90-analisis-desplegado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/90-analisis-desplegado.png",
+      "bytes": 126819,
+      "sha256": "a19290b65eb9999ba3740485c7b86caabb32892b10de857b188e93310de5b631",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/91-mmgbsa-no-evaluado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/91-mmgbsa-no-evaluado.png",
+      "bytes": 123552,
+      "sha256": "827737253171f49062f9ddc8f137f470d5c6b2f4cd9add154b8f5481ab4185e9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/92-admet-experimental.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/92-admet-experimental.png",
+      "bytes": 132158,
+      "sha256": "810995cc06f78a50b7ce1edd407203e2e70bfe8e60cda7ff1bc49ba7c3249614",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/93-sar.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/93-sar.png",
+      "bytes": 124855,
+      "sha256": "4ab97dc490832b3c67905a74fa333461394730c5636a1d8fbe9dbc5b6926b186",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/94-explicabilidad.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/94-explicabilidad.png",
+      "bytes": 124354,
+      "sha256": "30c0e205ac1df3161498d9428179152bf5d110ee4731c7d7cc9467ae70aff83e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/95-shap-detalle-contactos.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/95-shap-detalle-contactos.png",
+      "bytes": 119048,
+      "sha256": "b64e20ce1195a557531b56710d9b41c3a92edc9f3cf15ab6a4ee63315d7159b1",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/96-validador-corrida-inicial.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/96-validador-corrida-inicial.png",
+      "bytes": 138484,
+      "sha256": "81e2001566143d3a3738e748e788acdb16b4262040d3ed877ba35ac00267561a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/97-mapa-contactos-alcance.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/97-mapa-contactos-alcance.png",
+      "bytes": 129231,
+      "sha256": "6f71b26a231f774e69703371c9344259c59974fc552159e3fb867b53766e8919",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/98-vision-molecular.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/98-vision-molecular.png",
+      "bytes": 205920,
+      "sha256": "e48e7c2db1d357dba22a409160fcf349eb222bf9bd6a5b6d150b84d502501cf9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/capturas/99-validador-estado.png",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/capturas/99-validador-estado.png",
+      "bytes": 132047,
+      "sha256": "d31416d929af1bf2dece61606b365dafaa3a9596ffe891eec0d664360cd06cb9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/01-inicio-primer-uso.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/01-inicio-primer-uso.json",
+      "bytes": 5766,
+      "sha256": "919f5a8eb7e9c6625141c5250ec9d992310def0553bd88293c2c27b9421bac6c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/02-notificaciones.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/02-notificaciones.json",
+      "bytes": 6563,
+      "sha256": "b2a8b3f9b5b4e201cc2d9d06527b08bce2f2799d1f36464fd6ddf080b3b7df61",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/03-opciones.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/03-opciones.json",
+      "bytes": 6237,
+      "sha256": "1c8e4f373677be21be834eba1f9a8db6a01891df505c2e7575f9571d66631324",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/04-descargas-no-instalado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/04-descargas-no-instalado.json",
+      "bytes": 2802,
+      "sha256": "84a228218d72da1bacbcad727403c34c5e567d1eadb1a0e56b62a0efb0c4eb25",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/05-descargas-blender-ausente.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/05-descargas-blender-ausente.json",
+      "bytes": 2864,
+      "sha256": "936f95d20beb28bedd166cef07cf17d25004780b3fd3d7267f30520f0ceb7847",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/06-legal.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/06-legal.json",
+      "bytes": 5474,
+      "sha256": "950dfcc9eeb904a6921ca681a8e14f99b23f82362cc9cc628719dabbc51a8120",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/07-privacidad.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/07-privacidad.json",
+      "bytes": 4991,
+      "sha256": "525cfee1c4332aa679a1f066fb59d2b2192d24f27fe58ac0044dec346903db3d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/08-licencias.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/08-licencias.json",
+      "bytes": 8908,
+      "sha256": "bdb181f63c83c020d61272ed154a845b559de43d7ed632b6f7d2f592b907615e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/09-acerca-de.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/09-acerca-de.json",
+      "bytes": 6191,
+      "sha256": "ce6fb563d94d4b115c8bf0a17dbdb472d725ae9835da67af60eb54e1ea5c4520",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/10-ayuda.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/10-ayuda.json",
+      "bytes": 4021,
+      "sha256": "3f1773d335a646dca4cce49eb049fde1435fc3297487c61ac537734d434811c5",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/100-controles-no-evaluados.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/100-controles-no-evaluados.json",
+      "bytes": 31161,
+      "sha256": "d5d7ef1de39b333ffc488f36aba6b07eaf969f1ffa0934811869f1d45f0cf4c7",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/101-evidencia-no-evaluada.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/101-evidencia-no-evaluada.json",
+      "bytes": 34024,
+      "sha256": "687b79297250240801db799763ec598e194ec2072fe8a96e9f7c7cd58791cb18",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/102-historial-corridas-formato.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/102-historial-corridas-formato.json",
+      "bytes": 36134,
+      "sha256": "21c208b8ad4f362e21eb7cb2aa565e086c412eba784e65bf06676d0bb638fe86",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/103-backend-detenido-molchat.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/103-backend-detenido-molchat.json",
+      "bytes": 38837,
+      "sha256": "6120eae3076d7a997364e97a1267d560bf104cc4968f82c61c9db907faad0fc5",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/104-backend-detenido-historial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/104-backend-detenido-historial.json",
+      "bytes": 4238,
+      "sha256": "24ca25e41847e54de311e5ac95ed623dd65da59ee50e422c3c10c7f059f194b5",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/105-capsula-restaurada.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/105-capsula-restaurada.json",
+      "bytes": 6770,
+      "sha256": "9d62927de6be9183cc69a79b00e2afce27463a1be3d15bb1f8148dd83689f480",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-0.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-0.json",
+      "bytes": 9314,
+      "sha256": "7c4869851f86e4c4ae448ca0dc765b33bc6cfd2ee39adb26de28e3dc045e16d6",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-1.json",
+      "bytes": 8978,
+      "sha256": "7098468b7a75a99e3da65fe1198b7e0d4372c7ef49672e7d64769389ef9c3b3d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-2.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-2.json",
+      "bytes": 10851,
+      "sha256": "dda933049ebad0f3367adf81b9f5c9a5011c2c327120618b3002af11565d3d00",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-3.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/106-about-3.json",
+      "bytes": 9461,
+      "sha256": "fe05f9239725de2df018c83761e0567efbfcb02afcc5bc2cdac647ea72039c94",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/107-legal-doc-0.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/107-legal-doc-0.json",
+      "bytes": 38073,
+      "sha256": "fb9ea083c75f66c00953394ff9935b4f79595afb2933b003184aed00fef254d3",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/108-legal-doc-0.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/108-legal-doc-0.json",
+      "bytes": 8803,
+      "sha256": "afbe01ae1763bd52f2907689da7a32527021493fcbb08affab2954e6b655c283",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/108-legal-doc-1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/108-legal-doc-1.json",
+      "bytes": 9011,
+      "sha256": "ee388042abd687f68c3d5842fdbaade62129a614af0f469e2ad12b4d4de18172",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/109-contexto-caso.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/109-contexto-caso.json",
+      "bytes": 9638,
+      "sha256": "f81554b9d14dc0208818f65f5514bb19f779751cf284eff0c8112a4ce331fb6b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-1.json",
+      "bytes": 5745,
+      "sha256": "2f297e62e3e8cd104abfc6e3c602d82dd217a67e24f41a4abd9b00f9cc540b97",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-2.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-2.json",
+      "bytes": 5805,
+      "sha256": "90883b8bfa3b904abb10dc7630798edc2b2b067a53fbedb360cd0babd8bd35cc",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-3.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-3.json",
+      "bytes": 5735,
+      "sha256": "0d25bd46ab00fba84a8ff35f6601627a093a252d317769498e70568345d7d664",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-4.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-4.json",
+      "bytes": 5690,
+      "sha256": "cb47891748ccdffa701ca7a8badf4d0db0839f8793a5b3c31c1a5c7679cc9f48",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-5.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-5.json",
+      "bytes": 5707,
+      "sha256": "6b9520193b9333205e19c7b68a2a91c5e322873fb4a3f14d5cea0911e3e9ec26",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-6.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/11-tutorial-6.json",
+      "bytes": 5711,
+      "sha256": "27c15580c85c85df1a4aafe98c3f61bf89fb27904dde175b45024ff4c0624771",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/110-contexto-guardando.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/110-contexto-guardando.json",
+      "bytes": 9576,
+      "sha256": "19fe35985db5b22f5d0899fe5cc79a8191def6d5d01c22e31f824f2a7073c6ef",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/111-nombre-caso-invalido.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/111-nombre-caso-invalido.json",
+      "bytes": 10481,
+      "sha256": "552083898dad98aa761e7847accde7e383db845ae58ba274b28caa2e056be24c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/112-visor-web3d.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/112-visor-web3d.json",
+      "bytes": 28908,
+      "sha256": "f193936b07db203da10fa50ed22edb899ce32edae74f7d68776168676c178c4a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/113-editor-dibujo.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/113-editor-dibujo.json",
+      "bytes": 20191,
+      "sha256": "f32d0f04099f0da301db4d2c56fd85b73dbbfb8a789108eb94bac4575513af73",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/114-visor-leyenda-tipos.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/114-visor-leyenda-tipos.json",
+      "bytes": 29730,
+      "sha256": "0807673575ee39ee8947e61833520cc1f9e7be5a4348570700c0748d623a7992",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/115-disposicion-formato.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/115-disposicion-formato.json",
+      "bytes": 9171,
+      "sha256": "4cae74804d8a2e1910d8a867b11153c1241da57d4b5ebd19c1da4f06f19d6efa",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/116-metal-procedencia-final.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/116-metal-procedencia-final.json",
+      "bytes": 32160,
+      "sha256": "c94d9fa1a1923de00467a99dc23503a6ffb5d1ef6eb895a6e62b483e07441efd",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/117-sar-consulta-terminada.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/117-sar-consulta-terminada.json",
+      "bytes": 26619,
+      "sha256": "7d43edfc7717f96476674b055bf61cb39ccf451b81b283ff0174759b99b3ce35",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/118-sar-visible.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/118-sar-visible.json",
+      "bytes": 26599,
+      "sha256": "4cb40d5f9407a5b734e6c718c87cd5c480d4bbc9be365697d0afcacd68c4fa24",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/119-contexto-opcional-visible.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/119-contexto-opcional-visible.json",
+      "bytes": 8995,
+      "sha256": "2a8a1443116b809bcc4bf193ba784b9bd05ec90e119ec5968bba884530a2e530",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/12-evaluacion-sin-casos.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/12-evaluacion-sin-casos.json",
+      "bytes": 2059,
+      "sha256": "8f6316b1e6b28a8a8824a80082671fac1f869154009f0eae9afc023b0dbfb4e0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/120-comparacion-indice-visible.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/120-comparacion-indice-visible.json",
+      "bytes": 12821,
+      "sha256": "4e6d1047ff9674493a6a0d38781a97f56ac163e6d6cd5c58cbc70cd1f819c412",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/13-crear-caso.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/13-crear-caso.json",
+      "bytes": 2820,
+      "sha256": "34eca3e88617a4d79601f36b5c3d28f779ec9f82ecee6eb3f780df81a2c788ee",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/14-caso-creado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/14-caso-creado.json",
+      "bytes": 15883,
+      "sha256": "8c3ed9855b5875bb8f3fc02c55ee8f9cd1e6873572d5512a764b18d4b1c8963b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/15-catalogo-secciones.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/15-catalogo-secciones.json",
+      "bytes": 529505,
+      "sha256": "f8c8361bcbf46c9a1e79cca497510c677c0514eb121877e9c32e7db439dad9d4",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/16-catalogo-verificados.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/16-catalogo-verificados.json",
+      "bytes": 34156,
+      "sha256": "c1b31e008214e46fefc6c16787b4266594d1fa0016a2a20e0d9bee80b087440e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/17-catalogo-propios.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/17-catalogo-propios.json",
+      "bytes": 19421,
+      "sha256": "7e0b0e5f1106a06beccfd822ca2666ffb6355f6569ef7de7a4ddb67cde3e9829",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/18-subir-receptor.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/18-subir-receptor.json",
+      "bytes": 22414,
+      "sha256": "b17a3ae8e437843d9c548fed3f6e0636d186ce838b3be2e6aa0501bec87be958",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/19-subida-invalida.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/19-subida-invalida.json",
+      "bytes": 22634,
+      "sha256": "01611ea2cf500606425649410234467538c6ce8edc10da6739874caf78ba3e8f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/20-subida-modo-b.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/20-subida-modo-b.json",
+      "bytes": 22248,
+      "sha256": "c18e594e14e261385f16215a06db549547ab84f3b855ff4058e5adf963c4c553",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/21-subida-modo-c.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/21-subida-modo-c.json",
+      "bytes": 22305,
+      "sha256": "45fc169888bcafb3b13d47c36e37523aee77d3efd31b58795d9f03589a8e7a6c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/22-subida-a-procesando.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/22-subida-a-procesando.json",
+      "bytes": 22425,
+      "sha256": "92a7b6768f09ffd13c5fc3d8635c2bc9ea39fe6f654c97fac16a490788e26621",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/23-subida-a-respuesta.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/23-subida-a-respuesta.json",
+      "bytes": 20546,
+      "sha256": "d758da3e44508199a8cb23aaefdca4f1b1ab7024236f1636b860e636d94db771",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/24-subida-b-respuesta.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/24-subida-b-respuesta.json",
+      "bytes": 20546,
+      "sha256": "9c7bcec4ee951c321f10fc7916c650f90df9c9485064c2bba2422a79c9b0fedd",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/25-subida-c-respuesta.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/25-subida-c-respuesta.json",
+      "bytes": 21723,
+      "sha256": "f2e4c513b763f57c96f308f560e96ccb86901b0ceb364542b43db7619d1f3049",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/26-busqueda-demo.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/26-busqueda-demo.json",
+      "bytes": 22340,
+      "sha256": "fb2c97ec7b1157dcc4b16ab7f2b3f87ab437e4c0b40a64277a9c726c760580da",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/27-smiles-invalido.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/27-smiles-invalido.json",
+      "bytes": 19509,
+      "sha256": "0fea4022c67912f243b1ee6177e029cd122bb79523cc48d1e269168ebb848caa",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/28-parametros.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/28-parametros.json",
+      "bytes": 32005,
+      "sha256": "5a8bc5094617711ab52a10dee96f52831b33b1f47933bd12e02c08ea6f0d41f6",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/29-preflight-progreso.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/29-preflight-progreso.json",
+      "bytes": 21901,
+      "sha256": "dca8ed55488a1229f45db46c188ddf08cd5b24f55e92c29f797324a55f068303",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/30-preflight-detalle.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/30-preflight-detalle.json",
+      "bytes": 27849,
+      "sha256": "c1e8f628f17f6f36496e73431dade94555316b76a306e564e355f2b8c1f865ed",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/31-corrida-cancelada.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/31-corrida-cancelada.json",
+      "bytes": 27439,
+      "sha256": "8168e43fe79a78a646e898b8180a30546ba3112d502d7f84b5846f87dcc5d75a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/32-vina-segunda-progreso.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/32-vina-segunda-progreso.json",
+      "bytes": 27865,
+      "sha256": "cc16ee5aaa0885a380bdab4732f83380d0c0c216eac87271608cf318ff2f6280",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/33-moldex-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/33-moldex-inicial.json",
+      "bytes": 1411,
+      "sha256": "9bfc87b7ec819aba4b1a8aa0741909e0b81973ecbc92df51c24e365099f8eae4",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/34-historial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/34-historial.json",
+      "bytes": 2901,
+      "sha256": "77392580459dd102a2e088a82d3080a2b052c731484e116fb36d3b45838f3ce9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/35-preparacion-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/35-preparacion-inicial.json",
+      "bytes": 3101,
+      "sha256": "3cb37349b57ca4ba75ff5afebbfeed1abfc1c60b18cbbead0161c148f5567312",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/36-molcy-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/36-molcy-inicial.json",
+      "bytes": 4278,
+      "sha256": "0588e61d5e4e1ed40c4ca44d586d3a36715972a4c11ee943f35c901560be80db",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/37-batch-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/37-batch-inicial.json",
+      "bytes": 5438,
+      "sha256": "4870578f5f3792db4a2667a60c52c0234b977911f807f05ade9a1454588d934e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/38-vina-estado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/38-vina-estado.json",
+      "bytes": 30124,
+      "sha256": "3f2a9181215a979127e069bbc4c0fc6a4adc00be580320048ff9c483cfb1032e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/39-propiedades.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/39-propiedades.json",
+      "bytes": 28307,
+      "sha256": "e649ada26930f3a33286b5c13de009a2985e8248419a0cc6db493503f997566d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/40-analisis.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/40-analisis.json",
+      "bytes": 32711,
+      "sha256": "b491c5ec17136fa54842905c646dce6e5b704acb092d172892df823f7c920113",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/41-procedencia.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/41-procedencia.json",
+      "bytes": 34691,
+      "sha256": "3d37204b89b90277aa9dbf28371a4633627c10dcdbd65f8b0b85c4449fd81b3a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/42-caso-restaurado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/42-caso-restaurado.json",
+      "bytes": 26127,
+      "sha256": "320872dfdee31bc44f676d776173b4e9b3f2963acb67f004db42989d27613b97",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/43-pose-controles.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/43-pose-controles.json",
+      "bytes": 31207,
+      "sha256": "880640017180a0b181f39e19a42a8236339f61f5af5aff0728ed6156b253586b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/44-evidencia-estructural.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/44-evidencia-estructural.json",
+      "bytes": 34083,
+      "sha256": "cfe2a63819e661b6a50617d7b994a521f72e9c5919691d3c3f6239447f8f8a41",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/45-comparar-poses.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/45-comparar-poses.json",
+      "bytes": 35321,
+      "sha256": "ab86eeab0d74d0b6658684929d59f2bc9f30ae998c41d5f00fb4f2810ced9c45",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/46-descarga-dossier.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/46-descarga-dossier.json",
+      "bytes": 35839,
+      "sha256": "7d42e25665dd4ef3c9066294a7a9220e5b873d49d9da474a522d1f42599e76d3",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/47-guardar-moldex.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/47-guardar-moldex.json",
+      "bytes": 35848,
+      "sha256": "fa90c53f8c98b12b2a8a4e5995e9e717ceab51311e1c8e10662706ff86d51f93",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/48-tooltip-afinidad.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/48-tooltip-afinidad.json",
+      "bytes": 35334,
+      "sha256": "f6b50987cec886eb87e795c52cf3163ec4032ee0f9f4502139782a421134bc0a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/49-certificacion-vista-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/49-certificacion-vista-inicial.json",
+      "bytes": 37282,
+      "sha256": "fd17c36fb6d5dec1fdea680a0384c7bb6558ca56177da9dce21cedf4a111597f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/50-metal-preflight.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/50-metal-preflight.json",
+      "bytes": 21368,
+      "sha256": "a3ad5da98b0c47f309640f2c2ba13617e284ef7f2614f37a66424f67aa19171a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/51-copia-preflight.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/51-copia-preflight.json",
+      "bytes": 21785,
+      "sha256": "e505a17837b9fcd185774a444c64f0050ae30c46301d678336bef3e53b203986",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/52-moldex-lista.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/52-moldex-lista.json",
+      "bytes": 6307,
+      "sha256": "c3796acd26a2a6f725eb919c4706f09a81da7398a651f8159f7a885fbbeed86a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/53-moldex-orden.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/53-moldex-orden.json",
+      "bytes": 7655,
+      "sha256": "b15adaeca32d65526efd91ce3592ca186ba4087bc46783ca85edd76290295586",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/54-moldex-comparacion.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/54-moldex-comparacion.json",
+      "bytes": 7671,
+      "sha256": "12c557f1d6ac10a3eb90db6b9c521a90ab8a895d31d9ab3852beeea45692e0d2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/55-batch-formatos.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/55-batch-formatos.json",
+      "bytes": 7271,
+      "sha256": "733073534b2e0484971ac82d998428180c2ad71434e65a89442aa1a6edd1de6b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/56-batch-csv-comprobada.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/56-batch-csv-comprobada.json",
+      "bytes": 8467,
+      "sha256": "e4437d1c97e47241518c501a21e9b28adf673c62bea54b4d6aa6767beb2b77cb",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/57-batch-duplicados-excepciones.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/57-batch-duplicados-excepciones.json",
+      "bytes": 8174,
+      "sha256": "72b5af4b26a6f6091638328942d5bbc2a3b71651ea69a13e2367b61855f1fc23",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/58-batch-guardada.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/58-batch-guardada.json",
+      "bytes": 9227,
+      "sha256": "e39ef2f88f4c2c95d76c9b71f5278a32963be079e80ffe5c573097209e287c84",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/59-batch-ejecutando.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/59-batch-ejecutando.json",
+      "bytes": 9051,
+      "sha256": "bb35c5fd43c219ae6a36b4850f4247a76f6de180f85f4487986ae4385bb24a97",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/60-preparacion-selector.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/60-preparacion-selector.json",
+      "bytes": 3126,
+      "sha256": "0d036f7e4cdeb6c68f216c0b089c75cbfc77983def79f1d02386cf7c6bef7a38",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/61-metal-resultado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/61-metal-resultado.json",
+      "bytes": 29470,
+      "sha256": "3d9c305032f316abd54b649bf12e7c9c6ba403ee78223845bda5434e064e1bef",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/62-copia-resultado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/62-copia-resultado.json",
+      "bytes": 29887,
+      "sha256": "039b7ccb81ca4fe47436fcbf74d2eecee7ed703c87330bca788a91a147e570df",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/63-preparacion-metal.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/63-preparacion-metal.json",
+      "bytes": 7220,
+      "sha256": "c124be325f54f6451d30e3ceb8322c2de3f1dd1d7a373cf5a7ab3f4ee3ad5dcb",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-1.json",
+      "bytes": 3184,
+      "sha256": "daa356f373bc6da0cdc79d0114eb4ae31d74f70db99abe31c148cf3fab399bd1",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-2.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-2.json",
+      "bytes": 3279,
+      "sha256": "346b7283fc559d241fd0b2403a0f0ec5ec591045075219ed7dedafc89519fd07",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-3.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-3.json",
+      "bytes": 3270,
+      "sha256": "386f56fdc80c50e4ddeca5cb57a14c33361b1b3a098d03d69fbadfa6715d9f2f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-4.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-4.json",
+      "bytes": 3269,
+      "sha256": "dbd85abdbeb7f82197087da9d1128f51b6c423ce90fb0e5cbd5e1b808095b45f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-5.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/64-prep-metal-bloque-5.json",
+      "bytes": 3279,
+      "sha256": "e98b2fba7d2e57f25def032a6e657b76dedd0b4b73e6a9a0c170a35f17e57b16",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-1.json",
+      "bytes": 7120,
+      "sha256": "27d70d6bd8f7303431c4cff091d6d2aa001958b5c642514e862f62592235c678",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-2.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-2.json",
+      "bytes": 4959,
+      "sha256": "9d904c00ced166a48216c06c64951a64cabe623a80cc5502b58b1d0f436d9ab2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-3.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-3.json",
+      "bytes": 4422,
+      "sha256": "59a36291bb91f56702a9d7572eb1afb52be968f3973e33258cac7b999f8ebddc",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-4.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-4.json",
+      "bytes": 5711,
+      "sha256": "a46a7c15b8d4b80499b2a94e2742799ad09e6765d25f839bd21f14955e3a3ec1",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-5.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/65-prep-copia-bloque-5.json",
+      "bytes": 5184,
+      "sha256": "13402a87b35ea79ac38cb1554117fb98529521e77dd3d1d9b2095a0a68490b28",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-1.json",
+      "bytes": 3319,
+      "sha256": "b7b522c791bd320490b85aaf5eb7c252c6b50b2c513ca2876fb5018e9b17aa00",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-2.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-2.json",
+      "bytes": 6041,
+      "sha256": "c3de901c4ee5469fda5fcb0fec406ca8be1c7d648128b76b36476cab8eac4340",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-3.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-3.json",
+      "bytes": 5504,
+      "sha256": "e8c1715adfb6900286f90a943cb9d1e2d1ba6a7f1f4ddf151c10ccdf0613ed08",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-4.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-4.json",
+      "bytes": 6285,
+      "sha256": "73ec9357769195d3cc8ac0c457e69ba7e64431f9fe410d08eda1ff02e0d07b9e",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-5.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/66-prep-8hfi-bloque-5.json",
+      "bytes": 6443,
+      "sha256": "a4fce7ebc3f110d73e9fecd9dc77883a511b0da8a2564d5135f39ff3a8432ebc",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/67-molcy-fotos-cpu.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/67-molcy-fotos-cpu.json",
+      "bytes": 4661,
+      "sha256": "b36b3f11a6d9ce4d6302ca44a81abf648193173c418d6df42068fbfb623aed54",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/68-molcy-presentacion.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/68-molcy-presentacion.json",
+      "bytes": 6076,
+      "sha256": "03a556dfc3526d90911dab0810f4cdca653ddcd1eb1dd4f395a418072b153c76",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/69-molcy-configuracion.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/69-molcy-configuracion.json",
+      "bytes": 6684,
+      "sha256": "46afa544c46376039722d2105a890beef21fd4371cd934fe5a9efa3166a8dc3b",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/70-molchat-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/70-molchat-inicial.json",
+      "bytes": 9332,
+      "sha256": "ee4a6bcd1e50ab4a56504a1c90494753eaa167ec7c95a86ae7100a60b4148db8",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/71-molchat-turno-fallido.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/71-molchat-turno-fallido.json",
+      "bytes": 9468,
+      "sha256": "0ee6af4aa96503d8bafc3a64bab9a3f911fe9c92d0618333581915f12f6118dc",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/72-molchat-ajustes.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/72-molchat-ajustes.json",
+      "bytes": 10368,
+      "sha256": "625f43ac0bb8a410bb22b289970ea09c344beb6f58cbd49429e38feba7c030f7",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/73-molchat-proveedor-api.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/73-molchat-proveedor-api.json",
+      "bytes": 10408,
+      "sha256": "e5813f0eca6d60c19daf66abc6e39cb32f32b91bb9ade63615f75e17bf409e1f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/74-molchat-ollama.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/74-molchat-ollama.json",
+      "bytes": 10302,
+      "sha256": "51155b7ea0b5a3bfc237e7823b49a632709248ee70df05578b94681357c17e99",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/75-comunidad.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/75-comunidad.json",
+      "bytes": 1891,
+      "sha256": "07ffcedceca67a0721f4dabe50d66581251ebf3086f73b450a6a70246200618f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/76-registro-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/76-registro-inicial.json",
+      "bytes": 20677,
+      "sha256": "de0876d3c7c2c378a96c958ad3d78647e1a65da567b5d3a28d9ba6ea5ca93912",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/77-registro-expediente.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/77-registro-expediente.json",
+      "bytes": 6270,
+      "sha256": "49a50544891b634ebb5795df70f18d02c532805ddd086f006bd01a8b6dc9fa36",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/82-batch-resultados.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/82-batch-resultados.json",
+      "bytes": 9053,
+      "sha256": "33539882eba1525b14f30ad7ee7b1f981e1c1d374f1d0e6950f63685f24d9648",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/83-batch-evidencia.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/83-batch-evidencia.json",
+      "bytes": 10666,
+      "sha256": "e1fceaa67a44d44b55b23da6e8320ed600946c843c1eb7de7bcf469871365055",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/84-batch-informe.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/84-batch-informe.json",
+      "bytes": 13117,
+      "sha256": "071559d562b16ef949fe94336da13b8c2d8c1cdb7559176a1eded3242c103c8a",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/85-batch-sdf.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/85-batch-sdf.json",
+      "bytes": 8373,
+      "sha256": "a0d4ff096c8a9465c81b9e545f18032f7e408d8388d14e35b5d3e268244e09b0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/86-receptor-no-disponible.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/86-receptor-no-disponible.json",
+      "bytes": 22825,
+      "sha256": "ae412e9925bc10404eb2b9c303d81b44bd885642cfafd5f73d7369150d4d19e7",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/87-cola-guardado-error.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/87-cola-guardado-error.json",
+      "bytes": 19917,
+      "sha256": "8f548725870b0685cbb2a47c89df85b16f8d7cb5339d423d08f9d3c7898c5a3d",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/88-cola-guardado-recuperada.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/88-cola-guardado-recuperada.json",
+      "bytes": 19458,
+      "sha256": "66c884c7998312e2be5fb45dcf2bb15b1e30e18181076ab9d43012687666e725",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/89-moldex-seleccion-comparacion.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/89-moldex-seleccion-comparacion.json",
+      "bytes": 10385,
+      "sha256": "4aa1c0609397308542152daa9acecb3e36914185dfa9baf8dbcae9480f124aea",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/90-analisis-desplegado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/90-analisis-desplegado.json",
+      "bytes": 27019,
+      "sha256": "cc2ca24629b7eaeab321ab3f45c631fdf126e08ed3fffc4cd963710a3f7ecc8c",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/91-mmgbsa-no-evaluado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/91-mmgbsa-no-evaluado.json",
+      "bytes": 27260,
+      "sha256": "2c9c2021695e0fab08873444a3130d1f466b094b1dc8573832f62a5558567847",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/92-admet-experimental.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/92-admet-experimental.json",
+      "bytes": 27587,
+      "sha256": "afde7ea8aa4789b0a5a73bbbf53dde205a40a1ebba763ec330701c3c884f06c9",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/93-sar.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/93-sar.json",
+      "bytes": 27629,
+      "sha256": "496f2ab515f26cb04595e97585bbb3323f9e5fe97a4c2e849249a1ec1df4fe78",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/94-explicabilidad.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/94-explicabilidad.json",
+      "bytes": 33181,
+      "sha256": "f7d676c3aeb1483db9a047a44c5867fc3a524f0c9694323b4472e0894c1474e2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/95-shap-detalle-contactos.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/95-shap-detalle-contactos.json",
+      "bytes": 35006,
+      "sha256": "dd551571dff5a982ab74cf067bab21e25274426a712b8a2c6914b2667ba3bbd2",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/96-validador-corrida-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/96-validador-corrida-inicial.json",
+      "bytes": 23539,
+      "sha256": "98d67306f13f8e6f238c76cbda17f69d36472106e4503738f16a5d2e57ad83c8",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/97-mapa-contactos-alcance.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/97-mapa-contactos-alcance.json",
+      "bytes": 35448,
+      "sha256": "3e9e880591b7e79df15075161b0bfbb6d98b77038f60591abd2978e7057c9a75",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/98-vision-molecular.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/98-vision-molecular.json",
+      "bytes": 35814,
+      "sha256": "628d54960fa4d8530df7ecd1d9072ec14cb9f43c7d755b03bd7eb9c0e086c03f",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/99-validador-estado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/99-validador-estado.json",
+      "bytes": 30970,
+      "sha256": "9ce87cd86ef544c689864bdb9f5c38f32f1b3c5e028dabab82782419ffd431c5",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-dinamico-bruto.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-dinamico-bruto.json",
+      "bytes": 251722,
+      "sha256": "b6abf585167e73566a94f10867cac4e8df6c02041e22c79b568d1409ced4ebb1",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-dinamico-final.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-dinamico-final.json",
+      "bytes": 360554,
+      "sha256": "a8e0f3db317e4481297eae717c44b0979d1a8f49bea8a9d71ad5b944c5cf6dbf",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-estatico-bruto.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-estatico-bruto.json",
+      "bytes": 989877,
+      "sha256": "811bc8348e95fb70cd9894171d66081c68ba2dcfbd6370cd83a1cbeee9b457c8",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-estatico-v2.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-estatico-v2.json",
+      "bytes": 2676294,
+      "sha256": "ed627af30ee1c376e5c121033ced8bf84b3a009154cd51c1b343ea101cb9f710",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-estatico-v3.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/barrido-estatico-v3.json",
+      "bytes": 2988581,
+      "sha256": "590e65de1a0e5cdf2fd72f38cb80fc0db1433432032db11dc7282fe9eac4ba08",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/campos-backend.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/campos-backend.json",
+      "bytes": 12744,
+      "sha256": "4c9df49b3880a7b5df1c5329a5e1324d2163eb0676bb44044099960fae45bbff",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/capsula-manifiesto-inicial.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/capsula-manifiesto-inicial.json",
+      "bytes": 3788,
+      "sha256": "d5e7d91dda2b3eaee404775b907056338e06eb32c9a231798b590836fb8ce529",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/correspondencias-es-en.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/correspondencias-es-en.json",
+      "bytes": 891270,
+      "sha256": "5632cfdb2664a152fc1cf541005f175d86a8a038fafa60d9e70d2e3217f8a840",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/decisiones-a1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/decisiones-a1.json",
+      "bytes": 1381378,
+      "sha256": "231aa52261af20b7368eaffc53ee361939d234fdaadad1202e751490c497ea36",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/descarga-dossier-idioma.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/descarga-dossier-idioma.json",
+      "bytes": 1139,
+      "sha256": "58f91b8285d31583da4f2b159a908c1f6015eed1be5100c653ae22b166ceea6f",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/descarga-dossier.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/descarga-dossier.json",
+      "bytes": 160,
+      "sha256": "0d395115e17c7ab1e0a4d1a49ed3c1db2e5e3aa2b9d49a227644e3d846a4e4b0",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/diccionario-completo.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/diccionario-completo.json",
+      "bytes": 788476,
+      "sha256": "027782be832bfd46e941df40cb8ae2f3f52f606be018088981518f034cc82247",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/editor-por-dibujo.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/editor-por-dibujo.json",
+      "bytes": 176,
+      "sha256": "9b33ef2494947c3187a3136a5592c382016c3939a796e3cf970a6fb3404cfc63",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/estados.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/estados.json",
+      "bytes": 20454,
+      "sha256": "5b6d15f3c528ae22b53cf28adaffc3119a7ae6a45d6a61163ca97c64a516a8b3",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/grafo-importaciones.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/grafo-importaciones.json",
+      "bytes": 48299,
+      "sha256": "5170fcdc4e7b6dab70af82f5d498fcd1f4fc22a9b546b17f6e7366c1e9c1cd22",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/pistas-sin-estado-demostrado.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/pistas-sin-estado-demostrado.json",
+      "bytes": 30638,
+      "sha256": "06355d18a17a11bc98e4135d2050d0c702d84bd544febbba7d087b08edb14852",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/red-deduplicacion.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/red-deduplicacion.json",
+      "bytes": 588,
+      "sha256": "d8ba4dae6c4a80ed8b60c90600ec8de7a5153fd0856a11c9fce749f9cf0df8f2",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/red.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/red.json",
+      "bytes": 16848929,
+      "sha256": "9509640e91e2394bcc6c3eebb61905c96b525dbfae023868e4b5213dc2d2a399",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/resumen.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/resumen.json",
+      "bytes": 1168,
+      "sha256": "45c1514dc9fd893ec93f498c614385a41b778e63d2b8f7ebe665c6b8147ac764",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/triage-a1.json",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/triage-a1.json",
+      "bytes": 2813741,
+      "sha256": "153138e846a695f4e9df697d4b2fa6ae105bcba20e7a5c5af5590f40d8cc6688",
+      "conservar_en_repo": false
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/entradas/cohorte-ejecutable.csv",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/entradas/cohorte-ejecutable.csv",
+      "bytes": 151,
+      "sha256": "ab0067daf2868b99edea56c1b0617cbb7dc2ba6e24c0d3d07020158c5146a41c",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/entradas/cohorte.csv",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/entradas/cohorte.csv",
+      "bytes": 140,
+      "sha256": "7ccd56978ee13e9bf5057971869fce6ce6c25a277f487ccc9b7ea761d911ed1f",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/entradas/cohorte.sdf",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/entradas/cohorte.sdf",
+      "bytes": 4262,
+      "sha256": "609f28fb74ee3eec22a4ad2d2e65e9aa51825e69960a62bcbed4e1ab409152f1",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/autotest-copia.txt",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/autotest-copia.txt",
+      "bytes": 99,
+      "sha256": "93229a69391949eb16ad1046452dd4f757502330ec8c8afa08817b9ef3673655",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/autotest-original.txt",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/autotest-original.txt",
+      "bytes": 52,
+      "sha256": "c20870b9067134caa21b0bd3579016321526f69632b6b40b5ac6d6f505505982",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/capsula-estado.txt",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/capsula-estado.txt",
+      "bytes": 253,
+      "sha256": "297064dc0b41f8984df608ed1020af6fafe86dac9054839a3238becd2f5a0383",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/integridad-entrega.txt",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/integridad-entrega.txt",
+      "bytes": 1305,
+      "sha256": "c2cac2da4e5acae4dac35d1d015cb266c808504d88c4486abdb5bc7a35a2159c",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/inventario-original.txt",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/inventario-original.txt",
+      "bytes": 4,
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/vitest-i18n.txt",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/evidencia/verificacion/vitest-i18n.txt",
+      "bytes": 227,
+      "sha256": "df9bd4ba2cd1447083793457d7261206c2a6af50e7c3c145bb7d26ed29cb042e",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/herramientas/capturar-estado.cjs",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/herramientas/capturar-estado.cjs",
+      "bytes": 1353,
+      "sha256": "72d711850f240ab977149e66c881c74ee6ee5a2a6f1b971c650cd37fe746ce1c",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/herramientas/cerrar-fase-a.cjs",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/herramientas/cerrar-fase-a.cjs",
+      "bytes": 43872,
+      "sha256": "ab5d3a09d252a9927ac3429e83f30fa1e2cccc37040739faf7b3f44b752f1c18",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/herramientas/clasificar-a1.cjs",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/herramientas/clasificar-a1.cjs",
+      "bytes": 23523,
+      "sha256": "2188080e90e207e266ae877c9e97f29e52c6de782373638e7b6915e75f990b73",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/herramientas/emitir-fase-a.cjs",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/herramientas/emitir-fase-a.cjs",
+      "bytes": 28862,
+      "sha256": "ac55e2b9a148790500463c7148ca1d388a929fefa81561aa5f29c85c7c2bbc7b",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/herramientas/README.md",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/herramientas/README.md",
+      "bytes": 1706,
+      "sha256": "48747353620ae04913ec8ad03bbe22ecc9dc4e6d65d1748800c5d171639a07ec",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "docs/auditorias/i18n-frontend-2026-10-25/herramientas/revisar-a1.cjs",
+      "ruta_archivo": "repo/docs/auditorias/i18n-frontend-2026-10-25/herramientas/revisar-a1.cjs",
+      "bytes": 4042,
+      "sha256": "2b64923b10bb6949da74f6b187c51a04ec2367c352f15ed99e39d707fd289f53",
+      "conservar_en_repo": true
+    },
+    {
+      "ruta_repo": "frontend/scripts/auditar-i18n-fase-a.cjs",
+      "ruta_archivo": "repo/frontend/scripts/auditar-i18n-fase-a.cjs",
+      "bytes": 11747,
+      "sha256": "5c69c52b4106a7240ee94d95b98bd2f12f35c122bb0dd81cc55f5afd081dddc5",
+      "conservar_en_repo": true
+    }
+  ],
+  "total_archivos": 317,
+  "total_bytes": 59507463.0,
+  "verificados_sha256": 317
+}

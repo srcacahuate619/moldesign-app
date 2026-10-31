@@ -20,7 +20,8 @@ que vienen de fallos reales, en su sección «Restricciones que no debes romper�
 | Pruebas de backend, rescoring y scripts; puertas de CI; sellos | Windows 11 x64, Python 3.11 (CI: `windows-latest`) |
 | Frontend (`npm ci`, `typecheck`, `test:run`) | Windows 11 x64, Node 24.20.0, npm 11.19.0 |
 | Instalador (`npm run tauri:build`) | Windows 11 x64 con Rust estable y MSVC Build Tools |
-| Linux y macOS | **No comprobado.** El producto es una aplicación de escritorio de Windows. |
+| Linux | Ubuntu 24.04 en contenedores Debian 12, con Python 3.11 y Node 24 (2026-10-31): pruebas de backend, rescoring y scripts, puertas de CI, sellos, humo de escritorio y frontend con Chromium. Sin Vina ni los demás binarios, que no viajan en el clon. El producto sigue siendo una aplicación de Windows: no hay instalador para Linux y Molcy lanza su motor con PowerShell. La CI sólo corre en Windows, así que esto se mide a mano. |
+| macOS | **No comprobado.** |
 
 Git para Windows con su configuración por defecto (`core.autocrlf=true`) es
 válido: los ficheros cuyos bytes están sellados llevan `-text` en

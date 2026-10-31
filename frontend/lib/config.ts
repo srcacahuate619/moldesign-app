@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage } from "./frontendError";
 // =====================================================================
 // Dirección del backend — UNA sola abstracción, un solo dueño del puerto
 // =====================================================================
@@ -82,10 +83,10 @@ async function resolveFromDesktop(): Promise<string> {
   // viejo del contenedor, la aplicación degrada en vez de romperse.
   const port = typeof status === "number" ? status : status?.port ?? null;
   if (typeof port !== "number" || port <= 0) {
-    throw new Error(
+    throw new FrontendError(
       typeof status === "object" && status?.detail
         ? status.detail
-        : "El motor no devolvió un puerto utilizable.",
+        : frontendMessage("co_frontend_217"),
     );
   }
   return `http://127.0.0.1:${port}`;
@@ -117,10 +118,8 @@ export async function getApiUrl(): Promise<string> {
     // aunque el puente no sirva. Justo lo que hace falta para distinguir «soy
     // un navegador, usa el valor por defecto» de «soy la app y algo va mal».
     if (isDesktopRuntime()) {
-      throw new Error(
-        "El puente de escritorio no esta disponible, asi que no se puede saber " +
-          "en que puerto quedo el backend. No se adivina: otro programa podria " +
-          "estar escuchando ahi.",
+      throw new FrontendError(
+        frontendMessage("co_frontend_216"),
       );
     }
     const url = envOverride() ?? DEFAULT_API_URL;

@@ -14,6 +14,7 @@
 // arriba con `migrateManifest`. Una version MAYOR que la soportada se rechaza
 // con `UNSUPPORTED_VERSION` — leerla a medias seria peor que no leerla.
 
+import { frontendMessage, type FrontendText } from "../frontendError";
 import {
   ActiveRun,
   CASE_SCHEMA_VERSION,
@@ -68,16 +69,16 @@ function requireString(
   if (typeof value !== "string" || value.length === 0) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      `El manifiesto no tiene un campo \`${key}\` válido.`,
-      `${where}.${key} debe ser una cadena no vacía; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_00", { v0: key }),
+      frontendMessage("case_schema_01", { v0: where, v1: key, v2: describe(value) }),
     );
   }
   return value;
 }
 
-function describe(value: unknown): string {
+function describe(value: unknown): FrontendText {
   if (value === null) return "null";
-  if (Array.isArray(value)) return "un array";
+  if (Array.isArray(value)) return frontendMessage("case_schema_array");
   return typeof value;
 }
 
@@ -91,8 +92,8 @@ function requireEnum<T extends string>(
   if (typeof value !== "string" || !allowed.includes(value as T)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      `El manifiesto tiene un \`${key}\` que este build no reconoce.`,
-      `${where}.${key} debe ser uno de [${allowed.join(", ")}]; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_02", { v0: key }),
+      frontendMessage("case_schema_03", { v0: where, v1: key, v2: allowed.join(", "), v3: describe(value) }),
     );
   }
   return value as T;
@@ -107,8 +108,8 @@ function requireBoolean(
   if (typeof value !== "boolean") {
     throw new CaseError(
       "INVALID_MANIFEST",
-      `El manifiesto no tiene un campo \`${key}\` booleano válido.`,
-      `${where}.${key} debe ser booleano; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_04", { v0: key }),
+      frontendMessage("case_schema_05", { v0: where, v1: key, v2: describe(value) }),
     );
   }
   return value;
@@ -125,8 +126,8 @@ function requireIsoDate(
   if (Number.isNaN(parsed)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      `El manifiesto tiene una fecha inválida en \`${key}\`.`,
-      `${where}.${key} = ${JSON.stringify(value)} no es una fecha ISO 8601.`,
+      frontendMessage("case_schema_06", { v0: key }),
+      frontendMessage("case_schema_07", { v0: where, v1: key, v2: JSON.stringify(value) }),
     );
   }
   return value;
@@ -170,7 +171,7 @@ export function sanitizeFolderName(rawName: string): string {
   // desde macOS) pasa a la letra compuesta, que es lo que se espera ver en disco.
   const trimmed = rawName.normalize("NFC").trim();
   if (trimmed.length === 0) {
-    throw new CaseError("UNSAFE_NAME", "El nombre del caso no puede estar vacío.");
+    throw new CaseError("UNSAFE_NAME", frontendMessage("case_schema_08"));
   }
 
   // Sustituye TODO lo que no sea seguro. Lista blanca, no lista negra: una
@@ -209,16 +210,16 @@ export function sanitizeFolderName(rawName: string): string {
   if (safe.length === 0) {
     throw new CaseError(
       "UNSAFE_NAME",
-      "El nombre del caso no contiene caracteres utilizables para una carpeta.",
-      `Nombre recibido: ${JSON.stringify(rawName)}.`,
+      frontendMessage("case_schema_09"),
+      frontendMessage("case_schema_10", { v0: JSON.stringify(rawName) }),
     );
   }
 
   if (RESERVED_WINDOWS_NAMES.has(safe.toLowerCase())) {
     throw new CaseError(
       "UNSAFE_NAME",
-      `"${safe}" es un nombre reservado por el sistema operativo.`,
-      "Windows reserva CON, PRN, AUX, NUL, COM1-9 y LPT1-9.",
+      frontendMessage("case_schema_11", { v0: safe }),
+      frontendMessage("case_schema_12"),
     );
   }
 
@@ -274,8 +275,8 @@ function parseContext(value: unknown, where: string): CaseContext {
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El contexto del caso está corrupto.",
-      `${where}.context debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_13"),
+      frontendMessage("case_schema_14", { v0: where, v1: describe(value) }),
     );
   }
   const context: {
@@ -287,8 +288,8 @@ function parseContext(value: unknown, where: string): CaseContext {
     if (typeof studyKind !== "string" || !CASE_STUDY_KINDS.includes(studyKind as CaseStudyKind)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "El tipo de estudio del caso no se reconoce.",
-        `${where}.context.studyKind = ${JSON.stringify(studyKind)}.`,
+        frontendMessage("case_schema_15"),
+        frontendMessage("case_schema_16", { v0: where, v1: JSON.stringify(studyKind) }),
       );
     }
     context.studyKind = studyKind as CaseStudyKind;
@@ -302,8 +303,8 @@ function parseContext(value: unknown, where: string): CaseContext {
     if (typeof raw !== "string") {
       throw new CaseError(
         "INVALID_MANIFEST",
-        `La respuesta a «${key}» está corrupta y no se mostrará como «No definido».`,
-        `${where}.context.${key} debe ser una cadena; se recibió ${describe(raw)}.`,
+        frontendMessage("case_schema_17", { v0: key }),
+        frontendMessage("case_schema_18", { v0: where, v1: key, v2: describe(raw) }),
       );
     }
     // Una cadena en blanco SI se normaliza a ausente: es lo que produce borrar
@@ -332,8 +333,8 @@ function parseRunEntry(value: unknown, path: string): CaseRun {
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El registro de una corrida del caso está corrupto.",
-      `${path} debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_19"),
+      frontendMessage("case_schema_20", { v0: path, v1: describe(value) }),
     );
   }
   const taskId = requireString(value, "taskId", path);
@@ -349,8 +350,8 @@ function parseRunEntry(value: unknown, path: string): CaseRun {
     if (typeof value.moleculeId !== "string" || value.moleculeId.length === 0) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "La referencia al resultado de la corrida esta corrupta.",
-        `${path}.moleculeId debe ser una cadena no vacia.`,
+        frontendMessage("case_schema_21"),
+        frontendMessage("case_schema_22", { v0: path }),
       );
     }
     run.moleculeId = value.moleculeId;
@@ -359,8 +360,8 @@ function parseRunEntry(value: unknown, path: string): CaseRun {
     if (typeof value.lastKnownProgress !== "number" || !Number.isFinite(value.lastKnownProgress)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "El progreso de una corrida del caso está corrupto.",
-        `${path}.lastKnownProgress debe ser un número.`,
+        frontendMessage("case_schema_23"),
+        frontendMessage("case_schema_24", { v0: path }),
       );
     }
     run.lastKnownProgress = value.lastKnownProgress;
@@ -369,8 +370,8 @@ function parseRunEntry(value: unknown, path: string): CaseRun {
     if (typeof value.lastError !== "string") {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "El error de una corrida del caso está corrupto.",
-        `${path}.lastError debe ser una cadena.`,
+        frontendMessage("case_schema_25"),
+        frontendMessage("case_schema_26", { v0: path }),
       );
     }
     run.lastError = value.lastError;
@@ -379,8 +380,8 @@ function parseRunEntry(value: unknown, path: string): CaseRun {
     if (typeof value.inputFingerprint !== "string" || value.inputFingerprint.length === 0) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "El fingerprint de la corrida está corrupto.",
-        `${path}.inputFingerprint debe ser una cadena no vacía.`,
+        frontendMessage("case_schema_27"),
+        frontendMessage("case_schema_28", { v0: path }),
       );
     }
     run.inputFingerprint = value.inputFingerprint;
@@ -394,8 +395,8 @@ function parseRunEntry(value: unknown, path: string): CaseRun {
     if (typeof value.affinityKcal !== "number" || !Number.isFinite(value.affinityKcal)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "La afinidad guardada de una corrida está corrupta.",
-        `${path}.affinityKcal debe ser un número finito.`,
+        frontendMessage("case_schema_29"),
+        frontendMessage("case_schema_30", { v0: path }),
       );
     }
     run.affinityKcal = value.affinityKcal;
@@ -410,8 +411,8 @@ function parseRunProtocol(value: unknown, path: string): CaseRunProtocol | undef
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El protocolo guardado de una corrida está corrupto.",
-      `${path} debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_31"),
+      frontendMessage("case_schema_20", { v0: path, v1: describe(value) }),
     );
   }
   return {
@@ -435,8 +436,8 @@ function parseCaseRuns(value: unknown, where: string): readonly CaseRun[] {
   if (!Array.isArray(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El libro de corridas del caso está corrupto.",
-      `${where}.runs debe ser una lista; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_32"),
+      frontendMessage("case_schema_33", { v0: where, v1: describe(value) }),
     );
   }
   const runs = value.map((entry, index) => parseRunEntry(entry, `${where}.runs[${index}]`));
@@ -445,8 +446,8 @@ function parseCaseRuns(value: unknown, where: string): readonly CaseRun[] {
     if (seen.has(run.taskId)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "El libro de corridas tiene una corrida repetida.",
-        `${where}.runs contiene dos veces el taskId ${run.taskId}.`,
+        frontendMessage("case_schema_34"),
+        frontendMessage("case_schema_35", { v0: where, v1: run.taskId }),
       );
     }
     seen.add(run.taskId);
@@ -458,8 +459,8 @@ function parseStorage(value: unknown, where: string): CaseStorage {
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El manifiesto no declara dónde está almacenado el caso.",
-      `${where}.storage debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_36"),
+      frontendMessage("case_schema_37", { v0: where, v1: describe(value) }),
     );
   }
   const mode = requireEnum(value, "mode", ["browser", "folder"] as const, `${where}.storage`);
@@ -488,8 +489,8 @@ function parseNumberTriple(
   ) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "La caja de búsqueda guardada está corrupta.",
-      `${where} debe ser tres números finitos; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_38"),
+      frontendMessage("case_schema_39", { v0: where, v1: describe(value) }),
     );
   }
   return [value[0] as number, value[1] as number, value[2] as number] as const;
@@ -499,8 +500,8 @@ function parseStringList(value: unknown, where: string): readonly string[] {
   if (!Array.isArray(value) || value.some((v) => typeof v !== "string")) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "Una lista de texto del caso está corrupta.",
-      `${where} debe ser una lista de cadenas; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_40"),
+      frontendMessage("case_schema_41", { v0: where, v1: describe(value) }),
     );
   }
   return value as string[];
@@ -510,8 +511,8 @@ function parsePositiveInteger(value: unknown, where: string): number {
   if (typeof value !== "number" || !Number.isInteger(value) || value < 1) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "Un parámetro de ejecución guardado está corrupto.",
-      `${where} debe ser un entero positivo; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_42"),
+      frontendMessage("case_schema_43", { v0: where, v1: describe(value) }),
     );
   }
   return value;
@@ -522,8 +523,8 @@ function parsePipelineConfig(value: unknown, where: string): CasePipelineConfig 
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "La configuración PRO guardada está corrupta.",
-      `${where} debe ser un objeto.`,
+      frontendMessage("case_schema_44"),
+      frontendMessage("case_schema_45", { v0: where }),
     );
   }
   const config: {
@@ -543,7 +544,7 @@ function parsePipelineConfig(value: unknown, where: string): CasePipelineConfig 
   }
   for (const key of ["pro_selectivity", "pro_mmgbsa"] as const) {
     if (value[key] !== undefined && typeof value[key] !== "boolean") {
-      throw new CaseError("INVALID_MANIFEST", "La configuración PRO contiene un booleano inválido.", `${where}.${key} debe ser booleano.`);
+      throw new CaseError("INVALID_MANIFEST", frontendMessage("case_schema_46"), frontendMessage("case_schema_47", { v0: where, v1: key }));
     }
     if (typeof value[key] === "boolean") config[key] = value[key];
   }
@@ -551,10 +552,10 @@ function parsePipelineConfig(value: unknown, where: string): CasePipelineConfig 
     config.pro_anti_targets = parseStringList(value.pro_anti_targets, `${where}.pro_anti_targets`);
   }
   if (value.stage_params !== undefined) {
-    if (!isRecord(value.stage_params)) throw new CaseError("INVALID_MANIFEST", "Los parámetros de etapa están corruptos.", `${where}.stage_params debe ser un objeto.`);
+    if (!isRecord(value.stage_params)) throw new CaseError("INVALID_MANIFEST", frontendMessage("case_schema_48"), frontendMessage("case_schema_49", { v0: where }));
     const stageParams: Record<string, Record<string, unknown>> = {};
     for (const [stage, params] of Object.entries(value.stage_params)) {
-      if (!isRecord(params)) throw new CaseError("INVALID_MANIFEST", "Los parámetros de una etapa están corruptos.", `${where}.stage_params.${stage} debe ser un objeto.`);
+      if (!isRecord(params)) throw new CaseError("INVALID_MANIFEST", frontendMessage("case_schema_50"), frontendMessage("case_schema_51", { v0: where, v1: stage }));
       stageParams[stage] = { ...params };
     }
     config.stage_params = stageParams;
@@ -567,8 +568,8 @@ function parseOptionalString(value: unknown, where: string): string | undefined 
   if (typeof value !== "string" || value.length === 0) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "Un identificador opcional del caso está corrupto.",
-      `${where} debe ser una cadena no vacía cuando está presente; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_52"),
+      frontendMessage("case_schema_53", { v0: where, v1: describe(value) }),
     );
   }
   return value;
@@ -578,8 +579,8 @@ function parseNonNegativeInteger(value: unknown, where: string): number {
   if (typeof value !== "number" || !Number.isInteger(value) || value < 0) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "La semilla de ejecución guardada está corrupta.",
-      `${where} debe ser un entero mayor o igual que cero; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_54"),
+      frontendMessage("case_schema_55", { v0: where, v1: describe(value) }),
     );
   }
   return value;
@@ -589,8 +590,8 @@ function parseReceptor(value: unknown, where: string): CaseReceptor {
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El receptor guardado en el caso está corrupto.",
-      `${where} debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_56"),
+      frontendMessage("case_schema_20", { v0: where, v1: describe(value) }),
     );
   }
   const receptor: { -readonly [K in keyof CaseReceptor]: CaseReceptor[K] } = {
@@ -612,8 +613,8 @@ function parseLigand(value: unknown, where: string): CaseLigand {
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El ligando guardado en el caso está corrupto.",
-      `${where} debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_57"),
+      frontendMessage("case_schema_20", { v0: where, v1: describe(value) }),
     );
   }
   const ligand: { -readonly [K in keyof CaseLigand]: CaseLigand[K] } = {
@@ -631,8 +632,8 @@ function parseInputs(value: unknown, where: string): CaseInputs | undefined {
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "Los inputs del caso están corruptos.",
-      `${where}.inputs debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_58"),
+      frontendMessage("case_schema_59", { v0: where, v1: describe(value) }),
     );
   }
   const inputs: { -readonly [K in keyof CaseInputs]: CaseInputs[K] } = {};
@@ -646,8 +647,8 @@ function parseInputs(value: unknown, where: string): CaseInputs | undefined {
     if (!isRecord(value.grid)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "La caja de búsqueda guardada está corrupta.",
-        `${where}.inputs.grid debe ser un objeto.`,
+        frontendMessage("case_schema_38"),
+        frontendMessage("case_schema_60", { v0: where }),
       );
     }
     const grid: CaseGrid = {
@@ -686,8 +687,8 @@ function parsePreflight(value: unknown, where: string): PreflightSummary | undef
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El preflight guardado está corrupto.",
-      `${where}.preflight debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_61"),
+      frontendMessage("case_schema_62", { v0: where, v1: describe(value) }),
     );
   }
   const summary: { -readonly [K in keyof PreflightSummary]: PreflightSummary[K] } = {
@@ -717,8 +718,8 @@ function parsePreflight(value: unknown, where: string): PreflightSummary | undef
     if (!isRecord(value.executionConfig)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "La configuración efectiva del preflight está corrupta.",
-        `${where}.preflight.executionConfig debe ser un objeto.`,
+        frontendMessage("case_schema_63"),
+        frontendMessage("case_schema_64", { v0: where }),
       );
     }
     const config = value.executionConfig;
@@ -775,15 +776,15 @@ function parseStructuralSystem(value: unknown, where: string): CaseStructuralSys
   if (!isRecord(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El sistema estructural fijado está corrupto.",
-      `${where}.structuralSystem debe ser un objeto; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_65"),
+      frontendMessage("case_schema_66", { v0: where, v1: describe(value) }),
     );
   }
   if (!isRecord(value.grid)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "La caja del sistema estructural está corrupta.",
-      `${where}.structuralSystem.grid debe ser un objeto.`,
+      frontendMessage("case_schema_67"),
+      frontendMessage("case_schema_68", { v0: where }),
     );
   }
   const pipelineConfig = parsePipelineConfig(
@@ -830,16 +831,16 @@ function parseDecisions(value: unknown, where: string): readonly HumanDecision[]
   if (!Array.isArray(value)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "Las decisiones guardadas están corruptas.",
-      `${where}.decisions debe ser una lista; se recibió ${describe(value)}.`,
+      frontendMessage("case_schema_69"),
+      frontendMessage("case_schema_70", { v0: where, v1: describe(value) }),
     );
   }
   const decisions: HumanDecision[] = value.map((entry, index) => {
     if (!isRecord(entry)) {
       throw new CaseError(
         "INVALID_MANIFEST",
-        "Una decisión guardada está corrupta.",
-        `${where}.decisions[${index}] debe ser un objeto.`,
+        frontendMessage("case_schema_71"),
+        frontendMessage("case_schema_72", { v0: where, v1: index }),
       );
     }
     const decision: { -readonly [K in keyof HumanDecision]: HumanDecision[K] } = {
@@ -858,12 +859,12 @@ function parseDecisions(value: unknown, where: string): readonly HumanDecision[]
 function parseDisposition(value: unknown, where: string): CaseDisposition | undefined {
   if (value === undefined || value === null) return undefined;
   if (!isRecord(value)) {
-    throw new CaseError("INVALID_MANIFEST", "La disposición científica está corrupta.", `${where}.disposition debe ser un objeto.`);
+    throw new CaseError("INVALID_MANIFEST", frontendMessage("case_schema_73"), frontendMessage("case_schema_74", { v0: where }));
   }
   const kind = requireEnum(value, "kind", ["accept", "limit", "abstain"] as const, `${where}.disposition`) as CaseDispositionKind;
   const rationale = requireString(value, "rationale", `${where}.disposition`);
   if (rationale.length < 3 || rationale.length > 4000) {
-    throw new CaseError("INVALID_MANIFEST", "La justificación de la disposición no es válida.", `${where}.disposition.rationale debe tener entre 3 y 4000 caracteres.`);
+    throw new CaseError("INVALID_MANIFEST", frontendMessage("case_schema_75"), frontendMessage("case_schema_76", { v0: where }));
   }
   return {
     kind,
@@ -881,13 +882,13 @@ function parseDisposition(value: unknown, where: string): CaseDisposition | unde
 function parseDispositions(value: unknown, where: string): readonly CaseDisposition[] | undefined {
   if (value === undefined || value === null) return undefined;
   if (!Array.isArray(value)) {
-    throw new CaseError("INVALID_MANIFEST", "El historial de disposiciones está corrupto.", `${where}.dispositions debe ser una lista.`);
+    throw new CaseError("INVALID_MANIFEST", frontendMessage("case_schema_77"), frontendMessage("case_schema_78", { v0: where }));
   }
   const dispositions = value.map(
     (entry, index) => parseDisposition(entry, `${where}.dispositions[${index}]`),
   );
   if (dispositions.some((entry) => entry === undefined)) {
-    throw new CaseError("INVALID_MANIFEST", "El historial de disposiciones está corrupto.", `${where}.dispositions contiene entradas vacías.`);
+    throw new CaseError("INVALID_MANIFEST", frontendMessage("case_schema_77"), frontendMessage("case_schema_79", { v0: where }));
   }
   return dispositions.length > 0 ? (dispositions as CaseDisposition[]) : undefined;
 }
@@ -981,8 +982,8 @@ export function migrateManifest(
   if (version === CASE_SCHEMA_VERSION) return current;
   throw new CaseError(
     "UNSUPPORTED_VERSION",
-    `No hay ruta de migración desde la versión ${fromVersion}.`,
-    `Versiones soportadas: [${SUPPORTED_SCHEMA_VERSIONS.join(", ")}].`,
+    frontendMessage("case_schema_80", { v0: fromVersion }),
+    frontendMessage("case_schema_81", { v0: SUPPORTED_SCHEMA_VERSIONS.join(", ") }),
   );
 }
 
@@ -999,8 +1000,8 @@ export function parseCaseManifest(input: unknown, where = "case.json"): CaseReco
   if (!isRecord(input)) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El archivo `case.json` no contiene un objeto JSON.",
-      `Se recibió ${describe(input)}.`,
+      frontendMessage("case_schema_82"),
+      frontendMessage("case_schema_83", { v0: describe(input) }),
     );
   }
 
@@ -1008,17 +1009,17 @@ export function parseCaseManifest(input: unknown, where = "case.json"): CaseReco
   if (typeof rawVersion !== "number" || !Number.isInteger(rawVersion) || rawVersion < 1) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El manifiesto no declara una `schemaVersion` válida.",
-      `${where}.schemaVersion debe ser un entero >= 1; se recibió ${describe(rawVersion)}.`,
+      frontendMessage("case_schema_84"),
+      frontendMessage("case_schema_85", { v0: where, v1: describe(rawVersion) }),
     );
   }
   if (!SUPPORTED_SCHEMA_VERSIONS.includes(rawVersion)) {
     throw new CaseError(
       "UNSUPPORTED_VERSION",
       rawVersion > CASE_SCHEMA_VERSION
-        ? `Este caso fue creado con una versión más nueva de MolDesign (esquema v${rawVersion}). Actualiza la aplicación para abrirlo.`
-        : `El esquema v${rawVersion} ya no está soportado.`,
-      `Soportadas: [${SUPPORTED_SCHEMA_VERSIONS.join(", ")}].`,
+        ? frontendMessage("case_schema_86", { v0: rawVersion })
+        : frontendMessage("case_schema_87", { v0: rawVersion }),
+      frontendMessage("case_schema_88", { v0: SUPPORTED_SCHEMA_VERSIONS.join(", ") }),
     );
   }
 
@@ -1112,7 +1113,7 @@ export function parseCaseManifestText(text: string, where = "case.json"): CaseRe
   } catch (error) {
     throw new CaseError(
       "INVALID_MANIFEST",
-      "El archivo `case.json` no es JSON válido.",
+      frontendMessage("case_schema_89"),
       error instanceof Error ? error.message : String(error),
     );
   }
@@ -1139,7 +1140,7 @@ export interface CreateCaseInput {
 export function createCaseRecord(input: CreateCaseInput): CaseRecord {
   const name = input.name.trim();
   if (name.length === 0) {
-    throw new CaseError("UNSAFE_NAME", "El nombre del caso no puede estar vacío.");
+    throw new CaseError("UNSAFE_NAME", frontendMessage("case_schema_08"));
   }
   if (input.storage.mode === "folder") {
     // Falla temprano y con el mismo criterio que usara Rust al escribir.

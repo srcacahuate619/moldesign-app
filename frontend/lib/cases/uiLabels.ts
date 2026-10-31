@@ -9,11 +9,11 @@ export function displayCasePath(path: string): string {
   return path;
 }
 
-/** Translate repository-owned storage labels while preserving unknown labels. */
-export function localizeCaseStorageLabel(label: string, t: Translate): string {
-  if (label === "Carpeta en este equipo") return t("ca_storage_device");
-  if (label === "Guardado en este navegador") return t("ca_workspace_storage_browser");
-  return label;
+/** El tipo del repositorio decide la etiqueta; nunca su texto visible. */
+export function localizeCaseStorageLabel(repository: { readonly id: string; readonly capabilities: { readonly storageLabel: string } }, t: Translate): string {
+  if (repository.id === "tauri") return t("ca_storage_device");
+  if (repository.id === "browser") return t("ca_workspace_storage_browser");
+  return repository.capabilities.storageLabel;
 }
 
 export function caseViewLabel(view: CaseView, t: Translate): string {

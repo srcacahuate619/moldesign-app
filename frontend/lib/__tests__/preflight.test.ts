@@ -19,7 +19,7 @@ import {
   describeRunBlock,
   inputsAffectRun,
   inputsAreComplete,
-  localizeReceptorLabel,
+  localizeReceptorLabel, receptorFromSummary, gridLabelForSummary,
   requestPreflight,
   summarizePreflight,
   type PreflightReport,
@@ -40,10 +40,10 @@ const translateEnglish = (key: string, values: Record<string, string | number> =
 
 describe("localización de los rótulos completos del receptor", () => {
   it("traduce sólo los formatos generados y conserva los identificadores", () => {
-    expect(localizeReceptorLabel("1HSG · cadena A", translateEnglish)).toBe("1HSG · chain A");
-    expect(localizeReceptorLabel("1HSG · cadenas A+B", translateEnglish)).toBe("1HSG · chains A+B");
-    expect(localizeReceptorLabel("USER_target-17", translateEnglish)).toBe("USER_target-17");
-    expect(localizeReceptorLabel("No definido", translateEnglish)).toBe("Not defined");
+    expect(localizeReceptorLabel({ pdbId: "1HSG", chain: "A" }, translateEnglish)).toBe("1HSG · chain A");
+    expect(localizeReceptorLabel({ pdbId: "1HSG", chain: "A", siteChains: ["B", "A"] }, translateEnglish)).toBe("1HSG · chains A+B");
+    expect(localizeReceptorLabel({ pdbId: "USER_target-17" }, translateEnglish)).toBe("USER_target-17");
+    expect(localizeReceptorLabel(null, translateEnglish)).toBe("Not defined");
   });
 });
 
@@ -363,5 +363,19 @@ describe("inputsAreComplete", () => {
     expect(inputsAreComplete({ receptor: BASE_INPUTS.receptor })).toBe(false);
     expect(inputsAreComplete({ ...BASE_INPUTS, ligand: { inputSmiles: "   " } })).toBe(false);
     expect(inputsAreComplete(BASE_INPUTS)).toBe(true);
+  });
+});
+
+describe("presentación estructurada de resúmenes sin migrar el formato", () => {
+  it("lee identidad y cadenas del JSON original, aunque se cambie su rótulo", () => {
+    const summary = summarizePreflight(reportFixture());
+    const inputDocument = JSON.stringify({ target_pdb_id: "1HSG", chain: "A", site_chains: ["B", "A"] });
+    const original = { ...summary, inputDocument, receptorLabel: "texto arbitrario" };
+    const bytes = JSON.stringify(original);
+    expect(localizeReceptorLabel(receptorFromSummary(original), translateEnglish)).toBe("1HSG · chains A+B");
+    expect(localizeReceptorLabel(receptorFromSummary(original), (key, values) => { let value = casos.es[key] ?? comun.es[key] ?? key; for (const [k,v] of Object.entries(values ?? {})) value=value.replaceAll(`{${k}}`,String(v)); return value; })).toBe("1HSG · cadenas A+B");
+    expect(gridLabelForSummary(original, translateEnglish)).toBe("(1.00, 2.00, 3.00) · (20.00, 20.00, 20.00) Å");
+    expect(JSON.stringify(original)).toBe(bytes);
+    expect(receptorFromSummary({ ...original, inputDocument: "corrupto" })).toBeNull();
   });
 });

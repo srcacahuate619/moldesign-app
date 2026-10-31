@@ -15,7 +15,8 @@ Please **don't post it publicly** until the round closes: every review has to be
 
 ## The 14 handoff needs
 
-One line each: RECONSTRUCTIBLE / AMBIGUOUS / MISSING / NOT_APPLICABLE, and the file or field that supports it.
+One line each: RECONSTRUCTIBLE / AMBIGUOUS / MISSING / NOT_APPLICABLE, and the file or field that supports it. For MISSING, say
+where you looked.
 
 - N01 source and biological assembly:
 - N02 prepared receptor (kept / removed / why):
@@ -34,7 +35,8 @@ One line each: RECONSTRUCTIBLE / AMBIGUOUS / MISSING / NOT_APPLICABLE, and the f
 
 ## Silent losses or changes
 
-Anything dropped or altered from the source structure without being declared. Give the file and the line or field.
+Anything dropped or altered from the source structure without being declared. Give the file and the line or field. A silent
+loss rules out `READY_TO_PREPARE`.
 
 ## Questions you would ask the sender before running FEP
 
@@ -42,7 +44,8 @@ Anything dropped or altered from the source structure without being declared. Gi
 
 ## What else did you consult?
 
-The PDB entry, the literature, the OpenFF benchmark, tools... and whether a language model helped, and how.
+The PDB entry, the literature, the OpenFF benchmark, tools, this repository's own documents... and whether a language model
+helped, and how.
 
 ## Independence
 

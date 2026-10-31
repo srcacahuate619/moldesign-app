@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import { Editor } from "ketcher-react";
 import { StandaloneStructServiceProvider } from "ketcher-standalone";
 import type { Ketcher } from "ketcher-core";
+import { claimEditorExport, editorInstanceId, registerEditorReader, type EditorSnapshot } from "../lib/editorSnapshot";
 
 // El CSS de Ketcher NO se importa aqui. Ver `app/layout.tsx`.
 //
@@ -31,6 +32,8 @@ import type { Ketcher } from "ketcher-core";
 // no puede permitirse llegar tarde.
 
 type Props = {
+  caseId?: string;
+  requestedSmiles?: string;
   initialSmiles?: string;
   onSmilesChange?: (smiles: string) => void;
   height?: number | string;
@@ -53,6 +56,8 @@ function getStructServiceProvider() {
 }
 
 export default function KetcherEditorInner({
+  caseId,
+  requestedSmiles,
   initialSmiles,
   onSmilesChange,
   height = 750,
@@ -69,8 +74,24 @@ export default function KetcherEditorInner({
 
   // Mientras se carga un SMILES de fuera, el «cambio» que anuncia Ketcher es esa carga, no una edición.
   const cargando = useRef(false);
+  const revision = useRef(0);
+  const instance = useRef<string | null>(null);
+  if (instance.current === null) instance.current = editorInstanceId();
+  const currentInput = useRef(initialSmiles);
+  currentInput.current = initialSmiles;
+  const requestedInput = useRef(requestedSmiles);
+  requestedInput.current = requestedSmiles;
+  const snapshotCache = useRef<{ revision: string; molfile: string; at: number } | null>(null);
+  const snapshotExpiry = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const snapshotPending = useRef<Promise<EditorSnapshot> | null>(null);
+  const invalidarSnapshot = () => {
+    revision.current += 1; snapshotCache.current = null;
+    if (snapshotExpiry.current) clearTimeout(snapshotExpiry.current);
+    snapshotExpiry.current = null;
+  };
 
   const cargarEnKetcher = async (ketcher: Ketcher, smiles: string) => {
+    invalidarSnapshot();
     lastReportedSmiles.current = smiles;
     ecoDeKetcher.current = null;
     cargando.current = true;
@@ -127,6 +148,18 @@ export default function KetcherEditorInner({
     setReady(true);
   };
 
+  // Ketcher destruye su instancia al desmontarse (un caso nuevo remonta el editor) y entonces `ketcher.editor`
+  // lanza «couldn't find ketcher instance N». Un efecto que llega con la instancia ya muerta no debe tirar la
+  // pantalla: se queda sin suscribir, y el cierre tampoco lanza.
+  const suscribirCambios = (ketcher: Ketcher, alCambiar: () => void): (() => void) | null => {
+    try {
+      const suscripcion = ketcher.editor.subscribe("change", alCambiar);
+      return () => { try { ketcher.editor.unsubscribe("change", suscripcion); } catch { /* instancia ya destruida */ } };
+    } catch {
+      return null;
+    }
+  };
+
   // Del lienzo al campo: sólo cuando Ketcher anuncia un cambio de la estructura.
   //
   // EL FALLO QUE ARREGLA (VM de 1.0.2, 2026-10-12). Esto era un `setInterval` de 500 ms que llamaba a `getSmiles()`
@@ -170,16 +203,57 @@ export default function KetcherEditorInner({
       if (espera) clearTimeout(espera);
       espera = setTimeout(() => void leer(2), 300);
     };
-    const suscripcion = ketcher.editor.subscribe("change", alCambiar);
+    const desuscribir = suscribirCambios(ketcher, alCambiar);
+    if (!desuscribir) return;
     // Lo que cambió entre la carga inicial y la suscripción.
     void leer(2);
 
     return () => {
       vivo = false;
       if (espera) clearTimeout(espera);
-      ketcher.editor.unsubscribe("change", suscripcion);
+      desuscribir();
     };
   }, [ready, onSmilesChange]);
+
+  useEffect(() => {
+    const ketcher = ketcherRef.current;
+    if (!ready || !caseId || !ketcher) return;
+    let alive = true;
+    const desuscribir = suscribirCambios(ketcher, invalidarSnapshot);
+    if (!desuscribir) return;
+    const currentRevision = () => `${instance.current}:${revision.current}`;
+    const stable = () => alive && !cargando.current && !isProcessing.current && pendingSmiles.current === null &&
+      (currentInput.current === undefined || currentInput.current === lastReportedSmiles.current) &&
+      (requestedInput.current === undefined || requestedInput.current === lastReportedSmiles.current);
+    const reader = {
+      snapshot: (): Promise<EditorSnapshot> => {
+        if (!stable()) return Promise.resolve({ status: "not_ready" });
+        const rev = currentRevision();
+        const cache = snapshotCache.current;
+        if (cache && cache.revision === rev && Date.now() - cache.at < 300000) return Promise.resolve({ status: "ok", molfile: cache.molfile, revision: rev });
+        if (snapshotPending.current) return snapshotPending.current;
+        if (!claimEditorExport()) return Promise.resolve({ status: "read_limit" });
+        const pending = (async (): Promise<EditorSnapshot> => {
+          try {
+            const molfile = await ketcher.getMolfile();
+            if (!stable() || currentRevision() !== rev) return { status: "changed" };
+            if (typeof molfile !== "string" || !molfile.trim()) return { status: "failed" };
+            if (new TextEncoder().encode(molfile).length > 262144) return { status: "too_large" };
+            snapshotCache.current = { revision: rev, molfile, at: Date.now() };
+            if (snapshotExpiry.current) clearTimeout(snapshotExpiry.current);
+            snapshotExpiry.current = setTimeout(() => { snapshotCache.current = null; snapshotExpiry.current = null; }, 300000);
+            return { status: "ok", molfile, revision: rev };
+          } catch { return { status: "failed" }; }
+        })();
+        snapshotPending.current = pending;
+        void pending.finally(() => { if (snapshotPending.current === pending) snapshotPending.current = null; });
+        return pending;
+      },
+      check: (expected: string) => stable() && currentRevision() === expected,
+    };
+    const unregister = registerEditorReader(caseId, reader);
+    return () => { alive = false; unregister(); snapshotCache.current = null; if (snapshotExpiry.current) clearTimeout(snapshotExpiry.current); snapshotExpiry.current = null; desuscribir(); };
+  }, [ready, caseId]);
 
   const isProcessing = useRef(false);
   const pendingSmiles = useRef<string | null>(null);

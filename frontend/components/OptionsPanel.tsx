@@ -3,12 +3,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../context/ThemeContext";
-import { useAI } from "../context/AIContext";
 import { useLanguage, LANGUAGES } from "../context/LanguageContext";
 import { useDownload } from "../hooks/useDownload";
 import { useRouter } from "next/navigation";
 import {
-  Sun, Moon, Monitor, Info, X, Bot,
+  Sun, Moon, Monitor, Info, X,
   Volume2, VolumeX, Download, Trash2, Scale,
   Upload, CheckCircle, AlertTriangle, Wifi, HardDrive, Globe, Folder, FolderOpen, RefreshCw
 } from "lucide-react";
@@ -91,7 +90,6 @@ function ActionRow({
 export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Props) {
   const { user } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { state, dispatch } = useAI();
   const { locale, setLocale, t } = useLanguage();
   const { models, manifest } = useDownload();
   const router = useRouter();
@@ -383,56 +381,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                 </div>
               </section>
 
-              {/* ── 5. Intérprete IA ───────────────────────────────── */}
-              <section className="border-t pt-5" style={{ borderColor: "var(--border)" }}>
-                <SectionLabel icon={Bot} label={t("opt_ai")} />
-                <div className="ml-6 mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <button
-                    onClick={() => {
-                      dispatch({ type: "SET_SETTINGS_OPEN", open: true });
-                      onClose();
-                    }}
-                    className="flex items-center gap-2 px-4 py-2.5 text-xs font-mono font-bold uppercase tracking-wider transition-colors rounded-lg"
-                    style={{
-                      backgroundColor: "var(--bg)",
-                      border: "1px solid var(--border)",
-                      color: "var(--text)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <span style={{ flex: 1, textAlign: "left" }}>{t("opt_ai_config")}</span>
-                    <span
-                      style={{
-                        fontSize: "10px",
-                        color: state.activeProviderId ? "#22C55E" : "var(--text-muted)",
-                      }}
-                    >
-                      {state.activeProviderId ? t("op_provider_configured") : "N/A"}
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      // Abrir el chat no cambia de proveedor: antes forzaba «local»
-                      // sólo en pantalla y pisaba la elección de la cuenta.
-                      dispatch({ type: "SET_PANEL_OPEN", open: !state.isPanelOpen });
-                      onClose();
-                    }}
-                    className="flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-mono font-bold uppercase tracking-wider transition-colors rounded-lg"
-                    style={{
-                      backgroundColor: state.isPanelOpen ? "var(--text)" : "transparent",
-                      border: "1px solid var(--border)",
-                      color: state.isPanelOpen ? "var(--bg)" : "var(--text-muted)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <Bot size={13} strokeWidth={1.5} />
-                    {state.isPanelOpen ? t("opt_ai_chat_close") : t("opt_ai_chat_open")}
-                  </button>
-                </div>
-              </section>
-
-              {/* ── 6. Módulos & Launcher ──────────────────────────── */}
+              {/* ── 5. Módulos & Launcher ──────────────────────────── */}
               <section className="border-t pt-5" style={{ borderColor: "var(--border)" }}>
                 <SectionLabel icon={HardDrive} label={t("opt_modules") || t("auto_a4e3d3490896")} />
                 <div className="ml-6 mt-3 space-y-2">
@@ -482,7 +431,7 @@ export function OptionsPanel({ open, onClose, onAboutClick, onTermsClick }: Prop
                 </div>
               </section>
 
-              {/* ── 7. Datos y Respaldo ────────────────────────────── */}
+              {/* ── 6. Datos y Respaldo ────────────────────────────── */}
               <section className="border-t pt-5" style={{ borderColor: "var(--border)" }}>
                 <SectionLabel icon={Download} label={t("opt_data")} />
                 <div className="ml-6 mt-3 space-y-3">

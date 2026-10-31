@@ -1630,8 +1630,8 @@ def _bloque_procedencia(eval_result: Any, prov: Any, projection: CaseProjection)
                              Estado.REGISTRADO),
         "corrida_anterior": Campo(
             "Relación con los inputs del caso", None, Estado.REVISAR,
-            "Los inputs del caso cambiaron después de esta corrida: la auditoría describe la "
-            "corrida, no la hipótesis actual.",
+            "No se puede confirmar que la corrida corresponda a los inputs actuales. "
+            "La diferencia puede deberse a cambios en los inputs o en el cálculo de la huella.",
         ),
         "desconocida": _no_evaluado(
             "Relación con los inputs del caso",

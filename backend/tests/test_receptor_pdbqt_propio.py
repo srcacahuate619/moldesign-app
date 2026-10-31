@@ -260,6 +260,27 @@ async def test_un_pdbqt_alterado_en_disco_no_se_evalua(tmp_path, monkeypatch):
         await preparar_pdbqt("USR_C0C0C0", perfil, center=(10.0, 0.0, 0.0), size=(20.0, 20.0, 20.0))
 
 
+@pytest.mark.asyncio
+@pytest.mark.parametrize("archivo", ["subida", "copia"])
+async def test_un_pdbqt_alterado_despues_de_preparar_no_se_reutiliza(tmp_path, monkeypatch, archivo):
+    from core.exceptions import ProteinPreparationError
+    from utils.local_storage import read_bytes, write_bytes
+
+    aislar_almacen(monkeypatch, tmp_path)
+    contenido = pdbqt_sintetico(residuos=30).encode()
+    perfil = _perfil(contenido, con_origen=False)
+    await write_bytes(contenido, perfil["almacen"]["receptor"])
+    caja = {"center": (10.0, 0.0, 0.0), "size": (20.0, 20.0, 20.0)}
+    ruta = await preparar_pdbqt("USR_C0C0C0", perfil, **caja)
+    assert await preparar_pdbqt("USR_C0C0C0", perfil, **caja) == ruta
+    assert await read_bytes(ruta) == contenido
+    destino = perfil["almacen"]["receptor"] if archivo == "subida" else ruta
+    await write_bytes(contenido + b"REMARK alterado\n", destino)
+
+    with pytest.raises(ProteinPreparationError):
+        await preparar_pdbqt("USR_C0C0C0", perfil, **caja)
+
+
 def test_la_receta_depende_de_la_caja_y_del_origen():
     contenido = pdbqt_sintetico(residuos=30).encode()
     sin_origen = _perfil(contenido, con_origen=False)

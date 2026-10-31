@@ -1428,8 +1428,8 @@ def build_case_dossier(
     relacion_texto = {
         "corresponde": "La corrida se ejecutó con los inputs que este dossier describe.",
         "corrida_anterior": (
-            "Los inputs del caso CAMBIARON después de esta corrida. El dossier describe la "
-            "corrida, no la hipótesis actual."
+            "No se puede confirmar que la corrida corresponda a los inputs actuales. "
+            "La diferencia puede deberse a cambios en los inputs o en el cálculo de la huella."
         ),
         "desconocida": (
             "La corrida no registró la huella de sus inputs; no se puede afirmar a qué "
@@ -1861,10 +1861,10 @@ def build_case_dossier(
     if relacion == "corrida_anterior":
         siguiente = Campo(
             "Siguiente acción justificable",
-            "ABSTENCIÓN: LA HIPÓTESIS CAMBIÓ",
+            "ABSTENCIÓN: CORRESPONDENCIA NO CONFIRMADA",
             Estado.ABSTENCION,
-            "Los inputs del caso cambiaron después de esta corrida: antes de decidir nada hay "
-            "que volver a comprobar la preparación y ejecutar con la hipótesis actual.",
+            "No se puede confirmar que esta corrida corresponda a los inputs actuales. "
+            "Vuelve a comprobar la preparación y ejecuta con la hipótesis actual antes de decidir.",
             valor_es_clasificacion=True,
         )
     else:

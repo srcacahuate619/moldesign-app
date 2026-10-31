@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 LINK = re.compile(r"(?<!\!)\[[^\]]*\]\(([^)]+)\)")
 EXTERNAL_PREFIXES = ("#", "http://", "https://", "mailto:", "tel:", "data:")
+RUTA_ABSOLUTA = re.compile(r"^(?:[A-Za-z]:[\\/]|[\\/])")
 
 
 def _local_target(raw_target: str) -> str | None:
@@ -63,6 +64,11 @@ def find_broken_links() -> list[tuple[Path, int, str]]:
             for raw_target in LINK.findall(prose):
                 target = _local_target(raw_target)
                 if target is None:
+                    continue
+                # Una ruta absoluta sólo existe en la máquina que la escribió: `F:/Backups/…` pasaba en
+                # local y caía en la CI, que no tiene ese disco (medido en Linux el 2026-10-31).
+                if RUTA_ABSOLUTA.match(target):
+                    broken.append((source, line_number, raw_target))
                     continue
                 destino = (source.parent / target).resolve()
                 if not destino.exists() and destino not in retenidos:

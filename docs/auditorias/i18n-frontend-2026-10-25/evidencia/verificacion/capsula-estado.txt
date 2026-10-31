@@ -1,0 +1,7 @@
+Cápsula del agente 1  (D:\moldesign-worktrees\.sandbox\agente1)
+  backend   pid 21796  VIVO
+  frontend  pid 20080  VIVO
+  /health   HTTP 200
+  commit servido: 4fc7a9281f  árbol limpio: false
+  export: construido  
+  app: http://localhost:13011

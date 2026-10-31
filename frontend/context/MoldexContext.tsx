@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../lib/frontendError";
+
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { getMoldex, getProteinFile, getPoseFile } from "../lib/api";
 import { useLanguage } from "./LanguageContext";
@@ -96,11 +98,11 @@ export function MoldexProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (err: any) {
       console.error("Error loading Moldex library:", err);
-      setError(err.message || "Error al cargar la bioteca.");
+      setError(presentError(err, t) || t("mx_error_bioteca_sin_detalle"));
     } finally {
       setLoading(false);
     }
-  }, [molecules.length, selectedId]);
+  }, [molecules.length, selectedId, t]);
 
   useEffect(() => {
     loadMoldex();

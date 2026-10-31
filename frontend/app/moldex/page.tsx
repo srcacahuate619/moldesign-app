@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4
  * Bioteca y expediente en paneles sólidos; el visor ocupa sólo su área útil. */
 
@@ -166,7 +168,7 @@ export default function MoldexPage() {
     } catch (e) {
       setError({
         kind: "download",
-        message: e instanceof Error ? e.message : t("mx_descarga_fallida"),
+        message: e instanceof Error ? presentError(e, t) : t("mx_descarga_fallida"),
       });
     } finally {
       setDescargando(null);
@@ -267,11 +269,11 @@ export default function MoldexPage() {
         if (silencioso) return;
         setError({
           kind: "request",
-          message: err instanceof Error ? err.message : String(err),
+          message: err instanceof Error ? presentError(err, t) : String(err),
         });
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [t]);
 
   // Cargar al montar Y cada vez que la página se vuelve activa (keep-alive):
   // sin esto, guardar una molécula en /evaluation y volver a /moldex mostraba
@@ -456,15 +458,15 @@ export default function MoldexPage() {
   if (error) {
     const motorListo = !desktopRuntime || engine.state === "ready";
     const transporteConMotorListo =
-      motorListo && error.kind === "request" && isTransportError(error.message);
+      motorListo && error.kind === "request" && isTransportError(presentError(error, t));
     const titulo = error.kind === "engine"
       ? t("mx_error_conexion")
       : t("mx_error_carga");
-    const detalle = error.kind === "engine" && !error.message
+    const detalle = error.kind === "engine" && !presentError(error, t)
       ? t("mx_motor_no_disponible")
       : transporteConMotorListo
         ? t("mx_error_motor_listo")
-        : error.message;
+        : presentError(error, t);
 
     return (
       <div className="flex h-screen items-center justify-center bg-[var(--bg)] p-6 font-sans text-muted dark:bg-[#05080f] dark:text-slate-300">
@@ -857,7 +859,7 @@ export default function MoldexPage() {
                       </div>
                     </div>
                     <div>
-                      <p className="mb-1 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--text-dim)]">{t("mx_indice_compuesto")}</p>
+                      <p className="mb-1 font-mono text-[9px] font-bold uppercase tracking-wide text-[var(--text-dim)]" title={t("mx_indice_compuesto_nota")}>{t("mx_indice_compuesto")}</p>
                       <div className="font-display text-xl font-bold tabular-nums text-[var(--accent-strong)]">
                         {selectedMolecule?.metrics?.score?.toFixed(1) ?? "—"}
                       </div>

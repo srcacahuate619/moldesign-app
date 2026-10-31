@@ -60,6 +60,7 @@ BINARIOS: dict[str, tuple[str, str | None]] = {
     "llama": ("tools/llama/llama-server.exe", "llama.cpp"),
     "openbabel": ("tools/openbabel/bin/obabel.exe", None),  # manifiesto propio
     "molcy": ("tools/molcy/scripts/maestro.py", None),  # programa propio del producto; manifiesto propio
+    "molchat": ("tools/molchat/src/molchat_agent/__main__.py", None),  # programa propio; manifiesto propio
 }
 
 #: Dependencias sin licencia comprobable. Debe permanecer vacío para release.
@@ -431,6 +432,26 @@ def _binarios(raiz: Path | None = None) -> tuple[list[dict], list[dict]]:
                 "licencia_origen": "tools/molcy/molcy-manifest.json",
                 "invocacion": ("subproceso (vídeo: PowerShell → Blender -b --python maestro.py; fotos: Python → correr_foto.py → "
                                "Blender); programa independiente"),
+                "procedencia": manifiesto["fuente"],
+                "ficheros": len(manifiesto["archivos"]),
+                "sha256_conjunto": manifiesto["sha256_conjunto"],
+            })
+        elif herramienta == "molchat":
+            # El sidecar MolChat es un PROGRAMA PROPIO bajo GPL-3.0-or-later
+            # (servicio Python en loopback + UI estática, sin enlazar con el
+            # producto). Como el motor Molcy, se lee de su manifiesto en vez
+            # de repetirlo. Opcional en runtime: si falta, queda DECLARADO
+            # ausente en vez de abortar (no está en HERRAMIENTAS_CRITICAS).
+            manifiesto = json.loads(
+                (raiz / "tools" / "molchat" / "molchat-manifest.json").read_text(encoding="utf-8")
+            )
+            entrada.update({
+                "programa": manifiesto["programa"],
+                "version": manifiesto["version"],
+                "licencia": manifiesto["licencia_spdx"],
+                "licencia_origen": "tools/molchat/molchat-manifest.json",
+                "invocacion": ("subproceso Python con bootstrap de src vendorizado "
+                               "en loopback; programa independiente"),
                 "procedencia": manifiesto["fuente"],
                 "ficheros": len(manifiesto["archivos"]),
                 "sha256_conjunto": manifiesto["sha256_conjunto"],

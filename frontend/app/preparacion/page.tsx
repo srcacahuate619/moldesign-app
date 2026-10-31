@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 /* Hallmark · pre-emit critique: P5 H4 E4 S5 R5 V4
  * Preparación estructural: estados vacíos honestos y requisitos legibles.
  *
@@ -22,7 +24,7 @@ import { crearRepositorioDeCasos } from "@/lib/cases/factory";
 import { pedirEvaluacion } from "@/lib/peticionDeEvaluacion";
 import { escucharPeticionesDePreparacion } from "@/lib/peticionDePreparacion";
 import { anotarDecision } from "@/lib/decisionesDeCaso";
-import type { CaseIndexEntry, CaseRecord, CaseRun, RunInputsRelation } from "@/lib/cases/types";
+import { CaseError, presentCaseErrorDetail, type CaseIndexEntry, type CaseRecord, type CaseRun, type RunInputsRelation } from "@/lib/cases/types";
 import {
   buildCaseProjection,
   DossierError,
@@ -164,6 +166,7 @@ const copy = {
     decidirGuardar: "Registrar",
     decidirCancelar: "Cancelar",
     decidirCorta: "Escribe una justificación breve.",
+    decidirErrorOtroCaso: "No se pudo guardar la decisión del caso",
     decidida: "Decisión del investigador",
     decididaNoLevanta: "Queda registrada; el bloqueo sigue.",
     decididaOtras: (n: number) => n === 1
@@ -198,7 +201,7 @@ const copy = {
     sinMolecula: "La corrida terminó, pero el caso no guardó su molécula. Ábrelo en Evaluación para recuperar el resultado.",
     relation: {
       corresponde: "La corrida corresponde a los inputs actuales del caso.",
-      corrida_anterior: "Los inputs del caso cambiaron después de esta corrida: se audita la corrida, no la hipótesis actual.",
+      corrida_anterior: "La comprobación no coincide o falta: pueden haber cambiado los inputs o el método de comprobación. No se puede confirmar que la corrida corresponda a la hipótesis actual; se audita la corrida.",
       desconocida: "La corrida no guardó la huella de sus inputs.",
     } as Record<RunInputsRelation, string>,
     board: "MAPA DE PREPARACIÓN",
@@ -272,6 +275,7 @@ const copy = {
     decidirGuardar: "Record",
     decidirCancelar: "Cancel",
     decidirCorta: "Write a brief justification.",
+    decidirErrorOtroCaso: "Could not save the decision for case",
     decidida: "Researcher decision",
     decididaNoLevanta: "It is recorded; the block remains.",
     decididaOtras: (n: number) => n === 1
@@ -306,7 +310,7 @@ const copy = {
     sinMolecula: "The run finished, but the case did not store its molecule. Open it in Evaluation to recover the result.",
     relation: {
       corresponde: "The run matches the case's current inputs.",
-      corrida_anterior: "The case inputs changed after this run: the run is audited, not the current hypothesis.",
+      corrida_anterior: "The check does not match or is missing: the inputs or the checking method may have changed. The run cannot be confirmed to match the current hypothesis; the audit describes the run.",
       desconocida: "The run did not store its input fingerprint.",
     } as Record<RunInputsRelation, string>,
     board: "PREPARATION MAP",
@@ -372,9 +376,17 @@ const colorEstadoBloque: Record<EstadoBloque, string> = {
   REGISTRADO: "var(--text-secondary)",
 };
 
-function mensaje(error: unknown): string {
-  if (error instanceof DossierError) return error.message;
-  return error instanceof Error ? error.message : String(error);
+function mensaje(error: unknown, t: (key: string, values?: Readonly<Record<string, string | number>>) => string): string {
+  if (error instanceof DossierError) return presentError(error, t);
+  return error instanceof Error ? presentError(error, t) : String(error);
+}
+
+/** Sólo los errores locales de caso tienen detalle estructurado; los externos se conservan. */
+function mensajeDecision(error: unknown, t: (key: string, values?: Readonly<Record<string, string | number>>) => string): string {
+  const texto = mensaje(error, t);
+  if (!(error instanceof CaseError)) return texto;
+  const detalle = presentCaseErrorDetail(error, t);
+  return detalle ? `${texto} (${detalle})` : texto;
 }
 
 export default function PreparacionPage() {
@@ -399,6 +411,8 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
   const [casos, setCasos] = useState<readonly CaseIndexEntry[] | null>(null);
   const [listError, setListError] = useState<string | null>(null);
   const [casoId, setCasoId] = useState<string>("");
+  // Se actualiza al seleccionar, antes de esperar a que React vuelva a pintar.
+  const casoIdActual = useRef("");
   const [caso, setCaso] = useState<CaseRecord | null>(null);
   const [corridaId, setCorridaId] = useState("");
   const [cargandoCaso, setCargandoCaso] = useState(false);
@@ -415,6 +429,19 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
   const [intento, setIntento] = useState(0);
   const [exportando, setExportando] = useState(false);
   const [exportMsg, setExportMsg] = useState<{ ok: boolean; texto: string } | null>(null);
+  // La decisión abierta pertenece a una selección concreta de caso y corrida.
+  const [decidiendo, setDecidiendo] = useState<{
+    clave: string; texto: string; error: { tipo: "corta" } | { tipo: "fallo"; causa: unknown } | null;
+  } | null>(null);
+  const [guardandoDecision, setGuardandoDecision] = useState(false);
+  const [erroresDeDecision, setErroresDeDecision] = useState<{
+    casoId: string; caso: string; clave: string; huella: string; detalle: unknown;
+  }[]>([]);
+  const decisionSeleccion = useRef(0);
+  const abandonarDecision = useCallback(() => {
+    ++decisionSeleccion.current;
+    setDecidiendo(null);
+  }, []);
   // Sólo manda la última selección, incluso si cambia durante una descarga.
   const token = useRef(0);
   const exportController = useRef<AbortController | null>(null);
@@ -444,12 +471,12 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
         setListError(null);
       })
       .catch((error: unknown) => {
-        if (vivo) setListError(mensaje(error));
+        if (vivo) setListError(mensaje(error, t));
       });
     return () => {
       vivo = false;
     };
-  }, [repository]);
+  }, [repository, t]);
 
   useEffect(() => {
     let vivo = true;
@@ -471,12 +498,12 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
       setCorridaId(elegida);
       setCaso(record);
     }).catch((error: unknown) => {
-      if (vivo && mio === lectura.current) setCaseError(mensaje(error));
+      if (vivo && mio === lectura.current) setCaseError(mensaje(error, t));
     }).finally(() => {
       if (vivo && mio === lectura.current) setCargandoCaso(false);
     });
     return () => { vivo = false; };
-  }, [repository, casoId, intento, invalidar]);
+  }, [repository, casoId, intento, invalidar, t]);
 
   // Preparación no se desmonta al cambiar de pestaña (PersistentKeepAliveLayout): conserva el caso abierto y su
   // auditoría, que es lo caro. Al VOLVER se refresca en silencio: la lista de casos y el caso abierto. Si el caso no
@@ -525,13 +552,13 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
         if (mio === token.current) setAuditoria(resultado);
       } catch (error) {
         if ((error as { name?: string } | null)?.name === "AbortError") return;
-        if (mio === token.current) setAuditError(mensaje(error));
+        if (mio === token.current) setAuditError(mensaje(error, t));
       } finally {
         if (mio === token.current) setAuditando(false);
       }
     })();
     return () => controller.abort();
-  }, [caso, corrida, locale, c.auditIdentityError]);
+  }, [caso, corrida, locale, c.auditIdentityError, t]);
 
   const exportar = useCallback(async () => {
     if (!caso || corrida?.kind !== "auditable" || !auditoria || auditando || exportando) return;
@@ -548,14 +575,14 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
       saveBlobAs(artefacto.blob, nombre);
       setExportMsg({ ok: true, texto: `${c.exportSaved}: ${nombre}` });
     } catch (error) {
-      if (mio === token.current && !controller.signal.aborted) setExportMsg({ ok: false, texto: `${c.exportError}: ${mensaje(error)}` });
+      if (mio === token.current && !controller.signal.aborted) setExportMsg({ ok: false, texto: `${c.exportError}: ${mensaje(error, t)}` });
     } finally {
       if (exportController.current === controller) {
         exportController.current = null;
         setExportando(false);
       }
     }
-  }, [caso, corrida, auditoria, auditando, exportando, c.exportSaved, c.exportError]);
+  }, [caso, corrida, auditoria, auditando, exportando, c.exportSaved, c.exportError, t]);
 
   // Moldex pide auditar una corrida guardada. Trae el `task_id`, no el caso: se busca
   // cuál lo tiene en su libro, primero por la última corrida del índice y, si no, leyendo
@@ -582,26 +609,33 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
       if (!encontrado) return;
       ++lectura.current;
       invalidar();
+      abandonarDecision();
       // La corrida que pidió Moldex, no la última del caso.
       seleccion.current = taskId;
       seleccionExplicita.current = true;
       setCorridaId(taskId);
       setCaso(null);
+      casoIdActual.current = encontrado;
       setCasoId(encontrado);
+      // Si es el mismo caso, React no vuelve a leerlo sólo por setCasoId.
+      setIntento((anterior) => anterior + 1);
     })();
-  }), [repository, invalidar]);
+  }), [repository, invalidar, abandonarDecision]);
 
   const cambiarCaso = (id: string) => {
     ++lectura.current;
     invalidar();
+    abandonarDecision();
     seleccion.current = "";
     seleccionExplicita.current = false;
     setCorridaId("");
     setCaso(null);
+    casoIdActual.current = id;
     setCasoId(id);
   };
   const cambiarCorrida = (id: string) => {
     invalidar();
+    abandonarDecision();
     seleccion.current = id;
     seleccionExplicita.current = true;
     setCorridaId(id);
@@ -620,17 +654,14 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
       : run.executionState !== "completed" ? c.evaluationRunning
         : !run.moleculeId ? c.evaluationNoResult : null;
 
-  // Una decisión abierta: la clave del requisito, el texto y el error del último intento.
-  const [decidiendo, setDecidiendo] = useState<{ clave: string; texto: string; error: string | null } | null>(null);
-  const [guardandoDecision, setGuardandoDecision] = useState(false);
-
   const registrarDecision = useCallback(async (clave: string, justificacion: string) => {
     const huella = auditoria?.huella_de_decision;
     if (!repository || !casoId || !huella) return;
     if (justificacion.trim().length < 3) {
-      setDecidiendo((abierta) => (abierta ? { ...abierta, error: c.decidirCorta } : abierta));
+      setDecidiendo((abierta) => (abierta ? { ...abierta, error: { tipo: "corta" } } : abierta));
       return;
     }
+    const seleccionAlGuardar = decisionSeleccion.current;
     setGuardandoDecision(true);
     try {
       const actualizado = await anotarDecision(repository, casoId, {
@@ -638,16 +669,34 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
         fingerprint: huella,
         note: justificacion.trim(),
       });
+      setErroresDeDecision((errores) => errores.filter((e) =>
+        e.casoId !== casoId || e.clave !== clave || e.huella !== huella));
+      // La escritura sigue siendo válida para su caso, pero no debe reemplazar
+      // la pantalla si el investigador ya eligió otro caso o corrida.
+      if (seleccionAlGuardar !== decisionSeleccion.current) {
+        // Si se cambió de corrida, o se volvió al mismo caso, vuelve a leer lo
+        // guardado sin sustituir la corrida que ahora eligió el investigador.
+        if (casoIdActual.current === casoId) setIntento((anterior) => anterior + 1);
+        return;
+      }
       setDecidiendo(null);
       // El caso nuevo vuelve a auditarse: la decisión viaja en la proyección.
       setCaso(actualizado);
     } catch (error: unknown) {
-      const detalle = mensaje(error);
-      setDecidiendo((abierta) => (abierta ? { ...abierta, error: detalle } : abierta));
+      if (seleccionAlGuardar !== decisionSeleccion.current) {
+        setErroresDeDecision((errores) => [
+          ...errores.filter((e) => e.casoId !== casoId || e.clave !== clave || e.huella !== huella),
+          { casoId, caso: caso?.name ?? casoId, clave, huella, detalle: error },
+        ]);
+        return;
+      }
+      setDecidiendo((abierta) => (abierta ? { ...abierta, error: { tipo: "fallo", causa: error } } : abierta));
     } finally {
+      // No permitir otra escritura hasta que ésta termine, incluso si se cambió
+      // de corrida: dos escrituras sobre el mismo caso podrían pisarse.
       setGuardandoDecision(false);
     }
-  }, [repository, casoId, auditoria?.huella_de_decision, c.decidirCorta]);
+  }, [repository, casoId, caso?.name, auditoria?.huella_de_decision]);
 
   const bloque = (id: GateId) => auditoria?.bloques.find((b) => b.id === id) ?? null;
   const nombreRequisito = (r: RequisitoPreparacion) => requisitos[r.clave]?.[locale] ?? r.etiqueta;
@@ -696,6 +745,10 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
           </div>
           <span className="border border-[var(--border-light)] px-3 py-2 font-mono text-[10px] uppercase tracking-[0.16em] text-[var(--text-dim)]">{c.draft}</span>
         </header>
+
+        {erroresDeDecision.map((error) => <p key={`${error.casoId}:${error.clave}:${error.huella}`} role="alert" className="mb-6 text-sm text-[var(--categoria-refutacion)]">
+          {c.decidirErrorOtroCaso} {error.caso}: {mensajeDecision(error.detalle, t)}
+        </p>)}
 
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(235px,0.8fr)_minmax(360px,1.45fr)_minmax(250px,0.9fr)]">
           <section aria-labelledby="prep-source-title" className="min-w-0 border border-[var(--border)] bg-[var(--bg-card)]">
@@ -867,7 +920,7 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
                                             onChange={(e) => setDecidiendo({ clave: r.clave, texto: e.target.value, error: null })} />
                                         </label>
                                         <p className="mt-1 text-[var(--text-dim)]">{c.decidirAyuda}</p>
-                                        {decidiendo.error && <p role="alert" className="mt-1 text-[var(--categoria-refutacion)]">{decidiendo.error}</p>}
+                                        {decidiendo.error && <p role="alert" className="mt-1 text-[var(--categoria-refutacion)]">{decidiendo.error.tipo === "corta" ? c.decidirCorta : mensajeDecision(decidiendo.error.causa, t)}</p>}
                                         <div className="mt-2 flex flex-wrap gap-3">
                                           <button type="button" disabled={guardandoDecision}
                                             className="font-semibold text-[var(--accent-strong)] hover:underline disabled:opacity-50"

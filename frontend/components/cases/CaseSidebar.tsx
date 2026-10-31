@@ -22,8 +22,10 @@ import { useLanguage, type ValoresDeTraduccion } from "../../context/LanguageCon
 import { AlertTriangle, Archive, ArchiveRestore, FolderOpen, PanelLeftClose, Plus, Search } from "lucide-react";
 
 import { filterCaseEntries } from "../../lib/cases/repository";
+import { presentError } from "../../lib/frontendError";
 import {
   isTerminalRunState,
+  presentCaseErrorDetail,
   type CaseIndexEntry,
   type CaseRecoveryAction,
 } from "../../lib/cases/types";
@@ -101,12 +103,17 @@ export function CaseSidebar({
   }, []);
 
   const { active, archived } = useMemo(() => {
-    const filtered = filterCaseEntries(cases, query);
+    // El nombre generado pertenece a la interfaz, no al manifiesto: la búsqueda
+    // debe usar el mismo texto que ve la persona en el idioma actual.
+    const visibles = cases.map((entry) => entry.generatedName
+      ? { ...entry, name: t("ca_diag_generated_name", { id: entry.id.slice(0, 8) }) }
+      : entry);
+    const filtered = filterCaseEntries(visibles, query);
     return {
       active: filtered.filter((entry) => !entry.archived),
       archived: filtered.filter((entry) => entry.archived),
     };
-  }, [cases, query]);
+  }, [cases, query, t]);
 
   const renderUnavailable = (entry: CaseIndexEntry) => (
     <li key={entry.id} className="min-w-0">
@@ -121,11 +128,11 @@ export function CaseSidebar({
           </div>
         </div>
         <p className="mt-1.5 text-[11px] leading-relaxed text-zinc-400">
-          {entry.unavailable?.message}
+          {entry.unavailable?.error ? presentError(entry.unavailable.error, t) : entry.unavailable?.message}
         </p>
         {entry.unavailable?.detail && (
           <p className="mt-1 break-all font-mono text-[10px] leading-relaxed text-[var(--text-dim)]">
-            {entry.unavailable.detail}
+            {entry.unavailable.error ? presentCaseErrorDetail(entry.unavailable.error, t) : entry.unavailable.detail}
           </p>
         )}
         <div className="mt-2 flex flex-wrap gap-1.5">
@@ -260,7 +267,7 @@ export function CaseSidebar({
               <>
                 <h3 className="flex items-center justify-between px-2 pb-1 pt-1 font-mono text-[10px] uppercase tracking-wider text-zinc-600">
                   <span>{t("ca_sidebar_active_cases")}</span>
-                  <span aria-label={`${active.length} casos`}>{active.length}</span>
+                  <span aria-label={t("ca_sidebar_count", { n: active.length })}>{active.length}</span>
                 </h3>
                 <ul className="space-y-0.5">{active.map(renderRow)}</ul>
               </>

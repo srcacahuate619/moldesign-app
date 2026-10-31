@@ -1,0 +1,483 @@
+{
+  "experimento": "SUP-05-CORTES-DEL-SITIO",
+  "analizado_en": "2026-10-26T03:13:42+00:00",
+  "decision": "INCONCLUSIVE",
+  "razon": "272 entradas medibles (< 300)",
+  "entradas": 381,
+  "medibles": 272,
+  "fuera_del_denominador": {
+    "SIN_LIGANDO_DEL_CRISTAL": 109
+  },
+  "primaria_1_cambia_por_hueco_7_a_9": {
+    "n": 8,
+    "fraccion": 0.0294,
+    "pdb": [
+      "3L1B",
+      "4CVL",
+      "4JPS",
+      "4MD6",
+      "6EU9",
+      "6GUE",
+      "6HL1",
+      "6ITM"
+    ]
+  },
+  "primaria_2_cambia_por_especie_5_a_7": {
+    "n": 18,
+    "fraccion": 0.0662,
+    "pdb": [
+      "1Q4G",
+      "1RKP",
+      "1SO2",
+      "1XP0",
+      "1ZZ1",
+      "2OYU",
+      "3KK6",
+      "3N8W",
+      "3N8Z",
+      "3V94",
+      "4EU2",
+      "4QGE",
+      "5AXQ",
+      "5L30",
+      "5TFT",
+      "6CM4",
+      "7SGG",
+      "9GKV"
+    ]
+  },
+  "por_corte_de_hueco": {
+    "6": {
+      "abstienen_por_hueco": 15,
+      "con_truncada": 18
+    },
+    "7": {
+      "abstienen_por_hueco": 22,
+      "con_truncada": 30
+    },
+    "8": {
+      "abstienen_por_hueco": 27,
+      "con_truncada": 42
+    },
+    "9": {
+      "abstienen_por_hueco": 30,
+      "con_truncada": 48
+    },
+    "10": {
+      "abstienen_por_hueco": 36,
+      "con_truncada": 57
+    }
+  },
+  "por_corte_de_especie": {
+    "5": {
+      "alguna": 51,
+      "metal": 9,
+      "copia_del_ligando": 14,
+      "organica": 31
+    },
+    "6": {
+      "alguna": 57,
+      "metal": 10,
+      "copia_del_ligando": 15,
+      "organica": 35
+    },
+    "7": {
+      "alguna": 69,
+      "metal": 20,
+      "copia_del_ligando": 15,
+      "organica": 40
+    },
+    "8": {
+      "alguna": 80,
+      "metal": 30,
+      "copia_del_ligando": 18,
+      "organica": 45
+    }
+  },
+  "metal_coordinado_por_el_ligando": {
+    "n": 36,
+    "pdb": [
+      "1BN1",
+      "1C3R",
+      "1C3S",
+      "1J36",
+      "1J37",
+      "1T69",
+      "1VKG",
+      "1W22",
+      "1ZZ1",
+      "2A3W",
+      "2AW1",
+      "2GH6",
+      "2JDI",
+      "2X8Z",
+      "2X90",
+      "3QXX",
+      "4CA7",
+      "4CA8",
+      "4CVL",
+      "4NY4",
+      "4QA0",
+      "4WUD",
+      "5E92",
+      "5TY1",
+      "5Z2R",
+      "6E53",
+      "6HSK",
+      "6S1Y",
+      "6S1Z",
+      "6USR",
+      "7JVU",
+      "7JVW",
+      "7SGG",
+      "8UBR",
+      "9GKV",
+      "9RJE"
+    ]
+  },
+  "hueco_mas_cercano_histograma_A": {
+    "0-2": 3,
+    "2-4": 3,
+    "4-6": 9,
+    "6-8": 12,
+    "8-10": 9,
+    "10-12": 17,
+    "12-14": 7,
+    "14-16": 7,
+    "16-18": 8,
+    "18-20": 10,
+    ">=20 o ninguno": 187
+  },
+  "abs_tr_01_validez_r1": {
+    "sistemas": {
+      "1C3S": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "1DIY": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "1HSG": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "1M17": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 22.18
+      },
+      "1RKP": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 14.74
+      },
+      "2AW1": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "2HZI": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "2X8Z": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "3G0E": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "3RUU": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "3S43": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "4EU2": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "4FK3": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        },
+        "hueco_mas_cercano_A": 3.26
+      },
+      "4JVB": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        },
+        "hueco_mas_cercano_A": 6.12
+      },
+      "4NJT": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "4NY4": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 11.85
+      },
+      "4WUD": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 43.63
+      },
+      "5HYK": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 12.84
+      },
+      "5WIU": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 11.21
+      },
+      "5ZBH": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "6GUE": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": true,
+          "10": true
+        },
+        "hueco_mas_cercano_A": 8.37
+      },
+      "6HL1": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": true,
+          "10": true
+        },
+        "hueco_mas_cercano_A": 8.84
+      },
+      "6HW5": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "6KE5": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "6PU8": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "6SXC": {
+        "panel": "DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": null
+      },
+      "8HFF": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 29.16
+      },
+      "8X3K": {
+        "panel": "NO_DETENER",
+        "abstiene_por_hueco": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        },
+        "hueco_mas_cercano_A": 14.52
+      }
+    },
+    "falsos_bloqueos_por_hueco": {
+      "6": [],
+      "7": [
+        "4JVB"
+      ],
+      "8": [
+        "4JVB"
+      ],
+      "9": [
+        "4JVB",
+        "6GUE",
+        "6HL1"
+      ],
+      "10": [
+        "4JVB",
+        "6GUE",
+        "6HL1"
+      ]
+    }
+  },
+  "4JVB_hueco_mas_cercano_A": 6.12
+}

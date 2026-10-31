@@ -14,10 +14,10 @@ Sin credenciales se podía:
 * cambiar el proveedor activo, subir audio, iniciar descargas de modelo,
   cambiar la configuración global y abrir una carpeta en el escritorio.
 
-Cuatro rutas se dejan accesibles a propósito: son sondas de capacidad que el
-arranque de la interfaz consulta **antes** de que exista sesión, no devuelven
-datos de ninguna cuenta y no exponen secretos —`ProviderInfoResponse` publica
-`requires_api_key` y `configured`, nunca el valor de la clave—.
+(Fase 6.6) El router interno murió con el asistente; estas pruebas cubren la
+superficie preservada (`api/routers/agent_platform.py`): propuestas,
+idempotencia y STT. Queda una sola sonda abierta (estado del dictado, sin
+datos de cuenta); todo lo demás exige sesión estricta.
 """
 
 from __future__ import annotations
@@ -27,13 +27,11 @@ import inspect
 from fastapi import Depends
 
 from api import dependencies
-from api.routers import ai
+from api.routers import agent_platform as ai
 
-#: Sondas de arranque. La interfaz las llama al montar, antes del auto-login.
+#: Sondas de arranque. La única que queda: disponibilidad del dictado, sin
+#: datos de ninguna cuenta.
 ABIERTAS: dict[str, str] = {
-    "GET /ai/startup": "modo de arranque del motor local; sin datos de cuenta",
-    "GET /ai/providers": "catálogo de proveedores disponibles; nunca la clave",
-    "GET /ai/status": "salud del subsistema AI; sin datos de cuenta",
     "GET /ai/speech-to-text/status": "disponibilidad del dictado",
 }
 
@@ -76,36 +74,3 @@ def test_las_sondas_abiertas_estan_declaradas_una_a_una():
 
     for sonda in ABIERTAS:
         assert sonda in nombres, f"{sonda} ya no existe; retírala de la lista"
-
-
-def test_configurar_el_proveedor_exige_sesion():
-    """MOLCHAT-BE-003: es la ruta que puede cambiar el destino de los datos."""
-    for nombre, ruta in _rutas():
-        if nombre == "POST /ai/providers/configure":
-            assert _exige_sesion(ruta)
-            return
-    raise AssertionError("no se encontró POST /ai/providers/configure")
-
-
-def test_las_conversaciones_exigen_sesion():
-    protegidas = {
-        "POST /ai/conversations",
-        "GET /ai/conversations",
-        "GET /ai/conversations/{conv_id}",
-        "DELETE /ai/conversations/{conv_id}",
-    }
-    encontradas = {nombre for nombre, _ in _rutas()} & protegidas
-
-    assert encontradas == protegidas, f"faltan rutas: {protegidas - encontradas}"
-    for nombre, ruta in _rutas():
-        if nombre in protegidas:
-            assert _exige_sesion(ruta), nombre
-
-
-def test_el_chat_exige_sesion_y_no_cae_al_usuario_demo():
-    """El chat aceptaba anónimos y resolvía las herramientas contra demo."""
-    for nombre, ruta in _rutas():
-        if nombre == "POST /ai/chat":
-            assert _exige_sesion(ruta)
-            return
-    raise AssertionError("no se encontró POST /ai/chat")

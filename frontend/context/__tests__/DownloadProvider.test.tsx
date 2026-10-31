@@ -24,7 +24,7 @@ import { renderHook, waitFor, act } from "@testing-library/react";
 import { type ReactNode } from "react";
 
 import { useDownload } from "../../hooks/useDownload";
-import { DownloadProvider, isMolDesignHealthPayload, toEngineStatus } from "../DownloadProvider";
+import { DownloadProvider, FALLBACK_MANIFEST, isMolDesignHealthPayload, toEngineStatus } from "../DownloadProvider";
 import { apiUrlSnapshot, getApiUrl, resetApiUrl } from "../../lib/config";
 import { mockFetch, mockTauriInvoke, setTauriEnv } from "../../vitest.setup";
 
@@ -171,6 +171,22 @@ describe("DownloadProvider — startDownload y cancelDownload", () => {
       if (cmd === "cancel_download") return undefined;
       throw new Error(`Unexpected: ${cmd}`);
     });
+  });
+
+  it("un módulo sin URL expone estado de error y no filtra el diagnóstico interno", async () => {
+    const entrada = FALLBACK_MANIFEST.find((m) => m.id === "llm-qwen15")!;
+    const urls = entrada.urls;
+    entrada.urls = [];
+    try {
+      const { result } = renderHook(() => useDownload(), { wrapper });
+      await waitFor(() => expect(result.current.initialized).toBe(true));
+      await act(async () => { await result.current.startDownload(entrada.id); });
+      expect(result.current.models[entrada.id]).toBe("error");
+      expect(JSON.stringify(result.current)).not.toContain("El módulo no declara ninguna URL de descarga.");
+      expect(mockTauriInvoke).not.toHaveBeenCalledWith("download_model", expect.anything());
+    } finally {
+      entrada.urls = urls;
+    }
   });
 
   it("startDownload ignora ids que no están en el manifiesto", async () => {

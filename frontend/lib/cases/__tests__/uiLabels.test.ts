@@ -9,13 +9,13 @@ function translate(locale: "es" | "en") {
 
 describe("etiquetas localizadas del espacio de casos", () => {
   it("traduce los nombres de almacenamiento conocidos y conserva los externos", () => {
-    expect(localizeCaseStorageLabel("Carpeta en este equipo", translate("en")))
+    expect(localizeCaseStorageLabel({ id: "tauri", capabilities: { storageLabel: "cualquier texto" } }, translate("en")))
       .toBe("Folder on this device");
-    expect(localizeCaseStorageLabel("Guardado en este navegador", translate("en")))
+    expect(localizeCaseStorageLabel({ id: "browser", capabilities: { storageLabel: "cualquier texto" } }, translate("en")))
       .toBe("Saved in this browser");
-    expect(localizeCaseStorageLabel("Custom storage", translate("en")))
+    expect(localizeCaseStorageLabel({ id: "external", capabilities: { storageLabel: "Custom storage" } }, translate("en")))
       .toBe("Custom storage");
-    expect(localizeCaseStorageLabel("Carpeta en este equipo", translate("es")))
+    expect(localizeCaseStorageLabel({ id: "tauri", capabilities: { storageLabel: "cualquier texto" } }, translate("es")))
       .toBe("Carpeta en este equipo");
   });
 

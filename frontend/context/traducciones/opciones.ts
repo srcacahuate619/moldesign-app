@@ -21,6 +21,9 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const opciones: ModuloDeTraduccion = {
   es: {
+    op_frontend_158: "moldesign_bioteca.{v0}",
+    op_frontend_159: "No se pudieron exportar los datos locales.",
+    op_frontend_160: "¿Limpiar las preferencias y el historial local heredado? Los casos de estudio no se eliminarán.",
     op_comprobando_motores: "Comprobando motores disponibles…",
     op_menu_theme_dark: "Tema oscuro",
     op_menu_theme_light: "Tema claro",
@@ -171,6 +174,9 @@ export const opciones: ModuloDeTraduccion = {
     op_downloads: "Descargas",
   },
   en: {
+    op_frontend_158: "moldesign_library.{v0}",
+    op_frontend_159: "Local data could not be exported.",
+    op_frontend_160: "Clear preferences and legacy local history? Study cases will not be deleted.",
     op_comprobando_motores: "Checking available engines…",
     op_menu_theme_dark: "Dark theme",
     op_menu_theme_light: "Light theme",

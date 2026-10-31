@@ -51,7 +51,8 @@ def get_settings():
 
 # ── Versión del esquema ───────────────────────────────────────────────────────
 
-SCHEMA_VERSION = 29  # evaluation_runs.saved_at/saved_name: Moldex guarda corridas
+SCHEMA_VERSION = 30  # v30: tabla nueva idempotency_keys (CR-06, aditiva vía create_all)
+# v29: evaluation_runs.saved_at/saved_name: Moldex guarda corridas
 """
 Versión del esquema SQLite. Es la plataforma de referencia (F-04): el ORM
 (core/models.py) ES la fuente de verdad del schema, y esta constante sella

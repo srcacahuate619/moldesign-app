@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useState, useEffect, useMemo } from "react";
@@ -144,7 +146,7 @@ export function ProSarTab({
         if (cancelled) return;
         setAnalogs([]);
         setCohortInfo(null);
-        if (cohorte) setCohortError(cause instanceof Error ? cause.message : String(cause));
+        if (cohorte) setCohortError(cause instanceof Error ? presentError(cause, t) : String(cause));
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
@@ -152,7 +154,7 @@ export function ProSarTab({
     return () => { cancelled = true; };
     // `claveDeCohorte` y no `cohorte`: el objeto se recrea en cada render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [moleculeId, claveDeCohorte]);
+  }, [moleculeId, claveDeCohorte, t]);
 
   const displayAnalogs = analogs ?? [];
 
@@ -167,7 +169,7 @@ export function ProSarTab({
           </span>
         </div>
         <span className="text-sm font-sans uppercase tracking-wider text-zinc-400 border border-white/10 rounded px-2 py-0.5">
-          {loading ? t("auto_11febafc08d5") : `${displayAnalogs.length} análogos`}
+          {loading ? t("auto_11febafc08d5") : t("pr_frontend_093", { v0: displayAnalogs.length })}
         </span>
       </div>
 

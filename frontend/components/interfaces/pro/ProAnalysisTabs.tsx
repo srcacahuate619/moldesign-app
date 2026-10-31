@@ -383,7 +383,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                     >
                       <ListChecks size={14} aria-hidden="true" />
                       {estadoDeLaPoseActiva.status === "failed"
-                        ? `Ver los ${estadoDeLaPoseActiva.failedCount} controles que fallan`
+                        ? t("rx_open_failed_checks", { count: estadoDeLaPoseActiva.failedCount })
                         : t("auto_2e80694bf926")}
                     </button>
                   )}

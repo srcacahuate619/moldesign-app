@@ -122,7 +122,7 @@ export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps
         onClick={() => setAbierto((v) => !v)}
         aria-expanded={abierto}
         aria-controls={panelId}
-        aria-label={etiqueta ?? `Qué significa: ${titulo}`}
+        aria-label={etiqueta ?? t("c_help_meaning", { title: titulo })}
         className="inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-zinc-400 transition-colors hover:text-zinc-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-400"
       >
         <HelpCircle className="h-3.5 w-3.5" aria-hidden="true" />

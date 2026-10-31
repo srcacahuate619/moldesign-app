@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage, type FrontendText } from "./frontendError";
 // =====================================================================
 // Cliente de la comprobación previa
 // =====================================================================
@@ -162,8 +163,8 @@ export interface PreflightRequest {
   readonly pipelineConfig?: CasePipelineConfig;
 }
 
-export class PreflightError extends Error {
-  constructor(message: string) {
+export class PreflightError extends FrontendError {
+  constructor(message: FrontendText) {
     super(message);
     this.name = "PreflightError";
   }
@@ -202,8 +203,7 @@ export async function requestPreflight(
     // El motor puede estar arrancando o caído. El mensaje lo dice tal cual: no
     // se convierte un fallo de transporte en «la molécula es inválida».
     throw new PreflightError(
-      `La comprobación previa no se pudo completar (HTTP ${response.status}). ` +
-        "Revisa el estado del motor y vuelve a intentarlo.",
+      frontendMessage("ev_frontend_239", { v0: response.status }),
     );
   }
   return (await response.json()) as PreflightReport;
@@ -236,17 +236,32 @@ function receptorLabelOf(receptor: PreflightReport["receptor"]): string {
     : `${receptor.pdb_id} · cadena ${receptor.chain}`;
 }
 
-/** Traduce sólo los dos formatos completos que genera `receptorLabelOf`. */
-export function localizeReceptorLabel(
-  label: string,
+/** Datos de presentación; no se serializan ni se deducen de texto castellano. */
+export type ReceptorLabelInput = { readonly pdbId: string; readonly chain?: string; readonly siteChains?: readonly string[] };
+export function localizeReceptorLabel(receptor: ReceptorLabelInput | null | undefined,
   t: (key: string, values?: Readonly<Record<string, string | number>>) => string,
 ): string {
-  if (label === "No definido") return t("c_no_definido");
-  const multiple = /^(.+?) · cadenas (.+)$/.exec(label);
-  if (multiple) return t("ca_receptor_label_multiple", { pdbId: multiple[1], chains: multiple[2] });
-  const single = /^(.+?) · cadena (.+)$/.exec(label);
-  if (single) return t("ca_receptor_label_single", { pdbId: single[1], chain: single[2] });
-  return label;
+  if (!receptor) return t("c_no_definido");
+  const chains = [...new Set(receptor.siteChains ?? [])].sort();
+  if (chains.length > 1) return t("ca_receptor_label_multiple", { pdbId: receptor.pdbId, chains: chains.join("+") });
+  return receptor.chain ? t("ca_receptor_label_single", { pdbId: receptor.pdbId, chain: receptor.chain }) : receptor.pdbId;
+}
+
+/** Lee campos existentes del documento canónico, sin reescribirlo ni cambiar su hash. */
+export function receptorFromSummary(summary: PreflightSummary | undefined): ReceptorLabelInput | null {
+  try {
+    const doc: unknown = JSON.parse(summary?.inputDocument ?? "null");
+    if (!doc || typeof doc !== "object" || !("target_pdb_id" in doc) || typeof doc.target_pdb_id !== "string") return null;
+    return { pdbId: doc.target_pdb_id,
+      chain: "chain" in doc && typeof doc.chain === "string" ? doc.chain : undefined,
+      siteChains: "site_chains" in doc && Array.isArray(doc.site_chains) ? doc.site_chains.filter((v): v is string => typeof v === "string") : undefined };
+  } catch { return null; }
+}
+
+/** La caja efectiva se presenta desde números. El texto histórico se conserva en disco. */
+export function gridLabelForSummary(summary: PreflightSummary, t: (key: string) => string): string {
+  const config = summary.executionConfig;
+  return config ? `${formatTriple(config.gridCenter)} · ${formatTriple(config.gridSize)} Å` : t("c_no_definido");
 }
 
 export function summarizePreflight(report: PreflightReport): PreflightSummary {

@@ -267,3 +267,29 @@ describe("la CL-GNN se enseña como señal experimental, no como probabilidad", 
     expect(presentarClgnn(0).valor).toBe("0.00");
   });
 });
+
+describe.each(["es", "en"] as const)("motivos del comparador en %s", locale => {
+  it("traduce los seis motivos sin alterar las fichas", async () => {
+    const { compararMoleculas } = await import("../moldex");
+    const { moldex } = await import("../../context/traducciones/moldex");
+    const t = (key: string, values: Readonly<Record<string, string | number>> = {}) => (moldex[locale][key] ?? key).replace(/\{(\w+)\}/g, (all, name: string) => String(values[name] ?? all));
+    const a = structuredClone(FICHA), b = structuredClone(FICHA);
+    b.target!.pdb_id = "OTHER";
+    b.provenance.receptor_sha256 = "other";
+    b.provenance.docking_protocol = { engine: "different" };
+    a.provenance.protocolo = { ...a.provenance.protocolo, calibracion_ranking: "M4" } as NonNullable<typeof a.provenance.protocolo>;
+    b.provenance.protocolo = { ...b.provenance.protocolo, calibracion_ranking: "M5" } as NonNullable<typeof b.provenance.protocolo>;
+    const before = JSON.stringify([a,b]);
+    const result = compararMoleculas(a,b,t);
+    expect(result.comparable).toBe(false);
+    expect(result.motivos).toHaveLength(4);
+    expect(result.motivos[0]).toBe(t("mx_compare_targets", { a: "7E2Y", b: "OTHER" }));
+    expect(result.motivos[1]).toBe(t("mx_compare_receptor_changed"));
+    expect(result.motivos[2]).toBe(t("mx_compare_protocol_changed"));
+    expect(result.motivos[3]).toBe(t("mx_compare_calibration", { a: "M4", b: "M5" }));
+    expect(JSON.stringify([a,b])).toBe(before);
+    b.provenance.receptor_sha256 = null; b.provenance.docking_protocol = null;
+    expect(compararMoleculas(a,b,t).motivos).toEqual(expect.arrayContaining([t("mx_compare_receptor_missing"), t("mx_compare_protocol_missing")]));
+    if (locale === "es") expect(result).toEqual(compararMoleculas(a,JSON.parse(before)[1]));
+  });
+});

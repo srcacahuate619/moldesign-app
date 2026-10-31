@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "../../context/LanguageContext";
+
 // =====================================================================
 // Enlace externo — el unico que deben usar los componentes
 // =====================================================================
@@ -31,6 +33,7 @@ type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href" | "onClick"> &
 };
 
 export function ExternalLink({ href, children, onError, ...rest }: Props) {
+  const { t } = useLanguage();
   const [fallo, setFallo] = useState<string | null>(null);
 
   const alHacerClic = useCallback(
@@ -46,12 +49,12 @@ export function ExternalLink({ href, children, onError, ...rest }: Props) {
       setFallo(null);
       void openExternal(href).catch((causa) => {
         // No se traga: se muestra al lado del enlace y se propaga a quien quiera.
-        setFallo("No se pudo abrir el enlace");
+        setFallo(t("c_external_failed"));
         if (onError) onError(causa);
         else console.error("[ExternalLink] fallo al abrir", href, causa);
       });
     },
-    [href, onError],
+    [href, onError, t],
   );
 
   return (

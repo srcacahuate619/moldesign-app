@@ -283,7 +283,7 @@ async def _run_full_evaluation_async(
     tautomer_kwargs = {"tautomero": mode}
     # ── Pipeline resource signal ────────────────────────────────────
     try:
-        from services.ai.resource_manager import get_resource_manager
+        from services.llm.resource_manager import get_resource_manager
         get_resource_manager().on_pipeline_start()
     except ImportError:
         pass
@@ -292,23 +292,12 @@ async def _run_full_evaluation_async(
     # el presupuesto de búsqueda histórico y CL-GNN; toda evidencia científica
     # y sus avisos se producen por el mismo conjunto de etapas.
     if pipeline_config is None:
+        from services.docking.protocolo import configuracion_pipeline_predeterminada
+
         default_settings = core_config.get_settings()
-        pipeline_config = {
-            "execution_profile": "default",
-            "docking_engine": docking_engine,
-            "enabled_stages": [
-                "validation", "properties", "sa_filter", "conformer",
-                "docking", "xgb", "clgnn",
-            ],
-            "stage_params": {
-                "properties": {"run_admet_ai": bool(run_admet_ai)},
-                "docking": {
-                    "exhaustiveness": int(default_settings.vina_exhaustiveness),
-                    "num_poses": int(default_settings.vina_num_poses),
-                },
-                "xgb": {"run_gnn": True},
-            },
-        }
+        pipeline_config = configuracion_pipeline_predeterminada(
+            default_settings, docking_engine=docking_engine, run_admet_ai=run_admet_ai,
+        )
     # --- ÚNICO EJECUTOR CIENTÍFICO ---
     if pipeline_config:
         from services.pipeline.runner import run_pipeline
@@ -975,7 +964,7 @@ async def _run_full_evaluation_async(
             # (componente ausente) y el engine re-normaliza pesos / degrada.
             clgnn_prob_value = None
             try:
-                from services.ai.clgnn_inference import predict_clgnn
+                from services.clgnn_inference import predict_clgnn
 
                 # La POSE, no el SMILES. Antes se le pasaba sólo el SMILES y
                 # la función se fabricaba un confórmero ETKDG en otro marco de
@@ -1350,7 +1339,7 @@ async def _run_full_evaluation_async(
 
             # MolGraph: indexar evaluacion en el knowledge graph quimico
             try:
-                from services.ai.molgraph import add_evaluation_node
+                from services.molgraph import add_evaluation_node
                 add_evaluation_node(
                     smiles=pipeline_params.molecule_smiles,
                     target_pdb=pipeline_params.target_pdb_id,
@@ -1636,16 +1625,10 @@ def _submit_evaluation_desktop(
                 await fail("Evaluación cancelada o interrumpida")
                 return
             await _record_job_terminal(task_id, "SUCCESS")
-            try:
-                from services.ai.memory_store import store_evaluation
-                store_evaluation(
-                    molecule_id=task_id, smiles=smiles, target_pdb=target_pdb_id,
-                    affinity=result.get("best_affinity"), score=result.get("total_score"),
-                    result_json=None, user_id=user_id,
-                )
-            except Exception as exc:
-                # La memoria auxiliar no invalida un resultado ya persistido.
-                log.warning("evaluation_memory_failed", task_id=task_id, error=str(exc))
+            # (Fase 6.6) Aquí se anotaba la corrida en la memoria del asistente
+            # interno (`memory_store.store_evaluation`, catálogo `ai_catalog`
+            # para su LLM). Sin asistente interno no hay lector: el historial
+            # de plataforma (`history`) es el registro que queda.
         except asyncio.CancelledError:
             await fail("Evaluación interrumpida o cancelada")
             raise

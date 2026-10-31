@@ -7,7 +7,10 @@ const api = vi.hoisted(() => ({
   FALTA_PARA_EL_PAQUETE: new Set(["falta_blender", "blender_antiguo", "falta_addon"]) as ReadonlySet<string>,
 }));
 vi.mock("@/lib/molcy", () => api);
-vi.mock("@/context/LanguageContext", () => ({ useLanguage: () => ({ locale: "es", t: (key: string) => key }) }));
+vi.mock("@/context/LanguageContext", () => {
+  const t = (key: string) => key;
+  return { useLanguage: () => ({ locale: "es", t }) };
+});
 
 const estado = { estado: "inactivo", version: "5.2.2", descarga_bytes: 404453484, reserva_bytes: 1, ruta: "C:/datos/molcy/blender/blender.exe",
   instalado: false, configuracion: {} };

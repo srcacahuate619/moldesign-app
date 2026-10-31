@@ -1,0 +1,1 @@
+Autotest del barrido: 60 muestras, el guardian ve.

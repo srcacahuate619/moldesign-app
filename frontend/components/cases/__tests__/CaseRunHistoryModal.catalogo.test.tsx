@@ -8,7 +8,10 @@ import CaseRunHistoryModal from "../CaseRunHistoryModal";
 vi.mock("@/lib/api", () => ({ getEvaluationResult: vi.fn().mockResolvedValue({ affinity_kcal: -7, docking_poses: [] }), downloadCertificate: vi.fn(), downloadComplexFile: vi.fn() }));
 vi.mock("@/hooks/useScrollLock", () => ({ useScrollLock: () => {} }));
 vi.mock("@/hooks/useCatalogoDeReceptores", () => ({ useCatalogoDeReceptores: () => [{ pdb_id: "LOCAL", is_private: true } as Target] }));
-vi.mock("@/context/LanguageContext", () => ({ useLanguage: () => ({ t: (key: string) => catalogo.es[key] ?? key }) }));
+vi.mock("@/context/LanguageContext", () => {
+  const t = (key: string) => catalogo.es[key] ?? key;
+  return { useLanguage: () => ({ t }) };
+});
 
 const system: CaseStructuralSystem = {
   lockedAt: "2026-10-08T12:00:00Z", sourceRunTaskId: "actual", inputFingerprint: "actual",

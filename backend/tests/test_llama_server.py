@@ -26,7 +26,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 # Importar aquí para no tener dependencias implícitas al inicio del módulo.
-from services.ai.local_llm import (
+from services.llm.local_llm import (
     LocalLLM,
     is_local_llm_available,
     _PROCESS_TERMINATE_WAIT_S,
@@ -42,13 +42,13 @@ def test_binary_no_existe_fallback_gracioso():
     faltase el modelo o no hubiese RAM. Aquí validamos el chequeo triple.
     """
     # FileNotFoundError del modelo — primero aparece en la cascada D4.
-    with patch("services.ai.local_llm._resolve_server_executable_static", return_value=Path("/fake/llama-server.exe")), \
+    with patch("services.llm.local_llm._resolve_server_executable_static", return_value=Path("/fake/llama-server.exe")), \
          patch.object(LocalLLM, "_resolve_model_path_static", side_effect=FileNotFoundError("no model")):
         assert is_local_llm_available() is False
 
     # Y si el modelo existe pero no el binario, también False. Mockear el
     # resolver (en vez de Path global) conserva el tipo Path real del contrato.
-    with patch("services.ai.local_llm._resolve_server_executable_static", side_effect=FileNotFoundError("no binary")), \
+    with patch("services.llm.local_llm._resolve_server_executable_static", side_effect=FileNotFoundError("no binary")), \
          patch.object(LocalLLM, "_resolve_model_path_static", return_value=Path("/fake.gguf")):
         assert is_local_llm_available() is False
 
@@ -155,7 +155,7 @@ async def test_sse_decoder_no_parte_utf8_multibyte():
 
     # Recoger tokens emitidos
     tokens = []
-    with patch("services.ai.local_llm.httpx.AsyncClient", FakeAsyncClient):
+    with patch("services.llm.local_llm.httpx.AsyncClient", FakeAsyncClient):
         async for t in llm.generate_stream(
             messages=[
                 {"role": "system", "content": "s"},
@@ -212,7 +212,7 @@ async def test_temperature_se_respeta_en_stream():
             captured_payload.update(json)
             return FakeStream()
 
-    with patch("services.ai.local_llm.httpx.AsyncClient", FakeAsyncClient):
+    with patch("services.llm.local_llm.httpx.AsyncClient", FakeAsyncClient):
         async for _ in llm.generate_stream(
             messages=[
                 {"role": "system", "content": "system"},
@@ -255,8 +255,8 @@ def test_startup_exitoso():
                 # Mock ResourceManager.can_load → True (no queremos validation fallida)
                 rm_mod = MagicMock()
                 rm_mod.can_load.return_value = (True, "ok")
-                with patch("services.ai.resource_manager.get_resource_manager", return_value=rm_mod):
-                    with patch("services.ai.local_llm.subprocess.Popen", return_value=fake_proc):
+                with patch("services.llm.resource_manager.get_resource_manager", return_value=rm_mod):
+                    with patch("services.llm.local_llm.subprocess.Popen", return_value=fake_proc):
                         # load() usa explícitamente el probe sync: mockearlo
                         # evita cualquier conexión real durante esta prueba.
                         with patch.object(LocalLLM, "_wait_for_server_ready_sync", return_value=True):

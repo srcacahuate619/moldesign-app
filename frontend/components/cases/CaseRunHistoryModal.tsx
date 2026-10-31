@@ -1,5 +1,11 @@
 "use client";
 
+import { frontendMessage, type Translate } from "../../lib/frontendError";
+
+import { appLocale } from "../../lib/formatoNumerico";
+
+import { presentError } from "../../lib/frontendError";
+
 // =====================================================================
 // CaseRunHistoryModal — el libro de corridas de ESTE caso
 // =====================================================================
@@ -26,7 +32,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { InsigniaDelCatalogo } from "@/components/science/InsigniaDelCatalogo";
-import { useLanguage } from "../../context/LanguageContext";
+import { TRANSLATIONS, useLanguage } from "../../context/LanguageContext";
 import { useScrollLock } from "@/hooks/useScrollLock";
 import {
   AlertTriangle,
@@ -92,10 +98,12 @@ const STATE_TONES: Record<RunExecutionState, string> = {
 
 /** Fecha legible sin inventar zona: se muestra la local del equipo. */
 /** En el idioma de la interfaz: con `undefined` mandaba el del sistema y salía «25 oct 2026, 05:15 p.m.» en inglés. */
-export function formatRunMoment(iso: string, locale?: string): string {
+export function formatRunMoment(iso: string, locale = "es", t?: Translate): string {
   const parsed = new Date(iso);
-  if (Number.isNaN(parsed.getTime())) return locale === "en" ? "Unreadable date" : "Fecha no legible";
-  return parsed.toLocaleString(locale === "en" ? "en-US" : locale === "es" ? "es-ES" : undefined, {
+  if (Number.isNaN(parsed.getTime())) {
+    return t ? t("ca_run_invalid_date") : TRANSLATIONS[locale === "en" ? "en" : "es"].ca_run_invalid_date;
+  }
+  return parsed.toLocaleString(appLocale(locale), {
     year: "numeric",
     month: "short",
     day: "2-digit",
@@ -111,21 +119,21 @@ export function formatRunMoment(iso: string, locale?: string): string {
  * cuyo resultado se perdió son cosas distintas, y el usuario que vuelve a
  * buscar su informe necesita saber cuál de las dos le ha tocado.
  */
-export function whyRunCannotOpen(run: CaseRun): string | null {
+export function whyRunCannotOpen(run: CaseRun, t: Translate = (key, values) => String(frontendMessage(key, values))): string | null {
   if (run.executionState === "failed") {
-    return "Esta corrida falló, así que no produjo ningún informe.";
+    return t("ca_run_no_report");
   }
   if (run.executionState === "cancelled") {
-    return "Esta corrida se canceló antes de terminar.";
+    return t("ca_run_was_cancelled");
   }
   if (run.executionState === "submitted" || run.executionState === "running") {
-    return "Esta corrida todavía se está ejecutando.";
+    return t("ca_run_still_running");
   }
   if (run.executionState === "interrupted") {
-    return "Se perdió el seguimiento de esta corrida y no se sabe cómo terminó.";
+    return t("ca_run_lost");
   }
   if (!run.moleculeId) {
-    return "Esta corrida terminó antes de que el caso guardara la referencia a su resultado.";
+    return t("ca_run_no_reference");
   }
   return null;
 }
@@ -170,7 +178,7 @@ export default function CaseRunHistoryModal({
   }, [requestedTaskId, runs]);
   const openedRun = runs.find(run => run.taskId === openTaskId);
   useEffect(() => {
-    if (!openedRun?.moleculeId || whyRunCannotOpen(openedRun)) {
+    if (!openedRun?.moleculeId || whyRunCannotOpen(openedRun, t)) {
       setDetail({ kind: "idle" });
       return;
     }
@@ -179,11 +187,11 @@ export default function CaseRunHistoryModal({
     getEvaluationResult(openedRun.moleculeId, openedRun.taskId).then(result => {
       if (current) setDetail({ kind: "ready", result });
     }).catch((cause: unknown) => {
-      if (current) setDetail({ kind: "error", message: cause instanceof Error ? cause.message
-        : "El motor no devolvió el resultado guardado de esta corrida." });
+      if (current) setDetail({ kind: "error", message: cause instanceof Error ? presentError(cause, t)
+        : t("ca_frontend_051") });
     });
     return () => { current = false; };
-  }, [openedRun?.taskId, openedRun?.moleculeId, openedRun?.executionState]);
+  }, [openedRun?.taskId, openedRun?.moleculeId, openedRun?.executionState, t]);
   useEffect(() => {
     if (!requestedTaskId || openTaskId !== requestedTaskId) return;
     const row = rowElements.current.get(requestedTaskId);
@@ -337,7 +345,7 @@ export default function CaseRunHistoryModal({
           ) : (
             <ul className="divide-y divide-surface-800">
               {ordered.map((run) => {
-                const blocked = whyRunCannotOpen(run);
+                const blocked = whyRunCannotOpen(run, t);
                 const expanded = openTaskId === run.taskId;
                 const protocolRelation = runProtocolRelation(run, structuralSystem);
                 const differences = runProtocolDifferences(run, structuralSystem);
@@ -356,7 +364,7 @@ export default function CaseRunHistoryModal({
                             {t(STATE_LABELS[run.executionState])}
                           </span>
                           <span className="font-mono text-[11px] text-zinc-400">
-                            {formatRunMoment(run.startedAt, locale)}
+                            {formatRunMoment(run.startedAt, locale, t)}
                           </span>
                           {run.taskId === activeTaskId && (
                             <span className="rounded-md border border-purple-500/30 bg-purple-500/[0.07] px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-purple-200">
@@ -483,7 +491,7 @@ function RunDetail({
   const descargar = (accion: () => Promise<unknown>) => {
     setDescargaError(null);
     void accion().catch((cause: unknown) => {
-      setDescargaError(cause instanceof Error ? cause.message : String(cause));
+      setDescargaError(cause instanceof Error ? presentError(cause, t) : String(cause));
     });
   };
   if (detail.kind === "loading") {

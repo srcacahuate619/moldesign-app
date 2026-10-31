@@ -1017,7 +1017,7 @@ export default function ProOptionsModal({
                           type="button"
                           onClick={() => toggleHotspot(h.name)}
                           disabled={systemSealed}
-                          title={`${h.name} · importancia ${h.importance?.toFixed?.(2) ?? h.importance}`}
+                          title={t("pr_hotspot_importance", { name: h.name, importance: h.importance?.toFixed?.(2) ?? h.importance ?? "—" })}
                           className={`px-2 py-1 rounded-lg text-xs font-mono font-bold transition-all border disabled:cursor-not-allowed ${
                             systemSealed ? "cursor-not-allowed" : "cursor-pointer"
                           } ${

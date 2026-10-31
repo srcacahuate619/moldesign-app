@@ -61,6 +61,9 @@ async def get_current_user(
 
     token = _extract_token(authorization)
 
+    if token.startswith("mh1."):
+        return await _usuario_por_sesion_molchat(request, db, token)
+
     try:
         payload = decode_token(token)
     except (InvalidCredentials, TokenExpired) as exc:
@@ -104,7 +107,54 @@ async def get_current_user(
             detail="Usuario desactivado",
         )
 
-    from services.ai.red import fijar_identidad_peticion
+    from services.red import fijar_identidad_peticion
+    fijar_identidad_peticion(str(user.id))
+    request.state.user = user
+    return user
+
+
+async def _usuario_por_sesion_molchat(
+    request: Request, db: AsyncSession, token: str
+) -> UserORM:
+    """Identidad vía sesión mh1 del sidecar (Fase 6): la plataforma acepta el
+    token que acuñó para MolChat como prueba de identidad en sus propios
+    endpoints, así el sidecar reenvía el Bearer que recibe sin credenciales
+    de larga vida. Espejo estricto del camino JWT: usuario existente y activo
+    o 401. Sin chequeo de invitado separado: el secreto HMAC rota por proceso,
+    luego todo mh1 válido nació en ESTE arranque (atadura más fuerte que la
+    del JWT de invitado).
+    """
+    from services.molchat_host import sesion
+
+    visto = sesion.verificar_para_plataforma(token)
+    if visto is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Sesión MolChat no válida",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    try:
+        user_id = uuid.UUID(visto["sub"])
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Sesión MolChat no válida",
+            headers={"WWW-Authenticate": "Bearer"},
+        ) from exc
+
+    stmt = select(UserORM).where(UserORM.id == user_id)
+    result = await db.execute(stmt)
+    user = result.scalar_one_or_none()
+
+    if user is None:
+        raise HTTPException(status_code=401, detail="Usuario no encontrado")
+    if not user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Usuario desactivado",
+        )
+
+    from services.red import fijar_identidad_peticion
     fijar_identidad_peticion(str(user.id))
     request.state.user = user
     return user

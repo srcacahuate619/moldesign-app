@@ -1,0 +1,93 @@
+{
+  "agente": 1,
+  "levantada": "2026-10-25T23:10:36.589Z",
+  "repositorio": {
+    "raiz": "D:\\moldesign-worktrees\\sol-i18n",
+    "rama": "sol/i18n-frontend",
+    "commit": "4fc7a9281fecb209a94784d15983475d64b517e8",
+    "arbol_limpio": true
+  },
+  "runtime_compartido": {
+    "raiz": "D:\\moldesign-build",
+    "python": "D:\\moldesign-build\\python-embed\\python.exe",
+    "vina": "D:\\moldesign-build\\tools\\vina\\vina.exe"
+  },
+  "export": {
+    "origen": "reutilizado",
+    "dir": "D:\\moldesign-worktrees\\sol-i18n\\frontend\\out",
+    "huella": "192b808a4dddfa35945822b4e505c1682c842f2b2b6b99a89a2169b5058056e3",
+    "construidoEnSegundos": null,
+    "advertencia": null,
+    "check_api_url": "ok"
+  },
+  "puertos": {
+    "backend": 18011,
+    "frontend": 13011,
+    "llama": 18111
+  },
+  "urls": {
+    "app": "http://localhost:13011",
+    "backend": "http://127.0.0.1:18011"
+  },
+  "capsula": {
+    "raiz": "D:\\moldesign-worktrees\\.sandbox\\agente1",
+    "datos": "D:\\moldesign-worktrees\\.sandbox\\agente1\\data",
+    "logs": "D:\\moldesign-worktrees\\.sandbox\\agente1\\logs",
+    "perfil": "D:\\moldesign-worktrees\\.sandbox\\agente1\\home",
+    "casos": "D:\\moldesign-worktrees\\.sandbox\\agente1\\casos",
+    "temporales": "D:\\moldesign-worktrees\\.sandbox\\agente1\\tmp"
+  },
+  "vina_cpu": 4,
+  "cors_origins": [
+    "http://localhost:13011"
+  ],
+  "enlaces_creados": [
+    {
+      "tipo": "copia",
+      "destino": "D:\\moldesign-worktrees\\sandbox-agente1\\data\\molgraph_seed.db",
+      "origen": "D:\\moldesign-build\\data\\molgraph_seed.db"
+    },
+    {
+      "tipo": "junction",
+      "destino": "D:\\moldesign-worktrees\\sandbox-agente1\\frontend\\node_modules",
+      "origen": "D:\\moldesign-build\\frontend\\node_modules"
+    },
+    {
+      "tipo": "junction",
+      "destino": "D:\\moldesign-worktrees\\sandbox-agente1\\models",
+      "origen": "D:\\moldesign-build\\models"
+    },
+    {
+      "tipo": "copia",
+      "destino": "D:\\moldesign-worktrees\\sol-i18n\\data\\molgraph_seed.db",
+      "origen": "D:\\moldesign-build\\data\\molgraph_seed.db"
+    },
+    {
+      "tipo": "junction",
+      "destino": "D:\\moldesign-worktrees\\sol-i18n\\frontend\\node_modules",
+      "origen": "D:\\moldesign-build\\frontend\\node_modules"
+    },
+    {
+      "tipo": "junction",
+      "destino": "D:\\moldesign-worktrees\\sol-i18n\\models",
+      "origen": "D:\\moldesign-build\\models"
+    }
+  ],
+  "advertencias": [],
+  "autoverificacion": {
+    "desktop_login": 200,
+    "cors_origen_propio": true,
+    "cors_origen_ajeno_bloqueado": true,
+    "health": "healthy"
+  },
+  "desviaciones_respecto_a_la_app_instalada": [
+    "El backend corre desde el árbol (python-embed del árbol principal + backend/ de este worktree), no desde el runtime staged del instalador.",
+    "Python se ejecuta con -B para no escribir bytecode en runtimes o bibliotecas compartidas; el primer arranque puede tardar más.",
+    "El perfil de usuario (USERPROFILE, APPDATA, LOCALAPPDATA, TEMP) apunta a la cápsula: el backend ve un usuario NUEVO.",
+    "Tauri está SIMULADO: el shim contesta ensure_backend/backend_launch_token y el servidor emula los comandos case_* de cases.rs, get_resource_dir, file_exists y verify_model (sólo existencia, sin SHA-256). Descargas, extracción, diálogos nativos y el Explorador NO se emulan.",
+    "El selector nativo de carpetas se sustituye por una carpeta fija (casos/) o por siguiente-carpeta.txt.",
+    "Se sirve desde http://localhost:<puerto>, no desde http://tauri.localhost: el CORS de producción para el origen de Tauri no se ejerce.",
+    "WebView2 no es Chrome: el navegador de la prueba es otro motor de renderizado.",
+    "Sidecars con puerto fijo (ESMFold 8100, ESMFold-Pro 8300): sólo UNA cápsula a la vez debe usarlos."
+  ]
+}

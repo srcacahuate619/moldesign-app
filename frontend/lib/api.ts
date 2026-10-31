@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage } from "./frontendError";
 import type {
   AlphaFoldEntry,
   EvaluationSubmitResponse,
@@ -129,7 +130,7 @@ export async function getTargetPdb(pdbId: string): Promise<string> {
   const res = await fetchBackend(`/targets/${pdbId}/pdb`, {
     headers: getAuthHeaders(),
   });
-  if (!res.ok) throw new Error("Error fetching PDB file");
+  if (!res.ok) throw new FrontendError("Error fetching PDB file");
   return res.text();
 }
 
@@ -138,8 +139,7 @@ import { desktopLogin } from "./desktopAuth";
 import { invitadoRecordado, recordarInvitado } from "./traspaso";
 
 const ERROR_DE_CONEXION =
-  "Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. " +
-  "Revisa su estado en la aplicación y vuelve a intentarlo.";
+  frontendMessage("pg_hist_error_conexion");
 
 /**
  * Detección de runtime Tauri v2. Mismo criterio que lib/auth.tsx
@@ -277,7 +277,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   } catch (err) {
     if (init?.signal?.aborted) throw err;
     console.error(`Fetch error on ${path}:`, err);
-    throw new Error(ERROR_DE_CONEXION);
+    throw new FrontendError(ERROR_DE_CONEXION);
   }
 
   if (response.status === 401) {
@@ -299,7 +299,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
           headers: { ...fetchInit.headers, ...getAuthHeaders() },
         });
       } catch {
-        throw new Error(ERROR_DE_CONEXION);
+        throw new FrontendError(ERROR_DE_CONEXION);
       }
     }
     if (response.status === 401 && typeof window !== "undefined") {
@@ -614,7 +614,7 @@ export async function downloadComplexFile(
   const activityId = beginFileDownload(filename, source);
   try {
     const contenido = await getComplexFile(moleculeId, taskId);
-    if (contenido === null) throw new Error("No se pudo descargar el complejo 3D");
+    if (contenido === null) throw new FrontendError(frontendMessage("ev_frontend_205"));
     const blob = new Blob([contenido], { type: "chemical/x-pdb" });
     const url = window.URL.createObjectURL(blob);
     try {
@@ -684,7 +684,7 @@ export async function traspasarDelInvitado(
   // La cuenta destino prueba que controla también la sesión invitada de este
   // arranque. El token se pide por IPC justo antes del traspaso y no se guarda
   // en localStorage junto a la cuenta personal.
-  if (!isDesktopRuntime()) throw new Error("El traspaso del invitado requiere el escritorio");
+  if (!isDesktopRuntime()) throw new FrontendError(frontendMessage("pn_traspaso_requiere_escritorio"));
   const guest = await desktopLogin();
   return request("/auth/traspaso", {
     method: "POST",
@@ -777,7 +777,7 @@ export async function uploadCustomTarget(formData: FormData): Promise<{ success:
     // El backend responde `{ detail, codigo, datos }` ya en el idioma de la interfaz (lo envía `Accept-Language`):
     // se conserva tal cual. Si no hay texto (una validación de FastAPI trae una lista, o no hubo cuerpo) el
     // mensaje queda vacío y quien muestra el error pone el suyo traducido.
-    throw Object.assign(new Error(typeof errorData.detail === "string" ? errorData.detail : ""), {
+    throw Object.assign(new FrontendError(typeof errorData.detail === "string" ? errorData.detail : ""), {
       codigo: typeof errorData.codigo === "string" ? errorData.codigo : undefined,
       datos: errorData.datos,
       estado: response.status,
@@ -854,7 +854,7 @@ export async function downloadCertificate(
       method: "GET",
       headers: { "ngrok-skip-browser-warning": "true", ...headers },
     });
-    if (!response.ok) throw new Error("No se pudo descargar el certificado");
+    if (!response.ok) throw new FrontendError(frontendMessage("ce_frontend_206"));
     const disposition = response.headers.get("content-disposition") || response.headers.get("Content-Disposition");
     if (disposition?.includes("filename=")) {
       const proposed = disposition.split("filename=")[1]?.split(";")[0]?.replace(/['"]/g, "").trim();
@@ -901,7 +901,7 @@ export async function fetchCertificateBlobUrl(
   });
 
   if (!response.ok) {
-    throw new Error("No se pudo cargar la vista previa del certificado");
+    throw new FrontendError(frontendMessage("ce_frontend_207"));
   }
 
   const blob = await response.blob();

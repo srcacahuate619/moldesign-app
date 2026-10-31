@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
@@ -48,11 +50,11 @@ function CloudLoginInner() {
         })
         .catch((err: Error) => {
           signOut({ redirect: false });
-          setError(err.message);
+          setError(presentError(err, t));
           setBusy(false);
         });
     }
-  }, [session, loginWithOAuth, router]);
+  }, [session, loginWithOAuth, router, t]);
 
   useEffect(() => {
     if (!isLoading && user) {
@@ -93,7 +95,7 @@ function CloudLoginInner() {
       }
       router.push("/evaluation");
     } catch (err) {
-      setError((err as Error).message);
+      setError(presentError((err as Error), t));
     } finally {
       setBusy(false);
     }

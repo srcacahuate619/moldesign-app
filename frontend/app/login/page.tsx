@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
@@ -89,10 +91,10 @@ function DesktopLogin() {
     } catch (err) {
       const msg =
         err instanceof Error
-          ? err.message
+          ? presentError(err, t)
           : typeof err === "string"
             ? err
-            : "Ocurrió un error inesperado. Intenta de nuevo.";
+            : t("pa_frontend_005");
       setError(msg);
     } finally {
       setBusy(false);

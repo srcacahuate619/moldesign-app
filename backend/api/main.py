@@ -52,7 +52,8 @@ from api.routers.stats import router as stats_router
 from api.routers.suggestions import router as suggestions_router
 from api.routers.targets import router as targets_router
 from api.routers.rescoring import router as rescoring_router  # v1.3: unified, no sidecar
-from api.routers.ai import router as ai_router  # v1.4: MolChat chatbot
+from api.routers.agent_platform import router as agent_platform_router  # Fase 6.6: superficie /ai preservada
+from api.routers.molchat_host import router as molchat_host_router  # Fase 6: host del sidecar externo
 # steam / diffdock / colabfold NO se importan aquí: ver el bloque
 # «Integraciones dormidas» más abajo, junto a los include_router.
 from api.routers.protein_surgery import router as protein_surgery_router  # v1.7: Protein Surgery
@@ -183,7 +184,9 @@ async def _bootstrap_runtime_resources() -> None:
     await _resincronizar_catalogo_curado()
     await _sanitize_legacy_hotspots_in_db()
 
-    _bootstrap_providers_and_tools()
+    # (Fase 6.6) Sin bootstrap de proveedores/herramientas del asistente
+    # interno: los proveedores viven en el sidecar y las herramientas murieron
+    # con él. Los informes IA cargan su modelo bajo demanda.
 
     # Background preloading de modelos pesados
     asyncio.create_task(_background_preload()).add_done_callback(
@@ -191,16 +194,6 @@ async def _bootstrap_runtime_resources() -> None:
         if t.exception()
         else None
     )
-
-
-def _bootstrap_providers_and_tools() -> None:
-    try:
-        from api.routers.ai import _bootstrap_providers, _bootstrap_tools
-        _bootstrap_providers()
-        _bootstrap_tools()
-        log.info("providers_and_tools_bootstrapped")
-    except Exception as e:
-        log.warning("bootstrap_providers_or_tools_failed", error=str(e))
 
 
 async def _background_preload() -> None:
@@ -273,6 +266,13 @@ async def _lifespan_owned(app: FastAPI):
 
     yield
 
+    try:
+        from services.molchat_host.launcher import obtener_lanzador
+
+        obtener_lanzador().detener()
+    except Exception as e:
+        log.warning("molchat_sidecar_no_detenido", error=str(e)[:200])
+
     await close_engine()
     log.info("aplicacion MolDesign detenida limpiamente")
 
@@ -308,7 +308,8 @@ app.include_router(stats_router)
 app.include_router(interactions_router)
 app.include_router(pro_router)
 app.include_router(rescoring_router)  # v1.3: unified rescoring
-app.include_router(ai_router)  # v1.4: MolChat chatbot
+app.include_router(agent_platform_router)  # Fase 6.6: superficie /ai preservada
+app.include_router(molchat_host_router)  # Fase 6: host del sidecar externo
 app.include_router(protein_surgery_router)  # v1.7: Protein Surgery
 
 # ── Integraciones dormidas ──────────────────────────────────────────────────
@@ -887,7 +888,7 @@ async def _auto_seed_molgraph_if_missing() -> None:
     """Copia el molgraph_seed.db a la carpeta local de MolDesign en el primer inicio."""
     import shutil
 
-    from services.ai import molgraph
+    from services import molgraph
 
     # Las mismas rutas que lee el grafo: antes esta copia iba siempre a
     # ~/MolDesign/data y no respetaba LOCAL_DATA_DIR ni la guardia de pruebas.

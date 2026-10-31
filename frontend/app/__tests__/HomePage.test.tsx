@@ -58,26 +58,25 @@ describe("menú de inicio", () => {
   it("con la versión anterior instalada, las notas dicen que están en preparación", () => {
     montar("es-ES");
     expect(screen.getByTestId("estado-de-las-notas")).toHaveTextContent("En preparación · aún no publicado");
-    expect(screen.getByTestId("notas-de-la-version")).toHaveTextContent("Lo que viene en la versión 1.0.2");
+    expect(screen.getByTestId("notas-de-la-version")).toHaveTextContent("Lo que viene en la versión 1.0.4");
   });
 
-  it.each(["1.0.2", "1.0.3", "1.1.0"])("con la versión %s instalada, las notas pasan a publicadas solas", (version) => {
+  it.each(["1.0.4", "1.0.5", "1.1.0"])("con la versión %s instalada, las notas pasan a publicadas solas", (version) => {
     producto.version = version;
     montar("es-ES");
     expect(screen.getByTestId("estado-de-las-notas")).toHaveTextContent("Publicada");
-    expect(screen.getByTestId("notas-de-la-version")).toHaveTextContent("Novedades de la versión 1.0.2");
+    expect(screen.getByTestId("notas-de-la-version")).toHaveTextContent("Novedades de la versión 1.0.4");
   });
 
   it("las notas cuentan lo que de verdad cambió, incluidas las decisiones de esta versión", () => {
     montar("es-ES");
     const notas = screen.getByTestId("notas-de-la-version");
-    expect(within(notas).getAllByRole("listitem").length).toBeGreaterThanOrEqual(8);
-    // Lo que el propietario quiso destacar en 1.0.2 (2026-10-11): Molcy, el paquete de Preparación y los
-    // arreglos de ciencia de la evaluación (metales y cofactores declarados, aguas, interacciones).
-    expect(notas).toHaveTextContent("Molcy (Beta) convierte una evaluación");
-    expect(notas).toHaveTextContent("la descarga completa en un .zip");
-    expect(notas).toHaveTextContent("como el zinc de una metaloenzima, se conservan al acoplar");
-    expect(notas).toHaveTextContent("Un receptor ya preparado conserva sus aguas");
+    expect(within(notas).getAllByRole("listitem").length).toBeGreaterThanOrEqual(9);
+    // Lo que destacamos en 1.0.4 (2026-10-26): la vista 3D del dibujo va primera, como Molcy iba en 1.0.2.
+    expect(notas).toHaveTextContent("tu dibujo 2D se ve en 3D para comprobar que es la molécula que quieres");
+    expect(notas).toHaveTextContent("Molcy, que hace vídeos y fotos de tus evaluaciones");
+    expect(notas).toHaveTextContent("la proteína VMAT2 (8T69) es el primer receptor verificado");
+    expect(notas).toHaveTextContent("en Preparación, una segunda copia de la molécula de referencia");
   });
 
   it("todos los enlaces externos llevan a la portada de la web, y hay una llamada a la acción", () => {
@@ -99,7 +98,7 @@ describe("menú de inicio", () => {
     montar("en-US");
     expect(await screen.findByText("WHAT IT IS NOT")).toBeTruthy();
     expect(screen.getByTestId("que-es-la-app")).toHaveTextContent(/desktop application/);
-    expect(screen.getByTestId("notas-de-la-version")).toHaveTextContent("Coming in version 1.0.2");
+    expect(screen.getByTestId("notas-de-la-version")).toHaveTextContent("Coming in version 1.0.4");
     const enlaces = screen.getAllByRole("link", { name: /Visit the MolDesign website/ });
     expect(enlaces.length).toBeGreaterThanOrEqual(2); // notas y llamada a la acción
     for (const enlace of enlaces) expect(enlace).toHaveAttribute("href", SITE);

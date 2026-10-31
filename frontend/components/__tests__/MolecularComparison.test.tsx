@@ -5,7 +5,7 @@ import type { MoldexMolecule } from "../../lib/moldex";
 const idioma = vi.hoisted(() => ({ locale: "es" as "es" | "en" }));
 vi.mock("@/context/LanguageContext", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../../context/LanguageContext")>();
-  const t = (key: string) => actual.TRANSLATIONS[idioma.locale][key] ?? key;
+  const t = (key: string, values?: Record<string, string | number>) => actual.interpolar(actual.TRANSLATIONS[idioma.locale][key] ?? key, values);
   return { ...actual, useLanguage: () => ({ t, locale: idioma.locale }), Translated: ({ id }: { id: string }) => <>{t(id)}</> };
 });
 vi.mock("../MoleculeViewer3D", () => ({ MoleculeViewer3D: () => null }));
@@ -24,7 +24,10 @@ function ficha(score: number, cal?: string): MoldexMolecule {
     scientific_warnings: [], hotspots_hit: [], blockchain: { certified: false, tx_signature: null, certified_task_id: null, certified_total_score: null, matches_current_run: null },
   };
 }
-const filaIndice = () => screen.getByRole("row", { name: /ÍNDICE COMPUESTO/ });
+// La fila se rotula «heredado» en el idioma de la interfaz (SUP-02-TOTAL-SCORE); antes quedaba en castellano también en inglés.
+const filaIndice = () => screen.getByRole("row", {
+  name: idioma.locale === "es" ? /ÍNDICE COMPUESTO HEREDADO \(0-100\)/ : /LEGACY COMPOSITE INDEX \(0-100\)/,
+});
 describe("SCI-A-013: resta del índice", () => {
   it.each(["es", "en"] as const)("conserva valores y explica los tres faltantes en %s", (locale) => {
     idioma.locale = locale;
@@ -55,7 +58,7 @@ describe("SCI-A-012: descriptores independientes del docking", () => {
       if (incompatibilidad === "protocolo") b.provenance.docking_protocol = { engine: "vina", seed: 43 };
       if (incompatibilidad === "calibracion") b.provenance.protocolo!.calibracion_ranking = "M5";
       render(<MolecularComparison molA={a} molB={b} onClose={() => {}} />);
-      for (const [nombre, delta] of [[/LOG P/, "+1.00"], [/PESO MOL/, "+10.00"], [/TPSA/, "+5.00"]] as const) {
+      for (const [nombre, delta] of [[/LOG P/, "+1.00"], [/PESO MOL|MOL. WEIGHT/, "+10.00"], [/TPSA/, "+5.00"]] as const) {
         const cells = within(screen.getByRole("row", { name: nombre })).getAllByRole("cell");
         expect(cells[1]).toHaveTextContent(delta);
         expect(cells[1].querySelector("span")).toHaveClass("text-slate-300");
@@ -81,7 +84,7 @@ describe("SCI-A-012: descriptores independientes del docking", () => {
     expect(screen.getAllByRole("row")).toHaveLength(5);
     expect(within(screen.getByRole("row", { name: /LOG P/ })).getAllByRole("cell")[1]).toHaveTextContent("—");
     expect(within(filaIndice()).getAllByRole("cell")[1]).toHaveTextContent("+6.00");
-    for (const name of [/PESO MOL/, /TPSA/]) {
+    for (const name of [/PESO MOL|MOL. WEIGHT/, /TPSA/]) {
       expect(within(screen.getByRole("row", { name })).getAllByRole("cell")[1].querySelector("span")).toHaveClass("text-slate-300");
     }
   });
@@ -111,4 +114,15 @@ describe("identidad de recursos del comparador de Moldex", () => {
     expect(getPoseFile).not.toHaveBeenCalled();
     expect(getProteinFile).not.toHaveBeenCalled();
   });
+});
+
+it.each(["es", "en"] as const)("conserva nombres del investigador aunque empiecen con Ligando (%s)", async locale => {
+  idioma.locale = locale;
+  const a = ficha(80, "M4"), b = ficha(86, "M4");
+  a.name = "Ligando de mi ensayo"; b.name = "My sample";
+  const before = JSON.stringify([a,b]);
+  render(<MolecularComparison molA={a} molB={b} onClose={() => {}} />);
+  await waitFor(() => expect(screen.getByText(a.name, { exact: true })).toBeVisible());
+  await waitFor(() => expect(screen.getByText(b.name, { exact: true })).toBeVisible());
+  expect(JSON.stringify([a,b])).toBe(before);
 });

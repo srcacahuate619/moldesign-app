@@ -82,14 +82,14 @@ export function ProAlertsTab({ warnings, inApplicabilityDomain, modelUsed }: Pro
     derivados.push({
       codigo: "FUERA_DE_DOMINIO",
       severidad: "precaucion",
-      mensaje: "Fuera del dominio de aplicabilidad — interpretar con cautela.",
+      mensaje: t("pr_frontend_090"),
     });
   }
   if (modelUsed != null && modelUsed !== "family") {
     derivados.push({
       codigo: "MODELO_UNIVERSAL",
       severidad: "info",
-      mensaje: "Modelo universal usado (familia con datos insuficientes).",
+      mensaje: t("pr_frontend_091"),
     });
   }
 

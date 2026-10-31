@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useCallback, useContext, useState, useEffect } from "react";
 import { useAuth } from "../lib/auth";
 import { getUserItem, setUserItem } from "../lib/userStorage";
 import { apiUrlSnapshot, subscribeApiUrl } from "../lib/config";
@@ -94,6 +94,14 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     opt_ai_config: "Configurar proveedor IA",
     opt_ai_chat_open: "Abrir MolChat",
     opt_ai_chat_close: "Cerrar MolChat",
+    molchat_beta_nuevo: "MolChat nuevo (beta)",
+    molchat_beta_clasico: "MolChat clásico",
+    molchat_host_titulo: "MolChat (externo)",
+    molchat_host_cargando: "Iniciando MolChat…",
+    molchat_host_ausente: "MolChat no está incluido en esta instalación.",
+    molchat_host_error: "MolChat no pudo arrancar",
+    molchat_host_reintentar: "Reintentar",
+    molchat_host_aprobacion: "MolChat pide aprobar una propuesta: se resuelve en este mismo panel.",
     opt_data: "Datos y Respaldo",
     opt_data_export: "Exportar Bioteca (JSON)",
     opt_data_export_desc: "Descarga todas tus moléculas y resultados en un archivo portátil",
@@ -418,6 +426,14 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     opt_ai_config: "Configure AI provider",
     opt_ai_chat_open: "Open MolChat",
     opt_ai_chat_close: "Close MolChat",
+    molchat_beta_nuevo: "New MolChat (beta)",
+    molchat_beta_clasico: "Classic MolChat",
+    molchat_host_titulo: "MolChat (external)",
+    molchat_host_cargando: "Starting MolChat…",
+    molchat_host_ausente: "MolChat is not included in this installation.",
+    molchat_host_error: "MolChat could not start",
+    molchat_host_reintentar: "Retry",
+    molchat_host_aprobacion: "MolChat asks to approve a proposal: resolve it in this same panel.",
     opt_data: "Data & Backup",
     opt_data_export: "Export Library (JSON)",
     opt_data_export_desc: "Download all your molecules and results in a portable file",
@@ -612,9 +628,9 @@ export const TRANSLATIONS: Record<Locale, Record<string, string>> = {
     se_dec_no_alternatives: "No other pose passed the physical checks.",
     se_dec_next: "Recommended next step",
     se_dec_next_abstain: "Abstain: complete the run",
-    se_dec_next_abstain_detail: "Do not prioritise the ligand or chain further calculations while poses are missing or checks are failing.",
+    se_dec_next_abstain_detail: "Do not prioritize the ligand or chain further calculations while poses are missing or checks are failing.",
     se_dec_next_review: "Review the geometry before continuing",
-    se_dec_next_review_detail: "Resolve the pending checks before MM-GBSA, molecular dynamics or any experimental prioritisation.",
+    se_dec_next_review_detail: "Resolve the pending checks before MM-GBSA, molecular dynamics or any experimental prioritization.",
     se_dec_next_proceed: "Suitable for further analysis within the same protocol",
     se_dec_next_proceed_detail: "The available evidence supports continuing while keeping the documented limitations. It does not say the molecule is active.",
     se_ev_poses_generated: "Poses were generated with their observed Vina affinity.",
@@ -724,10 +740,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     } catch {}
   };
 
-  const t = (key: string, valores?: ValoresDeTraduccion): string => {
+  const t = useCallback((key: string, valores?: ValoresDeTraduccion): string => {
     const dict = TRANSLATIONS[locale] || TRANSLATIONS.es;
     return interpolar(dict[key] || TRANSLATIONS.es[key] || key, valores);
-  };
+  }, [locale]);
 
   useEffect(() => {
     const originalFetch = window.fetch;

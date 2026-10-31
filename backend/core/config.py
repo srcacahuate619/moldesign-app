@@ -111,7 +111,7 @@ class Settings(BaseSettings):
     meeko_default_altloc: str = "A"
     vina_exhaustiveness: int = Field(default=8, ge=1, le=128)  # 8: el defecto de AutoDock Vina; su efecto en el ranking no está medido (SUPUESTOS-01)
     vina_calibration_exhaustiveness: int = Field(default=32, ge=8, le=64)
-    vina_num_poses: int = Field(default=5, ge=1, le=20)
+    vina_num_poses: int = Field(default=9, ge=1, le=20)  # 9, como la interfaz y el defecto de Vina (antes 5 sólo en la API; SUPUESTOS-01)
     vina_seed: int = Field(default=42, ge=0)  # 42 = reproducible (cambio a 0 para random)
     vina_cpu: int = Field(default=0, ge=0)  # 0 = auto-detect cores
     docking_max_consistency_error_pct: float = Field(default=5.0, ge=0.0, le=100.0)
@@ -164,7 +164,7 @@ class Settings(BaseSettings):
     )
 
     # ── MolChat / LLM local (llama-server.exe sidecar) ─────────────────────
-    # Migración v1.x: el wrapper `services/ai/local_llm.py` lanza el binario
+    # Migración v1.x: el wrapper `services/llm/local_llm.py` lanza el binario
     # oficial `llama-server.exe` (build de ggerganov/llama.cpp) como subproceso
     # HTTP en el puerto reservado 8400. Protocolo OpenAI-compatible.
     # Documentación: docs/33_MIGRATION_LLAMA_SERVER.md
@@ -213,6 +213,25 @@ class Settings(BaseSettings):
     groq_default_model: str = "llama-3.1-8b-instant"
     lmstudio_url: str = "http://localhost:1234"
     lmstudio_model: str = "local-model"
+
+    # ── MolChat (sidecar externo, Fase 6) ──────────────────────────────────
+    molchat_moldesign_url: str = Field(
+        default="http://127.0.0.1:18017",
+        description=(
+            "URL loopback de este mismo backend, que el lanzador pasa al "
+            "sidecar como MOLDESIGN_BASE_URL para que sus llamadas vuelvan "
+            "aquí. Debe coincidir con el puerto donde el instalador sirve "
+            "la API (MOLCHAT_MOLDESIGN_URL lo cambia)."
+        ),
+    )
+    molchat_ttl_s: int = Field(
+        default=3600, ge=60, le=86400,
+        description=(
+            "Vida en segundos de la sesión mh1 de /molchat-host/session. "
+            "Corta frente a la sesión de escritorio, holgada frente al "
+            "sondeo de trabajos; la UI pide otra al caducar."
+        ),
+    )
 
     # ── Auth ─────────────────────────────────────────────────────────────────
     jwt_algorithm: str = "HS256"
@@ -268,7 +287,7 @@ class Settings(BaseSettings):
     # AlphaFold DB es una fuente estructural externa activa en
     # /targets/alphafold/{lookup,search}. No es motor de docking ni servicio
     # local: sus salidas explícitas están inventariadas en
-    # services.ai.red.DESTINOS como alphafold@alphafold.ebi.ac.uk y pasan
+    # services.red.DESTINOS como alphafold@alphafold.ebi.ac.uk y pasan
     # por exigir_permiso. La aplicación puede abrir sin red; esas consultas
     # requieren permiso y conectividad.
     # ── Integraciones dormidas ──────────────────────────────────────────────

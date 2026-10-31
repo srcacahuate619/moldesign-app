@@ -1,0 +1,24 @@
+{
+  "llamadas_t_revisadas": 3463,
+  "claves_y_alias_con_valores_en": 11575,
+  "metodo": "TypeScript checker: inicializadores, propiedades, ramas condicionales y retornos; no resuelve parámetros arbitrarios",
+  "coincidencias": [
+    {
+      "consumidor": "frontend/components/interfaces/pro/TargetSelectorModal.tsx:543",
+      "funcion": "calibrationTooltip",
+      "lineas_origen": [
+        58,
+        60,
+        62
+      ],
+      "ids": [
+        "I18N-113",
+        "I18N-115",
+        "I18N-116"
+      ]
+    }
+  ],
+  "otros_cierres_corregidos": [],
+  "cerradas": 246,
+  "pendientes": 48
+}

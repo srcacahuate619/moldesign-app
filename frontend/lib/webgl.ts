@@ -1,3 +1,4 @@
+import { frontendMessage, type FrontendMessage, type Translate } from "./frontendError";
 // =====================================================================
 // Disponibilidad de WebGL, dicha por MolDesign y no por la librería
 // =====================================================================
@@ -46,6 +47,7 @@ export interface EstadoWebGL {
   readonly disponible: boolean;
   /** `null` si está disponible. */
   readonly motivo: string | null;
+  readonly motivoMessage?: FrontendMessage;
   /** `null` si no hay contexto o si el equipo no quiere identificarse. */
   readonly aceleracion: Aceleracion | null;
   /** Lo que anuncia el equipo, tal cual. Para diagnóstico, no para decidir. */
@@ -108,8 +110,8 @@ export function comprobarWebGL(): EstadoWebGL {
         aceleracion: null,
         renderer: null,
         motivo:
-          "este equipo no expone aceleración 3D por hardware. Es lo habitual en " +
-          "una máquina virtual sin GPU virtualizada.",
+          String(frontendMessage("pr_webgl_no_hardware")),
+        motivoMessage: frontendMessage("pr_webgl_no_hardware"),
       };
       return cache;
     }
@@ -146,7 +148,8 @@ export function comprobarWebGL(): EstadoWebGL {
       disponible: false,
       aceleracion: null,
       renderer: null,
-      motivo: `no se pudo crear un contexto WebGL (${String(error).slice(0, 80)}).`,
+      motivo: String(frontendMessage("pr_webgl_error", { detail: String(error).slice(0, 80) })),
+      motivoMessage: frontendMessage("pr_webgl_error", { detail: String(error).slice(0, 80) }),
     };
     return cache;
   }
@@ -155,4 +158,9 @@ export function comprobarWebGL(): EstadoWebGL {
 /** Sólo para pruebas: olvida la comprobación memorizada. */
 export function reiniciarComprobacionWebGL(): void {
   cache = null;
+}
+
+/** Presentación desde el descriptor; la comprobación física y su caché no dependen del idioma. */
+export function webglReason(state: EstadoWebGL, t: Translate): string | null {
+  return state.motivoMessage ? state.motivoMessage.render(t) : state.motivo;
 }

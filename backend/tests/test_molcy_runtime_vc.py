@@ -296,7 +296,8 @@ def test_los_mensajes_nuevos_tienen_ingles_tambien_con_el_registro_detras():
 def test_el_cargador_real_da_0xC0000135_y_se_reconoce(tmp_path):
     """Un `python.exe` real sin la DLL que importa (aquí `python3xx.dll`) muere en el cargador con el mismo código que el de
     Blender sin Visual C++. Se comprueba que `probar_python` lo lee y que el mensaje es el de una DLL que falta."""
-    fuente = Path(sys.executable)
+    # En un venv, `sys.executable` es un lanzador que no importa `python3xx.dll` y arranca sin ella.
+    fuente = Path(getattr(sys, "_base_executable", None) or sys.executable)
     if not fuente.is_file():
         pytest.skip("sin intérprete en disco")
     blender, python = _blender(tmp_path / "blender")

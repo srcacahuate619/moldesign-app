@@ -75,7 +75,7 @@ export interface OrbUpdate {
 // desconocidos) y para eventos no relacionados con etapas (pipeline_*),
 // que el consumidor maneja aparte. Stage desconocido → null (degradación
 // suave: el DOT ignora eventos que no sabe mapear, no crashea).
-export function stageEventToOrbUpdate(event: PipelineEvent): OrbUpdate | null {
+export function stageEventToOrbUpdate(event: PipelineEvent, t?: (key: string) => string): OrbUpdate | null {
   const orb = SSE_TO_ORB[event.stage_id ?? ""];
   if (!orb) return null;
   switch (event.type) {
@@ -98,9 +98,9 @@ export function stageEventToOrbUpdate(event: PipelineEvent): OrbUpdate | null {
     case "stage_done":
       return { orb, state: "done" };
     case "stage_error":
-      return { orb, state: "error", message: event.error ?? "Error en la etapa" };
+      return { orb, state: "error", message: event.error ?? t?.("pr_stage_error") ?? "Error en la etapa" };
     case "stage_skipped":
-      return { orb, state: "skipped", message: event.reason ?? "no se calculó" };
+      return { orb, state: "skipped", message: event.reason ?? t?.("auto_47083d99db42") ?? "no se calculó" };
     default:
       return null;
   }

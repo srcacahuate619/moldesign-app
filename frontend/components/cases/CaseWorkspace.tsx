@@ -39,14 +39,16 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
+import { etapaDeEvaluacionChat, marcarEtapaDeEvaluacionChat } from "../../lib/evaluacionDesdeChat";
 import resultStyles from "../interfaces/pro/ResultPanels.module.css";
 import dynamic from "next/dynamic";
 import { AlertTriangle, ArrowLeft, ChevronDown, FileText, X } from "lucide-react";
 
-import { LIVE_WORK_MESSAGE, SYSTEM_SEALED_MESSAGE, useCases } from "../../context/CaseContext";
+import { useCases } from "../../context/CaseContext";
 import { registerNativeJobDestinationResolver } from "../../lib/nativeJobNotifications";
 import { KeepAliveContext, useKeepAliveActive } from "../../context/KeepAliveContext";
 import {
+  CaseError,
   type CaseRecoveryAction,
   type CaseStudyKind,
   type CaseView,
@@ -57,6 +59,7 @@ import {
 } from "../../lib/cases/types";
 import { caseViewLabel, displayCasePath, localizeCaseStorageLabel } from "../../lib/cases/uiLabels";
 import { escucharPeticionesDeEvaluacion, type PeticionRecibida } from "../../lib/peticionDeEvaluacion";
+import { currentEditorReader, waitEditorReader } from "../../lib/editorSnapshot";
 import { CaseEmptyState } from "./CaseEmptyState";
 import { CaseSidebar } from "./CaseSidebar";
 import { CaseSidebarShell } from "./CaseSidebarShell";
@@ -99,10 +102,18 @@ export function CaseWorkspace() {
     repairCase, acceptRelocation, unregisteredRun, retryRegisterRun, registerRun,
   } = useCases();
   const [dialogOpen, setDialogOpen] = useState(false);
+  const creandoDesdeChat = useRef(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [runHistoryOpen, setRunHistoryOpen] = useState(false);
   const navigationState = useRef({ ownerUserId, activeCase, hasLiveWork });
   navigationState.current = { ownerUserId, activeCase, hasLiveWork };
+  const cargandoSmiles = useRef(false);
+  const [smilesDesdeChat, setSmilesDesdeChat] = useState<{ requestId: string; caseId: string; smiles: string; deadline: number; onApplied: () => void } | null>(null);
+  const asignandoReceptor = useRef(false);
+  const [receptorDesdeChat, setReceptorDesdeChat] = useState<{ requestId: string; caseId: string; pdbId: string; deadline: number; onVisible: (already: boolean) => void; onError: (status: string) => void } | null>(null);
+  const [receptorConfirmacion, setReceptorConfirmacion] = useState<{ caseId: string; owner: string; pdbId: string; already: boolean; finish: (status: string) => void } | null>(null);
+  const evaluandoDesdeChat = useRef(false);
+  const [evaluacionDesdeChat, setEvaluacionDesdeChat] = useState<{ requestId: string; caseId: string; deadline: number; onResult: (result: { status: string; task_id?: string; reason?: string }) => void } | null>(null);
   const nativeSequence = useRef(0);
   const pendingNative = useRef<{ caseId: string; taskId: string; sequence: number;
     resolve: (opened: boolean) => void; timer: ReturnType<typeof setTimeout> } | null>(null);
@@ -193,7 +204,7 @@ export function CaseWorkspace() {
   >(null);
 
   const capabilities = repository.capabilities;
-  const storageLabel = localizeCaseStorageLabel(capabilities.storageLabel, t);
+  const storageLabel = localizeCaseStorageLabel(repository, t);
   const requiresDirectory = repository.id === "tauri";
   // La visibilidad de la RUTA la provee el keep-alive de la app; aquí se
   // combina con la del MODO para pausar los viewers con precisión.
@@ -287,6 +298,246 @@ export function CaseWorkspace() {
     },
     [createCase],
   );
+
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<{
+        name: string; owner: string; handled: boolean; respond: (status: "created" | "exists" | "failed" | "unknown") => void;
+      }>).detail;
+      if (!detalle || typeof detalle.name !== "string" || typeof detalle.respond !== "function") return;
+      detalle.handled = true;
+      if (detalle.owner !== ownerUserId) { detalle.respond("failed"); return; }
+      if (creandoDesdeChat.current) { detalle.respond("failed"); return; }
+      creandoDesdeChat.current = true;
+      void (async () => {
+        try {
+          const normalizar = (name: string) => name.normalize("NFC").trim().toLocaleLowerCase();
+          const existentes = await repository.listCases();
+          if (existentes.some((caso) => normalizar(caso.name) === normalizar(detalle.name))) {
+            detalle.respond("exists"); return;
+          }
+          const parent = requiresDirectory ? await repository.defaultParentDirectory?.() : null;
+          if (requiresDirectory && !parent) { detalle.respond("failed"); return; }
+          const record = await createCase(detalle.name, "explore-hypothesis", parent?.token);
+          detalle.respond(record ? "created" : "failed");
+        } catch (error) {
+          if (error instanceof CaseError && error.code === "ALREADY_EXISTS") {
+            detalle.respond("exists"); return;
+          }
+          // A failure after the write may have happened; never claim absence.
+          detalle.respond("unknown");
+        } finally {
+          creandoDesdeChat.current = false;
+        }
+      })();
+    };
+    window.addEventListener("molchat-create-case", recibir);
+    return () => window.removeEventListener("molchat-create-case", recibir);
+  }, [createCase, ownerUserId, repository, requiresDirectory]);
+
+  useEffect(() => {
+    if (!receptorConfirmacion) return;
+    const pending = receptorConfirmacion;
+    if (ownerUserId !== pending.owner || activeCase?.id !== pending.caseId) { pending.finish("unknown"); return; }
+    if (saveState === "error") { pending.finish("save_failed"); return; }
+    if (activeCase.inputs?.receptor?.pdbId?.toUpperCase() === pending.pdbId.toUpperCase() &&
+        (saveState === "saved" || (pending.already && saveState === "idle"))) {
+      // A previous queued write may have set `saved` while a newer write is
+      // still pending. Confirm the receptor in the persisted case itself.
+      let cancelled = false;
+      let retry: ReturnType<typeof setTimeout> | undefined;
+      const verify = async () => {
+        try {
+          const persisted = await repository.readCase(pending.caseId);
+          if (cancelled) return;
+          const current = navigationState.current;
+          if (current.ownerUserId !== pending.owner || current.activeCase?.id !== pending.caseId) { pending.finish("unknown"); return; }
+          if (current.activeCase.inputs?.receptor?.pdbId?.toUpperCase() !== pending.pdbId.toUpperCase()) { pending.finish("unknown"); return; }
+          if (persisted.inputs?.receptor?.pdbId?.toUpperCase() === pending.pdbId.toUpperCase()) {
+            pending.finish(pending.already ? "already_selected" : "applied");
+          } else retry = setTimeout(() => void verify(), 150);
+        } catch { if (!cancelled) pending.finish("unknown"); }
+      };
+      void verify();
+      return () => { cancelled = true; if (retry) clearTimeout(retry); };
+    }
+  }, [receptorConfirmacion, ownerUserId, activeCase, saveState, repository]);
+
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<{ caseName: string; owner: string; requestId: string; deadline: number;
+        handled: boolean; respond: (result: { status: string; task_id?: string; reason?: string }) => void }>).detail;
+      if (!detalle || typeof detalle.respond !== "function") return;
+      detalle.handled = true;
+      if (detalle.owner !== ownerUserId || Date.now() >= detalle.deadline) { detalle.respond({ status: "failed" }); return; }
+      const ocupadoPor = navigationState.current.hasLiveWork ? t("ev_chat_ocupado_trabajo")
+        : evaluandoDesdeChat.current ? t("ev_chat_ocupado_otra")
+        : asignandoReceptor.current ? t("ev_chat_ocupado_receptor")
+        : cargandoSmiles.current ? t("ev_chat_ocupado_smiles")
+        : unregisteredRun ? t("ev_chat_ocupado_corrida") : null;
+      if (ocupadoPor) { detalle.respond({ status: "busy", reason: t("ev_chat_no_pulsado", { motivo: ocupadoPor }) }); return; }
+      evaluandoDesdeChat.current = true;
+      marcarEtapaDeEvaluacionChat(detalle.requestId, t("ev_chat_etapa_recibida_casos"));
+      let terminado = false;
+      const acabar = (result: { status: string; task_id?: string; reason?: string }) => {
+        if (terminado) return;
+        terminado = true;
+        clearTimeout(timer);
+        evaluandoDesdeChat.current = false;
+        setEvaluacionDesdeChat(null);
+        detalle.respond(navigationState.current.ownerUserId === detalle.owner ? result : { status: "unknown" });
+      };
+      const timer = setTimeout(() => acabar({ status: "unknown",
+        reason: t("ev_chat_plazo", { etapa: etapaDeEvaluacionChat(detalle.requestId, t) }) }),
+        Math.max(0, detalle.deadline - Date.now()));
+      void (async () => {
+        try {
+          const normalizar = (name: string) => name.normalize("NFC").trim().toLocaleLowerCase();
+          const encontrados = (await repository.listCases()).filter(c =>
+            (!c.ownerUserId || c.ownerUserId === detalle.owner) && normalizar(c.name) === normalizar(detalle.caseName));
+          if (terminado || navigationState.current.ownerUserId !== detalle.owner) { acabar({ status: "unknown" }); return; }
+          if (!encontrados.length) { acabar({ status: "case_not_found" }); return; }
+          if (encontrados.length > 1) { acabar({ status: "case_ambiguous" }); return; }
+          if (encontrados[0].archived || encontrados[0].unavailable) { acabar({ status: "blocked" }); return; }
+          const id = encontrados[0].id;
+          if (!(await selectCase(id))) { acabar({ status: "busy", reason: t("ev_chat_caso_sin_abrir") }); return; }
+          if (terminado || Date.now() >= detalle.deadline || navigationState.current.ownerUserId !== detalle.owner) { acabar({ status: "unknown" }); return; }
+          marcarEtapaDeEvaluacionChat(detalle.requestId, t("ev_chat_etapa_caso_abierto"));
+          setActiveView("evaluation");
+          setEvaluacionDesdeChat({ requestId: detalle.requestId, caseId: id, deadline: detalle.deadline, onResult: acabar });
+        } catch { acabar({ status: "failed" }); }
+      })();
+    };
+    window.addEventListener("molchat-evaluate-case", recibir);
+    return () => window.removeEventListener("molchat-evaluate-case", recibir);
+  }, [ownerUserId, repository, selectCase, setActiveView, t, unregisteredRun]);
+
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<{ caseName: string; pdbId: string; owner: string; requestId: string; deadline: number;
+        handled: boolean; respond: (status: string) => void }>).detail;
+      if (!detalle || typeof detalle.respond !== "function") return;
+      detalle.handled = true;
+      if (detalle.owner !== ownerUserId || Date.now() >= detalle.deadline) { detalle.respond("failed"); return; }
+      if (navigationState.current.hasLiveWork || evaluandoDesdeChat.current || asignandoReceptor.current || cargandoSmiles.current) { detalle.respond("busy"); return; }
+      asignandoReceptor.current = true;
+      let terminado = false;
+      const acabar = (status: string) => {
+        if (terminado) return;
+        terminado = true;
+        clearTimeout(timer);
+        asignandoReceptor.current = false;
+        setReceptorDesdeChat(null);
+        setReceptorConfirmacion(null);
+        detalle.respond(status);
+      };
+      const timer = setTimeout(() => acabar("unknown"), Math.max(0, detalle.deadline - Date.now()));
+      void (async () => {
+        try {
+          const normalizar = (name: string) => name.normalize("NFC").trim().toLocaleLowerCase();
+          const encontrados = (await repository.listCases()).filter((c) =>
+            (!c.ownerUserId || c.ownerUserId === detalle.owner) && normalizar(c.name) === normalizar(detalle.caseName));
+          if (terminado || navigationState.current.ownerUserId !== detalle.owner) { acabar("unknown"); return; }
+          if (!encontrados.length) { acabar("case_not_found"); return; }
+          if (encontrados.length > 1) { acabar("case_ambiguous"); return; }
+          if (encontrados[0].archived || encontrados[0].unavailable) { acabar("failed"); return; }
+          const id = encontrados[0].id;
+          if (!(await selectCase(id))) { acabar("busy"); return; }
+          if (terminado || Date.now() >= detalle.deadline || navigationState.current.ownerUserId !== detalle.owner) { acabar("unknown"); return; }
+          setActiveView("evaluation");
+          setReceptorDesdeChat({ requestId: detalle.requestId, caseId: id, pdbId: detalle.pdbId, deadline: detalle.deadline,
+            onVisible: (already) => {
+              if (terminado || Date.now() >= detalle.deadline) { acabar("unknown"); return; }
+              setReceptorConfirmacion({ caseId: id, owner: detalle.owner, pdbId: detalle.pdbId, already, finish: acabar });
+            }, onError: acabar });
+        } catch { acabar("failed"); }
+      })();
+    };
+    window.addEventListener("molchat-assign-receptor", recibir);
+    return () => window.removeEventListener("molchat-assign-receptor", recibir);
+  }, [ownerUserId, repository, selectCase, setActiveView]);
+
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<{ caseName: string; smiles: string; owner: string; requestId: string; deadline: number;
+        handled: boolean; respond: (status: "applied" | "not_found" | "ambiguous" | "busy" | "failed" | "unknown") => void }>).detail;
+      if (!detalle || typeof detalle.respond !== "function") return;
+      detalle.handled = true;
+      if (detalle.owner !== ownerUserId || Date.now() >= detalle.deadline) { detalle.respond("failed"); return; }
+      if (navigationState.current.hasLiveWork) { detalle.respond("busy"); return; }
+      if (cargandoSmiles.current || asignandoReceptor.current || evaluandoDesdeChat.current) { detalle.respond("busy"); return; }
+      cargandoSmiles.current = true;
+      let terminado = false;
+      const acabar = (status: "applied" | "not_found" | "ambiguous" | "busy" | "failed" | "unknown") => {
+        if (terminado) return;
+        terminado = true;
+        clearTimeout(timer);
+        cargandoSmiles.current = false;
+        setSmilesDesdeChat(null);
+        detalle.respond(status);
+      };
+      const timer = setTimeout(() => acabar("unknown"), Math.max(0, detalle.deadline - Date.now()));
+      void (async () => {
+        try {
+          const normalizar = (name: string) => name.normalize("NFC").trim().toLocaleLowerCase();
+          const encontrados = (await repository.listCases()).filter((c) =>
+            (!c.ownerUserId || c.ownerUserId === detalle.owner) && normalizar(c.name) === normalizar(detalle.caseName));
+          if (terminado || navigationState.current.ownerUserId !== detalle.owner) { acabar("failed"); return; }
+          if (encontrados.length === 0) { acabar("not_found"); return; }
+          if (encontrados.length > 1) { acabar("ambiguous"); return; }
+          if (encontrados[0].archived || encontrados[0].unavailable) { acabar("failed"); return; }
+          const id = encontrados[0].id;
+          if (!(await selectCase(id))) { acabar("busy"); return; }
+          if (terminado || Date.now() >= detalle.deadline || navigationState.current.ownerUserId !== detalle.owner) { acabar("unknown"); return; }
+          setActiveView("evaluation");
+          setSmilesDesdeChat({ requestId: detalle.requestId, caseId: id, smiles: detalle.smiles, deadline: detalle.deadline,
+            onApplied: () => {
+              const state = navigationState.current;
+              acabar(Date.now() < detalle.deadline && state.ownerUserId === detalle.owner && state.activeCase?.id === id ? "applied" : "unknown");
+            } });
+        } catch { acabar("failed"); }
+      })();
+    };
+    window.addEventListener("molchat-load-smiles", recibir);
+    return () => window.removeEventListener("molchat-load-smiles", recibir);
+  }, [ownerUserId, repository, selectCase, setActiveView]);
+
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<{ caseName: string; operation: string; revision: string; owner: string; deadline: number;
+        handled: boolean; respond: (result: { status: string; molfile?: string; revision?: string }) => void }>).detail;
+      if (!detalle || typeof detalle.respond !== "function") return;
+      detalle.handled = true;
+      if (detalle.owner !== ownerUserId || Date.now() >= detalle.deadline) { detalle.respond({ status: "failed" }); return; }
+      void (async () => {
+        try {
+          const normalizar = (name: string) => name.normalize("NFC").trim().toLocaleLowerCase();
+          const encontrados = (await repository.listCases()).filter((c) =>
+            (!c.ownerUserId || c.ownerUserId === detalle.owner) && normalizar(c.name) === normalizar(detalle.caseName));
+          if (encontrados.length === 0) { detalle.respond({ status: "not_found" }); return; }
+          if (encontrados.length > 1) { detalle.respond({ status: "ambiguous" }); return; }
+          const record = encontrados[0];
+          if (record.archived || record.unavailable || navigationState.current.ownerUserId !== detalle.owner) { detalle.respond({ status: "failed" }); return; }
+          if (detalle.operation === "snapshot" && !(await selectCase(record.id))) { detalle.respond({ status: "not_ready" }); return; }
+          if (Date.now() >= detalle.deadline) { detalle.respond({ status: "unknown" }); return; }
+          const reader = detalle.operation === "check" ? currentEditorReader(record.id)
+            : await waitEditorReader(record.id, Math.min(15000, detalle.deadline - Date.now()));
+          const state = navigationState.current;
+          if (!reader || Date.now() >= detalle.deadline || state.ownerUserId !== detalle.owner || state.activeCase?.id !== record.id) {
+            detalle.respond({ status: detalle.operation === "check" ? "changed" : "not_ready" }); return;
+          }
+          if (detalle.operation === "check") { detalle.respond({ status: reader.check(detalle.revision) ? "ok" : "changed" }); return; }
+          const snapshot = await reader.snapshot();
+          if (Date.now() >= detalle.deadline || navigationState.current.activeCase?.id !== record.id || navigationState.current.ownerUserId !== detalle.owner) {
+            detalle.respond({ status: "changed" }); return;
+          }
+          detalle.respond(snapshot);
+        } catch { detalle.respond({ status: "failed" }); }
+      })();
+    };
+    window.addEventListener("molchat-read-editor", recibir);
+    return () => window.removeEventListener("molchat-read-editor", recibir);
+  }, [ownerUserId, repository, selectCase]);
 
   const handleOpenFolder = useCallback(async () => {
     const outcome = await openExistingFolder();
@@ -504,9 +755,7 @@ export function CaseWorkspace() {
           >
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             <span className="min-w-0 flex-1">
-              {/* El contexto guarda sus avisos fijos en castellano; aquí se enseñan en el idioma de la interfaz. */}
-              {error === SYSTEM_SEALED_MESSAGE ? t("ca_sistema_fijado")
-                : error === LIVE_WORK_MESSAGE ? t("ca_trabajo_en_curso_cambio") : error}
+              {error}
             </span>
             {saveState === "error" && (
               <button
@@ -635,7 +884,8 @@ export function CaseWorkspace() {
             onOpenFolder={() => void handleOpenFolder()}
             canOpenFolder={capabilities.canOpenFolder && !hasLiveWork}
             openFolderUnavailableReason={
-              hasLiveWork ? workLockedReason : capabilities.openFolderUnavailableReason
+              hasLiveWork ? workLockedReason
+                : capabilities.openFolderUnavailableMessage?.render(t) ?? capabilities.openFolderUnavailableReason
             }
             storageLabel={storageLabel}
             createDisabled={hasLiveWork}
@@ -801,6 +1051,9 @@ export function CaseWorkspace() {
                     decisions={activeCase.decisions}
                     onDecision={recordDecision}
                     peticion={peticion?.casoId === activeCase.id ? peticion : undefined}
+                    smilesDesdeChat={smilesDesdeChat?.caseId === activeCase.id ? smilesDesdeChat : undefined}
+                    receptorDesdeChat={receptorDesdeChat?.caseId === activeCase.id ? receptorDesdeChat : undefined}
+                    evaluacionDesdeChat={evaluacionDesdeChat?.caseId === activeCase.id ? evaluacionDesdeChat : undefined}
                   />
                 </KeepAliveContext.Provider>
               </div>

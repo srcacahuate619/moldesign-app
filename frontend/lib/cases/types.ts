@@ -21,6 +21,8 @@
 // modelan como ausencia explicita y la UI muestra "No definido". Nunca se
 // inventa un valor por defecto.
 
+import { FrontendError, FrontendList, FrontendMessage, type FrontendText, type Translate } from "../frontendError";
+
 /**
  * Version del esquema del manifiesto `case.json`. Subir SOLO con migracion.
  *
@@ -1085,6 +1087,8 @@ export interface CaseUnavailable {
   readonly code: CaseErrorCode;
   readonly message: string;
   readonly detail?: string;
+  /** Diagnóstico estructurado de esta sesión; nunca se serializa en el manifiesto. */
+  readonly error?: CaseError;
   /** Acciones que tienen sentido para ESTE fallo. La UI no las adivina. */
   readonly actions: readonly CaseRecoveryAction[];
 }
@@ -1108,6 +1112,8 @@ export interface CaseIndexEntry {
   /** Propietario persistido; ausente sólo durante migración legacy. */
   readonly ownerUserId?: string;
   readonly name: string;
+  /** Sólo en memoria: nombre de respaldo generado al no poder leer un caso. */
+  readonly generatedName?: boolean;
   readonly status: CaseStatus;
   /** Orden estable del panel: abrir o evaluar un caso nunca cambia su nacimiento. */
   readonly createdAt: string;
@@ -1166,16 +1172,23 @@ export type CaseErrorCode =
   /** El caso o la carpeta no están autorizados: lo emite la frontera de Rust. */
   | "UNAUTHORIZED";
 
-export class CaseError extends Error {
+export class CaseError extends FrontendError {
   readonly code: CaseErrorCode;
   readonly detail?: string;
+  readonly frontendDetail?: FrontendMessage | FrontendList;
 
-  constructor(code: CaseErrorCode, message: string, detail?: string) {
+  constructor(code: CaseErrorCode, message: FrontendText, detail?: FrontendText) {
     super(message);
     this.name = "CaseError";
     this.code = code;
-    this.detail = detail;
+    this.detail = detail === undefined ? undefined : String(detail);
+    if (detail instanceof FrontendMessage || detail instanceof FrontendList) this.frontendDetail = detail;
   }
+}
+
+/** Traduce sólo detalles etiquetados por el frontend; los externos se conservan literalmente. */
+export function presentCaseErrorDetail(error: CaseError, t: Translate): string {
+  return error.frontendDetail ? error.frontendDetail.render(t) : error.detail ?? "";
 }
 
 /** Cuenta las preguntas de contexto sin responder, por severidad. */

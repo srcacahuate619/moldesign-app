@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useState, useRef } from "react";
@@ -68,7 +70,7 @@ export function PDFReportViewer({ moleculeId, taskId, isCertified, onCertify, is
       } catch (err: any) {
         // Abortar es lo que pedimos, no un fallo que mostrar.
         if (err?.name === "AbortError" || !activo) return;
-        setError(err?.message || t("auto_15eff5b3b975"));
+        setError(presentError(err, t) || t("auto_15eff5b3b975"));
         setIsLoading(false);
       }
     })();
@@ -77,7 +79,7 @@ export function PDFReportViewer({ moleculeId, taskId, isCertified, onCertify, is
       activo = false;
       control.abort();
     };
-  }, [moleculeId, taskId, isCertified, locale]);
+  }, [moleculeId, taskId, isCertified, locale, t]);
 
   // La última URL viva se libera al desmontar de verdad, no en cada re-efecto.
   useEffect(() => () => {

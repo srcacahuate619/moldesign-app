@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 /**
  * Visor alternativo a Ketcher: la molécula dibujada, levantada a 3D y girando.
  *
@@ -74,7 +76,7 @@ type Carga =
   | { tipo: "listo"; modelo: ModeloElevacion };
 
 export default function VisorElevacionEditor({ smiles, activo, onSwitchViewer, preparacion, molfile }: Props) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const cajaRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const datos = useRef<{ modelo: ModeloElevacion; escena: Escena } | null>(null);
@@ -183,11 +185,11 @@ export default function VisorElevacionEditor({ smiles, activo, onSwitchViewer, p
         if (control.signal.aborted) return;
         if (datos.current && smilesMostrado.current === limpio) return; // queda lo provisional a la vista
         datos.current = null;
-        setCarga({ tipo: "error", detalle: error instanceof ErrorDeElevacion ? error.message : String(error) });
+        setCarga({ tipo: "error", detalle: error instanceof ErrorDeElevacion ? presentError(error, t) : String(error) });
       });
     }, ESPERA_MS);
     return () => { clearTimeout(espera); control.abort(); };
-  }, [smiles, activo, opciones]);
+  }, [smiles, activo, opciones, t]);
 
   useEffect(() => {
     if (carga.tipo !== "listo") return;
@@ -286,13 +288,13 @@ export default function VisorElevacionEditor({ smiles, activo, onSwitchViewer, p
         ...(modelo.abstencion_provisional ? [t("el_provisional")] : []),
         ...(modelo.dibujo?.motivo ? [t("el_dibujo_rdkit")] : []),
         ...(modelo.detectores ?? []).map(textoDeDetector),
-        ...(geometria?.plana ? [t("el_plana", { espesor: formatoDeNumero(geometria.espesor_A ?? 0) })] : []),
+        ...(geometria?.plana ? [t("el_plana", { espesor: formatoDeNumero(geometria.espesor_A ?? 0, locale) })] : []),
         ...(geometria?.macrociclos.length ? [t("el_macrociclo", { tamanos: geometria.macrociclos.join(", ") })] : []),
         ...(geometria?.anillos_rigidos_grandes.length
           ? [t("el_anillo_rigido", { tamanos: geometria.anillos_rigidos_grandes.join(", ") })] : []),
         ...(vista === "escrita" && typeof deltaE === "number"
           ? [t(deltaE > DELTA_E_AVISO ? "el_delta_e_alto" : "el_delta_e", {
-              valor: formatoDeNumero(deltaE), campo: modelo.conformador?.campo_de_fuerza ?? "",
+              valor: formatoDeNumero(deltaE, locale), campo: modelo.conformador?.campo_de_fuerza ?? "",
             })]
           : []),
       ]
@@ -310,7 +312,7 @@ export default function VisorElevacionEditor({ smiles, activo, onSwitchViewer, p
             <>
               <strong className="font-semibold text-zinc-900">{t("el_acoplada_titulo")}</strong>{" "}
               {especie && t("el_acoplada_nota", {
-                ph: especie.ph === null ? "—" : formatoDeNumero(especie.ph),
+                ph: especie.ph === null ? "—" : formatoDeNumero(especie.ph, locale),
                 modo: especie.tautomero.modo === "canonico" ? t("el_tautomero_canonico") : t("el_tautomero_entrada"),
                 semilla: String(especie.conformador.semilla ?? "—"),
               })}
@@ -386,7 +388,7 @@ export default function VisorElevacionEditor({ smiles, activo, onSwitchViewer, p
         )}
         {modelo && (
           <p className="pointer-events-none absolute right-3 top-3 font-mono text-[10px] text-zinc-400">
-            {t("el_ajuste", { px: formatoDeNumero(modelo.desajuste_px), lienzo: String(modelo.lienzo) })}
+            {t("el_ajuste", { px: formatoDeNumero(modelo.desajuste_px, locale), lienzo: String(modelo.lienzo) })}
           </p>
         )}
       </div>

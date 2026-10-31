@@ -11,7 +11,11 @@ import MoldexCard from "@/components/MoldexCard";
 import { BatchRowResult } from "@/components/evaluation/BatchRowResult";
 
 vi.mock("@/hooks/useCatalogoDeReceptores", () => ({ useCatalogoDeReceptores: () => [{ pdb_id: "8HFI", seccion_catalogo: "verificado", verificacion: verificacionDePrueba } as Target] }));
-vi.mock("@/context/LanguageContext", () => ({ useLanguage: () => ({ locale: "es", t: (key: string, params: Record<string, string | number> = {}) => (catalogo.es[key] ?? key).replace(/\{(\w+)\}/g, (_, name) => String(params[name] ?? `{${name}}`)) }), Translated: ({ id }: { id: string }) => id }));
+vi.mock("@/context/LanguageContext", () => {
+  const t = (key: string, params: Record<string, string | number> = {}) =>
+    (catalogo.es[key] ?? key).replace(/\{(\w+)\}/g, (_, name) => String(params[name] ?? `{${name}}`));
+  return { useLanguage: () => ({ locale: "es", t }), Translated: ({ id }: { id: string }) => id };
+});
 vi.mock("@/lib/backendFetch", () => ({ fetchBackend: vi.fn().mockRejectedValue(new Error("sin imagen en esta prueba")) }));
 vi.mock("@/lib/api", () => ({ getEvaluationResult: vi.fn().mockResolvedValue({ affinity_kcal: -7, docking_poses: [], docking_protocol: { seed: 43 } }) }));
 

@@ -4,6 +4,9 @@
  * contrast: pass · mobile: pass
  */
 "use client";
+
+import { presentError } from "../../../lib/frontendError";
+import { bloqueoDeEvaluacionDesdeChat, debeEsperarLaPantalla, marcarEtapaDeEvaluacionChat, motivoDeBloqueoDesdeChat } from "../../../lib/evaluacionDesdeChat";
 import { AntiDianasAviso } from "./AntiDianasSelector";
 import { antiDianasParaEnviar, antiDianasPorDefecto, useAntiDianas } from "@/lib/antiDianas";
 
@@ -50,7 +53,7 @@ import type { Target } from "../../../lib/api";
 import { runAdmet, runMmgbsa } from "../../../lib/proApi";
 import { subscribeToPipelineEvents, stageEventToOrbUpdate } from "../../../lib/pipelineStream";
 import type { PipelineEvent } from "../../../lib/pipelineStream";
-import { PIPELINES_BY_FAMILY, FAMILY_LABELS, localizePipelineText } from "../../../lib/pipelineDefinitions";
+import { PIPELINES_BY_FAMILY, FAMILY_LABELS, FAMILY_LABEL_KEYS, localizePipeline } from "../../../lib/pipelineDefinitions";
 import { describirEtapa, etapasAusentes, pesosRegistrados, protocoloRegistrado, tieneSalidaUms } from "../../../lib/procedenciaDeSenales";
 import type { JobStatus, MolecularSuggestion, ValidationResult, EvaluationResult, InteractionDatum } from "../../../lib/types";
 import type { StageState } from "./PipelineTimeline";
@@ -58,7 +61,9 @@ import type { CasePipelineConfig, CaseRun, CaseStructuralSystem } from "../../..
 
 import { ExternalLink } from "@/components/ui/ExternalLink";
 interface ProEvaluationProps {
+  caseId?: string;
   smiles: string;
+  smilesDesdeChat?: { requestId: string; smiles: string; deadline: number; onApplied: () => void };
   setSmiles: (smiles: string) => void;
   target: string;
   setTarget: (target: string) => void;
@@ -113,6 +118,8 @@ interface ProEvaluationProps {
     peptideDockingEngine?: "esmfold" | "esmfold-pro" | "esmfold-experimental" | "colabfold",
     pipelineConfig?: CasePipelineConfig
   ) => Promise<void>;
+  evaluacionDesdeChat?: { requestId: string; deadline: number; onInvoke: () => void;
+    onResult: (result: { status: string; task_id?: string; reason?: string }) => void };
   handleReset?: () => void;
   handleCancel?: () => Promise<void>;
   handleUseSuggestion?: (sug: MolecularSuggestion) => Promise<void>;
@@ -211,7 +218,9 @@ interface ProEvaluationProps {
 // PIPELINES_BY_FAMILY es la fuente única de verdad del DOT.
 
 export default function ProEvaluation({
+  caseId,
   smiles,
+  smilesDesdeChat,
   setSmiles,
   target,
   setTarget,
@@ -240,6 +249,7 @@ export default function ProEvaluation({
   onLongRunningWorkChange,
   handleDownloadComplex,
   handleSubmit,
+  evaluacionDesdeChat,
   handleReset,
   handleCancel,
   preparationSlot,
@@ -251,6 +261,11 @@ export default function ProEvaluation({
   ejemploEnEditor,
   onRunConfigurationChange,
 }: ProEvaluationProps) {
+  const campoSmiles = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (smilesDesdeChat && Date.now() < smilesDesdeChat.deadline && smiles === smilesDesdeChat.smiles &&
+        campoSmiles.current?.value === smilesDesdeChat.smiles) smilesDesdeChat.onApplied();
+  }, [smiles, smilesDesdeChat]);
   // NIVEL 2 KeepAlive recovery: el wrapper del KeepAlive pasa el flag de
   // visibilidad via Context (las Next.js pages no aceptan props custom).
   // El flag viaja a AdvancedMolstarViewer para forzar un handleResize al volver.
@@ -637,10 +652,10 @@ export default function ProEvaluation({
         }
       }
     } catch (err) {
-      setMmgbsaError(err instanceof Error ? err.message : String(err));
+      setMmgbsaError(err instanceof Error ? presentError(err, t) : String(err));
       setMmgbsaState("error");
     }
-  }, [mmgbsaState, realResult?.molecule_id, mmgbsaPoseRank, mmgbsaNumSteps, taskId, setStatus]);
+  }, [mmgbsaState, realResult?.molecule_id, mmgbsaPoseRank, mmgbsaNumSteps, taskId, setStatus, t]);
 
   // ── ADMET-AI post-docking ────────────────────────────────────────────────
   //
@@ -705,7 +720,7 @@ export default function ProEvaluation({
       setAdmetState("done");
     } catch (err) {
       if (selectedResultRef.current !== requestKey) return;
-      setAdmetError(err instanceof Error ? err.message : String(err));
+      setAdmetError(err instanceof Error ? presentError(err, t) : String(err));
       setAdmetState("error");
     }
   }, [admetState, realResult?.molecule_id, realResult?.task_id, selectedResultKey, status, setStatus, t]);
@@ -743,7 +758,7 @@ export default function ProEvaluation({
         sizeZ: Number(t.grid_size_z ?? prev.sizeZ),
       }));
     }
-  }, [structuralSystemLocked, target, targets]);
+  }, [structuralSystemLocked, target, targets, t]);
 
   // Cargar el PDB del receptor inmediatamente al seleccionarlo — sin esperar
   // a que el docking termine. Así el canvas 3D (MolStar) muestra la proteína
@@ -798,7 +813,7 @@ export default function ProEvaluation({
         // Traducción stage SSE → orb (null para stages sin orb o desconocidos:
         // properties/sa_filter alimentan Parámetros, no el DOT; degradación
         // suave ante stage_ids nuevos del backend).
-        const update = stageEventToOrbUpdate(event);
+        const update = stageEventToOrbUpdate(event, t);
         if (!update) return;
         // Destructure a consts: TS no preserva el narrowing de propiedades
         // (update.message) dentro de closures de setState.
@@ -819,7 +834,7 @@ export default function ProEvaluation({
       closed = true;
       close?.();
     };
-  }, [taskId]);
+  }, [taskId, t]);
 
   // Every resource belongs to the selected run. A missing historical snapshot
   // stays missing; the catalogue is only an input preview before a result exists.
@@ -856,6 +871,13 @@ export default function ProEvaluation({
   const dotRef = useRef<HTMLDivElement>(null);
   const verifyRef = useRef<HTMLDivElement>(null);
   const targetRef = useRef<HTMLButtonElement>(null);
+  const evaluarRef = useRef<HTMLButtonElement>(null);
+  // El botón que ejecuta la evaluación (el morado). `evaluarRef` es, pese a su nombre, el de «Ver resultados».
+  const ejecutarRef = useRef<HTMLButtonElement>(null);
+  const evaluacionChatProcesada = useRef<string | null>(null);
+  const evaluacionChatInicio = useRef<{ id: string; at: number } | null>(null);
+  const [latidoEvaluacionChat, setLatidoEvaluacionChat] = useState(0);
+  const ESPERA_DE_PANTALLA_MS = 30000;
   const mmgbsaLabelRef = useRef<HTMLSpanElement>(null);
 
   const handleOpenTarget = () => {
@@ -921,6 +943,56 @@ export default function ProEvaluation({
     <ConfigurationSystem system={structuralSystem} provisional={structuralSystemProvisional} chains={cadenasDelSistema ?? null} />
   ) : null;
 
+  useEffect(() => {
+    const request = evaluacionDesdeChat;
+    if (!request || evaluacionChatProcesada.current === request.requestId) return;
+    const ahora = Date.now();
+    if (evaluacionChatInicio.current?.id !== request.requestId) {
+      evaluacionChatInicio.current = { id: request.requestId, at: ahora };
+      marcarEtapaDeEvaluacionChat(request.requestId, t("ev_chat_etapa_recibida_pantalla"));
+    }
+    const blocked = bloqueoDeEvaluacionDesdeChat({ expired: Date.now() >= request.deadline,
+      reviewing: reviewingResult && !configurationOpen, exampleLigand: Boolean(ejemploEnEditor),
+      canRun: canRunEvaluation, runBlocked: Boolean(runBlockedReason), antiNeedsReview: Boolean(antiNeedsReview),
+      hasButton: Boolean(handleSubmit && ejecutarRef.current), busy: Boolean(busy || isRunning || ejecutarRef.current?.disabled) });
+    // Al abrir el caso, el editor y los receptores todavía cargan y el botón aún no responde:
+    // no se rinde a la primera. Espera, sin pulsar nada, a que la pantalla esté lista.
+    if (debeEsperarLaPantalla(blocked, ahora - (evaluacionChatInicio.current?.at ?? ahora), ESPERA_DE_PANTALLA_MS)) {
+      marcarEtapaDeEvaluacionChat(request.requestId, t("ev_chat_etapa_esperando", {
+        estado: String(blocked), puede: String(Boolean(canRunEvaluation)), boton: String(Boolean(ejecutarRef.current)),
+        ocupada: String(Boolean(busy || isRunning)), deshabilitado: String(Boolean(ejecutarRef.current?.disabled)),
+        bloqueo: String(Boolean(runBlockedReason)) }));
+      const volver = window.setTimeout(() => setLatidoEvaluacionChat(n => n + 1), 500);
+      return () => window.clearTimeout(volver);
+    }
+    evaluacionChatProcesada.current = request.requestId;
+    if (blocked) {
+      const reason = blocked === "blocked" && runBlockedReason ? runBlockedReason.replace(/[\x00-\x1f]/g, " ").slice(0, 500)
+        : blocked === "busy" ? motivoDeBloqueoDesdeChat({ busy: Boolean(busy), buttonDisabled: Boolean(ejecutarRef.current?.disabled), running: Boolean(isRunning) }, t)
+        : undefined;
+      request.onResult({ status: blocked, ...(reason ? { reason } : {}) });
+      return;
+    }
+    // La pulsación es la del botón real, pero a la vista: se lleva el botón al centro, se
+    // resalta y se pulsa un instante después, para que quien mira el chat vea qué se pulsa.
+    const boton = ejecutarRef.current;
+    marcarEtapaDeEvaluacionChat(request.requestId, t("ev_chat_etapa_resaltado"));
+    boton?.scrollIntoView?.({ block: "center", behavior: "smooth" });
+    boton?.focus({ preventScroll: true });
+    if (boton) boton.style.outline = "3px solid var(--color-accent-400, #a78bfa)";
+    window.setTimeout(() => {
+      if (boton) boton.style.outline = "";
+      if (!boton?.isConnected || boton.disabled) {
+        request.onResult({ status: "busy", reason: t("ev_chat_motivo_boton_perdido") });
+        return;
+      }
+      request.onInvoke();
+      marcarEtapaDeEvaluacionChat(request.requestId, t("ev_chat_etapa_pulsado"));
+      boton.click();
+    }, 900);
+  }, [evaluacionDesdeChat, reviewingResult, configurationOpen, ejemploEnEditor, canRunEvaluation,
+      runBlockedReason, antiNeedsReview, handleSubmit, busy, isRunning, latidoEvaluacionChat, t]);
+
   return (
     <div className={`${resultStyles.workspace} min-h-full bg-surface-950 p-3 sm:p-4 md:p-8 flex flex-col items-center justify-start space-y-4 sm:space-y-6`}>
       
@@ -931,6 +1003,7 @@ export default function ProEvaluation({
         <div className="space-y-4">
           <div className="h-[min(56vh,480px)] min-h-[320px] sm:h-[min(62vh,560px)] md:h-[640px] border border-zinc-800 rounded-xl overflow-hidden bg-black shadow-2xl flex flex-col justify-center">
             <KetcherEditor
+              caseId={caseId}
               initialSmiles={smiles}
               onSmilesChange={(newSmiles: string) => setSmiles(newSmiles)}
               height={640}
@@ -947,6 +1020,7 @@ export default function ProEvaluation({
             </label>
             <input
               id={`${configurationLabelId}-smiles`}
+              ref={campoSmiles}
               aria-describedby={structuralSystem ? `${configurationLabelId}-system-help` : undefined}
               type="text"
               value={smiles}
@@ -1129,7 +1203,8 @@ export default function ProEvaluation({
       {/* ── Botonera de Control ── */}
       <div className="w-full max-w-[1600px] flex flex-wrap items-center justify-between gap-4 p-4 border border-zinc-800/80 rounded-2xl bg-[var(--bg-card)] backdrop-blur-xl">
         <div className="flex items-center gap-3">
-          <button 
+          <button
+            ref={evaluarRef}
             onClick={() => setShowResults((v) => !v)}
             className={`flex min-h-11 items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2 font-sans text-sm font-bold uppercase tracking-wider transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400 cursor-pointer ${
               showResults 
@@ -1182,7 +1257,7 @@ export default function ProEvaluation({
             </button>
           )}
 
-          <button 
+          <button ref={ejecutarRef}
             onClick={() => {
               if (reviewingResult && !configurationOpen) {
                 setConfigurationOpen(true);
@@ -1439,8 +1514,8 @@ export default function ProEvaluation({
                   ? displayResult.target_family
                   : "default";
               const pipeline =
-                PIPELINES_BY_FAMILY[famKey] ?? PIPELINES_BY_FAMILY.default;
-              const famLabel = localizePipelineText(FAMILY_LABELS[famKey] ?? famKey, t);
+                localizePipeline(PIPELINES_BY_FAMILY[famKey] ?? PIPELINES_BY_FAMILY.default, t);
+              const famLabel = FAMILY_LABEL_KEYS[famKey] ? t(FAMILY_LABEL_KEYS[famKey]) : FAMILY_LABELS[famKey] ?? famKey;
 
               // La definición de familia ordena las etapas. Los valores y
               // pesos que se presentan como registrados pertenecen a la corrida.
@@ -1484,7 +1559,7 @@ export default function ProEvaluation({
               // «sin salida serializada» sólo puede decirse cuando no hay valor.
               const effectiveStages = pipeline.stages.map((s) => ({
                 ...s,
-                ...describirEtapa(s, realDot[s.id]),
+                ...describirEtapa(s, realDot[s.id], t),
                 weight: perfilM5Calculado ? 0 : registroDePesos.values[s.id] ?? s.weight,
               }));
               const activeStages = effectiveStages.filter((s) => {
@@ -1521,7 +1596,7 @@ export default function ProEvaluation({
                     {registroDePesos.source === "missing" ? t("pr_signals_weights_missing")
                       : t(registroDePesos.source === "effective" ? "pr_signals_effective_weights" : "pr_signals_individual_weights", {
                         weights: Object.entries(registroDePesos.values).map(([id, weight]) =>
-                          `${localizePipelineText(pipeline.stages.find((stage) => stage.id === id)?.label ?? id, t)} ${weight.toFixed(4)}`,
+                          `${pipeline.stages.find((stage) => stage.id === id)?.label ?? id} ${weight.toFixed(4)}`,
                         ).join(" · "),
                       })}
                   </p>}
@@ -1536,7 +1611,7 @@ export default function ProEvaluation({
                       </p>
                       <p className="mt-1.5 max-w-[78ch] text-base leading-6 text-amber-800 dark:text-amber-100 font-sans">
                         {t("pr_signals_missing_weighted", {
-                          signals: ausentes.map((etapa) => `${localizePipelineText(etapa.label, t)} w=${etapa.pesoDeDiseno.toFixed(4)}`).join(" · "),
+                          signals: ausentes.map((etapa) => `${etapa.label} w=${etapa.pesoDeDiseno.toFixed(4)}`).join(" · "),
                         })}
                       </p>
                     </div>
@@ -1568,7 +1643,7 @@ export default function ProEvaluation({
                               color: mmgbsaClickable ? "#c4b5fd" : mmgbsaRunning ? "#6ee7b7" : mmgbsaDone ? "#34d399" : dimmed ? "#ffffff20" : "#ffffffb3",
                             }}
                           >
-                            {mmgbsaRunning ? t("auto_bbaf37d0b894") : localizePipelineText(node.label, t)}
+                            {mmgbsaRunning ? t("auto_bbaf37d0b894") : node.label}
                           </span>
                           <span
                             className="text-sm font-bold font-mono"
@@ -1577,10 +1652,10 @@ export default function ProEvaluation({
                               opacity: mmgbsaRunning ? 0.7 : 1,
                             }}
                           >
-                            {mmgbsaRunning ? "···" : localizePipelineText(node.value, t)}
+                            {mmgbsaRunning ? "···" : node.value}
                           </span>
                           <span className="text-sm font-mono text-zinc-400 whitespace-nowrap">
-                            {localizePipelineText(node.sub, t)}
+                            {node.sub}
                           </span>
                           {mmgbsaDone && (
                             <span className="text-sm font-sans uppercase tracking-wider text-emerald-400 border border-emerald-500/20 rounded px-1 py-0.5">
@@ -1611,7 +1686,7 @@ export default function ProEvaluation({
                             )}
                           {!perfilM5Calculado && node.note && (
                             <span className="text-sm font-mono text-zinc-400 max-w-[120px] text-center leading-tight mt-0.5">
-                              {localizePipelineText(node.note, t)}
+                              {node.note}
                             </span>
                           )}
                         </>

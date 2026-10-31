@@ -148,7 +148,7 @@ def test_el_instalador_oficial_en_una_carpeta_elegida_se_encuentra_por_el_regist
     exe = blender(elegida, "5.2")
     registro = RegistroFalso({("HKLM", r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{4B0BC91B-29A6}"): {
         "DisplayName": "Blender", "Publisher": "Blender Foundation", "DisplayVersion": "5.2.2",
-        "InstallLocation": str(elegida) + "\\"}})
+        "InstallLocation": str(elegida) + os.sep}})
     encontrado = uno(ad.buscar(entorno(tmp_path, registro)))
     assert os.path.normcase(str(encontrado.ruta)) == os.path.normcase(str(exe))
     assert encontrado.origen == ad.PROGRAMA

@@ -10,14 +10,21 @@ import pytest
 from pydantic import ValidationError
 from rdkit import Chem
 
-from services.ai.known_molecules import KNOWN_MOLECULES
 from services.chemistry.peptides import es_peptido_lineal
 from services.docking.protocolo import es_motor_peptidico
+
+#: SMILES que antes salían del catálogo del asistente (muerto en Fase 6.6);
+#: la política de péptidos que se prueba es de plataforma y queda.
+_AMIDAS = {
+    "lisinopril": "NCCCC[C@H](N[C@@H](CCc1ccccc1)C(=O)O)C(=O)N1CCC[C@H]1C(=O)O",
+    "enalapril": "CCOC(=O)[C@H](CCc1ccccc1)N[C@@H](C)C(=O)N1CCC[C@H]1C(=O)O",
+    "ampicilina": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccccc3)C(=O)N2[C@H]1C(=O)O",
+}
 
 
 @pytest.mark.parametrize("name", ("lisinopril", "enalapril", "ampicilina"))
 def test_amide_drugs_do_not_trigger_peptide_advice(name):
-    assert es_peptido_lineal(KNOWN_MOLECULES[name]) is False
+    assert es_peptido_lineal(_AMIDAS[name]) is False
     assert es_motor_peptidico(None) is False
 
 

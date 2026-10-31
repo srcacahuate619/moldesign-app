@@ -1,3 +1,6 @@
+import { frontendMessage, type FrontendMessage } from "../../../lib/frontendError";
+import { antiTargetFieldMessage, antiTargetFieldText } from "../../../lib/antiTargetPresentation";
+import { presentError } from "../../../lib/frontendError";
 import React, { useState, useEffect, useRef, useId } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
 import { createPortal } from "react-dom";
@@ -20,6 +23,7 @@ interface AntiTargetInfo {
   name: string;
   category: string;
   risk: string;
+  riskOrigin?: "frontend" | "backend";
   threshold: number;
   targetFunction: string;
   bioDetails: string;
@@ -247,7 +251,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
       .then(() => { setPersistencia("guardado"); setErrorAlGuardar(null); })
       .catch((e: unknown) => {
         setPersistencia("fallido");
-        setErrorAlGuardar(e instanceof Error ? e.message : String(e));
+        setErrorAlGuardar(e instanceof Error ? presentError(e, t) : String(e));
       });
   };
 
@@ -283,6 +287,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
       name: delApi?.name ?? resultado?.name ?? conocida?.name ?? id,
       category: (delApi?.category ?? resultado?.category ?? conocida?.category ?? "").replace(/^Bowes 2012\s*·\s*/, ""),
       risk: delApi?.risk ?? resultado?.risk ?? resultado?.reason ?? conocida?.risk ?? "",
+      riskOrigin: delApi?.risk != null || resultado?.risk != null || resultado?.reason != null ? "backend" : "frontend",
       threshold: resultado?.threshold ?? delApi?.threshold_kcal ?? conocida?.threshold ?? -7,
       targetFunction: conocida?.targetFunction ?? "",
       bioDetails: conocida?.bioDetails ?? "",
@@ -314,7 +319,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
       setResultsMap(merged);
       setBgWaiting(false);
     }
-  }, [initialResult]);
+  }, [initialResult, t]);
 
   // ── Rehidratación desde lo PERSISTIDO, siempre ──────────────────────────
   //
@@ -361,7 +366,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
     })();
     return () => { cancelado = true; };
     // Sólo al montar o al cambiar de molécula.
-  }, [moleculeId, taskId, resultReadAttempt]);
+  }, [moleculeId, taskId, resultReadAttempt, t]);
 
   // ── v1.7.4: Auto-poll del panel en background ────────────────────────────
   // El pipeline lanza selectivity_subprocess.py y persiste los resultados en
@@ -424,12 +429,12 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
       cancelled = true;
       if (timer) clearTimeout(timer);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoPoll, moleculeId, taskId, hasResults, resultReadAttempt]);
+  }, [autoPoll, moleculeId, taskId, hasResults, resultReadAttempt, t]);
 
   const computeMetrics = (currentMap: Record<string, any>) => {
     let worstOffAffinity = 0.0;
     const safetyFlags: string[] = [];
+    const safetyMessages: FrontendMessage[] = [];
     const offTargetsList: any[] = [];
     let evaluatedCount = 0;
 
@@ -446,6 +451,8 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
           evaluatedCount++;
           if (aff <= thresh) {
             safetyFlags.push(`ALERTA ${r.name || at.name}: Afinidad potente (${aff.toFixed(1)} kcal/mol) rebasó el umbral crítico (${thresh.toFixed(1)} kcal/mol). Riesgo: ${r.risk || at.risk}`);
+            safetyMessages.push(frontendMessage("pr_sel_alert", { name: r.name || at.name, affinity: aff.toFixed(1), threshold: thresh.toFixed(1),
+              risk: (r.risk || at.riskOrigin !== "frontend") ? (r.risk || at.risk) : antiTargetFieldMessage(at.pdb_id, "risk", at.risk) }));
           }
           if (aff < worstOffAffinity) {
             worstOffAffinity = aff;
@@ -473,7 +480,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
       }
     }
 
-    return { deltaDeltaG, verdict, safetyFlags, offTargetsList, evaluatedCount };
+    return { deltaDeltaG, verdict, safetyFlags, safetyMessages, offTargetsList, evaluatedCount };
   };
 
   /**
@@ -490,7 +497,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
     e: any,
     base: Record<string, any>,
   ): Record<string, any> => {
-    const motivo = e?.message || t("pr_sel_fallo_docking");
+    const motivo = presentError(e, t) || t("pr_sel_fallo_docking");
     if (e?.status === 409) setAmpliacionNoDisponible(motivo);
     const teniaResultado = previo != null && previo.affinity !== null && previo.affinity !== undefined;
     if (teniaResultado) {
@@ -654,7 +661,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
     setIsRunning(false);
   };
 
-  const { deltaDeltaG, verdict, safetyFlags, evaluatedCount } = computeMetrics(resultsMap);
+  const { deltaDeltaG, safetyFlags, safetyMessages, evaluatedCount } = computeMetrics(resultsMap);
   const completedCount = panel.filter((at) => resultsMap[at.pdb_id]?.status === "ok" || (resultsMap[at.pdb_id]?.affinity !== null && resultsMap[at.pdb_id]?.affinity !== undefined)).length;
 
   /**
@@ -765,7 +772,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
               {t("pr_sel_resumen")}
             </span>
             <p className="text-base sm:text-base font-bold leading-6 font-sans" data-selectivity-color={ratioColor} style={{ color: ratioColor }}>
-              {claveDeVeredicto(verdict) ? t(claveDeVeredicto(verdict) as string) : verdict}
+              {deltaDeltaG !== null || evaluatedCount === 0 ? t(claveDeVeredicto(deltaDeltaG)) : t(safetyFlags.length > 0 ? "pr_sel_threshold_review" : "pr_sel_threshold_clear")}
             </p>
             {/* SCI-A-037: aquí se enseñaba un «factor implicado» (5.4x – 4651x) a
                 partir de la diferencia de scores. Convertir esa diferencia en una
@@ -793,7 +800,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                 className="mt-2 rounded-lg border border-amber-500/25 bg-amber-500/[0.05] px-2.5 py-2 text-base leading-6 text-amber-100 font-sans"
               >
                 <strong className="font-semibold">{t("pr_sel_incomplete_coverage")}</strong>{" "}
-                {noEvaluadas.length === 1 ? t("auto_fff211e08ae8") : `${noEvaluadas.length} anti-dianas no se evaluaron`}
+                {noEvaluadas.length === 1 ? t("auto_fff211e08ae8") : t("pr_frontend_101", { v0: noEvaluadas.length })}
                 {" "}({noEvaluadas.join(", ")}{t("auto_5c7c8c2f3b8e")}
               </p>
             )}
@@ -816,9 +823,9 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                 <span className="font-bold text-rose-300 uppercase tracking-wider block mb-1 flex items-center gap-2">
                   <AlertTriangle size={15} className="text-rose-400" /> {safetyFlags.length} {t("auto_6b882e73c6d3")}
                 </span>
-                {safetyFlags.map((flag, idx) => (
+                {safetyMessages.map((flag, idx) => (
                   <div key={idx} className="text-rose-200 leading-6 font-sans font-medium text-base">
-                    • {flag}
+                    • {flag.render(t)}
                   </div>
                 ))}
               </div>
@@ -906,7 +913,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                     </span>
                   )}
                 </div>
-                <p className="text-base text-zinc-300 font-sans leading-6">{at.risk}</p>
+                <p className="text-base text-zinc-300 font-sans leading-6">{at.riskOrigin === "frontend" ? antiTargetFieldText(at.pdb_id, "risk", at.risk, t) : at.risk}</p>
                 <div className="flex flex-wrap items-center gap-3 text-sm font-mono">
                   <span className="text-zinc-400">
                     {t("pr_sel_umbral_minimo")} <strong className="text-zinc-200">{thresh.toFixed(1)} kcal/mol</strong>
@@ -1040,7 +1047,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
               <div className="space-y-2">
                 {selectedDetail.at.risk && (
                   <p className="text-base text-zinc-300 leading-6 font-sans bg-rose-950/20 p-3 rounded-xl border border-rose-500/20">
-                    {selectedDetail.at.risk}
+                    {selectedDetail.at.riskOrigin === "frontend" ? antiTargetFieldText(selectedDetail.at.pdb_id, "risk", selectedDetail.at.risk, t) : selectedDetail.at.risk}
                   </p>
                 )}
                 <p className="text-base text-zinc-400 leading-6 font-sans">{t("pn_anti_sin_ficha")}</p>
@@ -1054,7 +1061,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                   <Activity size={14} /> {t("pr_sel_funcion_biologica")}
                 </h4>
                 <p className="text-base text-zinc-300 leading-6 font-sans bg-black/30 p-3 rounded-xl border border-white/5">
-                  {selectedDetail.at.targetFunction}
+                  {antiTargetFieldText(selectedDetail.at.pdb_id, "targetFunction", selectedDetail.at.targetFunction, t)}
                 </p>
               </div>
             )}
@@ -1065,7 +1072,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                   <AlertTriangle size={14} /> {t("pr_sel_relevancia_clinica")}
                 </h4>
                 <p className="text-base text-zinc-300 leading-6 font-sans bg-rose-950/20 p-3 rounded-xl border border-rose-500/20">
-                  {selectedDetail.at.bioDetails}
+                  {antiTargetFieldText(selectedDetail.at.pdb_id, "bioDetails", selectedDetail.at.bioDetails, t)}
                 </p>
               </div>
             )}
@@ -1077,7 +1084,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                   <Sparkles size={14} /> {t("pr_sel_optimizacion")}
                 </h4>
                 <p className="text-base text-zinc-300 leading-6 font-sans bg-emerald-950/20 p-3 rounded-xl border border-emerald-500/20">
-                  {selectedDetail.at.mitigationSar}
+                  {antiTargetFieldText(selectedDetail.at.pdb_id, "mitigationSar", selectedDetail.at.mitigationSar, t)}
                 </p>
               </div>
             )}

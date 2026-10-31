@@ -23,6 +23,7 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const paneles: ModuloDeTraduccion = {
   es: {
+    pn_molcy_source_credit: "MolDesign · código fuente: github.com/srcacahuate619/moldesign-molcy",
     pe_bloqueado_desc: "Falta evidencia imprescindible o hay un defecto estructural bloqueante.",
     pe_accion: "Acción recomendada",
     pe_ultima_completada: "Se audita la evaluación seleccionada; su identificador aparece arriba. Cambiarla no modifica el caso.",
@@ -484,6 +485,7 @@ export const paneles: ModuloDeTraduccion = {
 
     // ── Traspaso del invitado ─────────────────────────────────────
     pn_traspaso_titulo: "Trabajo hecho como invitado",
+    pn_traspaso_requiere_escritorio: "El traspaso del invitado requiere el escritorio.",
     pn_traspaso_tienes:
       "Tienes trabajo hecho como invitado en este equipo",
     pn_traspaso_ahora_no: "Ahora no",
@@ -548,6 +550,7 @@ export const paneles: ModuloDeTraduccion = {
     pn_benzaldehido: "C₇H₆O · Benzaldehído · Pipeline tecnológico",
   },
   en: {
+    pn_molcy_source_credit: "MolDesign · source code: github.com/srcacahuate619/moldesign-molcy",
     pe_bloqueado_desc: "Essential evidence is missing or a structural defect blocks progress.",
     pe_accion: "Recommended action",
     pe_ultima_completada: "The selected evaluation is audited; its identifier appears above. Changing it does not modify the case.",
@@ -573,7 +576,7 @@ export const paneles: ModuloDeTraduccion = {
       + "or the target falls outside the profile, the correct result is an "
       + "abstention; weights are not redistributed and no score is fabricated.",
     pn_prioriza_no_sustituye:
-      "A computational result prioritises what to review next. It does not replace "
+      "A computational result prioritizes what to review next. It does not replace "
       + "positive, negative and neutral controls, nor independent experimental "
       + "validation.",
 
@@ -991,6 +994,7 @@ export const paneles: ModuloDeTraduccion = {
       "Solana network. Certification and donations are optional features.",
 
     pn_traspaso_titulo: "Work done as a guest",
+    pn_traspaso_requiere_escritorio: "Guest transfer requires the desktop app.",
     pn_traspaso_tienes: "You have work done as a guest on this machine",
     pn_traspaso_ahora_no: "Not now",
     pn_traspaso_sin_batch: "Batch screens do not come across here yet.",

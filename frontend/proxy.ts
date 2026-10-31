@@ -74,7 +74,7 @@ export function proxy(request: NextRequest) {
       `img-src 'self' data: blob:`,
       `font-src 'self' data:`,
       `media-src 'self' http://127.0.0.1:* http://localhost:*`,
-      `frame-src 'self' blob:`,
+      `frame-src 'self' blob: http://127.0.0.1:*`,
       `worker-src 'self' blob:`,
     ].join("; ");
 

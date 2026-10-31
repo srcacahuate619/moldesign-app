@@ -23,19 +23,7 @@ import { AlertTriangle, Loader2, RefreshCw } from "lucide-react";
 import { useState } from "react";
 
 import { useDownload } from "../hooks/useDownload";
-import { ENGINE_LABELS, type EngineState } from "../context/DownloadProvider";
-
-/** Qué significa cada fallo para quien lo está leyendo, sin jerga de proceso. */
-const ENGINE_EXPLANATION: Partial<Record<EngineState, string>> = {
-  not_installed:
-    "Falta una parte del runtime de cálculo en disco (Python, el backend o Vina). Repara o reinstala MolDesign; los modelos opcionales no sustituyen este runtime.",
-  spawn_failed:
-    "El proceso del motor no llegó a ejecutarse. Suele ser un permiso o un ejecutable que falta.",
-  health_failed:
-    "El proceso arrancó pero no se identificó como el backend de MolDesign. Suele significar que se está ejecutando una copia desactualizada del backend.",
-  disconnected:
-    "El motor estaba disponible y dejó de responder. La evaluación no podrá continuar hasta que vuelva.",
-};
+import { engineStateLabel, engineExplanation, engineStatusDetail } from "../lib/enginePresentation";
 
 export function EngineStatusBar() {
   const { t } = useLanguage();
@@ -63,14 +51,14 @@ export function EngineStatusBar() {
       )}
 
       <span className="min-w-0 flex-1">
-        <strong className="font-medium">{ENGINE_LABELS[engine.state]}.</strong>{" "}
-        {ENGINE_EXPLANATION[engine.state] ??
+        <strong className="font-medium">{engineStateLabel(engine.state, t)}.</strong>{" "}
+        {engineExplanation(engine.state, t) ??
           t("auto_b0407faa7b48")}
         {/* La razón EXACTA que dio Rust. Es lo que convierte «no arranca» en algo
             accionable, y es también lo que se pega en un informe de fallo. */}
         {engine.detail && (
           <span className="mt-1 block break-words font-mono text-[11px] opacity-80">
-            {engine.detail}
+            {engineStatusDetail(engine, t)}
           </span>
         )}
       </span>

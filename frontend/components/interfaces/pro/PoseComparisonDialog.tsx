@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useState } from "react";
@@ -95,14 +97,14 @@ export function PoseComparisonDialog({
         if (!disposed) {
           setState({
             kind: "error",
-            message: error instanceof Error ? error.message : "No se pudieron recuperar las coordenadas de las poses.",
+            message: error instanceof Error ? presentError(error, t) : t("pr_frontend_089"),
           });
         }
       });
     return () => {
       disposed = true;
     };
-  }, [leftRank, moleculeId, rightRank, taskId]);
+  }, [leftRank, moleculeId, rightRank, taskId, t]);
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -135,7 +137,7 @@ export function PoseComparisonDialog({
               </h2>
             </div>
             <p className="mt-1.5 text-base leading-6 text-zinc-300 font-sans">
-              {t("auto_ed5c43cd041b")}{leftRank} y #{rightRank}.
+              {t("pr_pose_pair", { left: leftRank, right: rightRank })}
             </p>
           </div>
           <button

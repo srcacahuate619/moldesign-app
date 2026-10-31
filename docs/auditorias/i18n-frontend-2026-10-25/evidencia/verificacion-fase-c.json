@@ -1,0 +1,24 @@
+{
+  "fecha": "2026-10-26",
+  "rama": "sol/i18n-frontend",
+  "base": "4fc7a9281fecb209a94784d15983475d64b517e8",
+  "verificaciones": [
+    { "comando": "npm run test:run -- --maxWorkers 8 --reporter dot", "estado": "pasó", "archivos": 260, "pruebas": 2325 },
+    { "comando": "npm run typecheck", "estado": "pasó" },
+    { "comando": "npm run lint", "estado": "pasó", "errores": 0, "avisos": 30 },
+    { "comando": "npm run test:e2e", "estado": "pasó", "pruebas": 13 },
+    { "comando": "npm run test:ux", "estado": "pasó", "pruebas": 12 },
+    { "comando": "npm run test:i18n:export", "estado": "pasó", "estados": 48, "canales_positivos": 4, "endpoints_sin_fixture": 0 },
+    { "comando": "node scripts/finish-i18n-frontend.cjs --autotest", "estado": "pasó", "muestras": 65 },
+    { "comando": "node scripts/finish-i18n-frontend.cjs --json", "estado": "pasó", "regresiones_sin_revisar": 0 },
+    { "comando": "npm run check:i18n", "estado": "pendiente_deuda_declarada", "salida": 1, "diagnósticos_pendientes": 112, "candidatos_sin_revisión": 0, "literales_jsx": 0, "revisiones_obsoletas": 0 }
+  ],
+  "prueba_de_regresión": {
+    "comando": "node scripts/probar-regresion-i18n.mjs",
+    "estado": "pasó",
+    "resultado": "la reversión temporal del CTA hizo fallar el trinquete estático y el guardián del export; al restaurarlo, el export limpio pasó",
+    "recibos": ["control-regresion-c.json", "control-regresion-c-conexion.json"]
+  },
+  "smoke_prod": "reservado al propietario durante integración",
+  "capturas_tutorial": "reservadas al propietario durante integración"
+}

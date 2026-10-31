@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import { fetchBackend } from "../../../lib/backendFetch";
 import MiniaturaElevable from "../MiniaturaElevable";
@@ -33,6 +33,7 @@ describe("MiniaturaElevable: una pose que no se levanta se enseña en 3D", () =>
   });
 
   afterEach(() => {
+    cleanup(); // antes de quitar los dobles: un fotograma pendiente no debe encontrarse sin requestAnimationFrame
     vi.unstubAllGlobals();
   });
 

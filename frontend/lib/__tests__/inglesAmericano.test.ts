@@ -18,13 +18,28 @@ const BRITANICAS = [
   "minimise", "minimises", "minimised", "minimisation", "optimise", "optimised", "optimisation", "recognised",
   "summarise", "summarises", "judgement", "labelled", "cancelled", "sulphur", "towards", "artefact", "artefacts",
   "favour", "colour", "colours", "behaviour", "normalise", "normalised", "organise", "visualise", "customise",
+  "quantise", "quantisation", "serialise", "serialised", "serialisation", "prioritise", "prioritises", "prioritisation",
   "grey", "whilst", "dialogue", "programme", "modelling", "analysed", "neighbour", "neighbours", "metre",
 ];
 const RE_BRITANICA = new RegExp(`\\b(${BRITANICAS.join("|")})\\b`, "i");
 const RE_PREFIJO = /\bhaemat/i;
+const MALA_TRADUCCION = /\b(earrings|healing)\b|^it['’]s$/i;
 const ESPANOL = /[¿¡ñáéíóúÁÉÍÓÚÑđð]/;
 
 describe("inglés americano en los diccionarios", () => {
+  it("rechaza los falsos amigos medidos, con controles positivos y negativos", () => {
+    expect(Object.entries(TRANSLATIONS.en).filter(([, value]) => MALA_TRADUCCION.test(value.trim()))).toEqual([]);
+    for (const value of ["Earrings:", "Healing", "It's", "It’s"]) expect(MALA_TRADUCCION.test(value)).toBe(true);
+    for (const value of ["Pending:", "Curation", "en", "Is", "It's downloading...", "It's because"]) expect(MALA_TRADUCCION.test(value)).toBe(false);
+    expect(TRANSLATIONS.en.auto_711741f4bb14).toBe("Pending:");
+    expect(TRANSLATIONS.en.auto_e8ce83629e9c).toBe("Curation");
+    expect(TRANSLATIONS.en.auto_09cd68a2a77b).toBe("en");
+    expect(TRANSLATIONS.en.auto_c4bbdea3891b).toBe("Is");
+    expect(TRANSLATIONS.es.auto_711741f4bb14).toBe("Pendientes:");
+    expect(TRANSLATIONS.es.auto_e8ce83629e9c).toBe("Curación");
+    expect(TRANSLATIONS.es.auto_09cd68a2a77b).toBe("es");
+    expect(TRANSLATIONS.es.auto_c4bbdea3891b).toBe("Es");
+  });
   it("ningún texto inglés usa una grafía británica", () => {
     const infractores = Object.entries(TRANSLATIONS.en)
       .filter(([, valor]) => RE_BRITANICA.test(valor) || RE_PREFIJO.test(valor))
@@ -53,10 +68,10 @@ describe("inglés americano en los diccionarios", () => {
   });
 
   it("el guardián demuestra que ve: caza cada forma británica y no se queja de la americana", () => {
-    for (const malo of ["Grid centre", "the Catalogue", "Licences", "Haemato-brain", "was cancelled", "Sulphur bond"]) {
+    for (const malo of ["Grid centre", "the Catalogue", "Licences", "Haemato-brain", "was cancelled", "Sulphur bond", "Quantisation", "quantise", "serialise", "serialised", "serialisation", "prioritise", "prioritises", "prioritisation"]) {
       expect(RE_BRITANICA.test(malo) || RE_PREFIJO.test(malo), malo).toBe(true);
     }
-    for (const bueno of ["Grid center", "the Catalog", "Licenses", "Hemato-brain", "was canceled", "cancellation", "Sulfur bond"]) {
+    for (const bueno of ["Grid center", "the Catalog", "Licenses", "Hemato-brain", "was canceled", "cancellation", "Sulfur bond", "Quantization", "quantize", "serialize", "serialized", "serialization", "prioritize", "prioritizes", "prioritization"]) {
       expect(RE_BRITANICA.test(bueno) || RE_PREFIJO.test(bueno), bueno).toBe(false);
     }
     expect(ESPANOL.test("cation-đ")).toBe(true);

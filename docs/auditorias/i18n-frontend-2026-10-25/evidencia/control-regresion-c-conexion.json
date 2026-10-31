@@ -1,0 +1,24 @@
+{
+  "reverted": "lib/api.ts: ERROR_DE_CONEXION",
+  "base": "4fc7a928",
+  "checks": [
+    {
+      "command": "vitest run lib/__tests__/interfazSinTextoFijo.test.ts -t 'toda revisión coincide' --maxWorkers 1 --reporter dot",
+      "expectedExit": 1,
+      "actualExit": 1,
+      "output": "\n RUN  v5.0.0 D:/moldesign-worktrees/sol-i18n/frontend\n\nstdout | lib/__tests__/interfazSinTextoFijo.test.ts\n[]\n\n--------x\n\n Test Files  1 failed (1)\n      Tests  1 failed | 8 skipped (9)\n   Start at  10:28:05\n   Duration  3.84s (tests 47%, environment 33%, setup 14%, import 4%, transform 2%)\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  lib/__tests__/interfazSinTextoFijo.test.ts > el barrido de C incluye lib, hooks y context > toda revisión coincide con el texto actual y toda deuda sigue pendiente en el inventario\nAssertionError: expected [ { file: 'lib/api.ts', …(3) } ] to deeply equal []\n\n- Expected\n+ Received\n\n- []\n+ [\n+   {\n+     \"file\": \"lib/api.ts\",\n+     \"line\": 142,\n+     \"scope\": \"\",\n+     \"text\": \"Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. Revisa su estado en la aplicación y vuelve a intentarlo.\",\n+   },\n+ ]\n\n ❯ lib/__tests__/interfazSinTextoFijo.test.ts:369:39\n    367|       cwd: RAIZ, encoding: \"utf8\",\n    368|     }));\n    369|     expect(report.sources.unreviewed).toEqual([]);\n       |                                       ^\n    370|     expect(report.sources.stale).toEqual([]);\n    371|     const inventory: Array<{ id: string; estado: string; motivo?: stri…\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+    },
+    {
+      "command": "node e2e/i18n-export.mjs (export con ERROR_DE_CONEXION de 4fc7a928)",
+      "expectedExit": 1,
+      "actualExit": 1,
+      "output": "OK primer uso\nOK English persistente tras recarga\nOK tutorial: controles del paso 2\nOK tutorial: controles del paso 3\nOK tutorial: controles del paso 4\nOK tutorial: controles del paso 5\nOK tutorial: controles del paso 6\nOK casos vacíos\nOK preparación vacía\nOK lotes vacíos\nOK Moldex vacío\nOK Molcy sin renderizador\nOK historial vacío\nOK comunidad vacía\nOK registro científico\nOK abrir caso\nOK diálogo nuevo caso\nOK caso creado\nOK selector receptor y tooltips\nOK opciones\nOK selector de idiomas\nOK acerca de\nOK acerca de: sección 2\nOK acerca de: sección 3\nOK acerca de: sección 4\nOK acerca de: sección 5\nOK legal: interfaz\nOK legal: pestaña 2\nOK legal: pestaña 3\nOK soporte y ayuda\nOK MolChat sin proveedor disponible\nOK ajustes de MolChat sin modelos\nOK historial con HTTP 500\nnode:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: historial sin conexión: castellano en export\r\n[\r\n  {\r\n    \"channel\": \"innerText\",\r\n    \"text\": \"Error de conexión: no se pudo establecer contacto con el motor local de MolDesign. Revisa su estado en la aplicación y vuelve a intentarlo.\",\r\n    \"element\": \"PRE\"\r\n  }\r\n]\r\n\r\n1 !== 0\r\n\r\n    at scan (file:///D:/moldesign-worktrees/sol-i18n/frontend/e2e/i18n-export.mjs:81:10)\r\n    at async open (file:///D:/moldesign-worktrees/sol-i18n/frontend/e2e/i18n-export.mjs:89:3)\r\n    at async file:///D:/moldesign-worktrees/sol-i18n/frontend/e2e/i18n-export.mjs:189:3 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 1,\r\n  expected: 0,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n"
+    },
+    {
+      "command": "node e2e/i18n-export.mjs (export limpio reconstruido)",
+      "expectedExit": 0,
+      "actualExit": 0,
+      "output": "OK primer uso\nOK English persistente tras recarga\nOK tutorial: controles del paso 2\nOK tutorial: controles del paso 3\nOK tutorial: controles del paso 4\nOK tutorial: controles del paso 5\nOK tutorial: controles del paso 6\nOK casos vacíos\nOK preparación vacía\nOK lotes vacíos\nOK Moldex vacío\nOK Molcy sin renderizador\nOK historial vacío\nOK comunidad vacía\nOK registro científico\nOK abrir caso\nOK diálogo nuevo caso\nOK caso creado\nOK selector receptor y tooltips\nOK opciones\nOK selector de idiomas\nOK acerca de\nOK acerca de: sección 2\nOK acerca de: sección 3\nOK acerca de: sección 4\nOK acerca de: sección 5\nOK legal: interfaz\nOK legal: pestaña 2\nOK legal: pestaña 3\nOK soporte y ayuda\nOK MolChat sin proveedor disponible\nOK ajustes de MolChat sin modelos\nOK historial con HTTP 500\nOK historial sin conexión\nOK control positivo: innerText/title/aria-label/placeholder\n{\"states\":34,\"positiveChannels\":4,\"originalDataExclusions\":922,\"unhandled\":[]}\n"
+    }
+  ]
+}

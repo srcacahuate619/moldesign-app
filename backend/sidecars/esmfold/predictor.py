@@ -792,7 +792,7 @@ class ESMFoldFastPredictor(BasePredictor):
             # módulo estuviera bien —lo estaba a partir de este commit— el
             # formato la habría hecho fallar igual. Se usa la API de Python de
             # Meeko sobre un mol de RDKit, que es como lo hace
-            # `services/ai/clgnn_inference.py`.
+            # `services/clgnn_inference.py`.
             try:
                 from meeko import MoleculePreparation, PDBQTWriterLegacy
                 from rdkit import Chem

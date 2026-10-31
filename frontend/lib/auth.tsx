@@ -1,5 +1,7 @@
 "use client";
 
+import { FrontendError, frontendMessage, frontendList, type FrontendText } from "./frontendError";
+
 import {
   createContext,
   useCallback,
@@ -54,7 +56,7 @@ function isDesktopRuntime(): boolean {
  *   - ausente:  → "HTTP <status>"
  * Sin esto, `new Error(lista)` produce "[object Object]" en la UI.
  */
-async function extractErrorDetail(res: Response): Promise<string> {
+async function extractErrorDetail(res: Response): Promise<FrontendText> {
   const status = res.status;
   let data: any = {};
   try {
@@ -70,8 +72,8 @@ async function extractErrorDetail(res: Response): Promise<string> {
     // Errores de validación Pydantic: [{"loc": [...], "msg": "..."}]
     const msgs = detail
       .map((d: any) => (d && typeof d.msg === "string" ? translateValidationMsg(d) : null))
-      .filter(Boolean);
-    if (msgs.length) return msgs.join("; ");
+      .filter((message: FrontendText | null): message is FrontendText => message !== null);
+    if (msgs.length) return frontendList(msgs, "; ");
     return `HTTP ${status}`;
   }
   if (detail && typeof detail === "object") {
@@ -92,15 +94,14 @@ async function extractErrorDetail(res: Response): Promise<string> {
 }
 
 /** Traduce mensajes de validación Pydantic comunes a un español legible. */
-function translateValidationMsg(d: any): string {
+export function translateValidationMsg(d: { msg?: string; type?: string; loc?: unknown[]; ctx?: { min_length?: number } }): FrontendText {
   const raw = d.msg || "";
   const field = Array.isArray(d.loc) ? String(d.loc[d.loc.length - 1] ?? "") : "";
-  const fieldLabel = field === "password" ? "contraseña" : field === "username" ? "nombre de usuario" : field === "email" ? "email" : field;
-  if (/at least 8 characters/i.test(raw)) return `La ${fieldLabel} debe tener al menos 8 caracteres.`;
-  if (/at least 3 characters/i.test(raw)) return `El ${fieldLabel} debe tener al menos 3 caracteres.`;
-  if (/should not be empty|may not be empty/i.test(raw)) return `El campo ${fieldLabel} no puede estar vacío.`;
-  if (/not a valid email/i.test(raw)) return `El email no es válido.`;
-  if (/should be a valid email/i.test(raw)) return `El email no es válido.`;
+  const fieldLabel = field === "password" ? frontendMessage("pg_auth_password") : field === "username" ? frontendMessage("pg_auth_username") : field;
+  if (d.type === "string_too_short" && d.ctx?.min_length === 8) return frontendMessage("pg_auth_min_password", { field: fieldLabel });
+  if (d.type === "string_too_short" && d.ctx?.min_length === 3) return frontendMessage("pg_auth_min_username", { field: fieldLabel });
+  if ((d.type === "string_too_short" && d.ctx?.min_length === 1) || d.type === "missing") return frontendMessage("pg_auth_empty", { field: fieldLabel });
+  // Sin un código estable se conserva el detalle externo, sin reconocer su prosa.
   return raw;
 }
 
@@ -196,7 +197,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, password }),
       });
       if (!res.ok) {
-        throw new Error(await extractErrorDetail(res));
+        throw new FrontendError(await extractErrorDetail(res));
       }
       const data = await res.json();
       _persist(data.access_token, data.refresh_token, {
@@ -216,7 +217,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, username, password }),
       });
       if (!res.ok) {
-        throw new Error(await extractErrorDetail(res));
+        throw new FrontendError(await extractErrorDetail(res));
       }
       const data = await res.json();
       _persist(data.access_token, data.refresh_token, {
@@ -237,9 +238,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       if (!res.ok) {
         if (res.status === 403) {
-            throw new Error("Debe registrarse primero para usar esta cuenta.");
+            throw new FrontendError(frontendMessage("pg_auth_signup_first"));
         }
-        throw new Error(await extractErrorDetail(res));
+        throw new FrontendError(await extractErrorDetail(res));
       }
       const data = await res.json();
       _persist(data.access_token, data.refresh_token, {
@@ -281,6 +282,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error("useAuth must be used within AuthProvider");
+  if (!ctx) throw new FrontendError("useAuth must be used within AuthProvider");
   return ctx;
 }

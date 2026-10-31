@@ -16,7 +16,8 @@ vi.mock("@/lib/cases/factory", () => ({ crearRepositorioDeCasos: () => ({ listCa
 vi.mock("@/lib/dossier", async (load) => ({ ...await load<object>(), requestPreparacion: mocks.request }));
 vi.mock("@/context/LanguageContext", async (load) => {
   const real = await load<typeof import("@/context/LanguageContext")>();
-  return { ...real, useLanguage: () => ({ locale: "es", t: (key: string) => real.TRANSLATIONS.es[key] ?? key }) };
+  const t = (key: string) => real.TRANSLATIONS.es[key] ?? key;
+  return { ...real, useLanguage: () => ({ locale: "es", t }) };
 });
 import PreparacionPage from "../page";
 

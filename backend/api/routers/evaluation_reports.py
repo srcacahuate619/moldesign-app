@@ -2,7 +2,7 @@
 
 El transporte síncrono y SSE conserva sus rutas bajo ``/evaluation`` al ser
 incluido como subrouter. La preparación determinista de datos vive en
-``services.ai.report_context``; este módulo conserva autorización, cache y
+``services.evaluation.report_context``; este módulo conserva autorización, cache y
 entrega de cada modalidad.
 """
 
@@ -41,8 +41,8 @@ async def generate_ai_report_stream_endpoint(
     current_user: UserORM | None = Depends(get_current_user_optional),
     db: AsyncSession = Depends(get_db),
 ):
-    from services.ai.interpreter import ReporteBloqueado, stream_ollama_report
-    from services.ai.report_context import build_evaluation_report_request
+    from services.evaluation.interpreter import ReporteBloqueado, stream_ollama_report
+    from services.evaluation.report_context import build_evaluation_report_request
 
     repository = Repository(db)
     result = await repository.get_evaluation_result(molecule_id)
@@ -126,8 +126,8 @@ async def generate_ai_report_endpoint(
     db: AsyncSession = Depends(get_db),
 ) -> AIReportResponse:
     """Genera, persiste y devuelve el reporte IA de una evaluación."""
-    from services.ai.interpreter import ReporteBloqueado, safe_generate_ai_report
-    from services.ai.report_context import build_evaluation_report_request
+    from services.evaluation.interpreter import ReporteBloqueado, safe_generate_ai_report
+    from services.evaluation.report_context import build_evaluation_report_request
 
     repository = Repository(db)
     result = await repository.get_evaluation_result(molecule_id)

@@ -393,7 +393,7 @@ def validate_lightweight_models(resources: Path) -> None:
         "b=xgb.Booster();"
         "b.load_model(os.path.join(os.environ['MOLDESIGN_BUNDLE_RESCORING'],'artifacts','model_a_universal.json'));"
         "assert len(b.feature_names or [])==167, 'contrato XGBoost inesperado';"
-        "from services.ai.clgnn_inference import _load_model;"
+        "from services.clgnn_inference import _load_model;"
         "m,d=_load_model();"
         "assert m is not None, 'CL-GNN no cargo desde el bundle';"
         "n=sum(p.numel() for p in m.parameters() if p.requires_grad);"
@@ -492,6 +492,41 @@ def validate_molcy_motor(resources: Path) -> None:
         env = runtime_environment(backend, vina, Path(temp_dir))
         env.pop("MOLDESIGN_MOLCY_DIR", None)
         env.pop("MOLDESIGN_OPENBABEL_DIR", None)
+        run_checked([str(python), "-B", "-c", sonda], cwd=backend, env=env, timeout=120)
+
+
+def validate_molchat_sidecar(resources: Path) -> None:
+    r"""El sidecar MolChat, comprobado como se usa: lo localiza y lo verifica el BACKEND EMPAQUETADO.
+
+    Espejo de `validate_molcy_motor`, con una diferencia dictada por el
+    producto: el sidecar es OPCIONAL en runtime (MolDesign funciona sin él),
+    así que su ausencia en el staged avisa y sigue en vez de abortar. Si
+    está, debe ser íntegro y la fijada (`molchat_fijacion.json`), y el código
+    instalado debe encontrarlo por la resolución por defecto, sin variables.
+    """
+    python = resources / "python" / "python.exe"
+    backend = resources / "backend"
+    vina = resources / "tools" / "vina" / "vina.exe"
+    herramienta = resources / "tools" / "molchat"
+    if not (herramienta / "molchat-manifest.json").is_file():
+        print("  molchat ausente en el staged (opcional en runtime): se declara, no se exige.")
+        return
+    sonda = (
+        "import os,sys;"
+        "sys.path.insert(0,os.environ['MOLDESIGN_BUNDLE_BACKEND']);"
+        "from services.molchat_host import manifest;"
+        "d=manifest.directorio_incluido();"
+        "assert d is not None, 'el backend empaquetado no encuentra el sidecar incluido';"
+        "p=manifest.verificar_integridad(d)+manifest.verificar_fijacion(d);"
+        "assert not p, p;"
+        "m=manifest.manifiesto_de(d);"
+        "assert m['licencia_spdx']=='GPL-3.0-or-later', m['licencia_spdx'];"
+        "print('sidecar molchat: ok (%s, %s, %d ficheros)' % (m['licencia_spdx'], m['fuente']['commit'][:8], len(m['archivos'])))"
+    )
+    with tempfile.TemporaryDirectory(prefix="moldesign-molchat-verify-") as temp_dir:
+        env = runtime_environment(backend, vina, Path(temp_dir))
+        env.pop("MOLDESIGN_MOLCHAT_DIR", None)
+        env.pop("MOLCHAT_PERMITIR_EXTERNO", None)
         run_checked([str(python), "-B", "-c", sonda], cwd=backend, env=env, timeout=120)
 
 
@@ -875,6 +910,7 @@ def main(root: Path) -> None:
     validate_lightweight_models(resources)
     validate_open_babel(resources)
     validate_molcy_motor(resources)
+    validate_molchat_sidecar(resources)
     validate_vc_runtime(resources)
     validate_backend_health(resources)
     validate_peptide_abstention(resources)

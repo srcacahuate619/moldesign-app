@@ -1,0 +1,256 @@
+[
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=LIGANDO_SMILES_VALIDO].title",
+    "texto": "Forma química del ligando",
+    "codigo": "LIGANDO_SMILES_VALIDO",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=LIGANDO_ATOMOS_VINA].title",
+    "texto": "Átomos soportados por el campo de fuerza",
+    "codigo": "LIGANDO_ATOMOS_VINA",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=RECEPTOR_FUENTE_DISPONIBLE].title",
+    "texto": "Fuente del receptor",
+    "codigo": "RECEPTOR_FUENTE_DISPONIBLE",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=RECEPTOR_CADENA_PRESENTE].title",
+    "texto": "Cadena del receptor",
+    "codigo": "RECEPTOR_CADENA_PRESENTE",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=POLITICA_HETEROATOMOS].title",
+    "texto": "Política de heteroátomos de esta ruta",
+    "codigo": "POLITICA_HETEROATOMOS",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=ESPECIES_DEL_SITIO_RETIRADAS].title",
+    "texto": "Especies retiradas de la estructura",
+    "codigo": "ESPECIES_DEL_SITIO_RETIRADAS",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=GRID_EFECTIVO].title",
+    "texto": "Caja de búsqueda",
+    "codigo": "GRID_EFECTIVO",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=CAJA_VS_RECEPTOR].title",
+    "texto": "Caja y receptor",
+    "codigo": "CAJA_VS_RECEPTOR",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=HOTSPOTS_FUERA_DEL_RECEPTOR].title",
+    "texto": "Cadena de los residuos de referencia",
+    "codigo": "HOTSPOTS_FUERA_DEL_RECEPTOR",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=HOTSPOTS_EFECTIVOS].title",
+    "texto": "Residuos de referencia",
+    "codigo": "HOTSPOTS_EFECTIVOS",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=RECEPTOR_PREPARADO_DISPONIBLE].title",
+    "texto": "Receptor preparado",
+    "codigo": "RECEPTOR_PREPARADO_DISPONIBLE",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=RECEPTOR_PROTONACION_DECLARADA].title",
+    "texto": "Protonación del receptor",
+    "codigo": "RECEPTOR_PROTONACION_DECLARADA",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=MOTOR_DOCKING_DISPONIBLE].title",
+    "texto": "Motor de docking",
+    "codigo": "MOTOR_DOCKING_DISPONIBLE",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=PREPARADOR_RECEPTOR_DISPONIBLE].title",
+    "texto": "Preparador del receptor",
+    "codigo": "PREPARADOR_RECEPTOR_DISPONIBLE",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=CONVERSOR_ESTRUCTURAL_DISPONIBLE].title",
+    "texto": "Herramienta estructural incluida",
+    "codigo": "CONVERSOR_ESTRUCTURAL_DISPONIBLE",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=LIGANDO_PROTONACION_TAUTOMERO].title",
+    "texto": "Protonación y tautómero del ligando",
+    "codigo": "LIGANDO_PROTONACION_TAUTOMERO",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=ASSEMBLY_BIOLOGICA].title",
+    "texto": "Unidad asimétrica frente a assembly biológica",
+    "codigo": "ASSEMBLY_BIOLOGICA",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=HUECOS_CERCA_DEL_SITIO].title",
+    "texto": "Residuos faltantes cerca del sitio",
+    "codigo": "HUECOS_CERCA_DEL_SITIO",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=CALIBRACION_RECEPTOR].title",
+    "texto": "Respaldo científico del receptor",
+    "codigo": "CALIBRACION_RECEPTOR",
+    "referencia": "backend/services/docking/preflight.py (Control por code)"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=RECEPTOR_FUENTE_DISPONIBLE].observation",
+    "texto": "8HFI: 4383 registros ATOM y 60 HETATM · cadenas A.",
+    "referencia": "backend/services/docking/preflight.py:595"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=GRID_EFECTIVO].observation",
+    "texto": "Center (100.28, 100.84, 101.44) · source: catálogo del receptor; size (30.00, 30.00, 30.00) Å · source: catálogo del receptor.",
+    "referencia": "backend/services/docking/preflight.py:1871"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=HOTSPOTS_EFECTIVOS].observation",
+    "texto": "15 residuo(s): A:ALA145, A:ASP75, A:GLY149, A:GLY320, A:GLY423, A:LEU319, A:PHE317, A:PHE323, A:PHE72, A:SER318, A:SER419, A:SER420, A:TYR152, A:VAL148, A:VAL325.",
+    "referencia": "backend/services/docking/preflight.py"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=MOTOR_DOCKING_DISPONIBLE].observation",
+    "texto": "AutoDock Vina disponible.",
+    "referencia": "backend/services/docking/preflight.py"
+  },
+  {
+    "endpoint": "POST /evaluation/preflight",
+    "campo": "controls[code=PREPARADOR_RECEPTOR_DISPONIBLE].observation",
+    "texto": "Meeko (mk_prepare_receptor) disponible.",
+    "referencia": "backend/services/docking/preflight.py"
+  },
+  {
+    "endpoint": "POST /evaluation/dossier/{molecule_id}/preparacion",
+    "campo": "bloques[0].requisitos[0].valor",
+    "texto": "SHA-256 96e0aa3134454f59a8f8bc3ef365ae8412c3c5bd3e67490988e7e204acb6fed8 · receta 001d2b8e324ee49cf2fbd9c47ceb70028c8f6f54c7ecad947630b7796f6728fd",
+    "referencia": "backend/services/dossier/preparacion.py:743"
+  },
+  {
+    "endpoint": "POST /evaluation/dossier/{molecule_id}/preparacion",
+    "campo": "bloques[4].requisitos[5].valor",
+    "texto": "Ninguno registrado",
+    "referencia": "backend/services/dossier/preparacion.py:1690"
+  },
+  {
+    "endpoint": "POST /evaluation/dossier/{molecule_id}/preparacion",
+    "campo": "bloques[1].requisitos[0].valor",
+    "texto": "CC(=O)Oc1ccccc1C(=O)[O-] · SHA-256 del SDF 0f06b8e3d194de6f0c085b6f0439a4b8095b4015992c6c1d32a2b237593b46d6",
+    "referencia": "backend/services/dossier/preparacion.py:1120"
+  },
+  {
+    "endpoint": "GET /evaluation/result/{molecule_id}?task_id={task_id}",
+    "campo": "pose_selection.model.name (también version)",
+    "texto": "v0.6 XGBRanker rank:pairwise (selector oficial de Ruta C)",
+    "referencia": "Identidad del modelo: conservar el identificador; separar descripción humana en un encargo backend."
+  },
+  {
+    "endpoint": "GET /ai/startup",
+    "campo": "reason",
+    "texto": "No se configuró ninguna clave de API. Para usar un proveedor en la nube, abre Opciones ▸ Intérprete IA ▸ Clave de API. La clave se guarda cifrada en este equipo.",
+    "referencia": "backend/services/ai/startup_detection.py:172"
+  },
+  {
+    "endpoint": "GET /ai/providers",
+    "campo": "[id=local].estado",
+    "texto": "El motor de MolChat no está instalado en este equipo. Reinstala la aplicación para reponerlo: forma parte del paquete y no se descarga aparte.",
+    "referencia": "backend/services/ai/local_llm.py:840"
+  },
+  {
+    "endpoint": "GET /ai/providers",
+    "campo": "[id=ollama].estado",
+    "texto": "Ollama no responde en http://localhost:11434 (No se pudo conectar a Ollama: timed out). Ábrelo, o instálalo desde ollama.com, y vuelve a intentarlo.",
+    "referencia": "backend/services/ai/providers/ollama_provider.py:89"
+  },
+  {
+    "endpoint": "POST /ai/chat",
+    "campo": "SSE event=warning → data (prefijo __WARNING__:)",
+    "texto": "MolChat Local no está disponible. El motor de MolChat no está instalado en este equipo. Reinstala la aplicación para reponerlo: forma parte del paquete y no se descarga aparte.",
+    "referencia": "backend/services/ai/chat_service.py:1196; causa en backend/services/ai/local_llm.py:840. AIContext.tsx:717 retira __WARNING__: y lo muestra en warning banner; no es prosa del LLM."
+  },
+  {
+    "endpoint": "GET /pro/anti-targets",
+    "campo": "anti_targets[pdb_id=7SRQ].risk",
+    "texto": "Agonismo 5-HT2B causa valvulopatia cardiaca. Fenfluramina, Pergolida retirados.",
+    "referencia": "backend/services/docking/selectivity.py y catálogo de anti-dianas"
+  },
+  {
+    "endpoint": "GET /pro/anti-targets",
+    "campo": "anti_targets[name=N neuronal alpha4beta2 (CHRNA4)].motivo_no_disponible",
+    "texto": "sin estructura X-RAY DIFFRACTION/ELECTRON MICROSCOPY ≤3.5 Å con ligando drug-like. Las estructuras de α4β2 son crio-EM por encima de 3,5 Å, el tope del filtro. Subir el tope es una decisión que hay que medir, no asumir.",
+    "referencia": "backend/services/docking/selectivity.py y catálogo de anti-dianas"
+  },
+  {
+    "endpoint": "GET /pro/anti-targets",
+    "campo": "anti_targets[name=KV channel (—)].motivo_no_disponible",
+    "texto": "la ficha no identifica el subtipo; hay que fijarlo a mano. La tabla 1 de Bowes dice «KV channel» sin subtipo, y KCNQ1, KCNA5 o KCNH2 no comparten sitio. Fijar el subtipo es una decisión de quien use el panel.",
+    "referencia": "backend/services/docking/selectivity.py y catálogo de anti-dianas"
+  },
+  {
+    "endpoint": "GET /pro/anti-targets",
+    "campo": "anti_targets[name=COX1 (PTGS1)].motivo_no_disponible",
+    "texto": "Ninguna estructura pasó: su único ligando no es un fármaco (cofactor, lípido, detergente, tampón o análogo de nucleótido). El criterio es el centroide de la primera pose a ≤ 4.0 Å del ligando cristalizado. La única entrada humana del PDB con ligando bajo los filtros es 6Y3C (3,36 Å) y su único HETATM es citrato: la COX-1 cristalizada con inhibidor es casi siempre ovina, y sustituir de especie cambia el sitio. Queda abierto: fijar a mano una estructura y adjudicar el sitio.",
+    "referencia": "backend/services/docking/selectivity.py y catálogo de anti-dianas"
+  },
+  {
+    "endpoint": "GET /pro/anti-targets",
+    "campo": "anti_targets[name=MAO-A (MAOA)].motivo_no_disponible",
+    "texto": "Ninguna estructura pasó: su único ligando no es un fármaco (cofactor, lípido, detergente, tampón o análogo de nucleótido); Meeko no pudo preparar el receptor. El criterio es el centroide de la primera pose a ≤ 4.0 Å del ligando cristalizado. En las cuatro entradas (2Z5Y, 2Z5X, 2BXR, 2BXS) Meeko avisa «matched with excess inter-residue bond(s)» sobre el residuo del FAD y aborta con «adjacent_mol doesn't contain the mapped atoms». El enlace de más es el que une el FAD covalentemente a una cisteína del sitio activo, propio de las monoamino-oxidasas. No es la caja: el producto no prepara cofactores covalentes. Queda declarado, no sorteado.",
+    "referencia": "backend/services/docking/selectivity.py y catálogo de anti-dianas"
+  },
+  {
+    "endpoint": "GET /pro/anti-targets",
+    "campo": "anti_targets[].category",
+    "texto": "Bowes 2012 · Canal iónico",
+    "referencia": "La categoría humana llega en la respuesta; no hay un código de familia separado."
+  },
+  {
+    "endpoint": "GET /sar/{molecule_id}",
+    "campo": "analogs[].highlight (también results[].highlight)",
+    "texto": "Protocolo estructural y condiciones químicas coincidentes; sin actividad experimental",
+    "codigo": "comparison_state=descriptive",
+    "referencia": "backend/services/sar/comparabilidad.py:45"
+  }
+]

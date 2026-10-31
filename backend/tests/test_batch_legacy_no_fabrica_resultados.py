@@ -83,7 +83,7 @@ async def test_una_molecula_con_vecinos_inactivos_se_acopla_igual(monkeypatch):
 
     monkeypatch.setattr(batch_mod, "_evaluate_one_recorded", _falso_registrado)
     monkeypatch.setattr(
-        "services.ai.molgraph.predict_early_exit", _prefiltro_agresivo, raising=False
+        "services.molgraph.predict_early_exit", _prefiltro_agresivo, raising=False
     )
 
     try:

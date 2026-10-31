@@ -43,8 +43,9 @@ sys.path[:0] = [str(RAIZ / "backend"), str(RAIZ)]
 
 
 def _fuente(pdb_id: str) -> str:
-    for ruta in (RAIZ / "data" / "targets" / f"{pdb_id}.pdb.gz",
-                 RAIZ / "data" / "targets" / f"{pdb_id}.pdb"):
+    # Once depósitos se guardan en minúsculas (`1xp0.pdb.gz`); en Windows da igual, en Linux no.
+    for nombre in (f"{pdb_id}.pdb.gz", f"{pdb_id}.pdb", f"{pdb_id.lower()}.pdb.gz", f"{pdb_id.lower()}.pdb"):
+        ruta = RAIZ / "data" / "targets" / nombre
         if ruta.is_file():
             if ruta.suffix == ".gz":
                 with gzip.open(ruta, "rt", encoding="utf-8", errors="replace") as fh:

@@ -1,6 +1,6 @@
 """Supervisor de los motores que viven en un proceso aparte.
 
-Sigue el patrón que ya está probado en `services/ai/local_llm.py` para
+Sigue el patrón que ya está probado en `services/llm/local_llm.py` para
 `llama-server.exe`, porque los modos de fallo son los mismos y ya se pagaron una
 vez: el proceso se lanza sin ventana, se drena su salida para que no se bloquee
 al llenarse la tubería, se espera a que `/health` responda en vez de suponer que

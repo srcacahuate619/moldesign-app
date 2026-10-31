@@ -168,7 +168,7 @@ ENGLISH_MESSAGES: dict[str, str] = {
 
 
 
- 'API key válida y con saldo disponible': 'API key valid and with available balance',
+ 
 
  'Acoplar contra la unidad asimétrica cuando el sitio se forma entre cadenas produce un sitio incompleto. El dato no existe todavía en el modelo.': 'Docking against the asymmetric unit when the site is formed between chains produces an incomplete site. The data does not yet exist in the model.',
  'Advertencias científicas registradas antes de ejecutar.': 'Scientific warnings recorded before execution.',
@@ -314,13 +314,13 @@ ENGLISH_MESSAGES: dict[str, str] = {
  'Conexión rechazada: ¿Sidecar ESMFold-Pro corriendo en :8300? Requiere GPU.': 'Connection rejected: Sidecar '
                                                                                'ESMFold-Pro running at :8300? Requires '
                                                                                'GPU.',
- 'Configuración válida': 'Valid Settings',
+ 
  'Contrato de ejecución': 'Implementation contract',
  'Contrato de evidencia': 'Evidence contract',
  'Contrato de fingerprint': 'Fingerprint contract',
  'Contrato de preflight': 'Preflight contract',
  'Controles sin evaluar en la comprobación previa': 'Unassessed checks in the previous check',
- 'Conversación no encontrada': 'Conversation not found',
+ 
 
  'Credenciales inválidas': 'Invalid credentials',
  'Cryo-EM 3.0 Å del complejo 5-HT1A–Gi con serotonina. Reemplaza 3RZY (FABP4, target incorrecto).': 'Cryo-EM 3.0 Å of '
@@ -698,14 +698,9 @@ ENGLISH_MESSAGES: dict[str, str] = {
  'Email o contraseña incorrectos': 'Incorrect email or password',
  'En una metaloenzima el metal suele ser parte del sitio catalítico. Sólo se conservan los metales declarados explícitamente para este receptor.': 'In a metalloenzyme, the metal is usually part of the catalytic site. Only '
                                                                                                                                                       'metals explicitly declared for this receptor are retained.',
- 'Eres nuevo. Sé conciso y aprende de cada interacción.': 'Be concise and learn from every interaction.',
- 'Eres un arquitecto molecular. Propón estrategias de diseño de múltiples pasos.': "You're a molecular architect, "
-                                                                                   'propose multiple-step design '
-                                                                                   'strategies.',
- 'Eres un experto. Anticipa las necesidades del usuario y sugiere mejoras proactivamente.': "You're an expert. It "
-                                                                                            'anticipates the needs of '
-                                                                                            'the user and suggests '
-                                                                                            'improvements proactively.',
+ 
+ 
+ 
 
 
  'Error de validación. Por favor verifica el archivo y los parámetros.': 'Validation error. Please check the file and '
@@ -1173,8 +1168,7 @@ ENGLISH_MESSAGES: dict[str, str] = {
 
  'La corrida ejecutaría este mismo filtro y fallaría en la preparación. Revisa el identificador de cadena del receptor.': 'The run would apply this same filter and fail during preparation. Check the receptor chain identifier.',
 
- 'La corrida lo reutilizará tal cual; su hash entra en la huella.': 'The run will reuse it unchanged; its hash is '
-                                                                    'included in the fingerprint.',
+ 'La corrida lo reutilizará tal cual; la huella identifica la fuente y la receta.': 'The run will reuse it unchanged; the fingerprint identifies the source and the preparation recipe.',
 
 
  'La corrida no conservó el bloque PDBQT exacto de esta pose.': 'The run did not preserve the exact PDBQT block of '
@@ -1475,17 +1469,7 @@ ENGLISH_MESSAGES: dict[str, str] = {
                                                                                                                                                                        'yet '
                                                                                                                                                                        'been '
                                                                                                                                                                        'made.',
- 'La hipótesis o la preparación cambió desde la última comprobación. Vuelve a comprobar antes de ejecutar.': 'The '
-                                                                                                             'hypothesis '
-                                                                                                             'or '
-                                                                                                             'preparation '
-                                                                                                             'changed '
-                                                                                                             'from the '
-                                                                                                             'last '
-                                                                                                             'check. '
-                                                                                                             'Recheck '
-                                                                                                             'before '
-                                                                                                             'running.',
+ 'La huella de la comprobación previa no coincide con la calculada ahora. Vuelve a comprobar antes de ejecutar.': 'The previous check fingerprint does not match the one calculated now. Check again before running.',
  'La mejor afinidad es débil (> -3.0 kcal/mol); interpretar como baja evidencia de unión en este setup de docking.': 'The '
                                                                                                                      'best '
                                                                                                                      'affinity '
@@ -1986,26 +1970,7 @@ ENGLISH_MESSAGES: dict[str, str] = {
 
  'No se encontró el target asociado a esta evaluación.': 'The target associated with this evaluation was not found.',
 
- 'No se generaron análogos válidos. Posibles causas: molécula muy pequeña (<5 átomos pesados), biblioteca de fragmentos vacía, o filtros muy estrictos.': 'No '
-                                                                                                                                                          'valid '
-                                                                                                                                                          'analogues '
-                                                                                                                                                          'were '
-                                                                                                                                                          'generated. '
-                                                                                                                                                          'Possible '
-                                                                                                                                                          'causes: '
-                                                                                                                                                          'very '
-                                                                                                                                                          'small '
-                                                                                                                                                          'molecule '
-                                                                                                                                                          '(<5 '
-                                                                                                                                                          'heavy '
-                                                                                                                                                          'atoms), '
-                                                                                                                                                          'empty '
-                                                                                                                                                          'fragment '
-                                                                                                                                                          'library, '
-                                                                                                                                                          'or '
-                                                                                                                                                          'very '
-                                                                                                                                                          'strict '
-                                                                                                                                                          'filters.',
+ 
 
 
 
@@ -2540,12 +2505,12 @@ ENGLISH_MESSAGES: dict[str, str] = {
 
  'almacenamiento local (data/targets, biblioteca y caché)': 'local storage (data/targets, library and cache)',
  'almacenamiento local de targets preparados': 'local storage of prepared targets',
- 'anillo (estructura cíclica)': 'ring (cyclical structure)',
+ 
 
 
  'chem.validator.validate_smiles (mismo validador que /evaluation/submit)': 'chem.validator.validate_smiles (same '
                                                                             'validator as /evaluation/submit)',
- 'con': 'with',
+ 
 
 
 
@@ -2567,7 +2532,7 @@ ENGLISH_MESSAGES: dict[str, str] = {
 
 
 
- 'enlaces peptídicos (amida)': 'peptide bonds (amide)',
+ 
 
 
 
@@ -2615,34 +2580,7 @@ ENGLISH_MESSAGES: dict[str, str] = {
 
  'lectura local del PDB de origen': 'local PDB home reading',
 
- 'mencionaste valores químicos (MW/LogP/TPSA/afinidad) pero ninguna herramienta se ejecutó en esta pasada y el valor no está en los datos verificados — esos valores no están confirmados': 'you '
-                                                                                                                                                                                            'mentioned '
-                                                                                                                                                                                            'chemical '
-                                                                                                                                                                                            'values '
-                                                                                                                                                                                            '(MW/LogP/TPSA/affinity) '
-                                                                                                                                                                                            'but '
-                                                                                                                                                                                            'no '
-                                                                                                                                                                                            'tool '
-                                                                                                                                                                                            'was '
-                                                                                                                                                                                            'executed '
-                                                                                                                                                                                            'in '
-                                                                                                                                                                                            'this '
-                                                                                                                                                                                            'pass '
-                                                                                                                                                                                            'and '
-                                                                                                                                                                                            'the '
-                                                                                                                                                                                            'value '
-                                                                                                                                                                                            'is '
-                                                                                                                                                                                            'not '
-                                                                                                                                                                                            'in '
-                                                                                                                                                                                            'the '
-                                                                                                                                                                                            'verified '
-                                                                                                                                                                                            'data '
-                                                                                                                                                                                            '— '
-                                                                                                                                                                                            'those '
-                                                                                                                                                                                            'values '
-                                                                                                                                                                                            'are '
-                                                                                                                                                                                            'not '
-                                                                                                                                                                                            'confirmed',
+ 
  'mk_export.py no generó el SDF esperado': 'mk_export.py did not generate the expected SDF',
 
 
@@ -2679,7 +2617,7 @@ ENGLISH_MESSAGES: dict[str, str] = {
  'task_id es requerido para cancelar': 'task_id is required to cancel',
 
 
- 'un polímero no es una molécula pequeña representable': 'a polymer is not a small representative molecule',
+ 
 
  'xTB no está configurado o instalado.': 'xTB is not configured or installed.',
  'xtb falló al procesar la molécula': 'xtb failed to process the molecule',
@@ -2979,7 +2917,7 @@ ENGLISH_MESSAGES.update({
     """Huella de los inputs (preflight)""": """Input fingerprint (preflight)""",
     """La huella de la disposición no coincide con la huella de la corrida.""": """The disposition fingerprint does not match the run fingerprint.""",
     """La corrida se ejecutó con los inputs que este dossier describe.""": """This run used the inputs described in this dossier.""",
-    """Los inputs del caso CAMBIARON después de esta corrida. El dossier describe la corrida, no la hipótesis actual.""": """The case inputs CHANGED after this run. The dossier describes the run, not the current hypothesis.""",
+    """No se puede confirmar que la corrida corresponda a los inputs actuales. La diferencia puede deberse a cambios en los inputs o en el cálculo de la huella.""": """It cannot be confirmed that the run matches the current inputs. The difference may result from changes to the inputs or to how the fingerprint was calculated.""",
     """La corrida no registró la huella de sus inputs; no se puede afirmar a qué hipótesis corresponde.""": """This run did not record its input fingerprint; it cannot be linked to a specific hypothesis.""",
     """Política de heteroátomos declarada""": """Declared heteroatom policy""",
     """Motor de acoplamiento""": """Docking engine""",
@@ -3063,8 +3001,8 @@ ENGLISH_MESSAGES.update({
     """Traza de reproducibilidad técnica""": """Technical reproducibility trace""",
     """Presencia de los tres campos que permiten repetir la corrida.""": """Presence of the three fields needed to repeat the run.""",
     """Siguiente acción justificable""": """Next justified action""",
-    """ABSTENCIÓN: LA HIPÓTESIS CAMBIÓ""": """ABSTENTION: THE HYPOTHESIS CHANGED""",
-    """Los inputs del caso cambiaron después de esta corrida: antes de decidir nada hay que volver a comprobar la preparación y ejecutar con la hipótesis actual.""": """The case inputs changed after this run: before making a decision, check the preparation again and run with the current hypothesis.""",
+    """ABSTENCIÓN: CORRESPONDENCIA NO CONFIRMADA""": """ABSTENTION: MATCH NOT CONFIRMED""",
+    """No se puede confirmar que esta corrida corresponda a los inputs actuales. Vuelve a comprobar la preparación y ejecuta con la hipótesis actual antes de decidir.""": """It cannot be confirmed that this run matches the current inputs. Check the preparation again and run with the current hypothesis before deciding.""",
     """Índice compuesto heredado (total_score)""": """Legacy composite index (total_score)""",
     """Índice de afinidad heredado""": """Legacy affinity index""",
     """Índice ADME heredado""": """Legacy ADME index""",
@@ -3274,7 +3212,6 @@ ENGLISH_MESSAGES.update({
     """La corrida no registró la semilla.""": """This run did not record the seed.""",
     """Relación con los inputs del caso""": """Relationship to the case inputs""",
     """La corrida se ejecutó con los inputs actuales del caso.""": """This run used the case's current inputs.""",
-    """Los inputs del caso cambiaron después de esta corrida: la auditoría describe la corrida, no la hipótesis actual.""": """The case inputs changed after this run: the audit describes the run, not the current hypothesis.""",
     """La corrida no registró la huella de sus inputs.""": """This run did not record its input fingerprint.""",
     """La corrida no quedó atada a una comprobación previa.""": """This run was not linked to a preflight check.""",
     """La comprobación previa del caso no corresponde a los inputs de esta corrida.""": """The case preflight does not match this run's inputs.""",
@@ -4105,15 +4042,11 @@ ENGLISH_MESSAGES.update({
     ),
     "más de 15 enlaces rotables": "more than 15 rotatable bonds",
     "MW fuera de 200-600": "MW outside 200-600",
-    "ANTHROPIC_API_KEY no configurada": "ANTHROPIC_API_KEY is not set",
-    "API key no configurada": "API key is not set",
-    "GEMINI_API_KEY no configurada": "GEMINI_API_KEY is not set",
-    "No se configuró ninguna clave de API. Para usar un proveedor en la nube, abre Opciones ▸ Intérprete IA ▸ Clave de API. La clave se guarda cifrada en este equipo.": (
-        "No API key is configured. To use a cloud provider, open Options ▸ AI Interpreter ▸ API key. The key is stored encrypted on this computer."
-    ),
-    "No se detectaron proveedores. MolChat se puede activar manualmente.": (
-        "No providers were detected. You can start MolChat manually."
-    ),
+    
+    
+    
+    
+    
     "Curado estructuralmente; sin calibrar y sin pipeline de familia": (
         "Structurally curated; calibration and a family pipeline are missing"
     ),

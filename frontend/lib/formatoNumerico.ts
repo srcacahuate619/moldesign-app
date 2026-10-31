@@ -60,3 +60,8 @@ export function hayNumero(valor: unknown): valor is number {
 export function clavePluralDePoses(cantidad: number): "pr_cfg_pose" | "pr_cfg_poses" {
   return cantidad === 1 ? "pr_cfg_pose" : "pr_cfg_poses";
 }
+
+/** Región elegida por el idioma de la aplicación, independiente del sistema. */
+export function appLocale(locale: string): "en-US" | "es-MX" {
+  return locale === "en" ? "en-US" : "es-MX";
+}

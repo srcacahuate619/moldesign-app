@@ -1,68 +1,6 @@
 {
   "components": {
     "schemas": {
-      "AIChatRequest": {
-        "properties": {
-          "allow_web": {
-            "default": false,
-            "description": "Modo online: si True, el agente puede usar herramientas web verificadas (PubChem, ChEMBL, RCSB PDB, UniProt, BindingDB) ademas de las locales. Si False (default), solo tools offline — el modelo nunca sale a internet. Override global via env MOLCHAT_ALLOW_WEB=1.",
-            "title": "Allow Web",
-            "type": "boolean"
-          },
-          "messages": {
-            "items": {
-              "$ref": "#/components/schemas/ChatMessage"
-            },
-            "maxItems": 200,
-            "minItems": 1,
-            "title": "Messages",
-            "type": "array"
-          },
-          "mode": {
-            "default": "speed",
-            "description": "Modo de respuesta: 'speed' (rapido, conciso) o 'reasoning' (profundo, detallado)",
-            "pattern": "^(speed|reasoning)$",
-            "title": "Mode",
-            "type": "string"
-          },
-          "molecule_context": {
-            "anyOf": [
-              {
-                "additionalProperties": true,
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Datos de la molécula actual para contexto automático",
-            "title": "Molecule Context"
-          },
-          "provider_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "ID del proveedor a usar. Null = usa el activo.",
-            "title": "Provider Id"
-          },
-          "stream": {
-            "default": true,
-            "description": "Usar SSE streaming",
-            "title": "Stream",
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "messages"
-        ],
-        "title": "AIChatRequest",
-        "type": "object"
-      },
       "AIReportResponse": {
         "properties": {
           "ai_report": {
@@ -81,6 +19,37 @@
           "ai_report"
         ],
         "title": "AIReportResponse",
+        "type": "object"
+      },
+      "ActivoSolicitud": {
+        "additionalProperties": false,
+        "properties": {
+          "modelo": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modelo"
+          },
+          "proveedor": {
+            "anyOf": [
+              {
+                "maxLength": 32,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proveedor"
+          }
+        },
+        "title": "ActivoSolicitud",
         "type": "object"
       },
       "AlphaFoldEntryResponse": {
@@ -572,25 +541,40 @@
         "title": "CertificationRequest",
         "type": "object"
       },
-      "ChatMessage": {
+      "ClaveSolicitud": {
+        "additionalProperties": false,
         "properties": {
-          "content": {
-            "maxLength": 32000,
-            "minLength": 1,
-            "title": "Content",
+          "api_key": {
+            "maxLength": 512,
+            "minLength": 8,
+            "title": "Api Key",
             "type": "string"
           },
-          "role": {
-            "pattern": "^(system|user|assistant)$",
-            "title": "Role",
+          "host_visto": {
+            "description": "Host que la interfaz mostró antes de pedir la clave",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Host Visto",
             "type": "string"
+          },
+          "modelo": {
+            "anyOf": [
+              {
+                "maxLength": 120,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Modelo"
           }
         },
         "required": [
-          "role",
-          "content"
+          "api_key",
+          "host_visto"
         ],
-        "title": "ChatMessage",
+        "title": "ClaveSolicitud",
         "type": "object"
       },
       "CohortConfig": {
@@ -2166,6 +2150,82 @@
           "task_id"
         ],
         "title": "CorridaDeclarada",
+        "type": "object"
+      },
+      "CrearPropuestaRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "chain": {
+            "anyOf": [
+              {
+                "maxLength": 4,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chain"
+          },
+          "pipeline_config": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Configuración del pipeline; la valida EvaluationSubmitRequest.",
+            "title": "Pipeline Config"
+          },
+          "smiles": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Smiles",
+            "type": "string"
+          },
+          "target_pdb_id": {
+            "default": "7E2Y",
+            "maxLength": 10,
+            "minLength": 4,
+            "title": "Target Pdb Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "smiles"
+        ],
+        "title": "CrearPropuestaRequest",
+        "type": "object"
+      },
+      "CredencialSolicitud": {
+        "additionalProperties": false,
+        "properties": {
+          "host": {
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Host",
+            "type": "string"
+          },
+          "proveedor": {
+            "anyOf": [
+              {
+                "maxLength": 32,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proveedor"
+          }
+        },
+        "required": [
+          "host"
+        ],
+        "title": "CredencialSolicitud",
         "type": "object"
       },
       "DecisionHumana": {
@@ -5713,6 +5773,72 @@
         "title": "OAuthLoginRequest",
         "type": "object"
       },
+      "ParametrosEfectivosRespuesta": {
+        "properties": {
+          "caja": {
+            "additionalProperties": true,
+            "title": "Caja",
+            "type": "object"
+          },
+          "conformaciones": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conformaciones"
+          },
+          "exhaustividad": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exhaustividad"
+          },
+          "motor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Motor"
+          },
+          "poses": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Poses"
+          },
+          "semilla": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Semilla"
+          }
+        },
+        "title": "ParametrosEfectivosRespuesta",
+        "type": "object"
+      },
       "PhysicochemicalProperties": {
         "description": "Propiedades fisicoquímicas calculadas por RDKit.\nViajan desde chem/properties.py hacia scoring/engine.py y la API.",
         "properties": {
@@ -6425,6 +6551,33 @@
         "title": "PreflightRequest",
         "type": "object"
       },
+      "PreflightResumenRespuesta": {
+        "properties": {
+          "not_evaluated": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Not Evaluated",
+            "type": "array"
+          },
+          "technical_blockers": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Technical Blockers",
+            "type": "array"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "title": "PreflightResumenRespuesta",
+        "type": "object"
+      },
       "PrepareTargetRequest": {
         "properties": {
           "protein_pdb_content": {
@@ -6625,79 +6778,71 @@
         "title": "PropertiesResponse",
         "type": "object"
       },
-      "ProviderInfoResponse": {
+      "PropiedadesSolicitud": {
+        "additionalProperties": false,
         "properties": {
-          "active": {
-            "default": false,
-            "title": "Active",
-            "type": "boolean"
-          },
-          "available_models": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Available Models",
-            "type": "array"
-          },
-          "base_url": {
-            "default": "",
-            "title": "Base Url",
+          "smiles": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Smiles",
             "type": "string"
-          },
-          "configured": {
-            "default": false,
-            "title": "Configured",
-            "type": "boolean"
-          },
-          "default_base_url": {
-            "default": "",
-            "title": "Default Base Url",
-            "type": "string"
-          },
-          "default_model": {
-            "default": "",
-            "title": "Default Model",
-            "type": "string"
-          },
-          "description": {
-            "title": "Description",
+          }
+        },
+        "required": [
+          "smiles"
+        ],
+        "title": "PropiedadesSolicitud",
+        "type": "object"
+      },
+      "PropuestaCreadaRespuesta": {
+        "properties": {
+          "caduca_en": {
+            "title": "Caduca En",
             "type": "string"
           },
           "estado": {
-            "default": "",
             "title": "Estado",
+            "type": "string"
+          },
+          "expira_en_s": {
+            "title": "Expira En S",
+            "type": "integer"
+          },
+          "hash": {
+            "title": "Hash",
             "type": "string"
           },
           "id": {
             "title": "Id",
             "type": "string"
           },
-          "model": {
-            "default": "",
-            "title": "Model",
+          "parametros_efectivos": {
+            "$ref": "#/components/schemas/ParametrosEfectivosRespuesta"
+          },
+          "preflight": {
+            "$ref": "#/components/schemas/PreflightResumenRespuesta"
+          },
+          "proposal_hash": {
+            "title": "Proposal Hash",
             "type": "string"
           },
-          "name": {
-            "title": "Name",
+          "proposal_id": {
+            "title": "Proposal Id",
             "type": "string"
-          },
-          "requires_api_key": {
-            "title": "Requires Api Key",
-            "type": "boolean"
-          },
-          "requires_base_url": {
-            "title": "Requires Base Url",
-            "type": "boolean"
           }
         },
         "required": [
+          "proposal_id",
           "id",
-          "name",
-          "description",
-          "requires_api_key",
-          "requires_base_url"
+          "proposal_hash",
+          "hash",
+          "estado",
+          "parametros_efectivos",
+          "preflight",
+          "caduca_en",
+          "expira_en_s"
         ],
-        "title": "ProviderInfoResponse",
+        "title": "PropuestaCreadaRespuesta",
         "type": "object"
       },
       "RCSBSearchResult": {
@@ -6803,6 +6948,96 @@
           "pdb_id"
         ],
         "title": "ReceptorDeclarado",
+        "type": "object"
+      },
+      "ReconciliacionRespuesta": {
+        "properties": {
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "finished_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Finished At"
+          },
+          "idempotency_key": {
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "operation": {
+            "title": "Operation",
+            "type": "string"
+          },
+          "proposal_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proposal Id"
+          },
+          "response": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          }
+        },
+        "required": [
+          "idempotency_key",
+          "operation",
+          "status"
+        ],
+        "title": "ReconciliacionRespuesta",
         "type": "object"
       },
       "RefreshRequest": {
@@ -7058,6 +7293,42 @@
           "off_targets"
         ],
         "title": "SaveSelectivityRequest",
+        "type": "object"
+      },
+      "SesionRespuesta": {
+        "additionalProperties": false,
+        "properties": {
+          "expira_en_s": {
+            "description": "Segundos de vida del token",
+            "title": "Expira En S",
+            "type": "integer"
+          },
+          "scopes": {
+            "description": "Permisos concedidos",
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopes",
+            "type": "array"
+          },
+          "token": {
+            "description": "Sesión mh1 para el sidecar (Bearer, corta vida)",
+            "title": "Token",
+            "type": "string"
+          },
+          "url": {
+            "description": "URL loopback del sidecar (el puerto varía)",
+            "title": "Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "token",
+          "url",
+          "expira_en_s",
+          "scopes"
+        ],
+        "title": "SesionRespuesta",
         "type": "object"
       },
       "StatsResponse": {
@@ -8327,169 +8598,6 @@
         ]
       }
     },
-    "/ai/chat": {
-      "post": {
-        "operationId": "chat_completion_ai_chat_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AIChatRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Chat Completion",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/consent": {
-      "get": {
-        "description": "A dónde iría cada proveedor y si esta cuenta autorizó ese destino.\n\nEs lo que permite a la interfaz declarar el destino de forma permanente en\nvez de dejarlo implícito (MOLCHAT-NET-005 y la mitad abierta de BE-003).",
-        "operationId": "listar_consentimientos_ai_consent_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Listar Consentimientos",
-        "tags": [
-          "MolChat"
-        ]
-      },
-      "post": {
-        "description": "Autoriza el destino **que el investigador vio**, no el que haya ahora.\n\nEl cuerpo trae el `host` que la interfaz mostró. Si entretanto cambió, se\nresponde 409 en vez de autorizar un destino distinto del que se consintió.",
-        "operationId": "otorgar_consentimiento_ai_consent_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "additionalProperties": true,
-                "title": "Payload",
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Otorgar Consentimiento",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
     "/ai/consent/red": {
       "get": {
         "description": "Destinos de las HERRAMIENTAS: servicio, host, finalidad y qué sale.\n\n`allow_web` seguía siendo un interruptor: autorizar «buscar en internet»\nautorizaba PubChem, ChEMBL, RCSB, UniProt y HuggingFace a la vez, sin decir\ncuáles ni qué mandaba a cada uno. Esto es lo que permite preguntarlo uno a\nuno, y `modo_offline` hace comprobable la afirmación «este equipo no habla\ncon nadie».",
@@ -8652,17 +8760,17 @@
         ]
       }
     },
-    "/ai/consent/{provider_id}": {
-      "delete": {
-        "description": "Retira la autorización. A partir del siguiente turno no sale nada por ahí.",
-        "operationId": "revocar_consentimiento_ai_consent__provider_id__delete",
+    "/ai/idempotency/{idempotency_key}": {
+      "get": {
+        "description": "CR-06: qué operación y qué trabajo existen para esta clave.",
+        "operationId": "reconciliar_operacion_ai_idempotency__idempotency_key__get",
         "parameters": [
           {
             "in": "path",
-            "name": "provider_id",
+            "name": "idempotency_key",
             "required": true,
             "schema": {
-              "title": "Provider Id",
+              "title": "Idempotency Key",
               "type": "string"
             }
           },
@@ -8687,7 +8795,9 @@
           "200": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/ReconciliacionRespuesta"
+                }
               }
             },
             "description": "Successful Response"
@@ -8703,61 +8813,34 @@
             "description": "Validation Error"
           }
         },
-        "summary": "Revocar Consentimiento",
+        "summary": "Reconciliar Operacion",
         "tags": [
           "MolChat"
         ]
       }
     },
-    "/ai/conversations": {
-      "get": {
-        "operationId": "list_conversations_ai_conversations_get",
+    "/ai/proposals": {
+      "post": {
+        "description": "CR-07: crea una propuesta revisable sin lanzar el cálculo.\n\nLa identidad la impone la sesión; ningún `user_id` del cuerpo tiene\nefecto (el modelo lo rechaza). Si el preflight trae bloqueantes\ntécnicos, responde 409 con el preflight completo y sin propuesta.",
+        "operationId": "crear_propuesta_de_docking_ai_proposals_post",
         "parameters": [
           {
             "in": "header",
-            "name": "authorization",
+            "name": "Idempotency-Key",
             "required": false,
             "schema": {
               "anyOf": [
                 {
+                  "maxLength": 200,
                   "type": "string"
                 },
                 {
                   "type": "null"
                 }
               ],
-              "title": "Authorization"
+              "title": "Idempotency-Key"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
           },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "List Conversations",
-        "tags": [
-          "MolChat"
-        ]
-      },
-      "post": {
-        "operationId": "create_conversation_ai_conversations_post",
-        "parameters": [
           {
             "in": "header",
             "name": "authorization",
@@ -8779,257 +8862,19 @@
           "content": {
             "application/json": {
               "schema": {
-                "anyOf": [
-                  {
-                    "additionalProperties": true,
-                    "type": "object"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "title": "Payload"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Create Conversation",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/conversations/{conv_id}": {
-      "delete": {
-        "operationId": "delete_conversation_ai_conversations__conv_id__delete",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "conv_id",
-            "required": true,
-            "schema": {
-              "title": "Conv Id",
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Delete Conversation",
-        "tags": [
-          "MolChat"
-        ]
-      },
-      "get": {
-        "operationId": "get_conversation_ai_conversations__conv_id__get",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "conv_id",
-            "required": true,
-            "schema": {
-              "title": "Conv Id",
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Get Conversation",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/models": {
-      "get": {
-        "operationId": "list_models_ai_models_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "provider_id",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Provider Id"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "List Models",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/models/download": {
-      "post": {
-        "operationId": "start_model_download_ai_models_download_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "additionalProperties": true,
-                "title": "Payload",
-                "type": "object"
+                "$ref": "#/components/schemas/CrearPropuestaRequest"
               }
             }
           },
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/PropuestaCreadaRespuesta"
+                }
               }
             },
             "description": "Successful Response"
@@ -9045,274 +8890,7 @@
             "description": "Validation Error"
           }
         },
-        "summary": "Start Model Download",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/models/download/{dl_id}": {
-      "get": {
-        "operationId": "get_model_download_status_ai_models_download__dl_id__get",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "dl_id",
-            "required": true,
-            "schema": {
-              "title": "Dl Id",
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Get Model Download Status",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/models/local": {
-      "get": {
-        "operationId": "list_local_models_ai_models_local_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "List Local Models",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/models/open-folder": {
-      "post": {
-        "description": "Abre la carpeta de modelos locales en el explorador de archivos del sistema.",
-        "operationId": "open_models_folder_ai_models_open_folder_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Open Models Folder",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/models/recommend-quant": {
-      "get": {
-        "description": "Recomendar nivel de cuantización según RAM/VRAM disponible.",
-        "operationId": "recommend_quantization_ai_models_recommend_quant_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Recommend Quantization",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/models/search": {
-      "get": {
-        "operationId": "search_models_ai_models_search_get",
-        "parameters": [
-          {
-            "in": "query",
-            "name": "q",
-            "required": true,
-            "schema": {
-              "minLength": 2,
-              "title": "Q",
-              "type": "string"
-            }
-          },
-          {
-            "in": "query",
-            "name": "limit",
-            "required": false,
-            "schema": {
-              "default": 16,
-              "maximum": 30,
-              "title": "Limit",
-              "type": "integer"
-            }
-          },
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Search Models",
+        "summary": "Crear Propuesta De Docking",
         "tags": [
           "MolChat"
         ]
@@ -9376,7 +8954,7 @@
     },
     "/ai/proposals/{proposal_id}/approve": {
       "post": {
-        "description": "Lanza la corrida que ESA propuesta describe, con la sesión de la cuenta.",
+        "description": "Lanza la corrida que ESA propuesta describe, con la sesión de la cuenta.\n\nCon `Idempotency-Key` (CR-06), un reintento tras una respuesta perdida\ndevuelve el `task_id` original sin lanzar una segunda evaluación.",
         "operationId": "aprobar_propuesta_de_docking_ai_proposals__proposal_id__approve_post",
         "parameters": [
           {
@@ -9386,6 +8964,23 @@
             "schema": {
               "title": "Proposal Id",
               "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 200,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
             }
           },
           {
@@ -9497,283 +9092,6 @@
         ]
       }
     },
-    "/ai/providers": {
-      "get": {
-        "description": "Sonda de arranque: la interfaz la llama antes del auto-login.\n\nD-09 hace que `configured` y `active` sean datos de cuenta, así que la\nidentidad es **opcional**: con sesión se responde la vista de esa cuenta;\nsin sesión, el catálogo de la máquina y `configured=False`. Así la sonda\nsigue sirviendo al arranque sin publicar de quién es la clave.",
-        "operationId": "list_providers_ai_providers_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/ProviderInfoResponse"
-                  },
-                  "title": "Response List Providers Ai Providers Get",
-                  "type": "array"
-                }
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "List Providers",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/providers/active": {
-      "get": {
-        "operationId": "get_active_provider_ai_providers_active_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Get Active Provider",
-        "tags": [
-          "MolChat"
-        ]
-      },
-      "post": {
-        "operationId": "set_active_provider_ai_providers_active_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "additionalProperties": true,
-                "title": "Payload",
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Set Active Provider",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/providers/configure": {
-      "post": {
-        "operationId": "configure_provider_ai_providers_configure_post",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "additionalProperties": true,
-                "title": "Payload",
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Configure Provider",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/settings": {
-      "patch": {
-        "description": "Actualizar configuración global de IA (keep_loaded).",
-        "operationId": "update_ai_settings_ai_settings_patch",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "additionalProperties": true,
-                "title": "Payload",
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Update Ai Settings",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
     "/ai/speech-to-text": {
       "post": {
         "description": "Transcribir audio a texto usando whisper local (offline, sin API key).",
@@ -9836,102 +9154,6 @@
           }
         },
         "summary": "Speech To Text Status",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/startup": {
-      "get": {
-        "description": "Sonda de arranque. La identidad es opcional, pero cambia lo que sale.\n\nEs la llamada más temprana del producto y sondeaba a Anthropic, Google y\nOpenAI con un turno real antes de que nadie autorizara nada. Ahora se\nresuelve con la cuenta que pregunta: sin sesión no hay consentimiento\nposible, así que no se consulta ningún destino remoto y MolChat arranca en\nlocal.",
-        "operationId": "startup_detection_ai_startup_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Startup Detection",
-        "tags": [
-          "MolChat"
-        ]
-      }
-    },
-    "/ai/status": {
-      "get": {
-        "description": "Sonda de arranque. Ver la nota de identidad opcional en `list_providers`.",
-        "operationId": "ai_status_ai_status_get",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "authorization",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "description": "Successful Response"
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "description": "Validation Error"
-          }
-        },
-        "summary": "Ai Status",
         "tags": [
           "MolChat"
         ]
@@ -14322,6 +13544,498 @@
         "summary": "Estadísticas del usuario",
         "tags": [
           "Historial de evaluaciones"
+        ]
+      }
+    },
+    "/molchat-host/contract": {
+      "get": {
+        "description": "Versión y capacidades explícitas; no implica paridad de todo el catálogo.",
+        "operationId": "contrato_molchat_host_contract_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Contrato Molchat Host Contract Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Contrato",
+        "tags": [
+          "MolChatHost"
+        ]
+      }
+    },
+    "/molchat-host/credencial": {
+      "post": {
+        "description": "Clave y modelo para una llamada del sidecar. Sólo con sesión mh1; nunca desde la interfaz.",
+        "operationId": "credencial_molchat_host_credencial_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredencialSolicitud"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Credencial Molchat Host Credencial Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Credencial",
+        "tags": [
+          "MolChatHost"
+        ]
+      }
+    },
+    "/molchat-host/properties": {
+      "post": {
+        "description": "Descriptores reales del producto; se abstiene si la validación falla.",
+        "operationId": "propiedades_molchat_host_properties_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropiedadesSolicitud"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Propiedades Molchat Host Properties Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Propiedades",
+        "tags": [
+          "MolChatHost"
+        ]
+      }
+    },
+    "/molchat-host/proveedores": {
+      "get": {
+        "description": "Catálogo verificado de MolChat y el estado de esta cuenta. Sin claves.",
+        "operationId": "proveedores_de_cuenta_molchat_host_proveedores_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Proveedores De Cuenta Molchat Host Proveedores Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Proveedores De Cuenta",
+        "tags": [
+          "MolChatHost"
+        ]
+      }
+    },
+    "/molchat-host/proveedores/activo": {
+      "put": {
+        "operationId": "elegir_activo_molchat_host_proveedores_activo_put",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivoSolicitud"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Elegir Activo Molchat Host Proveedores Activo Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Elegir Activo",
+        "tags": [
+          "MolChatHost"
+        ]
+      }
+    },
+    "/molchat-host/proveedores/{proveedor}/clave": {
+      "delete": {
+        "operationId": "retirar_clave_molchat_host_proveedores__proveedor__clave_delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proveedor",
+            "required": true,
+            "schema": {
+              "title": "Proveedor",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Retirar Clave Molchat Host Proveedores  Proveedor  Clave Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Retirar Clave",
+        "tags": [
+          "MolChatHost"
+        ]
+      },
+      "put": {
+        "description": "«Guardar y autorizar envío a <host>»: clave cifrada por cuenta y autorización del destino.",
+        "operationId": "guardar_clave_molchat_host_proveedores__proveedor__clave_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "proveedor",
+            "required": true,
+            "schema": {
+              "title": "Proveedor",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaveSolicitud"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Guardar Clave Molchat Host Proveedores  Proveedor  Clave Put",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Guardar Clave",
+        "tags": [
+          "MolChatHost"
+        ]
+      }
+    },
+    "/molchat-host/session": {
+      "post": {
+        "description": "Levanta el sidecar si duerme y acuña una sesión para esta cuenta.",
+        "operationId": "sesion_nueva_molchat_host_session_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SesionRespuesta"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Sesion Nueva",
+        "tags": [
+          "MolChatHost"
+        ]
+      }
+    },
+    "/molchat-host/status": {
+      "get": {
+        "description": "¿Hay sidecar? ¿Cuál? ¿En marcha? Sin autenticar: no expone datos.",
+        "operationId": "estado_molchat_host_status_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Estado Molchat Host Status Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Estado",
+        "tags": [
+          "MolChatHost"
         ]
       }
     },

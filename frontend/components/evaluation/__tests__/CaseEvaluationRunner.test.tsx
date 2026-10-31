@@ -51,6 +51,7 @@ vi.mock("../../../lib/api", () => ({
   getEvaluationResult: (id: string, taskId?: string) => getEvaluationResult(id, taskId),
   getTargets: () => getTargets(),
   submitEvaluation: (...args: unknown[]) => submitEvaluation(...args),
+  mensajeDelError: (error: unknown) => String(error),
   validateSmiles: vi.fn(),
   cancelEvaluation: vi.fn(),
   certifyMolecule: vi.fn(),
@@ -69,12 +70,18 @@ vi.mock("../../interfaces/pro/ProEvaluation", () => ({
     resultRecovery,
     onRetryResultRecovery,
     handleSubmit,
+    smiles,
+    smilesDesdeChat,
+    evaluacionDesdeChat,
   }: {
     status?: { status?: string; result?: { molecule_id?: string } | null } | null;
     target?: string;
     structuralSystem?: { sourceRunTaskId?: string };
     resultRecovery?: { state: string; message?: string; requiresLogin?: boolean } | null;
     onRetryResultRecovery?: () => void;
+    smiles?: string;
+    smilesDesdeChat?: { smiles: string; onApplied: () => void };
+    evaluacionDesdeChat?: { onInvoke: () => void; onResult: (result: { status: string; task_id?: string }) => void };
     handleSubmit?: (
       gridCenter?: [number, number, number],
       gridSize?: [number, number, number],
@@ -83,7 +90,9 @@ vi.mock("../../interfaces/pro/ProEvaluation", () => ({
       pipelineConfig?: unknown,
     ) => void;
   }) => (
-    <div data-testid="pro" data-target={target} data-structural-system={structuralSystem?.sourceRunTaskId} data-recovery={resultRecovery?.state ?? "none"}>
+    <div data-testid="pro" data-smiles={smiles} data-target={target} data-structural-system={structuralSystem?.sourceRunTaskId} data-recovery={resultRecovery?.state ?? "none"}>
+      {smilesDesdeChat && <button onClick={smilesDesdeChat.onApplied}>Confirmar SMILES visible</button>}
+      {evaluacionDesdeChat && <button onClick={() => { evaluacionDesdeChat.onInvoke(); void handleSubmit?.(); }}>Ejecutar desde MolChat</button>}
       estado:{status?.status ?? "sin-estado"};resultado:{status?.result?.molecule_id ?? "sin-resultado"}
       {resultRecovery?.message && <span>{resultRecovery.message}</span>}
       {resultRecovery?.state === "blocked" && (
@@ -110,6 +119,56 @@ vi.mock("../../interfaces/pro/ProEvaluation", () => ({
 
 import CaseEvaluationRunner from "../CaseEvaluationRunner";
 import { invalidarCatalogo } from "../../../lib/catalogoDeReceptores";
+
+it("selecciona el receptor del catálogo usando la misma actualización del caso", async () => {
+  getTargets.mockImplementationOnce(async () => [{ pdb_id: "7E2Y", name: "receptor", disponible: true, grid_center_x: 1, grid_center_y: 2, grid_center_z: 3 }] as never[]);
+  const onInputsChange = vi.fn(), onVisible = vi.fn(), onError = vi.fn();
+  render(<CaseEvaluationRunner caseId="caso-1" onInputsChange={onInputsChange}
+    receptorDesdeChat={{ requestId: "r1", pdbId: "7E2Y", deadline: Date.now() + 5000, onVisible, onError }} />);
+  await waitFor(() => expect(onVisible).toHaveBeenCalledWith(false));
+  expect(screen.getByTestId("pro")).toHaveAttribute("data-target", "7E2Y");
+  expect(onInputsChange).toHaveBeenCalledWith(expect.objectContaining({ receptor: expect.objectContaining({ pdbId: "7E2Y" }), grid: expect.objectContaining({ center: [1, 2, 3] }) }));
+  expect(onError).not.toHaveBeenCalled();
+  expect(submitEvaluation).not.toHaveBeenCalled();
+});
+
+it.each([
+  [[], "receptor_not_found"],
+  [[{ pdb_id: "7E2Y", name: "receptor", disponible: false }], "unavailable"],
+  [[{ pdb_id: "7E2Y", name: "uno" }, { pdb_id: "7E2Y", name: "dos" }], "receptor_ambiguous"],
+])("rechaza un catálogo sin selección válida: %s", async (items, status) => {
+  getTargets.mockImplementationOnce(async () => items as never[]);
+  const onInputsChange = vi.fn(), onVisible = vi.fn(), onError = vi.fn();
+  render(<CaseEvaluationRunner caseId="caso-1" onInputsChange={onInputsChange}
+    receptorDesdeChat={{ requestId: "r2", pdbId: "7E2Y", deadline: Date.now() + 5000, onVisible, onError }} />);
+  await waitFor(() => expect(onError).toHaveBeenCalledWith(status));
+  expect(onVisible).not.toHaveBeenCalled();
+  expect(onInputsChange).not.toHaveBeenCalled();
+});
+
+it("impide cambiar el receptor de un sistema estructural fijado", async () => {
+  getTargets.mockImplementationOnce(async () => [{ pdb_id: "7E2Y", name: "receptor", disponible: true }] as never[]);
+  const onInputsChange = vi.fn(), onVisible = vi.fn(), onError = vi.fn();
+  render(<CaseEvaluationRunner caseId="caso-1" onInputsChange={onInputsChange}
+    structuralSystem={{ lockedAt: "2026-08-26T12:00:00.000Z", sourceRunTaskId: "ancla", inputFingerprint: "sha256:ancla", receptor: { pdbId: "1ABC", origin: "curado" }, grid: { center: [0, 0, 0], size: [20, 20, 20] }, customHotspots: [], dockingEngine: "vina", exhaustiveness: 8, numPoses: 9, conformers: 1 }}
+    receptorDesdeChat={{ requestId: "r3", pdbId: "7E2Y", deadline: Date.now() + 5000, onVisible, onError }} />);
+  await waitFor(() => expect(onError).toHaveBeenCalledWith("locked"));
+  expect(onInputsChange).not.toHaveBeenCalled();
+  expect(onVisible).not.toHaveBeenCalled();
+});
+
+it("aplica el SMILES recibido al campo y a los inputs del caso sin ejecutar una evaluación", async () => {
+  const onInputsChange = vi.fn();
+  const onApplied = vi.fn();
+  render(<CaseEvaluationRunner caseId="caso-1" onInputsChange={onInputsChange}
+    smilesDesdeChat={{ requestId: "r1", smiles: "CCO", deadline: Date.now() + 5000, onApplied }} />);
+  await waitFor(() => expect(screen.getByTestId("pro")).toHaveAttribute("data-smiles", "CCO"));
+  expect(onInputsChange).toHaveBeenCalledWith({ ligand: { inputSmiles: "CCO" } });
+  expect(onApplied).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole("button", { name: "Confirmar SMILES visible" }));
+  expect(onApplied).toHaveBeenCalledTimes(1);
+  expect(submitEvaluation).not.toHaveBeenCalled();
+});
 
 beforeEach(() => {
   // El catálogo se cachea entre montajes: cada prueba parte sin nada.
@@ -613,9 +672,9 @@ describe("matriz de recuperación durable", () => {
   });
 
   it("un arranque tardío del motor se recupera automáticamente sin intervención", async () => {
-    getJobStatus.mockRejectedValueOnce(new Error("Error de conexión: motor apagado"));
+    getJobStatus.mockRejectedValueOnce(new TypeError("fetch failed"));
     getEvaluationResult
-      .mockRejectedValueOnce(new Error("Error de conexión: motor apagado"))
+      .mockRejectedValueOnce(new TypeError("fetch failed"))
       .mockResolvedValueOnce({ molecule_id: "mol-reintentada" });
 
     render(<CaseEvaluationRunner caseId="caso-1" activeRun={completedRun} />);
@@ -646,6 +705,43 @@ describe("matriz de recuperación durable", () => {
 // =====================================================================
 
 describe("contrato preflight-submit", () => {
+  it.each([true, false])("confirma la tarea de MolChat solo tras registrar el resultado: %s", async (registered) => {
+    const preflight: PreflightSummary = {
+      fingerprint: `sha256:${"a".repeat(64)}`, inputDocument: "{}", generatedAt: "2026-09-01T12:00:00.000Z",
+      schemaVersion: 1, executionRoute: "docking_vina", blockers: [], warnings: [], notEvaluated: [],
+      receptorLabel: "1RKP", ligandLabel: "CCO", gridLabel: "caja",
+      executionConfig: { gridCenter: [0, 0, 0], gridSize: [30, 30, 30], customHotspots: [],
+        dockingEngine: "vina", exhaustiveness: 8, numPoses: 9, seed: 42, conformers: 1,
+        pipelineConfig: { enabled_stages: ["validation", "docking"], docking_engine: "vina" } },
+    };
+    submitEvaluation.mockResolvedValue({ task_id: "task-123" });
+    const onResult = vi.fn(), register = vi.fn().mockResolvedValue(registered);
+    render(<CaseEvaluationRunner caseId="caso-1" inputs={{ receptor: { pdbId: "1RKP", origin: "curado" }, ligand: { inputSmiles: "CCO" } }}
+      preflight={preflight} onRunRegistered={register}
+      evaluacionDesdeChat={{ requestId: "run-1", deadline: Date.now() + 5000, onResult }} />);
+    expect(onResult).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole("button", { name: "Ejecutar desde MolChat" }));
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith({ status: registered ? "started" : "started_unregistered", task_id: "task-123" }));
+    expect(register).toHaveBeenCalledWith(expect.objectContaining({ taskId: "task-123" }), expect.anything());
+    expect(submitEvaluation).toHaveBeenCalledTimes(1);
+  });
+
+  it("no presenta un fallo de envío como tarea iniciada", async () => {
+    const preflight: PreflightSummary = {
+      fingerprint: `sha256:${"a".repeat(64)}`, inputDocument: "{}", generatedAt: "2026-09-01T12:00:00.000Z",
+      schemaVersion: 1, executionRoute: "docking_vina", blockers: [], warnings: [], notEvaluated: [],
+      receptorLabel: "1RKP", ligandLabel: "CCO", gridLabel: "caja",
+      executionConfig: { gridCenter: [0, 0, 0], gridSize: [30, 30, 30], customHotspots: [],
+        dockingEngine: "vina", exhaustiveness: 8, numPoses: 9, seed: 42, conformers: 1,
+        pipelineConfig: { enabled_stages: ["validation", "docking"], docking_engine: "vina" } },
+    };
+    submitEvaluation.mockRejectedValue(new Error("desconectado"));
+    const onResult = vi.fn();
+    render(<CaseEvaluationRunner caseId="caso-1" inputs={{ receptor: { pdbId: "1RKP", origin: "curado" }, ligand: { inputSmiles: "CCO" } }}
+      preflight={preflight} evaluacionDesdeChat={{ requestId: "run-2", deadline: Date.now() + 5000, onResult }} />);
+    fireEvent.click(screen.getByRole("button", { name: "Ejecutar desde MolChat" }));
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith({ status: "unknown" }));
+  });
   it("reutiliza byte por byte la pipeline_config firmada y no agrega defaults", async () => {
     const signedPipelineConfig = {
       enabled_stages: ["validation", "properties", "conformer", "docking"],

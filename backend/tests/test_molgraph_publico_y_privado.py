@@ -30,7 +30,7 @@ import uuid
 
 import pytest
 
-from services.ai import molgraph
+from services import molgraph
 
 ALICE = str(uuid.uuid4())
 BOB = str(uuid.uuid4())
@@ -188,16 +188,9 @@ class TestDosCuentas:
 
         assert all(s["smiles"] != ASPIRINA for s in similares)
 
-    def test_la_sugerencia_no_ofrece_moleculas_de_otra_cuenta(self):
-        self._dos_evaluaciones()
-
-        from services.ai.tools import suggest_tools
-
-        cargadas = suggest_tools._load_graph_molecules(user_id=BOB)
-        smiles = {m["smiles"] for m in cargadas}
-
-        assert ASPIRINA not in smiles
-        assert CAFEINA in smiles
+    # (Fase 6.6) test_la_sugerencia_no_ofrece_moleculas_de_otra_cuenta iba en el
+    # vehículo `suggest_tools` (muerto con el asistente); el aislamiento por
+    # cuenta queda fijado por los vecinos (similares ajenos, impacto, corpus).
 
     def test_el_impacto_de_modificaciones_no_cruza_cuentas(self):
         _corpus_con([])

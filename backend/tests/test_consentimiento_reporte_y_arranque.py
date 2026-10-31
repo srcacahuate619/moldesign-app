@@ -1,10 +1,10 @@
 """MOLCHAT-NET-006 — los dos caminos a la red que no pasaban por la puerta.
 
 MOLCHAT-NET-005 puso consentimiento por cuenta y destino para el **turno de
-MolChat**, y `services/ai/red.py` lo hizo para las **herramientas**. Quedaban
+MolChat**, y `services/red.py` lo hizo para las **herramientas**. Quedaban
 dos salidas fuera:
 
-* el **reporte IA** de una evaluación (`services/ai/interpreter.py`), con su
+* el **reporte IA** de una evaluación (`services/evaluation/interpreter.py`), con su
   cadena de respaldo local → Ollama → Claude → Gemini. Lo que sale por ahí es el
   SMILES de la molécula, el receptor, la afinidad y, si la cuenta tiene memoria,
   un extracto de sus evaluaciones anteriores;
@@ -12,6 +12,10 @@ dos salidas fuera:
   el `health_check` de un proveedor cloud manda un turno real a `api.anthropic.com`,
   a Google o al `base_url` de OpenAI, y corría al montarse `ChatPanel`, sin
   cuenta, sin mirar el consentimiento y sin mirar `MOLDESIGN_OFFLINE`.
+
+(Fase 6.6) La mitad de la sonda murió con el asistente interno (`/ai/startup`,
+`startup_detection`, registro de proveedores); queda la del reporte, con los
+módulos en su hogar nuevo (`services/evaluation/`, `services/consent.py`).
 
 Y una tercera grieta, en la puerta que sí existía: `MOLDESIGN_OFFLINE=1` está
 documentado como «niega toda salida aunque haya permiso», pero sólo lo miraba
@@ -27,10 +31,8 @@ import pytest
 from fastapi import HTTPException
 
 from api.routers import evaluation_reports
-from services.ai import consent, interpreter, provider_config_store as store
-from services.ai import startup_detection
-from services.ai.providers.base import HealthCheckResult, HealthStatus, ProviderConfig
-from services.ai.providers.registry import ProviderRegistry
+from services import consent, provider_config_store as store
+from services.evaluation import interpreter
 
 ALICE = str(uuid.uuid4())
 BOB = str(uuid.uuid4())
@@ -240,7 +242,7 @@ async def test_el_envoltorio_seguro_no_se_traga_el_bloqueo(monkeypatch):
 @pytest.mark.asyncio
 async def test_el_sse_manda_lo_mismo_que_el_sincrono(monkeypatch):
     """No es un camino distinto por ser SSE."""
-    from services.ai import local_llm
+    from services.llm import local_llm
 
     monkeypatch.setattr(local_llm, "is_local_llm_available", lambda: False)
     monkeypatch.setattr(interpreter, "settings", _ajustes(ollama_base_url=AJENO))
@@ -289,7 +291,7 @@ async def test_el_endpoint_responde_409_y_no_cachea_el_aviso(monkeypatch):
     repo = _RepositorioEspia(SimpleNamespace(ai_report=None))
     monkeypatch.setattr(evaluation_reports, "Repository", lambda _db: repo)
 
-    from services.ai import report_context
+    from services.evaluation import report_context
 
     monkeypatch.setattr(
         report_context, "build_evaluation_report_request", lambda **kw: _peticion(str(dueño))
@@ -313,103 +315,4 @@ async def test_el_endpoint_responde_409_y_no_cachea_el_aviso(monkeypatch):
     assert repo.persistido == [], "el aviso de consentimiento quedó cacheado como reporte"
 
 
-# ── La sonda de arranque ─────────────────────────────────────────────────
-
-
-class _NubeEspia:
-    """Un proveedor cloud que anota cuántas veces alguien lo sondeó de verdad."""
-
-    id = "claude"
-    name = "Claude"
-
-    def __init__(self):
-        self.config = ProviderConfig(api_key="sk-falsa", model="m")
-        self.sondas = 0
-
-    def validate_config(self):
-        return True, ""
-
-    async def health_check(self):
-        self.sondas += 1
-        return HealthCheckResult(status=HealthStatus.OK, message="ok", latency_ms=1.0)
-
-
-@pytest.fixture
-def nube_espia(monkeypatch):
-    espia = _NubeEspia()
-    registro = ProviderRegistry()
-    registro.register(espia)
-    monkeypatch.setattr(startup_detection, "get_provider_registry", lambda: registro)
-    return espia
-
-
-@pytest.mark.asyncio
-async def test_el_arranque_no_sondea_un_destino_sin_autorizar(nube_espia):
-    estado = await startup_detection.detect_startup_mode(ALICE)
-
-    assert nube_espia.sondas == 0, (
-        "la sonda de arranque llamó a api.anthropic.com antes de que nadie lo autorizara"
-    )
-    assert estado["mode"] == "auto_start"
-    assert estado["auto_start_local"] is True
-    assert [f["status"] for f in estado["failed_providers"]] == ["sin_consentimiento"]
-
-
-@pytest.mark.asyncio
-async def test_sin_sesion_el_arranque_tampoco_sondea(nube_espia):
-    await startup_detection.detect_startup_mode(None)
-
-    assert nube_espia.sondas == 0
-
-
-@pytest.mark.asyncio
-async def test_un_destino_no_consultado_no_se_cuenta_como_clave_sin_saldo(nube_espia):
-    """Era el mensaje que salía: «Las claves de API no tienen saldo disponible».
-    De un destino que no se preguntó, eso es una afirmación inventada."""
-    estado = await startup_detection.detect_startup_mode(ALICE)
-
-    assert "saldo" not in estado["reason"]
-    assert "autorizado" in estado["reason"]
-
-
-@pytest.mark.asyncio
-async def test_con_permiso_el_arranque_si_sondea(nube_espia):
-    consent.otorgar(consent.destino_de(nube_espia), ALICE)
-
-    estado = await startup_detection.detect_startup_mode(ALICE)
-
-    assert nube_espia.sondas == 1, "la cuenta autorizó el destino y aun así no se consultó"
-    assert [w["id"] for w in estado["working_providers"]] == ["claude"]
-    assert estado["mode"] == "manual_only"
-
-
-@pytest.mark.asyncio
-async def test_el_modo_offline_apaga_la_sonda(nube_espia, monkeypatch):
-    consent.otorgar(consent.destino_de(nube_espia), ALICE)
-    monkeypatch.setenv("MOLDESIGN_OFFLINE", "1")
-
-    await startup_detection.detect_startup_mode(ALICE)
-
-    assert nube_espia.sondas == 0
-
-
-@pytest.mark.asyncio
-async def test_sin_clave_el_mensaje_sigue_siendo_el_de_siempre(monkeypatch):
-    """La ruta más común no cambia: sin clave configurada no hay nada que
-    sondear, y el arranque local se explica igual que antes."""
-
-    class _SinClave(_NubeEspia):
-        def validate_config(self):
-            return False, "Falta la clave de API"
-
-    espia = _SinClave()
-    espia.config = ProviderConfig(api_key="", model="m")
-    registro = ProviderRegistry()
-    registro.register(espia)
-    monkeypatch.setattr(startup_detection, "get_provider_registry", lambda: registro)
-
-    estado = await startup_detection.detect_startup_mode(ALICE)
-
-    assert espia.sondas == 0
-    assert estado["mode"] == "auto_start"
-    assert "No se configuró ninguna clave de API" in estado["reason"]
+# (Fase 6.6) La mitad de la sonda de arranque (/ai/startup) murio con el asistente interno.

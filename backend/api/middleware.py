@@ -52,7 +52,7 @@ def register_middleware(app: FastAPI) -> None:
 
     @app.middleware("http")
     async def request_context_middleware(request: Request, call_next):
-        from services.ai.red import fijar_identidad_peticion
+        from services.red import fijar_identidad_peticion
         fijar_identidad_peticion(None)
         origin = request.headers.get("origin")
         if (request.method.upper() not in {"GET", "HEAD", "OPTIONS"}

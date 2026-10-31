@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage, type FrontendText } from "./frontendError";
 import { fetchBackend } from "./backendFetch";
 import { getAuthHeaders } from "./api";
 
@@ -15,9 +16,9 @@ import { getAuthHeaders } from "./api";
  * `message` no cambia. Quien necesita distinguir (AMP-10: un 409 «la corrida
  * cambió» no es un fallo de cálculo) lee `status`.
  */
-export class ProApiError extends Error {
+export class ProApiError extends FrontendError {
   readonly status: number;
-  constructor(message: string, status: number) {
+  constructor(message: FrontendText, status: number) {
     super(message);
     this.name = "ProApiError";
     this.status = status;
@@ -126,14 +127,10 @@ async function customFetch(url: string, init?: RequestInit): Promise<Response> {
       // cuando la conexión se corta, y es exactamente lo que el usuario no
       // necesita leer: no distingue «no arrancó» de «se cayó a mitad».
       const causa = err instanceof Error ? err.message : String(err);
-      throw new Error(
+      throw new FrontendError(
         arrancando
-          ? `El motor de cálculo no responde (${metodo} ${url.split("?")[0]}). ` +
-            `Comprueba que la aplicación terminó de arrancar y vuelve a intentarlo.`
-          : `La conexión con el motor se interrumpió durante ${metodo} ` +
-            `${url.split("?")[0]}. El motor sigue en pie, así que es esta ` +
-            `operación la que falló; revisa el registro del motor para ver por qué. ` +
-            `(${causa})`,
+          ? frontendMessage("pr_frontend_241", { v0: metodo, v1: url.split("?")[0] })
+          : frontendMessage("pr_frontend_242", { v0: metodo, v1: url.split("?")[0], v2: causa }),
       );
     }
   }
@@ -187,7 +184,7 @@ export async function runSelectivityStream(
   const url = `/pro/selectivity/stream/${moleculeId}?${params}`;
   const response = await customFetch(url, { method: "POST" });
   if (!response.ok) {
-    throw new Error(`HTTP ${response.status} ${response.statusText}`);
+    throw new FrontendError(`HTTP ${response.status} ${response.statusText}`);
   }
 
   const reader = response.body?.getReader();
@@ -418,43 +415,7 @@ export async function ingestTarget(
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ pdb_id: pdbId, chain_id: chainId, structural_family: structuralFamily }),
   });
-  if (!res.ok) throw new Error(await res.text());
-  return res.json();
-}
-
-// ── AI Model Management ────────────────────────────────────────
-
-export async function searchAIModels(query: string): Promise<Array<{ id: string; name: string; description: string; size_gb: number }>> {
-  const res = await customFetch(`/ai/models/search?q=${encodeURIComponent(query)}`);
-  await assertOk(res);
-  return res.json();
-}
-
-export async function getLocalAIModels(): Promise<Array<{ filename: string; size_gb: number; path: string }>> {
-  const res = await customFetch(`/ai/models/local`);
-  await assertOk(res);
-  return res.json();
-}
-
-export async function downloadAIModel(modelId: string): Promise<{ dl_id: string; status: string }> {
-  const res = await customFetch(`/ai/models/download`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model_id: modelId }),
-  });
-  await assertOk(res);
-  return res.json();
-}
-
-export async function getDownloadStatus(dlId: string): Promise<{ status: string; progress: number }> {
-  const res = await customFetch(`/ai/models/download/${dlId}`);
-  await assertOk(res);
-  return res.json();
-}
-
-export async function recommendQuantization(): Promise<Array<{ name: string; description: string; size_gb: number; min_ram_gb: number }>> {
-  const res = await customFetch(`/ai/models/recommend-quant`);
-  await assertOk(res);
+  if (!res.ok) throw new FrontendError(await res.text());
   return res.json();
 }
 

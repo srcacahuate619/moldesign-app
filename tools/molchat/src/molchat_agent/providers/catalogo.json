@@ -1,0 +1,123 @@
+{
+  "schema": "moldesign.molchat-catalogo/1",
+  "nota": "Catálogo de proveedores de IA. Viaja en la llave: MolDesign lo lee de la copia verificada (hash en el manifiesto). El orden es la prioridad: OpenAI es la API genérica; DeepSeek sólo para DeepSeek. Los modelos por defecto deben comprobarse en la documentación del proveedor antes de publicar.",
+  "proveedores": [
+    {
+      "id": "openai",
+      "nombre": "OpenAI",
+      "familia": "openai_chat",
+      "base_url": "https://api.openai.com/v1",
+      "requiere_clave": true,
+      "remoto": true,
+      "modelo_por_defecto": "",
+      "modelos_ejemplo": ["gpt-4o-mini"],
+      "prefijo_clave": "sk-",
+      "documentacion": "https://platform.openai.com/docs",
+      "que_sale": "El texto del chat y los resultados de MolDesign que el chat cita."
+    },
+    {
+      "id": "baseten-hackathon",
+      "nombre": "Baseten (Muse Spark Hackathon)",
+      "familia": "openai_chat",
+      "base_url": "https://inference.baseten.co/v1",
+      "requiere_clave": true,
+      "remoto": true,
+      "modelo_por_defecto": "meta-models/muse-spark-open-1026",
+      "modelos_ejemplo": ["meta-models/muse-spark-open-1026"],
+      "prefijo_clave": "",
+      "documentacion": "https://docs.baseten.co/",
+      "que_sale": "El texto del chat y los resultados de MolDesign que el chat cita."
+    },
+    {
+      "id": "anthropic",
+      "nombre": "Anthropic (Claude)",
+      "familia": "anthropic",
+      "base_url": "https://api.anthropic.com",
+      "requiere_clave": true,
+      "remoto": true,
+      "modelo_por_defecto": "claude-haiku-5-5",
+      "modelos_ejemplo": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "prefijo_clave": "sk-ant-",
+      "documentacion": "https://docs.anthropic.com",
+      "que_sale": "El texto del chat y los resultados de MolDesign que el chat cita."
+    },
+    {
+      "id": "gemini",
+      "nombre": "Google Gemini",
+      "familia": "gemini",
+      "base_url": "https://generativelanguage.googleapis.com/v1beta",
+      "requiere_clave": true,
+      "remoto": true,
+      "modelo_por_defecto": "gemini-2.5-flash",
+      "modelos_ejemplo": ["gemini-2.5-flash"],
+      "prefijo_clave": "AIza",
+      "documentacion": "https://ai.google.dev/gemini-api/docs",
+      "que_sale": "El texto del chat y los resultados de MolDesign que el chat cita."
+    },
+    {
+      "id": "deepseek",
+      "nombre": "DeepSeek",
+      "familia": "openai_chat",
+      "base_url": "https://api.deepseek.com",
+      "requiere_clave": true,
+      "remoto": true,
+      "modelo_por_defecto": "deepseek-flash",
+      "modelos_ejemplo": ["deepseek-flash", "deepseek-v4-pro"],
+      "prefijo_clave": "",
+      "documentacion": "https://api-docs.deepseek.com/",
+      "que_sale": "El texto del chat y los resultados de MolDesign que el chat cita."
+    },
+    {
+      "id": "nvidia",
+      "nombre": "NVIDIA NIM",
+      "familia": "openai_chat",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "requiere_clave": true,
+      "remoto": true,
+      "modelo_por_defecto": "",
+      "modelos_ejemplo": [],
+      "prefijo_clave": "nvapi-",
+      "documentacion": "https://build.nvidia.com",
+      "que_sale": "El texto del chat y los resultados de MolDesign que el chat cita."
+    },
+    {
+      "id": "meta",
+      "nombre": "Meta (Muse Spark)",
+      "familia": "meta",
+      "base_url": "https://api.meta.ai/v1",
+      "requiere_clave": true,
+      "remoto": true,
+      "modelo_por_defecto": "muse-spark-1.3",
+      "modelos_ejemplo": ["muse-spark-1.3"],
+      "prefijo_clave": "",
+      "documentacion": "https://dev.meta.ai",
+      "que_sale": "El texto del chat y los resultados de MolDesign que el chat cita. Vista previa pública según Meta: sólo para desarrolladores en EE. UU."
+    },
+    {
+      "id": "llama-server",
+      "nombre": "llama-server (en esta máquina)",
+      "familia": "llama_server",
+      "base_url": "http://127.0.0.1:8400/v1",
+      "requiere_clave": false,
+      "remoto": false,
+      "modelo_por_defecto": "",
+      "modelos_ejemplo": [],
+      "prefijo_clave": "",
+      "documentacion": "",
+      "que_sale": "Nada: el modelo corre en esta máquina."
+    },
+    {
+      "id": "ollama",
+      "nombre": "Ollama (en esta máquina)",
+      "familia": "ollama",
+      "base_url": "http://127.0.0.1:11434",
+      "requiere_clave": false,
+      "remoto": false,
+      "modelo_por_defecto": "",
+      "modelos_ejemplo": [],
+      "prefijo_clave": "",
+      "documentacion": "https://ollama.com",
+      "que_sale": "Nada: el modelo corre en esta máquina."
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { elegirCarpetaSalidaMolcy, fijarSalidaMolcy, type MolcySalida } from "@/lib/molcy";
@@ -32,7 +34,7 @@ export function OutputFolder({ salida, esteVideo, onEsteVideo, onSalida, disable
     setBusy(true);
     setError(null);
     try { await action(); }
-    catch (e) { setError((e as Error).message || t("cy_out_error")); }
+    catch (e) { setError(presentError((e as Error), t) || t("cy_out_error")); }
     finally { setBusy(false); }
   };
   const choose = () => run(async () => {

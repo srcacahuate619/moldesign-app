@@ -2,6 +2,11 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const molcy: ModuloDeTraduccion = {
   es: {
+    mo_fotograma_error_http: "Molcy: no se pudo leer el fotograma ({status}).",
+    mo_fotograma_error_imagen: "Molcy: respuesta incompatible; el fotograma no es una imagen válida.",
+    mo_frontend_228: "Molcy: no se pudo leer la imagen ({v0}).",
+    mo_frontend_229: "Molcy: respuesta incompatible; la imagen no es un PNG.",
+    mo_frontend_230: "Molcy: respuesta incompatible; vuelve a comprobar el renderizador.",
     cy_setup: "Configuración de Blender y Molcy",
     cy_managed: "Blender de MolDesign · recomendado",
     cy_existing: "Usar mi Blender",
@@ -279,6 +284,11 @@ export const molcy: ModuloDeTraduccion = {
     cy_delete_photos_confirm: "Se eliminarán esta sesión de fotos, sus fotos y su escena preparada. La evaluación original se conserva.",
   },
   en: {
+    mo_fotograma_error_http: "Molcy: could not read the frame ({status}).",
+    mo_fotograma_error_imagen: "Molcy: incompatible response; the frame is not a valid image.",
+    mo_frontend_228: "Molcy: the image could not be read ({v0}).",
+    mo_frontend_229: "Molcy: incompatible response; the image is not a PNG.",
+    mo_frontend_230: "Molcy: incompatible response; check the renderer again.",
     cy_setup: "Blender and Molcy configuration",
     cy_managed: "MolDesign Blender · recommended",
     cy_existing: "Use my Blender",

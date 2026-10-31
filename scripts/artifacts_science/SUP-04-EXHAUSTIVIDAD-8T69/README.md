@@ -28,8 +28,13 @@ Delta rho (e32 menos e8) con IC95 bootstrap pareado por padre: NO_GO si el IC ex
 ## Estado
 
 - Creado: 2026-10-26T02:49:58.904792+00:00
-- Status: created
-- Decisión: PENDING
+- Status: finished
+- Decisión: INCONCLUSIVE
+- Sellado: sí (2026-10-26T08:26:00.761726+00:00)
+- Finalizado: 2026-10-26T08:26:03.401952+00:00
+- Razón de la decisión: Delta rho (e32 - e8) = +0,043, IC95 -0,006 a +0,116 (89 padres): ni excluye el cero ni cabe en +-0,10. Declaradas: rho 0,392 (e8), 0,428 (e16), 0,435 (e32), 0,367 (e8 semilla 43); Delta rho por la semilla -0,025 (IC95 -0,135 a +0,078); redocking 5/5 a <= 2 A en 8, 16 y 32; 85/89 padres con la energia top-1 a < 0,1 kcal/mol. Control: e8 repite las 89 energias de CAL-D-01-R4-2.
+- Hashes de dataset: 748 archivo(s) con SHA-256
+- Hashes de assets: 7 archivo(s) con SHA-256
 
 ## Flujo de trabajo
 

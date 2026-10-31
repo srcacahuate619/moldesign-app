@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../../lib/frontendError";
+
 import React, { useState, useRef, useEffect } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
 import { X, Upload, Info, FileText, CheckCircle2, Zap, Layers, Package } from "lucide-react";
@@ -170,7 +172,7 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
       invalidarCatalogo();
       onSuccess();
     } catch (err: any) {
-      setError(err.message || t("auto_67bfa12d71a2"));
+      setError(presentError(err, t) || t("auto_67bfa12d71a2"));
     } finally {
       setLoading(false);
     }

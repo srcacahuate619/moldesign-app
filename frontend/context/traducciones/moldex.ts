@@ -18,6 +18,15 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const moldex: ModuloDeTraduccion = {
   es: {
+    mx_compare_targets: "Son targets distintos ({a} y {b}): sus afinidades no están en la misma escala.",
+    mx_compare_receptor_missing: "No consta el receptor de al menos una de las dos corridas, así que no puede comprobarse que se midieran contra la misma estructura.",
+    mx_compare_receptor_changed: "El receptor preparado no es el mismo: cambia la caja, la protonación o la variante, y con ellas la escala del score.",
+    mx_compare_protocol_missing: "No consta el protocolo de docking de al menos una de las dos corridas.",
+    mx_compare_protocol_changed: "El protocolo de docking difiere (motor, exhaustividad, número de poses o conformaciones): los scores no son directamente restables.",
+    mx_compare_calibration: "El índice compuesto se calculó con calibraciones del ranking distintas ({a} y {b}): no está en la misma escala.",
+    mx_compare_no_target: "sin target",
+    mx_compare_index: "ÍNDICE COMPUESTO HISTÓRICO (0-100)",
+    mx_compare_weight: "PESO MOL. (Da)",
     // ── Estado vacío y errores ────────────────────────────────────
     mx_error_conexion: "Error de conexión",
     mx_error_carga: "No se pudo cargar Moldex",
@@ -26,6 +35,7 @@ export const moldex: ModuloDeTraduccion = {
     mx_motor_no_disponible:
       "El motor local todavía no está listo. Revisa su estado y vuelve a intentarlo.",
     mx_error_bioteca: "Error al cargar la bioteca:",
+    mx_error_bioteca_sin_detalle: "Error al cargar la bioteca.",
     mx_descarga_fallida: "No se pudo completar la descarga.",
     mx_sin_resultados: "No se encontraron moléculas con esos filtros.",
     mx_donde_guarda: "¿Dónde se guarda esto?",
@@ -54,7 +64,10 @@ export const moldex: ModuloDeTraduccion = {
     mx_orden_recientes: "🕒 RECIENTES",
     mx_orden_indice_mayor: "ÍNDICE HISTÓRICO MAYOR",
     mx_orden_indice_menor: "ÍNDICE HISTÓRICO MENOR",
-    mx_indice_compuesto: "ÍNDICE COMPUESTO HISTÓRICO",
+    mx_indice_compuesto: "ÍNDICE COMPUESTO HEREDADO",
+    mx_indice_compuesto_nota:
+      "Índice de 0 a 100 de versiones anteriores. No ordena las moléculas mejor que la afinidad de Vina "
+      + "(SUP-02-TOTAL-SCORE, NO_GO): se conserva para leer corridas antiguas, no para decidir.",
 
     // ── Ficha de la molécula ──────────────────────────────────────
     mx_sitio_receptor: "Sitio del receptor",
@@ -112,6 +125,15 @@ export const moldex: ModuloDeTraduccion = {
     mx_descargar_complejo_pdb: "Descargar complejo 3D (PDB)",
   },
   en: {
+    mx_compare_targets: "These are different targets ({a} and {b}): their affinities are not on the same scale.",
+    mx_compare_receptor_missing: "The receptor is not recorded for at least one of the two runs, so it cannot be verified that they were measured against the same structure.",
+    mx_compare_receptor_changed: "The prepared receptor is different: the box, protonation, or variant changes, and with it the score scale.",
+    mx_compare_protocol_missing: "The docking protocol is not recorded for at least one of the two runs.",
+    mx_compare_protocol_changed: "The docking protocol differs (engine, exhaustiveness, number of poses or conformations): the scores cannot be directly subtracted.",
+    mx_compare_calibration: "The composite index was calculated with different ranking calibrations ({a} and {b}): it is not on the same scale.",
+    mx_compare_no_target: "no target",
+    mx_compare_index: "HISTORICAL COMPOSITE INDEX (0-100)",
+    mx_compare_weight: "MOL. WEIGHT (Da)",
     mx_error_conexion: "Connection error",
     mx_error_carga: "Could not load Moldex",
     mx_error_motor_listo:
@@ -119,6 +141,7 @@ export const moldex: ModuloDeTraduccion = {
     mx_motor_no_disponible:
       "The local engine is not ready yet. Check its status and try again.",
     mx_error_bioteca: "Could not load the library:",
+    mx_error_bioteca_sin_detalle: "Could not load the library.",
     mx_descarga_fallida: "The download could not be completed.",
     mx_sin_resultados: "No molecules matched those filters.",
     mx_donde_guarda: "Where is this stored?",
@@ -145,7 +168,10 @@ export const moldex: ModuloDeTraduccion = {
     mx_orden_recientes: "🕒 MOST RECENT",
     mx_orden_indice_mayor: "HIGHEST HISTORICAL INDEX",
     mx_orden_indice_menor: "LOWEST HISTORICAL INDEX",
-    mx_indice_compuesto: "HISTORICAL COMPOSITE INDEX",
+    mx_indice_compuesto: "LEGACY COMPOSITE INDEX",
+    mx_indice_compuesto_nota:
+      "A 0 to 100 index from earlier versions. It does not rank molecules better than the Vina affinity "
+      + "(SUP-02-TOTAL-SCORE, NO_GO): it is kept to read older runs, not to decide.",
 
     mx_sitio_receptor: "Receptor site",
     mx_molecula: "Molecule",

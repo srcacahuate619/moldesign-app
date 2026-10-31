@@ -86,7 +86,7 @@ def test_batch_no_longer_advertises_worker_count():
 
 def test_alphafold_routes_have_declared_network_destination():
     from api.main import app
-    from services.ai.red import DESTINOS
+    from services.red import DESTINOS
 
     routes = {route.path for route in app.routes}
     assert {
@@ -130,7 +130,7 @@ async def test_foreign_blockchain_molecule_is_indistinguishable_from_missing():
 async def test_rcsb_download_error_never_exposes_cache_path(monkeypatch, tmp_path):
     import httpx
     from utils import file_handlers
-    from services.ai import red
+    from services import red
 
     class Client:
         async def __aenter__(self):

@@ -1,9 +1,11 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 /* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4
  * Historial: jerarquía editorial para datos reales, con todas las operaciones existentes. */
 
-import { useLanguage, TRANSLATIONS } from "../../context/LanguageContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { useEffect, useRef, useState } from "react";
 import { Download } from "lucide-react";
 
@@ -41,8 +43,6 @@ export default function HistoryPage() {
   const [sortBy, setSortBy] = useState("created_at");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const displayedError = error === TRANSLATIONS.es.pg_hist_error_conexion
-    ? t("pg_hist_error_conexion") : error;
 
   // Al cambiar de página u orden, conservar las filas hasta recibir la respuesta.
   // El indicador de carga sustituye la tabla sólo en la primera consulta.
@@ -53,10 +53,10 @@ export default function HistoryPage() {
     setError(null);
     getEvaluationHistory(page, 20, sortBy, "desc")
       .then((data) => { if (!cancelled) setHistoryResult({ userId: user.user_id, data }); })
-      .catch((e) => { if (!cancelled) setError(e.message); })
+      .catch((e) => { if (!cancelled) setError(presentError(e, t)); })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
-  }, [user, page, sortBy]);
+  }, [user, page, sortBy, t]);
 
   // Fetch stats
   useEffect(() => {
@@ -179,7 +179,7 @@ export default function HistoryPage() {
       {/* ── Error ── */}
       {error && (
         <section role="alert" className="mb-4 border border-[var(--border-light)] bg-[var(--bg-secondary)] p-4">
-          <pre className="whitespace-pre-wrap text-xs text-[var(--text)]">{displayedError}</pre>
+          <pre className="whitespace-pre-wrap text-xs text-[var(--text)]">{error}</pre>
         </section>
       )}
 

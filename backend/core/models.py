@@ -578,6 +578,40 @@ class EvaluationRequestORM(Base):
     finished_at = Column(DateTime(timezone=True), nullable=True)
 
 
+class IdempotencyKeyORM(Base):
+    """Clave de idempotencia persistida por cuenta (CR-06 de MolChat).
+
+    La deduplicación tiene que vivir donde vive el trabajo: si la respuesta
+    se pierde tras crear una operación con efectos, el reintento con la misma
+    clave devuelve la operación original en vez de duplicar un cálculo. Es
+    tabla nueva a propósito: una constraint única añadida a una tabla vieja
+    nunca llegaría a las DB existentes (ni ``create_all`` ni
+    ``_migrate_sqlite_db`` añaden constraints), así que el árbitro durable
+    nace aquí con su ``UniqueConstraint`` en cualquier DB.
+    """
+
+    __tablename__ = "idempotency_keys"
+    __table_args__ = (
+        UniqueConstraint("user_id", "idempotency_key", name="uq_idempotency_user_key"),
+    )
+
+    id = Column(Uuid(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = Column(String(200), nullable=False)
+    idempotency_key = Column(String(200), nullable=False)
+    operation = Column(String(64), nullable=False)
+    request_hash = Column(String(71), nullable=False)
+    # PENDIENTE: reclamada, efecto en curso. COMPLETADA: replay disponible.
+    # FALLIDA: el efecto no se produjo; un reintento con la misma clave y el
+    # mismo cuerpo puede volver a intentarlo.
+    status = Column(String(16), nullable=False, default="PENDIENTE")
+    proposal_id = Column(String(64), nullable=True)
+    task_id = Column(String(200), nullable=True)
+    response_json = Column(SQLiteJSON, nullable=True)
+    error_message = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    finished_at = Column(DateTime(timezone=True), nullable=True)
+
+
 class EvaluationRunORM(Base):
     """Snapshot inmutable de una corrida terminada.
 
@@ -1702,7 +1736,7 @@ class JobStatus(BaseModel):
 
 class AIReportRequest(BaseModel):
     """
-    Input del servicio de IA (services/ai/interpreter.py).
+    Input del servicio de IA (services/evaluation/interpreter.py).
     Datos estructurados que Claude convierte en reporte narrativo.
     """
     molecule_smiles:  str

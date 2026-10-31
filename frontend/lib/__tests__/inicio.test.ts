@@ -29,9 +29,9 @@ describe("versionAlcanza", () => {
 });
 
 describe("la web del inicio", () => {
-  it("es la web vigente, con barra final, y las notas describen 1.0.2", () => {
+  it("es la web vigente, con barra final, y las notas describen 1.0.4", () => {
     expect(SITE).toBe("https://moldesign.amezcua-dev.com/");
-    expect(VERSION_DE_LAS_NOTAS).toBe("1.0.2");
+    expect(VERSION_DE_LAS_NOTAS).toBe("1.0.4");
   });
 
   it("es el mismo dominio que la web declara como canónico", () => {

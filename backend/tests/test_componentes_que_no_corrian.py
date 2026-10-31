@@ -158,7 +158,7 @@ def test_clgnn_exige_la_pose_acoplada():
     """Sin pose no hay nada que puntuar: antes se inventaba un confórmero."""
     import inspect
 
-    from services.ai.clgnn_inference import predict_clgnn
+    from services.clgnn_inference import predict_clgnn
 
     firma = inspect.signature(predict_clgnn)
     for parametro in ("pose_sdf_path", "pose_pdbqt_block"):
@@ -175,7 +175,7 @@ def test_clgnn_exige_la_pose_acoplada():
 
 def test_clgnn_resuelve_el_nombre_logico_de_la_pose(tmp_path, monkeypatch):
     """La DB guarda ``runs/...``, mientras RDKit necesita la ruta local real."""
-    import services.ai.clgnn_inference as clgnn
+    import services.clgnn_inference as clgnn
 
     pose = tmp_path / "data" / "runs" / "docking" / "poses.sdf"
     pose.parent.mkdir(parents=True)
@@ -187,7 +187,7 @@ def test_clgnn_resuelve_el_nombre_logico_de_la_pose(tmp_path, monkeypatch):
 
 def test_clgnn_no_reinterpreta_una_ruta_absoluta_ausente(tmp_path, monkeypatch):
     """Una ruta absoluta rota no puede convertirse silenciosamente en otro objeto."""
-    import services.ai.clgnn_inference as clgnn
+    import services.clgnn_inference as clgnn
 
     monkeypatch.setattr(
         clgnn,

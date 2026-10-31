@@ -105,6 +105,25 @@
       "sha256": "9c084bd341d89f9f039854feed27c09d60507fcbe9cb00d8e12b12898e2a13b2",
       "sha256_conjunto": "90d1c3409e2f5801c8fe2a35b7c4c97074a37877713f4d66b1c69e0d3ef819ae",
       "version": "a3d0d106eb9a"
+    },
+    {
+      "bytes": 381,
+      "ficheros": 69,
+      "invocacion": "subproceso Python con bootstrap de src vendorizado en loopback; programa independiente",
+      "licencia": "GPL-3.0-or-later",
+      "licencia_origen": "tools/molchat/molchat-manifest.json",
+      "nombre": "__main__.py",
+      "procedencia": {
+        "commit": "e21a093cfb0dee1cad08d6fc084cac2be93dfdbf",
+        "proyecto": "moldesign-molchat",
+        "rama": "master",
+        "repositorio": "https://github.com/srcacahuate619/moldesign-molchat"
+      },
+      "programa": "MolChat (asistente de laboratorio de MolDesign)",
+      "ruta": "tools/molchat/src/molchat_agent/__main__.py",
+      "sha256": "3be72ae355fb6bc5f180778033398acc9a37148b99405e06a688022bb2fb3d47",
+      "sha256_conjunto": "c1e11d9e447be17fda501e8a3d62f73bbde1bd4f43b13437d68d397c74dda8ef",
+      "version": "0.1.0"
     }
   ],
   "binarios_ausentes": {
@@ -113,7 +132,7 @@
   },
   "cobertura_de_licencias": {
     "binarios": {
-      "componentes": 5,
+      "componentes": 6,
       "sin_licencia": 0
     },
     "completa": true,
@@ -123,7 +142,7 @@
       "sin_licencia": 0
     },
     "python": {
-      "componentes": 168,
+      "componentes": 174,
       "sin_licencia": 0
     },
     "rust": {
@@ -299,6 +318,25 @@
         "sha256": "9c084bd341d89f9f039854feed27c09d60507fcbe9cb00d8e12b12898e2a13b2",
         "sha256_conjunto": "90d1c3409e2f5801c8fe2a35b7c4c97074a37877713f4d66b1c69e0d3ef819ae",
         "version": "a3d0d106eb9a"
+      },
+      {
+        "bytes": 381,
+        "ficheros": 69,
+        "invocacion": "subproceso Python con bootstrap de src vendorizado en loopback; programa independiente",
+        "licencia": "GPL-3.0-or-later",
+        "licencia_origen": "tools/molchat/molchat-manifest.json",
+        "nombre": "__main__.py",
+        "procedencia": {
+          "commit": "e21a093cfb0dee1cad08d6fc084cac2be93dfdbf",
+          "proyecto": "moldesign-molchat",
+          "rama": "master",
+          "repositorio": "https://github.com/srcacahuate619/moldesign-molchat"
+        },
+        "programa": "MolChat (asistente de laboratorio de MolDesign)",
+        "ruta": "tools/molchat/src/molchat_agent/__main__.py",
+        "sha256": "3be72ae355fb6bc5f180778033398acc9a37148b99405e06a688022bb2fb3d47",
+        "sha256_conjunto": "c1e11d9e447be17fda501e8a3d62f73bbde1bd4f43b13437d68d397c74dda8ef",
+        "version": "0.1.0"
       }
     ],
     "criterio": [
@@ -312,72 +350,72 @@
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-darwin-arm64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-darwin-x64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-arm",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-arm64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-ppc64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-riscv64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-s390x",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-x64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linuxmusl-arm64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linuxmusl-x64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later AND MIT",
         "nombre": "@img/sharp-wasm32",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later",
         "nombre": "@img/sharp-win32-arm64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later",
         "nombre": "@img/sharp-win32-ia32",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later",
         "nombre": "@img/sharp-win32-x64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "LGPL-3.0-only",
@@ -686,132 +724,132 @@
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-darwin-arm64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-darwin-x64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-freebsd-wasm32",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-darwin-arm64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-darwin-x64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-arm",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-arm64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-ppc64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-riscv64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-s390x",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linux-x64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linuxmusl-arm64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "LGPL-3.0-or-later",
         "nombre": "@img/sharp-libvips-linuxmusl-x64",
-        "version": "1.3.3"
+        "version": "1.3.4"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linux-arm",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linux-arm64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linux-ppc64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linux-riscv64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linux-s390x",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linux-x64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linuxmusl-arm64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-linuxmusl-x64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later AND MIT",
         "nombre": "@img/sharp-wasm32",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0",
         "nombre": "@img/sharp-webcontainers-wasm32",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later",
         "nombre": "@img/sharp-win32-arm64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later",
         "nombre": "@img/sharp-win32-ia32",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "Apache-2.0 AND LGPL-3.0-or-later",
         "nombre": "@img/sharp-win32-x64",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "ISC",
@@ -1021,47 +1059,47 @@
       {
         "licencia": "MIT",
         "nombre": "@next/env",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-darwin-arm64",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-darwin-x64",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-linux-arm64-gnu",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-linux-arm64-musl",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-linux-x64-gnu",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-linux-x64-musl",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-win32-arm64-msvc",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
         "nombre": "@next/swc-win32-x64-msvc",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "MIT",
@@ -5232,7 +5270,7 @@
       {
         "licencia": "MIT",
         "nombre": "next",
-        "version": "16.3.8"
+        "version": "16.4.3"
       },
       {
         "licencia": "ISC",
@@ -5952,7 +5990,7 @@
       {
         "licencia": "Apache-2.0",
         "nombre": "sharp",
-        "version": "0.35.4"
+        "version": "0.35.5"
       },
       {
         "licencia": "MIT",
@@ -6894,6 +6932,11 @@
         "version": "26.1.0"
       },
       {
+        "licencia": "BSD-3-Clause",
+        "nombre": "av",
+        "version": "18.1.0"
+      },
+      {
         "licencia": "MIT",
         "nombre": "backoff",
         "version": "2.2.1"
@@ -6974,6 +7017,11 @@
         "version": "50.0.1"
       },
       {
+        "licencia": "MIT",
+        "nombre": "ctranslate2",
+        "version": "4.8.4"
+      },
+      {
         "licencia": "Copyright (c) 2015, matplotlib project",
         "nombre": "cycler",
         "version": "0.12.1"
@@ -7042,8 +7090,18 @@
       },
       {
         "licencia": "MIT",
+        "nombre": "faster-whisper",
+        "version": "1.2.1"
+      },
+      {
+        "licencia": "MIT",
         "nombre": "filelock",
         "version": "3.29.7"
+      },
+      {
+        "licencia": "Apache 2.0",
+        "nombre": "flatbuffers",
+        "version": "25.12.19"
       },
       {
         "licencia": "MIT",
@@ -7279,6 +7337,11 @@
         "version": "13.610.43"
       },
       {
+        "licencia": "MIT License",
+        "nombre": "onnxruntime",
+        "version": "1.31.1"
+      },
+      {
         "licencia": "Python Software Foundation License (BSD-like)",
         "nombre": "OpenMM",
         "version": "8.5.2"
@@ -7362,6 +7425,11 @@
         "licencia": "Apache-2.0",
         "nombre": "propcache",
         "version": "0.5.2"
+      },
+      {
+        "licencia": "3-Clause BSD License",
+        "nombre": "protobuf",
+        "version": "7.36.2"
       },
       {
         "licencia": "BSD-3-Clause",
@@ -7676,7 +7744,7 @@
         "version": "1.24.2"
       }
     ],
-    "total": 168
+    "total": 174
   },
   "rust_produccion": {
     "criterio": "Crates que el binario Tauri de la plataforma indicada enlaza por dependencias normales, sin el propio producto. Las del Cargo.lock que sólo se compilan para otras plataformas no viajan y no se listan; se cuentan en `otras_plataformas_en_lockfile`.",

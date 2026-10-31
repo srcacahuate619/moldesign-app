@@ -73,7 +73,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
   const nombreDe = (mol: MoldexMolecule | undefined) => {
     const corrida = mol?.provenance?.task_id ? ` #${mol.provenance.task_id.slice(0, 6)}` : "";
     const porTarget = `MDX-${mol?.target?.pdb_id || "UKN"}-${mol?.smiles_hash?.substring(0, 4)?.toUpperCase() || "XXXX"}${corrida}`;
-    const esPorDefecto = !mol?.name || mol.name.startsWith("Ligando ");
+    const esPorDefecto = !mol?.name;
     const base = esPorDefecto ? porTarget : mol!.name;
     return { porTarget, mostrado: !esPorDefecto && mismaMolecula ? `${base}${corrida}` : base };
   };
@@ -84,9 +84,9 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
   // MOLDEX-SCI-004: antes de restar nada, saber si estas dos fichas se pueden
   // comparar. Un score de docking sólo significa algo relativo al receptor y al
   // protocolo que lo produjeron.
-  const veredicto = compararMoleculas(molA, molB);
-  const veredictoIndice = compararIndices(molA, molB);
-  const indice = filaComparativa("ÍNDICE COMPUESTO HISTÓRICO (0-100)", molA?.metrics?.score, molB?.metrics?.score);
+  const veredicto = compararMoleculas(molA, molB, t);
+  const veredictoIndice = compararIndices(molA, molB, t);
+  const indice = filaComparativa(`${t("mx_indice_compuesto")} (0-100)`, molA?.metrics?.score, molB?.metrics?.score);
   if (!veredictoIndice.comparable) {
     indice.delta = null;
     indice.textoDelta = "—";
@@ -96,7 +96,7 @@ const MolecularComparison: React.FC<ComparisonProps> = memo(function MolecularCo
   // después restaba contra él. Ahora el faltante se conserva como faltante.
   const filas = [
     filaComparativa("LOG P", molA?.metrics?.log_p, molB?.metrics?.log_p),
-    filaComparativa("PESO MOL. (Da)", molA?.metrics?.mw, molB?.metrics?.mw),
+    filaComparativa(t("mx_compare_weight"), molA?.metrics?.mw, molB?.metrics?.mw),
     filaComparativa("TPSA (Å²)", molA?.metrics?.tpsa, molB?.metrics?.tpsa),
     indice,
   ];

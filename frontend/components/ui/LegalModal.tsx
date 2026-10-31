@@ -168,7 +168,7 @@ function LicenseRow({ item }: { item: LicenseHighlight }) {
     <article className={`rounded-lg border p-3 ${blocked ? "border-red-500/30 bg-red-500/[0.05]" : "border-white/[0.08] bg-white/[0.02]"}`}>
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h4 className="text-[12px] font-semibold text-white/85">{item.name} <span className="font-mono text-[10px] font-normal text-white/45">{textos?.version ? t(textos.version) : item.version}</span></h4>
+          <h4 className="text-[12px] font-semibold text-white/85">{item.nameKey ? t(item.nameKey) : item.name} <span className="font-mono text-[10px] font-normal text-white/45">{textos?.version ? t(textos.version) : item.version}</span></h4>
           <p className="mt-0.5 text-[10px] text-white/45">{textos ? t(textos.rol) : item.role}</p>
         </div>
         <span className={`rounded border px-1.5 py-0.5 font-mono text-[9px] ${blocked ? "border-red-500/30 text-red-300" : "border-purple-500/25 text-purple-200"}`}>{item.license}</span>

@@ -487,7 +487,7 @@ async def alphafold_lookup(
     from services.alphafold.client import download_structure, lookup_uniprot
 
     from urllib.error import HTTPError, URLError
-    from services.ai.red import SalidaNoAutorizada
+    from services.red import SalidaNoAutorizada
     try:
         entry = await lookup_uniprot(uniprot_id.strip().upper())
     except SalidaNoAutorizada as exc:
@@ -612,7 +612,7 @@ async def download_community_target(
 
     # Ingresar localmente
     from services.targets.ingestion_manager import ingest_new_target
-    from services.ai.red import SalidaNoAutorizada
+    from services.red import SalidaNoAutorizada
     try:
         result = await ingest_new_target(
             pdb_id=pdb_id, db=db, force_reingest=False,
@@ -815,7 +815,7 @@ async def get_target_pdb(
         )
         return PlainTextResponse(content=content)
     except Exception as e:
-        from services.ai.red import SalidaNoAutorizada
+        from services.red import SalidaNoAutorizada
         if isinstance(e, SalidaNoAutorizada):
             raise HTTPException(status_code=403, detail=str(e)) from e
         raise HTTPException(

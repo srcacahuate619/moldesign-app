@@ -226,7 +226,7 @@ class TestEnMolChat:
     def test_el_mensaje_de_lanzamiento_antepone_el_aviso(self):
         """LUNA-05: `run_docking` ya no lanza —propone—; el lanzamiento lo hace la
         aprobación, y es ese mensaje el que tiene que llevar el aviso de calibración."""
-        from services.ai import propuestas_de_docking
+        from services.evaluation import proposals as propuestas_de_docking
         from services.evaluation_submission import CorridaRegistrada
 
         corrida = CorridaRegistrada(
@@ -246,7 +246,7 @@ class TestEnMolChat:
         advertencia, y la propuesta lista las advertencias para leerlas."""
         import inspect
 
-        from services.ai import propuestas_de_docking
+        from services.evaluation import proposals as propuestas_de_docking
 
         fuente = inspect.getsource(propuestas_de_docking._texto_de_la_propuesta)
         assert '("advertencia",)' in fuente and "no_evaluado" in fuente

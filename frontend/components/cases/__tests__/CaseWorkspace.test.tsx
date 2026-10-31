@@ -23,10 +23,11 @@ import { CaseProvider } from "../../../context/CaseContext";
 import { CaseWorkspace } from "../CaseWorkspace";
 import { createBrowserCaseRepository } from "../../../lib/cases/browserCaseRepository";
 import { CASE_KEY_PREFIX, CASES_INDEX_KEY } from "../../../lib/cases/browserCaseRepository";
-import type { ReportableResult, ReportRecoveryState } from "../../../lib/cases/types";
+import { CaseError, type ReportableResult, type ReportRecoveryState } from "../../../lib/cases/types";
 import { casos } from "../../../context/traducciones/casos";
 import { describePendingDetails } from "../CaseDetailsDrawer";
 import { olvidarPeticionesDeEvaluacion, pedirEvaluacion } from "../../../lib/peticionDeEvaluacion";
+import { registerEditorReader } from "../../../lib/editorSnapshot";
 
 const translateEnglish = (key: string, values: Record<string, string | number> = {}) => {
   let text = casos.en[key] ?? key;
@@ -69,9 +70,17 @@ vi.mock("../../evaluation/CaseEvaluationRunner", () => ({
     onReportableChange,
     onReportRecoveryChange,
     peticion,
+    smilesDesdeChat,
+    receptorDesdeChat,
+    onInputsChange,
+    evaluacionDesdeChat,
   }: {
     caseId: string;
     peticion?: { smiles: string; tautomero: string };
+    smilesDesdeChat?: { smiles: string; onApplied: () => void };
+    receptorDesdeChat?: { pdbId: string; onVisible: (already: boolean) => void };
+    onInputsChange?: (patch: { receptor: { pdbId: string; origin: "curado" } }) => void;
+    evaluacionDesdeChat?: { onResult: (result: { status: string; task_id?: string }) => void };
     onLiveWorkChange?: (patch: { evaluation?: boolean; analysis?: boolean; taskId?: string | null }) => void;
     onReportableChange?: (result: ReportableResult | null) => void;
     onReportRecoveryChange?: (state: ReportRecoveryState) => void;
@@ -84,7 +93,11 @@ vi.mock("../../evaluation/CaseEvaluationRunner", () => ({
     declareLiveWork = onLiveWorkChange ?? null;
     declareReportable = onReportableChange ?? null;
     declareRecovery = onReportRecoveryChange ?? null;
-    return <div data-testid="runner" data-peticion={peticion ? `${peticion.tautomero} ${peticion.smiles}` : ""}>runner:{caseId}</div>;
+    return <div data-testid="runner" data-peticion={peticion ? `${peticion.tautomero} ${peticion.smiles}` : ""}>runner:{caseId}
+      {smilesDesdeChat && <button onClick={smilesDesdeChat.onApplied}>Confirmar campo {smilesDesdeChat.smiles}</button>}
+      {receptorDesdeChat && <button onClick={() => { onInputsChange?.({ receptor: { pdbId: receptorDesdeChat.pdbId, origin: "curado" } }); receptorDesdeChat.onVisible(false); }}>Confirmar receptor</button>}
+      {evaluacionDesdeChat && <button onClick={() => evaluacionDesdeChat.onResult({ status: "started", task_id: "task-123" })}>Confirmar evaluación</button>}
+    </div>;
   },
 }));
 
@@ -109,7 +122,7 @@ vi.mock("../CaseDossierViewer", () => ({
 function renderWorkspace() {
     const repository = createBrowserCaseRepository("test-owner");
   const result = render(
-    <CaseProvider repository={repository}>
+    <CaseProvider repository={repository} ownerUserId="test-owner">
       <CaseWorkspace />
     </CaseProvider>,
   );
@@ -154,6 +167,165 @@ describe("Case Workspace", () => {
     declareReportable = null;
     declareRecovery = null;
     olvidarPeticionesDeEvaluacion();
+  });
+
+  it("lee solo el editor del caso indicado y valida la revisión", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    await createCaseViaUi("destino");
+    const id = (await repository.listCases())[0].id;
+    const snapshot = vi.fn().mockResolvedValue({ status: "ok", molfile: "dibujo", revision: "1:2" });
+    const unregister = registerEditorReader(id, { snapshot, check: (revision) => revision === "1:2" });
+    const result = vi.fn();
+    const detail = { caseName: "destino", operation: "snapshot", revision: "-", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond: result };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-read-editor", { detail })); });
+    await waitFor(() => expect(result).toHaveBeenCalledWith({ status: "ok", molfile: "dibujo", revision: "1:2" }));
+    const check = { ...detail, operation: "check", revision: "1:3", handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-read-editor", { detail: check })); });
+    await waitFor(() => expect(check.respond).toHaveBeenCalledWith({ status: "changed" }));
+    expect(snapshot).toHaveBeenCalledTimes(1);
+    unregister();
+  });
+
+  it("abre el caso solicitado y espera la confirmación del campo antes de responder", async () => {
+    renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    await createCaseViaUi("destino");
+    const respond = vi.fn();
+    const detail = { caseName: "destino", smiles: "CCO", requestId: "r1", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-load-smiles", { detail })); });
+    expect(detail.handled).toBe(true);
+    expect(respond).not.toHaveBeenCalled();
+    fireEvent.click(await screen.findByRole("button", { name: "Confirmar campo CCO" }));
+    await waitFor(() => expect(respond).toHaveBeenCalledWith("applied"));
+  });
+
+  it("envía la evaluación al caso indicado y espera el resultado del runner", async () => {
+    renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    await createCaseViaUi("destino");
+    const detail = { caseName: "destino", requestId: "r1", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-evaluate-case", { detail })); });
+    expect(detail.respond).not.toHaveBeenCalled();
+    fireEvent.click(await screen.findByRole("button", { name: "Confirmar evaluación" }));
+    expect(detail.respond).toHaveBeenCalledWith({ status: "started", task_id: "task-123" });
+  });
+
+  it("no evalúa casos inexistentes ni ajenos", async () => {
+    renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    const detail = { caseName: "ausente", requestId: "r2", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-evaluate-case", { detail })); });
+    await waitFor(() => expect(detail.respond).toHaveBeenCalledWith({ status: "case_not_found" }));
+    const other = { ...detail, owner: "otro", handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-evaluate-case", { detail: other })); });
+    expect(other.respond).toHaveBeenCalledWith({ status: "failed" });
+  });
+
+  it("asigna el receptor al caso indicado y confirma después de guardar", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    await createCaseViaUi("destino");
+    const id = (await repository.listCases())[0].id;
+    const respond = vi.fn();
+    const detail = { caseName: "destino", pdbId: "7E2Y", requestId: "r1", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-assign-receptor", { detail })); });
+    expect(respond).not.toHaveBeenCalled();
+    fireEvent.click(await screen.findByRole("button", { name: "Confirmar receptor" }));
+    await waitFor(() => expect(respond).toHaveBeenCalledWith("applied"));
+    expect((await repository.readCase(id)).inputs?.receptor?.pdbId).toBe("7E2Y");
+  });
+
+  it("rechaza la asignación a casos inexistentes y cuentas ajenas", async () => {
+    renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    const detail = { caseName: "ausente", pdbId: "7E2Y", requestId: "r2", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-assign-receptor", { detail })); });
+    await waitFor(() => expect(detail.respond).toHaveBeenCalledWith("case_not_found"));
+    const other = { ...detail, owner: "otro", handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-assign-receptor", { detail: other })); });
+    expect(other.respond).toHaveBeenCalledWith("failed");
+  });
+
+  it("no confirma éxito si falla el guardado del receptor", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    await createCaseViaUi("destino");
+    vi.spyOn(repository, "updateCase").mockRejectedValue(new Error("disco no disponible"));
+    const detail = { caseName: "destino", pdbId: "7E2Y", requestId: "r3", owner: "test-owner", deadline: Date.now() + 10000, handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-assign-receptor", { detail })); });
+    fireEvent.click(await screen.findByRole("button", { name: "Confirmar receptor" }));
+    await waitFor(() => expect(detail.respond).toHaveBeenCalledWith("save_failed"), { timeout: 8000 });
+    expect(detail.respond).not.toHaveBeenCalledWith("applied");
+  });
+
+  it("no aplica SMILES a un caso inexistente o de otra cuenta", async () => {
+    renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    const respond = vi.fn();
+    const detail = { caseName: "inexistente", smiles: "CCO", requestId: "r2", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-load-smiles", { detail })); });
+    await waitFor(() => expect(respond).toHaveBeenCalledWith("not_found"));
+    const other = { ...detail, owner: "otro", requestId: "r3", handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-load-smiles", { detail: other })); });
+    expect(other.respond).toHaveBeenCalledWith("failed");
+    expect(screen.queryByRole("button", { name: /Confirmar campo/ })).not.toBeInTheDocument();
+  });
+
+  it("crea un caso solicitado por MolChat y lo refleja en el repositorio", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    const respond = vi.fn();
+    const detail = { name: "holamundo", owner: "test-owner", handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-create-case", { detail })); });
+    await waitFor(() => expect(respond).toHaveBeenCalledWith("created"));
+    expect(detail.handled).toBe(true);
+    expect((await repository.listCases()).some((c) => c.name === "holamundo")).toBe(true);
+    expect(await screen.findByRole("heading", { name: "holamundo" })).toBeInTheDocument();
+  });
+
+  it("rechaza nombres ya existentes sin duplicar ni cambiar el caso", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    await createCaseViaUi("Caso existente");
+    const before = await repository.listCases();
+    const respond = vi.fn();
+    const detail = { name: "caso EXISTENTE", owner: "test-owner", handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-create-case", { detail })); });
+    await waitFor(() => expect(respond).toHaveBeenCalledWith("exists"));
+    expect((await repository.listCases()).map((c) => c.id)).toEqual(before.map((c) => c.id));
+  });
+
+  it("rechaza una solicitud de otra cuenta sin crear ningún caso", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    const respond = vi.fn();
+    const detail = { name: "otro", owner: "otra-cuenta", handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-create-case", { detail })); });
+    expect(respond).toHaveBeenCalledWith("failed");
+    expect(await repository.listCases()).toHaveLength(0);
+  });
+
+  it("informa la colisión detectada por el repositorio", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    vi.spyOn(repository, "createCase").mockRejectedValueOnce(new CaseError("ALREADY_EXISTS", "existe"));
+    const respond = vi.fn();
+    const detail = { name: "colisión", owner: "test-owner", handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-create-case", { detail })); });
+    await waitFor(() => expect(respond).toHaveBeenCalledWith("exists"));
+    expect(await repository.listCases()).toHaveLength(0);
+  });
+
+  it("declara resultado incierto si falla la escritura y evita afirmar éxito", async () => {
+    const { repository } = renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    vi.spyOn(repository, "createCase").mockRejectedValueOnce(new Error("escritura interrumpida"));
+    const respond = vi.fn();
+    const detail = { name: "interrumpido", owner: "test-owner", handled: false, respond };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-create-case", { detail })); });
+    await waitFor(() => expect(respond).toHaveBeenCalledWith("unknown"));
+    expect(respond).not.toHaveBeenCalledWith("created");
   });
 
   describe("estado vacío", () => {
@@ -821,17 +993,19 @@ describe("atribución del informe", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Dossier" }));
     await screen.findByTestId("case-dossier");
 
-    expect(screen.queryByText(/corrida anterior/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/No se ha confirmado la correspondencia de este informe/i)).not.toBeInTheDocument();
   });
 
-  it("si los inputs cambiaron, el informe se etiqueta como de una corrida anterior", async () => {
+  it("si las huellas difieren, no afirma que los inputs cambiaron", async () => {
     await caseWithRun("sha256:vieja", "sha256:nueva");
 
     // La advertencia permanece visible antes de abrir nada.
-    expect(await screen.findByText(/corrida ANTERIOR/i)).toBeInTheDocument();
+    expect(await screen.findByText(/No se puede confirmar que esta corrida corresponda/i)).toBeInTheDocument();
+    expect(screen.queryByText(/los inputs han cambiado/i)).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Dossier" }));
-    expect(await screen.findByText(/Este informe es de una corrida anterior/i)).toBeInTheDocument();
+    expect(await screen.findByText(/No se ha confirmado la correspondencia de este informe/i)).toBeInTheDocument();
+    expect(screen.getByText(/La comprobación no coincide o falta/i)).toBeInTheDocument();
     // Y NO se retira: la trazabilidad se conserva.
     expect(screen.getByTestId("case-dossier")).toBeInTheDocument();
   });

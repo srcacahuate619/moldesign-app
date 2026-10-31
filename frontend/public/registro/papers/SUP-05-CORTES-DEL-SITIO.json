@@ -1,0 +1,178 @@
+{
+ "id": "SUP-05-CORTES-DEL-SITIO",
+ "meta": {
+  "titulo": "¿Deciden por el usuario los cortes de 8 y 6 Å de Preparación? Faltó denominador para saberlo",
+  "entradilla": "Preparación se abstiene ante un hueco a 8 Å del ligando y pide revisión ante una especie a 6 Å, dos números elegidos a mano. Se midió cuántas decisiones cambian al moverlos un ångström; 109 entradas del catálogo no tienen ligando del cristal y el experimento no llegó a su mínimo."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE.",
+     "m": "fuerte"
+    },
+    {
+     "t": " El registro previo pedía al menos 300 entradas medibles y hubo 272: las otras 109 no declaran el ligando del cristal desde el que se mide.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Sin acoplar nada, con las funciones de preparación del producto, se midió en cada entrada del catálogo la distancia del ligando del cristal a cada hueco del esqueleto y a cada especie que la preparación retira. Después se contó cuántas entradas cambian de estado al mover el corte.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [],
+    [
+     {
+      "t": "Corte vigente",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cambian al moverlo ±1 Å",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Criterio",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Huecos (abstiene)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "8 de 272 (2,9 %)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤ 5 %",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Especies junto al sitio (pide revisión)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "6 Å",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "18 de 272 (6,6 %)",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "≤ 5 %",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "El corte de los huecos parece estable; el de las especies, no.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Los metales a 6 Å o menos son 10 y a 7 Å, 20. Son lecturas, no decisiones: el experimento no alcanzó su denominador.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Control:",
+      "m": "fuerte"
+     },
+     {
+      "t": " reproduce el hueco de 4JVB (6,12 Å frente a 6,09 Å publicados) y los metales coordinados del inventario (36 frente a 35).",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No dice si un corte es correcto",
+      "m": "fuerte"
+     },
+     {
+      "t": ": dice si la decisión depende de él. Fijar el de las especies pide un redocking con y sin el metal entre 6 y 8 Å.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Repetirlo con el denominador corregido no sería ciego, porque estas cifras ya se conocen.",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/SUP-05-CORTES-DEL-SITIO.md"
+}

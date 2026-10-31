@@ -92,25 +92,12 @@ export function colorDeMargen(deltaDeltaG: number | null | undefined): string {
   return "#ef4444";
 }
 
-/**
- * La clave de traducción de un veredicto conocido (los guardados son el texto
- * castellano canónico); `null` si no se conoce y hay que mostrarlo tal cual.
- */
-/** Los rótulos anteriores a SCI-A-037, que siguen guardados en corridas viejas. */
-const VEREDICTOS_ANTERIORES: ReadonlyArray<readonly [string, string]> = [
-  ["MARGEN AMPLIO — la diana principal une ~100x más fuerte que la peor anti-diana", "pr_sel_margen_amplio"],
-  ["MARGEN MODERADO — unas 10x a favor de la diana principal", "pr_sel_margen_moderado"],
-  ["MARGEN ESTRECHO — menos de 10x; el orden puede invertirse dentro del error del método", "pr_sel_margen_estrecho"],
-  ["SIN MARGEN — afinidades indistinguibles entre diana y anti-diana", "pr_sel_margen_sin"],
-  ["MARGEN NEGATIVO — la molécula une más fuerte a una anti-diana que a su diana", "pr_sel_margen_invertido"],
-];
-
-export function claveDeVeredicto(veredicto: string): string | null {
-  const anterior = VEREDICTOS_ANTERIORES.find(([texto]) => texto === veredicto);
-  if (anterior) return anterior[1];
-  const indice = ESCALA_DE_MARGEN.findIndex(([, texto]) => texto === veredicto);
-  if (indice >= 0) return ["pr_sel_margen_amplio", "pr_sel_margen_moderado", "pr_sel_margen_estrecho", "pr_sel_margen_sin"][indice];
-  if (veredicto === VEREDICTO_INVERTIDO) return "pr_sel_margen_invertido";
-  if (veredicto === VEREDICTO_SIN_DATOS) return "pr_sel_margen_sin_datos";
-  return null;
+/** La clave depende del margen numérico; los veredictos guardados no cambian. */
+export function claveDeVeredicto(deltaDeltaG: number | null | undefined): string {
+  if (deltaDeltaG == null || !Number.isFinite(deltaDeltaG)) return "pr_sel_margen_sin_datos";
+  if (deltaDeltaG < 0) return "pr_sel_margen_invertido";
+  for (const [index, [minimo]] of ESCALA_DE_MARGEN.entries()) {
+    if (deltaDeltaG >= minimo) return ["pr_sel_margen_amplio", "pr_sel_margen_moderado", "pr_sel_margen_estrecho", "pr_sel_margen_sin"][index];
+  }
+  return "pr_sel_margen_sin_datos";
 }

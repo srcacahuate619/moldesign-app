@@ -22,6 +22,9 @@ tools/vina/vina-trace-manifest.json -text
 tools/vina/trace-licenses/**       -text
 # Catalogo de receptores: `generate_runtime_inventory.py` publica su SHA-256.
 curated_targets.json              -text
+# docs/catalog_versions/ guarda el SHA-256 del CSV con CRLF, tal como lo deja el checkout de Windows.
+# Sin esto, un clon en Linux lo trae con LF y su hash no coincide (medido el 2026-10-31).
+curated_targets.csv               text eol=crlf
 # Artefactos cientificos sellados: su inmutabilidad es su razon de ser.
 scripts/artifacts_science/**      -text
 scripts/fep09*.py                 -text
@@ -288,8 +291,10 @@ scripts/run_vina_exh4_val.py -text
 scripts/ruta_c_fase1_5_v05.py -text
 scripts/sup02_total_score/medir.py -text
 scripts/sup03_validador/medir.py -text
+scripts/sup04_exhaustividad/campana.sh -text
 scripts/sup04_exhaustividad/medir.py -text
 scripts/fep06hum/generar_paquetes.py -text
+scripts/sup05_cortes/medir.py -text
 scripts/test_build_confirm_cohort.py -text
 scripts/test_dedup_pose_union.py -text
 scripts/test_dedup_pose_union_medoid.py -text
@@ -303,12 +308,15 @@ scripts/vision_molecular_01/resumir.py -text
 # Motor Molcy vendorizado: sus bytes los hashea el manifiesto; git no debe tocarlos (autocrlf).
 tools/molcy/**                    -text
 
+# Sidecar MolChat vendorizado: lo mismo (manifiesto molchat-manifest.json).
+tools/molchat/**                  -text
+
 # PDF: un PDF generado por reportlab no lleva bytes NUL al principio, así que git lo
 # tomaba por texto y el checkout con autocrlf convertía LF en CRLF dentro de sus flujos:
 # el lector avisaba «incorrect startxref pointer». Se detectó al estampar el deck
 # institucional (auditoría científica, 2026-10-20).
 *.pdf                             -text
 
-# Sumas del reto FEP-06-HUM: con autocrlf el checkout las dejaba en CRLF y `sha256sum -c` buscaba
+# Sumas del reto FEP-06-HUM: con autocrlf el checkout las dejaba en CRLF y `sha256sum -c` no encontraba
 # «P01.zip\r» (2026-10-26).
 SHA256SUMS                        text eol=lf

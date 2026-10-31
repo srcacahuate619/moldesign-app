@@ -16,7 +16,7 @@
 # versiones dentro del runtime distribuido. Los hashes de los artefactos
 # que viajan están en `runtime-manifest.json` y `docs/api/sbom.json`.
 #
-# 168 distribuciones.
+# 174 distribuciones.
 
 admet_ai==2.0.1
 aimsim_core==2.2.3
@@ -32,6 +32,7 @@ argon2-cffi==23.1.0
 argon2-cffi-bindings==25.1.0
 astartes==1.3.3
 attrs==26.1.0
+av==18.1.0
 backoff==2.2.1
 bcrypt==5.0.0
 biopython==1.87
@@ -48,6 +49,7 @@ construct==2.10.70
 construct-typing==0.7.0
 contourpy==1.3.3
 cryptography==50.0.1
+ctranslate2==4.8.4
 cycler==0.12.1
 Deprecated==1.3.1
 descriptastorus==2.8.0
@@ -61,7 +63,9 @@ einops==0.8.2
 email-validator==2.3.0
 et_xmlfile==2.0.0
 fastapi==0.135.2
+faster-whisper==1.2.1
 filelock==3.29.7
+flatbuffers==25.12.19
 fonttools==4.63.0
 frozenlist==1.8.0
 fsspec==2026.6.0
@@ -107,6 +111,7 @@ networkx==3.6.1
 numba==0.65.0
 numpy==2.4.4
 nvidia-ml-py==13.610.43
+onnxruntime==1.31.1
 OpenMM==8.5.2
 openpyxl==3.1.5
 packaging==26.2
@@ -121,9 +126,10 @@ platformdirs==4.10.0
 pluggy==1.6.0
 posebusters==0.6.5
 posthog==7.22.2
-ProDy==2.3.1
+ProDy==2.3.1; sys_platform == "win32"
 prolif==2.1.0
 propcache==0.5.2
+protobuf==7.36.2
 psutil==7.2.2
 py-spy==0.4.2
 pycparser==3.0

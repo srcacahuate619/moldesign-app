@@ -26,6 +26,11 @@ LOCK_DEL_RUNTIME = BACKEND / "requirements-embed.lock.txt"
 DEPENDEN_DE_REPORTLAB = frozenset({"manifest.json"})
 
 
+def fuente_de_la_instantanea() -> bool:
+    """El PDF de la instantánea incrusta Arial, la fuente de Windows; otra fuente cambia sus bytes y su hash."""
+    return sys.platform == "win32"
+
+
 def reportlab_del_runtime() -> str:
     """La versión de reportlab del intérprete que se distribuye (y de la CI)."""
     for linea in LOCK_DEL_RUNTIME.read_text(encoding="utf-8").splitlines():
@@ -66,6 +71,9 @@ def main() -> int:
         print(f"Instantáneas NO escritas: este intérprete trae reportlab "
               f"{reportlab_de_este_interprete()} y el runtime distribuido "
               f"{reportlab_del_runtime()}. Escríbelas con python-embed.")
+        return 2
+    if args.write and not fuente_de_la_instantanea():
+        print("Instantáneas NO escritas: el PDF no llevaría Arial. Escríbelas en Windows con python-embed.")
         return 2
     actuales = salidas_espanol()
     if args.write:

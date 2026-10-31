@@ -67,7 +67,7 @@ class AlphaFoldStructure:
 def _api_get(endpoint: str) -> Any:
     """GET síncrono a la API de AlphaFold DB."""
     url = f"{ALPHAFOLD_API_BASE}{endpoint}"
-    from services.ai.red import exigir_permiso
+    from services.red import exigir_permiso
     exigir_permiso(url, None)
     req = Request(url, headers={"Accept": "application/json"})
     try:
@@ -84,7 +84,7 @@ def _api_get(endpoint: str) -> Any:
 
 def _download_file(url: str, dest: str) -> None:
     """Descarga un archivo de AlphaFold DB."""
-    from services.ai.red import exigir_permiso
+    from services.red import exigir_permiso
     exigir_permiso(url, None)
     req = Request(url)
     with urlopen(req, timeout=120) as response:
@@ -254,7 +254,7 @@ async def search_by_gene(gene_name: str, organism: str = "Homo sapiens") -> list
     )
 
     def _search_uniprot():
-        from services.ai.red import exigir_permiso
+        from services.red import exigir_permiso
         exigir_permiso(uniprot_url, None)
         req = Request(uniprot_url, headers={"Accept": "application/json"})
         try:

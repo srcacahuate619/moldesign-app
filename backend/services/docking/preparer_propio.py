@@ -198,9 +198,6 @@ async def preparar_pdbqt(pdb_id: str, perfil: dict[str, Any], *, center, size) -
     receta = receta_pdbqt(perfil, center, size)
     ruta = StoragePath.target_prepared(pdb_id, receta)
     ruta_informe = ruta[:-6] + ".report.json"
-    if await exists(ruta) and await exists(ruta_informe):
-        return ruta
-
     almacen = perfil["almacen"]
     contenido = await read_bytes(almacen["receptor"])
     if hashlib.sha256(contenido).hexdigest() != perfil["receptor_sha256"]:
@@ -208,6 +205,14 @@ async def preparar_pdbqt(pdb_id: str, perfil: dict[str, Any], *, center, size) -
             pdb_id=pdb_id, step="pdbqt_propio_alterado",
             detail="El PDBQT guardado ya no coincide con el hash registrado al subirlo; no se evalúa.",
         )
+    if await exists(ruta) and await exists(ruta_informe):
+        copia = await read_bytes(ruta)
+        if hashlib.sha256(copia).hexdigest() != perfil["receptor_sha256"]:
+            raise ProteinPreparationError(
+                pdb_id=pdb_id, step="pdbqt_propio_alterado",
+                detail="La copia preparada ya no coincide con el PDBQT subido; no se evalúa.",
+            )
+        return ruta
     texto = contenido.decode("utf-8", errors="replace")
     origen_texto = None
     if almacen.get("origen"):

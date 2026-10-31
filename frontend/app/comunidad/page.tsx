@@ -13,7 +13,6 @@ import { getUserItem } from "../../lib/userStorage";
 
 interface LeaderboardEntry {
   username: string;
-  total_score: number;
   affinity_kcal: number;
   target_pdb_id?: string;
   smiles?: string;
@@ -39,7 +38,7 @@ export default function ComunidadPage() {
     try {
       const targetsRes = await fetchBackend("/targets/community");
       if (!targetsRes.ok) {
-        throw new Error("Los datos compartidos no están disponibles.");
+        throw new Error(t("pa_frontend_001"));
       }
       const targets = await targetsRes.json();
       setCommunityTargets(Array.isArray(targets) ? targets : []);
@@ -51,7 +50,7 @@ export default function ComunidadPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchCommunity();
@@ -64,7 +63,7 @@ export default function ComunidadPage() {
       await downloadCommunityTarget(pdbId);
       window.dispatchEvent(new CustomEvent("target_downloaded", { detail: { pdb_id: pdbId } }));
     } catch {
-      setDownloadError(`No se pudo descargar el receptor ${pdbId}.`);
+      setDownloadError(t("pa_frontend_002", { v0: pdbId }));
     }
     finally { setDownloading(null); }
   };
@@ -287,10 +286,6 @@ export default function ComunidadPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="font-mono text-sm font-black text-theme">{entry.total_score?.toFixed(0) ?? "—"}</p>
-                        <p className="font-mono text-xs uppercase text-dim">{t("pg_com_resultado_compartido")}</p>
-                      </div>
                       <div className="text-right">
                         <p className="font-mono text-sm font-bold text-muted">{entry.affinity_kcal?.toFixed(1)}</p>
                         <p className="font-mono text-xs uppercase text-dim">{t("auto_61e81e34882d")}</p>

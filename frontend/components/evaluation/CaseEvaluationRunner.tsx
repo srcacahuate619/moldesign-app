@@ -1,5 +1,12 @@
 "use client";
 
+import { saveFailureKind } from "../../lib/evaluationErrorPresentation";
+import { marcarEtapaDeEvaluacionChat } from "../../lib/evaluacionDesdeChat";
+
+import { FrontendError, frontendMessage } from "../../lib/frontendError";
+
+import { presentError } from "../../lib/frontendError";
+
 
 import { Translated, useLanguage } from "@/context/LanguageContext";
 // =====================================================================
@@ -109,7 +116,7 @@ export function withRecoveryDeadline<T>(promise: Promise<T>, label: string): Pro
     const timer = setTimeout(() => {
       if (settled) return;
       settled = true;
-      reject(new Error(`${label} excedió ${RESULT_RECOVERY_TIMEOUT_MS / 1000} segundos.`));
+      reject(new FrontendError(frontendMessage("ev_recovery_deadline", { label, seconds: RESULT_RECOVERY_TIMEOUT_MS / 1000 })));
     }, RESULT_RECOVERY_TIMEOUT_MS);
     promise.then(
       (value) => {
@@ -132,8 +139,8 @@ function isTransientRecoveryFailure(cause: unknown): boolean {
   if (cause instanceof ApiError) {
     return cause.status === 408 || cause.status === 425 || cause.status === 429 || cause.status >= 500;
   }
-  const message = cause instanceof Error ? cause.message : String(cause);
-  return /conexi.n|failed to fetch|network|econnrefused|timeout|excedi.|motor local no est. disponible/i.test(message);
+  return cause instanceof TypeError || (cause instanceof FrontendError &&
+    ["ev_frontend_204", "ev_recovery_deadline", "pr_frontend_241", "pr_frontend_242"].includes(cause.frontendMessage && "key" in cause.frontendMessage ? cause.frontendMessage.key : ""));
 }
 
 
@@ -215,6 +222,9 @@ export interface CaseEvaluationRunnerProps {
    * se escribiera y el modo como si se eligiera en Opciones. No se ejecuta nada.
    */
   readonly peticion?: PeticionRecibida;
+  readonly smilesDesdeChat?: { requestId: string; smiles: string; deadline: number; onApplied: () => void };
+  readonly receptorDesdeChat?: { requestId: string; pdbId: string; deadline: number; onVisible: (already: boolean) => void; onError: (status: string) => void };
+  readonly evaluacionDesdeChat?: { requestId: string; deadline: number; onResult: (result: { status: string; task_id?: string; reason?: string }) => void };
 }
 
 /**
@@ -303,6 +313,9 @@ export default function CaseEvaluationRunner({
   decisions,
   onDecision,
   peticion,
+  smilesDesdeChat,
+  receptorDesdeChat,
+  evaluacionDesdeChat,
 }: CaseEvaluationRunnerProps) {
   const { t } = useLanguage();
   const {
@@ -326,6 +339,7 @@ export default function CaseEvaluationRunner({
   const catalogoInicial = catalogoEnMemoria();
   const [targets, setTargets] = useState<Target[]>(() => [...(catalogoInicial ?? [])]);
   const [loadingTargets, setLoadingTargets] = useState(catalogoInicial === null);
+  const [catalogFailed, setCatalogFailed] = useState(false);
 
   const [validation, setValidation] = useState<ValidationResult | null>(null);
   // Arranca DESDE la corrida persistida: si el caso trae una, este componente
@@ -554,10 +568,10 @@ export default function CaseEvaluationRunner({
       ...(status?.error
         ? { lastError: status.error }
         : pollingInterrupted && !isTerminal
-        ? { lastError: "Se perdió la conexión con el servidor. No se sabe cómo terminó la tarea." }
+        ? { lastError: t("ev_frontend_071") }
         : {}),
     });
-  }, [taskId, status, pollingInterrupted, activeRun?.startedAt, activeRun?.moleculeId]);
+  }, [taskId, status, pollingInterrupted, activeRun?.startedAt, activeRun?.moleculeId, t]);
 
   // ── Referencia al resultado publicable ────────────────────────────
   //
@@ -625,6 +639,14 @@ export default function CaseEvaluationRunner({
       ligand: { inputSmiles: next },
     });
   }, []);
+
+  const chatAplicado = useRef<string | null>(null);
+  useEffect(() => {
+    if (!smilesDesdeChat || chatAplicado.current === smilesDesdeChat.requestId || Date.now() >= smilesDesdeChat.deadline) return;
+    chatAplicado.current = smilesDesdeChat.requestId;
+    escribirSmiles(smilesDesdeChat.smiles);
+    setValidation(null);
+  }, [smilesDesdeChat, escribirSmiles]);
 
   // Cerrar el aviso no la vuelve a aplicar: lo aplicado se recuerda aparte.
   const peticionAplicada = useRef<number | null>(null);
@@ -713,7 +735,7 @@ export default function CaseEvaluationRunner({
       return resumen;
     } catch (err) {
       if (!intentIsCurrent(intent)) return null;
-      setPreflightError(err instanceof Error ? err.message : String(err));
+      setPreflightError(err instanceof Error ? presentError(err, t) : String(err));
       throw err;
     } finally {
       if (intentIsCurrent(intent)) setPreflightLoading(false);
@@ -746,10 +768,10 @@ export default function CaseEvaluationRunner({
   const loadTargets = useCallback((forzar = false) => {
     setLoadingTargets((previo) => previo || forzar);
     obtenerCatalogo({ forzar })
-      .then((receptores) => setTargets([...receptores]))
-      .catch((err) => setError(`No se pudieron cargar los receptores: ${(err as Error).message}`))
+      .then((receptores) => { setTargets([...receptores]); setCatalogFailed(false); })
+      .catch((err) => { setCatalogFailed(true); setError(t("ev_frontend_072", { v0: presentError((err as Error), t) })); })
       .finally(() => setLoadingTargets(false));
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     loadTargets();
@@ -902,7 +924,7 @@ export default function CaseEvaluationRunner({
         }
         if (expectReport && (polled.status !== "SUCCESS" || !polled.result?.molecule_id)) {
           throw new Error(
-            polled.error || "El backend no devolvió el resultado persistido de la corrida.",
+            polled.error || t("ev_frontend_073"),
           );
         }
         if (pollingEpochRef.current !== epoch) return;
@@ -947,12 +969,12 @@ export default function CaseEvaluationRunner({
           const requiresLogin = statusCode === 401 || statusCode === 403;
           const message =
             statusCode === 401
-              ? "El resultado está guardado, pero tu sesión caducó. Inicia sesión de nuevo para recuperarlo."
+              ? t("ev_frontend_074")
               : statusCode === 403
-                ? "El resultado está guardado, pero pertenece a otra sesión. Inicia sesión con la cuenta que ejecutó esta corrida."
-                : cause instanceof Error && cause.message.startsWith(t("mx_error_conexion"))
-                  ? "El resultado sigue guardado, pero el motor local no está disponible. Comprueba el estado del motor y vuelve a intentarlo."
-                  : `El resultado sigue referenciado por este caso, pero no se pudo recuperar: ${cause instanceof Error ? cause.message : String(cause)}`;
+                ? t("ev_frontend_075")
+                : cause instanceof Error && presentError(cause, t).startsWith(t("mx_error_conexion"))
+                  ? t("ev_frontend_076")
+                  : t("ev_frontend_077", { v0: cause instanceof Error ? presentError(cause, t) : String(cause) });
           setResultRecovery({ state: "blocked", message, requiresLogin });
           notifyRecovery.current?.("unrecoverable");
           // No marcar la corrida como fallida ni reemplazar su SUCCESS
@@ -963,7 +985,7 @@ export default function CaseEvaluationRunner({
         setPollingInterrupted(true);
       }
     },
-    [activeRun?.startedAt, startPolling, stopPolling],
+    [activeRun?.startedAt, startPolling, stopPolling, t],
   );
 
   resumeRunRef.current = resumeRun;
@@ -1061,7 +1083,7 @@ export default function CaseEvaluationRunner({
     };
     window.addEventListener("auth_expired", handleAuthChange);
     return () => window.removeEventListener("auth_expired", handleAuthChange);
-  }, [stopPolling]);
+  }, [stopPolling, t]);
 
   const handleValidate = async () => {
     setBusy(true);
@@ -1116,7 +1138,7 @@ export default function CaseEvaluationRunner({
     } catch (cause) {
       if (!scopeIsCurrent(scope)) return;
       setPollingInterrupted(true);
-      setError(`No se pudo confirmar la cancelación: ${(cause as Error).message}. ` +
+      setError(t("ev_frontend_067", { v0: presentError((cause as Error), t) }) +
         t("auto_9efee153557b"));
     } finally {
       if (cancellingTask.current === tid) cancellingTask.current = null;
@@ -1147,6 +1169,7 @@ export default function CaseEvaluationRunner({
     if (taskIdRef.current) await cancelKnownRun(taskIdRef.current);
   };
 
+  const solicitudChatEnCurso = useRef<typeof evaluacionDesdeChat>(undefined);
   const handleSubmit = async (
     _gridCenter?: [number, number, number],
     _gridSize?: [number, number, number],
@@ -1154,6 +1177,16 @@ export default function CaseEvaluationRunner({
     peptideDockingEngine?: "esmfold" | "esmfold-pro" | "esmfold-experimental" | "colabfold",
     _pipelineConfig?: CasePipelineConfig
   ) => {
+    const solicitudChat = solicitudChatEnCurso.current;
+    solicitudChatEnCurso.current = undefined;
+    if (solicitudChat) marcarEtapaDeEvaluacionChat(solicitudChat.requestId, t("ev_chat_etapa_envio"));
+    let chatRespondido = false;
+    const responderChat = (status: string, task_id?: string, reason?: string) => {
+      if (!solicitudChat || chatRespondido) return;
+      chatRespondido = true;
+      solicitudChat.onResult({ status, ...(task_id ? { task_id } : {}),
+        ...(reason ? { reason: reason.replace(/[\x00-\x1f]/g, " ").slice(0, 500) } : {}) });
+    };
     // GATE. No se ejecuta nada que el preflight no haya inspeccionado. Es la
     // garantía de que la corrida corresponde exactamente a lo que se mostró:
     // sin ella, el panel podría estar describiendo unos inputs y el submit
@@ -1170,9 +1203,11 @@ export default function CaseEvaluationRunner({
     const bloqueoPrevio = describeRunBlock(entradas, preflight, t);
     if (bloqueoPrevio) {
       setError(bloqueoPrevio);
+      responderChat("blocked", undefined, bloqueoPrevio);
       return;
     }
-    if (authLoading || pendingIntent.current || runActive) return;
+    if (authLoading || pendingIntent.current || runActive) { responderChat("busy"); return; }
+    if (solicitudChat && Date.now() >= solicitudChat.deadline) { responderChat("unknown"); return; }
     const intent: EvaluationIntent = {
       id: globalThis.crypto?.randomUUID?.() ?? `${Date.now()}:${++nextIntentId.current}:${Math.random()}`,
       scope: { ...operationScope.current },
@@ -1199,8 +1234,9 @@ export default function CaseEvaluationRunner({
           if (!inspeccion || !intentIsCurrent(intent)) return;
         } catch (err) {
           if (!intentIsCurrent(intent)) return;
-          setError(err instanceof Error ? err.message : String(err));
+          setError(err instanceof Error ? presentError(err, t) : String(err));
           setBusy(false);
+          responderChat("failed");
           return;
         }
         const bloqueoTrasComprobar = describeRunBlock(entradas, inspeccion, t);
@@ -1209,6 +1245,7 @@ export default function CaseEvaluationRunner({
           // nada y el panel de preparación enseña qué y por qué.
           setError(bloqueoTrasComprobar);
           setBusy(false);
+          responderChat("blocked", undefined, bloqueoTrasComprobar);
           return;
         }
       }
@@ -1218,8 +1255,10 @@ export default function CaseEvaluationRunner({
       if (!execution || !inspectedFingerprint) {
         setError(t("auto_dc96db7f7404"));
         setBusy(false);
+        responderChat("blocked");
         return;
       }
+      if (solicitudChat && Date.now() >= solicitudChat.deadline) { responderChat("unknown"); return; }
 
       setBusy(true);
       setError(null);
@@ -1236,6 +1275,7 @@ export default function CaseEvaluationRunner({
         setError(t("auto_b612f6dc223e"));
         setBusy(false);
         setSubmitting(false);
+        responderChat("blocked");
         return;
       }
       // Se envía lo que el CASO tiene guardado y lo que el preflight
@@ -1298,6 +1338,9 @@ export default function CaseEvaluationRunner({
         // falla de una forma inesperada, el identificador debe llegar a la UI.
         registered = false;
       }
+      if (typeof result.task_id === "string" && /^[A-Za-z0-9_.:-]{1,128}$/.test(result.task_id)) {
+        responderChat(registered && registerAcceptedRun ? "started" : "started_unregistered", result.task_id);
+      } else responderChat("unknown");
       // La tarea aceptada ya se preservó en su origen. Una instancia antigua
       // no vuelve a mostrarla ni inicia polling bajo otra sesión/caso.
       if (!scopeIsCurrent(intent.scope) || intent.invalidated) return;
@@ -1332,7 +1375,9 @@ export default function CaseEvaluationRunner({
       }
     } catch (e) {
       if (scopeIsCurrent(intent.scope) && !intent.invalidated) setError(mensajeDelError(e));
+      responderChat(intent.phase === "submitting" ? "unknown" : "failed");
     } finally {
+      responderChat("unknown");
       // Una respuesta retirada no puede apagar la intención que vino después.
       if (pendingIntent.current === intent) {
         pendingIntent.current = null;
@@ -1372,7 +1417,7 @@ export default function CaseEvaluationRunner({
       const result = await validateSmiles(sug.smiles);
       setValidation(result);
     } catch (e) {
-      setError((e as Error).message);
+      setError(presentError((e as Error), t));
     } finally {
       setBusy(false);
     }
@@ -1392,59 +1437,8 @@ export default function CaseEvaluationRunner({
     pipelineConfig: structuralSystem?.pipelineConfig ?? restoredExecution?.pipelineConfig ?? inputs?.pipelineConfig,
   };
 
-  return (
-    <div className="flex h-full min-h-0 flex-col">
-      {pollingInterrupted && taskId && (
-        <div
-          role="status"
-          className="flex flex-wrap items-center gap-2 border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs leading-relaxed text-amber-200"
-        >
-          <span className="min-w-0 flex-1">
-            {isTerminal ? (
-              <>{t("pn_resultado_limpiado")}</>
-            ) : (
-              <>{t("pn_conexion_perdida")} <strong>{t("pn_no_se_sabe_como_termino")}</strong>{t("pn_puede_seguir_corriendo")}</>
-            )}
-          </span>
-          <button
-            type="button"
-            onClick={() => void resumeRun(taskId, activeRun?.executionState === "completed", activeRun?.moleculeId)}
-            className="shrink-0 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-[11px] hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
-          >
-            {t("c_reintentar_seguimiento")}
-          </button>
-        </div>
-      )}
-      {avisoDePeticion && (
-        <div
-          role="status"
-          className="flex flex-wrap items-center gap-2 border-b border-purple-400/30 bg-purple-500/10 px-4 py-2 text-xs leading-relaxed text-purple-100"
-        >
-          <span className="min-w-0 flex-1 break-all">
-            {t("ev_peticion_preparacion", {
-              smiles: avisoDePeticion.smiles,
-              modo: t(avisoDePeticion.tautomero === "entrada" ? "op_tautomero_entrada" : "op_tautomero_defecto"),
-            })}
-          </span>
-          <button
-            type="button"
-            onClick={() => setAvisoDePeticion(null)}
-            aria-label={t("c_cerrar")}
-            className="shrink-0 rounded border border-purple-400/40 px-2 py-0.5 text-[11px] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
-          >
-            {t("c_cerrar")}
-          </button>
-        </div>
-      )}
-      <div className="min-h-0 flex-1">
-      <ProEvaluation
-      activeConformers={inputs?.conformers ?? 1}
-      caseRuns={caseRuns}
-      ejemploEnEditor={!inputs?.ligand?.inputSmiles}
-      smiles={smiles}
-      setSmiles={escribirSmiles}
-      target={target}
-      setTarget={(next) => {
+  // Both the UI and MolChat use the same case mutation and structural lock.
+  const seleccionarReceptor = useCallback((next: string) => {
         if (structuralSystem) {
           setError(
             t("auto_8819735dd62d") +
@@ -1496,7 +1490,88 @@ export default function CaseEvaluationRunner({
           // y el preflight atribuyéndolo a una decisión (QA1-007).
           customHotspots: undefined,
         });
-      }}
+
+  }, [structuralSystem, targets, t]);
+  const receptorProcesado = useRef<string | null>(null);
+  const receptorNotificado = useRef<string | null>(null);
+  useEffect(() => {
+    const request = receptorDesdeChat;
+    if (!request || receptorProcesado.current === request.requestId || loadingTargets || Date.now() >= request.deadline) return;
+    receptorProcesado.current = request.requestId;
+    if (catalogFailed) { receptorNotificado.current = request.requestId; request.onError("unavailable"); return; }
+    const matches = targets.filter(item => item.pdb_id?.toUpperCase() === request.pdbId.toUpperCase());
+    if (!matches.length) { receptorNotificado.current = request.requestId; request.onError("receptor_not_found"); return; }
+    if (matches.length > 1) { receptorNotificado.current = request.requestId; request.onError("receptor_ambiguous"); return; }
+    if (matches[0].disponible === false) { receptorNotificado.current = request.requestId; request.onError("unavailable"); return; }
+    const already = target.toUpperCase() === matches[0].pdb_id.toUpperCase() && inputs?.receptor?.pdbId?.toUpperCase() === matches[0].pdb_id.toUpperCase();
+    if (already) { receptorNotificado.current = request.requestId; request.onVisible(true); return; }
+    if (structuralSystem) { receptorNotificado.current = request.requestId; request.onError("locked"); return; }
+    seleccionarReceptor(matches[0].pdb_id);
+  }, [receptorDesdeChat, loadingTargets, catalogFailed, targets, target, inputs?.receptor?.pdbId, structuralSystem, seleccionarReceptor]);
+  useEffect(() => {
+    const request = receptorDesdeChat;
+    if (!request || receptorProcesado.current !== request.requestId || receptorNotificado.current === request.requestId || Date.now() >= request.deadline) return;
+    if (target.toUpperCase() === request.pdbId.toUpperCase()) {
+      receptorNotificado.current = request.requestId;
+      request.onVisible(false);
+    }
+  }, [receptorDesdeChat, target]);
+
+  return (
+    <div className="flex h-full min-h-0 flex-col">
+      {pollingInterrupted && taskId && (
+        <div
+          role="status"
+          className="flex flex-wrap items-center gap-2 border-b border-amber-500/30 bg-amber-500/10 px-4 py-2 text-xs leading-relaxed text-amber-200"
+        >
+          <span className="min-w-0 flex-1">
+            {isTerminal ? (
+              <>{t("pn_resultado_limpiado")}</>
+            ) : (
+              <>{t("pn_conexion_perdida")} <strong>{t("pn_no_se_sabe_como_termino")}</strong>{t("pn_puede_seguir_corriendo")}</>
+            )}
+          </span>
+          <button
+            type="button"
+            onClick={() => void resumeRun(taskId, activeRun?.executionState === "completed", activeRun?.moleculeId)}
+            className="shrink-0 whitespace-nowrap rounded border border-amber-500/40 px-2 py-0.5 text-[11px] hover:text-amber-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+          >
+            {t("c_reintentar_seguimiento")}
+          </button>
+        </div>
+      )}
+      {avisoDePeticion && (
+        <div
+          role="status"
+          className="flex flex-wrap items-center gap-2 border-b border-purple-400/30 bg-purple-500/10 px-4 py-2 text-xs leading-relaxed text-purple-100"
+        >
+          <span className="min-w-0 flex-1 break-all">
+            {t("ev_peticion_preparacion", {
+              smiles: avisoDePeticion.smiles,
+              modo: t(avisoDePeticion.tautomero === "entrada" ? "op_tautomero_entrada" : "op_tautomero_defecto"),
+            })}
+          </span>
+          <button
+            type="button"
+            onClick={() => setAvisoDePeticion(null)}
+            aria-label={t("c_cerrar")}
+            className="shrink-0 rounded border border-purple-400/40 px-2 py-0.5 text-[11px] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-300"
+          >
+            {t("c_cerrar")}
+          </button>
+        </div>
+      )}
+      <div className="min-h-0 flex-1">
+      <ProEvaluation
+      caseId={caseId}
+      activeConformers={inputs?.conformers ?? 1}
+      caseRuns={caseRuns}
+      ejemploEnEditor={!inputs?.ligand?.inputSmiles}
+      smiles={smiles}
+      smilesDesdeChat={smilesDesdeChat}
+      setSmiles={escribirSmiles}
+      target={target}
+      setTarget={seleccionarReceptor}
       targets={targets}
       loadingTargets={loadingTargets}
       // Subir un receptor propio cambia el catálogo para TODA la aplicación:
@@ -1572,10 +1647,10 @@ export default function CaseEvaluationRunner({
             }));
           }
         } catch (e) {
-          const msg = (e as Error).message;
-          if (msg.includes("401") || msg.includes("403") || msg.includes("No autenticado") || msg.includes("token")) {
+          const msg = presentError((e as Error), t);
+          if (saveFailureKind(e) === "session") {
             setError(t("auto_f56a50a80039"));
-          } else if (msg.includes("404") || msg.toLowerCase().includes("no encontrada") || msg.toLowerCase().includes("no encontrad")) {
+          } else if (saveFailureKind(e) === "missing") {
             // La molécula existe pero pertenece a otra cuenta (el backend
             // devuelve 404 "Molécula no encontrada" para no revelar existencia),
             // o la sesión cambió (invitado ↔ cuenta personal) entre evaluación
@@ -1605,7 +1680,7 @@ export default function CaseEvaluationRunner({
         try {
           await downloadCertificate(status.result.molecule_id, "evaluation", status.result.task_id);
         } catch (e) {
-          setError(`No se pudo descargar el certificado: ${(e as Error).message}`);
+          setError(t("ev_frontend_069", { v0: presentError((e as Error), t) }));
         }
       }}
       handleDownloadComplex={async () => {
@@ -1613,11 +1688,13 @@ export default function CaseEvaluationRunner({
         try {
           await downloadComplexFile(status.result.molecule_id, "evaluation", status.result.task_id);
         } catch (e) {
-          setError(`No se pudo descargar el complejo: ${(e as Error).message}`);
+          setError(t("ev_frontend_070", { v0: presentError((e as Error), t) }));
         }
       }}
       handleValidate={handleValidate}
       handleSubmit={handleSubmit}
+      evaluacionDesdeChat={evaluacionDesdeChat ? { ...evaluacionDesdeChat,
+        onInvoke: () => { solicitudChatEnCurso.current = evaluacionDesdeChat; } } : undefined}
       handleReset={handleReset}
       handleCancel={handleCancel}
       handleUseSuggestion={handleUseSuggestion}

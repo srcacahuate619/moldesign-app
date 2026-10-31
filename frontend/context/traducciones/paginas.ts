@@ -24,6 +24,16 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const paginas: ModuloDeTraduccion = {
   es: {
+    pg_auth_password: "contraseña",
+    pg_auth_username: "nombre de usuario",
+    pg_auth_min_password: "La {field} debe tener al menos 8 caracteres.",
+    pg_auth_min_username: "El {field} debe tener al menos 3 caracteres.",
+    pg_auth_empty: "El campo {field} no puede estar vacío.",
+    pg_auth_email: "El email no es válido.",
+    pg_auth_signup_first: "Debe registrarse primero para usar esta cuenta.",
+    pa_frontend_001: "Los datos compartidos no están disponibles.",
+    pa_frontend_002: "No se pudo descargar el receptor {v0}.",
+    pa_frontend_005: "Ocurrió un error inesperado. Intenta de nuevo.",
     // ── Batch: lo que quedaba ─────────────────────────────────────
     pg_lote_intro:
       "Define una cohorte comparable, comprueba sus entradas, ejecútala bajo una "
@@ -163,7 +173,6 @@ export const paginas: ModuloDeTraduccion = {
     pg_com_targets_compartidos: "Targets Compartidos",
     pg_com_resultados_compartidos: "Resultados compartidos",
     pg_com_buscar_receptores: "Buscar receptores compartidos",
-    pg_com_resultado_compartido: "Resultado compartido",
     pg_com_comparte_evidencia: "Comparte tu evidencia",
     pg_com_actividad_reciente: "Actividad reciente",
     pg_com_panel_global: "Comunidad Global",
@@ -241,6 +250,16 @@ export const paginas: ModuloDeTraduccion = {
       + "Reiniciar MolDesign es seguro.",
   },
   en: {
+    pg_auth_password: "password",
+    pg_auth_username: "username",
+    pg_auth_min_password: "The {field} must have at least 8 characters.",
+    pg_auth_min_username: "The {field} must have at least 3 characters.",
+    pg_auth_empty: "The {field} field cannot be empty.",
+    pg_auth_email: "The email is not valid.",
+    pg_auth_signup_first: "You must register before using this account.",
+    pa_frontend_001: "Shared data is not available.",
+    pa_frontend_002: "The receptor {v0} could not be downloaded.",
+    pa_frontend_005: "An unexpected error occurred. Try again.",
     pg_lote_intro:
       "Define a comparable cohort, check its inputs, run it under one shared "
       + "configuration and deliver evidence with its coverage.",
@@ -373,7 +392,6 @@ export const paginas: ModuloDeTraduccion = {
     pg_com_targets_compartidos: "Shared Targets",
     pg_com_resultados_compartidos: "Shared results",
     pg_com_buscar_receptores: "Search shared receptors",
-    pg_com_resultado_compartido: "Shared result",
     pg_com_comparte_evidencia: "Share your evidence",
     pg_com_actividad_reciente: "Recent activity",
     pg_com_panel_global: "Global Community",

@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 /**
@@ -103,10 +105,10 @@ export function TraspasoInvitado() {
     } catch (e) {
       // El backend es transaccional: si falló, no se movió nada, y los casos
       // siguen siendo del invitado. Reintentar es seguro.
-      setError(e instanceof Error ? e.message : String(e));
+      setError(e instanceof Error ? presentError(e, t) : String(e));
       setFase("error");
     }
-  }, [invitado, inventario, user?.user_id]);
+  }, [invitado, inventario, user?.user_id, t]);
 
   const descartar = useCallback(() => {
     olvidarInvitado();
@@ -145,11 +147,8 @@ export function TraspasoInvitado() {
             {t("pn_traspaso_tienes")}
           </p>
           <p className="mt-1 text-sm text-surface-400">
-            {inventario.casos.length} {t(inventario.casos.length === 1 ? "ca_case_singular" : "ca_case_plural")}
-            {conResultado > 0
-              ? `, ${conResultado} con resultado guardado`
-              : t("auto_8ff2cb920103")}
-            {t("auto_ea64cf436cb0")}
+            {t(inventario.casos.length === 1 ? (conResultado > 0 ? "ca_guest_one_saved" : "ca_guest_one_none")
+              : conResultado > 0 ? "ca_guest_many_saved" : "ca_guest_many_none", { cases: inventario.casos.length, saved: conResultado })}
           </p>
           {inventario.casos.length > 0 && (
             <ul className="mt-2 space-y-0.5 text-xs text-surface-500">
@@ -157,7 +156,7 @@ export function TraspasoInvitado() {
                 <li key={c.id}>· {c.name}</li>
               ))}
               {inventario.casos.length > 5 && (
-                <li>· y {inventario.casos.length - 5} {t("auto_917ac7093911")}</li>
+                <li>{t("ca_guest_more", { n: inventario.casos.length - 5 })}</li>
               )}
             </ul>
           )}

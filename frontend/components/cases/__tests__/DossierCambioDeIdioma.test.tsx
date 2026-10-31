@@ -5,7 +5,8 @@ import type { CaseRecord } from "@/lib/cases/types";
 const state = vi.hoisted(() => ({ locale: "es" as "es" | "en", preview: vi.fn(), certificado: vi.fn() }));
 vi.mock("@/context/LanguageContext", async importOriginal => {
   const actual = await importOriginal<typeof import("@/context/LanguageContext")>();
-  return { ...actual, useLanguage: () => ({ locale: state.locale, t: (key: string) => actual.TRANSLATIONS[state.locale][key] ?? key }) };
+  const t = (key: string) => actual.TRANSLATIONS[state.locale][key] ?? key;
+  return { ...actual, useLanguage: () => ({ locale: state.locale, t }) };
 });
 vi.mock("@/lib/dossier", async importOriginal => ({ ...await importOriginal<typeof import("@/lib/dossier")>(), requestDossierPreview: state.preview }));
 vi.mock("@/lib/api", async importOriginal => ({ ...await importOriginal<typeof import("@/lib/api")>(), fetchCertificateBlobUrl: state.certificado }));

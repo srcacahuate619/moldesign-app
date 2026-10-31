@@ -191,12 +191,16 @@ class TestCorridaEInputs:
         assert relacion.estado == Estado.REVISAR
         assert dossier.avisos_integridad
         assert "corrida_anterior" in dossier.avisos_integridad[0]
+        assert "no se puede confirmar" in relacion.razon.lower()
+        assert "cambiaron después" not in relacion.razon.lower()
 
     def test_una_hipotesis_desfasada_fuerza_abstencion(self):
         dossier = build_case_dossier(**caso_parcial())
         assert dossier.siguiente_accion.estado == Estado.ABSTENCION
         # Y la etiqueta sigue siendo legible pese a no ser un estado afirmativo.
         assert "ABSTENCIÓN" in dossier.siguiente_accion.texto
+        assert "HIPÓTESIS CAMBIÓ" not in dossier.siguiente_accion.texto
+        assert "cambiaron después" not in dossier.siguiente_accion.razon.lower()
 
     def test_huellas_coincidentes_corresponden(self):
         dossier = build_case_dossier(**caso_completo())

@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 // =====================================================================
 // CreateCaseDialog — crear un caso pide lo mínimo
 // =====================================================================
@@ -84,7 +86,9 @@ export function CreateCaseDialog({
   const [directory, setDirectory] = useState<CarpetaContenedora | null>(null);
   const [defaultFailed, setDefaultFailed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Conserva el diagnóstico propio para presentarlo en el idioma actual,
+  // incluso si una operación termina después de cambiarlo.
+  const [error, setError] = useState<{ kind: "create_failed" } | { kind: "operation"; value: unknown } | null>(null);
 
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const nameRef = useRef<HTMLInputElement | null>(null);
@@ -166,6 +170,8 @@ export function CreateCaseDialog({
 
   if (!open) return null;
 
+  const errorVisible = error === null ? ""
+    : error.kind === "create_failed" ? t("auto_129fd24eafd6") : presentError(error.value, t);
   const trimmed = name.trim();
   const nameProblem =
     trimmed.length === 0
@@ -199,15 +205,13 @@ export function CreateCaseDialog({
       if (!ok) {
         // No se creó. El diálogo SE QUEDA con lo escrito: cerrarlo aquí haría
         // pasar un fallo por un éxito.
-        setError(
-          t("auto_129fd24eafd6"),
-        );
+        setError({ kind: "create_failed" });
         setSubmitting(false);
         return;
       }
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      setError({ kind: "operation", value: err instanceof Error ? err : String(err) });
       setSubmitting(false);
     }
   };
@@ -219,7 +223,7 @@ export function CreateCaseDialog({
       const picked = await onPickDirectory();
       if (picked) setDirectory({ ...picked, porDefecto: false });
     } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
+      setError({ kind: "operation", value: err instanceof Error ? err : String(err) });
     }
   };
 
@@ -343,9 +347,9 @@ export function CreateCaseDialog({
             )}
           </div>
 
-          {error && (
+          {errorVisible && (
             <p role="alert" className="rounded border border-red-500/30 bg-red-500/10 px-3 py-2 text-xs text-red-300">
-              {error}
+              {errorVisible}
             </p>
           )}
 

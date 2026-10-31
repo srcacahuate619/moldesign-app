@@ -20,7 +20,7 @@ export const SITE = "https://moldesign.amezcua-dev.com/";
  * La versión que describen las notas del inicio. Cuando la versión instalada la alcanza, las notas pasan a
  * «publicada» solas: no depende de que alguien se acuerde de cambiar un texto el día de la publicación.
  */
-export const VERSION_DE_LAS_NOTAS = "1.0.2";
+export const VERSION_DE_LAS_NOTAS = "1.0.4";
 
 /** `1.0.10` frente a `1.0.2`: se compara por números, no por texto. */
 export function versionAlcanza(instalada: string, objetivo: string): boolean {

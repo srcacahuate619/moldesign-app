@@ -7,7 +7,7 @@
     "upstream_commit": "8eb40404f4f45608acb3b01427587ac049f27c1f"
   },
   "normal": {
-    "affinity_kcal": -4.886,
+    "affinity_kcal": -4.872,
     "execution": {
       "box_center": [
         43.21,
@@ -22,7 +22,7 @@
       "cpu": 0,
       "ligand_input_sha256": "f6493b28b606f2e45d15aea0e4ac825514d743b0ccfe26098fd2c2bafb86f31b",
       "ligand_pdbqt_sha256": "af05479941ee22d8858eabb2deb1fccb4bc11aeeb283ad0529138ae43e4316d4",
-      "poses_sha256": "0982e5f82b77eefdf8ec66712926f7d78ae44c2f97c1bc2e9144759586f62748",
+      "poses_sha256": "cb4916f68a10ded7d23c32e6bc56c93d3c247366e89895c3ecfbc3253621ca39",
       "receptor_prep": {
         "backbone_gaps": [],
         "chain": "A",
@@ -699,7 +699,7 @@
       "contract": "docking_protocol/v2",
       "engine": "vina",
       "exhaustiveness": 8,
-      "num_poses": 5,
+      "num_poses": 9,
       "seed": 42
     },
     "receptor_sha256": "8b945aba2292c92ef32ff2c7a6ae3cdcf5ccd7a0d7041d4a5995bbd3d69189ff",

@@ -1,3 +1,4 @@
+import { frontendMessage, type Translate } from "./frontendError";
 // =====================================================================
 // Etiquetas ADMET: los códigos del backend, dichos en español
 // =====================================================================
@@ -14,17 +15,17 @@
 // discrepar, que es como empezó esto.
 
 /** Categoría de unión a proteínas plasmáticas, legible. */
-export function etiquetaPPB(codigo: string | null | undefined): string | null {
+export function etiquetaPPB(codigo: string | null | undefined, t: Translate = (key, values) => String(frontendMessage(key, values))): string | null {
   if (codigo == null) return null;
   switch (codigo.toLowerCase()) {
     case "extreme":
-      return "Extrema (>99 %)";
+      return t("pr_ppb_extreme");
     case "high":
-      return "Alta (>90 %)";
+      return t("pr_ppb_high");
     case "medium":
-      return "Media";
+      return t("pr_ppb_medium");
     case "low":
-      return "Baja (≤90 %)";
+      return t("pr_ppb_low");
     default:
       // Un código nuevo se enseña crudo antes que desaparecer: preferimos que
       // se vea algo raro a que la fila se quede en blanco sin explicación.

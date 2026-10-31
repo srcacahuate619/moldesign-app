@@ -29,7 +29,8 @@ vi.mock("@/lib/cases/factory", () => ({ crearRepositorioDeCasos: () => repositor
 vi.mock("@/lib/dossier", async (load) => ({ ...await load<object>(), requestPreparacion: mocks.request }));
 vi.mock("@/context/LanguageContext", async (load) => {
   const real = await load<typeof import("@/context/LanguageContext")>();
-  return { ...real, useLanguage: () => ({ locale: mocks.locale, t: (key: string) => real.TRANSLATIONS[mocks.locale][key] ?? key }) };
+  const t = (key: string) => real.TRANSLATIONS[mocks.locale][key] ?? key;
+  return { ...real, useLanguage: () => ({ locale: mocks.locale, t }) };
 });
 import PreparacionPage from "../page";
 
@@ -63,6 +64,24 @@ afterEach(() => {
 });
 
 describe("Preparación atiende la petición de Moldex", () => {
+  it("vuelve a cargar la corrida solicitada cuando el caso ya estaba abierto", async () => {
+    mocks.locale = "es";
+    mocks.list.mockResolvedValue([{ id: "case", name: "Caso", activeRun: { taskId: "run-nueva" } }]);
+    mocks.read.mockResolvedValue(caso("case", ["run-vieja", "run-nueva"]));
+    mocks.request.mockImplementation(async (moleculeId: string) => ({
+      ...auditoria(), corrida: { task_id: moleculeId.replace("mol-", "") },
+    }));
+    render(<PreparacionPage />);
+    fireEvent.change(await screen.findByLabelText("Caso"), { target: { value: "case" } });
+    await waitFor(() => expect(mocks.request).toHaveBeenCalledWith("mol-run-nueva", expect.anything(), expect.anything()));
+
+    pedirPreparacion({ taskId: "run-vieja" });
+
+    await waitFor(() => expect(mocks.request).toHaveBeenCalledWith("mol-run-vieja", expect.anything(), expect.anything()));
+    expect(screen.getByLabelText("Caso")).toHaveValue("case");
+    expect(screen.getByRole("button", { name: "Descargar paquete de la corrida" })).toBeEnabled();
+  });
+
   it("abre el caso que tiene esa corrida, y audita ESA corrida", async () => {
     mocks.locale = "es";
     mocks.list.mockResolvedValue([

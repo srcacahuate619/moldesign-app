@@ -1,0 +1,915 @@
+[
+  {
+    "name": "01-inicio-primer-uso",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "02-notificaciones",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "03-opciones",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "04-descargas-no-instalado",
+    "notes": "",
+    "url": "http://localhost:13011/launcher",
+    "lang": "en"
+  },
+  {
+    "name": "05-descargas-blender-ausente",
+    "notes": "",
+    "url": "http://localhost:13011/launcher",
+    "lang": "en"
+  },
+  {
+    "name": "06-legal",
+    "notes": "",
+    "url": "http://localhost:13011/launcher",
+    "lang": "en"
+  },
+  {
+    "name": "07-privacidad",
+    "notes": "",
+    "url": "http://localhost:13011/launcher",
+    "lang": "en"
+  },
+  {
+    "name": "08-licencias",
+    "notes": "",
+    "url": "http://localhost:13011/launcher",
+    "lang": "en"
+  },
+  {
+    "name": "09-acerca-de",
+    "notes": "",
+    "url": "http://localhost:13011/launcher",
+    "lang": "en"
+  },
+  {
+    "name": "10-ayuda",
+    "notes": "",
+    "url": "http://localhost:13011/launcher",
+    "lang": "en"
+  },
+  {
+    "name": "11-tutorial-1",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "11-tutorial-2",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "11-tutorial-3",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "11-tutorial-4",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "11-tutorial-5",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "11-tutorial-6",
+    "notes": "",
+    "url": "http://localhost:13011/",
+    "lang": "en"
+  },
+  {
+    "name": "12-evaluacion-sin-casos",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "13-crear-caso",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "14-caso-creado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "15-catalogo-secciones",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "16-catalogo-verificados",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "17-catalogo-propios",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "18-subir-receptor",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "19-subida-invalida",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "20-subida-modo-b",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "21-subida-modo-c",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "22-subida-a-procesando",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "23-subida-a-respuesta",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "24-subida-b-respuesta",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "25-subida-c-respuesta",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "26-busqueda-demo",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "27-smiles-invalido",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "28-parametros",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "29-preflight-progreso",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "30-preflight-detalle",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "31-corrida-cancelada",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "32-vina-segunda-progreso",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "33-moldex-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/moldex",
+    "lang": "en"
+  },
+  {
+    "name": "34-historial",
+    "notes": "",
+    "url": "http://localhost:13011/history",
+    "lang": "en"
+  },
+  {
+    "name": "35-preparacion-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en"
+  },
+  {
+    "name": "36-molcy-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en"
+  },
+  {
+    "name": "37-batch-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en"
+  },
+  {
+    "name": "38-vina-estado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "39-propiedades",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "40-analisis",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "41-procedencia",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en"
+  },
+  {
+    "name": "42-caso-restaurado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "43-pose-controles",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "44-evidencia-estructural",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "45-comparar-poses",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "46-descarga-dossier",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "47-guardar-moldex",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "48-tooltip-afinidad",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "49-certificacion-vista-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "50-metal-preflight",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "51-copia-preflight",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "52-moldex-lista",
+    "notes": "",
+    "url": "http://localhost:13011/moldex",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "53-moldex-orden",
+    "notes": "",
+    "url": "http://localhost:13011/moldex",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "54-moldex-comparacion",
+    "notes": "",
+    "url": "http://localhost:13011/moldex",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "55-batch-formatos",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "56-batch-csv-comprobada",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "57-batch-duplicados-excepciones",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "58-batch-guardada",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "59-batch-ejecutando",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "60-preparacion-selector",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "61-metal-resultado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "62-copia-resultado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "63-preparacion-metal",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "64-prep-metal-bloque-1",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "64-prep-metal-bloque-2",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "64-prep-metal-bloque-3",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "64-prep-metal-bloque-4",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "64-prep-metal-bloque-5",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "65-prep-copia-bloque-1",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "65-prep-copia-bloque-2",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "65-prep-copia-bloque-3",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "65-prep-copia-bloque-4",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "65-prep-copia-bloque-5",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "66-prep-8hfi-bloque-1",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "66-prep-8hfi-bloque-2",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "66-prep-8hfi-bloque-3",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "66-prep-8hfi-bloque-4",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "66-prep-8hfi-bloque-5",
+    "notes": "",
+    "url": "http://localhost:13011/preparacion",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "67-molcy-fotos-cpu",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "68-molcy-presentacion",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "69-molcy-configuracion",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "70-molchat-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "71-molchat-turno-fallido",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "72-molchat-ajustes",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "73-molchat-proveedor-api",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "74-molchat-ollama",
+    "notes": "",
+    "url": "http://localhost:13011/molcy",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "75-comunidad",
+    "notes": "",
+    "url": "http://localhost:13011/comunidad",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "76-registro-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/ciencia",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "77-registro-expediente",
+    "notes": "",
+    "url": "http://localhost:13011/ciencia?exp=AF-01",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "82-batch-resultados",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "83-batch-evidencia",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "84-batch-informe",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "page.screenshot: Timeout 10000ms exceeded.\nCall log:\n\u001b[2m  - taking page screenshot\u001b[22m\n\u001b[2m    - disabled all CSS animations\u001b[22m\n\u001b[2m  - waiting for fonts to load...\u001b[22m\n\u001b[2m  - fonts loaded\u001b[22m\n"
+  },
+  {
+    "name": "85-batch-sdf",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation/batch",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "86-receptor-no-disponible",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "87-cola-guardado-error",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "88-cola-guardado-recuperada",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "89-moldex-seleccion-comparacion",
+    "notes": "",
+    "url": "http://localhost:13011/moldex",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "90-analisis-desplegado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "91-mmgbsa-no-evaluado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "92-admet-experimental",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "93-sar",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "94-explicabilidad",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "95-shap-detalle-contactos",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "96-validador-corrida-inicial",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "97-mapa-contactos-alcance",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "99-validador-estado",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "100-controles-no-evaluados",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "101-evidencia-no-evaluada",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "98-vision-molecular",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "102-historial-corridas-formato",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "103-backend-detenido-molchat",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "104-backend-detenido-historial",
+    "notes": "",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "105-capsula-restaurada",
+    "notes": "",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "106-about-0",
+    "notes": "Scoring and models",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "106-about-1",
+    "notes": "AI and language",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "106-about-2",
+    "notes": "Platform and visualization",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "106-about-3",
+    "notes": "Credits and sources",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "107-legal-doc-0",
+    "notes": "Full inventory",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "108-legal-doc-0",
+    "notes": "Source and rebuild",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "108-legal-doc-1",
+    "notes": "Commercial use",
+    "url": "http://localhost:13011/history",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "109-contexto-caso",
+    "notes": "Vista Dossier tras abrir; no se ha modificado contenido científico",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "110-contexto-guardando",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "111-nombre-caso-invalido",
+    "notes": "El nombre reservado deshabilita Crear; no se forzó el botón",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "112-visor-web3d",
+    "notes": "",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "113-editor-dibujo",
+    "notes": "Anillo trazado con la herramienta Benzene de Ketcher, en un caso sintético sin ejecutar Vina",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "114-visor-leyenda-tipos",
+    "notes": "La leyenda se desplazó para hacer visibles los tipos de residuo",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "115-disposicion-formato",
+    "notes": "Disposición de QA, caso sintético; no representa una conclusión científica",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "116-metal-procedencia-final",
+    "notes": "M4: el panel M5-Zn no se monta para esta corrida; no se atribuyen sus frases internas a esta pantalla",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "117-sar-consulta-terminada",
+    "notes": "Se esperó a que terminara la consulta, no sólo al estado LOADING de la captura 93",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "118-sar-visible",
+    "notes": "Se desplazó el contenedor para que contador y filas queden dentro del PNG",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "119-contexto-opcional-visible",
+    "notes": "Desplazamiento natural del panel de preguntas",
+    "url": "http://localhost:13011/evaluation",
+    "lang": "en",
+    "screenshot": "ok"
+  },
+  {
+    "name": "120-comparacion-indice-visible",
+    "notes": "La fila del índice se hizo visible mediante desplazamiento natural",
+    "url": "http://localhost:13011/moldex",
+    "lang": "en",
+    "screenshot": "ok"
+  }
+]

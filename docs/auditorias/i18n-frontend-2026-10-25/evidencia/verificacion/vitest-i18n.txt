@@ -1,0 +1,9 @@
+
+ RUN  v5.0.0 D:/moldesign-worktrees/sol-i18n/frontend
+
+
+ Test Files  3 passed (3)
+      Tests  18 passed (18)
+   Start at  21:32:36
+   Duration  36.96s (environment 67%, setup 25%, tests 5%, import 1%, transform 1%)
+

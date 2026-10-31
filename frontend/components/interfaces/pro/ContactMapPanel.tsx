@@ -1,4 +1,6 @@
 "use client";
+
+import { presentError } from "../../../lib/frontendError";
 import {useEffect,useId,useMemo,useState} from "react";
 import {useLanguage} from "@/context/LanguageContext";
 import {useKeepAliveActive} from "@/context/KeepAliveContext";
@@ -37,7 +39,7 @@ export function ContactMapPanel({moleculeId,taskId,poses}:{moleculeId?:string|nu
       if(controller.signal.aborted)return;
       if(!contactMapMatches(report,moleculeId,taskId,rank))throw new Error(t("cm_mismatch"));
       setLoad({key,state:"ready",report});
-    }).catch(error=>{if(!controller.signal.aborted)setLoad({key,state:"error",error:error instanceof Error?error.message:t("cm_error")});});
+    }).catch(error=>{if(!controller.signal.aborted)setLoad({key,state:"error",error:error instanceof Error?presentError(error, t):t("cm_error")});});
     return()=>controller.abort();
   },[active,moleculeId,taskId,rank,key,attempt,ranks.length,t]);
   const current=load?.key===key?load:null,report=current?.state==="ready"?current.report:null,map=report?.contact_map;

@@ -6,11 +6,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const state = vi.hoisted(() => ({ locale: "es" as "es" | "en" }));
 vi.mock("@/context/LanguageContext", async importOriginal => {
   const actual = await importOriginal<typeof import("@/context/LanguageContext")>();
-  return { ...actual, useLanguage: () => ({ locale: state.locale, t: (key: string, args?: Record<string, string | number>) => {
+  const t = (key: string, args?: Record<string, string | number>) => {
     let text = actual.TRANSLATIONS[state.locale][key] ?? key;
     for (const [name, value] of Object.entries(args ?? {})) text = text.replaceAll(`{${name}}`, String(value));
     return text;
-  } }) };
+  };
+  return { ...actual, useLanguage: () => ({ locale: state.locale, t }) };
 });
 vi.mock("@/lib/registro", async importOriginal => {
   const actual = await importOriginal<typeof import("@/lib/registro")>();

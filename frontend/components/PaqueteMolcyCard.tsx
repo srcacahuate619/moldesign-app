@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../lib/frontendError";
+
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
@@ -60,10 +62,10 @@ export function PaqueteMolcyCard({ contexto = "descargas", onListo, onInstalando
       setRenderer(r); setInstalacion(i); setAddon(a);
       return r;
     } catch (e) {
-      setError((e as Error).message);
+      setError(presentError((e as Error), t));
       return null;
     }
-  }, []);
+  }, [t]);
 
   // Las rutas de Molcy piden sesión, y un 401 manda a «Iniciar sesión»: sin sesión no se pregunta. En escritorio
   // siempre la hay (entrada automática); en el navegador, esta página de Descargas no debe expulsar a nadie.
@@ -81,8 +83,8 @@ export function PaqueteMolcyCard({ contexto = "descargas", onListo, onInstalando
   const instalarAddon = useCallback(async () => {
     setError(null);
     try { setAddon(await instalarAddonMolcy()); }
-    catch (e) { setError((e as Error).message); encadenarRef.current = false; }
-  }, []);
+    catch (e) { setError(presentError((e as Error), t)); encadenarRef.current = false; }
+  }, [t]);
 
   // Blender instalándose: se sigue hasta que acaba; si el paquete se pidió entero, sigue Molecular Nodes.
   useEffect(() => {
@@ -102,10 +104,10 @@ export function PaqueteMolcyCard({ contexto = "descargas", onListo, onInstalando
           else if (siguiente.estado === "completo" && r?.disponible) avisar(true);
           encadenarRef.current = false;
         }
-      }).catch((e: Error) => { if (vivo) setError(e.message); });
+      }).catch((e: Error) => { if (vivo) setError(presentError(e, t)); });
     }, SONDEO_MS);
     return () => { vivo = false; window.clearInterval(id); };
-  }, [instalacion?.estado, comprobar, instalarAddon, avisar]);
+  }, [instalacion?.estado, comprobar, instalarAddon, avisar, t]);
 
   // Molecular Nodes instalándose (lo hace Blender): se sigue hasta que acaba.
   useEffect(() => {
@@ -120,15 +122,15 @@ export function PaqueteMolcyCard({ contexto = "descargas", onListo, onInstalando
         if (!vivo) return;
         encadenarRef.current = false;
         avisar(siguiente.estado === "completo" && Boolean(r?.disponible));
-      }).catch((e: Error) => { if (vivo) setError(e.message); });
+      }).catch((e: Error) => { if (vivo) setError(presentError(e, t)); });
     }, SONDEO_MS);
     return () => { vivo = false; window.clearInterval(id); };
-  }, [addon?.estado, comprobar, avisar]);
+  }, [addon?.estado, comprobar, avisar, t]);
 
   const hacer = async (accion: () => Promise<void>) => {
     setOcupado(true); setError(null);
     try { await accion(); }
-    catch (e) { setError((e as Error).message); encadenarRef.current = false; }
+    catch (e) { setError(presentError((e as Error), t)); encadenarRef.current = false; }
     finally { setOcupado(false); }
   };
 

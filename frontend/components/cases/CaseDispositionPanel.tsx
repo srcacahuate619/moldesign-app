@@ -1,5 +1,7 @@
 "use client";
 
+import { appLocale } from "../../lib/formatoNumerico";
+
 import { useState } from "react";
 import { useLanguage } from "../../context/LanguageContext";
 import { Check, CircleSlash, Flag } from "lucide-react";
@@ -42,7 +44,7 @@ export function CaseDispositionPanel({
   submitError,
   submitPlacement = "inside",
 }: CaseDispositionPanelProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const relationOk = runRelation === "corresponde";
   const [localKind, setLocalKind] = useState<CaseDispositionKind>(
     disposition?.kind ?? (relationOk ? "limit" : "abstain"),
@@ -93,7 +95,7 @@ export function CaseDispositionPanel({
           <div className="rounded-md border border-brand-500/20 bg-brand-500/5 px-3 py-2 text-sm leading-5 text-zinc-300">
             <span className="font-medium text-zinc-100">{t(LABEL_KEYS[disposition!.kind])}.</span>{" "}
             {disposition!.rationale}
-            <span className="ml-2 font-mono text-[11px] text-zinc-500">{new Date(disposition!.at).toLocaleString()}</span>
+            <span className="ml-2 font-mono text-[11px] text-zinc-500">{new Date(disposition!.at).toLocaleString(appLocale(locale))}</span>
           </div>
         ) : (
           <>
@@ -161,7 +163,7 @@ export function CaseDispositionPanel({
                 <li key={entry.at} className="rounded-md border border-surface-700 bg-black/20 px-3 py-2 text-sm leading-5 text-zinc-400">
                   <span className="font-medium text-zinc-300">{t(LABEL_KEYS[entry.kind])}.</span>{" "}
                   {entry.rationale}
-                  <span className="ml-2 font-mono text-[11px] text-zinc-600">{new Date(entry.at).toLocaleString()}</span>
+                  <span className="ml-2 font-mono text-[11px] text-zinc-600">{new Date(entry.at).toLocaleString(appLocale(locale))}</span>
                 </li>
               ))}
             </ul>

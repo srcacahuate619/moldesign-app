@@ -28,7 +28,7 @@ export function ResultPropertiesPanel({result,physicochemical,drugRules,admetAbs
     :tabpfnState==="no_evaluado"?t("ux_checks_not_evaluated"):tabpfnState;
   const booleanValue=(value:boolean|null|undefined,yes:string,no:string)=>value==null?t("c_no_registrado"):value?yes:no;
   const admetRows=[
-    {label:t("pr_param_ppb"),value:etiquetaPPB(result.blood_ppb_category)??t("c_no_registrado")},
+    {label:t("pr_param_ppb"),value:etiquetaPPB(result.blood_ppb_category, t)??t("c_no_registrado")},
     {label:t("pr_param_hia"),value:booleanValue(result.blood_hia_permeable,t("auto_96ebe42068b8"),t("auto_d22dcefc76d7")),state:result.blood_hia_permeable==null?"not_evaluated":result.blood_hia_permeable?"passed":"failed"},
     {label:"BBB",value:booleanValue(result.blood_bbb_permeable,t("pr_param_permeable"),t("auto_f7139777c977")),state:result.blood_bbb_permeable==null?"not_evaluated":result.blood_bbb_permeable?"passed":"failed"},
     {label:t("pr_param_cns_mpo"),value:numeroOGuion(result.blood_cns_mpo,2," / 6")},
@@ -101,7 +101,7 @@ export function ResultPropertiesPanel({result,physicochemical,drugRules,admetAbs
                 unavailableNote={t(admetAbsent?"auto_2ab36069225c":"ux_admet_value_absent")}
                 absolute={numeroOGuion(result.blood_viability_score,0," / 100")}
                 label={t("z_perfil_sanguineo")}
-                source="ADMET-AI · heurístico"
+                source={t("pr_frontend_108")}
               />
             </div>
             <div className={styles.admetOrb}>

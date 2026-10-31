@@ -17,7 +17,9 @@ export default defineConfig({
     // que cada texto que la migración i18n traduce deja a una prueba buscando
     // un rótulo que ya no está: pasó el 2026-09-23 con «Nombre» → «Name».
     locale: "es-ES",
-    channel: "msedge",
+    // Edge es el motor de WebView2, el que ve quien instala. Fuera de Windows no
+    // está, y se usa el Chromium de Playwright (`playwright install chromium`).
+    channel: process.platform === "win32" ? "msedge" : undefined,
     headless: true,
     trace: "retain-on-failure",
     screenshot: "only-on-failure",

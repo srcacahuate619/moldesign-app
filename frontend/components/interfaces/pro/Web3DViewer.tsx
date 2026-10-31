@@ -1,4 +1,8 @@
 "use client";
+
+import { aaInfoFromName, formatResidueLabel } from "../../../lib/aminoAcidPresentation";
+
+import { appLocale } from "../../../lib/formatoNumerico";
 import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V5 */
 
@@ -89,8 +93,8 @@ const INTERACTION_COLORS: Record<string, string> = {
   halogen: "#34d399",      // verde — enlace de halógeno
 };
 const INTERACTION_LABELS: Record<string, string> = {
-  hbond: "H-bond", hydrophobic: "Hidrofóbico", pistacking: "π-stacking",
-  saltbridge: "Puente salino", cationpi: "Catión-π", halogen: "Halógeno",
+  hbond: "H-bond", hydrophobic: "pr_aa_type_hydrophobic", pistacking: "π-stacking",
+  saltbridge: "pr_interaction_salt", cationpi: "pr_interaction_cation_pi", halogen: "pr_interaction_halogen",
 };
 // La superficie del bolsillo se colorea por TIPO de residuo (convención
 // AA_INFO: polar=azul, hidrofóbico=ámbar, aromático=púrpura, ácido=rojo,
@@ -193,41 +197,6 @@ export function parsePdbHotspots(pdb: string, hotspots: Array<{ name: string; im
 }
 
 // ── Información de aminoácidos para el popup de hotspots ───────────────
-
-const AA_INFO: Record<string, { name: string; type: string; typeColor: string; desc: string }> = {
-  ALA: { name: "Alanina", type: "Hidrofóbico", typeColor: "#fbbf24", desc: "Residuo pequeño, contribuye al empaquetamiento hidrofóbico del bolsillo." },
-  VAL: { name: "Valina", type: "Hidrofóbico", typeColor: "#fbbf24", desc: "Cadena lateral ramificada; contactos de van der Waals con ligandos lipofílicos." },
-  LEU: { name: "Leucina", type: "Hidrofóbico", typeColor: "#fbbf24", desc: "Contacto hidrofóbico frecuente en bolsillos de unión." },
-  ILE: { name: "Isoleucina", type: "Hidrofóbico", typeColor: "#fbbf24", desc: "Hidrofóbico; define la forma del bolsillo." },
-  MET: { name: "Metionina", type: "Hidrofóbico", typeColor: "#fbbf24", desc: "Azufre en la cadena lateral; puede hacer contactos S-π o S-H." },
-  PHE: { name: "Fenilalanina", type: "Aromático", typeColor: "#a78bfa", desc: "Anillo aromático; interacciones π-stacking con ligandos aromáticos." },
-  TRP: { name: "Triptófano", type: "Aromático", typeColor: "#a78bfa", desc: "Indol; π-stacking, cation-π y contactos hidrofóbicos fuertes." },
-  TYR: { name: "Tirosina", type: "Aromático", typeColor: "#a78bfa", desc: "Fenol; π-stacking + H-bond donor/acceptor por el OH." },
-  HIS: { name: "Histidina", type: "Aromático y polar", typeColor: "#a78bfa", desc: "Imidazol; coordina metales, pH-dependiente, H-bonds." },
-  SER: { name: "Serina", type: "Polar", typeColor: "#60a5fa", desc: "OH reactivo; H-bonds, a veces nucleófilo catalítico." },
-  THR: { name: "Treonina", type: "Polar", typeColor: "#60a5fa", desc: "OH; H-bonds, geometría restringida por el metilo." },
-  ASN: { name: "Asparagina", type: "Polar", typeColor: "#60a5fa", desc: "Amida; donor y acceptor de H-bonds." },
-  GLN: { name: "Glutamina", type: "Polar", typeColor: "#60a5fa", desc: "Amida más larga; donor y acceptor de H-bonds." },
-  ASP: { name: "Aspartato", type: "Ácido", typeColor: "#f87171", desc: "Carboxilato (−); iónico/sal bridge, acceptor fuerte de H-bond." },
-  GLU: { name: "Glutamato", type: "Ácido", typeColor: "#f87171", desc: "Carboxilato (−); sal bridge, reconocimiento de cationes." },
-  LYS: { name: "Lisina", type: "Básico", typeColor: "#4ade80", desc: "Amino (+); sal bridge con ligandos ácidos, cation-π." },
-  ARG: { name: "Arginina", type: "Básico", typeColor: "#4ade80", desc: "Guanidinio (+); sal bridge fuerte, reconocimiento de fosfatos." },
-  CYS: { name: "Cisteína", type: "Polar y reactivo", typeColor: "#60a5fa", desc: "Tiol; puede formar enlaces covalentes con warheads electrofílicos." },
-  PRO: { name: "Prolina", type: "Estructural", typeColor: "#94a3b8", desc: "Rígida; define giros, contribuye a la forma del sitio." },
-  GLY: { name: "Glicina", type: "Estructural", typeColor: "#94a3b8", desc: "Sin cadena lateral; permite espacios estrechos en el bolsillo." },
-};
-
-function formatResidueLabel(name: string): string {
-  const [first, second] = name.trim().toUpperCase().split(":");
-  return second ? `${second} · cadena ${first}` : first;
-}
-function aaInfoFromName(name: string): { code: string; name: string; type: string; typeColor: string; desc: string } {
-  // name viene como "LEU221" o "A:LEU221" → extraer el código de 3 letras
-  const clean = name.toUpperCase().split(":").pop() ?? "";
-  const code = clean.replace(/\d+/g, "").slice(0, 3);
-  const info = AA_INFO[code] ?? { name: code, type: "Residuo", typeColor: "#94a3b8", desc: "Residuo del sitio activo." };
-  return { code, ...info };
-}
 
 // ── Nube de átomos con InstancedMesh (sin lag) ─────────────────────────
 
@@ -880,7 +849,7 @@ function CameraRig({ center, distance, externalCamera, onCameraChange, active }:
 // ── Componente principal ────────────────────────────────────────────────
 
 export default function Web3DViewer({ proteinData, poseData, interactions, hotspots = [], chain, gridInfo, onSwitchViewer, viewerLabel, onCameraChange, externalCamera, active = true }: Props) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   // Modo foco: ocultar los átomos grises del receptor (solo sitio activo + grid)
   const [showAtoms, setShowAtoms] = useState(true);
   // Visibilidad de la molécula (ligando acoplado, SDF)
@@ -971,7 +940,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
       const parts = upper.split(":");
       const rid = (parts.length === 2 ? parts[1] : upper);
       const ch = parts.length === 2 ? parts[0] : "";
-      const color = aaInfoFromName(h.name).typeColor;
+      const color = aaInfoFromName(h.name, t).typeColor;
       colorByKey.set(`${ch}:${rid}`, color);
       colorByKey.set(rid, color);
     });
@@ -983,7 +952,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
           colorByKey.get(`${a.chain ?? ""}:${a.resId!}`) ?? colorByKey.get(a.resId!) ?? "#c084fc"
         ),
       }));
-  }, [atoms, hotspotMarkers]);
+  }, [atoms, hotspotMarkers, t]);
   // Esfera-envolvente del bolsillo (ayuda de orientación, de vuelta): centroide
   // ponderado por importancia + radio que CONTIENE los átomos del sitio activo
   // con un pequeño margen visual. Envolvente, no superficie física.
@@ -1033,7 +1002,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
     );
   }
 
-  const selectedInfo = selectedHotspot ? aaInfoFromName(selectedHotspot.name) : null;
+  const selectedInfo = selectedHotspot ? aaInfoFromName(selectedHotspot.name, t) : null;
 
   return (
     <div className="relative isolate h-full w-full overflow-hidden bg-[#05080f]">
@@ -1104,7 +1073,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
         {hudOpen && (
           <div className={`${VIEWER_LABEL_PANEL_CLASS} mt-2 flex max-w-[340px] flex-col gap-1.5 px-3 py-2.5`}>
             <span className="text-[12px] font-mono text-slate-300">
-              <span className="text-emerald-400 font-black">{visibleAtoms.length.toLocaleString()}</span> {t("pn_atomos")}
+              <span className="text-emerald-400 font-black">{visibleAtoms.length.toLocaleString(appLocale(locale))}</span> {t("pn_atomos")}
               <span className="text-slate-500"> {showAtoms ? t("auto_1e853721429d") : t("auto_2cdce3bc9ced")}</span>
             </span>
             <span className="text-[12px] font-mono text-cyan-300">
@@ -1153,17 +1122,17 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
               const c = hotspotColors.get(clean) ?? "#7dd3fc";
               return (
                 <span key={clean} className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full inline-block" style={{ backgroundColor: c }} /> {formatResidueLabel(h.name)}
+                  <span className="h-2.5 w-2.5 rounded-full inline-block" style={{ backgroundColor: c }} /> {formatResidueLabel(h.name, t)}
                 </span>
               );
             })}
             {/* Tipos de residuo presentes (color de la superficie del bolsillo) */}
             {hotspotMarkers.length > 0 && (
-              [...new Set(hotspotMarkers.map((h) => aaInfoFromName(h.name).type))].map((t) => {
-                const info = hotspotMarkers.map((h) => aaInfoFromName(h.name)).find((i) => i.type === t);
+              [...new Set(hotspotMarkers.map((h) => aaInfoFromName(h.name, t).typeCode))].map((typeCode) => {
+                const info = hotspotMarkers.map((h) => aaInfoFromName(h.name, t)).find((i) => i.typeCode === typeCode);
                 return (
-                  <span key={t} className="flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: info?.typeColor ?? "#c084fc" }} /> {t}
+                  <span key={typeCode} className="flex items-center gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: info?.typeColor ?? "#c084fc" }} /> {info?.type ?? typeCode}
                   </span>
                 );
               })
@@ -1276,7 +1245,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
         <div className="absolute right-3 top-14 z-20 w-[280px] max-w-[calc(100%-1.5rem)] overflow-hidden rounded-xl border border-purple-500/30 bg-[#0d1220]/95 shadow-2xl backdrop-blur-xl">
           <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 bg-purple-500/10">
             <span className="text-[11px] font-black text-purple-200 uppercase tracking-wider font-mono">
-              {formatResidueLabel(selectedHotspot.name)}
+              {formatResidueLabel(selectedHotspot.name, t)}
             </span>
             <button
               onClick={() => setSelectedHotspot(null)}

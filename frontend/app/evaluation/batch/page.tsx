@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../../lib/frontendError";
+
 /* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4
  * Rediseño de cohortes: conserva el flujo y las operaciones existentes. */
 
@@ -125,8 +127,8 @@ function claveDelMensaje(codigo: string): string {
  * traduce es el respaldo, que es nuestro.
  */
 function mensajeDe(error: unknown, t: (clave: string) => string): string {
-  if (error instanceof CohortError) return error.message;
-  return (error as Error)?.message || t("lo_operacion_fallida");
+  if (error instanceof CohortError) return presentError(error, t);
+  return presentError((error as Error), t) || t("lo_operacion_fallida");
 }
 
 
@@ -250,7 +252,7 @@ export default function CohortesPage() {
     } finally {
       setLoadingTargets(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     void cargarTargets();
@@ -415,7 +417,7 @@ export default function CohortesPage() {
       if (pollTimer.current !== null) window.clearTimeout(pollTimer.current);
       pollTimer.current = null;
     };
-  }, [corrida?.id, corrida?.status, pollNonce]);
+  }, [corrida?.id, corrida?.status, pollNonce, t]);
 
   // ── Acciones ──────────────────────────────────────────────────────
   async function ejecutar<T>(clave: string, accion: () => Promise<T>): Promise<T | null> {
@@ -520,13 +522,13 @@ export default function CohortesPage() {
 
   const descargarPdf = () => {
     if (!pdfBlob) return;
-    saveBlobAs(pdfBlob, pdfNombre ?? "dossier_cohorte.pdf", "batch");
+    saveBlobAs(pdfBlob, pdfNombre ?? t("lo_frontend_003"), "batch");
   };
 
   const exportarZip = () =>
     ejecutar("zip", async () => {
       if (!corrida) return null;
-      const proposedName = `cohorte_${corrida.id}.zip`;
+      const proposedName = t("lo_frontend_004", { v0: corrida.id });
       const activityId = beginFileDownload(proposedName, "batch");
       try {
         const { blob, filename } = await dossierPackage(corrida.id);

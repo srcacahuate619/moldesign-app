@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 "use strict";
 const fs = require("node:fs");
 const path = require("node:path");
@@ -204,7 +203,15 @@ function autotest() {
     for (const muestra of falsas) console.error("  marca de mas: " + JSON.stringify(muestra));
     process.exit(1);
   }
-  return DEBE_MARCAR.length + NO_DEBE_MARCAR.length;
+  const sample = '// Sin datos en comentario\nexport function label(){ return "Sin datos"; } export function error(){ throw new Error("No se pudo guardar"); } console.warn("Advertencia de consola");';
+  const rows = collectSource(sample, "lib/autotest.ts", sourceRules());
+  if (!rows.some(r => r.text === "Sin datos") || !rows.some(r => r.text === "No se pudo guardar")
+    || rows.some(r => r.text.includes("comentario") || r.text.includes("consola"))) {
+    throw new Error("GUARDIAN CIEGO: return/Error/comentario/console de lib");
+  }
+  const comparisons = translatedComparisons('const bad = error === TRANSLATIONS.es.foo; const state = status === "listo";', "app/test.tsx");
+  if (comparisons.length !== 1) throw new Error("GUARDIAN CIEGO: comparación con el valor castellano del diccionario");
+  return DEBE_MARCAR.length + NO_DEBE_MARCAR.length + 5;
 }
 
 const VISIBLE_PROPERTIES = new Set([
@@ -270,6 +277,7 @@ for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) 
     if (/^(es(?:-[A-Z]{2})?|s)$/i.test(value || "")) return;
     const key = value && keyFor(value);
     if (inTranslator(node)) return;
+    if (value && isTechnicalOnly(value)) return;
     if (!key) {
       const isVisible = value && visibleLiteral(node, kind);
       if (isVisible && SPANISH.test(value)) {
@@ -341,6 +349,15 @@ for (const file of roots.flatMap(function (dir) { return walk(dir, function (p) 
     components.add(component);
   }
   function visit(node) {
+    if (ts.isTemplateExpression(node)) {
+      const fixed = node.head.text + node.templateSpans.map(span => span.literal.text).join(" ");
+      if (!inTranslator(node) && visibleLiteral(node, "string") && SPANISH.test(fixed) && esPendiente(fixed)) {
+        const value = node.head.text + node.templateSpans.map(span => "${" + span.expression.getText(sf) + "}" + span.literal.text).join("");
+        pendientes.add(path.relative(ROOT, file).replace(/\\/g, "/") + ": " + value.replace(/\s+/g, " "));
+      }
+      for (const span of node.templateSpans) visit(span.expression);
+      return;
+    }
     if (ts.isJsxText(node)) {
       candidate(node, node.text, "jsx");
       return;
@@ -404,21 +421,67 @@ return {
 };
 }
 
-module.exports = { SPANISH: SPANISH, ENGLISH: ENGLISH, isTechnicalOnly: isTechnicalOnly, esPendiente: esPendiente, autotest: autotest };
+const { collectSource, translatedComparisons } = require(path.join(__dirname, "i18n-source.cjs"));
+function sourceRules() {
+  return { properties: VISIBLE_PROPERTIES, translated: text => pairs.has(text) || bySpanish.has(text), technical: isTechnicalOnly,
+    spanish: text => SPANISH.test(text) || /\b(?:Datos|Guardar|Cargando|Coordenadas|Pendiente)\b/.test(text) };
+}
+function scanAdditional(root = ROOT) {
+  const files = ["lib", "hooks", "context"].flatMap(dir => walk(path.join(root, dir), file => /\.tsx?$/.test(file)
+    && !file.includes(path.sep + "traducciones" + path.sep) && !/\.(test|spec)\./.test(file)));
+  return files.flatMap(file => collectSource(fs.readFileSync(file, "utf8"), path.relative(root, file).replace(/\\/g, "/"), sourceRules()));
+}
+
+function sourceAudit(root = ROOT) {
+  const rows = scanAdditional(root);
+  const comparisons = ["app", "components", "lib", "hooks", "context"].flatMap(dir => walk(path.join(root, dir), file => /\.tsx?$/.test(file)
+    && !file.includes(path.sep + "traducciones" + path.sep) && !/\.(test|spec)\./.test(file)))
+    .flatMap(file => translatedComparisons(fs.readFileSync(file, "utf8"), path.relative(root, file).replace(/\\/g, "/")));
+  const review = JSON.parse(fs.readFileSync(path.join(ROOT, "scripts/i18n-source-review.json"), "utf8")).entries;
+  const signature = row => row.file + ":" + row.scope + ": " + row.text;
+  const bySignature = new Map(review.map(row => [signature(row), row]));
+  const found = new Set(rows.map(signature));
+  return {
+    candidates: rows.length,
+    pending: review.filter(row => row.classification === "pendiente"),
+    unreviewed: [...rows.filter(row => !bySignature.has(signature(row))), ...comparisons],
+    stale: review.filter(row => !found.has(signature(row))),
+    reviewed: review.filter(row => row.classification !== "pendiente"),
+  };
+}
+
+module.exports = { SPANISH: SPANISH, ENGLISH: ENGLISH, isTechnicalOnly: isTechnicalOnly, esPendiente: esPendiente, autotest: autotest, collectSource, sourceRules, scanAdditional, sourceAudit, dictionaryPairs: [...pairs.values()] };
 
 if (require.main === module) {
 const muestras = autotest();
+if (process.argv.includes("--source-json")) {
+  process.stdout.write(JSON.stringify(scanAdditional(), null, 2) + "\n");
+  process.exit(0);
+}
 if (process.argv.includes("--autotest")) {
   console.log("Autotest del barrido: " + muestras + " muestras, el guardian ve.");
   process.exit(0);
 }
 const { fileCount, stringCount, unresolved, remaining, remainingEnglish, remainingUnknown, pendientes } = barrer();
+const sourceReport = sourceAudit();
+if (process.argv.includes("--check")) {
+  console.log("I18N estricto: " + pendientes.length + " literales JSX; " + sourceReport.unreviewed.length + " candidatos sin revisión; " + sourceReport.pending.length + " diagnósticos pendientes; " + sourceReport.stale.length + " revisiones obsoletas.");
+  process.exit(pendientes.length || sourceReport.unreviewed.length || sourceReport.pending.length || sourceReport.stale.length ? 1 : 0);
+}
+if (process.argv.includes("--report-json")) {
+  process.stdout.write(JSON.stringify({ jsx: pendientes, sources: sourceReport }, null, 2) + "\n");
+  process.exit(0);
+}
+for (const row of sourceReport.unreviewed) pendientes.push(row.file + ": " + row.text);
+pendientes.sort();
 if (process.argv.includes("--json")) {
   process.stdout.write(JSON.stringify(pendientes, null, 2) + "\n");
   process.exit(0);
 }
 console.log((WRITE ? "Migradas " : "Detectadas ") + stringCount + " cadenas en " + fileCount + " ficheros.");
-console.log("Texto visible pendiente de traducir: " + pendientes.length);
+console.log("Regresiones de texto visible sin revisar: " + pendientes.length);
+console.log("Fuentes TS: " + sourceReport.candidates + " candidatos; " + sourceReport.pending.length + " diagnósticos pendientes explícitos; " + sourceReport.stale.length + " revisiones obsoletas.");
+for (const row of sourceReport.pending) console.log("  pendiente " + row.id + " " + row.file + ":" + row.line + ": " + row.text);
 if (unresolved.length) {
   console.log("Pendientes de nivel superior:");
   for (const item of unresolved) console.log("  " + item);

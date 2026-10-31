@@ -2,6 +2,8 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const catalogo: ModuloDeTraduccion = {
   es: {
+    ca_frontend_110: "No fue posible compartir el receptor.",
+    ca_frontend_111: "El receptor ya está disponible en la comunidad.",
     cat_familia_enzima: "Enzima",
     cat_hotspot_provenance: "Procedencia de hotspots",
     cat_intentos_titulo: "Intentos publicados",
@@ -99,6 +101,8 @@ export const catalogo: ModuloDeTraduccion = {
     cat_familia_otra: "Otra / No Clasificada",
   },
   en: {
+    ca_frontend_110: "The receptor could not be shared.",
+    ca_frontend_111: "The receptor is already available in the community.",
     cat_familia_enzima: "Enzyme",
     cat_hotspot_provenance: "Hotspot provenance",
     cat_intentos_titulo: "Published attempts",

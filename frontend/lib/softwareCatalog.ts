@@ -21,6 +21,7 @@ export interface SoftwareCard {
   availability: SoftwareAvailability;
   description: string;
   credit: string;
+  creditKey?: string;
 }
 
 export interface SoftwareSection {
@@ -289,6 +290,7 @@ export const SOFTWARE_SECTIONS: SoftwareSection[] = [
         availability: "Incluido",
         description: "Dibuja los vídeos y las fotos de Molcy dentro de Blender. Es obra propia de MolDesign, publicada bajo GPL-3.0-or-later, y se ejecuta como programa aparte.",
         credit: "MolDesign · código fuente: github.com/srcacahuate619/moldesign-molcy",
+        creditKey: "pn_molcy_source_credit",
       },
       {
         name: "Blender",
@@ -377,6 +379,8 @@ export const SOFTWARE_SECTIONS: SoftwareSection[] = [
 ];
 
 export interface LicenseHighlight {
+  /** Clave de presentación; no se serializa en ningún formato del producto. */
+  nameKey?: string;
   name: string;
   version: string;
   license: string;
@@ -416,6 +420,7 @@ export const LICENSE_HIGHLIGHTS: LicenseHighlight[] = [
   // pero el usuario los obtiene desde la aplicación para usar Molcy, así que la pantalla los nombra.
   {
     name: "Motor Molcy",
+    nameKey: "pn_about_card_molcy_name",
     version: "a3d0d10",
     license: "GPL-3.0-or-later",
     role: "Vídeos y fotos de Molcy; obra propia de MolDesign que se ejecuta dentro de Blender",

@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 import React, { useEffect, useState } from "react";
@@ -62,11 +64,11 @@ export function SARTable({ moleculeId, compact }: Props) {
       })
       .catch((e) => {
         if (cancelled || e.name === "AbortError") return;
-        setError(e.message);
+        setError(presentError(e, t));
       })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; controller.abort(); };
-  }, [moleculeId]);
+  }, [moleculeId, t]);
 
   if (loading) {
     return (

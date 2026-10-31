@@ -13,7 +13,7 @@ import uuid
 
 import pytest
 
-from services.ai import red
+from services import red
 from services.blockchain.certifier import SolanaCertifier
 
 ALICE = str(uuid.uuid4())
@@ -21,7 +21,7 @@ ALICE = str(uuid.uuid4())
 
 @pytest.fixture(autouse=True)
 def almacen_aislado(tmp_path, monkeypatch):
-    from services.ai import provider_config_store as store
+    from services import provider_config_store as store
 
     secreto = tmp_path / "secret_key"
     secreto.write_text("f" * 64, encoding="utf-8")

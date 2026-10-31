@@ -356,7 +356,7 @@ def canonical_input_document(
         # describen la misma corrida. Los hashes pertenecen por ello a la
         # identidad de la preparación, no sólo a la sección de procedencia.
         "source_sha256": source_sha256,
-        "prepared_sha256": None,
+        "prepared_sha256": prepared_sha256,
         "receptor_recipe_hash": receptor_recipe_hash,
         "site_chains": sorted(site_chains) if site_chains else None,
         "cofactors_whitelist": sorted(cofactors_whitelist or []),
@@ -1023,7 +1023,7 @@ def build_preflight(
                             f"Existe un receptor preparado compatible con la cadena '{chain}' "
                             f"y {prepared_atoms} átomos."
                         ),
-                        reason="La corrida lo reutilizará tal cual; su hash entra en la huella.",
+                        reason="La corrida lo reutilizará tal cual; la huella identifica la fuente y la receta.",
                         provenance=f"prepared.pdbqt · {prepared_sha}",
                     )
                 )
@@ -1165,7 +1165,11 @@ def build_preflight(
         num_poses=int(effective["num_poses"]),
         seed=int(effective["seed"]),
         source_sha256=source_sha,
-        prepared_sha256=prepared_sha_for_run,
+        # El PDBQT subido es una entrada, no un producto de una receta: su hash
+        # debe firmarse. Para otros receptores, la identidad sigue siendo fuente
+        # y receta: que aparezca una caché tras la primera corrida no debe cambiar
+        # la huella de una hipótesis que no cambió.
+        prepared_sha256=prepared_sha_for_run if es_pdbqt else None,
         receptor_recipe_hash=recipe_hash,
         site_chains=sorted(cadenas) if len(cadenas) > 1 else None,
         cofactors_whitelist=cofactors_whitelist,

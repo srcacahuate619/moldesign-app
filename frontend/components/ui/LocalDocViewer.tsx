@@ -72,15 +72,14 @@ export function LocalDocViewer({ doc, onClose }: Props) {
       .catch((causa: unknown) => {
         if (vigente) {
           setError(
-            `No se pudo cargar ${doc.path}. El documento viaja con la aplicacion, `
-            + `asi que esto indica un empaquetado incompleto. (${String(causa)})`,
+            t("c_local_doc_failed", { path: doc.path, cause: String(causa) }),
           );
         }
       });
     return () => {
       vigente = false;
     };
-  }, [doc.path]);
+  }, [doc.path, t]);
 
   useEffect(() => {
     botonVolver.current?.focus();

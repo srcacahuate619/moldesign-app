@@ -60,7 +60,7 @@ def test_el_manifiesto_declara_los_dos_modulos():
 
 def test_el_llm_aterriza_donde_local_llm_lo_busca():
     """MODEL_SEARCH_PATHS tiene que contener el destino compuesto."""
-    from services.ai.local_llm import MODEL_SEARCH_PATHS
+    from services.llm.local_llm import MODEL_SEARCH_PATHS
 
     destino = _modulos()["llm-qwen15"]
     compuesto = (RAIZ_EN_MSIX / destino.strip("/")).resolve()

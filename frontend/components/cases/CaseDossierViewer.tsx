@@ -178,7 +178,7 @@ export function CaseDossierViewer({
     // `caseId` está en las dependencias aunque no se use dentro: cambiar de
     // caso DEBE tirar la petición en vuelo y pedir el dossier del caso nuevo,
     // incluso en el caso improbable de que dos casos compartieran molécula.
-  }, [moleculeId, caseId, attempt, publishUrl, locale]);
+  }, [moleculeId, caseId, attempt, publishUrl, locale, t]);
 
   // Revocación al desmontar. Va aparte del efecto de carga: aquel revoca al
   // sustituir, éste al desaparecer.
@@ -267,7 +267,7 @@ export function CaseDossierViewer({
       setPackageError(
         failure instanceof DossierError
           ? failure.message
-          : (failure as Error)?.message || "El paquete no se pudo exportar.",
+          : (failure as Error)?.message || t("ca_frontend_045"),
       );
     } finally {
       if (token === packageToken.current) {
@@ -275,7 +275,7 @@ export function CaseDossierViewer({
         setBusy("none");
       }
     }
-  }, [busy, caseRecord.id, caseRecord.activeRun?.taskId, moleculeId]);
+  }, [busy, caseRecord.id, caseRecord.activeRun?.taskId, moleculeId, t]);
 
   const loading = state === "loading";
   const packaging = busy === "package";

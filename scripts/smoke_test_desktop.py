@@ -176,11 +176,8 @@ async def _main(tmp_root: Path) -> int:
     with qh._desktop_lock:
         qh._desktop_jobs.clear()
     qh._run_full_evaluation_async = _fake_pipeline
-    try:
-        import services.ai.memory_store as memory_store
-        memory_store.store_evaluation = lambda **kwargs: None  # aislar sqlite de IA (~/MolDesign)
-    except ImportError:
-        pass  # el wrapper ya degrada con except ImportError
+    # (Fase 6.6) La memoria del asistente interno ya no existe: queue_handler
+    # no la toca y no hay sqlite de IA que aislar.
 
     # 4. Submit REAL del SMILES de referencia
     task = qh.submit_evaluation_job(

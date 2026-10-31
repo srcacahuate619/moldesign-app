@@ -693,9 +693,32 @@ async def comprobar_preparacion(
     """
     docking_params: dict = {}
     docking_engine = "vina"
-    if data.pipeline_config is not None:
-        docking_engine = data.pipeline_config.docking_engine
-        docking_params = data.pipeline_config.stage_params.get("docking", {})
+    config = data.pipeline_config
+    # La ejecución aplica los campos raíz sobre el pipeline. El preflight debe
+    # firmar esa misma configuración efectiva, también cuando un cliente de la
+    # API no envía pipeline_config explícito.
+    if data.ph is not None or data.peptide_docking_engine is not None:
+        if config is None:
+            from core.config import get_settings
+            from services.docking.protocolo import configuracion_pipeline_predeterminada
+
+            valores = configuracion_pipeline_predeterminada(get_settings())
+            # Es metadata interna del runner, no un campo aceptado por la API.
+            valores.pop("execution_profile")
+        else:
+            valores = config.model_dump(exclude_none=True)
+        if data.ph is not None:
+            etapas = dict(valores.get("stage_params") or {})
+            conformer = dict(etapas.get("conformer") or {})
+            conformer["ph"] = data.ph
+            etapas["conformer"] = conformer
+            valores["stage_params"] = etapas
+        if data.peptide_docking_engine is not None:
+            valores["peptide_docking_engine"] = data.peptide_docking_engine
+        config = PipelineConfigRequest.model_validate(valores)
+    if config is not None:
+        docking_engine = config.docking_engine
+        docking_params = config.stage_params.get("docking", {})
 
     return await evaluation_preflight(
         data=PreflightRequest(
@@ -709,10 +732,10 @@ async def comprobar_preparacion(
             exhaustiveness=docking_params.get("exhaustiveness"),
             num_poses=docking_params.get("num_poses"),
             conformers=(
-                (data.pipeline_config.stage_params.get("conformer") or {}).get("conformers")
-                if data.pipeline_config else None
+                (config.stage_params.get("conformer") or {}).get("conformers")
+                if config else None
             ),
-            pipeline_config=(data.pipeline_config if data.pipeline_config else None),
+            pipeline_config=config,
         ),
         db=db,
         current_user=current_user,
@@ -778,7 +801,7 @@ async def _enforce_submission_gates(
             raise HTTPException(
                 status_code=status.HTTP_409_CONFLICT,
                 detail=(
-                    "La hipótesis o la preparación cambió desde la última comprobación. "
+                    "La huella de la comprobación previa no coincide con la calculada ahora. "
                     "Vuelve a comprobar antes de ejecutar."
                 ),
             )

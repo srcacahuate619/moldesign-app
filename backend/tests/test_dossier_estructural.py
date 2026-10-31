@@ -415,9 +415,13 @@ class TestProtocoloDeGeneracion:
     el ensemble hizo lo que se le pidió.
     """
 
-    def _campo(self, protocolo):
+    def _campo(self, protocolo, ligand_state=None):
         caso = caso_completo()
         caso["eval_result"].docking_protocol = protocolo
+        if ligand_state is not None:
+            # SCI-A-025: sin `ligand_state.conformero` sellado por la corrida no
+            # se atribuye método de optimización (la falta de registro es REVISAR).
+            caso["eval_result"].ligand_state = ligand_state
         dossier = build_case_dossier(**caso)
         return {c.etiqueta: c for c in dossier.generacion}["Generación conformacional"]
 
@@ -429,12 +433,35 @@ class TestProtocoloDeGeneracion:
         assert "anterior al sellado" in campo.razon
 
     def test_conformero_unico_se_declara_como_tal(self):
+        """REGISTRADO sólo si la corrida selló su optimización (MMFF94
+        convergido): SCI-A-025 no atribuye método que nadie registró."""
+        campo = self._campo(
+            {
+                "contract": "docking_protocol/v1",
+                "conformers_requested": 1, "conformers_generated": 1,
+            },
+            ligand_state={
+                "smiles_entrada": "CC(=O)Oc1ccccc1C(=O)O",
+                "conformero": {"estrategia_embebido": "ETKDG",
+                               "campo_fuerza_final": "MMFF94",
+                               "optimizacion_convergida": True},
+            },
+        )
+        assert campo.estado == Estado.REGISTRADO
+        assert "Confórmero único" in campo.valor
+        assert "MMFF94" in campo.valor
+
+    def test_conformero_unico_sin_registro_del_metodo_pide_revision(self):
+        """La misma corrida sin `conformero` sellado: REVISAR, no REGISTRADO.
+        Era lo que este fichero afirmaba antes de SCI-A-025 y por eso fallaba
+        desde entonces (el fixture de `caso_completo` nunca trajo el registro)."""
         campo = self._campo({
             "contract": "docking_protocol/v1",
             "conformers_requested": 1, "conformers_generated": 1,
         })
-        assert campo.estado == Estado.REGISTRADO
+        assert campo.estado == Estado.REVISAR
         assert "Confórmero único" in campo.valor
+        assert campo.razon and "MMFF94" in campo.razon
 
     def test_un_ensemble_completo_se_declara_con_su_recuento(self):
         campo = self._campo({

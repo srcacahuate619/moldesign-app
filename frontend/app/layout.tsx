@@ -10,9 +10,8 @@ import { ThemeProvider } from "../context/ThemeContext";
 import { WalletProvider } from "../components/WalletProvider";
 import { LanguageProvider } from "../context/LanguageContext";
 import { ErrorBoundary } from "../components/ui/ErrorBoundary";
-import { AIProvider } from "../context/AIContext";
+import MolChatHostMount from "../components/ai-host/MolChatHostMount";
 import { DownloadProvider } from "../context/DownloadProvider";
-import { ChatPanel } from "../components/ai/ChatPanel";
 
 // Hoja de estilos de Ketcher, estatica y global a proposito.
 //
@@ -93,7 +92,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
             <ThemeProvider>
               <LanguageProvider>
                 <DownloadProvider>
-                  <AIProvider>
                     <Navigation />
                     {/* El ofrecimiento de traspaso vive aquí y no en una pestaña:
                         aparece justo después de registrarse, que es cuando el
@@ -109,9 +107,8 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                       </ErrorBoundary>
                     </main>
                     <ErrorBoundary>
-                      <ChatPanel />
+                      <MolChatHostMount />
                     </ErrorBoundary>
-                  </AIProvider>
                 </DownloadProvider>
               </LanguageProvider>
             </ThemeProvider>

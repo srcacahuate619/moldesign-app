@@ -1,5 +1,5 @@
 {
- "generado_en": "2026-10-26T03:04:16.262088+00:00",
+ "generado_en": "2026-10-31T18:45:55.047554+00:00",
  "generador": "scripts/build_registro_cientifico.py",
  "advertencia": "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
  "categorias": {
@@ -16,10 +16,10 @@
   "medicion": 47,
   "prerregistro": 42,
   "corrigendum": 13,
-  "inconcluso": 20
+  "inconcluso": 22
  },
- "total": 185,
- "con_paper": 98,
+ "total": 187,
+ "con_paper": 100,
  "destacados": {
   "hallazgo": [
    "FEP-04",
@@ -7232,6 +7232,87 @@
    "tiene_paper": true,
    "titulo": "Las reglas que rechazan un ligando no rechazan ninguna molécula con actividad medida",
    "entradilla": "Antes de acoplar, MolDesign rechaza las moléculas con mucha carga, con radicales o con varios fragmentos. Nadie había medido si esas reglas se llevaban por delante química real. En 640 moléculas activas de tres dianas, no rechazan ninguna."
+  },
+  {
+   "id": "SUP-04-EXHAUSTIVIDAD-8T69",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "La exhaustividad 8 por defecto ordena la serie de 8T69 (89 Ki de VMAT2) y reproduce la pose del cristal igual que 16 y 32: subirla no cambia lo que el producto afirma",
+   "protocolo": "scripts/artifacts_science/SUP-04-EXHAUSTIVIDAD-8T69/entrada/REGISTRO_PREVIO.md",
+   "gate": "Delta rho (e32 menos e8) con IC95 bootstrap pareado por padre: NO_GO si el IC excluye el cero por encima o el redocking de e8 deja menos semillas a <= 2 A que el de e32; GO si no es NO_GO y el IC cae dentro de +-0,10; si no, INCONCLUSIVE",
+   "razonamiento": "Delta rho (e32 - e8) = +0,043, IC95 -0,006 a +0,116 (89 padres): ni excluye el cero ni cabe en +-0,10. Declaradas: rho 0,392 (e8), 0,428 (e16), 0,435 (e32), 0,367 (e8 semilla 43); Delta rho por la semilla -0,025 (IC95 -0,135 a +0,078); redocking 5/5 a <= 2 A en 8, 16 y 32; 85/89 padres con la energia top-1 a < 0,1 kcal/mol. Control: e8 repite las 89 energias de CAL-D-01-R4-2.",
+   "sellado_en": "2026-10-26T08:26:00.761726+00:00",
+   "creado_en": "2026-10-26T02:49:58.904792+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "2f5eb0e838",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 755,
+   "n_complejos": 89,
+   "n_fallos": 0,
+   "metricas": {
+    "experimento": "SUP-04-EXHAUSTIVIDAD-8T69",
+    "analizado_en": "2026-10-26T08:21:27+00:00",
+    "decision": "INCONCLUSIVE",
+    "razon": "Δρ(e32−e8) = +0.043 (IC95 -0.006 a +0.116): ni excluye el cero ni cabe en ±0.1"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "¿Basta la exhaustividad 8? En 8T69, subirla a 32 no cambia la pose y mueve el orden menos de lo que se pudo resolver",
+   "entradilla": "MolDesign acopla con la exhaustividad 8 que trae Vina por defecto, y un texto la llamaba «sweet spot validado» sin medida. Con la serie de 89 Ki de VMAT2, 32 no reproduce mejor la pose y ordena +0,04 mejor, un cambio del tamaño del que produce la semilla."
+  },
+  {
+   "id": "SUP-05-CORTES-DEL-SITIO",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "El estado de Preparacion casi no depende de sus cortes sin medir: mover el de huecos (8 A) entre 7 y 9 A y el de especies junto al sitio (6 A) entre 5 y 7 A cambia la decision en <= 5 % de las entradas del catalogo",
+   "protocolo": "scripts/artifacts_science/SUP-05-CORTES-DEL-SITIO/entrada/REGISTRO_PREVIO.md",
+   "gate": "GO si las entradas cuyo estado por huecos cambia entre 7 y 9 A y las cuyo estado por especies cambia entre 5 y 7 A son ambas <= 5 % de las medibles; NO_GO si alguna supera el 5 %; INCONCLUSIVE con < 300 medibles",
+   "razonamiento": "272 de 381 entradas medibles (< 300 del registro): 109 no declaran site_ligand. Declarado sin decidir: entre 7 y 9 A cambia el estado por huecos en 8 de 272 (2,9 %); entre 5 y 7 A el de especies en 18 (6,6 %), sobre todo metales (10 a 6 A, 20 a 7 A). Control: 4JVB 6,12 A frente a 6,09 publicados; 36 metales coordinados frente a 35 del inventario.",
+   "sellado_en": "2026-10-26T03:15:15.230946+00:00",
+   "creado_en": "2026-10-26T03:12:02.582468+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "claude/sup05-cortes",
+    "commit": "3ca7f633dd",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 4,
+   "n_complejos": 381,
+   "n_fallos": 109,
+   "metricas": {
+    "experimento": "SUP-05-CORTES-DEL-SITIO",
+    "analizado_en": "2026-10-26T03:13:42+00:00",
+    "decision": "INCONCLUSIVE",
+    "razon": "272 entradas medibles (< 300)",
+    "entradas": 381,
+    "medibles": 272,
+    "4JVB_hueco_mas_cercano_A": 6.12
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "¿Deciden por el usuario los cortes de 8 y 6 Å de Preparación? Faltó denominador para saberlo",
+   "entradilla": "Preparación se abstiene ante un hueco a 8 Å del ligando y pide revisión ante una especie a 6 Å, dos números elegidos a mano. Se midió cuántas decisiones cambian al moverlos un ångström; 109 entradas del catálogo no tienen ligando del cristal y el experimento no llegó a su mínimo."
   },
   {
    "id": "VISION-MOLECULAR-01",

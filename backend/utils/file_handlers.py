@@ -191,7 +191,7 @@ async def search_rcsb_by_name(
     import httpx
 
     search_url = "https://search.rcsb.org/rcsbsearch/v2/query"
-    from services.ai.red import exigir_permiso
+    from services.red import exigir_permiso
     exigir_permiso(search_url, None)
 
     search_payload = {
@@ -264,7 +264,7 @@ async def _fetch_rcsb_entry_detail(pdb_id: str) -> dict | None:
     if not is_rcsb_pdb_id(pdb_id):
         raise ValueError("PDB ID inválido")
     detail_url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id}"
-    from services.ai.red import exigir_permiso
+    from services.red import exigir_permiso
     exigir_permiso(detail_url, None)
     try:
         async with httpx.AsyncClient(timeout=10.0) as client:
@@ -334,7 +334,7 @@ async def download_pdb_from_rcsb(pdb_id: str, user_id: str | None = None) -> str
 
     # 2. Descarga desde RCSB
     url = f"https://files.rcsb.org/download/{pdb_id}.pdb"
-    from services.ai.red import exigir_permiso
+    from services.red import exigir_permiso
     exigir_permiso(url, user_id)
     log.info("descargando estructura PDB desde RCSB", pdb_id=pdb_id, url=url)
 
@@ -376,7 +376,7 @@ async def fetch_target_cofactors_from_rcsb(pdb_id: str) -> list[str]:
     if not is_rcsb_pdb_id(pdb_id):
         raise ValueError("PDB ID inválido")
     url = f"https://data.rcsb.org/rest/v1/core/entry/{pdb_id}"
-    from services.ai.red import exigir_permiso
+    from services.red import exigir_permiso
     exigir_permiso(url, None)
     log.info("buscando cofactores en RCSB PDB", pdb_id=pdb_id, url=url)
 

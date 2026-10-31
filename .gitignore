@@ -191,6 +191,9 @@ dist/
 # sin él, un fork no pasa check:openbabel-fuente (medido el 2026-09-24).
 !tools/openbabel/openbabel-src-*.tar.gz
 !tools/openbabel/openbabel-wheel-recipe-*.tar.gz
+# El build de la UI del sidecar MolChat SÍ viaja: es contenido vendorizado
+# con manifiesto (molchat-manifest.json), no un artefacto de usar y tirar.
+!tools/molchat/ui/dist/
 scratch/
 
 # Crash dumps y binaries

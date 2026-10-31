@@ -14,8 +14,8 @@ import json
 import httpx
 import pytest
 
-from services.ai import local_llm
-from services.ai.local_llm import LocalLLM
+from services.llm import local_llm
+from services.llm.local_llm import LocalLLM
 
 CUERPOS: list[dict] = []
 

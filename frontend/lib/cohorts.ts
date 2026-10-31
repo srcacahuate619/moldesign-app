@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage, type FrontendText } from "./frontendError";
 // =====================================================================
 // Cliente de cohortes — comprobar, congelar, ejecutar, documentar
 // =====================================================================
@@ -263,13 +264,13 @@ export const SORT_BY_OBSERVED_AFFINITY = "afinidad_vina_observada";
 
 // ── Errores ──────────────────────────────────────────────────────────
 
-export class CohortError extends Error {
+export class CohortError extends FrontendError {
   readonly status: number | null;
   /** Código estable del backend cuando lo hay (`CORRIDA_ACTIVA`, etc.). */
   readonly code: string | null;
   readonly detail: unknown;
 
-  constructor(message: string, status: number | null, detail: unknown = null) {
+  constructor(message: FrontendText, status: number | null, detail: unknown = null) {
     super(message);
     this.name = "CohortError";
     this.status = status;
@@ -280,7 +281,7 @@ export class CohortError extends Error {
   }
 }
 
-function describe(status: number, body: unknown): { message: string; detail: unknown } {
+function describe(status: number, body: unknown): { message: FrontendText; detail: unknown } {
   const detalle = body && typeof body === "object" ? (body as { detail?: unknown }).detail : null;
   if (typeof detalle === "string") return { message: detalle, detail: detalle };
   // Los errores 422 de FastAPI son arreglos. `Array` también es `object`,
@@ -294,9 +295,9 @@ function describe(status: number, body: unknown): { message: string; detail: unk
   if (detalle && typeof detalle === "object") {
     const mensaje = (detalle as { message?: unknown }).message;
     if (typeof mensaje === "string") return { message: mensaje, detail: detalle };
-    return { message: `La operación no se pudo completar (HTTP ${status}).`, detail: detalle };
+    return { message: frontendMessage("lo_frontend_213", { v0: status }), detail: detalle };
   }
-  return { message: `La operación no se pudo completar (HTTP ${status}).`, detail: detalle };
+  return { message: frontendMessage("lo_frontend_213", { v0: status }), detail: detalle };
 }
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -319,8 +320,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     }
     // El transporte NO se traduce a un diagnóstico científico.
     throw new CohortError(
-      "Error de conexión: no se pudo contactar con el motor local de MolDesign. " +
-        "Revisa su estado y vuelve a intentarlo.",
+      frontendMessage("lo_frontend_214"),
       null,
     );
   }
@@ -338,7 +338,7 @@ async function requestBlob(path: string, init: RequestInit = {}): Promise<{ blob
   } catch (error) {
     if ((error as { name?: string })?.name === "AbortError") throw error;
     throw new CohortError(
-      "Error de conexión: no se pudo contactar con el motor local de MolDesign.",
+      frontendMessage("lo_frontend_215"),
       null,
     );
   }

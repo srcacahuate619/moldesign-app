@@ -32,6 +32,7 @@ import {
   type CaseRecord,
 } from "./types";
 import { createCaseRecord } from "./schema";
+import { frontendMessage } from "../frontendError";
 
 export const CASES_INDEX_KEY = "moldesign_cases_index";
 export const CASE_KEY_PREFIX = "moldesign_case:";
@@ -41,12 +42,13 @@ const CAPABILITIES: CaseRepositoryCapabilities = {
   canRevealInFileManager: false,
   openFolderUnavailableReason:
     "Abrir una carpeta del disco requiere la aplicación de escritorio. En el navegador los casos se guardan localmente en este equipo.",
+  openFolderUnavailableMessage: frontendMessage("ca_diag_open_folder_browser"),
   storageLabel: "Guardado en este navegador",
 };
 
 function storage(): Storage {
   if (typeof window === "undefined" || !window.localStorage) {
-    throw new CaseError("IO_ERROR", "No hay almacenamiento local disponible en este entorno.");
+    throw new CaseError("IO_ERROR", frontendMessage("ca_diag_no_storage"));
   }
   return window.localStorage;
 }
@@ -72,6 +74,7 @@ function unavailableEntry(id: string, error: CaseError): CaseIndexEntry {
   return {
     id,
     name: `Caso ${id.slice(0, 8)}`,
+    generatedName: true,
     status: "draft",
     createdAt: new Date(0).toISOString(),
     updatedAt: new Date(0).toISOString(),
@@ -82,6 +85,7 @@ function unavailableEntry(id: string, error: CaseError): CaseIndexEntry {
       code: error.code,
       message: error.message,
       detail: error.detail,
+      error,
       actions: recoveryActionsFor(error.code),
     },
   };
@@ -113,18 +117,18 @@ function caseKey(ownerUserId: string, id: string): string {
 function readRecord(ownerUserId: string, id: string): CaseRecord {
   const raw = storage().getItem(caseKey(ownerUserId, id));
   if (raw === null) {
-    throw new CaseError("NOT_FOUND", `No existe un caso con id ${id} en este navegador.`);
+    throw new CaseError("NOT_FOUND", frontendMessage("ca_diag_case_not_found", { id }));
   }
   const record = parseCaseManifestText(raw, `localStorage:${caseKey(ownerUserId, id)}`);
   if (record.ownerUserId !== ownerUserId) {
-    throw new CaseError("UNAUTHORIZED", "Este caso pertenece a otra cuenta.");
+    throw new CaseError("UNAUTHORIZED", frontendMessage("ca_diag_foreign_case"));
   }
   return record;
 }
 
 function writeRecord(ownerUserId: string, record: CaseRecord): void {
   if (record.ownerUserId !== ownerUserId) {
-    throw new CaseError("UNAUTHORIZED", "No se puede guardar un caso de otra cuenta.");
+    throw new CaseError("UNAUTHORIZED", frontendMessage("ca_diag_foreign_save"));
   }
   storage().setItem(caseKey(ownerUserId, record.id), serializeCaseManifest(record));
   // El indice se mantiene como cache de orden, pero el listado NO depende de el.

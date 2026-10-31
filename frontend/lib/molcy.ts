@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage } from "./frontendError";
 import { getApiUrl } from "./config";
 import { fetchBackend } from "./backendFetch";
 import { invoke } from "./tauri";
@@ -184,7 +185,8 @@ export const estimacionFotoMolcy = (req: { orientacion: MolcyOrientacion; resolu
 
 async function peticion<T>(path: string, init?: RequestInit): Promise<T> {
   const value = await requestAuthenticatedJson<unknown>(path, init).catch(cause => {
-    throw new Error(mensajeDelError(cause));
+    if (cause instanceof FrontendError) throw cause;
+    throw new FrontendError(mensajeDelError(cause));
   });
   // La validación se elige por la ruta, sin la consulta (`?recomprobar=true`): con ella una respuesta ilegible pasaría sin validar.
   validarMolcy(path.split("?")[0], value);
@@ -258,13 +260,13 @@ export async function fotogramaMolcy(id: string, despues?: number, signal?: Abor
     headers: { ...getAuthHeaders() }, signal,
   });
   if (response.status === 204 || response.status === 404) return null;
-  if (!response.ok) throw new Error(`Molcy: no se pudo leer el fotograma (${response.status}).`);
+  if (!response.ok) throw new FrontendError(frontendMessage("mo_fotograma_error_http", { status: response.status }));
   const indice = Number(response.headers.get("X-Molcy-Fotograma"));
   const orden = Number(response.headers.get("X-Molcy-Orden"));
   const total = Number(response.headers.get("X-Molcy-Total"));
   const blob = await response.blob();
   if (!Number.isInteger(indice) || indice < 0 || blob.type !== "image/png")
-    throw new Error("Molcy: respuesta incompatible; el fotograma no es una imagen válida.");
+    throw new FrontendError(frontendMessage("mo_fotograma_error_imagen"));
   return { url: URL.createObjectURL(blob), indice, orden: Number.isInteger(orden) && orden > 0 ? orden : 0,
     total: Number.isInteger(total) && total > 0 ? total : 0 };
 }
@@ -275,9 +277,9 @@ export async function imagenMolcy(id: string, clase: "tomas" | "vistas" | "fotos
   const response = await fetchBackend(`/molcy/trabajos/${encodeURIComponent(id)}/${clase}/${encodeURIComponent(String(clave))}`, {
     headers: { ...getAuthHeaders() }, signal,
   });
-  if (!response.ok) throw new Error(`Molcy: no se pudo leer la imagen (${response.status}).`);
+  if (!response.ok) throw new FrontendError(frontendMessage("mo_frontend_228", { v0: response.status }));
   const blob = await response.blob();
-  if (blob.type !== "image/png") throw new Error("Molcy: respuesta incompatible; la imagen no es un PNG.");
+  if (blob.type !== "image/png") throw new FrontendError(frontendMessage("mo_frontend_229"));
   const nombre = /filename="([^"]+)"/.exec(response.headers.get("content-disposition") || "")?.[1] ?? null;
   return { url: URL.createObjectURL(blob), nombre };
 }
@@ -432,5 +434,5 @@ export function validarMolcy(path: string, value: unknown): void {
       ok = ["inactivo", "instalando", "completo", "fallido"].includes(String(data.estado));
     }
   }
-  if (!ok) throw new Error("Molcy: respuesta incompatible; vuelve a comprobar el renderizador.");
+  if (!ok) throw new FrontendError(frontendMessage("mo_frontend_230"));
 }

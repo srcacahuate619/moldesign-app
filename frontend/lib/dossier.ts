@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage, frontendList, type FrontendText } from "./frontendError";
 import { beginFileDownload, handoffFileDownload, failFileDownload, type ActivitySource } from "./activityNotifications";
 
 // =====================================================================
@@ -365,10 +366,10 @@ export function buildCaseProjection(
  * caída). Se distingue a propósito: «no contestó» y «contestó que no» piden
  * cosas distintas del usuario.
  */
-export class DossierError extends Error {
+export class DossierError extends FrontendError {
   readonly status: number | null;
 
-  constructor(message: string, status: number | null) {
+  constructor(message: FrontendText, status: number | null) {
     super(message);
     this.name = "DossierError";
     this.status = status;
@@ -400,25 +401,24 @@ function extractDetail(body: unknown): string | null {
 }
 
 /** Lo que se dice cuando el backend no dijo nada útil. Nunca sustituye a lo suyo. */
-function fallbackMessage(status: number): string {
+function fallbackMessage(status: number): FrontendText {
   switch (status) {
     case 403:
-      return "Este resultado no pertenece a la sesión actual, así que su dossier no se puede generar.";
+      return frontendMessage("ca_frontend_218");
     case 404:
-      return "El motor no encuentra la molécula o su resultado. Puede que la corrida ya no esté guardada.";
+      return frontendMessage("ca_frontend_219");
     case 409:
       return (
-        "El caso pide una corrida y el resultado almacenado pertenece a otra. " +
-        "No se genera un dossier que afirme describir algo que no describe."
+        frontendMessage("ca_frontend_220")
       );
     case 422:
-      return "El motor rechazó la proyección del caso: hay un campo que el contrato del dossier no acepta.";
+      return frontendMessage("ca_frontend_221");
     default:
-      return `El dossier no se pudo generar (HTTP ${status}).`;
+      return frontendMessage("ca_frontend_222", { v0: status });
   }
 }
 
-async function describeFailure(response: Response): Promise<string> {
+async function describeFailure(response: Response): Promise<FrontendText> {
   let raw = "";
   try {
     raw = await response.text();
@@ -465,19 +465,19 @@ export interface DossierArtifact {
  */
 export function verificarLimitesDelContexto(context: ProjectedContext | undefined): void {
   if (!context) return;
-  const excedidos: string[] = [];
+  const excedidos: FrontendText[] = [];
   for (const [clave, valor] of Object.entries(context)) {
     if (typeof valor !== "string" || valor.length <= CASE_CONTEXT_MAX_CHARS) continue;
     const campo = clave.replace(/_([a-z])/g, (_, letra: string) => letra.toUpperCase());
-    const etiqueta = CASE_CONTEXT_SPECS.find((spec) => spec.field === campo)?.question ?? clave;
+    const spec = CASE_CONTEXT_SPECS.find((spec) => spec.field === campo);
+    const etiqueta = spec ? frontendMessage(`ca_context_${spec.field}_question`) : clave;
     excedidos.push(
-      `«${etiqueta}» tiene ${valor.length} caracteres (${valor.length - CASE_CONTEXT_MAX_CHARS} de más)`,
+      frontendMessage("ca_dossier_excess_item", { label: etiqueta, count: valor.length, excess: valor.length - CASE_CONTEXT_MAX_CHARS }),
     );
   }
   if (excedidos.length > 0) {
     throw new DossierError(
-      `El dossier admite hasta ${CASE_CONTEXT_MAX_CHARS} caracteres por texto del contexto. ` +
-        `Acorta: ${excedidos.join("; ")}. El caso conserva el texto tal como lo escribiste.`,
+      frontendMessage("ca_dossier_excess", { max: CASE_CONTEXT_MAX_CHARS, fields: frontendList(excedidos, "; ") }),
       422,
     );
   }
@@ -511,8 +511,7 @@ async function sendProjection(
     // El transporte NO se convierte en un diagnóstico científico: «no se pudo
     // contactar» nunca se cuenta como «el caso es inválido».
     throw new DossierError(
-      "Error de conexión: no se pudo contactar con el motor local de MolDesign. " +
-        "Revisa su estado y vuelve a intentarlo.",
+      frontendMessage("lo_frontend_214"),
       null,
     );
   }
@@ -549,7 +548,7 @@ export async function requestPreparacion(
   const body: unknown = await response.json().catch(() => null);
   if (!esAuditoriaPreparacion(body)) {
     throw new DossierError(
-      "El motor devolvió una auditoría de preparación con una forma que esta versión no conoce.",
+      frontendMessage("ca_frontend_226"),
       response.status,
     );
   }

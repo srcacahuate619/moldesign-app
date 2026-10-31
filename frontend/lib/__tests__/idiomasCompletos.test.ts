@@ -70,6 +70,8 @@ const INTRADUCIBLES = new Set([
   "active",
   // Vocabulario estructural con la misma forma válida en ambos idiomas.
   "Receptor", "metal",
+  // Clase química de residuos: «Polar» es el mismo término científico en ambos idiomas.
+  "Polar",
   // Identidad del motor usado como plataforma en el resultado MM-GBSA.
   "OpenMM",
   // Epónimo científico de una contribución energética estándar.

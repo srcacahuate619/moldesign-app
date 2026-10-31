@@ -17,6 +17,8 @@ import { generadas } from "./generadas";
 // fusionado, asi que una clave que falte en `en` no llega a produccion.
 
 import { casos } from "./casos";
+import { caseErrors } from "./caseErrors";
+import { caseSchema } from "./caseSchema";
 import { catalogo } from "./catalogo";
 import { certificacion } from "./certificacion";
 import { cierre } from "./cierre";
@@ -31,6 +33,7 @@ import { moldex } from "./moldex";
 import { molcy } from "./molcy";
 import { notificaciones } from "./notificaciones";
 import { opciones } from "./opciones";
+import { proveedores } from "./proveedores";
 import { paginas } from "./paginas";
 import { paneles } from "./paneles";
 import { pro } from "./pro";
@@ -47,7 +50,7 @@ export interface ModuloDeTraduccion {
 const MODULOS: readonly ModuloDeTraduccion[] = [
   comun, evaluacion, lote, moldex, molcy, casos, legal, certificacion, opciones,
   pro, paginas, ia, paneles, registro, cierre, generadas, remate, inicio, catalogo,
-  notificaciones, resultados, elevacion,
+  notificaciones, resultados, elevacion, caseErrors, caseSchema, proveedores,
 ];
 
 /**

@@ -80,17 +80,12 @@ describe("SCI-A-037: un margen de score no es una razón de unión", () => {
 
   it("cada veredicto tiene clave de traducción en los dos idiomas", async () => {
     const { pro } = await import("../../context/traducciones/pro");
-    for (const texto of [...ESCALA_DE_MARGEN.map(([, v]) => v), VEREDICTO_INVERTIDO, VEREDICTO_SIN_DATOS]) {
-      const clave = claveDeVeredicto(texto);
-      expect(clave).not.toBeNull();
-      expect((pro.es as Record<string, string>)[clave as string]).toBe(texto);
-      expect((pro.en as Record<string, string>)[clave as string]).toMatch(/[A-Za-z]/);
-      expect((pro.en as Record<string, string>)[clave as string]).not.toBe(texto);
+    const margins = [3, 2, 1, 0, -1, null];
+    for (const margin of margins) {
+      const clave = claveDeVeredicto(margin);
+      expect(pro.es[clave]).toBe(veredictoDeMargen(margin));
+      expect(pro.en[clave]).not.toBe(pro.es[clave]);
     }
-    expect(claveDeVeredicto("REVISAR — otra cosa")).toBeNull();
-    // Un veredicto guardado con el rótulo anterior se muestra con el nuevo.
-    expect(claveDeVeredicto("MARGEN AMPLIO — la diana principal une ~100x más fuerte que la peor anti-diana"))
-      .toBe("pr_sel_margen_amplio");
     expect((pro.es as Record<string, string>).pr_sel_margen_no_es_razon).toMatch(/no una razón de afinidades/);
   });
 });

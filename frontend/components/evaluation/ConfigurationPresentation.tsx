@@ -6,7 +6,7 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useLanguage } from "../../context/LanguageContext";
-import { localizeReceptorLabel, type PreflightReport } from "../../lib/preflight";
+import { localizeReceptorLabel, receptorFromSummary, gridLabelForSummary, type PreflightReport } from "../../lib/preflight";
 import type { CaseStructuralSystem, PreflightSummary } from "../../lib/cases/types";
 import styles from "./ConfigurationPresentation.module.css";
 
@@ -76,7 +76,7 @@ export function ConfigurationInputs({ report, summary }: { report?: PreflightRep
   const receptor = report
     ? chains.length > 1 ? t("ca_receptor_label_multiple", { pdbId: report.receptor.pdb_id, chains: chains.join("+") })
       : report.receptor.chain ? t("ca_receptor_label_single", { pdbId: report.receptor.pdb_id, chain: report.receptor.chain }) : report.receptor.pdb_id
-    : localizeReceptorLabel(summary?.receptorLabel ?? t("c_no_definido"), t);
+    : localizeReceptorLabel(receptorFromSummary(summary), t);
   const ligand = report ? report.ligand.canonical_smiles ?? report.ligand.input_smiles : summary?.ligandLabel;
   const config = live ? {
     engine: live.docking_engine, exhaustiveness: live.exhaustiveness, poses: live.num_poses, seed: live.seed,
@@ -98,7 +98,7 @@ export function ConfigurationInputs({ report, summary }: { report?: PreflightRep
           <tr><th scope="row">{t("cf_center_angstrom")}</th>{center.map((number, i) => <td key={i}>{value(number)}</td>)}</tr>
           <tr><th scope="row">{t("cf_size_angstrom")}</th>{size.map((number, i) => <td key={i}>{value(number)}</td>)}</tr>
         </tbody>
-      </table>{summary?.gridLabel && <p className={styles.fieldNote}>{t("cf_saved_box_description", { label: summary.gridLabel })}</p>}</> : <><p>{summary?.gridLabel ?? t("c_no_definido")}</p><p className={styles.fieldNote}>{t("cf_legacy_box")}</p></>}
+      </table></> : <><p>{summary ? gridLabelForSummary(summary, t) : t("c_no_definido")}</p><p className={styles.fieldNote}>{t("cf_legacy_box")}</p></>}
     </dd></div>
     <div><dt>{t("se_gen_protocol")}</dt><dd>
       {config ? <dl className={styles.protocolFacts} data-has-conformers={config.conformers !== undefined}>

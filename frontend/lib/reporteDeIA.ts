@@ -1,3 +1,4 @@
+import { frontendMessage, type Translate } from "./frontendError";
 /**
  * El canal para reportar una respuesta de MolChat.
  *
@@ -40,10 +41,10 @@ export interface DatosDelReporte {
 }
 
 /** Recorta declarando que recortó. Nunca en silencio. */
-export function recortar(texto: string, limite = LIMITE_DE_RESPUESTA): string {
+export function recortar(texto: string, limite = LIMITE_DE_RESPUESTA, t: Translate = (key, values) => String(frontendMessage(key, values))): string {
   const limpio = (texto ?? "").trim();
   if (limpio.length <= limite) return limpio;
-  return `${limpio.slice(0, limite)}\n\n[…recortado: la respuesta tenía ${limpio.length} caracteres]`;
+  return t("ia_report_truncated", { text: limpio.slice(0, limite), count: limpio.length });
 }
 
 /**
@@ -56,6 +57,7 @@ export function recortar(texto: string, limite = LIMITE_DE_RESPUESTA): string {
 export function construirMailtoDeReporte(
   datos: DatosDelReporte,
   textos: TextosDelReporte,
+  t?: Translate,
 ): string {
   const lineas = [
     textos.cabecera,
@@ -66,7 +68,7 @@ export function construirMailtoDeReporte(
     ...(datos.version ? [`MolDesign: ${datos.version}`] : []),
     "",
     `${textos.etiquetaRespuesta}:`,
-    recortar(datos.respuesta),
+    recortar(datos.respuesta, LIMITE_DE_RESPUESTA, t),
   ];
 
   const parametros = new URLSearchParams({

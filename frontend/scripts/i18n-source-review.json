@@ -1,0 +1,1270 @@
+{
+  "version": 1,
+  "nota": "Revisión exacta por archivo y texto; no autoriza frases nuevas ni oculta pendientes. No sustituye el recorrido dinámico.",
+  "entries": [
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 7,
+      "text": "Residuo pequeño, contribuye al empaquetamiento hidrofóbico del bolsillo.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 16,
+      "text": "Cadena lateral ramificada; contactos de van der Waals con ligandos lipofílicos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 25,
+      "text": "Contacto hidrofóbico frecuente en bolsillos de unión.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 34,
+      "text": "Hidrofóbico; define la forma del bolsillo.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 43,
+      "text": "Azufre en la cadena lateral; puede hacer contactos S-π o S-H.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 52,
+      "text": "Anillo aromático; interacciones π-stacking con ligandos aromáticos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 61,
+      "text": "Indol; π-stacking, cation-π y contactos hidrofóbicos fuertes.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 70,
+      "text": "Fenol; π-stacking + H-bond donor/acceptor por el OH.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 88,
+      "text": "OH reactivo; H-bonds, a veces nucleófilo catalítico.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 97,
+      "text": "OH; H-bonds, geometría restringida por el metilo.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 106,
+      "text": "Amida; donor y acceptor de H-bonds.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 115,
+      "text": "Amida más larga; donor y acceptor de H-bonds.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 124,
+      "text": "Carboxilato (−); iónico/sal bridge, acceptor fuerte de H-bond.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 133,
+      "text": "Carboxilato (−); sal bridge, reconocimiento de cationes.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 142,
+      "text": "Amino (+); sal bridge con ligandos ácidos, cation-π.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 151,
+      "text": "Guanidinio (+); sal bridge fuerte, reconocimiento de fosfatos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 160,
+      "text": "Tiol; puede formar enlaces covalentes con warheads electrofílicos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 169,
+      "text": "Rígida; define giros, contribuye a la forma del sitio.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 178,
+      "text": "Sin cadena lateral; permite espacios estrechos en el bolsillo.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/aminoAcidPresentation.ts",
+      "line": 192,
+      "text": "Residuo del sitio activo.",
+      "scope": "aaInfoFromName",
+      "classification": "traducido_al_presentar",
+      "reason": "aaInfoFromName(code,t) pasa las descripciones exactas por t(); Web3DViewer pasa el traductor."
+    },
+    {
+      "file": "lib/cases/browserCaseRepository.ts",
+      "line": 163,
+      "text": "Guardado en este navegador",
+      "scope": "createCase",
+      "id": "I18N-300",
+      "classification": "traducido_al_presentar",
+      "reason": "Etiqueta persistida del contrato; localizeCaseStorageLabel la traduce al mostrarla sin modificar el dato guardado.",
+      "consumer": "CaseWorkspace y otros consumidores de localizeCaseStorageLabel."
+    },
+    {
+      "file": "lib/cases/factory.ts",
+      "line": 20,
+      "text": "Un repositorio de casos necesita la identidad de su dueño.",
+      "scope": "crearRepositorioDeCasos",
+      "classification": "solo_diagnostico",
+      "reason": "Invariante de identidad/provider/arranque; se activa sin sesión válida antes de montar el espacio de trabajo. No es texto de un resultado o control."
+    },
+    {
+      "file": "lib/cases/schema.ts",
+      "line": 467,
+      "text": "Guardado en este navegador",
+      "scope": "parseStorage",
+      "id": "I18N-339",
+      "classification": "traducido_al_presentar",
+      "reason": "Etiqueta persistida del contrato; localizeCaseStorageLabel la traduce al mostrarla sin modificar el dato guardado.",
+      "consumer": "CaseWorkspace y otros consumidores de localizeCaseStorageLabel."
+    },
+    {
+      "file": "lib/cases/types.ts",
+      "line": 583,
+      "text": "Sin esto, el dossier no puede declarar qué se estaba preguntando.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseContextPanel resuelve las preguntas y ayudas de CASE_CONTEXT_SPECS por clave/alias; no pinta el texto de la tabla directamente."
+    },
+    {
+      "file": "lib/cases/types.ts",
+      "line": 589,
+      "text": "Una evidencia sin decisión asociada no se puede calificar de suficiente ni de insuficiente.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseContextPanel resuelve las preguntas y ayudas de CASE_CONTEXT_SPECS por clave/alias; no pinta el texto de la tabla directamente."
+    },
+    {
+      "file": "lib/cases/types.ts",
+      "line": 595,
+      "text": "Estructura, ensamblaje, cadenas y estado: por qué éste y no otro.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseContextPanel resuelve las preguntas y ayudas de CASE_CONTEXT_SPECS por clave/alias; no pinta el texto de la tabla directamente."
+    },
+    {
+      "file": "lib/cases/types.ts",
+      "line": 601,
+      "text": "Ligando de referencia, redock del cristal, series conocidas, negativos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseContextPanel resuelve las preguntas y ayudas de CASE_CONTEXT_SPECS por clave/alias; no pinta el texto de la tabla directamente."
+    },
+    {
+      "file": "lib/cases/types.ts",
+      "line": 607,
+      "text": "Protonación, tautomería, aguas, cofactores, rigidez del receptor.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseContextPanel resuelve las preguntas y ayudas de CASE_CONTEXT_SPECS por clave/alias; no pinta el texto de la tabla directamente."
+    },
+    {
+      "file": "lib/cases/types.ts",
+      "line": 613,
+      "text": "Lo que ya se sabe que este caso NO podrá resolver.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseContextPanel resuelve las preguntas y ayudas de CASE_CONTEXT_SPECS por clave/alias; no pinta el texto de la tabla directamente."
+    },
+    {
+      "file": "lib/cases/types.ts",
+      "line": 619,
+      "text": "Contexto libre. Aparece en el dossier; no entra en ningún cálculo.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseContextPanel resuelve las preguntas y ayudas de CASE_CONTEXT_SPECS por clave/alias; no pinta el texto de la tabla directamente."
+    },
+    {
+      "file": "lib/desktopAuth.ts",
+      "line": 17,
+      "text": "No se obtuvo el secreto del backend propio",
+      "scope": "desktopLogin",
+      "classification": "solo_diagnostico",
+      "reason": "Invariante de identidad/provider/arranque; se activa sin sesión válida antes de montar el espacio de trabajo. No es texto de un resultado o control."
+    },
+    {
+      "file": "lib/errors.ts",
+      "line": 58,
+      "text": "Error desconocido. Reintenta la operacion.",
+      "scope": "friendlyError",
+      "classification": "sin_consumidor_activo",
+      "reason": "friendlyError y friendlyStageError sólo se llaman entre sí; no hay importadores de lib/errors fuera de sus pruebas."
+    },
+    {
+      "file": "lib/errors.ts",
+      "line": 80,
+      "text": "La operacion no pudo completarse. Detalle tecnico: ${short}",
+      "scope": "friendlyError",
+      "classification": "sin_consumidor_activo",
+      "reason": "friendlyError y friendlyStageError sólo se llaman entre sí; no hay importadores de lib/errors fuera de sus pruebas."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 160,
+      "text": "Caja de búsqueda",
+      "scope": "deriveEvaluationReadiness",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 182,
+      "text": "Listo para evaluar",
+      "scope": "deriveEvaluationReadiness",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 182,
+      "text": "Ejecutable con revisión",
+      "scope": "deriveEvaluationReadiness",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 182,
+      "text": "Configuración incompleta",
+      "scope": "deriveEvaluationReadiness",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 185,
+      "text": "El sistema tiene ligando, receptor, grid y referencias estructurales para iniciar el pipeline.",
+      "scope": "deriveEvaluationReadiness",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 187,
+      "text": "La evaluación puede ejecutarse, pero el dossier deberá conservar estas reservas.",
+      "scope": "deriveEvaluationReadiness",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 188,
+      "text": "Completa el ligando y el receptor antes de iniciar la evaluación.",
+      "scope": "deriveEvaluationReadiness",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 266,
+      "text": "El protocolo no informa si hubo ensemble; no se registraron réplicas.",
+      "scope": "fraseDeMuestreo",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 267,
+      "text": "Las poses salen de un ensemble de ${generadas} conformaciones; no se registraron réplicas.",
+      "scope": "fraseDeMuestreo",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 268,
+      "text": "Confórmero único; no se registraron réplicas.",
+      "scope": "fraseDeMuestreo",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 344,
+      "text": "Requiere revisión",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 381,
+      "text": "Preparación del sistema",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 390,
+      "text": "Señal de docking",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 399,
+      "text": "Muestreo de poses",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 408,
+      "text": "Reproducibilidad técnica",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 419,
+      "text": "Validez física de poses",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 426,
+      "text": "Dominio del modelo",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 438,
+      "text": "Descriptores fisicoquímicos",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 445,
+      "text": "Evidencia de selectividad",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 477,
+      "text": "Abstención: completar la corrida",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 483,
+      "text": "Validar geometría antes de continuar",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 489,
+      "text": "Resolver reservas antes de comparar",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 494,
+      "text": "Apta para análisis posterior",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/evaluationEvidence.ts",
+      "line": 500,
+      "text": "Revisión necesaria",
+      "scope": "deriveEvaluationEvidence",
+      "classification": "sin_consumidor_activo",
+      "reason": "deriveEvaluationReadiness sólo alimenta EvaluationReadinessPanel, retirado de ProEvaluation. deriveEvaluationEvidence se consume con t y localizeEvaluationEvidence sustituye las frases antes de pintar."
+    },
+    {
+      "file": "lib/openExternal.ts",
+      "line": 79,
+      "text": "No es una URL absoluta. Las rutas internas no pasan por esta frontera.",
+      "scope": "validar",
+      "classification": "solo_diagnostico",
+      "reason": "ExternalLink presenta c_external_failed y registra la causa en consola; los errores técnicos de validación no son su etiqueta visible."
+    },
+    {
+      "file": "lib/openExternal.ts",
+      "line": 112,
+      "text": "Tauri esta presente pero el plugin opener no responde. Comprueba que `tauri_plugin_opener::init()` esta registrado y que la capability",
+      "scope": "openExternal",
+      "classification": "solo_diagnostico",
+      "reason": "ExternalLink presenta c_external_failed y registra la causa en consola; los errores técnicos de validación no son su etiqueta visible."
+    },
+    {
+      "file": "lib/openExternal.ts",
+      "line": 121,
+      "text": "Sin `window`: no hay donde abrir.",
+      "scope": "openExternal",
+      "classification": "solo_diagnostico",
+      "reason": "ExternalLink presenta c_external_failed y registra la causa en consola; los errores técnicos de validación no son su etiqueta visible."
+    },
+    {
+      "file": "lib/openExternal.ts",
+      "line": 128,
+      "text": "El navegador bloqueo la apertura de la ventana.",
+      "scope": "openExternal",
+      "classification": "solo_diagnostico",
+      "reason": "ExternalLink presenta c_external_failed y registra la causa en consola; los errores técnicos de validación no son su etiqueta visible."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 40,
+      "text": "Pipeline por defecto · target no curado",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 44,
+      "text": "target sin familia curada — CL-GNN no validado",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 46,
+      "text": "sin peso en los pesos por defecto",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 49,
+      "text": "Target sin curación científica: familia estructural desconocida, Spearman ρ no calibrado. XGBoost se muestra sin peso de release. Interpreta los scores con precaución — no aplica family-gating validado.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 64,
+      "text": "el artefacto vigente no le asigna peso en GPCR",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 66,
+      "text": "deprecada; no participa en el contrato de release",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 69,
+      "text": "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 73,
+      "text": "M4 Proteasa · pesos por defecto",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 82,
+      "text": "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 86,
+      "text": "M4 Kinasa · pesos por defecto",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 95,
+      "text": "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 99,
+      "text": "M4 Nuclear Receptor · pesos por defecto",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 108,
+      "text": "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 112,
+      "text": "M4 Soluble Enzyme · pesos por defecto",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 121,
+      "text": "Contrato provisional: Vina 1.00; XGBoost 0.00; CL-GNN se ejecuta y reporta como senal experimental con peso cero hasta validar externamente el checkpoint exacto.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 125,
+      "text": "M4 · pesos por defecto · M5-Zn se registra aparte",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 132,
+      "text": "no entra en el ranking: el ADR 75 retiró el empujón aditivo de 0.06",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 133,
+      "text": "participa dentro del UMS histórico, no en el stacking",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineDefinitions.ts",
+      "line": 136,
+      "text": "M4 usa el contrato provisional Vina solo. M5-Zn se ejecuta y persiste aparte con sus estados de abstencion o revision; UMS y MolChamb siguen como senales informativas.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "localizePipeline sustituye label/value/sub/note por las claves de cada etapa antes de renderizar PipelineTimeline."
+    },
+    {
+      "file": "lib/pipelineStream.ts",
+      "line": 101,
+      "text": "Error en la etapa",
+      "scope": "stageEventToOrbUpdate",
+      "classification": "traducido_al_presentar",
+      "reason": "PipelineTimeline y el consumidor de streaming pasan t; sólo quedan respaldos sin traductor."
+    },
+    {
+      "file": "lib/pipelineStream.ts",
+      "line": 103,
+      "text": "no se calculó",
+      "scope": "stageEventToOrbUpdate",
+      "classification": "traducido_al_presentar",
+      "reason": "PipelineTimeline y el consumidor de streaming pasan t; sólo quedan respaldos sin traductor."
+    },
+    {
+      "file": "lib/pipelineStream.ts",
+      "line": 143,
+      "text": "El stream SSE no tiene cuerpo legible",
+      "scope": "(anónima)",
+      "classification": "solo_diagnostico",
+      "reason": "subscribeToPipelineEvents captura el error del cuerpo SSE y lo registra en consola; notifyClose no pasa la causa a la interfaz."
+    },
+    {
+      "file": "lib/preflight.ts",
+      "line": 394,
+      "text": "Elige un receptor antes de ejecutar.",
+      "scope": "describeRunBlock",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseEvaluationRunner llama describeRunBlock(entradas,preflight,t); son los respaldos sin traductor."
+    },
+    {
+      "file": "lib/preflight.ts",
+      "line": 395,
+      "text": "Introduce o dibuja un ligando antes de ejecutar.",
+      "scope": "describeRunBlock",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseEvaluationRunner llama describeRunBlock(entradas,preflight,t); son los respaldos sin traductor."
+    },
+    {
+      "file": "lib/preflight.ts",
+      "line": 403,
+      "text": "La comprobación previa encontró ${preflight.blockers.length}",
+      "scope": "describeRunBlock",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseEvaluationRunner llama describeRunBlock(entradas,preflight,t); son los respaldos sin traductor."
+    },
+    {
+      "file": "lib/preflight.ts",
+      "line": 404,
+      "text": "${preflight.blockers.length === 1 ? \"bloqueante técnico\" : \"bloqueantes técnicos\"}:",
+      "scope": "describeRunBlock",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseEvaluationRunner llama describeRunBlock(entradas,preflight,t); son los respaldos sin traductor."
+    },
+    {
+      "file": "lib/preflight.ts",
+      "line": 404,
+      "text": "bloqueante técnico",
+      "scope": "describeRunBlock",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseEvaluationRunner llama describeRunBlock(entradas,preflight,t); son los respaldos sin traductor."
+    },
+    {
+      "file": "lib/preflight.ts",
+      "line": 404,
+      "text": "bloqueantes técnicos",
+      "scope": "describeRunBlock",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseEvaluationRunner llama describeRunBlock(entradas,preflight,t); son los respaldos sin traductor."
+    },
+    {
+      "file": "lib/preflight.ts",
+      "line": 405,
+      "text": "${preflight.blockers.join(\", \")}. La corrida fallaría igual, más tarde.",
+      "scope": "describeRunBlock",
+      "classification": "traducido_al_presentar",
+      "reason": "CaseEvaluationRunner llama describeRunBlock(entradas,preflight,t); son los respaldos sin traductor."
+    },
+    {
+      "file": "lib/procedenciaDeSenales.ts",
+      "line": 123,
+      "text": "cálculo opcional",
+      "scope": "describirEtapa",
+      "classification": "traducido_al_presentar",
+      "reason": "describirEtapa recibe t en PipelineTimeline; el texto es respaldo castellano del argumento opcional."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 47,
+      "text": "Interfaz de ${cadenas.length} cadenas",
+      "scope": "frase",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 66,
+      "text": "Sitio sin medir",
+      "scope": "describirSitio",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 68,
+      "text": "No hemos medido qué cadenas forman el sitio de este receptor. El docking preparará sólo la cadena declarada.",
+      "scope": "describirSitio",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 188,
+      "text": "Los de este receptor se rederivaron a partir del ligando que ocupa la caja de búsqueda",
+      "scope": "describirHotspots",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 189,
+      "text": "${target.site_ligand ? ` (${target.site_ligand})` : \"\"}, tomando los residuos a 4,5 Å o menos,",
+      "scope": "describirHotspots",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 190,
+      "text": "porque los anteriores describían otro bolsillo de la misma proteína.",
+      "scope": "describirHotspots",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 196,
+      "text": "Los de este receptor son los 15 residuos más cercanos al ligando",
+      "scope": "describirHotspots",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 197,
+      "text": "co-cristalizado que la detección automática encontró en la estructura.",
+      "scope": "describirHotspots",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 200,
+      "text": "La procedencia de los de este receptor no está registrada.",
+      "scope": "describirHotspots",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 205,
+      "text": "Sin ligando co-cristalizado",
+      "scope": "avisoDeEvidencia",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 260,
+      "text": "de buen detalle",
+      "scope": "calidadDeLaEstructura",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 261,
+      "text": "de detalle moderado",
+      "scope": "calidadDeLaEstructura",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 262,
+      "text": "de poco detalle",
+      "scope": "calidadDeLaEstructura",
+      "classification": "traducido_al_presentar",
+      "reason": "Los consumidores ChipsDelSitio, DetalleDelSitio y RespaldoDelReceptor pasan locale. Las ramas en inglés usan describirSitioEn/explicarSitioEn."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 41,
+      "text": "Química y docking",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 48,
+      "text": "Motor de docking que genera y puntúa poses ligando–receptor. Incluye vina_trace, una copia de Vina 1.2.7 que registra la búsqueda para la escena «Búsqueda» de Molcy.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 56,
+      "text": "Prepara ligandos y receptores para los formatos utilizados por AutoDock.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 64,
+      "text": "Validación química, descriptores, fingerprints y conformaciones moleculares.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 72,
+      "text": "Protona el ligando al pH elegido (7,4 por defecto) antes de prepararlo.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 80,
+      "text": "Lee las estructuras mmCIF/PDBx de los receptores que subes.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 94,
+      "text": "Programa independiente que MolDesign ejecuta como herramienta de línea de órdenes para convertir PDBQT a SDF cuando la exportación del ligando falla. No se enlaza como biblioteca. El ejecutable empaquetado se identifica internamente como 3.1.0 porque la 3.1.1 fue una correccion de empaquetado que no actualizo la cadena; el valor medido vive en el manifiesto del paquete.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 102,
+      "text": "Comprueba la validez física de las poses: geometría del ligando y contactos con la proteína.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 110,
+      "text": "Viajan en el runtime. En 1.0.2 MM-GBSA está desactivado y la interfaz no ofrece ninguna ruta que los use.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 118,
+      "text": "Análisis de contactos e interacciones proteína–ligando sobre estructuras 3D.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 132,
+      "text": "Cálculos semiempíricos ejecutados como proceso independiente para descriptores cuánticos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 140,
+      "text": "Modelos tabulares de rescoring y explicación de contribuciones de sus variables.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 148,
+      "text": "Predicciones computacionales de propiedades ADMET; no sustituyen validación experimental.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 156,
+      "text": "Viaja en el runtime con su licencia y su atribución; en 1.0.2 ninguna ruta de MolDesign lo usa.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 164,
+      "text": "Implementación de investigación para rescoring proteína–ligando. Su distribución permanece bloqueada hasta aclarar la licencia upstream.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 172,
+      "text": "Modelos y calibraciones propios con manifiestos, hashes y licencia separados del código.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 186,
+      "text": "Pliega péptidos para que Vina los acople. Sus pesos (8,4 GB) se descargan a petición; el código viaja con Transformers.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 194,
+      "text": "Servidor local que ejecuta modelos GGUF fuera del proceso principal de MolDesign.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 202,
+      "text": "Modelo local compatible con MolChat. Sus pesos tienen licencia propia y conservan su licencia de terceros.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 210,
+      "text": "Integración opcional configurada por el usuario; las solicitudes se rigen por el proveedor elegido.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 217,
+      "text": "Plataforma y visualización",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 224,
+      "text": "Contenedor nativo, ciclo de vida del backend y empaquetado de la edición Desktop.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 232,
+      "text": "Interfaz local y arquitectura de componentes del producto.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 240,
+      "text": "API local que conecta la interfaz con los pipelines científicos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 248,
+      "text": "Visualización molecular 3D de estructuras, receptores, ligandos y complejos.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 256,
+      "text": "Editor químico 2D para dibujar, importar y exportar estructuras moleculares.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 265,
+      "text": "La miniatura de Moldex que gira la pose top-1 y la vista 3D del editor nacen de su visor. La idea es suya: adaptamos su método para alinear la geometría 3D con el dibujo 2D y lo reimplementamos en código propio. No incluimos su código ni sus dependencias.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 275,
+      "text": "Integración opcional para registrar certificados; no constituye por sí misma protección de propiedad intelectual.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 283,
+      "text": "Genera los PDF del dossier y de los certificados.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 291,
+      "text": "Dibuja los vídeos y las fotos de Molcy dentro de Blender. Es obra propia de MolDesign, publicada bajo GPL-3.0-or-later, y se ejecuta como programa aparte.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 300,
+      "text": "Ejecuta el motor de Molcy. No viaja en el instalador: MolDesign lo descarga a petición de la Blender Foundation y verifica su SHA-256.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 308,
+      "text": "Extensión de Blender que construye las moléculas de las escenas de Molcy. No viaja en el instalador: se instala a petición desde Blender Extensions.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 316,
+      "text": "Bibliotecas de ejecución que necesitan los programas nativos incluidos. Se rigen por los términos de redistribución de Microsoft, no por la licencia de MolDesign.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 323,
+      "text": "Créditos y fuentes",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 331,
+      "text": "Aporta las estructuras y los metadatos estructurales base del catálogo: los 380 archivos .pdb.gz distribuidos proceden directamente de RCSB PDB.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 347,
+      "text": "Fuente de las descripciones funcionales de los receptores, tomadas del comentario FUNCTION y traducidas al español.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 358,
+      "text": "Vina, Meeko, Dimorphite-DL, PoseBusters, ESMFold, xTB, RTMScore, ADMET-AI y TabPFN conservan sus autores y referencias metodológicas.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/softwareCatalog.ts",
+      "line": 369,
+      "text": "Curación de MolDesign sobre las estructuras de RCSB: caja de búsqueda, hotspots, selección de cadena, familia estructural y estado. Esa capa es cálculo propio, no una afirmación de RCSB ni de UniProt.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."
+    },
+    {
+      "file": "lib/tauri.ts",
+      "line": 123,
+      "text": "Runtime de escritorio detectado pero `window.__TAURI__.core.invoke` no existe: revisa `withGlobalTauri` en tauri.conf.json.",
+      "scope": "tauriBridgeSmokeTest",
+      "classification": "solo_diagnostico",
+      "reason": "tauriBridgeSmokeTest es una herramienta exportada sin consumidor de interfaz ni invocación desde la aplicación."
+    },
+    {
+      "file": "lib/tauri.ts",
+      "line": 124,
+      "text": "Entorno web: no hay puente de escritorio, y es lo esperado.",
+      "scope": "tauriBridgeSmokeTest",
+      "classification": "solo_diagnostico",
+      "reason": "tauriBridgeSmokeTest es una herramienta exportada sin consumidor de interfaz ni invocación desde la aplicación."
+    },
+    {
+      "file": "lib/tauri.ts",
+      "line": 133,
+      "text": "Puente operativo. `case_list_authorized` devolvió ${Array.isArray(cases) ? cases.length : 0} caso(s) autorizado(s).",
+      "scope": "tauriBridgeSmokeTest",
+      "classification": "solo_diagnostico",
+      "reason": "tauriBridgeSmokeTest es una herramienta exportada sin consumidor de interfaz ni invocación desde la aplicación."
+    },
+    {
+      "file": "lib/tauri.ts",
+      "line": 140,
+      "text": "El puente existe pero la invocación falló: ${error instanceof Error ? error.message : String(error)}",
+      "scope": "tauriBridgeSmokeTest",
+      "classification": "solo_diagnostico",
+      "reason": "tauriBridgeSmokeTest es una herramienta exportada sin consumidor de interfaz ni invocación desde la aplicación."
+    },
+    {
+      "file": "lib/traspaso.ts",
+      "line": 213,
+      "text": "Este almacenamiento no sabe adoptar un caso de otra cuenta.",
+      "scope": "adoptarCaso",
+      "id": "I18N-396",
+      "classification": "solo_diagnostico",
+      "reason": "ejecutarTraspaso captura este error y devuelve únicamente el ID fallido; prueba en lib/__tests__/traspaso.test.ts.",
+      "consumer": "Capturado por ejecutarTraspaso; el texto no se expone en interfaz."
+    },
+    {
+      "file": "context/CaseContext.tsx",
+      "line": 230,
+      "text": "CaseProvider requiere una sesión autenticada.",
+      "scope": "(anónima)",
+      "classification": "solo_diagnostico",
+      "reason": "Invariante de identidad/provider/arranque; se activa sin sesión válida antes de montar el espacio de trabajo. No es texto de un resultado o control."
+    },
+    {
+      "file": "context/CaseContext.tsx",
+      "line": 1076,
+      "text": "useCases debe usarse dentro de <CaseProvider>.",
+      "scope": "useCases",
+      "classification": "solo_diagnostico",
+      "reason": "Invariante de identidad/provider/arranque; se activa sin sesión válida antes de montar el espacio de trabajo. No es texto de un resultado o control."
+    },
+    {
+      "file": "context/DownloadProvider.tsx",
+      "line": 218,
+      "text": "LLM local para MolChat",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "descripcionDelModulo(entry,t) presenta op_download_qwen_description u op_download_esmfold_description según ID estable."
+    },
+    {
+      "file": "context/DownloadProvider.tsx",
+      "line": 230,
+      "text": "Plegamiento de péptidos con ESMFold (Meta AI); el acoplamiento lo hace después AutoDock Vina. Con GPU tarda minutos; en CPU, bastante más. El tokenizer ya viene en el instalador: esto es sólo el checkpoint.",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "descripcionDelModulo(entry,t) presenta op_download_qwen_description u op_download_esmfold_description según ID estable."
+    },
+    {
+      "file": "context/DownloadProvider.tsx",
+      "line": 375,
+      "text": "El módulo no declara ninguna URL de descarga.",
+      "scope": "descargarCon",
+      "id": "I18N-400",
+      "classification": "solo_diagnostico",
+      "reason": "descargarCon captura el error y publica estado de error localizado, no el texto interno; prueba en context/__tests__/DownloadProvider.test.tsx.",
+      "consumer": "Capturado por descargarCon; el aviso usa nt_modelo_fallo y nt_modelo_fallo_msg."
+    },
+    {
+      "file": "lib/procedenciaDeSenales.ts",
+      "line": 104,
+      "text": "de esta corrida",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "PipelineTimeline pasa t a describirEtapa, que sustituye estos respaldos por claves estables."
+    },
+    {
+      "file": "lib/procedenciaDeSenales.ts",
+      "line": 105,
+      "text": "sin salida serializada",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "PipelineTimeline pasa t a describirEtapa, que sustituye estos respaldos por claves estables."
+    },
+    {
+      "file": "lib/selectividadMargen.ts",
+      "line": 56,
+      "text": "Sin datos suficientes",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "ProSelectivityPanel usa claveDeVeredicto(deltaDeltaG); veredictoDeMargen conserva el texto histórico para compatibilidad."
+    },
+    {
+      "file": "lib/selectividadMargen.ts",
+      "line": 58,
+      "text": "MARGEN DE SCORE NEGATIVO — la molécula puntúa mejor contra una anti-diana que contra su diana",
+      "scope": "",
+      "classification": "traducido_al_presentar",
+      "reason": "ProSelectivityPanel usa claveDeVeredicto(deltaDeltaG); veredictoDeMargen conserva el texto histórico para compatibilidad."
+    },
+    {
+      "file": "lib/sitioDelReceptor.ts",
+      "line": 183,
+      "text": "Ningún hotspot de este catálogo procede del RCSB: los deriva MolDesign de la estructura.",
+      "scope": "describirHotspots",
+      "classification": "traducido_al_presentar",
+      "reason": "describirHotspots selecciona su rama inglesa según locale; la constante pertenece sólo a la rama castellana."
+    }
+  ]
+}

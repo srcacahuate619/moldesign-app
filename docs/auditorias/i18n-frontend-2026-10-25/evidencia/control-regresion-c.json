@@ -1,0 +1,24 @@
+{
+  "reverted": "components/interfaces/pro/ProAnalysisTabs.tsx",
+  "base": "4fc7a928",
+  "checks": [
+    {
+      "command": "vitest run lib/__tests__/interfazSinTextoFijo.test.ts -t 'texto pendiente de traducir' --maxWorkers 1 --reporter dot",
+      "expectedExit": 1,
+      "actualExit": 1,
+      "output": "\n RUN  v5.0.0 D:/moldesign-worktrees/sol-i18n/frontend\n\nstdout | lib/__tests__/interfazSinTextoFijo.test.ts\n[]\n\n-----x---\n\n Test Files  1 failed (1)\n      Tests  1 failed | 8 skipped (9)\n   Start at  11:53:55\n   Duration  2.94s (tests 42%, environment 40%, setup 13%, import 3%, transform 2%)\n\n\n⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯\n\n FAIL  lib/__tests__/interfazSinTextoFijo.test.ts > la interfaz no puede tener más castellano fijo que ayer > el texto pendiente de traducir sólo puede bajar\nAssertionError: Texto visible nuevo sin pasar por t(). Tradúcelo; no lo añadas al inventario:\n  components/interfaces/pro/ProAnalysisTabs.tsx: Ver los ${estadoDeLaPoseActiva.failedCount} controles que fallan: expected [ Array(1) ] to deeply equal []\n\n- Expected\n+ Received\n\n- []\n+ [\n+   \"components/interfaces/pro/ProAnalysisTabs.tsx: Ver los ${estadoDeLaPoseActiva.failedCount} controles que fallan\",\n+ ]\n\n ❯ lib/__tests__/interfazSinTextoFijo.test.ts:291:7\n    289|       \"Texto visible nuevo sin pasar por t(). Tradúcelo; no lo añadas …\n    290|         + nuevas.join(\"\\n  \"),\n    291|     ).toEqual([]);\n       |       ^\n    292|     expect(\n    293|       resueltas,\n\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\n\n"
+    },
+    {
+      "command": "node e2e/i18n-export.mjs (export con el literal de 4fc7a928)",
+      "expectedExit": 1,
+      "actualExit": 1,
+      "output": "OK primer uso\nOK English persistente tras recarga\nOK tutorial: controles del paso 2\nOK tutorial: controles del paso 3\nOK tutorial: controles del paso 4\nOK tutorial: controles del paso 5\nOK tutorial: controles del paso 6\nOK casos vacíos\nOK preparación vacía\nOK lotes vacíos\nOK Moldex vacío\nOK Molcy sin renderizador\nOK historial vacío\nOK comunidad vacía\nOK registro científico\nOK abrir caso\nOK diálogo nuevo caso\nOK caso creado\nOK selector receptor y tooltips\nOK selector receptor: propios\nOK selector receptor: verificado\nOK resultado sintético reabierto\nnode:internal/modules/run_main:107\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nAssertionError [ERR_ASSERTION]: detalle de la pose fallida: castellano en export\r\n[\r\n  {\r\n    \"channel\": \"innerText\",\r\n    \"text\": \"Ver los 1 controles que fallan\",\r\n    \"element\": \"BUTTON\"\r\n  }\r\n]\r\n\r\n1 !== 0\r\n\r\n    at scan (file:///D:/moldesign-worktrees/sol-i18n/frontend/e2e/i18n-export.mjs:95:10)\r\n    at async file:///D:/moldesign-worktrees/sol-i18n/frontend/e2e/i18n-export.mjs:189:3 {\r\n  generatedMessage: false,\r\n  code: 'ERR_ASSERTION',\r\n  actual: 1,\r\n  expected: 0,\r\n  operator: 'strictEqual',\r\n  diff: 'simple'\r\n}\r\n\r\nNode.js v24.20.0\r\n"
+    },
+    {
+      "command": "node e2e/i18n-export.mjs (export limpio reconstruido)",
+      "expectedExit": 0,
+      "actualExit": 0,
+      "output": "OK primer uso\nOK English persistente tras recarga\nOK tutorial: controles del paso 2\nOK tutorial: controles del paso 3\nOK tutorial: controles del paso 4\nOK tutorial: controles del paso 5\nOK tutorial: controles del paso 6\nOK casos vacíos\nOK preparación vacía\nOK lotes vacíos\nOK Moldex vacío\nOK Molcy sin renderizador\nOK historial vacío\nOK comunidad vacía\nOK registro científico\nOK abrir caso\nOK diálogo nuevo caso\nOK caso creado\nOK selector receptor y tooltips\nOK selector receptor: propios\nOK selector receptor: verificado\nOK resultado sintético reabierto\nOK detalle de la pose fallida\nOK controles físicos de pose fallida\nOK resultado: Poses and checks\nOK resultado: Properties and chemical state\nOK resultado: Analysis\nOK método avanzado 1\nOK método avanzado 2\nOK método avanzado 3\nOK método avanzado 4\nOK método avanzado 5\nOK resultado: Provenance and data\nOK opciones\nOK selector de idiomas\nOK acerca de\nOK acerca de: sección 2\nOK acerca de: sección 3\nOK acerca de: sección 4\nOK acerca de: sección 5\nOK legal: interfaz\nOK legal: pestaña 2\nOK legal: pestaña 3\nOK soporte y ayuda\nOK MolChat sin proveedor disponible\nOK ajustes de MolChat sin modelos\nOK historial con HTTP 500\nOK historial sin conexión\nOK control positivo: innerText/title/aria-label/placeholder\n{\"states\":48,\"positiveChannels\":4,\"originalDataExclusions\":922,\"unhandled\":[]}\n"
+    }
+  ]
+}

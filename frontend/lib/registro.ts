@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage } from "./frontendError";
 /**
  * Registro cientifico — tipos y carga.
  *
@@ -154,7 +155,7 @@ export const ORDEN_CATEGORIAS: Categoria[] = [
 
 export async function cargarIndice(): Promise<IndiceRegistro> {
   const r = await fetch("/registro/index.json", { cache: "no-store" });
-  if (!r.ok) throw new Error(`No se pudo cargar el registro (${r.status})`);
+  if (!r.ok) throw new FrontendError(frontendMessage("re_frontend_243", { v0: r.status }));
   return r.json();
 }
 

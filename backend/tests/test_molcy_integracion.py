@@ -6,7 +6,7 @@ import hashlib
 import json
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 import pytest
 
@@ -113,7 +113,8 @@ def test_lanzador_externo_con_motor_falso(monkeypatch, tmp_path: Path) -> None:
 
     def fake_run(cmd, **kwargs):
         calls.append((cmd, kwargs))
-        assert Path(cmd[0]).is_absolute()
+        # PowerShell es siempre una ruta de Windows: el motor se lanza con `correr_caso.ps1`.
+        assert PureWindowsPath(cmd[0]).is_absolute()
         assert Path(cmd[cmd.index("-Blender") + 1]).is_absolute()
         assert cmd[cmd.index("-Renderizador") + 1] == "gpu"
         assert cmd[cmd.index("-Python") + 1] == str(python_falso)

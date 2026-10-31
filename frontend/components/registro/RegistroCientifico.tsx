@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 
 import { useLanguage } from "@/context/LanguageContext";
 /**
@@ -481,8 +483,8 @@ export function RegistroCientifico() {
   useEffect(() => {
     cargarIndice()
       .then(setIdx)
-      .catch((e) => setError(String(e.message ?? e)));
-  }, []);
+      .catch((e) => setError(String(presentError(e, t) ?? e)));
+  }, [t]);
 
   // el id abierto vive en la URL para que el enlace se pueda compartir
   useEffect(() => {
@@ -590,7 +592,7 @@ export function RegistroCientifico() {
             borderRadius: 3,
           }}
         >
-          {idx.advertencia}
+          {t("rg_index_warning")}
         </div>
       </header>
 

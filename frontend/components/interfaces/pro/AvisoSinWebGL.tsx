@@ -4,7 +4,7 @@
 import { useLanguage } from "@/context/LanguageContext";
 import { AlertTriangle, Cpu } from "lucide-react";
 
-import { comprobarWebGL } from "../../../lib/webgl";
+import { comprobarWebGL, webglReason } from "../../../lib/webgl";
 
 /**
  * Aviso propio cuando el equipo no puede dibujar en 3D.
@@ -44,7 +44,7 @@ export function AvisoSinWebGL({ forzar = false }: { readonly forzar?: boolean })
         </span>{" "}
         {hayContexto
           ? t("auto_248db3e9f594")
-          : estado.motivo}
+          : webglReason(estado, t)}
         <div className="mt-1 text-amber-200/70">
           <span className="font-semibold">{t("pn_evaluacion_no_afectada")}</span> {t("pn_sin_webgl")}
         </div>

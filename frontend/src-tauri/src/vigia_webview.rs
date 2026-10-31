@@ -19,6 +19,9 @@
 //!
 //! Como mucho 3 recuperaciones cada 10 minutos: si la causa sigue ahí, recargar en bucle no la arregla y taparía el fallo.
 
+// Sólo lo llama la parte de WebView2; fuera de Windows queda sin usar y lo cubren sus pruebas.
+#![cfg_attr(not(windows), allow(dead_code))]
+
 use std::collections::VecDeque;
 use std::time::{Duration, Instant};
 

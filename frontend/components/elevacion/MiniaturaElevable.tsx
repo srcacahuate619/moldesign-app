@@ -59,7 +59,7 @@ type Props = {
 };
 
 export default function MiniaturaElevable({ moleculeId, taskId, imgSrc, alt }: Props) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const svgRef = useRef<SVGSVGElement>(null);
   const datos = useRef<{ modelo: ModeloElevacion; escena: Escena } | null>(null);
   const estado = useRef({ encima: false, s: 0, inicio: 0, giro: 0, ultimo: 0, frame: 0 });
@@ -160,9 +160,9 @@ export default function MiniaturaElevable({ moleculeId, taskId, imgSrc, alt }: P
   const detalle = modelo?.pose
     ? [
         modelo.pose.afinidad_kcal_mol !== null
-          ? t("el_pose_afinidad", { valor: formatoDeNumero(modelo.pose.afinidad_kcal_mol) })
+          ? t("el_pose_afinidad", { valor: formatoDeNumero(modelo.pose.afinidad_kcal_mol, locale) })
           : null,
-        t("el_ajuste", { px: formatoDeNumero(modelo.desajuste_px), lienzo: String(modelo.lienzo) }),
+        t("el_ajuste", { px: formatoDeNumero(modelo.desajuste_px, locale), lienzo: String(modelo.lienzo) }),
         ...avisos.map(textoDeAviso),
         modelo.pose.contraiones?.length ? t("el_contraiones", { lista: modelo.pose.contraiones.join(", ") }) : null,
         // Un veredicto que pasa (o que no se evaluó) se dice igual: también es evidencia.

@@ -89,7 +89,7 @@ class SolanaCertifier:
         """Call Solana JSON-RPC using only the Python standard library."""
         if not self.is_devnet:
             raise RuntimeError("MolDesign alpha only permits Solana devnet")
-        from services.ai.red import exigir_permiso
+        from services.red import exigir_permiso
         exigir_permiso(self.rpc_url, None)
         self._request_id += 1
         payload = json.dumps(
@@ -126,7 +126,7 @@ class SolanaCertifier:
         }
         if not self.is_devnet:
             return {**base, "reason": "Esta versión experimental sólo permite Solana devnet."}
-        from services.ai.red import SalidaNoAutorizada, destino_de_url, modo_offline
+        from services.red import SalidaNoAutorizada, destino_de_url, modo_offline
 
         try:
             reachable = await self._rpc("getHealth") == "ok"

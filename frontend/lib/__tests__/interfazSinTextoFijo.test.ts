@@ -29,7 +29,8 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const RAIZ = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const CARPETAS = ["app", "components", "hooks"];
+// TS se revisa con el mismo AST de finish-i18n en la suite de C.
+const CARPETAS = ["app", "components", "hooks", "lib", "context"];
 
 /**
  * Marcas de castellano. Se exige una tilde, una eñe, un signo de apertura o una
@@ -47,11 +48,9 @@ const MARCAS_ES =
 const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/registro/RegistroCientifico.tsx": 15,
   "components/interfaces/pro/ProParametersTab.tsx": 11,
-  "components/ai/ChatPanel.tsx": 10,
   "components/interfaces/pro/EvaluationEvidencePanel.tsx": 10,
   "components/interfaces/pro/TargetSelectorModal.tsx": 10,
   "components/ui/OptionsMenu.tsx": 0,
-  "components/ai/AISettingsModal.tsx": 8,
   "components/MethodDisclaimer.tsx": 8,
   "components/interfaces/pro/ProDockingTab.tsx": 6,
   "components/MoleculeViewer3D.tsx": 6,
@@ -62,7 +61,6 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/interfaces/pro/ProConfigPanel.tsx": 5,
   "components/interfaces/pro/Web3DViewer.tsx": 5,
   "components/PropertiesPanel.tsx": 5,
-  "components/ai/ChatInput.tsx": 4,
   "components/interfaces/pro/EstadoDelLigando.tsx": 4,
   "components/interfaces/pro/ProSarTab.tsx": 4,
   "components/interfaces/pro/ReceptorVariantModal.tsx": 4,
@@ -70,11 +68,9 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/registro/ContrasteInicio.tsx": 4,
   "components/SupportPanel.tsx": 4,
   "components/TraspasoInvitado.tsx": 4,
-  "components/ai/ProviderBadge.tsx": 3,
   "components/interfaces/pro/AvisoSinWebGL.tsx": 3,
   "components/OptionsPanel.tsx": 3,
   "components/PDFReportViewer.tsx": 3,
-  "components/ai/ChatMessage.tsx": 2,
   "components/DownloadCard.tsx": 2,
   "components/DownloadNotifications.tsx": 2,
   "components/evaluation/LipinskiSpiderChart.tsx": 2,
@@ -89,7 +85,6 @@ const PRESUPUESTO: Readonly<Record<string, number>> = {
   "components/ui/LogConsole.tsx": 2,
   "app/evaluation/batch/page.tsx": 1,
   "app/evaluation/page.tsx": 1,
-  "components/ai/BloqueDeEvidencia.tsx": 1,
   "components/CommunityPanel.tsx": 1,
   "components/interfaces/pro/AdvancedMolstarViewer.tsx": 1,
   "components/interfaces/pro/ProAlertsTab.tsx": 1,
@@ -214,7 +209,7 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
     const mutante = join(raiz, "components", "MutanteDelGuardian.tsx");
     writeFileSync(mutante, [
       "export function MutanteDelGuardian() {",
-      "  return (<div><span>Rótulo de mutación sin clave</span><span>Definir</span></div>);",
+      "  return (<div><span>Rótulo de mutación sin clave</span><span>Definir</span><pre>No se pudo guardar el caso</pre><pre>{`No se pudo guardar ${1} casos`}</pre></div>);",
       "}",
       "",
     ].join("\n"), "utf8");
@@ -225,6 +220,8 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
       }));
       expect(actual).toContain("components/MutanteDelGuardian.tsx: Rótulo de mutación sin clave");
       expect(actual).toContain("components/MutanteDelGuardian.tsx: Definir");
+      expect(actual).toContain("components/MutanteDelGuardian.tsx: No se pudo guardar el caso");
+      expect(actual).toContain("components/MutanteDelGuardian.tsx: No se pudo guardar ${1} casos");
     } finally {
       rmSync(mutante, { force: true });
     }
@@ -247,6 +244,15 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
       writeFileSync(mutante, [
         "export function MutanteInvisibleDelGuardian({ modo }: { modo: string }) {",
         "  return (<div id=\"Retry\" data-activo={modo === \"Definir\" ? 1 : 0} />);",
+        "}",
+        "",
+      ].join("\n"), "utf8");
+      expect(detectadas()).toBe(0);
+
+      // El enum técnico none se excluye por contenido, aunque esté dentro de <code>.
+      writeFileSync(mutante, [
+        "export function MutanteInvisibleDelGuardian() {",
+        "  return (<div><code>none</code></div>);",
         "}",
         "",
       ].join("\n"), "utf8");
@@ -324,6 +330,45 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
         f?.cadenas ?? [],
         `${rel} ya estaba traducida y volvió a tener texto fijo`,
       ).toEqual([]);
+    }
+  });
+});
+
+describe("el barrido de C incluye lib, hooks y context", () => {
+  it("revisa retornos y errores en archivos TS reales sin contar comentarios ni consola", () => {
+    const script = resolve(RAIZ, "scripts/finish-i18n-frontend.cjs");
+    const samples = ["lib", "hooks", "context"].map(dir => join(RAIZ, dir, "MutanteFuentesI18n.ts"));
+    try {
+      for (const file of samples) writeFileSync(file, [
+        "// Frase castellana en comentario",
+        'export function label() { return "Sin datos"; }',
+        'const CONNECTION = "Error de conexión al motor"; export function connection() { throw new Error(CONNECTION); }',
+        'export function failure() { throw new Error("No se pudo guardar"); }',
+        'console.warn("Aviso en consola");',
+      ].join("\n"), "utf8");
+      const report = JSON.parse(execFileSync(process.execPath, [script, "--report-json"], { cwd: RAIZ, encoding: "utf8" }));
+      for (const dir of ["lib", "hooks", "context"]) {
+        expect(report.sources.unreviewed).toEqual(expect.arrayContaining([
+          expect.objectContaining({ file: dir + "/MutanteFuentesI18n.ts", text: "Sin datos" }),
+          expect.objectContaining({ file: dir + "/MutanteFuentesI18n.ts", text: "No se pudo guardar" }),
+          expect.objectContaining({ file: dir + "/MutanteFuentesI18n.ts", text: "Error de conexión al motor" }),
+        ]));
+      }
+      expect(report.sources.unreviewed.some((row: { text: string }) => /comentario|consola/.test(row.text))).toBe(false);
+    } finally { for (const file of samples) rmSync(file, { force: true }); }
+  });
+  it("toda revisión coincide con el texto actual y toda deuda sigue pendiente en el inventario", () => {
+    const report = JSON.parse(execFileSync(process.execPath, [resolve(RAIZ, "scripts/finish-i18n-frontend.cjs"), "--report-json"], {
+      cwd: RAIZ, encoding: "utf8",
+    }));
+    expect(report.sources.unreviewed).toEqual([]);
+    expect(report.sources.stale).toEqual([]);
+    const inventory: Array<{ id: string; estado: string; motivo?: string }> = JSON.parse(readFileSync(resolve(RAIZ,
+      "../docs/auditorias/i18n-frontend-2026-10-25/inventario.json"), "utf8"));
+    for (const row of report.sources.pending) {
+      const entry = inventory.find(item => item.id === row.id);
+      expect(entry?.estado, row.id).toBe("pendiente");
+      expect(entry?.motivo, row.id).toBeTruthy();
     }
   });
 });

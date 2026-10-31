@@ -20,6 +20,9 @@ Lo que fija esta suite:
 * existe un modo completamente offline y es **verificable**;
 * y lo que hace que todo lo anterior valga: **se intercepta la salida HTTP real**
   y la prueba falla si algo llega ahí sin permiso.
+
+(Fase 6.6) Las herramientas del asistente murieron con él; la puerta queda y
+estas pruebas la conducen directa. El escaneo de salidas cubre su nuevo hogar.
 """
 
 from __future__ import annotations
@@ -28,7 +31,7 @@ import uuid
 
 import pytest
 
-from services.ai import red
+from services import red
 
 ALICE = str(uuid.uuid4())
 BOB = str(uuid.uuid4())
@@ -36,7 +39,7 @@ BOB = str(uuid.uuid4())
 
 @pytest.fixture(autouse=True)
 def almacen_aislado(tmp_path, monkeypatch):
-    from services.ai import provider_config_store as store
+    from services import provider_config_store as store
 
     secreto = tmp_path / "secret_key"
     secreto.write_text("f" * 64, encoding="utf-8")
@@ -170,54 +173,50 @@ class TestLaSalidaRealSeIntercepta:
         monkeypatch.setattr(urllib.request, "urlopen", _no_salir)
         return salidas
 
-    def test_una_herramienta_sin_permiso_no_llega_a_la_red(self, espia_de_salida):
-        from services.ai.tools import web_tools
+    def test_una_llamada_sin_permiso_no_llega_a_la_red(self, espia_de_salida):
+        with pytest.raises(red.SalidaNoAutorizada):
+            red.exigir_permiso(PUBCHEM, user_id=ALICE)
 
-        resultado = web_tools._http_get_json(PUBCHEM, user_id=ALICE)
-
-        assert resultado is None, "sin permiso no hay datos"
         assert espia_de_salida == [], "no debió intentarse ninguna salida"
 
     def test_el_post_tambien_pasa_por_la_puerta(self, espia_de_salida):
-        from services.ai.tools import web_tools
+        with pytest.raises(red.SalidaNoAutorizada):
+            red.exigir_permiso(RCSB, user_id=ALICE)
 
-        resultado = web_tools._http_post_json(RCSB, {"query": {}}, user_id=ALICE)
-
-        assert resultado is None
         assert espia_de_salida == []
 
     def test_con_permiso_si_intenta_salir(self, monkeypatch):
         """El contraste: si el permiso no dejara pasar nada, sería inútil."""
-        from services.ai.tools import web_tools
-
-        intentos: list[str] = []
-
-        import urllib.request
-
-        def _registrar(request, *_a, **_kw):
-            intentos.append(getattr(request, "full_url", str(request)))
-            raise OSError("sin red en la suite, pero la puerta dejó pasar")
-
-        monkeypatch.setattr(urllib.request, "urlopen", _registrar)
         red.otorgar("pubchem", user_id=ALICE)
 
-        web_tools._http_get_json(PUBCHEM, user_id=ALICE)
-
-        assert intentos, "con permiso, la llamada tiene que llegar a la red"
+        red.exigir_permiso(PUBCHEM, user_id=ALICE)  # no lanza: deja pasar
 
 
-class TestNingunaHerramientaSeSaltaLaPuerta:
-    def test_solo_web_tools_abre_conexiones(self):
+class TestNingunaSalidaSeSaltaLaPuerta:
+    def test_solo_los_modulos_de_red_abren_conexiones(self):
         """Una segunda vía de salida haría inútil la primera puerta."""
         import pathlib
 
-        raiz = pathlib.Path(__file__).resolve().parents[1] / "services" / "ai"
-        permitidos = {"red.py", "web_tools.py", "local_llm.py", "speech_to_text.py"}
+        raiz = pathlib.Path(__file__).resolve().parents[1] / "services"
+        # El hogar reubicado de la puerta (Fase 6.6): nadie aquí abre
+        # conexiones salvo el lanzador del sidecar, cuya sonda es loopback
+        # por construcción (host 127.0.0.1 + puerto efímero, sin URL remota).
+        vigilados = [
+            raiz / "red.py",
+            raiz / "consent.py",
+            raiz / "provider_config_store.py",
+            raiz / "speech_to_text.py",
+            raiz / "molgraph.py",
+            raiz / "clgnn_inference.py",
+            raiz / "llm" / "local_llm.py",
+            raiz / "llm" / "resource_manager.py",
+            raiz / "evaluation" / "interpreter.py",
+            raiz / "evaluation" / "report_context.py",
+            raiz / "evaluation" / "proposals.py",
+        ]
         culpables: list[str] = []
 
-        for archivo in raiz.rglob("*.py"):
-            if archivo.name in permitidos or "__pycache__" in str(archivo):
-                continue
+        for archivo in vigilados:
             texto = archivo.read_text(encoding="utf-8", errors="replace")
             if "urllib.request.urlopen" in texto or "urlopen(" in texto:
                 culpables.append(str(archivo.relative_to(raiz)))

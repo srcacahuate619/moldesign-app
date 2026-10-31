@@ -7,7 +7,8 @@ vi.mock("../../../../lib/config", () => ({ getApiUrl: async () => "http://localh
 const language = vi.hoisted(() => ({ locale: "es" as "es" | "en" }));
 vi.mock("../../../../context/LanguageContext", async (original) => {
   const actual = await original<typeof import("../../../../context/LanguageContext")>();
-  return { ...actual, useLanguage: () => ({ locale: language.locale, t: (key: string, params: Record<string, string | number> = {}) => Object.entries(params).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), actual.TRANSLATIONS[language.locale][key] ?? key) }) };
+  const t = (key: string, params: Record<string, string | number> = {}) => Object.entries(params).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), actual.TRANSLATIONS[language.locale][key] ?? key);
+  return { ...actual, useLanguage: () => ({ locale: language.locale, t }) };
 });
 import ProOptionsModal, { type AdvancedConfig } from "../ProOptionsModal";
 const rows = Array.from({ length: 44 }, (_, i) => ({

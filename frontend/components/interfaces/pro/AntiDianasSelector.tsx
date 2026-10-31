@@ -2,7 +2,14 @@
 import { useId, useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { agruparAntiDianas, antiDianasParaEnviar, antiDianasPorDefecto, disponible, type AntiDiana } from "@/lib/antiDianas";
+import { seleccionarAntiDianasPorAccion } from "@/lib/antiTargetPresentation";
 import { CustomReceptorModal } from "./CustomReceptorModal";
+
+const ACCIONES_PREDETERMINADAS = [
+  { action: "default", label: "pn_panel_por_defecto" },
+  { action: "all", label: "pn_anti_todas" },
+  { action: "none", label: "pn_ninguna" },
+] as const;
 
 export function AntiDianasAviso({ targets, selected }: { targets: readonly AntiDiana[] | null; selected: readonly string[] }) {
   const { t } = useLanguage();
@@ -70,7 +77,7 @@ export function AntiDianasSelector({ targets, selected, onChange, error = false,
       </label>
     </>}
     <div className="flex flex-wrap items-center gap-2">
-      {([ ["por_defecto", "pn_panel_por_defecto"], ["todas", "pn_anti_todas"], ["ninguna", "pn_ninguna"] ] as const).map(([action, label]) => <button type="button" key={action} disabled={disabled} className="min-h-11 rounded-lg border border-zinc-600 px-2 py-1 text-sm text-zinc-200 transition-colors hover:bg-zinc-800 active:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400" onClick={() => onChange(action === "ninguna" ? [] : action === "por_defecto" ? antiDianasPorDefecto(targets) : available.map((a) => a.pdb_id!))}>{t(label)}</button>)}
+      {ACCIONES_PREDETERMINADAS.map(({ action, label }) => <button type="button" key={action} disabled={disabled} className="min-h-11 rounded-lg border border-zinc-600 px-2 py-1 text-sm text-zinc-200 transition-colors hover:bg-zinc-800 active:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400" onClick={() => onChange(seleccionarAntiDianasPorAccion(action, antiDianasPorDefecto(targets), available.map((a) => a.pdb_id!)))}>{t(label)}</button>)}
       {!catalogo && <span role="status" className="text-sm text-zinc-400">{t("pn_anti_recuento", { n: effective.length, total: available.length })}</span>}
     </div>
     <AntiDianasAviso targets={targets} selected={selected} />

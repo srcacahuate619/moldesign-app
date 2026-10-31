@@ -1,3 +1,4 @@
+import { persistedResult } from "./fixtures/persisted-result.mjs";
 import { expect, test, type Page, type Route } from "@playwright/test";
 
 type Researcher = "alice" | "bob";
@@ -27,77 +28,6 @@ async function createCase(page: Page, name: string) {
   await expect(page.getByText(name, { exact: true }).first()).toBeVisible();
 }
 
-function persistedResult() {
-  return {
-    id: "result-alice",
-    molecule_id: "molecule-alice",
-    smiles_hash: "sha256:alice",
-    target_name: "Receptor persistido",
-    target_spearman_rho: null,
-    target_pdb_id: "7E2Y",
-    affinity_kcal: -8.4,
-    affinity_score: 84,
-    docking_poses: [{ rank: 1, affinity: -8.4, rmsd_lb: 0, rmsd_ub: 0 }],
-    parsing_source: "sdf",
-    vina_version: "test",
-    vina_random_seed: 42,
-    scientific_warnings: [],
-    task_id: "task-alice",
-    molecular_weight: 46.07,
-    log_p: -0.3,
-    tpsa: 20.2,
-    hbd: 1,
-    hba: 1,
-    rotatable_bonds: 0,
-    heavy_atom_count: 3,
-    ring_count: 0,
-    lipinski_pass: true,
-    veber_pass: true,
-    ghose_pass: null,
-    egan_pass: null,
-    muegge_pass: null,
-    muegge_score: null,
-    fsp3: null,
-    is_pains: false,
-    pains_matches: [],
-    qed: 0.4,
-    sa_score: 1.2,
-    sa_reasons: [],
-    adme_score: null,
-    druglikeness_score: null,
-    blood_viability_score: null,
-    total_score: 84,
-    gnn_score: null,
-    xgb_score: null,
-    clgnn_score: null,
-    quantum_score: null,
-    ums_score: null,
-    mmgbsa_score: null,
-    target_family: null,
-    engine_used: "vina",
-    fallback_reason: null,
-    in_applicability_domain: true,
-    model_used: "vina",
-    specificity_score: null,
-    hotspots_hit: [],
-    target_hotspots: [],
-    shap_values: null,
-    gnn_attention: null,
-    gnn_attention_svg: null,
-    gnn_pharmacophores: null,
-    selectivity_ratio: null,
-    selectivity_verdict: null,
-    anti_target_results: [],
-    selectivity_ran: false,
-    poses_file_path: null,
-    is_control: false,
-    ai_report: null,
-    blockchain_tx_id: null,
-    error_message: null,
-    evaluated_at: "2026-08-27T12:00:00.000Z",
-  };
-}
-
 async function json(route: Route, body: unknown, status = 200) {
   await route.fulfill({
     status,
@@ -124,8 +54,6 @@ test("cada cuenta conserva sus casos y Alice recupera su corrida tras reiniciar"
     const bearer = request.headers().authorization;
     if (bearer) authorization.push(`${path}:${bearer}`);
 
-    if (path === "/ai/providers" || path === "/ai/conversations") return json(route, []);
-    if (path === "/ai/startup") return json(route, { mode: "manual" });
     if (path === "/targets" || path === "/targets/") {
       return json(route, [{
         pdb_id: "7E2Y", name: "5-HT1A", organism: "Homo sapiens", resolution: 3,

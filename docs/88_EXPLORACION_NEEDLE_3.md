@@ -1,8 +1,10 @@
 # 88 — Needle 3 (Cactus Compute): tecnología en exploración
 
 **Estado: EN EXPLORACIÓN — no integrada, no recomendada para integrar hoy.**
-**Fecha de la medida: 2026-09-20.** Arnés y datos en
-[`scripts/bench_tool_calling/`](../scripts/bench_tool_calling/).
+**Fecha de la medida: 2026-09-20.** El arnés y los datos estaban en
+`scripts/bench_tool_calling/`, retirado del árbol con el asistente interno
+(`9dff3cdb`). Se recuperan de la historia con
+`git show 9dff3cdb^:scripts/bench_tool_calling/<fichero>`.
 
 Este documento no decide nada sobre el producto. Registra qué es Needle 3, qué
 se midió contra el motor que MolChat usa hoy, bajo qué condiciones, y qué

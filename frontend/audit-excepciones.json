@@ -1,23 +1,4 @@
 {
   "_leeme": "Avisos críticos de `npm audit --omit=dev` que la CI deja pasar, uno por uno, con su motivo. Lo lee scripts/check-npm-audit.mjs. Una excepción caduca en su fecha, cuando cambia la versión instalada del paquete o cuando el aviso deja de aparecer; en los tres casos la guarda falla hasta que se quite de aquí.",
-  "excepciones": [
-    {
-      "aviso": "GHSA-2464-fhr4-w9xw",
-      "paquete": "next",
-      "version_instalada": "16.3.8",
-      "titulo": "Unauthenticated Remote Code Execution in Image Optimization API when SVG files are used",
-      "motivo": "La API de optimización de imágenes sólo existe en el servidor de Next. MolDesign exporta el frontend estático (next.config.js: output \"export\", images.unoptimized) y el instalador no lleva servidor de Next. Deducido de la configuración, no medido sobre el binario.",
-      "decision": "propietario, 2026-10-25: 1.0.4 es una vista previa; next se actualiza (>= 16.4.3) antes de su build",
-      "caduca": "2026-12-31"
-    },
-    {
-      "aviso": "GHSA-673q-mjm6-r5xr",
-      "paquete": "next",
-      "version_instalada": "16.3.8",
-      "titulo": "Unauthenticated Remote Code Execution in `use cache` functions returning typed arrays",
-      "motivo": "`use cache` corre en el servidor de Next. Ningún fichero de app/, components/ ni lib/ declara la directiva (git grep, 2026-10-25), el export estático no la ejecutaría y el instalador no lleva servidor de Next. Deducido de la configuración y del código, no medido sobre el binario.",
-      "decision": "propietario, 2026-10-25: 1.0.4 es una vista previa; next se actualiza (>= 16.4.3) antes de su build",
-      "caduca": "2026-12-31"
-    }
-  ]
+  "excepciones": []
 }

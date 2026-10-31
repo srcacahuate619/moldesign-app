@@ -387,6 +387,17 @@ repite el diseño con el producto arreglado (`1886794d`). Con cuatro revisores a
   revisión y las nombra. Medido con Vina real sobre las 14: 13 lo piden y nombran la copia; 1VKG no se prepara (Meeko). El estado
   global no cambia en ninguna.
 
+**`FEP-06-HUM` (abierto desde el 2026-10-26; reto público en `challenge/FEP-06-HUM/`)** pide lo mismo a investigadores humanos que
+preparan FEP o MD. Son diez paquetes generados por la API del producto, en inglés (`backend/` y `tools/` idénticos a los de `main`
+público `b361d730`), y uno es un control con un límite real que el producto no declara. La clave está fuera del repositorio; su
+SHA-256 (`332d187d…dabc`) está publicado y la regla de decisión, registrada antes de generar. El generador
+(`scripts/fep06hum/`) y el directorio del experimento están retenidos del público hasta cerrar la ronda, el 2026-12-06 o con
+20 revisiones admitidas. Antes de la tercera generación, la que se publicó, se descartaron dos sin enseñarlas: la primera por un
+error del generador y un defecto del PDF del dossier (arreglado en `d60b5fa6`), y la segunda porque preparó 2AW1 desde una copia
+que sólo existe en el árbol de desarrollo. Están en su `DESVIACIONES.md`, retenido; lo que se puede decir con la ronda abierta está
+en `challenge/FEP-06-HUM/DEVIATIONS.md`. **Toda desviación va a los dos ficheros antes de leer ninguna revisión**, y el público no
+puede señalar el control. Las revisiones llegan por mensaje privado o correo; la plantilla de issue es sólo de inscripción.
+
 Estado auditado hoy, sobre 203 complejos:
 
 | Auditoría | Listos | Cuello |
@@ -532,7 +543,7 @@ docs/             programa experimental, gates de release, auditorías
 
 ```bash
 cd frontend
-npm run test:run      # 2105 pruebas en 229 archivos (2026-10-22)
+npm run test:run      # 2333 pruebas en 263 archivos (2026-10-26)
 npm run tauri:build   # instalador completo
 ```
 
@@ -836,8 +847,8 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   fallos** (10,6 min, con la máquina ocupada en el stage). La última, antes del segundo
   build, en el worktree del build sobre `dd09e229`: **4868 pasan, 35 saltadas, 2 xfail y
   0 fallos** (10,7 min).
-  Frontend: **2105** en 229 archivos, todas en verde (medido el 2026-10-24 al cerrar 1.0.4; antes, el 2026-10-22 sobre la rama de
-  integración; antes, 2047 el 2026-10-12 sobre `96d18d9a`). `tsc` y `check:csp` limpios. Con la máquina cargada, una prueba de
+  Frontend: **2333** en 263 archivos, todas en verde (medido el 2026-10-26 al integrar `sol/i18n-frontend`; antes, 2105 en 229
+  el 2026-10-24 al cerrar 1.0.4; antes, 2047 el 2026-10-12 sobre `96d18d9a`). `tsc` y `check:csp` limpios. Con la máquina cargada, una prueba de
   Preparación (`tautomeroMinoritario.test.tsx`) llegó a agotar su tiempo; aislada y con
   la suite repetida en reposo, pasa.
   **Las instantáneas y los conteos se escriben con python-embed.** El manifiesto
@@ -856,8 +867,9 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   de recolectar, que es la guardia contra un `importorskip` perdido. Un conteo
   que creció lo deja pasar, así que después de añadir pruebas hay que ejecutar
   `--write`.
-- Smoke de producción: **63/63** (2026-10-12, sobre `dd09e229` en el worktree del segundo
-  build, con `test:e2e` 13/13 y `test:ux` 12/12; antes, igual sobre `0659a7ce` en un worktree limpio;
+- Smoke de producción: **63/63** (2026-10-26, en el árbol principal al integrar `sol/i18n-frontend`, con `test:e2e` 13/13,
+  `test:ux` 12/12 y el guardián del export en inglés, `node frontend/e2e/i18n-export.mjs`, 48 estados sin castellano; antes,
+  63/63 el 2026-10-12 sobre `dd09e229` en el worktree del segundo build y sobre `0659a7ce` en un worktree limpio;
   export y runtime staged, CSP de producción y datos temporales; incluye la API de
   Molcy, su raíz instalada, el catálogo de Molcy, el selector de lotes y 12 rutas de la
   API en cada idioma). Se montó en un worktree para que el export no arrastre trabajo sin
@@ -872,9 +884,9 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   runtime, no el instalador:** WebView2, NSIS y una
   máquina limpia siguen sin probarse aquí. El anterior era de 18/18 (2026-10-03); repítelo
   si cambia el frontend, el CSP o el empaquetado.
-- Sellos: **187** experimentos sellados (`python scripts/validar_sellos.py --check`,
-  paso de la CI; 172 con MET-01-R1, 2 más con CAL-D-01 R4 y R4B, 1 con ABS-TR-01-VALIDEZ y 3 de la fase 1b: REC-07-R1, RS-03-PARAM-A-R1 y MF-33-EXT-MOD-R1, integrados el 2026-10-22; MET-02-SEMILLA y MET-02-R1-SEMILLA el 2026-10-23; y FEP-06-PRE, sellado al cerrar, ABS-TR-01-VALIDEZ-R1 y CAL-D-01-R4-2-VMAT2-8T69, el 2026-10-24; FEP-06-PRE-2, VISION-MOLECULAR-01, SUP-02-TOTAL-SCORE y SUP-03-VALIDADOR-LIGANDO, el 2026-10-25). **Un clon del repositorio público
-  valida 185**, no 187: FEP-06-PRE y FEP-06-PRE-2 están en `scripts/retenidos_del_publico.txt` mientras la
+- Sellos: **189** experimentos sellados (`python scripts/validar_sellos.py --check`,
+  paso de la CI; 172 con MET-01-R1, 2 más con CAL-D-01 R4 y R4B, 1 con ABS-TR-01-VALIDEZ y 3 de la fase 1b: REC-07-R1, RS-03-PARAM-A-R1 y MF-33-EXT-MOD-R1, integrados el 2026-10-22; MET-02-SEMILLA y MET-02-R1-SEMILLA el 2026-10-23; y FEP-06-PRE, sellado al cerrar, ABS-TR-01-VALIDEZ-R1 y CAL-D-01-R4-2-VMAT2-8T69, el 2026-10-24; FEP-06-PRE-2, VISION-MOLECULAR-01, SUP-02-TOTAL-SCORE y SUP-03-VALIDADOR-LIGANDO, el 2026-10-25; SUP-05-CORTES-DEL-SITIO y SUP-04-EXHAUSTIVIDAD-8T69, el 2026-10-26). **Un clon del repositorio público
+  valida 187**, no 189: FEP-06-PRE y FEP-06-PRE-2 están en `scripts/retenidos_del_publico.txt` mientras la
   ronda FEP-06-HUM pueda reutilizar sus paquetes, y el registro y la web públicos se regeneran sin ellos
   (medido el 2026-10-25 sobre `b361d730` en un clon limpio: 6684 ficheros verificados, cero ausentes y cero
   distintos). El 2026-10-23, 7035 ficheros verificados, cero ausentes y cero distintos. El 2026-10-21, con MET-01-R1 integrado en `claude/auditoria-ciencia-arreglos`:
@@ -901,14 +913,36 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   manifiesto de modelos y enlaces). **Antes de integrar en la rama de una
   versión, pasa con python-embed todos los `--check` de `ci.yml`**, no sólo
   pytest.
+  **La CI pública estuvo en rojo del 2026-10-26 al 10-31 y lo tapaba ella misma.** `--maxfail=1` paraba en la primera prueba, una
+  frase partida por el PDF que sólo se ve con `pypdf`, y `pypdf` no viaja en python-embed, así que en local se saltaba. Los pasos
+  siguientes llevaban cinco días sin correr. Para reproducirla: clon limpio, venv con los dos requirements, sin `tools/` ni
+  python-embed, y sin `--maxfail`.
+- **Linux (primera medida, 2026-10-31, Ubuntu 24.04 en contenedores Debian 12).** Con los arreglos de ese día, sobre un clon
+  limpio: backend 5338 pasan y 0 fallos, `scripts/tests` 260, rescoring 318, sellos, humo de escritorio, Playwright y
+  `build:desktop`. Saltó un defecto que Windows ocultaba: dos documentos enlazaban `F:/Backups/…`, que `check_docs_links` daba por
+  bueno en esta máquina y habría tumbado la CI. **Una prueba que dé por hecha la barra de Windows, un disco o `msedge` se ve en
+  Linux, no aquí.** No está en la CI y no hay instalador para Linux.
 - **Inventario de supuestos `SUPUESTOS-01` (2026-10-25).** Lo que el producto da por hecho sin medida, en dos barridos
   independientes: 50 entradas de Claude y 303 de Sol 6.1 (validadas cita por cita contra el commit; 14 de 15 correctas en una
   muestra a mano). La entrega está en `E:\SUPUESTOS-01\`. Se miden por coste, con registro previo:
-  - **`SUP-02-TOTAL-SCORE` (NO_GO):** el `total_score` de 0 a 100 que SAR, Comunidad y Moldex enseñan como calidad no ordena
-    mejor que Vina (8T69: ρ 0,397 frente a 0,392; 8HFI: 0,03 frente a 0,13).
+  - **`SUP-02-TOTAL-SCORE` (NO_GO):** el `total_score` de 0 a 100 no ordena mejor que Vina (8T69: ρ 0,397 frente a 0,392;
+    8HFI: 0,03 frente a 0,13). Desde 1.0.4 sólo lo enseña Moldex, rotulado «índice compuesto heredado» con una nota que cita
+    SUP-02; Comunidad ya no lo pinta y el Historial no lo mostraba desde QA2-007.
   - **`SUP-03-VALIDADOR-LIGANDO` (GO):** las cuatro reglas bloqueantes del validador no rechazan ninguna de 640 moléculas con
     actividad medida.
-  - Pendiente de decidir: las 5 poses por defecto de la API frente a las 9 de la interfaz.
+  - **`SUP-04-EXHAUSTIVIDAD-8T69` (INCONCLUSIVE; paper `docs/papers/SUP-04-EXHAUSTIVIDAD-8T69.md`):** con la serie de 89 Ki de
+    8T69, subir la exhaustividad de 8 a 32 da Δρ = +0,043 (IC 95 % −0,006 a +0,116): ni excluye el cero ni cabe en ±0,10.
+    Cambiar sólo la semilla mueve ρ −0,025; la pose del cristal sale 5/5 con 8, 16 y 32, y 85 de 89 padres quedan a menos de
+    0,1 kcal/mol. El sello de 8T69 (exhaustividad 8, semilla 42) se repite exacto. El 8 sigue siendo el defecto de Vina, no
+    un valor validado.
+  - **`SUP-05-CORTES-DEL-SITIO` (INCONCLUSIVE; paper `docs/papers/SUP-05-CORTES-DEL-SITIO.md`):** mover ±1 Å el corte de los
+    huecos (8 Å) cambia 8 de 272 entradas y el de las especies junto al sitio (6 Å), 18 de 272. El registro pedía 300 medibles;
+    109 entradas no declaran ligando del cristal. Son lecturas, no decisiones.
+  - **La API acopla 9 poses por defecto**, como la interfaz (antes 5). `num_modes` cambia la salida de Vina: en la corrida dorada
+    por la ruta por defecto, el top-1 pasó de −4,886 a −4,872 kcal/mol.
+  - Aplazados a 1.0.5 (decisión del propietario, 2026-10-26): las aguas del sitio con y sin (REC-11 comparó todas contra
+    ninguna en PDBbind, INCONCLUSIVE; la receta del catálogo retira todas y eso no está medido) y los pKa medidos (pide
+    descargar un conjunto público).
 - Arranque medido en entorno de producción: **~6 s**.
 - **Cero usuarios externos** todavía. El propio roadmap identifica esto como el
   riesgo de muerte real del proyecto, por encima del científico.

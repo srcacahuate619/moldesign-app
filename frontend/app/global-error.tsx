@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../lib/frontendError";
+
 // =====================================================================
 // global-error — la red que impide la pantalla en blanco
 // =====================================================================
@@ -89,7 +91,7 @@ export default function GlobalError({
               fontFamily: "ui-monospace, SFMono-Regular, Consolas, monospace",
             }}
           >
-            {error?.message || t("auto_090a83af1bac")}
+            {presentError(error, t) || t("auto_090a83af1bac")}
             {error?.digest ? `\ndigest: ${error.digest}` : ""}
           </pre>
 

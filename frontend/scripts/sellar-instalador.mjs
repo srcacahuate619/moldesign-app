@@ -60,16 +60,17 @@ function commitActual() {
     const sha = execFileSync("git", ["rev-parse", "HEAD"], {
       cwd: FRONTEND, encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"],
     }).trim();
-    let sucio = false;
+    let arbol_limpio = null;
     try {
-      sucio = execFileSync("git", ["status", "--porcelain"], {
+      arbol_limpio = execFileSync("git", ["status", "--porcelain"], {
         cwd: FRONTEND, encoding: "utf-8", stdio: ["ignore", "pipe", "ignore"],
-      }).trim().length > 0;
+      }).trim().length === 0;
     } catch {}
-    // `sucio` no es un detalle: un instalador construido desde un arbol con
+    // Si status falla, null declara que no se pudo comprobar, sin descartar el
+    // commit que sí se leyó. Un instalador construido desde un arbol con
     // cambios sin commitear NO es reproducible, y quien lo descargue no puede
     // llegar al codigo que lo produjo. Se declara en vez de callarse.
-    return { commit: sha, arbol_limpio: !sucio };
+    return { commit: sha, arbol_limpio };
   } catch {
     return { commit: null, arbol_limpio: null };
   }
@@ -152,5 +153,7 @@ if (arbol_limpio === false) {
     "[sellar-instalador] AVISO: construido desde un arbol con cambios sin " +
       "commitear. Este instalador no es reproducible desde el repositorio."
   );
+} else if (arbol_limpio === null) {
+  console.warn("[sellar-instalador] AVISO: no se pudo comprobar si el arbol estaba limpio.");
 }
 process.exit(0);

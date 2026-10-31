@@ -1,6 +1,15 @@
-import { describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import type { ReactNode } from "react";
+
+const language = vi.hoisted(() => ({ locale: "es" as "es" | "en" }));
+vi.mock("../../../../context/LanguageContext", async () => {
+  const real = await vi.importActual<typeof import("../../../../context/LanguageContext")>("../../../../context/LanguageContext");
+  const t = (key: string, values?: Readonly<Record<string, string | number>>) => real.interpolar(real.TRANSLATIONS[language.locale][key] ?? key, values);
+  return { ...real, useLanguage: () => ({ locale: language.locale, t }) };
+});
+beforeEach(() => { language.locale = "es"; });
+afterEach(cleanup);
 
 vi.mock("../ProParametersTab", () => ({ ProParametersTab: () => <div>parámetros reales</div> }));
 vi.mock("../ProAlertsTab", () => ({ ProAlertsTab: () => <div>alertas reales</div> }));
@@ -114,5 +123,20 @@ describe("ProAnalysisTabs", () => {
     fireEvent.click(screen.getByRole("tab", { name: /^SAR:/i }));
     expect(screen.getByText("SAR existente")).toBeInTheDocument();
     expect(screen.getByText(/no genera actividad/i)).toBeInTheDocument();
+  });
+});
+
+describe.each(["es", "en"] as const)("abrir controles físicos en %s", locale => {
+  it("conserva el recuento y abre el detalle desde una pose fallida", () => {
+    language.locale = locale;
+    const result = { ...RESULT, structural_evidence: { ...RESULT.structural_evidence, stage_status: "failed", poses: [
+      { rank: 1, status: "failed", checks: [{ check: "internal_energy", estado: "FALLA" }, { check: "bond_lengths", estado: "FALLA" }] },
+    ] } };
+    render(<ProAnalysisTabs status={{ result } as any} selectivityResult={null} moleculeId="mol-1" />);
+    const label = locale === "es" ? "Ver los 2 controles que fallan" : "View failed checks (2)";
+    const button = screen.getByRole("button", { name: label });
+    expect(button).toBeEnabled();
+    fireEvent.click(button);
+    expect(screen.getByText("expediente estructural")).toBeVisible();
   });
 });

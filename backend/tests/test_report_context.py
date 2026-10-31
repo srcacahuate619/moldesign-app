@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
-from services.ai.report_context import build_evaluation_report_request
+from services.evaluation.report_context import build_evaluation_report_request
 
 
 def test_report_context_preserves_scientific_values_for_any_delivery_mode():

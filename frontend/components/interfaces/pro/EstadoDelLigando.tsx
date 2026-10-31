@@ -38,14 +38,14 @@ const ESTILO_CARGA: Record<string, string> = {
   neutra: "border-white/[0.12] bg-white/[0.04] text-zinc-300",
 };
 
-function etiquetaDeCarga(carga: number | null | undefined): {
+export function etiquetaDeCarga(carga: number | null | undefined, t: (key: string, values?: Readonly<Record<string, string | number>>) => string): {
   texto: string;
   estilo: string;
 } {
-  if (carga == null) return { texto: "carga sin determinar", estilo: ESTILO_CARGA.neutra };
-  if (carga > 0) return { texto: `catión ${carga > 1 ? `+${carga}` : "+1"}`, estilo: ESTILO_CARGA.positiva };
-  if (carga < 0) return { texto: `anión ${carga < -1 ? carga : "−1"}`, estilo: ESTILO_CARGA.negativa };
-  return { texto: "especie neutra", estilo: ESTILO_CARGA.neutra };
+  if (carga == null) return { texto: t("pr_charge_unknown"), estilo: ESTILO_CARGA.neutra };
+  if (carga > 0) return { texto: t("pr_charge_positive", { charge: carga > 1 ? `+${carga}` : "+1" }), estilo: ESTILO_CARGA.positiva };
+  if (carga < 0) return { texto: t("pr_charge_negative", { charge: carga < -1 ? carga : "−1" }), estilo: ESTILO_CARGA.negativa };
+  return { texto: t("pr_charge_neutral"), estilo: ESTILO_CARGA.neutra };
 }
 
 export function EstadoDelLigando({ result }: { readonly result: EvaluationResult | null | undefined }) {
@@ -56,7 +56,7 @@ export function EstadoDelLigando({ result }: { readonly result: EvaluationResult
   if (!estado) return null;
 
   const cambio = Boolean(estado.cambio_respecto_a_la_entrada);
-  const carga = etiquetaDeCarga(estado.carga_formal_neta);
+  const carga = etiquetaDeCarga(estado.carga_formal_neta, t);
   const taut = estado.tautomeria;
   const prot = estado.protonacion;
   // SCI-A-066: sólo atribuir pH cuando la protonación aplicada lo registra.

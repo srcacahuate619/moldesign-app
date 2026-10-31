@@ -131,6 +131,8 @@ async def test_la_evaluacion_sincrona_comprueba_la_huella_del_preflight(monkeypa
         )
 
     assert error.value.status_code == 409
+    assert "huella" in error.value.detail.lower()
+    assert "cambió" not in error.value.detail.lower()
 
 
 @pytest.mark.asyncio

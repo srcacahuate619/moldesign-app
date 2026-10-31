@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 /* Hallmark · pre-emit critique: P5 H4 E4 S5 R5 V4
  * Molcy: workspace de edición; la vista esquemática nunca se presenta como evidencia. */
 
@@ -293,20 +295,20 @@ function MolcyWorkspace() {
       try {
         const next = await estadoMolcy(jobId);
         if (!cancelled && ownerRef.current === owner && next.id === jobId) setJob(current => current?.id === jobId ? next : current);
-      } catch (error) { if (!cancelled && ownerRef.current === owner) setError((error as Error).message); }
+      } catch (error) { if (!cancelled && ownerRef.current === owner) setError(presentError((error as Error), t)); }
       if (!cancelled) timer = setTimeout(tick, 3000);
     };
     timer = setTimeout(tick, 3000);
     return () => { cancelled = true; if (timer) clearTimeout(timer); };
-  }, [jobId, jobEstado, userId]);
+  }, [jobId, jobEstado, userId, t]);
   useEffect(() => {
     if (jobEstado !== "completo" || !jobId || esSesionDeFotos) return;
     let cancelled = false;
     videoMolcy(jobId).then((url) => {
       if (!cancelled) setVideoUrl(url);
-    }).catch((e: Error) => { if (!cancelled) setError(e.message); });
+    }).catch((e: Error) => { if (!cancelled) setError(presentError(e, t)); });
     return () => { cancelled = true; };
-  }, [jobId, jobEstado, videoAttempt, esSesionDeFotos]);
+  }, [jobId, jobEstado, videoAttempt, esSesionDeFotos, t]);
   // Vista previa en vivo: mientras Blender renderiza se pide, cada poco, el último fotograma entero. Es un extra: si falla no
   // se muestra como error ni interrumpe el render.
   useEffect(() => {
@@ -381,7 +383,7 @@ function MolcyWorkspace() {
       if (ownerRef.current === owner) window.dispatchEvent(new CustomEvent("moldesign:molcy-job-created", { detail: { ownerId: owner, jobId: next.id } }));
       if (ownerRef.current === owner && revision === selectionRevision.current) verTrabajo(next);
       setEsteVideo(null); // «sólo este vídeo» no se arrastra al siguiente
-    } catch (e) { setError((e as Error).message); }
+    } catch (e) { setError(presentError((e as Error), t)); }
     finally { setSubmitting(false); }
   };
   const selected = scenes[scene][locale];
@@ -635,10 +637,10 @@ function MolcyWorkspace() {
                   : job.estado === "en_cola" || job.estado === "renderizando" ? "cy_photo_state_preparing" : `cy_${job.estado}`) : t(`cy_${job.estado}`)}</p>
                 {job.dispositivo === "cpu" && job.cpu_hilos != null && <p className="mt-1">{t("cy_cpu_job_threads", { count: job.cpu_hilos })}</p>}
                 {["en_cola", "renderizando"].includes(job.estado) && <button type="button"
-                  onClick={() => cancelarMolcy(job.id).then(next => setJob(current => current?.id === next.id ? next : current)).catch((e: Error) => setError(e.message))}
+                  onClick={() => cancelarMolcy(job.id).then(next => setJob(current => current?.id === next.id ? next : current)).catch((e: Error) => setError(presentError(e, t)))}
                   className="mt-2 border border-[var(--border)] px-3 py-2">{t("cy_cancel_render")}</button>}
                 {job.estado === "completo" && <DownloadButton
-                  onDownload={() => descargarProcedenciaMolcy(job.id)} onError={e => setError(e.message)}
+                  onDownload={() => descargarProcedenciaMolcy(job.id)} onError={e => setError(presentError(e, t))}
                   className="mt-2 border border-[var(--border)] px-3 py-2">{t("cy_provenance")}</DownloadButton>}
                 {job.estado === "renderizando" && !esSesionDeFotos && <p role="status" className="mt-2">
                   {job.progreso ? t("cy_progress", { done: job.progreso.fotogramas, total: job.progreso.total }) : t("cy_eta_calibrating")}
@@ -646,7 +648,7 @@ function MolcyWorkspace() {
                   {job.progreso && job.restante_render_principal_s == null && <span className="mt-1 block">{t(job.progreso.fotogramas >= job.progreso.total ? "cy_finalizing" : "cy_eta_calibrating")}</span>}
                 </p>}
                 {job.motivo && <p role="alert" className="mt-2">{job.motivo}</p>}
-                {job.estado === "completo" && !esSesionDeFotos && <DownloadButton onDownload={() => descargarMolcy(job.id)} onError={e => setError(e.message)} className="mt-3 border border-[var(--accent-strong)] px-3 py-2 font-semibold">{t("cy_descargar")}</DownloadButton>}
+                {job.estado === "completo" && !esSesionDeFotos && <DownloadButton onDownload={() => descargarMolcy(job.id)} onError={e => setError(presentError(e, t))} className="mt-3 border border-[var(--accent-strong)] px-3 py-2 font-semibold">{t("cy_descargar")}</DownloadButton>}
                 {job.video_sha256 && <p className="mt-3 break-all font-mono text-[10px]">{t("cy_hash")}: {job.video_sha256}</p>}
               </div>}
               <p className="mt-5 border-t border-[var(--border)] pt-4 font-mono text-[10px] uppercase tracking-[0.11em] text-[var(--text-dim)]">{c.noBackend}</p>
@@ -658,7 +660,7 @@ function MolcyWorkspace() {
       </div>
       {showUpload && <CustomReceptorModal onClose={() => setShowUpload(false)} onSuccess={() => {
         setShowUpload(false);
-        fuentesMolcy().then(setSources).catch((e: Error) => setError(e.message));
+        fuentesMolcy().then(setSources).catch((e: Error) => setError(presentError(e, t)));
       }} />}
     </main>
   );

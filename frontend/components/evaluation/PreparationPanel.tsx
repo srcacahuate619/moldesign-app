@@ -34,7 +34,7 @@ import { useEffect, useId, useState } from "react";
 import { AlertTriangle, CheckCircle2, ChevronDown, CircleSlash, Loader2, ShieldQuestion } from "lucide-react";
 
 import { useLanguage } from "../../context/LanguageContext";
-import { localizeReceptorLabel } from "../../lib/preflight";
+import { localizeReceptorLabel, receptorFromSummary, gridLabelForSummary } from "../../lib/preflight";
 import { Ayuda } from "../ui/Ayuda";
 import { ConfigurationInputs, ConfigurationMetadata, useConfigurationPresentation } from "./ConfigurationPresentation";
 import configurationStyles from "./ConfigurationPresentation.module.css";
@@ -248,7 +248,7 @@ export function PreparationPanel({
           {configuration ? <ConfigurationInputs summary={persisted} /> : (<dl className="grid gap-x-6 gap-y-2 sm:grid-cols-2 xl:grid-cols-4">
             <div className="min-w-0">
               <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_receptor")}</dt>
-              <dd className="truncate text-sm font-semibold text-zinc-100">{localizeReceptorLabel(persisted.receptorLabel, t)}</dd>
+              <dd className="truncate text-sm font-semibold text-zinc-100">{localizeReceptorLabel(receptorFromSummary(persisted), t)}</dd>
             </div>
             <div className="min-w-0">
               <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_ligand")}</dt>
@@ -258,7 +258,7 @@ export function PreparationPanel({
             </div>
             <div className="min-w-0">
               <dt className="font-mono text-[11px] font-semibold uppercase tracking-wide text-zinc-300">{t("pr_preflight_effective_box")}</dt>
-              <dd className="truncate text-sm font-semibold text-zinc-100">{persisted.gridLabel}</dd>
+              <dd className="truncate text-sm font-semibold text-zinc-100">{gridLabelForSummary(persisted, t)}</dd>
             </div>
             {persisted.executionConfig && (
               <div className="min-w-0">

@@ -26,6 +26,7 @@
 // cualquier operación que reemplace el caso activo.
 
 import type { CaseRecord } from "./types";
+import { FrontendError, frontendMessage } from "../frontendError";
 
 /**
  * Resultado de drenar. `ok: false` significa que TODAVIA hay algo sin escribir.
@@ -175,7 +176,7 @@ export class CaseSaveQueue {
     return {
       ok: false,
       caseId,
-      error: new Error("El caso no dejó de cambiar mientras se guardaba."),
+      error: new FrontendError(frontendMessage("ca_diag_save_unstable")),
     };
   }
 

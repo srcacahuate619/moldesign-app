@@ -45,19 +45,19 @@ const SHAP_EXPLANATIONS: Record<string, { label: string; desc: string }> = {
   "ecif_C_ali_O": { label: "Contactos C-alif\u00e1tico \u2192 O", desc: "Pares entre \u00e1tomos de carbono alif\u00e1tico del ligando y ox\u00edgenos del bolsillo. Captura interacciones dipolo-dipolo y puentes de H con aceptores." },
 };
 
-function getFeatureExplanation(feature: string) {
-  if (SHAP_EXPLANATIONS[feature]) return SHAP_EXPLANATIONS[feature];
+export function getFeatureExplanation(feature: string, t: (key: string, values?: Readonly<Record<string, string | number>>) => string) {
+  if (SHAP_EXPLANATIONS[feature]) { const value = SHAP_EXPLANATIONS[feature]; return { label: t(value.label), desc: t(value.desc) }; }
   if (feature.startsWith("ecif_")) {
     const pair = feature.replace("ecif_", "").replace(/_/g, "-");
-    return { label: `Interacci\u00f3n ${pair}`, desc: "Interacci\u00f3n espec\u00edfica de pares at\u00f3micos (ECIF)." };
+    return { label: t("pr_xai_pair", { pair }), desc: t("Interacci\u00f3n espec\u00edfica de pares at\u00f3micos (ECIF).") };
   }
   if (feature.startsWith("shell_")) {
     const parts = feature.split("_");
     const dist = parts.slice(parts.length - 2).join("-");
     const atoms = parts.slice(1, parts.length - 2).join("-");
-    return { label: `Capa Distancia ${atoms} (${dist} \u00c5)`, desc: "Densidad at\u00f3mica en un anillo tridimensional espec\u00edfico." };
+    return { label: t("pr_xai_shell", { atoms, dist }), desc: t("Densidad at\u00f3mica en un anillo tridimensional espec\u00edfico.") };
   }
-  return { label: feature.replace(/_/g, " "), desc: "Propiedad f\u00edsico-qu\u00edmica extra\u00edda del complejo molecular." };
+  return { label: feature.replace(/_/g, " "), desc: t("Propiedad f\u00edsico-qu\u00edmica extra\u00edda del complejo molecular.") };
 }
 
 function ShapContributionChart({values}:{values:Record<string,number>}) {
@@ -69,7 +69,7 @@ function ShapContributionChart({values}:{values:Record<string,number>}) {
   const label=(key:string)=>{
     if(key==="vina_best_score")return t("ux_vina_best");
     const meta=RESULT_FIELD_PRESENTATION[key==="mw"?"molecular_weight":key];
-    return meta?(locale==="en"?meta.en:meta.es):t(getFeatureExplanation(key).label);
+    return meta?(locale==="en"?meta.en:meta.es):t(getFeatureExplanation(key, t).label);
   };
   const direction=(value:number)=>value>0?"positive":value<0?"negative":"zero";
   useEffect(()=>{
@@ -107,7 +107,7 @@ function ShapContributionChart({values}:{values:Record<string,number>}) {
       }}
       onClick={event=>{if(event.target!==event.currentTarget)return;const r=event.currentTarget.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)setSelected(null);}}>
       <div className={shapStyles.dialogHeader}><h4 id={`${uid}-title`}>{selected===null?t("ux_shap_title"):label(selected)}</h4><button type="button" className={resultStyles.action} onClick={()=>setSelected(null)}>{t("ux_shap_close")}</button></div>
-      <p id={`${uid}-description`} className={resultStyles.note}>{selected==="vina_best_score"?t("ux_vina_feature_scope"):selected===null?"":t(getFeatureExplanation(selected).desc)}</p>
+      <p id={`${uid}-description`} className={resultStyles.note}>{selected==="vina_best_score"?t("ux_vina_feature_scope"):selected===null?"":t(getFeatureExplanation(selected, t).desc)}</p>
       {selected!==null&&typeof selectedValue==="number"&&<>
         <dl className={shapStyles.detailRows}>
           <div><dt>{t("pr_xai_value_shap")}</dt><dd data-shap-exact="true">{selectedValue>0?"+":""}{String(selectedValue)}</dd></div>
@@ -227,7 +227,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                           {isPositive && (
                             <div className="flex items-center justify-end w-full pl-2">
                               <span className="text-sm uppercase font-sans font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate pr-1 text-right">
-                                {t(getFeatureExplanation(feature).label)}
+                                {t(getFeatureExplanation(feature, t).label)}
                               </span>
                               <Info size={10} className="text-zinc-400 group-hover:text-indigo-400 transition-colors flex-shrink-0" />
                             </div>
@@ -251,7 +251,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
                             <div className="flex items-center justify-start w-full pr-2">
                               <Info size={10} className="text-zinc-400 group-hover:text-indigo-400 transition-colors flex-shrink-0 mr-1" />
                               <span className="text-sm uppercase font-sans font-bold text-slate-400 group-hover:text-indigo-300 transition-colors truncate text-left">
-                                {t(getFeatureExplanation(feature).label)}
+                                {t(getFeatureExplanation(feature, t).label)}
                               </span>
                             </div>
                           )}
@@ -420,7 +420,7 @@ export function ProXaiTab({ shapValues, gnnAttention, gnnAttentionSvg, gnnPharma
       </div>
 
       {expandedSHAP && (() => {
-        const explanation = getFeatureExplanation(expandedSHAP);
+        const explanation = getFeatureExplanation(expandedSHAP, t);
         const value = shapValues?.[expandedSHAP];
         const isPositive = typeof value === 'number' ? value > 0 : false;
         return (

@@ -1,3 +1,4 @@
+import { frontendMessage, type Translate } from "../lib/frontendError";
 /**
  * Por qué un turno de MolChat no llegó a responder, dicho de forma accionable.
  *
@@ -14,7 +15,7 @@
 export async function motivoDeRespuesta(res: {
   status: number;
   json: () => Promise<unknown>;
-}): Promise<string> {
+}, t: Translate = (key, values) => String(frontendMessage(key, values))): Promise<string> {
   let detalle = "";
   try {
     const cuerpo = (await res.json()) as { detail?: unknown };
@@ -29,8 +30,8 @@ export async function motivoDeRespuesta(res: {
     detalle = "";
   }
   if (detalle) return detalle;
-  if (res.status === 401) return "La sesion caduco. Volve a entrar y repeti la pregunta.";
-  if (res.status === 403) return "Falta autorizar el destino de los datos en Ajustes de IA.";
-  if (res.status === 503) return "El motor no esta disponible en este momento.";
-  return `El servidor respondio ${res.status}.`;
+  if (res.status === 401) return t("ia_http_expired");
+  if (res.status === 403) return t("ia_http_destination");
+  if (res.status === 503) return t("ia_http_engine");
+  return t("ia_http_status", { status: res.status });
 }

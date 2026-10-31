@@ -49,6 +49,8 @@ Exit code: 0 = se puede empujar, 1 = bloqueado.
 from __future__ import annotations
 
 import argparse
+import contextlib
+import os
 import re
 import subprocess
 import sys
@@ -250,8 +252,25 @@ def _autotest_detectores() -> None:
         raise GuardaCiega("✗ autotest: una declarada en la misma línea tapa a otra que no lo está")
 
 
+@contextlib.contextmanager
+def _sin_entorno_de_git():
+    """El autotest trabaja en un repo temporal: fuera las variables `GIT_*` mientras dure.
+
+    Dentro del hook, git exporta `GIT_DIR` (y otras). Desde un worktree es una ruta absoluta al repositorio real, así
+    que el autotest escribía `user.name autotest` en el `.git/config` de desarrollo y fallaba en `add -A`, con lo que
+    el push se abortaba (2026-10-26, desde `publicar-104`). Las comprobaciones de verdad sí deben heredarlas.
+    """
+    guardadas = {k: v for k, v in os.environ.items() if k.upper().startswith("GIT_")}
+    for k in guardadas:
+        del os.environ[k]
+    try:
+        yield
+    finally:
+        os.environ.update(guardadas)
+
+
 def _autotest_git(rutas: list[str]) -> None:
-    with tempfile.TemporaryDirectory(prefix="guarda-push-") as tmp:
+    with _sin_entorno_de_git(), tempfile.TemporaryDirectory(prefix="guarda-push-") as tmp:
         repo = Path(tmp)
 
         def g(*args: str) -> str:

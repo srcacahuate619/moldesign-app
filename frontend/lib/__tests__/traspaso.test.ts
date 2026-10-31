@@ -144,6 +144,19 @@ describe("inventario", () => {
 });
 
 describe("ejecución", () => {
+  it("si el repositorio no adopta, conserva el caso y sólo comunica su identificador", async () => {
+    const origen = repoFalso(INVITADO, [caso("a", INVITADO, "mol-1")]);
+    const destino = repoFalso(CUENTA);
+    const sinAdopcion = { ...destino.repo, adoptCase: undefined } as unknown as CaseRepository;
+    const resultado = await ejecutarTraspaso({
+      destinoUserId: CUENTA, repoInvitado: origen.repo, repoDestino: sinAdopcion,
+      moleculeIds: ["mol-1"], llamarBackend: vi.fn().mockResolvedValue({ moleculas_traspasadas: 1, cohortes_traspasadas: 0 }),
+    });
+    expect(resultado.casosNoMovidos).toEqual(["a"]);
+    expect(origen.almacen.has("a")).toBe(true);
+    expect(JSON.stringify(resultado)).not.toContain("Este almacenamiento no sabe adoptar");
+  });
+
   it("mueve backend y casos, y olvida el ofrecimiento", async () => {
     recordarInvitado({ user_id: INVITADO });
     const origen = repoFalso(INVITADO, [caso("a", INVITADO, "mol-1")]);

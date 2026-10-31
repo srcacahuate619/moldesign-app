@@ -152,7 +152,7 @@ export function PropertiesPanel({ result }: Props) {
         />
         <Row
           label={t("pr_param_ppb")}
-          value={etiquetaPPB(result.blood_ppb_category)}
+          value={etiquetaPPB(result.blood_ppb_category, t)}
           onClick={() => setSelectedProperty({
             title: t("auto_81f1389c8e3d"),
             icon: "🩸",

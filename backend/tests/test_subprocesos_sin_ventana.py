@@ -44,8 +44,9 @@ LANZADORES = [
     "services/docking/vina_service.py",
     "services/pipeline/runner.py",
     "services/docking/queue_handler.py",
-    "services/ai/local_llm.py",
-    "services/ai/resource_manager.py",
+    "services/llm/local_llm.py",
+    "services/llm/resource_manager.py",
+    "services/molchat_host/launcher.py",
     "services/motores/sidecar.py",
 ]
 

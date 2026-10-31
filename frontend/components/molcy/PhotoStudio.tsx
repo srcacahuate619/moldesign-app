@@ -1,5 +1,7 @@
 "use client";
 
+import { presentError } from "../../lib/frontendError";
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Camera, FolderOpen, ImageIcon, ScanSearch } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -142,7 +144,7 @@ export function PhotoStudio({ job, renderer, device, cpuThreads, onJob }: Props)
       const { url } = await imagenMolcy(job.id, "fotos", id);
       urls.current.add(url);
       setFotoVista({ id, url });
-    } catch (e) { setError((e as Error).message); }
+    } catch (e) { setError(presentError((e as Error), t)); }
   };
   const ultimaFoto = fotos.length ? fotos[fotos.length - 1].id : null;
   const yaVista = useRef<string | null>(null);
@@ -167,7 +169,7 @@ export function PhotoStudio({ job, renderer, device, cpuThreads, onJob }: Props)
       if (operacion === "vista") setElegido({ fotograma: libre, libre: true });
       setFotoVista(null);
       onJob(next);
-    } catch (e) { setError((e as Error).message); }
+    } catch (e) { setError(presentError((e as Error), t)); }
     finally { setEnviando(false); }
   };
 
@@ -286,7 +288,7 @@ export function PhotoStudio({ job, renderer, device, cpuThreads, onJob }: Props)
     {fotos.length > 0 && <section aria-labelledby="molcy-fotos-title" className="border-t border-[var(--border)] p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 id="molcy-fotos-title" className="text-sm font-bold">{t("cy_photo_taken", { count: fotos.length })}</h3>
-        <button type="button" onClick={() => revelarMolcy(job.id).catch((e: Error) => setError(e.message))}
+        <button type="button" onClick={() => revelarMolcy(job.id).catch((e: Error) => setError(presentError(e, t)))}
           className="inline-flex min-h-11 items-center gap-2 border border-[var(--border-light)] px-3 text-xs font-semibold">
           <FolderOpen size={14} aria-hidden="true" />{t("cy_photo_reveal")}</button>
       </div>
@@ -301,7 +303,7 @@ export function PhotoStudio({ job, renderer, device, cpuThreads, onJob }: Props)
           <span className="flex gap-2">
             <button type="button" onClick={() => verFoto(f.id)} aria-pressed={fotoVista?.id === f.id}
               className="min-h-11 border border-[var(--border)] px-3">{t("cy_photo_view")}</button>
-            <DownloadButton onDownload={() => descargarFotoMolcy(job.id, f.id)} onError={e => setError(e.message)}
+            <DownloadButton onDownload={() => descargarFotoMolcy(job.id, f.id)} onError={e => setError(presentError(e, t))}
               className="border border-[var(--accent-strong)] px-3 font-semibold text-[var(--accent-strong)]">
               {t("cy_photo_download")}</DownloadButton>
           </span>

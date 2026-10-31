@@ -72,3 +72,34 @@ def test_la_lista_coincide_con_el_gitignore_de_publico():
         if linea.strip() and not linea.strip().startswith("#")
     }
     assert set(guarda.leer_retenidos()) == en_gitignore
+
+
+def _repo_senuelo(tmp_path: Path) -> Path:
+    senuelo = tmp_path / "senuelo"
+    senuelo.mkdir()
+    subprocess.run(["git", "init", "-q", str(senuelo)], check=True)
+    return senuelo / ".git"
+
+
+def test_el_autotest_no_toca_el_repo_del_hook(tmp_path, monkeypatch):
+    """Desde un worktree, el hook recibe `GIT_DIR` absoluto al repo real (2026-10-26).
+
+    El autotest lo heredaba: escribía `user.name autotest` en el `.git/config` de desarrollo y fallaba en
+    `add -A`, así que el push se abortaba. Aquí un repo señuelo hace de repo real.
+    """
+    git_dir = _repo_senuelo(tmp_path)
+    monkeypatch.setenv("GIT_DIR", str(git_dir))
+    guarda._autotest_git(guarda.leer_retenidos())
+    config = (git_dir / "config").read_text(encoding="utf-8")
+    assert "autotest" not in config
+
+
+def test_sin_aislar_el_entorno_del_hook_se_cuela(tmp_path, monkeypatch):
+    """Control negativo: sin `aislado`, la misma orden escribe en el señuelo. Si esto deja de pasar, la prueba
+    de arriba no ve nada."""
+    git_dir = _repo_senuelo(tmp_path)
+    otro = tmp_path / "temporal"
+    otro.mkdir()
+    monkeypatch.setenv("GIT_DIR", str(git_dir))
+    guarda.git("config", "user.name", "autotest", cwd=otro)
+    assert "autotest" in (git_dir / "config").read_text(encoding="utf-8")

@@ -23,3 +23,21 @@
 - Desde `3ca7f633` sólo cambia en `backend/` el PDF del dossier (`services/dossier/pdf.py`: `splitInRow=1` en las tablas de
   campos) y una prueba nueva. No toca preparación, docking, Vina ni la lectura de resultados que usa el análisis; la guardia de
   deriva sigue comprobando cada corrida.
+
+## 2026-10-26 — reanudación y cierre de la campaña (producto `c0341284`)
+
+- Relanzada `campana.sh` a las 00:05 (hora de México) sobre `c0341284`, con la condición de arriba comprobada: entre `3ca7f633`
+  y `c0341284` sólo cambian `services/dossier/pdf.py` y su prueba. Los registros terminales de `e8` y de los 22 del panel de
+  `e32` hechos sobre `3ca7f633` no se repitieron; el resto de `e32`, `e16` y `e8s43` corrió sobre `c0341284`. Los registros no
+  guardan el commit: lo fijan la hora de `campana.log` y esta nota.
+- Campaña completa a las 02:20: 371 registros terminales (89 del panel en cada uno de los cuatro brazos y 5 redockings en `e8`,
+  `e16` y `e32`), todos SUCCESS, sin fallos ni deriva.
+- Mientras corría, en otro worktree se ejecutó dos veces la puerta 12 (`accept_evaluation_runtime.py`, dos evaluaciones de
+  aspirina contra 3F75 cada vez) y unas pruebas del frontend. Comparten la CPU y alargan el tiempo de pared; no cambian lo que
+  Vina calcula con semilla, exhaustividad y CPU fijas, y la guardia de deriva lo comprueba en cada corrida.
+- Hacia las 01:2x, un fallo de la guarda de publicación (`check_push_publico.py`, push desde un worktree) escribió
+  `core.bare = true` en `.git/config` durante unos minutos. Con eso `git status` falla y la guardia del experimento habría
+  abortado la corrida en curso; no ocurrió (ningún registro ni log lo menciona y e16 pose terminó 5/5). Corregido a mano y en
+  la guarda.
+- `e8` repite exactamente las 89 energías de `CAL-D-01-R4-2-VMAT2-8T69` (diferencia máxima 0,0 kcal/mol), como predecía el
+  registro.

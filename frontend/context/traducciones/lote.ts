@@ -18,6 +18,11 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const lote: ModuloDeTraduccion = {
   es: {
+    lo_frontend_213: "La operación no se pudo completar (HTTP {v0}).",
+    lo_frontend_214: "Error de conexión: no se pudo contactar con el motor local de MolDesign. Revisa su estado y vuelve a intentarlo.",
+    lo_frontend_215: "Error de conexión: no se pudo contactar con el motor local de MolDesign.",
+    lo_frontend_003: "dossier_cohorte.pdf",
+    lo_frontend_004: "cohorte_{v0}.zip",
     lo_view_run_result: "Ver resultado de esta corrida",
     lo_result_no_task: "Esta fila no conserva la referencia a una corrida exacta; no se abrirá otro resultado.",
     lo_result_limit: "El docking completado no demuestra actividad ni validez física de la pose.",
@@ -208,6 +213,11 @@ export const lote: ModuloDeTraduccion = {
     lo_elegibles_sufijo: "elegibles",
   },
   en: {
+    lo_frontend_213: "The operation could not be completed (HTTP {v0}).",
+    lo_frontend_214: "Connection error: the local MolDesign engine could not be contacted. Check its status and try again.",
+    lo_frontend_215: "Connection error: the local MolDesign engine could not be contacted.",
+    lo_frontend_003: "cohort_dossier.pdf",
+    lo_frontend_004: "cohort_{v0}.zip",
     lo_view_run_result: "View this run’s result",
     lo_result_no_task: "This row has no reference to an exact run; another result will not be opened.",
     lo_result_limit: "Completed docking does not demonstrate activity or physical pose validity.",

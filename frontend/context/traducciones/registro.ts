@@ -21,6 +21,8 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const registro: ModuloDeTraduccion = {
   es: {
+    rg_index_warning: "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
+    re_frontend_243: "No se pudo cargar el registro ({v0})",
     rg_categoria_hallazgo: "Hallazgo",
     rg_categoria_refutacion: "Refutación",
     rg_categoria_medicion: "Medición",
@@ -92,6 +94,8 @@ export const registro: ModuloDeTraduccion = {
     rg_abrir_registro: "Abrir el registro completo →",
   },
   en: {
+    rg_index_warning: "The GO/NO_GO ratio in the manifest is NOT an accuracy rate: it mixes preregistrations —sealed GO when declared—, measurements without a gate, and experiments with a real gate. This view separates the three populations.",
+    re_frontend_243: "The registry could not be loaded ({v0})",
     rg_categoria_hallazgo: "Finding",
     rg_categoria_refutacion: "Refutation",
     rg_categoria_medicion: "Measurement",

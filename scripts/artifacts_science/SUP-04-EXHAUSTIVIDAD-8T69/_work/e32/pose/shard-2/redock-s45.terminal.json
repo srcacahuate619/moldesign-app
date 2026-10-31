@@ -1,0 +1,20 @@
+{
+  "id": "redock-s45",
+  "smiles": "COc1cc2c(cc1OC)[C@H]1CC(=O)[C@H](CC(C)C)CN1CC2",
+  "semilla": 45,
+  "intentos": [
+    {
+      "n": 1,
+      "ok": true,
+      "segundos": 32.2,
+      "crudo": "redock-s45-intento1.json.gz",
+      "crudo_sha256": "1ee6f1089f3016ffc03e7cc0f53fcc9423bfcbfd2347526bd90bbb0bcfb2b4ad",
+      "task_id": "7ca0365e-5701-4fba-acca-8de2e1f8e9f9"
+    }
+  ],
+  "estado": "SUCCESS",
+  "task_id": "7ca0365e-5701-4fba-acca-8de2e1f8e9f9",
+  "crudo": "redock-s45-intento1.json.gz",
+  "crudo_sha256": "1ee6f1089f3016ffc03e7cc0f53fcc9423bfcbfd2347526bd90bbb0bcfb2b4ad",
+  "registrado_en": "2026-10-26T03:24:37+00:00"
+}

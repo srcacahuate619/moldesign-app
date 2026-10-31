@@ -1,0 +1,314 @@
+{
+  "schema": "moldesign.molchat/1",
+  "programa": "MolChat (asistente de laboratorio de MolDesign)",
+  "version": "0.1.0",
+  "licencia_spdx": "GPL-3.0-or-later",
+  "licencia_texto": "LICENSE",
+  "fuente": {
+    "proyecto": "moldesign-molchat",
+    "commit": "e21a093cfb0dee1cad08d6fc084cac2be93dfdbf",
+    "rama": "master",
+    "repositorio": "https://github.com/srcacahuate619/moldesign-molchat"
+  },
+  "invocacion": "sidecar: proceso Python en loopback con paquete src vendorizado; el host resuelve el paquete en el intérprete, usa puerto efímero y token con scopes",
+  "no_se_enlaza": "MolDesign no importa molchat_agent ni MolChat importa MolDesign; se comunican por HTTP versionado (moldesign.molchat/1).",
+  "contrato": {
+    "agente_plataforma": "moldesign.molchat/1"
+  },
+  "requisitos": {
+    "python": ">=3.11",
+    "dependencias": [
+      "httpx>=0.27,<1",
+      "starlette>=0.37,<2 (extra server)",
+      "uvicorn>=0.29,<1 (extra server)"
+    ]
+  },
+  "excluidos": [
+    "tests/ (the repo suite travels in the source repo, not in the product)",
+    "conformance/ (the adapter kit lives in the source repo)",
+    "examples/ (third-party guides, not runtime)",
+    "docs/, scripts/, packaging/ (development material, not runtime)",
+    "PLAN.md (internal planning, git-ignored)",
+    "ui/ sources (only the built bundle ships)",
+    "local model weights (downloaded by the operator, never vendored)"
+  ],
+  "archivos": {
+    "LICENSE": {
+      "bytes": 35147,
+      "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+    },
+    "NOTICE.md": {
+      "bytes": 3020,
+      "sha256": "30429d40cc466649ae4b35dc6d392d53e6ed0d2f8ac746881933a83ba78f161d"
+    },
+    "pyproject.toml": {
+      "bytes": 911,
+      "sha256": "e8ec784842744fe6e28a34f05846a5f5e3fe0f780aee471235e6b377388fb503"
+    },
+    "src/molchat_agent/__init__.py": {
+      "bytes": 94,
+      "sha256": "ad35cfb3cf841587b6389a3a6cb6e42195f43b3456526fcc8539c013cd86c81a"
+    },
+    "src/molchat_agent/__main__.py": {
+      "bytes": 381,
+      "sha256": "3be72ae355fb6bc5f180778033398acc9a37148b99405e06a688022bb2fb3d47"
+    },
+    "src/molchat_agent/bridge.py": {
+      "bytes": 14390,
+      "sha256": "d23640588b1eb703c52b386d077c1656a1ee64e7b2d21600a6f206a385c702b5"
+    },
+    "src/molchat_agent/capabilities.py": {
+      "bytes": 515,
+      "sha256": "dab93a5dafbce25ab14d52c3f3acf0dc08eeba04952b1f38f90b4099a300b1aa"
+    },
+    "src/molchat_agent/cli.py": {
+      "bytes": 14098,
+      "sha256": "08741ba065284f96d1e644db382921f1e377ac56e430b8fb5da65ca2399f8159"
+    },
+    "src/molchat_agent/config.py": {
+      "bytes": 8766,
+      "sha256": "7f9ca51afedc0b65fdfa3ba8db40d6128ae3fb58b94b75c940084f478036a47a"
+    },
+    "src/molchat_agent/conversation/__init__.py": {
+      "bytes": 202,
+      "sha256": "38fba2bc53836dc7af4f1bdf1f804e71be1fd151b45d4064dd58f54ed9dab247"
+    },
+    "src/molchat_agent/conversation/case_selection.py": {
+      "bytes": 2051,
+      "sha256": "f28479c44c561c83fee6129d10785b782e1a3e98b9ed9b0aa82d7188fcd74945"
+    },
+    "src/molchat_agent/conversation/data/demo_molecules.json": {
+      "bytes": 3492,
+      "sha256": "723184dc7b386c0ea5052d750d8ff6eb973d83c12892f4f393c07bd832bbaf4e"
+    },
+    "src/molchat_agent/conversation/deterministic.py": {
+      "bytes": 12876,
+      "sha256": "28724123d41b12eb27a4f64379c5f2bbff2a98b59412288d2eb8afdfec25a34c"
+    },
+    "src/molchat_agent/conversation/engine.py": {
+      "bytes": 18295,
+      "sha256": "8b68295974c04fb0c38b0b763d480aaf1edbaeaced1184bedd00cae9b8ddcbd2"
+    },
+    "src/molchat_agent/conversation/evidence.py": {
+      "bytes": 6534,
+      "sha256": "6cc75b31b0779423fcf7ce9467402922a36b2433fe1cd08ea22b51858fa699b8"
+    },
+    "src/molchat_agent/conversation/harness_tools.py": {
+      "bytes": 20232,
+      "sha256": "f69146296e60d250a5d6b1b8d6820ec72ddec33205e464e2c71f3aaf4802307b"
+    },
+    "src/molchat_agent/conversation/intents.py": {
+      "bytes": 16316,
+      "sha256": "a7ecff1c7831fe9cec6d73763fab1062d6e338a51f2f2aa17f7402fbec88400d"
+    },
+    "src/molchat_agent/conversation/memory.py": {
+      "bytes": 17401,
+      "sha256": "c45b7b52ce16c729c1e446e8baccdcc5b3f507f3cb6f9470a9cf234c0164d33b"
+    },
+    "src/molchat_agent/conversation/prompts.py": {
+      "bytes": 687,
+      "sha256": "0164cabed5b551cd12b58ab7754ef2a328e261ebd801a1a5018733ddc8a66b47"
+    },
+    "src/molchat_agent/conversation/pubchem.py": {
+      "bytes": 4804,
+      "sha256": "6782adaec09f0a61cd125055b0d4d7d3fcf652abe484ce12687e8be6c629b6a9"
+    },
+    "src/molchat_agent/conversation/structure_check.py": {
+      "bytes": 2184,
+      "sha256": "bbb41f9d8744e72f300fa80153eee7efdb2f4d3a459351e5e6883c2ac1c91df5"
+    },
+    "src/molchat_agent/conversation/tool_loop.py": {
+      "bytes": 8573,
+      "sha256": "c2afed813bd4ffc7501be7d74965e68eaba1f70a89ddfa4c4151206da4748192"
+    },
+    "src/molchat_agent/conversation/tools.py": {
+      "bytes": 6399,
+      "sha256": "c7925082ff9a0d760ff87f2afd6e2b4d1ccc983e1df3c457fd3d5f4ef0bdeae1"
+    },
+    "src/molchat_agent/executor.py": {
+      "bytes": 24884,
+      "sha256": "448f699c69ed928b9c103dbdc224f3001a2f3a8044345bffdca631b5a57d6a5e"
+    },
+    "src/molchat_agent/meta.py": {
+      "bytes": 377,
+      "sha256": "587ef00e93119694ec3ae640fb44ee05c7591417bae88b7aa00b40195b2be202"
+    },
+    "src/molchat_agent/orchestration/__init__.py": {
+      "bytes": 59,
+      "sha256": "1c4daed761b0efda41f38ecff2c672c9deb4c2160469726004e838cf5f186d35"
+    },
+    "src/molchat_agent/orchestration/budget.py": {
+      "bytes": 1451,
+      "sha256": "0f51f4dea1fe7cae8d8a54f0a25e8b7fac02a4863c18dd06ad2ef0b92f4775a9"
+    },
+    "src/molchat_agent/orchestration/hypothesis.py": {
+      "bytes": 14595,
+      "sha256": "70ca49b1f417437f754043a6fec1af3982f369f298f7c68bb3a0cfaaddcaf2eb"
+    },
+    "src/molchat_agent/orchestration/jobs.py": {
+      "bytes": 6563,
+      "sha256": "e9dbbbe6af10936c5eb44c48d55c4ec3ec4e8938922b7c365691cdda0028f46a"
+    },
+    "src/molchat_agent/orchestration/store.py": {
+      "bytes": 10962,
+      "sha256": "93c626b5e92de98920f270ed8a42a9d05706505ebf924329389a680afd6220a4"
+    },
+    "src/molchat_agent/plan.py": {
+      "bytes": 6843,
+      "sha256": "499e80c30c69ebe64be635928627878dca55b365f912174a1f3d9f826b4554e7"
+    },
+    "src/molchat_agent/providers/__init__.py": {
+      "bytes": 1456,
+      "sha256": "e903aa39dcb3a5ae33c8cb35e97d974104b04d278dc7c4bbaae3b026a6ea3a8f"
+    },
+    "src/molchat_agent/providers/alojado.py": {
+      "bytes": 2576,
+      "sha256": "6ce07ec9629153fed2f39c2883e9d781c03d775e59d18df63844db3ef19354ea"
+    },
+    "src/molchat_agent/providers/base.py": {
+      "bytes": 6811,
+      "sha256": "ccf80647be225e04320f8435d3479df2643ca94c36185ddcd7482f66ba726c0c"
+    },
+    "src/molchat_agent/providers/catalogo.json": {
+      "bytes": 4555,
+      "sha256": "2ac1306735a8dc895783f2ab8bb0b2ea9fd3838e8a7cdd153e27157b603f5a35"
+    },
+    "src/molchat_agent/providers/catalogo.py": {
+      "bytes": 3242,
+      "sha256": "18e6e0d8378a08277a3ab31db4ef161d1db480e8117aed89b25e1d6c1f1a4b63"
+    },
+    "src/molchat_agent/providers/claude.py": {
+      "bytes": 7914,
+      "sha256": "b345d1a66519b23e3af3ab1a37f785093f1350d2c996e25b16af81239c8f1c3e"
+    },
+    "src/molchat_agent/providers/fake.py": {
+      "bytes": 3122,
+      "sha256": "44df0f254ba4aa8f932cbd7e652efae8f9898aff17f68b3b17aebec0331b9230"
+    },
+    "src/molchat_agent/providers/gemini.py": {
+      "bytes": 9075,
+      "sha256": "772b4f72a1af2f86997b1112c076fa9e9d2cd2927234aad7060a89f0b1d121ab"
+    },
+    "src/molchat_agent/providers/local_http.py": {
+      "bytes": 15693,
+      "sha256": "664432cd3ae1c62c4a1f03734169b0f1e4bb2796624c7afc2779ac3943da60b0"
+    },
+    "src/molchat_agent/providers/meta.py": {
+      "bytes": 9533,
+      "sha256": "2cb7f9e00d32502945419cefe9a37c092ef28e57b5541f0c1f06f59b8745455d"
+    },
+    "src/molchat_agent/providers/openai_compatible.py": {
+      "bytes": 12505,
+      "sha256": "f8715b95cfb2de5a7aa2be77f39ace9b1ff87409c11b116599ac47ac22b99ab0"
+    },
+    "src/molchat_agent/providers/registry.py": {
+      "bytes": 20821,
+      "sha256": "57aaeba4df4dea9e393754383a9b6b0e532757125c791b1e8b6e84b5a13088b8"
+    },
+    "src/molchat_agent/runtime/__init__.py": {
+      "bytes": 78,
+      "sha256": "d02f65954e4fe451352524ed6760b9a85f278335f64558c41af064156f238b9e"
+    },
+    "src/molchat_agent/runtime/llama_server.py": {
+      "bytes": 8534,
+      "sha256": "9e0a985d72bb0886a575551d97c0ed3bb58bbccec1a583c133a96f586dd53d77"
+    },
+    "src/molchat_agent/runtime/models.py": {
+      "bytes": 4149,
+      "sha256": "dddfac44a391be1aaba8636a63bf301b8da7961827e6dad166d12508c9e7e562"
+    },
+    "src/molchat_agent/server/__init__.py": {
+      "bytes": 71,
+      "sha256": "d563103f2a3506b6b0d2c549d37ca9aa02a66373795108964ed47902038e4ebf"
+    },
+    "src/molchat_agent/server/app.py": {
+      "bytes": 81794,
+      "sha256": "f0dc9dcc62f0bb307c4cd4c2827441f5c8b0ebcc36544f794040fd9a6fce4a14"
+    },
+    "src/molchat_agent/server/auth.py": {
+      "bytes": 5062,
+      "sha256": "352b09de28160968d7b9ae68912064da5e4104fd2c1037422811c320099ecd83"
+    },
+    "src/molchat_agent/server/events.py": {
+      "bytes": 538,
+      "sha256": "30be478c13078863d5a9317fd1854f38fe2d50b8e5a2f7185245563c9ee89342"
+    },
+    "src/molchat_agent/server/executions.py": {
+      "bytes": 5415,
+      "sha256": "529552ee370871afd7f89b0872d676a42f75a8b198a917bbf5a22f0930a396cf"
+    },
+    "src/molchat_agent/server/serve.py": {
+      "bytes": 6098,
+      "sha256": "d87e165067eff02871ef1f321a5a218ecf7876d1ae65964ab504134307d3d165"
+    },
+    "src/molchat_agent/server/state.py": {
+      "bytes": 4119,
+      "sha256": "0881dfd14aa4028a63958606c4cdbdbfd16f80f5fccebdfa9a05027ac4dac218"
+    },
+    "src/molchat_agent/tools/__init__.py": {
+      "bytes": 536,
+      "sha256": "fe6f0218c5d68f37a6752a846fa8880aeaa603a20ca5b4a1ee206465906cb3e3"
+    },
+    "src/molchat_agent/tools/catalog.py": {
+      "bytes": 6697,
+      "sha256": "638e9a2ec883d8b8692d87640bb5d2267eae95aa2250d980abfdebc42f702b20"
+    },
+    "src/molchat_agent/tools/molcy.py": {
+      "bytes": 3307,
+      "sha256": "b70df05a2dc9f05053de67a9851e70a44eb233f2871249a3d3e7b006db25df65"
+    },
+    "src/molchat_agent/tools/moldesign.py": {
+      "bytes": 13392,
+      "sha256": "6ece824b60257ab052ef4c9827cd57758f3950b6cf67a2d0bc9fa2fd1100ba51"
+    },
+    "src/molchat_agent/tools/reference.py": {
+      "bytes": 1153,
+      "sha256": "9f4dba13bc88f7f710ffc57b5d196b6c519a32fc0020d1a91dd295576db7289e"
+    },
+    "src/molchat_agent/voice/__init__.py": {
+      "bytes": 390,
+      "sha256": "87c3a817cbfc34bcebab8304cfbfbdecdd18dc23daa5df2830517f60c7be2f24"
+    },
+    "src/molchat_agent/voice/cloud_stt.py": {
+      "bytes": 2910,
+      "sha256": "cec11db57a2f2e070842d556d863d03a5827935470ec0d3afe24f431396059c6"
+    },
+    "src/molchat_agent/voice/evaluate.py": {
+      "bytes": 1562,
+      "sha256": "33699400ddf75dfe3d9c2dab7d8e1aaf33ea89f1604d62204cc5a6d5f25b3e3d"
+    },
+    "src/molchat_agent/voice/local_whisper.py": {
+      "bytes": 3222,
+      "sha256": "1ef8ae1de65a455430fc5ce885e6bb10f3412fe56cc2a26bebdc7823ca9a03f0"
+    },
+    "src/molchat_agent/voice/moldesign_whisper.py": {
+      "bytes": 1958,
+      "sha256": "d2c0d5e15b8a3cfcd6cc856083e0e1244351fa8d54893a387dfdf271f6830b69"
+    },
+    "src/molchat_agent/voice/stt.py": {
+      "bytes": 469,
+      "sha256": "daa184885daac91d0c6e6a6b35eb75ecb98c41232ecea6319681fccd56311ba1"
+    },
+    "src/molchat_agent/voice/vocabulary.py": {
+      "bytes": 1873,
+      "sha256": "557439d93febebd95114dec94eb1338c50816b3e4c4133826c86f016190a2d4f"
+    },
+    "ui/dist/assets/index-C0VmXJ7j.js": {
+      "bytes": 278706,
+      "sha256": "a036d954005da844d9dbb5920dd6ab346a0242a0f025ad4b937750857138966b"
+    },
+    "ui/dist/assets/index-CAAFim0w.css": {
+      "bytes": 6396,
+      "sha256": "dfddcc6f062741912610fa4dca7fe01cfe07a60d5ca4c187a3b102d31ad23042"
+    },
+    "ui/dist/assets/sse-OCYvckpI.js": {
+      "bytes": 319,
+      "sha256": "9922d149cb8586d7fa8f953ba2e4b6cb4904af97c493f0f5c28eadf73047f3b7"
+    },
+    "ui/dist/index.html": {
+      "bytes": 392,
+      "sha256": "8e8b2b0e20be872cbd694404b4ec529fbdd208da8350d539e44cd479a14b540e"
+    }
+  },
+  "sha256_conjunto": "c1e11d9e447be17fda501e8a3d62f73bbde1bd4f43b13437d68d397c74dda8ef"
+}

@@ -111,16 +111,16 @@ export const SIN_SERIALIZAR = "sin salida serializada";
  * respaldo: son literales de la definición de familia y presentarlos como la
  * procedencia de esta corrida sería la misma invención, en letra pequeña.
  */
-export function describirEtapa(etapa: EtapaDefinida, real?: SenalReal): EtapaMostrada {
+export function describirEtapa(etapa: EtapaDefinida, real?: SenalReal, t?: (key: string) => string): EtapaMostrada {
   const tieneValor = real?.value != null;
   return {
     reportedWeight: real?.weight,
     aporto: tieneValor,
-    value: real?.value ?? (etapa.post_hoc ? "no calculado" : "no reportado"),
+    value: real?.value ?? (etapa.post_hoc ? t?.("pr_signal_not_calculated") ?? "no calculado" : t?.("pr_signal_not_reported") ?? "no reportado"),
     sub: real?.sub
       ?? (tieneValor
-        ? SIN_DESCRIPCION
-        : etapa.post_hoc ? "cálculo opcional" : SIN_SERIALIZAR),
+        ? t?.("pr_pipeline_sub_this_run") ?? SIN_DESCRIPCION
+        : etapa.post_hoc ? t?.("pr_signal_optional") ?? "cálculo opcional" : t?.("pr_signal_no_output") ?? SIN_SERIALIZAR),
     // ── La nota de validación se retira cuando la etapa no produjo nada ────
     //
     // La VM lo enseñó en 2BQV: la tarjeta de CL-GNN decía a la vez

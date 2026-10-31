@@ -1,0 +1,387 @@
+{
+ "id": "SUP-04-EXHAUSTIVIDAD-8T69",
+ "meta": {
+  "titulo": "¿Basta la exhaustividad 8? En 8T69, subirla a 32 no cambia la pose y mueve el orden menos de lo que se pudo resolver",
+  "entradilla": "MolDesign acopla con la exhaustividad 8 que trae Vina por defecto, y un texto la llamaba «sweet spot validado» sin medida. Con la serie de 89 Ki de VMAT2, 32 no reproduce mejor la pose y ordena +0,04 mejor, un cambio del tamaño del que produce la semilla."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "INCONCLUSIVE.",
+     "m": "fuerte"
+    },
+    {
+     "t": " No se demostró que la exhaustividad 8 ordene peor que la 32, ni que ordene igual.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Se acopló la misma serie de 8T69 (VMAT2) con la que el receptor entró en Verificados: 89 padres con Ki de la patente US11718618B2. Hubo cuatro brazos con el arnés sellado de CAL-D-01-R4:",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "exhaustividad 8, 16 y 32 con la semilla 42;",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "exhaustividad 8 con la semilla 43, para medir el ruido de la semilla.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "Además, cinco redockings de la tetrabenazina del cristal en los tres primeros. El registro previo se commiteó antes de acoplar.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "GO",
+      "m": "fuerte"
+     },
+     {
+      "t": " si el IC 95 % de Δρ(32 − 8) cabía entero en ±0,10.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "NO_GO",
+      "m": "fuerte"
+     },
+     {
+      "t": " si excluía el cero por encima, o si 8 reproducía peor la pose.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Exhaustividad",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Semilla",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "ρ (89 padres)",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Redocking a ≤ 2 Å",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "CPU-core-h",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "8",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "42",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,392",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5/5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3,70",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "8",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "43",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,367",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "—",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "3,42",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "16",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "42",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,428",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5/5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5,56",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "32",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "42",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "0,435",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "5/5",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "9,78",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Δρ(32 − 8) = +0,043",
+      "m": "fuerte"
+     },
+     {
+      "t": ", IC 95 % −0,006 a +0,116. Cruza el cero y sale del margen por 0,016.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Cambiar sólo la semilla mueve ρ −0,025, IC 95 % −0,135 a +0,078.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La energía top-1 apenas cambia: 85 de 89 padres quedan a menos de 0,1 kcal/mol. La ρ entre las energías a 8 y a 32 es 0,968.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "La pose del cristal sale igual con las tres exhaustividades: RMSD de 0,67 a 0,72 Å.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Control:",
+      "m": "fuerte"
+     },
+     {
+      "t": " el brazo a 8 repite las 89 energías del sello de 8T69 sin ninguna diferencia.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "La búsqueda a 8 ya converge en esta serie.",
+      "m": "fuerte"
+     },
+     {
+      "t": " La ρ se mueve por reordenaciones pequeñas entre análogos de energía casi igual. Una semilla distinta produce cambios del mismo orden.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "El sello de 8T69 no cambia.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Describe corridas a exhaustividad 8 con semilla 42, y aquí se repite exacto.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No valida el «sweet spot»",
+      "m": "fuerte"
+     },
+     {
+      "t": ", que ya se había retirado del producto. El valor por defecto sigue siendo el de Vina, con esta medida como condición.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Un receptor, una serie y una caja de 30 Å.",
+      "m": "fuerte"
+     },
+     {
+      "t": " No dice nada de cajas mayores, donde el producto ya sube a 32, ni de otros receptores o ligandos más flexibles.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Una sola semilla por brazo.",
+      "m": "fuerte"
+     },
+     {
+      "t": " Saber si +0,04 es efecto o ruido pide varias semillas por brazo, y eso ya no sería ciego.",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/SUP-04-EXHAUSTIVIDAD-8T69.md"
+}

@@ -20,6 +20,19 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const evaluacion: ModuloDeTraduccion = {
   es: {
+    ev_recovery_deadline: "{label} excedió {seconds} segundos.",
+    ev_frontend_205: "No se pudo descargar el complejo 3D",
+    ev_frontend_239: "La comprobación previa no se pudo completar (HTTP {v0}). Revisa el estado del motor y vuelve a intentarlo.",
+    ev_frontend_067: "No se pudo confirmar la cancelación: {v0}. ",
+    ev_frontend_069: "No se pudo descargar el certificado: {v0}",
+    ev_frontend_070: "No se pudo descargar el complejo: {v0}",
+    ev_frontend_071: "Se perdió la conexión con el servidor. No se sabe cómo terminó la tarea.",
+    ev_frontend_072: "No se pudieron cargar los receptores: {v0}",
+    ev_frontend_073: "El backend no devolvió el resultado persistido de la corrida.",
+    ev_frontend_074: "El resultado está guardado, pero tu sesión caducó. Inicia sesión de nuevo para recuperarlo.",
+    ev_frontend_075: "El resultado está guardado, pero pertenece a otra sesión. Inicia sesión con la cuenta que ejecutó esta corrida.",
+    ev_frontend_076: "El resultado sigue guardado, pero el motor local no está disponible. Comprueba el estado del motor y vuelve a intentarlo.",
+    ev_frontend_077: "El resultado sigue referenciado por este caso, pero no se pudo recuperar: {v0}",
     // ── Estado y resultados ───────────────────────────────────────
     ev_comprobando_visor: "Comprobando compatibilidad del visor 3D…",
     // SOL-10: el editor de un caso nuevo muestra una molécula de muestra
@@ -193,8 +206,43 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_aviso_sin_severidad_pie:
       "El motor emitió este aviso como texto, sin código ni severidad. El texto es el que "
       + "emitió; su importancia no se dedujo de él.",
+    ev_chat_no_pulsado: "No se pulsó Evaluar: {motivo}.",
+    ev_chat_motivo_en_marcha: "No se pulsó Evaluar: hay una evaluación en marcha en este caso.",
+    ev_chat_motivo_deshabilitado: "No se pulsó Evaluar: el botón está deshabilitado en este momento.",
+    ev_chat_motivo_ocupada: "No se pulsó Evaluar: la pantalla está ocupada con otra operación.",
+    ev_chat_motivo_boton_perdido: "No se pulsó Evaluar: el botón dejó de estar disponible justo antes de pulsarlo.",
+    ev_chat_ocupado_trabajo: "el espacio de casos tiene trabajo en curso (una evaluación u otra operación)",
+    ev_chat_ocupado_otra: "ya hay otra evaluación pedida desde el chat esperando respuesta",
+    ev_chat_ocupado_receptor: "se está asignando un receptor desde el chat",
+    ev_chat_ocupado_smiles: "se está cargando un SMILES desde el chat",
+    ev_chat_ocupado_corrida: "hay una corrida aceptada sin registrar en el caso",
+    ev_chat_caso_sin_abrir: "No se pudo abrir el caso: hay trabajo sin guardar o en curso.",
+    ev_chat_plazo: "Se agotó el plazo sin respuesta. Última etapa: {etapa}.",
+    ev_chat_sin_etapa: "la petición no llegó a ninguna etapa",
+    ev_chat_etapa_recibida_casos: "el espacio de casos recibió la petición",
+    ev_chat_etapa_caso_abierto: "caso abierto; se pidió la vista Evaluación y la pantalla aún no confirmó",
+    ev_chat_etapa_recibida_pantalla: "la pantalla de Evaluación recibió la petición",
+    ev_chat_etapa_esperando:
+      "esperando a que la pantalla esté lista ({estado}: puede ejecutar={puede}, botón={boton}, "
+      + "ocupada={ocupada}, deshabilitado={deshabilitado}, bloqueo={bloqueo})",
+    ev_chat_etapa_resaltado: "botón resaltado, a punto de pulsarlo",
+    ev_chat_etapa_pulsado: "botón Evaluar pulsado; esperando la comprobación previa y el envío",
+    ev_chat_etapa_envio: "se inició el envío; comprobando y enviando la evaluación",
   },
   en: {
+    ev_recovery_deadline: "{label} exceeded {seconds} seconds.",
+    ev_frontend_205: "The 3D complex could not be downloaded",
+    ev_frontend_239: "The preflight check could not be completed (HTTP {v0}). Check the engine status and try again.",
+    ev_frontend_067: "Cancellation could not be confirmed: {v0}. ",
+    ev_frontend_069: "The certificate could not be downloaded: {v0}",
+    ev_frontend_070: "The complex could not be downloaded: {v0}",
+    ev_frontend_071: "The connection to the server was lost. It is not known how the task ended.",
+    ev_frontend_072: "The receptors could not be loaded: {v0}",
+    ev_frontend_073: "The backend did not return the persisted run result.",
+    ev_frontend_074: "The result is saved, but your session expired. Sign in again to recover it.",
+    ev_frontend_075: "The result is saved, but it belongs to another session. Sign in with the account that ran this run.",
+    ev_frontend_076: "The result is still saved, but the local engine is not available. Check the engine status and try again.",
+    ev_frontend_077: "This case still references the result, but it could not be recovered: {v0}",
     ev_comprobando_visor: "Checking 3D viewer compatibility…",
     ev_editor_ejemplo:
       "Example: what you see is a sample molecule, not this case's "
@@ -218,7 +266,7 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_sin_resultados_titulo: "The evaluation finished with no results",
     ev_sin_resultados_detalle:
       "The pipeline reported success but the result never reached the interface. "
-      + "This is usually a result-serialisation problem in the backend (not a "
+      + "This is usually a result-serialization problem in the backend (not a "
       + "docking problem). Retry the evaluation or check the backend logs.",
     ev_sin_resultados_aun: "No results yet",
     ev_elige_para_empezar:
@@ -227,7 +275,7 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_pipeline_degradado: "Pipeline degraded on this run",
     ev_peso_no_reportado: "weight not reported",
     ev_pesos_no_calibrados:
-      "Weights serialised by the pipeline · they do not represent calibrated "
+      "Weights serialized by the pipeline · they do not represent calibrated "
       + "confidence",
     ev_vista_previa_informe: "View evaluation report",
     ev_mmgbsa_ejecutar: "Run MM-GBSA calculation",
@@ -353,5 +401,27 @@ export const evaluacion: ModuloDeTraduccion = {
     ev_aviso_sin_severidad_pie:
       "The engine emitted this warning as plain text, with no code or severity. The text is "
       + "what it emitted; its importance was not inferred from it.",
+    ev_chat_no_pulsado: "Evaluate was not pressed: {motivo}.",
+    ev_chat_motivo_en_marcha: "Evaluate was not pressed: an evaluation is running in this case.",
+    ev_chat_motivo_deshabilitado: "Evaluate was not pressed: the button is disabled right now.",
+    ev_chat_motivo_ocupada: "Evaluate was not pressed: the screen is busy with another operation.",
+    ev_chat_motivo_boton_perdido: "Evaluate was not pressed: the button stopped being available just before pressing it.",
+    ev_chat_ocupado_trabajo: "the case workspace has work in progress (an evaluation or another operation)",
+    ev_chat_ocupado_otra: "another evaluation requested from the chat is waiting for an answer",
+    ev_chat_ocupado_receptor: "a receptor is being assigned from the chat",
+    ev_chat_ocupado_smiles: "a SMILES is being loaded from the chat",
+    ev_chat_ocupado_corrida: "the case has an accepted run that is not registered yet",
+    ev_chat_caso_sin_abrir: "The case could not be opened: there is unsaved work or work in progress.",
+    ev_chat_plazo: "The time limit ran out with no answer. Last stage: {etapa}.",
+    ev_chat_sin_etapa: "the request did not reach any stage",
+    ev_chat_etapa_recibida_casos: "the case workspace received the request",
+    ev_chat_etapa_caso_abierto: "case opened; the Evaluation view was requested and the screen has not confirmed yet",
+    ev_chat_etapa_recibida_pantalla: "the Evaluation screen received the request",
+    ev_chat_etapa_esperando:
+      "waiting for the screen to be ready ({estado}: can run={puede}, button={boton}, "
+      + "busy={ocupada}, disabled={deshabilitado}, blocked={bloqueo})",
+    ev_chat_etapa_resaltado: "button highlighted, about to press it",
+    ev_chat_etapa_pulsado: "Evaluate button pressed; waiting for the preflight check and the submission",
+    ev_chat_etapa_envio: "submission started; checking and sending the evaluation",
   },
 };

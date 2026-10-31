@@ -604,7 +604,7 @@ async function main() {
           ["/health"], ["/targets/"], ["/evaluation/engines"],
           ["/pro/anti-targets"], ["/moldex"], ["/history/stats"],
           ["/molcy/fuentes"], ["/molcy/trabajos"],
-          ["/ai/providers"], ["/ai/conversations"],
+          ["/ai/consent/red"], ["/molchat-host/status"],
           ["/chem/validate", { smiles: "CC(=O)Oc1ccccc1C(=O)O" }],
           ["/evaluation/preflight", {
             smiles: "CC(=O)Oc1ccccc1C(=O)O", target_pdb_id: "3F75", chain: "A",

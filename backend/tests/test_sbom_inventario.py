@@ -242,6 +242,17 @@ def _arbol(tmp_path: Path, *, con: tuple[str, ...], avisos: str = AVISOS_FALSOS)
             }),
             encoding="utf-8",
         )
+    if "molchat" in con:
+        (tmp_path / "tools" / "molchat" / "molchat-manifest.json").write_text(
+            json.dumps({
+                "programa": "MolChat (asistente de laboratorio de MolDesign)", "version": "0.1.0",
+                "licencia_spdx": "GPL-3.0-or-later",
+                "fuente": {"proyecto": "moldesign-molchat", "rama": "main", "commit": "b" * 40},
+                "archivos": {"src/molchat_agent/__main__.py": {"bytes": 1, "sha256": "0" * 64}},
+                "sha256_conjunto": "e" * 64,
+            }),
+            encoding="utf-8",
+        )
     destino = tmp_path / "frontend" / "public" / "legal"
     destino.mkdir(parents=True, exist_ok=True)
     (destino / "THIRD_PARTY_NOTICES.md").write_text(avisos, encoding="utf-8")
@@ -262,7 +273,7 @@ def test_un_binario_opcional_ausente_se_declara_en_vez_de_callarse(tmp_path):
     raiz = _arbol(tmp_path, con=("vina", "openbabel", "molcy"))
     presentes, ausentes = sbom_mod._binarios(raiz)
     assert [b["nombre"] for b in presentes] == ["vina.exe", "obabel.exe", "maestro.py"]
-    assert sorted(a["herramienta"] for a in ausentes) == ["llama", "xtb"]
+    assert sorted(a["herramienta"] for a in ausentes) == ["llama", "molchat", "xtb"]
     assert all("no viaja" in a["consecuencia"] for a in ausentes)
 
 
@@ -281,7 +292,7 @@ def test_el_motor_molcy_es_critico_y_su_licencia_sale_de_su_manifiesto(tmp_path)
     with pytest.raises(SystemExit) as salida:
         sbom_mod._binarios(raiz)
     assert "molcy" in str(salida.value).lower()
-    raiz = _arbol(tmp_path, con=("vina", "xtb", "llama", "openbabel", "molcy"))
+    raiz = _arbol(tmp_path, con=("vina", "xtb", "llama", "openbabel", "molcy", "molchat"))
     presentes, ausentes = sbom_mod._binarios(raiz)
     motor = {b["nombre"]: b for b in presentes}["maestro.py"]
     assert not ausentes
@@ -292,8 +303,25 @@ def test_el_motor_molcy_es_critico_y_su_licencia_sale_de_su_manifiesto(tmp_path)
     assert motor["ficheros"] == 1 and len(motor["sha256_conjunto"]) == 64
 
 
-def test_los_binarios_toman_su_licencia_del_aviso_del_producto(tmp_path):
+def test_el_sidecar_molchat_es_opcional_y_su_licencia_sale_de_su_manifiesto(tmp_path):
+    """MolDesign funciona sin sidecar: su ausencia se declara, no aborta. Si
+    está, programa, versión y licencia salen del manifiesto vendorizado."""
     raiz = _arbol(tmp_path, con=("vina", "xtb", "llama", "openbabel", "molcy"))
+    presentes, ausentes = sbom_mod._binarios(raiz)
+    assert [a["herramienta"] for a in ausentes] == ["molchat"]
+    raiz = _arbol(tmp_path, con=("vina", "xtb", "llama", "openbabel", "molcy", "molchat"))
+    presentes, ausentes = sbom_mod._binarios(raiz)
+    assert not ausentes
+    lado = {b["nombre"]: b for b in presentes}["__main__.py"]
+    assert lado["licencia"] == "GPL-3.0-or-later"
+    assert lado["licencia_origen"] == "tools/molchat/molchat-manifest.json"
+    assert lado["version"] == "0.1.0"
+    assert lado["procedencia"]["rama"] == "main"
+    assert lado["ficheros"] == 1 and len(lado["sha256_conjunto"]) == 64
+
+
+def test_los_binarios_toman_su_licencia_del_aviso_del_producto(tmp_path):
+    raiz = _arbol(tmp_path, con=("vina", "xtb", "llama", "openbabel", "molcy", "molchat"))
     presentes, ausentes = sbom_mod._binarios(raiz)
     assert not ausentes
     por_nombre = {b["nombre"]: b for b in presentes}

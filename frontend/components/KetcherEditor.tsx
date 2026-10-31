@@ -29,6 +29,7 @@ const KetcherEditorInner = dynamic(() => import("./KetcherEditorInner"), {
 });
 
 type Props = {
+  caseId?: string;
   onSmilesChange?: (smiles: string) => void;
   initialSmiles?: string;
   height?: number | string;
@@ -37,7 +38,7 @@ type Props = {
   preparacion?: PreparacionDeLaCorrida;
 };
 
-export function KetcherEditor({ onSmilesChange, initialSmiles, height = 750, showSmilesInput = true, preparacion }: Props) {
+export function KetcherEditor({ caseId, onSmilesChange, initialSmiles, height = 750, showSmilesInput = true, preparacion }: Props) {
   const { t } = useLanguage();
   const [textSmiles, setTextSmiles] = useState(initialSmiles || "");
   const [ketcherError, setKetcherError] = useState<string | null>(null);
@@ -101,6 +102,8 @@ export function KetcherEditor({ onSmilesChange, initialSmiles, height = 750, sho
           <div className="relative isolate rounded-xl overflow-hidden border border-zinc-200 dark:border-zinc-800 bg-white">
             {/* Ketcher sigue montado bajo el visor 3D: volver no lo reinicia ni pierde el dibujo. */}
             <KetcherEditorInner
+              caseId={caseId}
+              requestedSmiles={initialSmiles}
               initialSmiles={textSmiles}
               onSmilesChange={handleKetcherSmiles}
               height={height}

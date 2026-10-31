@@ -14,6 +14,10 @@ concreto:
 > controles superó, qué incertidumbre permanece y qué sería justificable hacer
 > después?
 
+**Reto abierto hasta el 2026-12-06: [FEP-06-HUM](challenge/FEP-06-HUM/README.md).** ¿Preparas cálculos de energía libre
+o de dinámica molecular? Intenta montar uno con sólo un paquete exportado por MolDesign y dinos qué pierde sin decirlo
+([vídeo](https://youtu.be/g6BiVi3rCKI), instrucciones en inglés).
+
 ## Dónde encaja
 
 Los cálculos costosos parten de decisiones que a menudo quedan fuera del archivo:

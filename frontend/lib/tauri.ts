@@ -1,3 +1,4 @@
+import { FrontendError, frontendMessage, type FrontendText } from "./frontendError";
 // =====================================================================
 // Puente ÚNICO con Tauri
 // =====================================================================
@@ -64,8 +65,8 @@ export function isDesktopRuntime(): boolean {
   return "__TAURI_INTERNALS__" in w || "__TAURI__" in w;
 }
 
-export class TauriBridgeError extends Error {
-  constructor(message: string) {
+export class TauriBridgeError extends FrontendError {
+  constructor(message: FrontendText) {
     super(message);
     this.name = "TauriBridgeError";
   }
@@ -77,8 +78,7 @@ export async function invoke<T>(cmd: string, args?: Record<string, unknown>): Pr
   const fn = g?.core?.invoke ?? g?.invoke;
   if (typeof fn !== "function") {
     throw new TauriBridgeError(
-      `El puente de escritorio no está disponible (comando \`${cmd}\`). ` +
-        "Esta función requiere la aplicación de escritorio.",
+      frontendMessage("co_frontend_246", { v0: cmd }),
     );
   }
   return (await fn(cmd, args)) as T;

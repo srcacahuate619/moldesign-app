@@ -1,12 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 
 import { fetchBackend } from "../../../lib/backendFetch";
 import VisorElevacionEditor from "../VisorElevacionEditor";
 
 vi.mock("../../../lib/backendFetch", () => ({ fetchBackend: vi.fn() }));
 vi.mock("../../../lib/api", () => ({ getAuthHeaders: () => ({}) }));
-vi.mock("../../../context/LanguageContext", () => ({ useLanguage: () => ({ t: (clave: string) => clave }) }));
+vi.mock("../../../context/LanguageContext", () => {
+  const t = (clave: string) => clave;
+  return { useLanguage: () => ({ t }) };
+});
 
 const modelo = {
   contrato: "elevacion/v1",
@@ -42,6 +45,7 @@ describe("VisorElevacionEditor: no recalcula lo ya visto", () => {
   });
 
   afterEach(() => {
+    cleanup(); // antes de quitar los dobles: un fotograma pendiente no debe encontrarse sin requestAnimationFrame
     vi.unstubAllGlobals();
   });
 
@@ -102,6 +106,7 @@ describe("VisorElevacionEditor: vista «Se acoplará»", () => {
   });
 
   afterEach(() => {
+    cleanup(); // antes de quitar los dobles: un fotograma pendiente no debe encontrarse sin requestAnimationFrame
     vi.unstubAllGlobals();
   });
 
@@ -140,6 +145,7 @@ describe("VisorElevacionEditor: «Escrita» por etapas y dibujo de Ketcher", () 
   });
 
   afterEach(() => {
+    cleanup(); // antes de quitar los dobles: un fotograma pendiente no debe encontrarse sin requestAnimationFrame
     vi.unstubAllGlobals();
   });
 

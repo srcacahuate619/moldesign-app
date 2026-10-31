@@ -2,11 +2,11 @@
 // MolChat — el intérprete de IA y sus ajustes
 // =====================================================================
 //
-// DOS TEXTOS DE AQUÍ SON PROMESAS DE PRIVACIDAD Y SE TRADUCEN LITERALES:
+// LA PROMESA SOBRE LA CLAVE NO VIVE AQUÍ: está en proveedores.ts, que la describe
+// con la forma actual (cifrada en MolDesign, por cuenta).
 //
-//   · «Tus credenciales y API Keys se almacenan en tu dispositivo mediante
-//     LocalStorage. Nunca son transmitidas a nuestros servidores ni utilizadas
-//     para telemetría.»
+// UN TEXTO DE AQUÍ ES PROMESA DE PRIVACIDAD Y SE TRADUCE LITERAL:
+//
 //   · «Los datos se quedan en esta máquina» — la etiqueta que distingue un proveedor local de uno
 //     en la nube. Perder ese matiz al traducir sería perder la única señal que
 //     le dice al usuario si su pregunta sale del equipo.
@@ -18,6 +18,53 @@ import type { ModuloDeTraduccion } from "./index";
 
 export const ia: ModuloDeTraduccion = {
   es: {
+    ia_report_truncated: "{text}\n\n[…recortado: la respuesta tenía {count} caracteres]",
+    ia_http_expired: "La sesion caduco. Volve a entrar y repeti la pregunta.",
+    ia_http_destination: "Falta autorizar el destino de los datos en Ajustes de IA.",
+    ia_http_engine: "El motor no esta disponible en este momento.",
+    ia_http_status: "El servidor respondio {status}.",
+    ia_runtime_1: "No se pudieron cargar los proveedores (HTTP {v0}).",
+    ia_runtime_2: "Tus API keys no tienen saldo. MolChat usa el modo local.",
+    ia_runtime_3: "No se pudo conectar con el backend ({v0}). MolChat inicia igual.",
+    ia_runtime_4: "No se pudo activar el proveedor (HTTP {v0}).",
+    ia_runtime_5: "No se pudo guardar la configuración (HTTP {v0}).",
+    ia_runtime_6: "No se pudo leer el historial local. La conversacion sigue en disco; reintenta en unos segundos.",
+    ia_runtime_7: "Esa conversacion ya no esta disponible en esta cuenta.",
+    ia_runtime_8: "No se pudo cambiar la carga persistente (HTTP {v0}).",
+    ia_runtime_9: "No se pudo crear la conversacion: el historial local no acepto escribir.",
+    ia_runtime_10: "No se pudo crear la conversacion.",
+    ia_runtime_11: "No se pudo crear la conversacion ({v0}).",
+    ia_runtime_12: "No se pudo conectar con el motor ({v0}).",
+    ia_runtime_13: "error de red",
+    ia_frontend_006: "No se pudieron cargar los modelos locales (HTTP {v0}).",
+    ia_frontend_007: "No se pudieron cargar los modelos locales.",
+    ia_frontend_008: "No se pudo buscar modelos (HTTP {v0}).",
+    ia_frontend_009: "No se pudo buscar modelos.",
+    ia_frontend_010: "No se pudo consultar la descarga (HTTP {v0}).",
+    ia_frontend_011: "La descarga del modelo falló: {v0}",
+    ia_frontend_012: "La descarga del modelo falló.",
+    ia_frontend_013: "No se pudo consultar la descarga.",
+    ia_frontend_014: "No se pudo iniciar la descarga (HTTP 403).",
+    ia_frontend_015: "No se pudo iniciar la descarga: {v0}",
+    ia_frontend_016: "No se pudo iniciar la descarga.",
+    ia_frontend_017: "No se pudo autorizar el destino.",
+    ia_frontend_018: "No se pudo abrir la carpeta de modelos (HTTP {v0}).",
+    ia_frontend_019: "No se pudo abrir la carpeta de modelos.",
+    ia_frontend_020: "No se pudo recomendar una cuantización (HTTP {v0}).",
+    ia_frontend_021: "No se pudo recomendar una cuantización.",
+    ia_frontend_022: "No se pudo guardar la configuración.",
+    ia_frontend_023: "No se pudieron cargar los proveedores.",
+    ia_frontend_024: "No se pudo cambiar la carga persistente.",
+    ia_frontend_025: "sí",
+    ia_frontend_028: "Generando...",
+    ia_frontend_029: "No configurado",
+    ia_frontend_030: "llama.cpp no detectado",
+    ia_frontend_031: "GPU · {v0} libre {v1}",
+    ia_frontend_032: "CPU · {v0}G libre / {v1}G",
+    ia_frontend_033: "Cargando en GPU...",
+    ia_frontend_034: "Cargando modelo...",
+    ia_frontend_035: "Evaluación · GPU libre {v0} · RAM {v1}G",
+    ia_frontend_036: "Evaluación en curso · {v0}G RAM libre",
     ia_interprete: "Intérprete IA",
     ia_molchat: "MolChat · Intérprete IA",
     ia_rapido: "Rápido",
@@ -143,12 +190,55 @@ export const ia: ModuloDeTraduccion = {
     ia_nube_ollama_cors:
       "Asegúrate de ejecutar `OLLAMA_ORIGINS=\"*\" ollama serve` para permitir "
       + "CORS.",
-    ia_nube_credenciales_a: "Tus credenciales y API Keys se almacenan",
-    ia_nube_credenciales_b:
-      "en tu dispositivo mediante LocalStorage. Nunca son transmitidas a nuestros "
-      + "servidores ni utilizadas para telemetría.",
   },
   en: {
+    ia_report_truncated: "{text}\n\n[…truncated: the response contained {count} characters]",
+    ia_http_expired: "The session expired. Sign in again and repeat the question.",
+    ia_http_destination: "The data destination needs authorization in AI Settings.",
+    ia_http_engine: "The engine is not available right now.",
+    ia_http_status: "The server responded with {status}.",
+    ia_runtime_1: "The providers could not be loaded (HTTP {v0}).",
+    ia_runtime_2: "Your API keys have no balance. MolChat is using local mode.",
+    ia_runtime_3: "The backend could not be reached ({v0}). MolChat starts anyway.",
+    ia_runtime_4: "The provider could not be activated (HTTP {v0}).",
+    ia_runtime_5: "The settings could not be saved (HTTP {v0}).",
+    ia_runtime_6: "Local history could not be read. The conversation is still on disk; try again in a few seconds.",
+    ia_runtime_7: "That conversation is no longer available in this account.",
+    ia_runtime_8: "Persistent loading could not be changed (HTTP {v0}).",
+    ia_runtime_9: "The conversation could not be created: local history did not accept the write.",
+    ia_runtime_10: "The conversation could not be created.",
+    ia_runtime_11: "The conversation could not be created ({v0}).",
+    ia_runtime_12: "The engine could not be reached ({v0}).",
+    ia_runtime_13: "network error",
+    ia_frontend_006: "Local models could not be loaded (HTTP {v0}).",
+    ia_frontend_007: "Local models could not be loaded.",
+    ia_frontend_008: "Models could not be searched (HTTP {v0}).",
+    ia_frontend_009: "Models could not be searched.",
+    ia_frontend_010: "The download could not be checked (HTTP {v0}).",
+    ia_frontend_011: "The model download failed: {v0}",
+    ia_frontend_012: "The model download failed.",
+    ia_frontend_013: "The download could not be checked.",
+    ia_frontend_014: "The download could not be started (HTTP 403).",
+    ia_frontend_015: "The download could not be started: {v0}",
+    ia_frontend_016: "The download could not be started.",
+    ia_frontend_017: "The destination could not be authorized.",
+    ia_frontend_018: "The models folder could not be opened (HTTP {v0}).",
+    ia_frontend_019: "The models folder could not be opened.",
+    ia_frontend_020: "A quantization could not be recommended (HTTP {v0}).",
+    ia_frontend_021: "A quantization could not be recommended.",
+    ia_frontend_022: "The settings could not be saved.",
+    ia_frontend_023: "The providers could not be loaded.",
+    ia_frontend_024: "Persistent loading could not be changed.",
+    ia_frontend_025: "yes",
+    ia_frontend_028: "Generating...",
+    ia_frontend_029: "Not configured",
+    ia_frontend_030: "llama.cpp not detected",
+    ia_frontend_031: "GPU · {v0} free {v1}",
+    ia_frontend_032: "CPU · {v0}G free / {v1}G",
+    ia_frontend_033: "Loading on GPU...",
+    ia_frontend_034: "Loading model...",
+    ia_frontend_035: "Evaluation · GPU free {v0} · RAM {v1}G",
+    ia_frontend_036: "Evaluation in progress · {v0}G RAM free",
     ia_interprete: "AI interpreter",
     ia_molchat: "MolChat · AI interpreter",
     ia_rapido: "Fast",
@@ -202,7 +292,7 @@ export const ia: ModuloDeTraduccion = {
     ia_sin_modelos: "No models downloaded. Download one of the recommended models below.",
     ia_modelos_recomendados: "Models recommended for local download",
     ia_abrir_carpeta_modelos: "Open the local models folder (File Explorer)",
-    ia_cuantizacion: "Quantisation",
+    ia_cuantizacion: "Quantization",
     ia_cambiar_destino: "Change the destination",
     ia_asignacion_gpu: "GPU allocation (VRAM)",
     ia_temperatura: "0 = Analytical (chemistry), 1 = Creative",
@@ -239,7 +329,7 @@ export const ia: ModuloDeTraduccion = {
     ia_ollama_url_sin_guardar: "Save the settings to check the new URL.",
     ia_ollama_instalados: "Models installed in Ollama",
     ia_autorizar_y_descargar: "Authorize {host} and download",
-    ia_cuant_sin_modelo: "None of your models uses this quantisation.",
+    ia_cuant_sin_modelo: "None of your models uses this quantization.",
     ia_cuant_varios: "Several of your models use it: pick the model above.",
     ia_chat_stop: "Stop",
     ia_chat_dictation_unavailable_short: "Dictation unavailable",
@@ -265,9 +355,5 @@ export const ia: ModuloDeTraduccion = {
       "Set the credentials and endpoints to connect MolChat with this provider.",
     ia_nube_ollama_cors:
       "Make sure to run `OLLAMA_ORIGINS=\"*\" ollama serve` to allow CORS.",
-    ia_nube_credenciales_a: "Your credentials and API keys are stored",
-    ia_nube_credenciales_b:
-      "on your device using LocalStorage. They are never transmitted to our "
-      + "servers and never used for telemetry.",
   },
 };

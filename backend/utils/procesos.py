@@ -25,7 +25,7 @@ Comprobado sobre el intérprete que se empaqueta (Python 3.11.9):
 Es decir: el valor por defecto del `getattr` convirtió un error de módulo en un
 silencio. Los tres sitios «protegidos» pasaban `creationflags=0`, que es
 exactamente lo mismo que no pasar nada. El idioma correcto ya existía en
-`services/ai/local_llm.py` y `services/motores/sidecar.py`, sobre `subprocess`.
+`services/llm/local_llm.py` y `services/motores/sidecar.py`, sobre `subprocess`.
 
 # Por qué una constante y no un `getattr` en cada sitio
 

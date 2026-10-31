@@ -1,3 +1,4 @@
+import { appLocale } from "./formatoNumerico";
 /**
  * Elevación 2D → 3D: el dibujo plano de una molécula «se levanta» y gira.
  *
@@ -425,8 +426,8 @@ export function avisosDePose(modelo: ModeloElevacion): AvisoDePose[] {
 }
 
 /** Un número para leer en pantalla, con la coma o el punto del idioma del navegador. */
-export function formatoDeNumero(valor: number): string {
-  return new Intl.NumberFormat(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(valor);
+export function formatoDeNumero(valor: number, locale: string): string {
+  return new Intl.NumberFormat(appLocale(locale), { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(valor);
 }
 
 // ── Datos ─────────────────────────────────────────────────────────────────────

@@ -1,11 +1,12 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { catalogo } from "@/context/traducciones/catalogo";
+import { paneles } from "@/context/traducciones/paneles";
 import { agruparAntiDianas, type AntiDiana } from "@/lib/antiDianas";
 import { AntiDianasSelector } from "../AntiDianasSelector";
 
 const idioma = vi.hoisted(() => ({ value: "es" as "es" | "en" }));
-vi.mock("@/context/LanguageContext", () => ({ useLanguage: () => ({ t: (key: string) => catalogo[idioma.value][key] ?? key }) }));
+vi.mock("@/context/LanguageContext", () => ({ useLanguage: () => ({ t: (key: string) => paneles[idioma.value][key] ?? catalogo[idioma.value][key] ?? key }) }));
 vi.mock("../CustomReceptorModal", () => ({ CustomReceptorModal: ({ antiDiana, onSuccess }: { antiDiana?: boolean; onSuccess: () => void }) => <button onClick={onSuccess}>{antiDiana ? "SUBIDA_ANTI" : "SUBIDA_RECEPTOR"}</button> }));
 const rows: AntiDiana[] = [
   { pdb_id: "5VA1", name: "hERG", category: "Canales", source: "builtin", por_defecto: true, disponible: true },
@@ -56,6 +57,14 @@ describe("panel de demostración y anti-dianas propias", () => {
     expect(screen.getAllByRole("checkbox")).toHaveLength(1);
     expect(screen.getByRole("region", { name: "Tus anti-dianas" })).toBeTruthy();
   });
+  it.each(["es", "en"] as const)("la acción ninguna vacía la selección aunque cambie su etiqueta en %s", (locale) => {
+    idioma.value = locale;
+    const onChange = vi.fn();
+    render(<AntiDianasSelector targets={rows} selected={["5VA1"]} onChange={onChange} />);
+    fireEvent.click(screen.getByRole("button", { name: paneles[locale].pn_ninguna }));
+    expect(onChange).toHaveBeenCalledWith([]);
+  });
+
   it("agrupar conserva todas las filas y las referencias originales", () => {
     const grupos = agruparAntiDianas(rows);
     expect(grupos.map((g) => g.targets.length)).toEqual([2, 1]);

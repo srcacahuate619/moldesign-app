@@ -182,6 +182,11 @@ jobs:
           if-no-files-found: ignore
       - name: Build static desktop frontend
         run: npm --prefix frontend run build:desktop
+      # Recorre el export recién construido con la CSP de producción y la
+      # interfaz en inglés; falla con castellano en el texto, title, aria-label
+      # o placeholder. Las pruebas de vitest miran el código, no el export.
+      - name: Check the exported interface in English
+        run: node frontend/e2e/i18n-export.mjs
 
   tauri:
     name: Tauri Rust quality gate

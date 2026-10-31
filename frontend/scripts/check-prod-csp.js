@@ -258,6 +258,19 @@ function directivasDe(policy) {
   return mapa;
 }
 
+// El panel usa exclusivamente el puerto efímero IPv4 del sidecar verificado.
+function marcoMolchatPermitido(policy) {
+  return (directivasDe(policy).get("frame-src") || []).includes("http://127.0.0.1:*");
+}
+if (!marcoMolchatPermitido("frame-src 'self' http://127.0.0.1:*;") ||
+    marcoMolchatPermitido("frame-src 'self' http://127.0.0.1:8000;") ||
+    marcoMolchatPermitido("frame-src 'self' http://127.0.0.1.example:*;")) {
+  fail("El guardián de iframe MolChat no pasó sus controles.");
+}
+for (const [nombre, policy] of [["Tauri dev", base.app?.security?.csp || ""], ["Tauri producción", csp]]) {
+  if (!marcoMolchatPermitido(policy)) fail(`${nombre}: frame-src bloquea el sidecar MolChat.`);
+}
+
 /** `data:` tiene que estar en connect-src y NO en las directivas que ejecutan o incrustan contenido. */
 function problemasDeData(policy) {
   const d = directivasDe(policy);
@@ -317,6 +330,11 @@ try {
   fail(`tauri.conf.msix.json no tiene app.security.csp legible: ${e.message}`);
 }
 for (const problema of problemasDeData(cspMsix)) fail(`CSP del MSIX: ${problema}.`);
+if (!marcoMolchatPermitido(cspMsix)) fail("MSIX: frame-src bloquea el sidecar MolChat.");
+const proxy = fs.readFileSync(path.join(__dirname, "..", "proxy.ts"), "utf8");
+if (!proxy.includes("frame-src 'self' blob: http://127.0.0.1:*")) {
+  fail("CSP de Next: frame-src bloquea el sidecar MolChat.");
+}
 const distintas = diferenciasDePoliticas(csp, cspMsix);
 if (distintas.length > 0) {
   fail(
