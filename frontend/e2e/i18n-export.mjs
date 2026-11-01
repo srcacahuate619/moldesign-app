@@ -11,6 +11,13 @@ import { chromium } from "@playwright/test";
 import { crearServidor } from "../../scripts/qa_sandbox/servidor.mjs";
 import { RegistroDeCasos } from "../../scripts/qa_sandbox/casos.mjs";
 
+// Los registros de Actions piden sesión; una anotación se lee sin ella.
+process.on("uncaughtExceptionMonitor", error => {
+  if (!process.env.GITHUB_ACTIONS) return;
+  const motivo = String(error?.message ?? error).slice(0, 1500);
+  console.log("::error title=i18n-export::" + motivo.replace(/%/g, "%25").replace(/\r/g, "%0D").replace(/\n/g, "%0A"));
+});
+
 const require = createRequire(import.meta.url);
 const { inspectItems } = require("../scripts/i18n-dom.cjs");
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");

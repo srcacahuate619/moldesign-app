@@ -857,8 +857,11 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   de la instantánea española del dossier lleva el hash del PDF, y el PDF depende
   de la versión de reportlab: 4.2.0 en el runtime y en la CI, 4.5.1 en el Python
   de desarrollo. Escrita con la 4.5.1, la prueba falló del 2026-10-06 al 10-09.
-  Ahora `tests/dossier_snapshot.py --write` se niega con otro reportlab, y la
-  prueba salta sólo el manifiesto, diciendo por qué.
+  Ahora `tests/dossier_snapshot.py --write` se niega con otro reportlab o con
+  otra Arial, y con cualquiera de los dos la prueba compara todo el manifiesto
+  menos el hash y el tamaño del PDF. **El PDF del dossier no sale idéntico en
+  todas las máquinas:** incrusta la fuente del sistema, así que su hash cambia
+  de un Linux a un Windows, y también en la CI (medido el 2026-11-01).
   El conteo del backend lo mantiene `scripts/report_test_counts.py`, que
   escribe `docs/api/test-counts.json`: esa es la fuente, no este párrafo.
   Este párrafo ya envejeció tres veces —decía 2117 y 889, luego 2518 cuando
@@ -919,10 +922,11 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   frase partida por el PDF que sólo se ve con `pypdf`, y `pypdf` no viaja en python-embed, así que en local se saltaba. Los pasos
   siguientes llevaban cinco días sin correr. Para reproducirla: clon limpio, venv con los dos requirements, sin `tools/` ni
   python-embed. `a05cc98e` (10-31) siguió en rojo por dos cosas: una prueba de frontend que un arreglo de ese día dejó sin su marca
-  de final, y un fallo del backend que **no se reproduce**: el mismo commit pasa entero en un clon limpio en Windows y en Linux
-  (5349 y 5338 pruebas, 0 fallos), y los registros de Actions piden sesión. Desde el 2026-11-01 ninguna suite para en el primer
-  fallo, los pasos siguientes corren aunque uno caiga y `scripts/anotar_fallos_ci.py` publica las pruebas caídas como anotaciones,
-  que se leen sin sesión. El trabajo de backend pasa de 30 a 50 min: la instalación ya lleva 12.
+  de final, y el manifiesto del dossier, porque en GitHub el PDF sale con otro hash que en la máquina donde se fijó la instantánea.
+  Eso no se ve en local: el mismo commit pasa entero en un clon limpio en Windows y en Linux (5349 y 5338 pruebas, 0 fallos), y los
+  registros de Actions piden sesión. Desde el 2026-11-01 ninguna suite para en el primer fallo, los pasos siguientes corren aunque
+  uno caiga y `scripts/anotar_fallos_ci.py` publica las pruebas caídas como anotaciones, que se leen sin sesión; `i18n-export.mjs`
+  hace lo mismo. El trabajo de backend pasa de 30 a 50 min: la instalación ya lleva 12.
 - **Linux (primera medida, 2026-10-31, Ubuntu 24.04 en contenedores Debian 12).** Con los arreglos de ese día, sobre un clon
   limpio: backend 5338 pasan y 0 fallos, `scripts/tests` 260, rescoring 318, sellos, humo de escritorio, Playwright y
   `build:desktop`. Saltó un defecto que Windows ocultaba: dos documentos enlazaban `F:/Backups/…`, que `check_docs_links` daba por

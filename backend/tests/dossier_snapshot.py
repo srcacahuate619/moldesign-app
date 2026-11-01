@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
+import json
 import sys
 import zipfile
 from pathlib import Path
@@ -14,7 +16,7 @@ if str(BACKEND) not in sys.path:
 
 from services.dossier.model import build_case_dossier
 from services.dossier.package import construir_paquete
-from services.dossier.pdf import render_dossier_pdf
+from services.dossier.pdf import _CANDIDATAS_DE_FUENTE, render_dossier_pdf
 from tests.fixtures_dossier import caso_completo
 
 SNAPSHOT_DIR = Path(__file__).resolve().parent / "snapshots" / "dossier_es"
@@ -26,9 +28,37 @@ LOCK_DEL_RUNTIME = BACKEND / "requirements-embed.lock.txt"
 DEPENDEN_DE_REPORTLAB = frozenset({"manifest.json"})
 
 
+#: SHA-256 de las cuatro Arial con las que se fijó la instantánea. Cada Windows trae las suyas: «es Windows» no
+#: basta, y el 2026-11-01 la CI pública dio otro PDF que el Windows 11 donde se escribió.
+HUELLA_DE_LA_FUENTE = "4481faa17b2718878b2d7338ff7ae4f603b0eb47b477e917be2184748919616c"
+
+
+def huella_de_la_fuente() -> str | None:
+    resumen = hashlib.sha256()
+    for ruta in _CANDIDATAS_DE_FUENTE[0]:
+        try:
+            resumen.update(Path(ruta).read_bytes())
+        except OSError:
+            return None
+    return resumen.hexdigest()
+
+
 def fuente_de_la_instantanea() -> bool:
-    """El PDF de la instantánea incrusta Arial, la fuente de Windows; otra fuente cambia sus bytes y su hash."""
-    return sys.platform == "win32"
+    """El PDF de la instantánea incrusta Arial; otra fuente, u otra versión de ella, cambia sus bytes y su hash."""
+    return huella_de_la_fuente() == HUELLA_DE_LA_FUENTE
+
+
+def mismo_pdf_que_la_instantanea() -> bool:
+    return reportlab_de_este_interprete() == reportlab_del_runtime() and fuente_de_la_instantanea()
+
+
+def manifiesto_sin_el_pdf(contenido: bytes) -> dict:
+    """El manifiesto sin el hash ni el tamaño del PDF, lo único suyo que depende de la máquina."""
+    manifiesto = json.loads(contenido)
+    entradas = [entrada for entrada in manifiesto["files"] if entrada["path"] == "dossier.pdf"]
+    assert len(entradas) == 1, "el manifiesto tiene que declarar un solo dossier.pdf"
+    del entradas[0]["sha256"], entradas[0]["tamano"]
+    return manifiesto
 
 
 def reportlab_del_runtime() -> str:
@@ -73,7 +103,8 @@ def main() -> int:
               f"{reportlab_del_runtime()}. Escríbelas con python-embed.")
         return 2
     if args.write and not fuente_de_la_instantanea():
-        print("Instantáneas NO escritas: el PDF no llevaría Arial. Escríbelas en Windows con python-embed.")
+        print("Instantáneas NO escritas: el PDF no llevaría la Arial de HUELLA_DE_LA_FUENTE. Si Windows la cambió, "
+              "actualiza esa huella a propósito y explícalo en el commit.")
         return 2
     actuales = salidas_espanol()
     if args.write:
