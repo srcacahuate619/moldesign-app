@@ -32,7 +32,8 @@ jobs:
   backend:
     name: Backend desktop contracts
     runs-on: windows-latest
-    timeout-minutes: 30
+    # Instalar el runtime lleva unos 12 min y las pruebas otros tantos: con 30 el trabajo se cortaba.
+    timeout-minutes: 50
     defaults:
       run:
         working-directory: backend
@@ -57,30 +58,44 @@ jobs:
           python -m pip install -r requirements-test.txt
       - name: Lint production Python for syntax and undefined names
         run: python -m ruff check api core db services --select E9,F63,F7,F82
+      # Sin --maxfail y con `!cancelled()` en los pasos siguientes: un fallo no puede tapar a otro.
+      # Del 2026-10-26 al 10-31 la primera prueba roja dejó sin correr todo lo que venía detrás.
       - name: Run backend contracts
-        run: python -m pytest tests --maxfail=1 -ra -p no:cacheprovider
+        run: python -m pytest tests -ra -p no:cacheprovider --junitxml=${{ runner.temp }}/backend.xml
       - name: Run embedded runtime contracts
-        run: python -m pytest ../scripts/tests --maxfail=1 -ra -p no:cacheprovider
+        if: ${{ !cancelled() }}
+        run: python -m pytest ../scripts/tests -ra -p no:cacheprovider --junitxml=${{ runner.temp }}/scripts.xml
+      # Los registros piden sesión; las anotaciones se leen sin ella.
+      - name: Publish failing tests as annotations
+        if: ${{ failure() }}
+        run: python ../scripts/anotar_fallos_ci.py ${{ runner.temp }}/backend.xml ${{ runner.temp }}/scripts.xml
       - name: Fail if a suite silently stopped collecting
+        if: ${{ !cancelled() }}
         run: python ../scripts/report_test_counts.py --check
       - name: Verify generated API contract
+        if: ${{ !cancelled() }}
         run: python ../scripts/generate_openapi_contract.py --check
       - name: Verify local documentation links
+        if: ${{ !cancelled() }}
         run: python ../scripts/check_docs_links.py --check
       # Cada experimento sellado tiene que validar desde un clon: un hash distinto
       # es un fallo; un fichero ausente sólo pasa si scripts/sellos_no_distribuidos.json
       # lo declara (PDBBind, runtime), con motivo y cómo obtenerlo. En septiembre
       # de 2026 un clon limpio validaba 12 de 167.
       - name: Verify every sealed experiment from a clean clone
+        if: ${{ !cancelled() }}
         run: python ../scripts/validar_sellos.py --check
       - name: Verify generated runtime inventory
+        if: ${{ !cancelled() }}
         run: python ../scripts/generate_runtime_inventory.py --check
       # Existía y no corría en CI. Es el gate que impide que la interfaz muestre
       # pesos de stacking que el backend no aplica: exactamente el fallo que
       # 55852bb tuvo que corregir, con 16 divergencias en siete familias.
       - name: Verify UI stacking weights match the backend
+        if: ${{ !cancelled() }}
         run: python ../scripts/check_stacking_weights_ui.py --check
       - name: Verify packaged-runtime release wiring
+        if: ${{ !cancelled() }}
         run: python ../scripts/check_release_pipeline.py
       # La frontera con Open Babel. En CI corre en modo REPOSITORIO: G1 (imports
       # prohibidos), G3 (resolución por PATH), G8 (el SDF entregado es el que se
@@ -90,17 +105,20 @@ jobs:
       # sobre el artefacto staged, que es donde importan.
       # Ver docs/79_ADR_FRONTERA_OPEN_BABEL.md.
       - name: Verify the Open Babel boundary
+        if: ${{ !cancelled() }}
         run: python ../scripts/check_openbabel_boundary.py
       # Los artefactos aprendidos se rigen por LICENSE-MODELS, no por la licencia
       # del código. Este gate exige que cada directorio que los contenga lo diga junto a los
       # archivos, y que ningún documento normativo afirme lo contrario de lo que
       # hay. Sólo mira `git ls-files`, así que funciona sobre un clon limpio.
       - name: Verify the learned-artifact licence boundary
+        if: ${{ !cancelled() }}
         run: python ../scripts/check_model_license_boundary.py --check
       # Lista exacta de lo que hay dentro del intérprete distribuido. Igual que
       # con el SBOM: sobre un clon limpio no hay runtime que inventariar, y el
       # gate lo DICE en vez de aprobar en falso.
       - name: Verify the embedded runtime lockfile
+        if: ${{ !cancelled() }}
         run: python ../scripts/lock_embedded_runtime.py --check --permitir-runtime-ausente
       # SBOM del runtime distribuido y sus licencias. Falla si el árbol de
       # dependencias cambió sin regenerarlo, que es como una AGPL entra sin que
@@ -112,6 +130,7 @@ jobs:
       # y sigue. La comprobación real exige el runtime descargado, y hoy no hay
       # ningún job que lo haga: es el hueco conocido de CI.
       - name: Verify distributed SBOM and licences
+        if: ${{ !cancelled() }}
         run: python ../scripts/generate_sbom.py --check --permitir-runtime-ausente
 
   rescoring:
@@ -134,10 +153,14 @@ jobs:
       - name: Verify model manifest and artifact hashes
         run: python rescoring/scripts/generate_model_manifest.py --check
       - name: Run rescoring contracts
-        run: python -m pytest rescoring/tests --maxfail=1 -ra -p no:cacheprovider
+        run: python -m pytest rescoring/tests -ra -p no:cacheprovider --junitxml=${{ runner.temp }}/rescoring.xml
+      - name: Publish failing tests as annotations
+        if: ${{ failure() }}
+        run: python scripts/anotar_fallos_ci.py ${{ runner.temp }}/rescoring.xml
       # SCI-A-056: el SHAP versionado no está ligado al modelo distribuido, así que
       # la puerta dice NO_VERIFICABLE. Quitar la bandera cuando se recalcule.
       - name: Enforce Vina importance gate
+        if: ${{ !cancelled() }}
         run: python rescoring/scripts/check_vina_importance_gate.py --permitir-no-verificable
 
   frontend:
@@ -166,12 +189,14 @@ jobs:
       # `pretest:e2e` genera la build web optimizada que consume el navegador;
       # por tanto esta etapa también es el gate de build web.
       - name: Run session persistence browser contract
+        if: ${{ !cancelled() }}
         run: npm --prefix frontend run test:e2e
       # Contraste, foco, nombres accesibles, desborde a cuatro escalas y textos
       # largos: jsdom no calcula layout ni color, así que esto sólo puede
       # comprobarse en un navegador real. No sustituye a mirar la aplicación en
       # Windows a 125/150 %, que sigue siendo trabajo humano.
       - name: Run UX and accessibility review
+        if: ${{ !cancelled() }}
         run: npm --prefix frontend run test:ux
       - name: Upload Playwright diagnostics on failure
         if: failure()
@@ -181,11 +206,13 @@ jobs:
           path: frontend/test-results
           if-no-files-found: ignore
       - name: Build static desktop frontend
+        if: ${{ !cancelled() }}
         run: npm --prefix frontend run build:desktop
       # Recorre el export recién construido con la CSP de producción y la
       # interfaz en inglés; falla con castellano en el texto, title, aria-label
       # o placeholder. Las pruebas de vitest miran el código, no el export.
       - name: Check the exported interface in English
+        if: ${{ !cancelled() }}
         run: node frontend/e2e/i18n-export.mjs
 
   tauri:

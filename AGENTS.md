@@ -456,8 +456,10 @@ valor (los tres primeros puntos).
 
 ## El ejecutable
 
-El instalador se distribuye por **GitHub Releases** y, según el propietario
-(2026-10-04), la **versión 1.0.1 está en producción en la Microsoft Store**. No
+El instalador está pensado para distribuirse por **GitHub Releases**, pero el
+repositorio público no tiene hoy ninguno, sólo las etiquetas `v1.0.0` y `v1.0.1`
+(medido el 2026-11-01). Según el propietario (2026-10-04), la **versión 1.0.1 está
+en producción en la Microsoft Store**. No
 vive en el árbol (`frontend/src-tauri/target/` está en `.gitignore`). El código
 declara hoy **1.0.4** (`backend/core/version.py`, `package.json`, `tauri.conf.json` y
 `Cargo.toml`; Store 1.0.4.0, sin construir todavía; registro en `docs/versions/1.0.4_cambios.md`). La 1.0.3, un HOT FIX
@@ -913,10 +915,14 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   manifiesto de modelos y enlaces). **Antes de integrar en la rama de una
   versión, pasa con python-embed todos los `--check` de `ci.yml`**, no sólo
   pytest.
-  **La CI pública estuvo en rojo del 2026-10-26 al 10-31 y lo tapaba ella misma.** `--maxfail=1` paraba en la primera prueba, una
+  **La CI pública lleva en rojo desde el 2026-10-26 y lo tapaba ella misma.** `--maxfail=1` paraba en la primera prueba, una
   frase partida por el PDF que sólo se ve con `pypdf`, y `pypdf` no viaja en python-embed, así que en local se saltaba. Los pasos
   siguientes llevaban cinco días sin correr. Para reproducirla: clon limpio, venv con los dos requirements, sin `tools/` ni
-  python-embed, y sin `--maxfail`.
+  python-embed. `a05cc98e` (10-31) siguió en rojo por dos cosas: una prueba de frontend que un arreglo de ese día dejó sin su marca
+  de final, y un fallo del backend que **no se reproduce**: el mismo commit pasa entero en un clon limpio en Windows y en Linux
+  (5349 y 5338 pruebas, 0 fallos), y los registros de Actions piden sesión. Desde el 2026-11-01 ninguna suite para en el primer
+  fallo, los pasos siguientes corren aunque uno caiga y `scripts/anotar_fallos_ci.py` publica las pruebas caídas como anotaciones,
+  que se leen sin sesión. El trabajo de backend pasa de 30 a 50 min: la instalación ya lleva 12.
 - **Linux (primera medida, 2026-10-31, Ubuntu 24.04 en contenedores Debian 12).** Con los arreglos de ese día, sobre un clon
   limpio: backend 5338 pasan y 0 fallos, `scripts/tests` 260, rescoring 318, sellos, humo de escritorio, Playwright y
   `build:desktop`. Saltó un defecto que Windows ocultaba: dos documentos enlazaban `F:/Backups/…`, que `check_docs_links` daba por

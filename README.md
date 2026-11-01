@@ -127,7 +127,7 @@ La receta de release y el checksum del artefacto validado están en
 
 > **Auditar o reproducir desde un fork:** [CONTRIBUTING.md](CONTRIBUTING.md) §2-§4 reúne los
 > comandos exactos de la CI, el aprovisionamiento del runtime, el build y la
-> verificación de los experimentos sellados (185 en el repositorio público al 2026-10-25, con
+> verificación de los experimentos sellados (187 en el repositorio público al 2026-11-01, con
 > FEP-06-PRE y FEP-06-PRE-2 retenidos hasta cerrar la ronda FEP-06-HUM; `python scripts/validar_sellos.py --check`
 > da la cifra vigente).
 

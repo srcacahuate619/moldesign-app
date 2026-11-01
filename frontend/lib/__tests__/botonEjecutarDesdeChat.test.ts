@@ -23,7 +23,12 @@ describe("botón que la evaluación del chat pulsa", () => {
     expect(cuerpo).not.toContain("handleSubmit");
   });
   it("el efecto del chat pulsa ejecutarRef y no evaluarRef", () => {
-    const efecto = fuente.slice(fuente.indexOf("const request = evaluacionDesdeChat;"), fuente.indexOf("latidoEvaluacionChat]);"));
+    const inicio = fuente.indexOf("const request = evaluacionDesdeChat;");
+    // El efecto acaba en su lista de dependencias. Sin esa marca, `slice` llegaría al final del archivo.
+    const largo = fuente.slice(inicio).search(/latidoEvaluacionChat[^\]]*\]\);/);
+    expect(inicio, "no se encuentra el efecto del chat").toBeGreaterThan(-1);
+    expect(largo, "no se encuentra el final del efecto del chat").toBeGreaterThan(-1);
+    const efecto = fuente.slice(inicio, inicio + largo);
     expect(efecto).toContain("ejecutarRef");
     expect(efecto).not.toContain("evaluarRef");
   });
