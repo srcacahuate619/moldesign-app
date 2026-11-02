@@ -8,10 +8,10 @@ que vienen de fallos reales, en su sección «Restricciones que no debes romper�
 
 > *English summary.* Windows 10/11 x64. Python 3.11 and Node 24.20 (`.nvmrc`).
 > Install `backend/requirements-embed.lock.txt` + `backend/requirements-test.txt`,
-> run the commands in §2 (they are exactly what CI runs), then `npm ci` and the
-> frontend checks. `python scripts/validar_sellos.py --check` verifies every sealed
-> experiment from a clean clone. Full installer build: §3. Contributions need the
-> CLA (§6).
+> run §2 (the same commands as CI, including the frontend audit, browser, build
+> and language-export checks). `python scripts/validar_sellos.py --check` verifies
+> every sealed experiment from a clean clone. Full installer build: §3.
+> Contributions need the CLA (§6).
 
 ## 1. Plataforma
 
@@ -64,19 +64,27 @@ Frontend y Rust (jobs `frontend` y `tauri`):
 
     cd frontend
     npm ci
+    npm run check:npm-audit
     npm run check:csp
     npm run typecheck
     npm run test:run
+    npm run test:e2e
+    npm run test:ux
+    npm run build:desktop
+    node e2e/i18n-export.mjs
     cd src-tauri
     cargo fmt --check
     cargo clippy --all-targets -- -D warnings
     cargo test --all-targets
+    cd ..\..
 
 Las pruebas que necesitan binarios del runtime (Vina, Open Babel, xTB) o
 checkpoints no distribuidos **se omiten diciéndolo**, con el motivo en la salida
 de `pytest -ra`; no pasan en falso. Para ejecutarlas, aprovisiona el runtime (§3).
 
 ## 3. Aprovisionar el runtime y construir el instalador
+
+Desde la raíz del repositorio (el bloque anterior vuelve a ella).
 
 `git clone` no trae el intérprete embebido, los motores nativos ni la base
 sembrada: son unos 2,2 GB que se descargan de un archivo fijado por revisión y
@@ -108,11 +116,17 @@ comprueba sus hashes.
 
 ## 4. Reproducir la ciencia
 
-Cada experimento vive en `scripts/artifacts_science/<ID>/`: `manifest.json`
-(hipótesis, protocolo, gate, entorno, hashes, decisión y su razón),
-`metrics.json`, `per_complex.jsonl`, `failures.jsonl` y `logs/`. El relato de
-cada hallazgo o refutación está en `docs/papers/<ID>.md` y en la pestaña Ciencia
-de la aplicación.
+Cada experimento vive en `scripts/artifacts_science/<ID>/`. `manifest.json` recoge
+hipótesis, protocolo, gate, entorno, hashes, decisión y su razón. El inicializador
+`scripts/experiment_manifest.py` deja además esqueletos de `metrics.json`,
+`per_complex.jsonl` y `failures.jsonl`, cuyo contenido depende del experimento.
+`logs/` sólo existe si el experimento lo generó: qué ficheros quedaron sellados lo
+dicen los hashes del manifiesto, no una estructura universal.
+
+El relato de `docs/papers/<ID>.md`, que también se lee en la pestaña Ciencia de la
+aplicación, es opcional: sin él, el registro publica la ficha del manifiesto. Un
+sello no demuestra por sí solo que el experimento se prerregistrara: la cronología
+se comprueba con los registros y commits de cada expediente.
 
 - **Comprobar que nada cambió desde el sello:**
   `python scripts/validar_sellos.py --check` (añade `--detalle` para ver cada

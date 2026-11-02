@@ -1,14 +1,13 @@
 // =====================================================================
-// Registro científico — los experimentos que se sellaron antes de correr
+// Registro científico — experimentos sellados y lo que dijeron
 // =====================================================================
 //
 // ESTE MÓDULO ES EL ARGUMENTO DEL PRODUCTO, y su traducción es la más delicada
 // de todas: cada frase existe para no halagarse. Tres cosas no se pueden perder
 // al cruzar de idioma:
 //
-//   1. Que los experimentos se registraron ANTES de ejecutarse, con la hipótesis
-//      y el criterio escritos por adelantado. Sin ese «antes» la frase deja de
-//      significar nada.
+//   1. Que un sello no demuestra por sí solo que el protocolo se registrara
+//      antes de medir. La cronología se comprueba expediente por expediente.
 //   2. Que la mitad dijo que no, y que esos también están publicados.
 //   3. Que el cociente crudo del manifest sería más halagador y se rechaza a
 //      propósito, porque mezcla prerregistros —positivos por declararse, no por
@@ -64,10 +63,7 @@ export const registro: ModuloDeTraduccion = {
     rg_razon_decision: "Razón de la decisión",
     rg_lo_que_se_sostuvo: "Lo que se sostuvo, y lo que se cayó",
     rg_preregistro:
-      "Cada experimento de MolDesign se registró antes de ejecutarse, con su "
-      + "hipótesis y su criterio de decisión escritos por adelantado, y se selló "
-      + "con el commit, la semilla, el entorno y los hashes de todo lo que tocó. "
-      + "Esta página los abre todos: los que funcionaron y los que no.",
+      "El registro reúne prerregistros, mediciones, análisis retrospectivos y correcciones. Cada ficha muestra los datos disponibles del manifiesto y las métricas; el paper, cuando existe, explica sus límites. Un sello no demuestra por sí solo que el protocolo se registrara antes de medir.",
     rg_defecto_detectado: "Un defecto detectado",
     rg_despues: "después",
     rg_hipotesis_derribadas: "hipótesis derribadas",
@@ -81,9 +77,8 @@ export const registro: ModuloDeTraduccion = {
     // ── El contraste de la portada ────────────────────────────────
     rg_no_empaquetamos: "No estamos empaquetando el trabajo de otros",
     rg_detras_de_cada:
-      "Detrás de cada componente hay experimentos que se registraron antes de "
-      + "ejecutarse, con la hipótesis y el criterio de decisión escritos por "
-      + "adelantado. La mitad dijo que no. Están todos publicados, incluidos los "
+      "Detrás de cada componente hay experimentos con su hipótesis y su criterio "
+      + "de decisión declarados. La mitad dijo que no. También están publicados los "
       + "que derribaron nuestras propias ideas.",
     rg_cociente_crudo:
       "El cociente crudo de decisiones del manifest sería más halagador. No lo "
@@ -137,11 +132,7 @@ export const registro: ModuloDeTraduccion = {
     rg_razon_decision: "Reason for the decision",
     rg_lo_que_se_sostuvo: "What held up, and what fell",
     rg_preregistro:
-      "Every MolDesign experiment was registered before it ran, with its "
-      + "hypothesis and its decision criterion written in advance, and sealed with "
-      + "the commit, the seed, the environment and the hashes of everything it "
-      + "touched. This page opens all of them: the ones that worked and the ones "
-      + "that did not.",
+      "The record brings together pre-registrations, measurements, retrospective analyses and corrections. Each sheet shows the available manifest data and metrics; a paper, when available, explains its limits. A seal alone does not establish that the protocol was registered before measurement.",
     rg_defecto_detectado: "A defect found",
     rg_despues: "afterwards",
     rg_hipotesis_derribadas: "hypotheses knocked down",
@@ -154,10 +145,9 @@ export const registro: ModuloDeTraduccion = {
 
     rg_no_empaquetamos: "We are not repackaging other people's work",
     rg_detras_de_cada:
-      "Behind every component there are experiments that were registered before "
-      + "they ran, with the hypothesis and the decision criterion written in "
-      + "advance. Half of them said no. They are all published, including the ones "
-      + "that knocked down our own ideas.",
+      "Behind every component there are experiments with a declared hypothesis "
+      + "and decision criterion. Half of them said no. The ones that knocked down "
+      + "our own ideas are published too.",
     rg_cociente_crudo:
       "The raw decision ratio in the manifest would be more flattering. We do not "
       + "use it: it mixes pre-registrations —which are sealed as positive by being "

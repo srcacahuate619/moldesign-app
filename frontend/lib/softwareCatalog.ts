@@ -161,7 +161,7 @@ export const SOFTWARE_SECTIONS: SoftwareSection[] = [
         version: "snapshot integrado",
         kind: "Fuente científica",
         availability: "Incluido",
-        description: "Implementación de investigación para rescoring proteína–ligando. Su distribución permanece bloqueada hasta aclarar la licencia upstream.",
+        description: "Código de investigación para rescoring proteína–ligando, incluido con su licencia MIT. No interviene en ninguna corrida de esta aplicación: sus pesos no viajan en el instalador.",
         credit: "Shen et al.; MIT, Copyright (c) 2023 sc8668",
       },
       {

@@ -295,8 +295,8 @@ def poner_url_canonica(texto: str, pagina: Pagina, donde: str) -> str:
 
 CATEGORIAS = {
     "hallazgo": ("Hallazgo", "Finding",
-                 "Criterio prerregistrado y superado. Es un resultado que sostiene algo.",
-                 "Pre-registered criterion, passed. A result that supports something."),
+                 "Criterio declarado y superado. Es un resultado que sostiene algo.",
+                 "Declared criterion, passed. A result that supports something."),
     "refutacion": ("Refutación", "Refutation",
                    "Hipótesis propia puesta a prueba y derribada. La columna de la que más se aprende.",
                    "An own hypothesis put to the test and knocked down. The column you learn most from."),
@@ -449,7 +449,7 @@ def render_experimento(e: Dict[str, Any], paper: Optional[Dict[str, Any]], ids: 
         _dato(bi("Decisión del manifest", "Manifest decision"),
               f"<code>{e_(e['decision'])}</code>" if e["decision"] else None),
         _dato(bi("Hipótesis", "Hypothesis"), e_(e["hipotesis"]) if e["hipotesis"] else None, True),
-        _dato(bi("Criterio prerregistrado", "Pre-registered criterion"),
+        _dato(bi("Criterio declarado", "Declared criterion"),
               e_(e["gate"]) if e["gate"] else None, True),
         _dato(bi("Protocolo", "Protocol"), e_(e["protocolo"]) if e["protocolo"] else None, True),
         _dato(bi("Razón de la decisión", "Reason for the decision"),

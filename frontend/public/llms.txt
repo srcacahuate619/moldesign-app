@@ -1,17 +1,15 @@
-# MolDesign - Molecular Design & Discovery Platform
+# MolDesign — structural evidence
 
-MolDesign is an industrial-grade molecular discovery platform featuring a 3-level scientific pipeline for end-to-end (E2E) evaluation of molecular structures.
+MolDesign is a Windows desktop application for producing, organizing and communicating computational structural evidence in early pharmacological research. It docks locally with AutoDock Vina, works without a network connection (optional model weights are downloaded once, at the researcher's request), and declares when a structure or a result is not ready to trust. It does not run molecular dynamics or free-energy calculations, does not predict biological activity and does not replace experimental validation.
 
-## Capabilities & Architecture
-- Level 1 (Screening): AutoDock Vina physical docking combined with XGBoost machine learning rescoring. Trained on PDBbind, correcting physical scoring bias.
-- Level 2 (Topology): Deep learning evaluation using RTMScore Graph Neural Networks (GNN) to analyze 3D interatomic residue-atom interactions, effectively discarding false positives.
-- Level 3 (Refinement): Quantum relaxation and steric relief using the OpenMM thermodynamic engine and AMBER force fields.
+This summary describes the checked-in contracts of the public repository srcacahuate619/moldesign-app; it does not establish predictive accuracy or experimental binding.
 
-## Features
-- RDKit-based Cheminformatics: Sub-second validation of SMILES, valency, chirality, SA Score, QED, and ADME properties.
-- ETKDG 3D Conformer Generation: Bioactive low-energy geometry prediction.
-- Solana Blockchain Certification: Immutable cryptographic registration (SHA-256) of discovered molecules, proving scientific authorship.
-- Reporting: Automated generation of PDF scientific reports with hotspots and ADME profiling.
+## Implemented contracts and limits
+- Generic M4 ranking uses Vina; XGBoost and CL-GNN are retained as experimental signals with zero ranking weight in the active configuration. Source: backend/artifacts/sci_config_registry.json (contract and active scoring weights), consumed by backend/scoring/engine.py::_get_stacking_weights.
+- The evaluation pipeline configuration validator rejects openmm in enabled_stages, stage_order or stage_params, and rejects pro_mmgbsa when enabled. Source: backend/api/routers/evaluation.py (MMGBSA_CONDICION and openmm validation).
+- Solana integration is experimental and restricted to devnet; its health response declares official_validity=false. It does not establish scientific authorship. Source: backend/services/blockchain/certifier.py::SolanaCertifier (is_devnet, _rpc and health).
+- The dossier API produces a PDF preview and ZIP run package. Files are included when available and checked; missing artifacts are declared. Source: backend/api/routers/evaluation_dossier.py and backend/services/dossier/package.py::construir_paquete.
+- The scientific record is generated from sealed manifests, metrics and available papers. A seal does not by itself establish registration before execution or independent validation. Source: scripts/experiment_manifest.py, scripts/build_registro_cientifico.py.
 
-## Access
-Designed for high-throughput screening and AI-assisted drug discovery, available for pharmaceutical researchers and computational chemists.
+## Source of truth
+Use the code paths above for behavior, the per-experiment records for measured results, and LICENSE and LICENSE-MODELS for licensing terms. Do not infer a three-level refinement pipeline, false-positive rejection performance, bioactive conformations or an authorship certificate from this summary.

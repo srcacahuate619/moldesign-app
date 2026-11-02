@@ -32,7 +32,9 @@ experimentos sellados (los que había al escribir esto, el 2026-08-19; el
 > confiar en sí mismo**. No gana peleas de benchmark. Dice la verdad sobre lo que sabe, y
 > puede demostrarlo.
 
-Lo que la sostiene: `FEP-04` (la abstención calibrada casi duplica la precisión),
+Lo que la sostiene: `FEP-04` (análisis retrospectivo de la piscina de MolFlex: de 0.330 a 0.620
+en el 25 % con menos modos empatados, sobre los mismos datos; no mide abstención calibrada en
+producción),
 `MF-12` (se predice el fallo antes de gastar cómputo), `FND-06` (procedencia completa de
 cada pose) y el registro experimental entero como evidencia de validación.
 
@@ -185,9 +187,13 @@ posicionamiento y hay que revisarlo — eso también es información.
 
 ## 5. H4 — Producto: entregar confianza, no certeza
 
-**Por qué:** `FEP-04` es el único resultado del programa que un usuario nota. Top-1
-acierta 0.330; top-5 acierta 0.465; abstenerse en el 75% menos confiable sube a 0.620. Y
-las tres señales son **gratis** — se calculan de poses ya generadas.
+**Por qué:** `FEP-04` sugiere investigar la abstención a partir de la **piscina de poses de
+MolFlex**, no del flujo de Vina de producción. Sobre 200 complejos analizables, el top-1 acierta
+0.330, el top-5 0.465 y el top-1 sube a 0.620 en el 25 % con menos modos empatados. Son lecturas
+retrospectivas sobre los mismos datos: no acreditan esas prestaciones para el usuario del producto,
+y que las señales se calculen de poses ya generadas no demuestra que integrarlas no cueste nada.
+Los límites de la curva están en [FEP-04](papers/FEP-04.md); ese paper todavía presenta las cifras
+sin distinguir la piscina de MolFlex del flujo de producción.
 
 1. **Calibrar en `train`, medir en `val`/`test`.** La curva de `FEP-04` es optimista
    porque las señales se observaron sobre los mismos datos donde se midieron. Sin esto no

@@ -18,7 +18,7 @@ Integraciones remotas: opt-in, off por defecto (ver `docs/37_INTEGRATION_POLICY.
 
 ```text
 ┌─ Tauri Launcher (frontend/src-tauri) ────────────────────────────┐
-│  - reserva puerto 8000-8020, spawn Uvicorn                       │
+│  - reserva puerto 8000-8019, spawn Uvicorn                       │
 │  - health check SEMÁNTICO: /health valida app/version/app_mode/  │
 │    SQLite (ya no confía en "puerto ocupado")                     │
 │  - logs en app_log_dir writable de Tauri; recursos sólo lectura  │

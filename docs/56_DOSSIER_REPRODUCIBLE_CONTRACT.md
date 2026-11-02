@@ -318,8 +318,13 @@ Declaradas, no escondidas:
    protonación, declaración de tautómeros y estereoquímica cuando la corrida
    produjo esos datos. Declarado no equivale a resuelto: una ambigüedad
    multestado conserva su advertencia y no se promueve a `PASA`.
-5. **Receptor original.** El paquete incluye el receptor *preparado* cuando
-   existe; el PDB de origen se referencia por hash pero no se empaqueta.
+5. **Receptor original: inclusión condicionada.** El paquete incluye el receptor
+   *preparado* cuando existe. `api/routers/evaluation_dossier.py` añade además
+   `inputs/<receptor>_source.pdb` o `.cif` si
+   `services/dossier/contexto_estructural.py::origen_comprobado` acredita la
+   procedencia y que la receta recalculada coincide con la de la corrida. Si no
+   puede comprobarse, el artefacto se declara `NO_DISPONIBLE` con su motivo y no
+   se empaqueta.
 6. **Top-K, ensemble y dominio por pose.** `pose_selection` y
    `structural_evidence` se empaquetan cuando la corrida los serializó.
    La ausencia queda declarada; una recomendación del selector no valida por

@@ -420,10 +420,7 @@ export const pro: ModuloDeTraduccion = {
     pr_reg_razon_decision: "Razón de la decisión",
     pr_reg_lo_que_se_sostuvo: "Lo que se sostuvo, y lo que se cayó",
     pr_reg_preregistro:
-      "Cada experimento de MolDesign se registró antes de ejecutarse, con su "
-      + "hipótesis y su criterio de decisión escritos por adelantado, y se selló "
-      + "con el commit, la semilla, el entorno y los hashes de todo lo que tocó. "
-      + "Esta página los abre todos: los que funcionaron y los que no.",
+      "El registro reúne prerregistros, mediciones, análisis retrospectivos y correcciones. Cada ficha muestra los datos disponibles del manifiesto y las métricas; el paper, cuando existe, explica sus límites. Un sello no demuestra por sí solo que el protocolo se registrara antes de medir.",
     pr_reg_defecto_detectado: "Un defecto detectado",
     pr_reg_despues: "después",
     pr_reg_hipotesis_derribadas: "hipótesis derribadas",
@@ -671,7 +668,7 @@ export const pro: ModuloDeTraduccion = {
     pr_reg_paper_badge: "ARTÍCULO",
     pr_reg_corrigendum: "FE DE ERRATAS",
     pr_reg_figures_replaced: "cifras reemplazadas",
-    pr_reg_pre_registered_gate: "Criterio preregistrado.",
+    pr_reg_pre_registered_gate: "Criterio declarado.",
     pr_reg_protocol_label: "Protocolo.",
     pr_reg_sealed_artifacts: "artefactos sellados",
     pr_reg_hash_count: "{count} valores hash",
@@ -1125,11 +1122,7 @@ export const pro: ModuloDeTraduccion = {
     pr_reg_razon_decision: "Reason for the decision",
     pr_reg_lo_que_se_sostuvo: "What held up, and what fell",
     pr_reg_preregistro:
-      "Every MolDesign experiment was registered before it ran, with its "
-      + "hypothesis and its decision criterion written in advance, and sealed with "
-      + "the commit, the seed, the environment and the hashes of everything it "
-      + "touched. This page opens all of them: the ones that worked and the ones "
-      + "that did not.",
+      "The record brings together pre-registrations, measurements, retrospective analyses and corrections. Each sheet shows the available manifest data and metrics; a paper, when available, explains its limits. A seal alone does not establish that the protocol was registered before measurement.",
     pr_reg_defecto_detectado: "A defect found",
     pr_reg_despues: "afterwards",
     pr_reg_hipotesis_derribadas: "hypotheses knocked down",
@@ -1376,7 +1369,7 @@ export const pro: ModuloDeTraduccion = {
     pr_reg_paper_badge: "PAPER",
     pr_reg_corrigendum: "CORRIGENDUM",
     pr_reg_figures_replaced: "figures replaced",
-    pr_reg_pre_registered_gate: "Pre-registered criterion.",
+    pr_reg_pre_registered_gate: "Declared criterion.",
     pr_reg_protocol_label: "Protocol.",
     pr_reg_sealed_artifacts: "sealed artifacts",
     pr_reg_hash_count: "{count} hash values",

@@ -953,7 +953,7 @@
     {
       "file": "lib/softwareCatalog.ts",
       "line": 164,
-      "text": "Implementación de investigación para rescoring proteína–ligando. Su distribución permanece bloqueada hasta aclarar la licencia upstream.",
+      "text": "Código de investigación para rescoring proteína–ligando, incluido con su licencia MIT. No interviene en ninguna corrida de esta aplicación: sus pesos no viajan en el instalador.",
       "scope": "",
       "classification": "traducido_al_presentar",
       "reason": "AboutModal presenta las claves de SOFTWARE_TRANSLATION_KEYS; LegalModal presenta las claves de sus tablas. El catálogo conserva metadatos base."

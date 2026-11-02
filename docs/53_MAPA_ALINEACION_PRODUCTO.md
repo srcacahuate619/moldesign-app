@@ -123,7 +123,8 @@ se repitan:
   da `rango_max` = 4.022 Å ✔, pero también **`complejos_con_veredicto_inestable` = 0** en
   `COLOCACION`, con rango mediano 0.71. El ruido entre semillas es real en RMSD y **no volteó
   el veredicto en ninguno de los 33**. Reportar el rango sigue siendo obligatorio; el verbo
-  no. Y `FEP-04` topa en **0.600 con cobertura 0.25**, CI95 [0.462, 0.724], no en 0.620.
+  no. Y `FEP-04` da **0.600 con cobertura 0.25** por margen de score, CI95 [0.462, 0.724], y
+  0.620 por modos empatados, CI95 [0.482, 0.741].
 
 **Actualización de literatura del 2026-08-22.** Se incorpora la hipótesis de sitio como
 objeto auditable del producto y se añaden los diseños `REC-10`, `REC-13`, `REC-14`,

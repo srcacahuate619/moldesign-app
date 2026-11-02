@@ -458,12 +458,14 @@ valor (los tres primeros puntos).
 
 El instalador está pensado para distribuirse por **GitHub Releases**, pero el
 repositorio público no tiene hoy ninguno, sólo las etiquetas `v1.0.0` y `v1.0.1`
-(medido el 2026-11-01). Según el propietario (2026-10-04), la **versión 1.0.1 está
-en producción en la Microsoft Store**. No
-vive en el árbol (`frontend/src-tauri/target/` está en `.gitignore`). El código
-declara hoy **1.0.4** (`backend/core/version.py`, `package.json`, `tauri.conf.json` y
-`Cargo.toml`; Store 1.0.4.0, sin construir todavía; registro en `docs/versions/1.0.4_cambios.md`). La 1.0.3, un HOT FIX
-acotado al render de Molcy, está publicada en la Store desde `bef67706` (`docs/versions/1.0.3_cambios.md`).
+(medido el 2026-11-01). El canal de instalación es la **Microsoft Store**. Según el
+propietario, 1.0.1 estaba en producción el 2026-10-04, 1.0.2 se instalaba desde allí el
+2026-10-13 y **1.0.3**, un HOT FIX acotado al render de Molcy, es la última que consta
+publicada (2026-10-22, desde `bef67706`; `docs/versions/1.0.3_cambios.md`). Nada en el
+repositorio comprueba qué versión hay hoy en la Store. El binario no vive en el árbol
+(`frontend/src-tauri/target/` está en `.gitignore`). El código declara hoy **1.0.4**
+(`backend/core/version.py`, `package.json`, `tauri.conf.json` y `Cargo.toml`; Store
+1.0.4.0, sin construir todavía; registro en `docs/versions/1.0.4_cambios.md`).
 Lo que sigue describe los paquetes de **1.0.2** (Store 1.0.2.0, `467330cd`). Se
 reconstruyeron el 2026-10-12 desde `dd09e229`, con el árbol limpio y las 16 puertas en
 verde: el instalador NSIS (`MolDesign_1.0.2_x64-setup.exe`, 531 409 182 bytes,
