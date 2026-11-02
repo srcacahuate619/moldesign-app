@@ -418,7 +418,7 @@ INCONCLUSIVE. FEP-09 (Sol) se había medido con P01 dentro: sus 127 auditorías 
 caja.
 
 **Validez de la decisión de Preparación** (`ABS-TR-01-VALIDEZ`, 2026-10-22, INCONCLUSIVE; papel en
-`docs/100`). Sobre 28 de los 29 sistemas reales de ABS-TR-01 (8WTW no se prepara: Meeko), contra la
+`docs/100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md`). Sobre 28 de los 29 sistemas reales de ABS-TR-01 (8WTW no se prepara: Meeko), contra la
 decisión de cinco revisores LLM —no expertos, y dos de la misma familia— que detienen un sistema si
 ≥ 3 dan NO_APTO: **ninguna falsa autorización** (0/10; Preparación no dijo «seguir» en ningún
 sistema), **falso bloqueo 3/18** (16,7 %, límite unilateral 95 % 4,7–37,7 %: 1RKP y 6KE5 por un ion
@@ -535,6 +535,8 @@ tools/            programas de terceros invocados por subproceso
   openbabel/              Open Babel GPL-2.0-only + manifiesto y licencia
   molcy/                  motor de vídeo (obra propia, GPL-3.0-or-later): scripts que corren DENTRO de Blender; se vendoriza desde un
                           commit con stage_molcy_motor.py, no se edita a mano (ver doc 95)
+  molchat/                asistente (obra propia, GPL-3.0-or-later), en proceso aparte; vendorizado desde el
+                          commit de backend/data/molchat_fijacion.json (ver doc 100_ADR_MOLCHAT_EXTERNO)
   vc-runtime/             cinco DLL MSVC x64 firmadas + manifiesto y hashes
 docs/             programa experimental, gates de release, auditorías
 ```
@@ -704,10 +706,12 @@ Dependencias con copyleft en el runtime distribuido: cinco paquetes LGPL
 no clasificaba hasta el 2026-10-11 porque su metadata abre con una fila de «=»), tres
 paquetes Python y cinco crates de Rust bajo MPL-2.0 (`gemmi`, `certifi`, `tqdm`; `cssparser`,
 `cssparser-macros`, `dtoa-short`, `option-ext`, `selectors`), un binario LGPL (xTB
-6.7.1, `LGPL-3.0-or-later`, en `tools/xtb/`) **y dos programas GPL:
-Open Babel 3.1.1.23, `GPL-2.0-only`**, que viaja en `tools/openbabel/`, **y el motor
+6.7.1, `LGPL-3.0-or-later`, en `tools/xtb/`) **y tres programas GPL:
+Open Babel 3.1.1.23, `GPL-2.0-only`**, que viaja en `tools/openbabel/`, **el motor
 Molcy, `GPL-3.0-or-later`, obra propia del producto** (scripts que se ejecutan dentro de
 Blender; viaja en `tools/molcy/`, ver `docs/95_ADR_MOTOR_MOLCY_EN_EL_INSTALADOR.md`).
+**El tercero es MolChat** (`tools/molchat/`): viaja en el instalador como programa independiente **GPL-3.0-or-later**, ejecutado en un proceso Python separado y comunicado por HTTP local. Su licencia íntegra está en `tools/molchat/LICENSE`. El código fuente correspondiente está en https://github.com/srcacahuate619/moldesign-molchat; la revisión exacta figura en `fuente.commit` de `tools/molchat/molchat-manifest.json`. Esta oferta de fuente y la GPL se aplican a MolChat, también obra propia; no las sustituye la licencia PolyForm del host.
+
 Blender y Molecular Nodes, también GPL-3.0-or-later, **no** viajan: el usuario los
 descarga a petición. El inventario npm del SBOM lista además `@img/sharp-*`
 (libvips, LGPL-3.0-or-later), que `next` arrastra para optimizar imágenes en un

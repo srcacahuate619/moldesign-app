@@ -1,6 +1,6 @@
 # Protocolo de integración con MolChat
 
-Estado: cambios en preparación local; no se ha probado el instalador integrado ni publicado una versión.
+Estado: contrato implementado e integrado en el repositorio público. Esto no acredita una publicación del instalador integrado ni su validación en máquina limpia.
 
 La especificación del lado independiente está en `docs/PROTOCOLO_MOLDESIGN.md` del repositorio MolChat. Esta nota fija el contrato que implementa MolDesign y se verifica con las pruebas de ambos proyectos.
 

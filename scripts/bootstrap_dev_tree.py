@@ -76,6 +76,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import urllib.error
 import urllib.request
 import zipfile
 from dataclasses import dataclass, field
@@ -350,7 +351,15 @@ def descargar(url: str, destino: Path, esperado: str, bytes_esperados: int) -> N
             ultimo = pct
             print(f"  {pct:3d}%", flush=True)
 
-    urllib.request.urlretrieve(url, destino, reporthook=progreso)  # noqa: S310
+    try:
+        urllib.request.urlretrieve(url, destino, reporthook=progreso)  # noqa: S310
+    except (urllib.error.URLError, OSError) as exc:
+        destino.unlink(missing_ok=True)
+        raise SystemExit(
+            f"La descarga se cortó antes de terminar: {exc}\n"
+            "No se ha extraído nada. Repite --fetch, o baja el archivo aparte y usa "
+            "--fetch --desde ARCHIVO.zip --sha256 HEX."
+        ) from exc
 
     real_bytes = destino.stat().st_size
     if real_bytes != bytes_esperados:
@@ -666,7 +675,7 @@ def imprimir(estado: Estado, raiz: Path) -> int:
     # no está publicado es el módulo opcional de checkpoints antiguos.
     print(
         "\nPesos propios: los que usa el producto vienen con el clon, en rescoring/artifacts/\n"
-        f"  licencia: {PESOS_PROPIOS.licencia}; se verifican con\n"
+        "  licencia: LICENSE-MODELS (PolyForm Noncommercial 1.0.0); se verifican con\n"
         "  python rescoring/scripts/generate_model_manifest.py --check\n"
         f"  El módulo opcional «{PESOS_PROPIOS.id}» (checkpoints antiguos) no está publicado y no hace falta."
     )
@@ -679,7 +688,7 @@ def imprimir(estado: Estado, raiz: Path) -> int:
               ", ".join(estado.faltan_obligatorios))
     if estado.codigo != COMPLETO:
         if RUNTIME_BASE.publicado:
-            print(f"\nPara aprovisionar:  python {Path(__file__).name} --fetch")
+            print("\nPara aprovisionar:  python scripts/bootstrap_dev_tree.py --fetch")
         else:
             print(
                 f"\n`{RUNTIME_BASE.filename}` NO está publicado todavía: no hay "

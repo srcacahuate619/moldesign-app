@@ -1,5 +1,7 @@
 # Auditoría de procedencia del catálogo de receptores
 
+> **Estado: evidencia histórica de septiembre de 2026.** Las rutas de generadores y las medidas se conservan como procedencia de ese corte. Para el inventario vigente consulta [46_RUNTIME_INVENTORY.md](46_RUNTIME_INVENTORY.md) y los avisos de `frontend/public/legal/THIRD_PARTY_NOTICES.md`; este informe no afirma que el generador histórico siga en producción.
+
 > **Numeración.** Se escribió el 2026-09-10 como `87_…` en la rama `codex/legal-catalog`
 > y nunca entró en desarrollo; el 87 ya lo ocupaba otro documento. Se integra el
 > 2026-09-28 como 91, con el texto original intacto y la actualización del final.

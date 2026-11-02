@@ -8,7 +8,7 @@ Estado: **RESUELTO (2026-09-12)**.
 
 Los pesos ligeros se distribuyen como **obra del autor** bajo PolyForm Noncommercial 1.0.0. El dataset PDBbind v2020 se reconoce como fuente de entrenamiento (atribución en `THIRD_PARTY_NOTICES.md`), pero **no se redistribuye** ni en estructuras de complejos ni en tablas de afinidades.
 
-- Se **excluyen del canal de distribución** los artefactos que reproducen afinidades derivadas: `backend/data/benchmark_pdbbind*.json`, `pocket_dataset*.json` y `rescoring/artifacts/pdbbind_audit_report.json`. El empaquetado MSIX los retira del layout (`scripts/build_msix.py`).
+- El repositorio público incluye `backend/data/benchmark_pdbbind*.json`, `pocket_dataset*.json` y `rescoring/artifacts/pdbbind_audit_report.json`: informes de desarrollo. Cinco no contienen afinidades; el último incluye estadísticos agregados de pKi, no una tabla. El empaquetado MSIX retira las seis rutas del layout (`scripts/build_msix.py`).
 - El registro Zenodo 7014096 sin `Rights` se cita únicamente como fuente; no se afirma `CC-BY`.
 
 ## Los textos de licencia que viajan — resuelto

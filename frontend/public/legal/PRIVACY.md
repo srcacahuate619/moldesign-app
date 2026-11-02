@@ -1,6 +1,7 @@
 # Política de privacidad de MolDesign
 
 **Vigente desde:** 13 de septiembre de 2026
+**Última actualización:** 1 de noviembre de 2026
 **Responsable:** Johan Amezcua / amezcua-dev.com
 **Contacto general y solicitudes de privacidad:** moldesign@amezcua-dev.com
 **Soporte y reporte de respuestas de MolChat:** soporte-moldesign@amezcua-dev.com
@@ -21,6 +22,8 @@ Las claves de proveedores configuradas por el usuario se cifran en reposo median
 
 El funcionamiento básico y AutoDock Vina son locales. Sólo cuando el usuario activa una función externa, MolDesign puede comunicar los datos necesarios al proveedor correspondiente:
 
+- **Blender y Molecular Nodes:** al solicitar su instalación para Molcy se descargan Blender desde `download.blender.org` y el catálogo y la extensión desde `extensions.blender.org`, mediante el gestor de Blender. Las peticiones identifican los archivos o paquetes solicitados; no envían los casos científicos.
+- **AlphaFold DB (`alphafold.ebi.ac.uk`):** identificadores UniProt para consultar y descargar estructuras predichas; las búsquedas por gen consultan también UniProt.
 - **Hugging Face:** identificadores de modelos y descarga de archivos seleccionados.
 - **RCSB PDB, PubChem, ChEMBL y UniProt:** identificadores, nombres, secuencias, PDB IDs, SMILES o consultas científicas necesarias.
 - **OpenAI, Anthropic u otro proveedor de IA configurado:** el texto y contexto que el usuario decida enviar, junto con la credencial del proveedor.
@@ -58,6 +61,8 @@ Esta política se actualizará cuando cambien las funciones de red o el tratamie
 ## English summary
 
 MolDesign is local-first. Research cases and results remain on the user's device unless the user explicitly invokes an external integration. MolDesign includes no first-party analytics, advertising, cross-app tracking, or remote crash reporting. Optional requests may send the minimum necessary query data to Hugging Face, RCSB PDB, PubChem, ChEMBL, UniProt, a user-configured AI provider, or Solana devnet, each under its own terms. Solana devnet data is public and effectively immutable.
+
+Optional requests also contact AlphaFold DB (`alphafold.ebi.ac.uk`) with UniProt identifiers to look up and download predicted structures. Installing Molcy dependencies on request downloads Blender from `download.blender.org` and Molecular Nodes through Blender’s extension manager at `extensions.blender.org`; requests identify files or packages and do not upload research cases.
 
 **Generative AI.** MolDesign ships MolChat, an assistant whose answers are written by a language model. Those answers are not computed results — the numbers in a case file come from AutoDock Vina and the rescoring models — and they can be wrong. The model runs locally by default; a cloud provider is used only if the user configures one **and** authorizes its destination, and the app refuses the turn and says so until then. Every answer carries a **Report answer** button that opens the user's own mail client with the answer and the provider filled in, addressed to **soporte-moldesign@amezcua-dev.com**; nothing is transmitted until the person sends it. MolDesign does not use conversations or cases to train or fine-tune any model.
 

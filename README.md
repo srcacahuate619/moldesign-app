@@ -109,19 +109,11 @@ propia cabecera.
 
 ## Instalar en Windows
 
-El release candidate x64 se genera como instalador NSIS. Requisitos prácticos:
+El canal público de instalación es [Microsoft Store](https://apps.microsoft.com/detail/9N96SW3GBK8V), para Windows 10/11 x64. La Store gestiona la instalación y las actualizaciones de su paquete firmado. La versión del código en desarrollo puede adelantarse a la publicada en la Store.
 
-- Windows 10/11 x64;
-- 4 GB libres en disco (instalación actual: ~1.85 GiB);
-- 16 GB de RAM recomendados;
-- WebView2; el instalador puede requerir internet si el runtime no existe.
+Para construir un instalador propio, sigue [BUILD_GUIDE.md](BUILD_GUIDE.md) y [CONTRIBUTING.md](CONTRIBUTING.md). WebView2 es necesario; su instalación puede requerir conexión. Los builds NSIS propios no tienen firma Authenticode: conserva el SHA-256 y el manifiesto de tu build para verificar esos mismos bytes. No hay instaladores públicos en GitHub Releases en este corte del repositorio.
 
-La receta de release y el checksum del artefacto validado están en
-[docs/55_MVP_DESKTOP_RELEASE.md](docs/55_MVP_DESKTOP_RELEASE.md).
-
-> El instalador local actual no está firmado digitalmente. Es apto para pruebas
-> controladas; la firma Authenticode es obligatoria antes de distribución
-> comercial pública.
+[El documento 55](docs/55_MVP_DESKTOP_RELEASE.md) conserva evidencia histórica de 1.0.0; su tamaño y checksum no describen la instalación actual.
 
 ## Desarrollo
 
@@ -134,8 +126,7 @@ La receta de release y el checksum del artefacto validado están en
 ### Un clon no basta: hay que aprovisionar el árbol
 
 `git clone` trae el código, los manifiestos, los hashes y las estructuras
-curadas. **No trae** el intérprete embebido, los motores nativos ni los pesos
-entrenados: son 2,2 GB que se distribuyen aparte. Sin ellos no arranca ni
+curadas y los pesos propios versionados en `rescoring/artifacts/`. **No trae** el intérprete embebido ni los motores nativos: son 2,2 GB que se distribuyen aparte. Sin ellos no arranca ni
 `tauri dev`, porque el contenedor Rust exige `python-embed/python.exe` también
 en desarrollo.
 
@@ -227,13 +218,14 @@ aborta **sin** borrar el staging anterior.
 - [Roadmap científico/producto](docs/50_ROADMAP.md).
 - [Limitaciones científicas](docs/19_LIMITATIONS.md): postmortem de julio de 2026; su nota de vigencia dice qué ya no describe el código.
 - [Arquitectura desktop](docs/ARCHITECTURE_DESKTOP.md).
-- [Release, instalación y evidencia del MVP](docs/55_MVP_DESKTOP_RELEASE.md).
+- [Evidencia histórica del instalador 1.0.0](docs/55_MVP_DESKTOP_RELEASE.md).
 
 ## Licencias
 
 - Código y modelos propios ligeros: PolyForm Noncommercial 1.0.0 — [LICENSE](LICENSE) y [LICENSE-MODELS](LICENSE-MODELS).
 - Uso comercial: requiere un acuerdo escrito separado — [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md).
 - MolDesign es *source-available*, no software de código abierto según la definición OSI.
+- Programas independientes bajo GPL en el instalador: Open Babel (GPL-2.0-only), Molcy y MolChat (GPL-3.0-or-later); ver [docs/LICENSING.md](docs/LICENSING.md).
 - Dependencias binarias: sus licencias respectivas, incluidas en los
   componentes distribuidos cuando corresponda.
 

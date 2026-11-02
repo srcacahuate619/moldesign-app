@@ -22,6 +22,7 @@ import json
 import shutil
 import subprocess
 import sys
+import urllib.error
 import zipfile
 from pathlib import Path
 
@@ -235,6 +236,22 @@ def test_una_descarga_truncada_no_deja_estado_valido(arbol, clon, tmp_path):
     assert excinfo.value.codigo == "ZIP_ILEGIBLE"
     assert not (clon / "python-embed").exists()
     assert boot.medir(clon).codigo == boot.AUSENTE
+
+
+def test_un_corte_de_red_se_explica_y_no_deja_nada(tmp_path, monkeypatch):
+    """Un corte a media descarga no es un traceback: dice qué pasó y cómo seguir."""
+    destino = tmp_path / "base.zip"
+
+    def cortada(url, ruta, reporthook=None):
+        Path(ruta).write_bytes(b"a medias")
+        raise urllib.error.ContentTooShortError("retrieval incomplete", None)
+
+    monkeypatch.setattr(boot.urllib.request, "urlretrieve", cortada)
+    with pytest.raises(SystemExit) as excinfo:
+        boot.descargar("https://ejemplo.invalid/base.zip", destino, "0" * 64, 100)
+    assert "se cortó antes de terminar" in str(excinfo.value)
+    assert "--desde" in str(excinfo.value)
+    assert not destino.exists()
 
 
 def test_un_zip_con_traversal_es_rechazado(clon, tmp_path):

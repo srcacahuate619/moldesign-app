@@ -1,5 +1,7 @@
 # Plan de trabajo hacia MolDesign 1.0 comercial
 
+> **Estado: histórico.** Este documento conserva el corte y las rutas originales; no es una guía del árbol actual. Para MolChat vigente consulta [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md) y [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md); para construir, [BUILD_GUIDE.md](../BUILD_GUIDE.md).
+
 **Fecha:** 2026-08-28  
 **Modelo de trabajo:** auditoría y cierre vertical, pestaña por pestaña.  
 **Orquestador y revisor:** Codex.  

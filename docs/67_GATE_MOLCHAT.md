@@ -1,5 +1,7 @@
 # Gate de MolChat — APROBADO con dos hallazgos abiertos declarados
 
+> **Estado: histórico.** Este documento conserva el corte y las rutas originales; no es una guía del árbol actual. Para MolChat vigente consulta [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md) y [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md); para construir, [BUILD_GUIDE.md](../BUILD_GUIDE.md).
+
 **Fecha:** 2026-08-31
 **Estado:** 🟢 aprobado para el alcance de cierre vertical, con dos exclusiones nombradas
 **Suite adversarial:** `backend/tests/test_gate_molchat_adversarial.py`

@@ -1,5 +1,7 @@
 # 33 — Migración de MolChat a `llama-server.exe` (v2)
 
+> **Estado: histórico.** Este documento conserva el corte y las rutas originales; no es una guía del árbol actual. Para MolChat vigente consulta [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md) y [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md); para construir, [BUILD_GUIDE.md](../BUILD_GUIDE.md).
+
 > **Estado:** Draft (revisión técnica pendiente)
 > **Autor:** Revisión arquitectónica del plan original de Gemini (`f330e486`), reescrito tras auditar el codebase real.
 > **Scope:** Backend (`services/ai/`, `api/routers/ai.py`, `core/config.py`) — el frontend no requiere cambios (contrato HTTP preservado).

@@ -37,10 +37,20 @@ El repositorio y el instalador sólo pueden incluir un peso cuando su manifiesto
 
 ESMFold y los LLM pesados se descargan bajo demanda y mantienen las licencias de sus autores. “Descargable” no significa que MolDesign pueda relicenciarlos.
 
-La capacidad de relicenciar código propio no concede derechos sobre datasets de terceros. El regresor XGBoost, el clasificador de poses y CL-GNN se entrenaron en parte con PDBbind v2020. Hoy tienen peso 0 en el ranking, que decide Vina: se ejecutan y se conservan sólo como señales experimentales. MolDesign distribuye esos pesos como obra del autor y no redistribuye PDBbind, ni sus estructuras de complejos ni sus tablas de afinidades, porque una fuente académica reciente documenta que prohíbe hacerlo sin permiso explícito. Los receptores del catálogo son descargas de RCSB citadas por su código PDB, no las estructuras preparadas de PDBbind. El registro Zenodo 7014096 no muestra licencia en `Rights`, así que se cita sólo como fuente. Es una determinación del autor del 2026-09-12 y no implica permiso, respaldo ni afiliación de los autores de PDBbind. Ver `frontend/public/legal/RELEASE_BLOCKERS.md` y `LICENSE-MODELS`.
+La capacidad de relicenciar código propio no concede derechos sobre datasets de terceros. El regresor XGBoost, el clasificador de poses y CL-GNN se entrenaron en parte con PDBbind v2020. Hoy tienen peso 0 en el ranking, que decide Vina: se ejecutan y se conservan sólo como señales experimentales. MolDesign distribuye esos pesos como obra del autor y no redistribuye PDBbind, ni sus estructuras de complejos ni sus tablas de afinidades, porque una fuente académica reciente documenta que prohíbe hacerlo sin permiso explícito. Los receptores del catálogo son descargas de RCSB citadas por su código PDB, no las estructuras preparadas de PDBbind. El registro Zenodo 7014096 no muestra licencia en `Rights`, así que se cita sólo como fuente. Es una determinación del autor del 2026-09-12 y no implica permiso, respaldo ni afiliación de los autores de PDBbind. Los informes de desarrollo y su exclusión específica del MSIX se describen en LICENSE-MODELS. Ver `frontend/public/legal/RELEASE_BLOCKERS.md` y `LICENSE-MODELS`.
 
 ## Microsoft Store
 
 La distribución mediante Microsoft Store es un canal adicional, no una licencia nueva sobre MolDesign. Partner Center debe incluir una URL a la licencia PolyForm en “Additional license terms”; dejarla vacía aplicaría los Standard Application License Terms de Microsoft a los clientes. También debe proporcionarse la política pública `PRIVACY.md`.
 
 Este documento no sustituye asesoría jurídica profesional.
+
+## Programas GPL independientes incluidos
+
+MolChat (`tools/molchat/`) viaja en el instalador como programa independiente **GPL-3.0-or-later**, ejecutado en un proceso Python separado y comunicado por HTTP local. Su licencia íntegra está en `tools/molchat/LICENSE`. El código fuente correspondiente está en https://github.com/srcacahuate619/moldesign-molchat; la revisión exacta figura en `fuente.commit` de `tools/molchat/molchat-manifest.json`. Esta oferta de fuente y la GPL se aplican a MolChat, también obra propia; no las sustituye la licencia PolyForm del host.
+
+Molcy (`tools/molcy/`) también se distribuye como programa independiente GPL-3.0-or-later. Su fuente correspondiente está en https://github.com/srcacahuate619/moldesign-molcy; la revisión exacta figura en `tools/molcy/molcy-manifest.json`. Ambos conservan sus licencias y manifiestos propios.
+
+## Selector de pose v0.6
+
+El selector propio `pose_selector_v06` (XGBRanker, `rescoring/artifacts/pose_selector_v06.xgb`) se entrenó con 116 complejos, todos de la cohorte PDBbind (lista en `pose_selector_v06_meta.json`). Se distribuye bajo LICENSE-MODELS (PolyForm Noncommercial 1.0.0). Recomienda una pose; no sustituye la pose principal top-1 de Vina ni concede derechos sobre PDBbind.

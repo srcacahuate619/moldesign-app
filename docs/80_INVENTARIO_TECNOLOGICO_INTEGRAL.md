@@ -1,6 +1,8 @@
 # Inventario tecnológico integral de MolDesign
 
-**Estado:** documento normativo interno  
+> **Estado: histórico.** Este documento conserva el corte y las rutas originales; no es una guía del árbol actual. Las versiones aquí citadas corresponden a su corte; las actuales están en `backend/requirements-embed.lock.txt` y `docs/api/sbom.json`. Para MolChat vigente consulta [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md) y [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md); para construir, [BUILD_GUIDE.md](../BUILD_GUIDE.md).
+
+**Estado del corte original:** documento normativo interno (histórico)
 **Corte:** 2026-09-07
 **Baseline examinada:** rama `codex/release-hygiene`; cifras generadas desde el artefacto staged y el SBOM vigente
 **Alcance:** código fuente, runtime de escritorio, herramientas nativas, modelos, superficies de red, almacenamiento, generación de evidencia y toolchain de construcción/pruebas.

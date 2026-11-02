@@ -43,13 +43,14 @@ What this file covers, and what it does not:
 - MolDesign **does not redistribute** PDBbind, its complex structures or its
   affinity tables, and **claims no rights and grants no sublicense** over the
   dataset or over Zenodo record 7014096.
-- Artifacts that reproduce PDBbind-derived affinities
-  (`benchmark_pdbbind*.json`, `pocket_dataset*.json`,
-  `pdbbind_audit_report.json`) are **excluded from the distribution channel**.
-  The packaging removes them and the build fails if they reappear.
+- The public source repository includes `benchmark_pdbbind*.json`, `pocket_dataset*.json` and `pdbbind_audit_report.json`: development reports of docking/pose metrics, pocket features and aggregate data-curation results. Five contain no affinity values; `pdbbind_audit_report.json` includes aggregate pKi statistics, not an affinity table. The six paths enumerated in `scripts/build_msix.py` are removed from the Microsoft Store MSIX layout. This is an MSIX packaging exclusion, not an exclusion from the public source repository or a claim about every installer channel.
 - PDBbind is cited for scientific attribution only. Nothing here implies
   endorsement or affiliation by its authors, by Schrödinger, or by any other
   dataset rights holder.
+
+## Pose selector v0.6
+
+The MolDesign-owned `pose_selector_v06` XGBRanker is covered by this license. It was trained on 116 complexes, all from the PDBbind cohort (listed in its metadata). It recommends a pose without replacing Vina’s top-1 primary pose; no rights over PDBbind are granted. See `rescoring/artifacts/pose_selector_v06_meta.json`.
 
 ## No warranty
 

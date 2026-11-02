@@ -1,6 +1,6 @@
 # ADR 100 — MolChat vive fuera: sidecar GPL vendorizado, host mínimo y corte del interno
 
-**Estado:** implementado en la rama `feat/molchat-plataforma-cr`; el código interno y el selector beta ya se retiraron en esa rama. El corte de código no demuestra todavía paridad, prueba del instalador ni preparación para publicar. El protocolo y su verificación están en [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md).
+**Estado:** integrado en el repositorio público: sidecar en `tools/molchat/` y host en el backend. El código interno y el selector beta están retirados. Esto no demuestra paridad ni prueba del instalador; el contrato está en [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md).
 **Fecha:** 2026-10-28. **Enlaza** el plan de extracción (repositorio `moldesign-molchat`, su `docs/PLAN_PUBLICO.md` cuando la Fase 7 lo publique) y los ADR 92/95 (patrón Molcy), cuyo mecanismo copia pieza a pieza.
 
 ## El problema, medido

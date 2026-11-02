@@ -1,6 +1,6 @@
 # MolDesign — avisos de software y modelos de terceros
 
-Versión del aviso: 1.0.2 (11 de octubre de 2026). El 11 de octubre se añaden las bibliotecas con copyleft del runtime que este índice no nombraba (MDAnalysis, GridDataFormats, paramiko, gemmi, certifi, tqdm y cinco crates de Rust bajo MPL-2.0), `vina_trace`, PoseBusters, Dimorphite-DL y el código con el que se ejecuta ESMFold; se corrigen versiones de la interfaz y se retiran integraciones que 1.0.2 ya no ofrece. Cambio respecto a 1.0.1: se añade el motor Molcy, un programa propio de MolDesign publicado bajo GPL-3.0-or-later que viaja en el instalador y se ejecuta dentro de Blender, y se describen Blender y Molecular Nodes, que el usuario descarga a petición y que MolDesign no distribuye. Cambio de 1.0.1 respecto a 1.0.0: se corrigió el identificador de licencia de Open Babel, que declaraba una variante «o posterior» que sus autores no concedieron, y se describe como programa independiente invocado por línea de órdenes, con su procedencia y su oferta de código fuente. El identificador correcto es `GPL-2.0-only`.
+Actualización del aviso: 2026-11-01. Se declaran MolChat, el selector de pose v0.6 y la exclusión de informes en MSIX. Las versiones exactas de los componentes constan en sus manifiestos y en el SBOM.
 
 MolDesign combina código propio con software libre, componentes científicos, datos públicos y modelos descargables. MolDesign no reclama autoría ni propiedad sobre esos componentes. Cada uno conserva sus avisos, autores y licencia original.
 
@@ -8,7 +8,7 @@ Este documento es el índice humano de los avisos. El inventario completo de ver
 
 ## Código de MolDesign
 
-El código y los artefactos propios identificados de MolDesign se distribuyen para uso no comercial bajo PolyForm Noncommercial 1.0.0. Cualquier uso comercial requiere un acuerdo separado. Ninguna licencia de MolDesign alcanza o relicencia componentes y pesos de terceros. **Excepción:** el motor Molcy (`tools/molcy/`), también obra propia, se distribuye bajo GPL-3.0-or-later; ver su sección más abajo.
+El código y los artefactos propios identificados de MolDesign se distribuyen para uso no comercial bajo PolyForm Noncommercial 1.0.0. Cualquier uso comercial requiere un acuerdo separado. Ninguna licencia de MolDesign alcanza o relicencia componentes y pesos de terceros. **Excepciones:** MolChat (`tools/molchat/`) y el motor Molcy (`tools/molcy/`), también obras propias, se distribuyen bajo GPL-3.0-or-later; ver sus secciones más abajo.
 
 ## La tipografía DarkGarden que ReportLab empaqueta
 
@@ -40,10 +40,14 @@ escrita separada.
 Los modelos ligeros propios (regresor XGBoost, clasificador de pose, CL-GNN) fueron entrenados, en parte, con el **refined set de PDBbind v2020** (Wang et al., J. Med. Chem. 2005), una recopilación curada de complejos proteína–ligando y afinidades de unión medida por sus autores.
 
 - MolDesign **no** redistribuye el dataset PDBbind, sus estructuras de complejos ni sus tablas de afinidades.
-- Lo que se distribuye se limita a (a) **pesos de los modelos** y (b) **código de autoría de MolDesign**, bajo PolyForm Noncommercial 1.0.0.
+- Los modelos propios identificados y el código del host se distribuyen bajo PolyForm Noncommercial 1.0.0; MolChat y Molcy conservan las excepciones GPL indicadas arriba.
 - Los pesos son representaciones entrenadas: MolDesign reclama autoría sobre los pesos y el código que escribió, pero **no reclama derechos sobre el dataset PDBbind ni concede sublicencia alguna** sobre él.
 - PDBbind se cita únicamente con fines de atribución científica; no implica respaldo ni afiliación de sus autores.
-- Los artefactos que reproducen afinidades derivadas de PDBbind (`benchmark_pdbbind*.json`, `pocket_dataset*.json`, `pdbbind_audit_report.json`) se **excluyen del canal de distribución**: el empaquetado MSIX los retira del layout (ver `scripts/build_msix.py`).
+- El repositorio público incluye `benchmark_pdbbind*.json`, `pocket_dataset*.json` y `pdbbind_audit_report.json`: informes de desarrollo de métricas de docking/poses, características de bolsillos y resultados agregados de curación. Cinco no contienen afinidades; `pdbbind_audit_report.json` incluye estadísticos agregados de pKi, no una tabla de afinidades. Las seis rutas enumeradas en `scripts/build_msix.py` se retiran del layout MSIX de Microsoft Store. Esta exclusión corresponde a ese empaquetado, no al repositorio público ni necesariamente a otros instaladores.
+
+## MolChat — programa independiente propio, GPL-3.0-or-later
+
+MolChat (`tools/molchat/`) viaja en el instalador como programa independiente **GPL-3.0-or-later**, ejecutado en un proceso Python separado y comunicado por HTTP local. Su licencia íntegra está en `tools/molchat/LICENSE`. El código fuente correspondiente está en https://github.com/srcacahuate619/moldesign-molchat; la revisión exacta figura en `fuente.commit` de `tools/molchat/molchat-manifest.json`. Esta oferta de fuente y la GPL se aplican a MolChat, también obra propia; no las sustituye la licencia PolyForm del host.
 
 ## Componentes incluidos que requieren atención
 
@@ -62,6 +66,7 @@ Los modelos ligeros propios (regresor XGBoost, clasificador de pose, CL-GNN) fue
 | PoseBusters | 0.6.5 | Validez física de las poses | BSD-3-Clause | https://github.com/maabuu/posebusters |
 | Dimorphite-DL | 2.0.2 | Protonación del ligando al pH elegido | Apache-2.0 | https://github.com/durrantlab/dimorphite_dl |
 | Open Babel | 3.1.1.23 | Conversión estructural de respaldo, ejecutada como **programa independiente** | **GPL-2.0-only** (versión 2, sin «o posterior») | https://github.com/openbabel/openbabel |
+| MolChat | commit en `tools/molchat/molchat-manifest.json` | Asistente en proceso independiente, HTTP local | GPL-3.0-or-later (obra propia) | https://github.com/srcacahuate619/moldesign-molchat |
 | Molcy (motor de vídeo) | commit en `tools/molcy/molcy-manifest.json` | Dibuja los vídeos; se ejecuta dentro de Blender como **programa independiente** | **GPL-3.0-or-later** (obra propia de MolDesign) | `tools/molcy/`; código fuente en https://github.com/srcacahuate619/moldesign-molcy |
 | Blender | 5.2.2 | Lo descarga el usuario a petición (no viaja en el instalador); ejecuta el motor Molcy | GPL-3.0-or-later (© Blender Foundation) | https://download.blender.org/release/Blender5.2/ |
 | Molecular Nodes | instalada por Blender | La instala el usuario a petición desde Blender Extensions (no viaja en el instalador) | GPL-3.0-or-later (© 2022 Brady Johnston) | https://extensions.blender.org/add-ons/molecularnodes/ |
@@ -290,7 +295,7 @@ Estos receptores **no** son las estructuras preparadas de PDBbind: son descargas
 
 ## Integraciones no incluidas
 
-DiffDock, ColabFold, RFdiffusion y ESMFold Pro **no se ofrecen en 1.0.2**: el backend los declara con el motivo por el que esta instalación no los ejecuta y el menú de motores sólo lista Vina y ESMFold. Ni sus runtimes ni sus pesos viajan en el instalador. La transcripción de voz de MolChat (faster-whisper) tampoco viaja en el runtime. Anthropic es una integración opcional. Solana se limita a un POC explícito en devnet, sin validez oficial; transmite únicamente el memo mínimo mostrado antes de firmar.
+DiffDock, ColabFold, RFdiffusion y ESMFold Pro **no se ofrecen en la aplicación**: el backend los declara con el motivo por el que esta instalación no los ejecuta y el menú de motores sólo lista Vina y ESMFold. Ni sus runtimes ni sus pesos viajan en el instalador. La transcripción de voz de MolChat (faster-whisper) tampoco viaja en el runtime. Anthropic es una integración opcional. Solana se limita a un POC explícito en devnet, sin validez oficial; transmite únicamente el memo mínimo mostrado antes de firmar.
 
 ## RTMScore
 
@@ -355,3 +360,6 @@ upstream; este documento declara la evidencia disponible y los puntos pendientes
 ## Sin sustitución de avisos
 
 Las citas científicas reconocen métodos y autores, pero no sustituyen las licencias de software. Este índice tampoco sustituye los textos de licencia íntegros incluidos con el producto.
+## Selector de pose v0.6
+
+El selector propio `pose_selector_v06` (XGBRanker, `rescoring/artifacts/pose_selector_v06.xgb`) se entrenó con 116 complejos, todos de la cohorte PDBbind (lista en `pose_selector_v06_meta.json`). Se distribuye bajo LICENSE-MODELS (PolyForm Noncommercial 1.0.0). Recomienda una pose; no sustituye la pose principal top-1 de Vina ni concede derechos sobre PDBbind.

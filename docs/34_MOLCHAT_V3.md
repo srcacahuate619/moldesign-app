@@ -1,5 +1,7 @@
 # 34 — MolChat v3: De la migración a llama-server a las respuestas deterministas
 
+> **Estado: histórico.** Este documento conserva el corte y las rutas originales; no es una guía del árbol actual. Para MolChat vigente consulta [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md) y [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md); para construir, [BUILD_GUIDE.md](../BUILD_GUIDE.md).
+
 > **Estado:** Implementado y verificado — quality suite 43/43, 0 fallos.
 > **Autor:** Sesión de robustecimiento MolChat (agosto 2026).
 > **Scope:** Backend (`services/ai/`, `api/routers/ai.py`, `api/routers/history.py`, `services/docking/queue_handler.py`).

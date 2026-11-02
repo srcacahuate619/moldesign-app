@@ -17,8 +17,7 @@ escribir nada:
 
     python scripts/bootstrap_dev_tree.py --check
 
-El aprovisionamiento de desarrollo, cuando el runtime base esté publicado y
-se haya aceptado su licencia, se hace con:
+El runtime base de desarrollo está publicado y fijado por revisión y SHA-256. Tras revisar sus licencias, se aprovisiona con:
 
     python scripts/bootstrap_dev_tree.py --fetch
 

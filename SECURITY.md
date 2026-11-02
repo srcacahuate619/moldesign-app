@@ -39,9 +39,7 @@ entorno aislado y coordinaremos la publicación de una corrección o mitigación
 No se garantiza un plazo fijo de respuesta: el proyecto es mantenido por una
 persona y se encuentra en alpha.
 
-Las versiones publicadas deben verificarse mediante el SHA-256 del instalador y
-el manifiesto de release. La ausencia de firma Authenticode se declara en cada
-release y no debe confundirse con una validación de seguridad.
+Para la distribución pública, instala desde Microsoft Store mediante el enlace de README; la Store verifica el paquete firmado. Este corte no publica instaladores en GitHub Releases. Si construyes un instalador propio, conserva su SHA-256 y su manifiesto de build para comprobar los bytes resultantes. Un NSIS propio sin firma Authenticode no equivale al paquete firmado de la Store; ni el hash ni la firma validan la ciencia o la seguridad completa del producto.
 
 ## Versiones soportadas
 

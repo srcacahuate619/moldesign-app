@@ -102,7 +102,7 @@ El archivo se puede reconstruir desde el repositorio y comparar con el publicado
 `npm run smoke:prod`.
 
 Los pesos propios que usa el producto (clasificador XGBoost, `model_a_*`,
-CL-GNN `gnn_v2_cl_best.pt`) **vienen con el clon**, en `rescoring/artifacts/`,
+CL-GNN `gnn_v2_cl_best.pt`, selector `pose_selector_v06.xgb`) **vienen con el clon**, en `rescoring/artifacts/`,
 bajo [`LICENSE-MODELS`](LICENSE-MODELS). `generate_model_manifest.py --check`
 comprueba sus hashes.
 

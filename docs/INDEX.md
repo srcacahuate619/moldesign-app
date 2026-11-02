@@ -1,14 +1,10 @@
 # Índice Documental — MolDesign (`moldesign-build`)
 
-> **Propósito**: identificar la documentación normativa sin contrastar decenas de
-> archivos manualmente. Cada entrada tiene estado, fecha de verificación y código
-> asociado. Creado por hallazgo F-06 (auditoría 2026-08-09).
->
-> **Estados**: 🟢 Vigente (normativo hoy) · 🔵 Plan (intención futura) ·
-> 🟡 Evidencia (resultados experimentales, citar con fecha) ·
-> ⚪ Histórico (snapshot, no actuar según él) · 🔴 Pendiente (hallazgo abierto)
+> **Propósito**: localizar la documentación vigente sin contrastar decenas de
+> archivos manualmente. El estado de cada documento está en su cabecera.
+> Creado por hallazgo F-06 (auditoría 2026-08-09).
 
-**Fecha de verificación de este índice**: 2026-08-30
+**Fecha de revisión de cobertura y estados**: 2026-11-01. Las medidas históricas conservan su fecha; el inventario no implica revalidarlas.
 
 ---
 
@@ -41,131 +37,183 @@ referencia a un documento ausente es exactamente eso y no un descuido.
 
 ---
 
-## Ruta vigente hacia MolDesign 1.0
+## Guías y decisiones vigentes
 
-1. [61_PLAN_CIERRE_APP_ORQUESTACION_CLAUDE.md](61_PLAN_CIERRE_APP_ORQUESTACION_CLAUDE.md) — orden, prioridades y gates.
-2. [62_EVAL_AUD_00_EXPEDIENTE.md](62_EVAL_AUD_00_EXPEDIENTE.md) — evidencia y hallazgos cerrados de Evaluación.
-3. [63_GATE_RUNTIME_EVALUACION.md](63_GATE_RUNTIME_EVALUACION.md) — siguiente ejecución obligatoria antes de abrir Batch.
+Para construir y verificar desde un clon, empieza por [CONTRIBUTING.md](../CONTRIBUTING.md) y [BUILD_GUIDE.md](../BUILD_GUIDE.md). [AGENTS.md](../AGENTS.md) describe las restricciones y el mapa del producto. El estado de implementación no acredita una nueva validación científica ni del instalador; cada documento conserva sus límites.
 
-**Baseline verificada 2026-08-30:** backend `927 passed, 3 skipped`; frontend
-`546 passed` en 54 archivos; TypeScript limpio. Evaluación aún no está verde:
-falta ejecutar el protocolo runtime 63 con reinicio y dos cuentas.
+| Documento | Tema |
+|---|---|
+| [50_ROADMAP.md](50_ROADMAP.md) | Roadmap vigente |
+| [53_MAPA_ALINEACION_PRODUCTO.md](53_MAPA_ALINEACION_PRODUCTO.md) | Identidad y contrato del producto |
+| [ARCHITECTURE_DESKTOP.md](ARCHITECTURE_DESKTOP.md) | Arquitectura de escritorio |
+| [45_API_CONTRACT_CURRENT.md](45_API_CONTRACT_CURRENT.md) | Contrato OpenAPI generado |
+| [46_RUNTIME_INVENTORY.md](46_RUNTIME_INVENTORY.md) | Inventario runtime generado |
+| [56_DOSSIER_REPRODUCIBLE_CONTRACT.md](56_DOSSIER_REPRODUCIBLE_CONTRACT.md) | Contrato del dossier y paquete |
+| [78_DECISION_DISTRIBUCION_DE_PESOS_Y_RUNTIME.md](78_DECISION_DISTRIBUCION_DE_PESOS_Y_RUNTIME.md) | Distribución de pesos y runtime |
+| [79_ADR_FRONTERA_OPEN_BABEL.md](79_ADR_FRONTERA_OPEN_BABEL.md) | Frontera de Open Babel |
+| [83_ADR_SOLANA_DEVNET_POC.md](83_ADR_SOLANA_DEVNET_POC.md) | Alcance del POC en devnet |
+| [84_ARNES_QA_VM_LIMPIA.md](84_ARNES_QA_VM_LIMPIA.md) | Arnés de QA en VM |
+| [95_ADR_MOTOR_MOLCY_EN_EL_INSTALADOR.md](95_ADR_MOTOR_MOLCY_EN_EL_INSTALADOR.md) | Motor Molcy independiente |
+| [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md) | MolChat independiente y host |
+| [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md) | Contrato con MolChat |
+| [LICENSING.md](LICENSING.md) | Explicación de licencias; mandan los textos de raíz |
 
----
+## Evidencia e históricos
 
-## Documentación normativa (léase primero)
+- [55_MVP_DESKTOP_RELEASE.md](55_MVP_DESKTOP_RELEASE.md) — histórico de 1.0.0; sus bytes, tamaño y checksum no describen la distribución actual.
+- [80_INVENTARIO_TECNOLOGICO_INTEGRAL.md](80_INVENTARIO_TECNOLOGICO_INTEGRAL.md) — corte histórico; las versiones actuales están en el lock y el SBOM.
+- [91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md](91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md) — evidencia de septiembre; no es un inventario vigente del catálogo.
+- Los documentos 33, 34, 61, 67 y 68 conservan las rutas y medidas anteriores a la extracción de MolChat; sus cabeceras los identifican como históricos.
+- [Plan histórico del launcher](historicos/ROADMAP_LAUNCHER_202607.md) — antigua ubicación ROADMAP.md; no es una propuesta vigente de arquitectura o telemetría.
 
-| # | Documento | Estado | Tema |
-|---|---|---|---|
-| 80 | [80_INVENTARIO_TECNOLOGICO_INTEGRAL.md](80_INVENTARIO_TECNOLOGICO_INTEGRAL.md) | 🟢 | Mapa normativo del stack: qué se ejecuta, qué viaja, dónde se usa, por qué existe, licencias, residuos y brechas del SBOM. |
-| 84 | [84_ARNES_QA_VM_LIMPIA.md](84_ARNES_QA_VM_LIMPIA.md) | 🟢 | El arnés de QA para una VM limpia: flujo canónico del contrato, readiness en dos medidas, ausencias esperadas y evidencia de fallo. Corrige cuatro clases de falso positivo. |
-| 91 | [91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md](91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md) | 🟢 | Procedencia de las estructuras: los 380 receptores del catálogo y las 65 de fuera (panel de Bowes, controles) vienen de RCSB PDB (CC0); las descripciones, de UniProtKB (CC BY 4.0, con atribución). Medido contra la descarga vigente de RCSB. |
-| 79 | [79_ADR_FRONTERA_OPEN_BABEL.md](79_ADR_FRONTERA_OPEN_BABEL.md) | 🟢 | ADR: Open Babel viaja en el instalador como programa GPL-2.0-only independiente, invocado por CLI. Qué queda prohibido, cómo se verifica y qué sigue abierto. |
-| 37 | [37_INTEGRATION_POLICY.md](37_INTEGRATION_POLICY.md) | 🟢 | Política de integraciones externas (0-telemetría, opt-in). Normativa de producto. |
-| 19 | [19_LIMITATIONS.md](19_LIMITATIONS.md) | 🟢 | Limitaciones honestas del pipeline (silent-fails, dynamic box, dominios). |
-| 34 | [34_MOLCHAT_V3.md](34_MOLCHAT_V3.md) | 🟢 | Arquitectura actual de MolChat (determinista + guard 5 capas). |
-| 33 | [33_MIGRATION_LLAMA_SERVER.md](33_MIGRATION_LLAMA_SERVER.md) | 🟢 | Por qué MolChat usa `llama-server.exe` (subprocess, no lib). |
-| 08 | [08_SCIENTIFIC_VALIDATION.md](08_SCIENTIFIC_VALIDATION.md) | 🟢 | Validación formal: holdout scaffold-disjoint 0.6094, ProLIF excluido. |
-| 30 | [30_SECURITY_CSP_AUDIT.md](30_SECURITY_CSP_AUDIT.md) | 🟢 | Auditoría CSP (nonce Next.js, producción sin `unsafe-eval`). |
-| 36 | [36_POR_ARREGLAR_Y_VALIDAR.md](36_POR_ARREGLAR_Y_VALIDAR.md) | 🟢 | Lista abierta de hallazgos a validar en el pipeline de evaluación. |
-| — | [AUDITORIA_CONSOLIDACION_DESKTOP_2026-08-09.md](AUDITORIA_CONSOLIDACION_DESKTOP_2026-08-09.md) | 🟢 | Auditoría fuente de la consolidación desktop (F-01…F-23 + addenda). |
-| — | [DOCUMENTACION_TECNICA_CIENTIFICA_MOLDESIGN.md](DOCUMENTACION_TECNICA_CIENTIFICA_MOLDESIGN.md) | ⚪ | Histórico de julio de 2026; reemplazado por AGENTS.md y el doc 80. |
-| 43 | [43_PLAN_ACCION_MADUREZ.md](43_PLAN_ACCION_MADUREZ.md) | 🟢 | Plan operativo vigente: Código → Calidad → Eficiencia → Ciencia. |
-| 44 | [44_RELEASE_BASELINE_2026-08-15.md](44_RELEASE_BASELINE_2026-08-15.md) | 🟢 | Baseline recuperable del runtime desktop antes de la campaña de estabilización. |
-| 45 | [45_API_CONTRACT_CURRENT.md](45_API_CONTRACT_CURRENT.md) | 🟢 | Mapa generado del OpenAPI vigente; el schema versionado vive en `docs/api/`. |
-| 46 | [46_RUNTIME_INVENTORY.md](46_RUNTIME_INVENTORY.md) | 🟢 | Inventario generado del catálogo local y de los modelos declarados por manifest v4. |
-| — | [ARCHITECTURE_DESKTOP.md](ARCHITECTURE_DESKTOP.md) | 🟢 | Arquitectura normativa del runtime local, recursos instalados, procesos y almacenamiento. |
-| 55 | [55_MVP_DESKTOP_RELEASE.md](55_MVP_DESKTOP_RELEASE.md) | 🟢 | Receta, checksum, evidencia de instalación y límites del release candidate desktop. |
-| 56 | [56_DOSSIER_REPRODUCIBLE_CONTRACT.md](56_DOSSIER_REPRODUCIBLE_CONTRACT.md) | 🟢 | Contrato del dossier de caso y del paquete reproducible (PDF + ZIP con manifiesto). |
-| 57 | [57_COHORT_PREFLIGHT_V1.md](57_COHORT_PREFLIGHT_V1.md) | 🟢 | Cohortes: contrato de ingesta y comprobación previa. Qué identifica el fingerprint, qué significa `eligible` y qué NO afirma. |
-| 58 | [58_COHORT_PERSISTENCE_V1.md](58_COHORT_PERSISTENCE_V1.md) | 🟢 | Cohortes congeladas: qué queda inmutable, por qué se guarda el archivo entero y qué consumirá la ejecución. |
-| 59 | [59_COHORT_EXECUTION_V1.md](59_COHORT_EXECUTION_V1.md) | 🟢 | Ejecución durable de una cohorte: qué congela la corrida, `failed` frente a `not_evaluated`, duplicados y recuperación tras reinicio. |
-| 60 | [60_AUDITORIA_FINAL_MVP_PRODUCTO.md](60_AUDITORIA_FINAL_MVP_PRODUCTO.md) | 🟢 | Veredicto de producto, interpretación de resultados, valor y condiciones de piloto. |
-| 61 | [61_PLAN_CIERRE_APP_ORQUESTACION_CLAUDE.md](61_PLAN_CIERRE_APP_ORQUESTACION_CLAUDE.md) | 🟢 | Plan de cierre vertical hacia 1.0: orden de pestañas, cuatro ejes por pestaña, gates y protocolo de trabajo. |
-| 62 | [62_EVAL_AUD_00_EXPEDIENTE.md](62_EVAL_AUD_00_EXPEDIENTE.md) | 🟡 | Expediente de la pestaña Evaluación: hallazgos con evidencia, matriz de trazabilidad, qué se corrigió y qué falta para su gate. |
-| 63 | [63_GATE_RUNTIME_EVALUACION.md](63_GATE_RUNTIME_EVALUACION.md) | 🔴 | Protocolo pendiente: corrida real, reinicio, igualdad con dossier y aislamiento entre dos cuentas. |
+## Inventario completo de documentos de primer nivel
 
-## Papeles científicos
+Este listado localiza todos los ficheros públicos de `docs/`. La inclusión no les concede estado normativo: consulta la cabecera, la fecha y los corrigenda de cada documento. La revisión de cobertura del índice no significa que se hayan repetido sus experimentos. Los números 86, 100 y 101 están repetidos: cita siempre el nombre completo.
 
-| # | Documento | Estado | Tema |
-|---|---|---|---|
-| — | [PAPER_MOLPOCKET.md](PAPER_MOLPOCKET.md) | 🟢 | Detección de pockets APO sin ligando co-cristalizado. |
-| — | [PAPER_MOLGRAPH.md](PAPER_MOLGRAPH.md) | 🟢 | Knowledge graph químico de evaluación. |
-| — | [PAPER_UMS.md](PAPER_UMS.md) | 🟢 | Universal Metal Score (6 SMARTS sobre zinc metaloenzimas). |
-| — | [COVER_LETTER_MOLGRAPH.md](COVER_LETTER_MOLGRAPH.md) | 🟢 | Cover letter del manuscrito MolGraph. |
-
-## Producto y negocio
-
-| # | Documento | Estado | Tema |
-|---|---|---|---|
-| — | [DECK_EJECUTIVO_INSTITUCIONAL.md](DECK_EJECUTIVO_INSTITUCIONAL.md) | ⚪ | Borrador histórico; no usar como material público. |
-| 53 | [53_MAPA_ALINEACION_PRODUCTO.md](53_MAPA_ALINEACION_PRODUCTO.md) | 🟢 | Contrato actual del producto: casos, evidencia, controles, incertidumbre e informe. |
-| — | [MILESTONE_1_ROADMAP.md](MILESTONE_1_ROADMAP.md) | ⚪ | Milestone 1 (junio) — snapshot histórico. |
-| — | [MILESTONE_2_BUSINESS_FOUNDATION.md](MILESTONE_2_BUSINESS_FOUNDATION.md) | ⚪ | Milestone 2 (julio) — snapshot histórico. |
-| — | [MILESTONE_3_TECHNICAL_ARCHITECTURE.md](MILESTONE_3_TECHNICAL_ARCHITECTURE.md) | ⚪ | Milestone 3 (julio) — snapshot histórico. |
-| — | [MILESTONE_4_USER_VALIDATION.md](MILESTONE_4_USER_VALIDATION.md) | ⚪ | Milestone 4 (julio) — snapshot histórico. |
-| — | [design-dna-moldesign.md](design-dna-moldesign.md) | ⚪ | Design DNA — histórico. |
-
-## Planes y roadmaps
-
-| # | Documento | Estado | Tema |
-|---|---|---|---|
-| 18 | [18_OSS_ROADMAP.md](18_OSS_ROADMAP.md) | 🔵 | Roadmap open source (6 fases). |
-| 23 | [23_BUCKET_C_RESEARCH_TRACK.md](23_BUCKET_C_RESEARCH_TRACK.md) | 🔵 | GNN-v3 universal research track. |
-| 25 | [25_FRONTEND_UNIFICATION_PLAN.md](25_FRONTEND_UNIFICATION_PLAN.md) | 🔵 | Unificación frontend PRO + Hallmark. |
-| 27 | [27_PAPER_OUTLINE.md](27_PAPER_OUTLINE.md) | 🔵 | Outline del paper UMS. |
-| — | [molgraph_v2.md](molgraph_v2.md) | 🔵 | Evolución del knowledge graph (fase B). |
-| 48 | [48_INVENTARIO_REUTILIZACION_MOLFLEX_RESCORING.md](48_INVENTARIO_REUTILIZACION_MOLFLEX_RESCORING.md) | 🔵 | Inventario reuse-first de MolFlex, Ruta C, MolChamb, UMS y ZnCoord. |
-| 49 | [49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md](49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md) | 🔵 | Programa maestro de experimentos: receptor → poses → rescoring → FEP+ ready. |
-
-## Evidencia experimental (citar con fecha, no como estado actual)
-
-| # | Documento | Estado | Tema |
-|---|---|---|---|
-| 07 | [07_SPEARMAN_BENCHMARK_LOG.md](07_SPEARMAN_BENCHMARK_LOG.md) | 🟡 | Bitácora de 8 experimentos Spearman. |
-| 10 | [10_VINA_GPU_HYBRID.md](10_VINA_GPU_HYBRID.md) | 🟡 | Resultados Vina-GPU (NO en producción). |
-| 17 | [17_EF_BENCHMARK_FIXES.md](17_EF_BENCHMARK_FIXES.md) | 🟡 | Fixes y re-corrida EF@1% (AUC 0.958). |
-| 21 | [21_ABLATION_MOLCHAMB_5HT1A.md](21_ABLATION_MOLCHAMB_5HT1A.md) | 🟡 | Ablation MolChamb 5HT1A. |
-| 22 | [22_ABLATION_MOLCHAMB_CDK2.md](22_ABLATION_MOLCHAMB_CDK2.md) | 🟡 | Ablation MolChamb CDK2. |
-| 22b | [22_METAL_FEATURES.md](22_METAL_FEATURES.md) | 🟡 | Features de metaloenzimas (Zn). |
-| 26 | [26_UNIVERSAL_METAL_SCORE_RESULTS.md](26_UNIVERSAL_METAL_SCORE_RESULTS.md) | 🟡 | Validación del Universal Metal Score. |
-| 28 | [28_CONSOLIDATED_RESULTS.md](28_CONSOLIDATED_RESULTS.md) | 🟡 | Resultados finales consolidados UMS. |
-| — | [CL_GNN_MULTITARGET_RESULTS.md](CL_GNN_MULTITARGET_RESULTS.md) | 🟡 | Evaluación multi-target CL-GNN (2026-07-26). |
-| — | [MULTI_TARGET_FINAL_REPORT.md](MULTI_TARGET_FINAL_REPORT.md) | 🟡 | Reporte final multi-target (night batch). |
-| — | [STOCHASTICITY_REPORT.md](STOCHASTICITY_REPORT.md) | 🟡 | Reporte honesto de estocasticidad CL-GNN. |
-| — | [metricas_experimentales.md](metricas_experimentales.md) | 🟡 | Historial versionado de métricas del scoring engine. |
-
-## Históricos (snapshots — NO actuar según ellos)
-
-| # | Documento | Estado | Nota |
-|---|---|---|---|
-| 16 | [16_AUDIT_FIXES.md](16_AUDIT_FIXES.md) | ⚪ | Registro de 3 auditorías hasta v1.5. |
-| 24 | [24_OSS_READINESS_CHECKLIST.md](24_OSS_READINESS_CHECKLIST.md) | ⚪ | Snapshot 2026-07-25; declara ausentes archivos que ya existen. |
-| 29 | [29_SESSION_CLOSE_STATUS.md](29_SESSION_CLOSE_STATUS.md) | ⚪ | Estado al cierre de sesión 2026-07-29. |
-| 31 | [31_PIPELINE_DATA_INVENTORY.md](31_PIPELINE_DATA_INVENTORY.md) | ⚪ | Snapshot 2026-07-29; describe UI mock ya superada. |
-| 32 | [32_CROSS_VALIDATION_EVALUATION_TAB.md](32_CROSS_VALIDATION_EVALUATION_TAB.md) | ⚪ | Snapshot 2026-07-29; inventario de endpoints, no estado actual. |
-
-## Pendientes de validación
-
-| # | Documento | Estado | Nota |
-|---|---|---|---|
-| 35 | [35_GRID_APO_5TUN_PENDIENTE.md](35_GRID_APO_5TUN_PENDIENTE.md) | 🔴 | Grid desalineado en targets APO (5TUN) — hallazgo abierto. |
-| 36 | [36_POR_ARREGLAR_Y_VALIDAR.md](36_POR_ARREGLAR_Y_VALIDAR.md) | 🔴 | Lista abierta de validaciones del pipeline. |
-| 63 | [63_GATE_RUNTIME_EVALUACION.md](63_GATE_RUNTIME_EVALUACION.md) | 🟢 | Gate runtime de Evaluación aprobado con Vina real, reinicio y aislamiento. |
-| 64 | [64_GATE_RUNTIME_BATCH.md](64_GATE_RUNTIME_BATCH.md) | 🟢 | Gate runtime de Batch aprobado con Vina real, recuperación y dossier. |
-| 67 | [67_GATE_MOLCHAT.md](67_GATE_MOLCHAT.md) | 🟢 | Gate de MolChat aprobado con suite adversarial; dos exclusiones declaradas (MOLCHAT-BE-009 y gate runtime). |
-| 68 | [68_GATE_RUNTIME_MOLDEX_Y_MOLCHAT.md](68_GATE_RUNTIME_MOLDEX_Y_MOLCHAT.md) | 🟢 | Gates runtime de Moldex y MolChat con Vina y modelo local reales; dos fallos encontrados y corregidos. |
-| 69 | [69_GATE_DE_RELEASE.md](69_GATE_DE_RELEASE.md) | 🟡 | Actualización sin pérdida de datos y SBOM verdes; instalador, firma, VMs y piloto siguen bloqueados por recursos del propietario. |
-
----
+- [00_INDEX.md](00_INDEX.md)
+- [01_PIPELINE.md](01_PIPELINE.md)
+- [02_DESKTOP.md](02_DESKTOP.md)
+- [03_API.md](03_API.md)
+- [04_ARCHITECTURE.md](04_ARCHITECTURE.md)
+- [05_CLOUD_DEPLOY.md](05_CLOUD_DEPLOY.md)
+- [06_FAMILY_RETRAINING.md](06_FAMILY_RETRAINING.md)
+- [07_SPEARMAN_BENCHMARK_LOG.md](07_SPEARMAN_BENCHMARK_LOG.md)
+- [08_SCIENTIFIC_VALIDATION.md](08_SCIENTIFIC_VALIDATION.md)
+- [09_PACKAGING_STRATEGY.md](09_PACKAGING_STRATEGY.md)
+- [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md)
+- [100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md](100_CORRECCIONES_AUDITORIA_CIENCIA_20261015.md)
+- [101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md](101_CORRIGENDA_SELLOS_AUDITORIA_20261020.md)
+- [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md)
+- [102_FASE_1B_CORRECCIONES.md](102_FASE_1B_CORRECCIONES.md)
+- [10_VINA_GPU_HYBRID.md](10_VINA_GPU_HYBRID.md)
+- [11_GPU_BENCHMARK_RESULTS.md](11_GPU_BENCHMARK_RESULTS.md)
+- [12_STRESS_TEST_1000.md](12_STRESS_TEST_1000.md)
+- [13_DIARIO_EXPERIMENTOS_GPU.md](13_DIARIO_EXPERIMENTOS_GPU.md)
+- [14_TARGET_LIBRARY.md](14_TARGET_LIBRARY.md)
+- [15_BATCH_SCREENING.md](15_BATCH_SCREENING.md)
+- [16_AUDIT_FIXES.md](16_AUDIT_FIXES.md)
+- [17_EF_BENCHMARK_FIXES.md](17_EF_BENCHMARK_FIXES.md)
+- [17_STEAM_DEPLOYMENT.md](17_STEAM_DEPLOYMENT.md)
+- [18_OSS_ROADMAP.md](18_OSS_ROADMAP.md)
+- [19_LIMITATIONS.md](19_LIMITATIONS.md)
+- [21_ABLATION_MOLCHAMB_5HT1A.md](21_ABLATION_MOLCHAMB_5HT1A.md)
+- [22_ABLATION_MOLCHAMB_CDK2.md](22_ABLATION_MOLCHAMB_CDK2.md)
+- [22_METAL_FEATURES.md](22_METAL_FEATURES.md)
+- [23_BUCKET_C_RESEARCH_TRACK.md](23_BUCKET_C_RESEARCH_TRACK.md)
+- [24_OSS_READINESS_CHECKLIST.md](24_OSS_READINESS_CHECKLIST.md)
+- [25_FRONTEND_UNIFICATION_PLAN.md](25_FRONTEND_UNIFICATION_PLAN.md)
+- [29_SESSION_CLOSE_STATUS.md](29_SESSION_CLOSE_STATUS.md)
+- [30_SECURITY_CSP_AUDIT.md](30_SECURITY_CSP_AUDIT.md)
+- [31_PIPELINE_DATA_INVENTORY.md](31_PIPELINE_DATA_INVENTORY.md)
+- [32_CROSS_VALIDATION_EVALUATION_TAB.md](32_CROSS_VALIDATION_EVALUATION_TAB.md)
+- [33_MIGRATION_LLAMA_SERVER.md](33_MIGRATION_LLAMA_SERVER.md)
+- [34_MOLCHAT_V3.md](34_MOLCHAT_V3.md)
+- [37_INTEGRATION_POLICY.md](37_INTEGRATION_POLICY.md)
+- [38_FASE_B_BASELINE.md](38_FASE_B_BASELINE.md)
+- [39_FASE_B_RUNBOOK.md](39_FASE_B_RUNBOOK.md)
+- [40_MOLFLEX_PROTOCOL.md](40_MOLFLEX_PROTOCOL.md)
+- [41_RUTA_C_INVESTIGACION_CAMPO.md](41_RUTA_C_INVESTIGACION_CAMPO.md)
+- [42_RUTA_C_PROTOCOLO.md](42_RUTA_C_PROTOCOLO.md)
+- [43_PLAN_ACCION_MADUREZ.md](43_PLAN_ACCION_MADUREZ.md)
+- [44_RELEASE_BASELINE_2026-08-15.md](44_RELEASE_BASELINE_2026-08-15.md)
+- [45_API_CONTRACT_CURRENT.md](45_API_CONTRACT_CURRENT.md)
+- [46_RUNTIME_INVENTORY.md](46_RUNTIME_INVENTORY.md)
+- [47_RUTA_C_FASE4_PREREGISTRO.md](47_RUTA_C_FASE4_PREREGISTRO.md)
+- [48_INVENTARIO_REUTILIZACION_MOLFLEX_RESCORING.md](48_INVENTARIO_REUTILIZACION_MOLFLEX_RESCORING.md)
+- [49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md](49_PROGRAMA_EXPERIMENTAL_CIENTIFICO.md)
+- [50_ROADMAP.md](50_ROADMAP.md)
+- [51_POLITICA_DE_AGUAS.md](51_POLITICA_DE_AGUAS.md)
+- [53_MAPA_ALINEACION_PRODUCTO.md](53_MAPA_ALINEACION_PRODUCTO.md)
+- [55_MVP_DESKTOP_RELEASE.md](55_MVP_DESKTOP_RELEASE.md)
+- [56_DOSSIER_REPRODUCIBLE_CONTRACT.md](56_DOSSIER_REPRODUCIBLE_CONTRACT.md)
+- [57_COHORT_PREFLIGHT_V1.md](57_COHORT_PREFLIGHT_V1.md)
+- [58_COHORT_PERSISTENCE_V1.md](58_COHORT_PERSISTENCE_V1.md)
+- [59_COHORT_EXECUTION_V1.md](59_COHORT_EXECUTION_V1.md)
+- [60_AUDITORIA_FINAL_MVP_PRODUCTO.md](60_AUDITORIA_FINAL_MVP_PRODUCTO.md)
+- [61_PLAN_CIERRE_APP_ORQUESTACION_CLAUDE.md](61_PLAN_CIERRE_APP_ORQUESTACION_CLAUDE.md)
+- [62_AUDITORIA_TERCEROS_Y_LAUNCHER.md](62_AUDITORIA_TERCEROS_Y_LAUNCHER.md)
+- [62_EVAL_AUD_00_EXPEDIENTE.md](62_EVAL_AUD_00_EXPEDIENTE.md)
+- [63_GATE_RUNTIME_EVALUACION.md](63_GATE_RUNTIME_EVALUACION.md)
+- [64_GATE_RUNTIME_BATCH.md](64_GATE_RUNTIME_BATCH.md)
+- [65_MOLDEX_AUD_00_EXPEDIENTE.md](65_MOLDEX_AUD_00_EXPEDIENTE.md)
+- [66_MOLCHAT_AUD_00_EXPEDIENTE.md](66_MOLCHAT_AUD_00_EXPEDIENTE.md)
+- [67_GATE_MOLCHAT.md](67_GATE_MOLCHAT.md)
+- [68_GATE_RUNTIME_MOLDEX_Y_MOLCHAT.md](68_GATE_RUNTIME_MOLDEX_Y_MOLCHAT.md)
+- [69_GATE_DE_RELEASE.md](69_GATE_DE_RELEASE.md)
+- [70_BITACORA_PRIMERA_VERSION_EN_VM.md](70_BITACORA_PRIMERA_VERSION_EN_VM.md)
+- [71_HALLAZGO_CADENA_RECEPTOR_Y_PENDIENTES.md](71_HALLAZGO_CADENA_RECEPTOR_Y_PENDIENTES.md)
+- [72_PRIMERA_TANDA_DEL_SELLO_DEL_CATALOGO.md](72_PRIMERA_TANDA_DEL_SELLO_DEL_CATALOGO.md)
+- [73_AUDITORIA_WINDOWS_MAQUINA_LIMPIA.md](73_AUDITORIA_WINDOWS_MAQUINA_LIMPIA.md)
+- [74_ARQUITECTURA_DISPATCHER_DE_PROTOCOLOS.md](74_ARQUITECTURA_DISPATCHER_DE_PROTOCOLOS.md)
+- [75_DECISION_CIENTIFICA_M5_ZN_V1.md](75_DECISION_CIENTIFICA_M5_ZN_V1.md)
+- [76_DECISION_TRANSFERENCIA_ESMFOLD_A_LIGANDO_V1.md](76_DECISION_TRANSFERENCIA_ESMFOLD_A_LIGANDO_V1.md)
+- [77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md](77_CORRIGENDUM_SITIO_DEL_BENCHMARK_M5_ZN.md)
+- [78_DECISION_DISTRIBUCION_DE_PESOS_Y_RUNTIME.md](78_DECISION_DISTRIBUCION_DE_PESOS_Y_RUNTIME.md)
+- [79_ADR_FRONTERA_OPEN_BABEL.md](79_ADR_FRONTERA_OPEN_BABEL.md)
+- [80_INVENTARIO_TECNOLOGICO_INTEGRAL.md](80_INVENTARIO_TECNOLOGICO_INTEGRAL.md)
+- [81_HANDOFF_RUNTIME_ALPHA.md](81_HANDOFF_RUNTIME_ALPHA.md)
+- [82_CLON_LIMPIO_CONSTRUIBLE.md](82_CLON_LIMPIO_CONSTRUIBLE.md)
+- [83_ADR_SOLANA_DEVNET_POC.md](83_ADR_SOLANA_DEVNET_POC.md)
+- [84_ARNES_QA_VM_LIMPIA.md](84_ARNES_QA_VM_LIMPIA.md)
+- [85_CORRECCIONES_AUDITORIA_SOL_20261001.md](85_CORRECCIONES_AUDITORIA_SOL_20261001.md)
+- [85_VALIDACION_EXTERNA_PIPELINES_ALPHA.md](85_VALIDACION_EXTERNA_PIPELINES_ALPHA.md)
+- [86_CORRECCIONES_AUDITORIA_LUNA_20261002.md](86_CORRECCIONES_AUDITORIA_LUNA_20261002.md)
+- [86_DISTRIBUCION_MSIX_MICROSOFT_STORE.md](86_DISTRIBUCION_MSIX_MICROSOFT_STORE.md)
+- [87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md](87_ADR_CONTRATO_STACKING_CLGNN_ALPHA.md)
+- [88_EXPLORACION_NEEDLE_3.md](88_EXPLORACION_NEEDLE_3.md)
+- [89_FASE6_PREREG_CLASIFICADOR.md](89_FASE6_PREREG_CLASIFICADOR.md)
+- [90_FASE6_DECISION_M4.md](90_FASE6_DECISION_M4.md)
+- [91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md](91_AUDITORIA_PROCEDENCIA_CATALOGO_RECEPTORES.md)
+- [92_ADR_MOLCY_RENDERIZADOR_EXTERNO.md](92_ADR_MOLCY_RENDERIZADOR_EXTERNO.md)
+- [93_MOLCY_RECURSOS_Y_LIMITES.md](93_MOLCY_RECURSOS_Y_LIMITES.md)
+- [94_PLAN_TRADUCCION_DEL_ENTREGABLE.md](94_PLAN_TRADUCCION_DEL_ENTREGABLE.md)
+- [95_ADR_MOTOR_MOLCY_EN_EL_INSTALADOR.md](95_ADR_MOTOR_MOLCY_EN_EL_INSTALADOR.md)
+- [96_DISENO_MOTOR_EXTERNO_VIA_API.md](96_DISENO_MOTOR_EXTERNO_VIA_API.md)
+- [97_PLAN_MOTOR_EXTERNO_VIA_API.md](97_PLAN_MOTOR_EXTERNO_VIA_API.md)
+- [98_ARQUITECTURA_MODULAR_DE_MOTORES.md](98_ARQUITECTURA_MODULAR_DE_MOTORES.md)
+- [99_EXPERIMENTOS_MOLCHAT_MODELOS_PEQUENOS.md](99_EXPERIMENTOS_MOLCHAT_MODELOS_PEQUENOS.md)
+- [ARCHITECTURE_DESKTOP.md](ARCHITECTURE_DESKTOP.md)
+- [asistente_laboratorio.md](asistente_laboratorio.md)
+- [AUDITORIA_CONSOLIDACION_DESKTOP_2026-08-09.md](AUDITORIA_CONSOLIDACION_DESKTOP_2026-08-09.md)
+- [campana_multitarget.md](campana_multitarget.md)
+- [COMERCIAL.md](COMERCIAL.md)
+- [CREACION_DE_HERRAMIENTAS_MOLCHAT.md](CREACION_DE_HERRAMIENTAS_MOLCHAT.md)
+- [DEPENDENCY_SECURITY_AUDIT.md](DEPENDENCY_SECURITY_AUDIT.md)
+- [design-dna-moldesign.md](design-dna-moldesign.md)
+- [DOCUMENTACION_TECNICA_CIENTIFICA_MOLDESIGN.md](DOCUMENTACION_TECNICA_CIENTIFICA_MOLDESIGN.md)
+- [EFICIENCIA_NORMALIZADA_COHORTE_2026-09-04.md](EFICIENCIA_NORMALIZADA_COHORTE_2026-09-04.md)
+- [GLOSARIO_EN.md](GLOSARIO_EN.md)
+- [gnn_v2_arquitectura.md](gnn_v2_arquitectura.md)
+- [ideas_futuras.md](ideas_futuras.md)
+- [Interprete_IA.md](Interprete_IA.md)
+- [LICENSING.md](LICENSING.md)
+- [metricas_experimentales.md](metricas_experimentales.md)
+- [metricas_experimentales_2026-07.md](metricas_experimentales_2026-07.md)
+- [MODO_SOMBRA_MOLCHAT.md](MODO_SOMBRA_MOLCHAT.md)
+- [molchamb_v2.md](molchamb_v2.md)
+- [MOLCY_DEVOPS_CPU.md](MOLCY_DEVOPS_CPU.md)
+- [MolGraph.md](MolGraph.md)
+- [molgraph_v2.md](molgraph_v2.md)
+- [plan_early_exit.md](plan_early_exit.md)
+- [posibles_problemas_y_mejoras.md](posibles_problemas_y_mejoras.md)
+- [posibles_tecnologias.md](posibles_tecnologias.md)
+- [propuestas_de_mejora.md](propuestas_de_mejora.md)
+- [README.md](README.md)
+- [REUBICACIONES_2026-10-11.md](REUBICACIONES_2026-10-11.md)
+- [roadmap.md](roadmap.md)
+- [SCIENTIFIC_ARTIFACTS_LICENSE.md](SCIENTIFIC_ARTIFACTS_LICENSE.md)
+- [SESSION_SUMMARY_v1.3.md](SESSION_SUMMARY_v1.3.md)
+- [SESSION_SUMMARY_v1.4.md](SESSION_SUMMARY_v1.4.md)
+- [SESSION_SUMMARY_v1.5.md](SESSION_SUMMARY_v1.5.md)
+- [SESSION_SUMMARY_v1.6.md](SESSION_SUMMARY_v1.6.md)
+- [SESSION_SUMMARY_v1.7.md](SESSION_SUMMARY_v1.7.md)
+- [STOCHASTICITY_REPORT.md](STOCHASTICITY_REPORT.md)
+- [STORE_RUNFULLTRUST_JUSTIFICATION.md](STORE_RUNFULLTRUST_JUSTIFICATION.md)
+- [STORE_SUBMISSION_LEGAL.md](STORE_SUBMISSION_LEGAL.md)
+- [STORE_WACK_DIAGNOSTICO.md](STORE_WACK_DIAGNOSTICO.md)
+- [TRAZA_BUSQUEDA_MOLCY.md](TRAZA_BUSQUEDA_MOLCY.md)
+- [validacion_mmgbsa.md](validacion_mmgbsa.md)
 
 ## Convenciones
 
-- **Owner**: todas las decisiones pasan por el maintainer de la sesión activa;
-  los papers tienen autoría en sus propios documentos.
-- **Verificación**: la fecha de verificación de cada entrada es la fecha del
-  documento o la de su última actualización registrada en su encabezado.
-- **Código asociado**: los documentos normativos referencian rutas concretas
-  (`backend/…`, `rescoring/…`, `frontend/…`) en su contenido.
-- **Regla de edición**: un documento histórico NO se edita para "actualizarlo";
-  se archiva o se crea uno nuevo con fecha vigente.
+Las medidas se citan con fecha y fuente; las decisiones, con el nombre completo del archivo. Los registros históricos conservan sus resultados originales. Una ruta retenida del público se contrasta con `scripts/retenidos_del_publico.txt` antes de declararla rota.

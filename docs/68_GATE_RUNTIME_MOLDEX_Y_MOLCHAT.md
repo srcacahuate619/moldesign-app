@@ -1,5 +1,7 @@
 # Gates runtime de Moldex y MolChat — APROBADOS
 
+> **Estado: histórico.** Este documento conserva el corte y las rutas originales; no es una guía del árbol actual. Para MolChat vigente consulta [100_ADR_MOLCHAT_EXTERNO.md](100_ADR_MOLCHAT_EXTERNO.md) y [101_PROTOCOLO_MOLCHAT.md](101_PROTOCOLO_MOLCHAT.md); para construir, [BUILD_GUIDE.md](../BUILD_GUIDE.md).
+
 **Fecha:** 2026-08-31
 **Estado:** 🟢 ambos aprobados con motor real, con exclusiones nombradas
 **Ejecutores reproducibles:** `scripts/accept_moldex_runtime.py`, `scripts/accept_molchat_runtime.py`

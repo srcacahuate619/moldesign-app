@@ -1,6 +1,6 @@
 # ADR 95 — El motor Molcy viaja en el instalador, como programa independiente GPL-3.0-or-later
 
-**Estado:** implementado en la rama `qa/molcy-blender`; pendiente de build de instalador, de `smoke:prod` y de una prueba en una máquina limpia.
+**Estado:** integrado en el repositorio público; `tools/molcy/` incluye motor, licencia y manifiesto. La integración del código no acredita por sí sola una nueva prueba del instalador en máquina limpia.
 **Fecha:** 2026-10-04 (cierre obligatorio y repositorio público el mismo día). **Sustituye** lo que el ADR 92 dejaba pendiente («la distribución del motor GPL independiente requiere preparar y verificar
 su paquete complementario»).
 
