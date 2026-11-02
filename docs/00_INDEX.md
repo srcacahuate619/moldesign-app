@@ -34,7 +34,6 @@
 | [**17_STEAM_DEPLOYMENT.md**](17_STEAM_DEPLOYMENT.md) | **Guia de despliegue Steam: billing, Cloud, MSVC, code signing** |
 | **TOS_PRIVACY.md** — *no se distribuye* | Terminos del servicio EN LA NUBE, que dejo de existir. La politica vigente es [PRIVACY.md](../PRIVACY.md) |
 | [auditorias/auditoria_empaquetado_desktop.md](auditorias/auditoria_empaquetado_desktop.md) | Auditoria de produccion + estrategia de empaquetado [SUPERSEDED] |
-| [Plan_Multiplataforma.md](Plan_Multiplataforma.md) | Roadmap multiplataforma (Steam, Android, Web) |
 | [**09_PACKAGING_STRATEGY.md**](09_PACKAGING_STRATEGY.md) | **Estrategia de empaquetado desktop: opciones, pesos, recomendacion** |
 | [**10_VINA_GPU_HYBRID.md**](10_VINA_GPU_HYBRID.md) | **Modulo GPU: Vina-GPU 2.1 + pipeline hibrido GPU->CPU (30x speedup) — RETIRADO v1.5** |
 | [**14_TARGET_LIBRARY.md**](14_TARGET_LIBRARY.md) | **Libreria de targets offline: 273 validados en 20 areas terapeuticas** |

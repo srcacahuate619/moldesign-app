@@ -296,11 +296,6 @@ Sobre ESMFold:
   El stub predictor existe y funciona. Los pesos reales (~3 GB) no están
   descargados. El DLC Pro de Steam los distribuiría.
 
-Sobre el pricing sugerido:
-  Versión Base (CPU, stub ESMFold): $49.99
-  DLC Pro (GPU, ESMFold real, MM-GBSA): $59.99 extra
-  (Requiere validación con usuarios reales)
-
 Sobre MolNeuro Agent (futuro v1.5+):
   Arquitectura Planner → Obrero → Reviewer para modelos locales.
   Planner: estructura un plan antes de ejecutar

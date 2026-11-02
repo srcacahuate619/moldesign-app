@@ -37,7 +37,7 @@ El repositorio y el instalador sólo pueden incluir un peso cuando su manifiesto
 
 ESMFold y los LLM pesados se descargan bajo demanda y mantienen las licencias de sus autores. “Descargable” no significa que MolDesign pueda relicenciarlos.
 
-La capacidad de relicenciar código propio no concede derechos sobre datasets de terceros. El registro Zenodo 7014096 usado para PDBbind v2020 no muestra licencia en `Rights`, y una fuente académica reciente documenta que PDBbind prohíbe redistribuir sin permiso explícito. Por ello, datos y pesos derivados se encuentran en `REVIEW_REQUIRED` hasta obtener permiso escrito o ser sustituidos mediante reentrenamiento de procedencia limpia. Ver `docs/86_AUDITORIA_LEGAL_RELEASE_PUBLICO_Y_STORE.md`.
+La capacidad de relicenciar código propio no concede derechos sobre datasets de terceros. El regresor XGBoost, el clasificador de poses y CL-GNN se entrenaron en parte con PDBbind v2020. Hoy tienen peso 0 en el ranking, que decide Vina: se ejecutan y se conservan sólo como señales experimentales. MolDesign distribuye esos pesos como obra del autor y no redistribuye PDBbind, ni sus estructuras de complejos ni sus tablas de afinidades, porque una fuente académica reciente documenta que prohíbe hacerlo sin permiso explícito. Los receptores del catálogo son descargas de RCSB citadas por su código PDB, no las estructuras preparadas de PDBbind. El registro Zenodo 7014096 no muestra licencia en `Rights`, así que se cita sólo como fuente. Es una determinación del autor del 2026-09-12 y no implica permiso, respaldo ni afiliación de los autores de PDBbind. Ver `frontend/public/legal/RELEASE_BLOCKERS.md` y `LICENSE-MODELS`.
 
 ## Microsoft Store
 

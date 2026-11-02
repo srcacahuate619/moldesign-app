@@ -246,12 +246,6 @@ real, consistente a través de 3 familias proteicas completamente distintas.
 > la función de scoring de Vina ignora. La mejora de +70% en PR-AUC confirma
 > que la señal es real y se concentra en el top de la lista."
 
-### Para un inversor / stakeholder
-
-> "Validamos científicamente que MolDesign rankea compuestos con precisión
-> comparable a software comercial de $50K/año. EF@1% = 32.51x significa que
-> reducimos el costo de screening en ~60% comparado con Vina vanilla."
-
 ### Limitaciones
 
 1. **Single target**: Solo 5-HT1A. Falta validar en ≥10 targets.

@@ -98,9 +98,7 @@ falta ejecutar el protocolo runtime 63 con reinicio y dos cuentas.
 
 | # | Documento | Estado | Tema |
 |---|---|---|---|
-| — | [modelo_negocio.md](modelo_negocio.md) | 🟢 | Estrategia de monetización. |
 | — | [DECK_EJECUTIVO_INSTITUCIONAL.md](DECK_EJECUTIVO_INSTITUCIONAL.md) | ⚪ | Borrador histórico; no usar como material público. |
-| — | [USER_VALIDATION_FORMS.md](USER_VALIDATION_FORMS.md) | 🟢 | Encuesta de validación de usuarios v2.0. |
 | 53 | [53_MAPA_ALINEACION_PRODUCTO.md](53_MAPA_ALINEACION_PRODUCTO.md) | 🟢 | Contrato actual del producto: casos, evidencia, controles, incertidumbre e informe. |
 | — | [MILESTONE_1_ROADMAP.md](MILESTONE_1_ROADMAP.md) | ⚪ | Milestone 1 (junio) — snapshot histórico. |
 | — | [MILESTONE_2_BUSINESS_FOUNDATION.md](MILESTONE_2_BUSINESS_FOUNDATION.md) | ⚪ | Milestone 2 (julio) — snapshot histórico. |
