@@ -320,6 +320,9 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           viewportShowExpand: true,         // Enable default expand button
           viewportShowSelectionMode: true,  // Enable default selection controls
           viewportShowSettings: true,       // Enable default settings button
+          // Sin esto Mol* rechaza el contexto por software y en un equipo sin GPU lanza sin dibujar,
+          // aunque `comprobarWebGL` diga que hay contexto. Lo midió la CI pública, que no tiene GPU.
+          allowMajorPerformanceCaveat: true,
         });
 
         // Subscribe to layout changes to reactively update the outer container's size

@@ -20,6 +20,10 @@ describe("contrato de etiquetas de los visores", () => {
     expect(molstar).toContain("className={VIEWER_SWITCH_BUTTON_CLASS}");
   });
 
+  it("deja a Mol* dibujar por software, como promete comprobarWebGL", () => {
+    expect(molstar).toContain("allowMajorPerformanceCaveat: true");
+  });
+
   it("reserva la esquina superior derecha de Web3D para Opciones", () => {
     expect(web3d).toContain('className="absolute right-3 top-3 z-10"');
     expect(web3d).toContain('t("ev_opciones")');

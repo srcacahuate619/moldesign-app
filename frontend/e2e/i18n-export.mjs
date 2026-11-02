@@ -139,7 +139,8 @@ async function open(page, route, name) {
   await scan(page, name);
 }
 try {
-  browser = await chromium.launch({ channel: process.platform === "win32" ? "msedge" : undefined, headless: true });
+  // Sin GPU, como la CI y una máquina virtual: el visor tiene que abrir igual, y aquí se vería si deja de hacerlo.
+  browser = await chromium.launch({ channel: process.platform === "win32" ? "msedge" : undefined, headless: true, args: ["--disable-gpu"] });
   const context = await browser.newContext({ locale: "es-MX", viewport: { width: 1440, height: 1000 } });
   const page = await context.newPage();
   page.on("pageerror", error => errors.push(error.message));
