@@ -918,15 +918,16 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   manifiesto de modelos y enlaces). **Antes de integrar en la rama de una
   versión, pasa con python-embed todos los `--check` de `ci.yml`**, no sólo
   pytest.
-  **La CI pública lleva en rojo desde el 2026-10-26 y lo tapaba ella misma.** `--maxfail=1` paraba en la primera prueba, una
+  **La CI pública estuvo en rojo del 2026-10-26 al 11-01 y lo tapaba ella misma.** `--maxfail=1` paraba en la primera prueba, una
   frase partida por el PDF que sólo se ve con `pypdf`, y `pypdf` no viaja en python-embed, así que en local se saltaba. Los pasos
   siguientes llevaban cinco días sin correr. Para reproducirla: clon limpio, venv con los dos requirements, sin `tools/` ni
-  python-embed. `a05cc98e` (10-31) siguió en rojo por dos cosas: una prueba de frontend que un arreglo de ese día dejó sin su marca
-  de final, y el manifiesto del dossier, porque en GitHub el PDF sale con otro hash que en la máquina donde se fijó la instantánea.
-  Eso no se ve en local: el mismo commit pasa entero en un clon limpio en Windows y en Linux (5349 y 5338 pruebas, 0 fallos), y los
-  registros de Actions piden sesión. Desde el 2026-11-01 ninguna suite para en el primer fallo, los pasos siguientes corren aunque
-  uno caiga y `scripts/anotar_fallos_ci.py` publica las pruebas caídas como anotaciones, que se leen sin sesión; `i18n-export.mjs`
-  hace lo mismo. El trabajo de backend pasa de 30 a 50 min: la instalación ya lleva 12.
+  python-embed. `a05cc98e` (10-31) siguió en rojo por tres cosas: una prueba de frontend que un arreglo de ese día dejó sin su marca
+  de final, el manifiesto del dossier, porque en GitHub el PDF sale con otro hash que en la máquina donde se fijó la instantánea, y
+  el export en inglés, porque el ejecutor no tiene GPU y Mol* rechazaba el contexto por software. Las dos últimas no se ven con un
+  clon limpio aquí ni en Linux (5349 y 5338 pruebas, 0 fallos), y los registros de Actions piden sesión. Desde el 2026-11-01 ninguna
+  suite para en el primer fallo, los pasos siguientes corren aunque uno caiga y `scripts/anotar_fallos_ci.py` publica las pruebas
+  caídas como anotaciones, que se leen sin sesión; `i18n-export.mjs` hace lo mismo y corre sin GPU. El trabajo de backend pasa de 30
+  a 50 min: la instalación ya lleva 12. Verde desde `81c5f291` (2026-11-01): los cinco trabajos.
 - **Linux (primera medida, 2026-10-31, Ubuntu 24.04 en contenedores Debian 12).** Con los arreglos de ese día, sobre un clon
   limpio: backend 5338 pasan y 0 fallos, `scripts/tests` 260, rescoring 318, sellos, humo de escritorio, Playwright y
   `build:desktop`. Saltó un defecto que Windows ocultaba: dos documentos enlazaban `F:/Backups/…`, que `check_docs_links` daba por
