@@ -1,0 +1,5722 @@
+{
+  "_comment": "Archivo dorado compartido por backend/tests/test_pose_comparison.py y frontend/lib/__tests__/structuralEvidence.test.ts. `result` son las entradas; `expected` la salida de deriveStructuralEvidence (TypeScript, la que ve la pantalla) con las claves en snake_case. Para regenerar `expected`: UPDATE_GOLDEN=1 npx vitest run lib/__tests__/structuralEvidence.test.ts",
+  "scenarios": [
+    {
+      "name": "todas_pasan",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "todas_fallan",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "failed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "failed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "FALLA"
+                }
+              ],
+              "checks_que_fallan": [
+                "internal_energy"
+              ],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "failed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "FALLA"
+                }
+              ],
+              "checks_que_fallan": [
+                "internal_energy"
+              ],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "failed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "FALLA"
+                }
+              ],
+              "checks_que_fallan": [
+                "internal_energy"
+              ],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "failed",
+          "physical_review": true,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "failed",
+          "stage_status": "failed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "failed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [
+                "internal_energy"
+              ],
+              "passed_count": 1,
+              "failed_count": 1,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "failed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [
+                "internal_energy"
+              ],
+              "passed_count": 1,
+              "failed_count": 1,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "failed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [
+                "internal_energy"
+              ],
+              "passed_count": 1,
+              "failed_count": 1,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "failed",
+          "needs_review": true
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "suggested_pose_not_passed",
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "abstain"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "failed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": false
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "failed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": false
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "failed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "sugerida_falla_con_alternativas",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "review",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "failed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "FALLA"
+                }
+              ],
+              "checks_que_fallan": [
+                "internal_energy"
+              ],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "failed",
+          "physical_review": true,
+          "physically_valid_alternatives": [
+            {
+              "rank": 1
+            },
+            {
+              "rank": 3
+            }
+          ],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "review",
+          "stage_status": "review",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "failed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [
+                "internal_energy"
+              ],
+              "passed_count": 1,
+              "failed_count": 1,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "failed",
+          "needs_review": true
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "suggested_pose_not_passed",
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [
+            1,
+            3
+          ],
+          "next_step": "review"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": true,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "failed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": false
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": true,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "cobertura_parcial",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "review",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 2,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "not_evaluated",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "NO_EVALUADO"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "review",
+          "stage_status": "review",
+          "poses_produced": 3,
+          "poses_evaluated": 2,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "not_evaluated",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 1,
+              "failed_count": 0,
+              "not_evaluated_count": 1,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "partial_coverage",
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "review"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "not_evaluated",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "selector_se_abstiene",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "abstained",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": true,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": null,
+          "confidence": 0.412233,
+          "abstained": true,
+          "abstention_reason": "confianza_baja",
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": null,
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "would_have_suggested_rank": 2
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "abstained",
+          "vina_top1_rank": 1,
+          "suggested_rank": null,
+          "would_have_suggested_rank": 2,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": true,
+          "abstention_reason": "confianza_baja",
+          "is_fallback": true,
+          "diverges_from_vina_top1": false,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": null,
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selector_abstained",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "selector_no_disponible",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "unavailable",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": true,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": null,
+          "confidence": null,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": null,
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "unavailable",
+          "vina_top1_rank": 1,
+          "suggested_rank": null,
+          "would_have_suggested_rank": null,
+          "confidence": null,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": true,
+          "diverges_from_vina_top1": false,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": []
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": null,
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selector_unavailable",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": null,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": null,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": null,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "selector_con_error",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "error",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": true,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": null,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "Falló el modelo.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": null,
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "error",
+          "vina_top1_rank": 1,
+          "suggested_rank": null,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": true,
+          "diverges_from_vina_top1": false,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "Falló el modelo.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": null,
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selector_error",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "review"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "sugerida_distinta_y_valida",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "sugerida_igual_al_top1",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 1,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 1,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": false,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "una_sola_pose",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 1,
+          "poses_evaluated": 1,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 1,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.4
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 1,
+          "top_affinity": -8.3,
+          "affinity_gap": null,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 1,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": false,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.4
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 1,
+          "poses_evaluated": 1,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "single_pose"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.4,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "casi_empate",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -8.2,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -7.9,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.1,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -8.2,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -7.9,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "corrida_anterior_sin_evidencia",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": null,
+        "pose_selection": null,
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": true,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": null,
+          "receptor_source": null,
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "unavailable",
+          "vina_top1_rank": 1,
+          "suggested_rank": null,
+          "would_have_suggested_rank": null,
+          "confidence": null,
+          "abstention_threshold": null,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": true,
+          "diverges_from_vina_top1": false,
+          "model_name": null,
+          "model_version": null,
+          "model_sha256": null,
+          "detail": null,
+          "warnings": [],
+          "pose_scores": []
+        },
+        "physical": {
+          "status": "absent",
+          "stage_status": "not_evaluated",
+          "poses_produced": 3,
+          "poses_evaluated": 0,
+          "engine": null,
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": null,
+          "poses": [],
+          "suggested_pose_status": null,
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated"
+          ],
+          "uncertainties": [
+            "no_physical_validation",
+            "selector_unavailable",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "review"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": null,
+            "physical_status": "not_evaluated",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": false
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": null,
+            "physical_status": "not_evaluated",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": false
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": null,
+            "physical_status": "not_evaluated",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "sin_semilla_ni_version",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": null,
+        "vina_random_seed": null,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "partial",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": null,
+          "seed": null,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 1,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie",
+            "incomplete_provenance",
+            "no_seed"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "fuente_de_analisis_vacia",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "partial",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 2,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie",
+            "incomplete_provenance"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "sin_poses_ni_evidencia",
+      "result": {
+        "affinity_kcal": -5.5,
+        "docking_poses": [],
+        "structural_evidence": null,
+        "pose_selection": null
+      },
+      "expected": {
+        "has_anything": false,
+        "is_legacy_run": true,
+        "generation": {
+          "status": "absent",
+          "poses_produced": 0,
+          "top_affinity": -5.5,
+          "affinity_gap": null,
+          "engine": null,
+          "vina_version": null,
+          "seed": null,
+          "parsing_source": null,
+          "receptor_sha256": null,
+          "receptor_source": null,
+          "conformers": null,
+          "conformers_requested": null,
+          "restarts": null,
+          "provenance_present": 0,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "unavailable",
+          "vina_top1_rank": null,
+          "suggested_rank": null,
+          "would_have_suggested_rank": null,
+          "confidence": null,
+          "abstention_threshold": null,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": true,
+          "diverges_from_vina_top1": false,
+          "model_name": null,
+          "model_version": null,
+          "model_sha256": null,
+          "detail": null,
+          "warnings": [],
+          "pose_scores": []
+        },
+        "physical": {
+          "status": "absent",
+          "stage_status": "not_evaluated",
+          "poses_produced": 0,
+          "poses_evaluated": 0,
+          "engine": null,
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": null,
+          "poses": [],
+          "suggested_pose_status": null,
+          "needs_review": false
+        },
+        "decision": {
+          "established": [],
+          "uncertainties": [
+            "no_physical_validation",
+            "selector_unavailable",
+            "incomplete_provenance",
+            "no_seed"
+          ],
+          "alternatives": [],
+          "next_step": "abstain"
+        },
+        "comparison": []
+      }
+    },
+    {
+      "name": "poses_desordenadas",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          },
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "motores_de_validacion_varios",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": [
+            "posebusters:1.0:dock",
+            "rdkit:2025.09"
+          ],
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock · rdkit:2025.09",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "estado_de_etapa_desconocido",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "raro",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "absent",
+          "stage_status": "not_evaluated",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "review"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "rangos_sin_pose_en_los_controles",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "review",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 1,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 3,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": null,
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 3,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "review",
+          "stage_status": "review",
+          "poses_produced": 3,
+          "poses_evaluated": 1,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": null,
+          "needs_review": true
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "partial_coverage",
+            "suggested_pose_not_passed",
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "review"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.52,
+            "physical_status": "not_evaluated",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": false
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "not_evaluated",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": false
+          }
+        ]
+      }
+    },
+    {
+      "name": "afinidad_no_finita_se_ignora",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": null
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 2.2,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": 0.11
+            },
+            {
+              "rank": 2,
+              "score": 0.52
+            },
+            {
+              "rank": 3,
+              "score": 0.09
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": 0.11,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": 0.09,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "puntajes_incompletos",
+      "result": {
+        "affinity_kcal": -8.3,
+        "docking_poses": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "rmsd_lb": 0,
+            "rmsd_ub": 0
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "rmsd_lb": 1.1,
+            "rmsd_ub": 1.4
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "rmsd_lb": 2.1,
+            "rmsd_ub": 2.8
+          }
+        ],
+        "vina_version": "1.2.5",
+        "vina_random_seed": 42,
+        "parsing_source": "sdf",
+        "engine_used": "vina",
+        "scientific_warnings": [],
+        "structural_evidence": {
+          "version_schema": 1,
+          "stage_status": "passed",
+          "reason_code": null,
+          "detail": null,
+          "pose_strategy": "vina_top1",
+          "primary_pose_rank": 1,
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "coverage": 1,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "validation_engine": "posebusters:1.0:dock",
+          "evaluated_at": "2026-08-24T10:00:00+00:00",
+          "poses": [
+            {
+              "rank": 1,
+              "observed_vina_affinity_kcal_mol": -8.3,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "observed_vina_affinity_kcal_mol": -7.9,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "observed_vina_affinity_kcal_mol": -6.1,
+              "status": "passed",
+              "label": null,
+              "engine": "posebusters:1.0:dock",
+              "checks": [
+                {
+                  "check": "sanitization",
+                  "estado": "PASA"
+                },
+                {
+                  "check": "internal_energy",
+                  "estado": "PASA"
+                }
+              ],
+              "checks_que_fallan": [],
+              "detail": null,
+              "reason_code": null
+            }
+          ]
+        },
+        "pose_selection": {
+          "version_schema": 1,
+          "contract": "pose_selection/v1",
+          "status": "selected",
+          "strategy": "pose_selector_v06",
+          "strategy_is_fallback": false,
+          "vina_top1_rank": 1,
+          "selected_pose_rank": 2,
+          "confidence": 0.412233,
+          "abstained": false,
+          "abstention_reason": null,
+          "detail": "El selector recomienda la pose 2.",
+          "pose_scores": [
+            {
+              "rank": 1,
+              "score": null
+            },
+            {
+              "rank": 2,
+              "score": 0.5
+            },
+            {
+              "rank": null,
+              "score": 0.7
+            }
+          ],
+          "model": {
+            "name": "pose_selector_v06",
+            "version": "pose_selector_v06",
+            "model_path": "pose_selector_v06.xgb",
+            "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "meta_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "abstention_threshold": 0.097663
+          },
+          "warnings": [],
+          "suggested_pose_physical_status": "passed",
+          "physical_review": false,
+          "physically_valid_alternatives": [],
+          "evaluated_at": "2026-08-24T10:00:00+00:00"
+        },
+        "docking_protocol": {
+          "conformers_generated": 8,
+          "conformers_requested": 10
+        }
+      },
+      "expected": {
+        "has_anything": true,
+        "is_legacy_run": false,
+        "generation": {
+          "status": "ok",
+          "poses_produced": 3,
+          "top_affinity": -8.3,
+          "affinity_gap": 0.4,
+          "engine": "vina",
+          "vina_version": "1.2.5",
+          "seed": 42,
+          "parsing_source": "sdf",
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receptor_source": "targets/7E2Y/prepared.pdbqt",
+          "conformers": 8,
+          "conformers_requested": 10,
+          "restarts": null,
+          "provenance_present": 3,
+          "provenance_total": 3
+        },
+        "selection": {
+          "status": "selected",
+          "vina_top1_rank": 1,
+          "suggested_rank": 2,
+          "would_have_suggested_rank": null,
+          "confidence": 0.412233,
+          "abstention_threshold": 0.097663,
+          "abstained": false,
+          "abstention_reason": null,
+          "is_fallback": false,
+          "diverges_from_vina_top1": true,
+          "model_name": "pose_selector_v06",
+          "model_version": "pose_selector_v06",
+          "model_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "detail": "El selector recomienda la pose 2.",
+          "warnings": [],
+          "pose_scores": [
+            {
+              "rank": 2,
+              "score": 0.5
+            }
+          ]
+        },
+        "physical": {
+          "status": "ok",
+          "stage_status": "passed",
+          "poses_produced": 3,
+          "poses_evaluated": 3,
+          "engine": "posebusters:1.0:dock",
+          "reason_code": null,
+          "detail": null,
+          "receptor_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "poses": [
+            {
+              "rank": 1,
+              "status": "passed",
+              "affinity": -8.3,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 2,
+              "status": "passed",
+              "affinity": -7.9,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            },
+            {
+              "rank": 3,
+              "status": "passed",
+              "affinity": -6.1,
+              "engine": "posebusters:1.0:dock",
+              "failing_checks": [],
+              "passed_count": 2,
+              "failed_count": 0,
+              "not_evaluated_count": 0,
+              "detail": null,
+              "reason_code": null
+            }
+          ],
+          "suggested_pose_status": "passed",
+          "needs_review": false
+        },
+        "decision": {
+          "established": [
+            "poses_generated",
+            "physical_checks_run",
+            "selector_ran",
+            "provenance_sealed"
+          ],
+          "uncertainties": [
+            "selection_diverges",
+            "near_tie"
+          ],
+          "alternatives": [],
+          "next_step": "proceed_within_protocol"
+        },
+        "comparison": [
+          {
+            "rank": 1,
+            "affinity": -8.3,
+            "selector_score": null,
+            "physical_status": "passed",
+            "is_vina_top1": true,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 2,
+            "affinity": -7.9,
+            "selector_score": 0.5,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": true,
+            "is_alternative": false,
+            "physically_valid": true
+          },
+          {
+            "rank": 3,
+            "affinity": -6.1,
+            "selector_score": null,
+            "physical_status": "passed",
+            "is_vina_top1": false,
+            "is_suggested": false,
+            "is_alternative": false,
+            "physically_valid": true
+          }
+        ]
+      }
+    }
+  ]
+}

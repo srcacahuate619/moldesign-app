@@ -29,6 +29,9 @@ class MoleculeRecord:
     verified_values: set[float] = field(default_factory=set)
     methods: dict[str, str] = field(default_factory=dict)
     warnings: list[str] = field(default_factory=list)
+    #: The same descriptors under the definitions other sources use, as real calculations with their method.
+    #: They never replace ``props``; they let a difference with a public source be checked, not assumed.
+    variants: list[dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         for value in self.props.values():
@@ -36,6 +39,25 @@ class MoleculeRecord:
                 continue
             if isinstance(value, (int, float)):
                 self.verified_values.add(float(value))
+
+
+def clean_variants(raw: Any) -> list[dict[str, Any]]:
+    """Keep the variants MolDesign declares well; one malformed entry is dropped, never repaired."""
+    if not isinstance(raw, list):
+        return []
+    clean: list[dict[str, Any]] = []
+    for item in raw[:8]:
+        if not isinstance(item, dict):
+            continue
+        name, applies_to, method, unit = item.get('name'), item.get('applies_to'), item.get('method'), item.get('unit')
+        value = item.get('value')
+        if (not isinstance(name, str) or not 0 < len(name) <= 60 or not isinstance(applies_to, str) or not 0 < len(applies_to) <= 20
+                or not isinstance(method, str) or not 0 < len(method) <= 400 or isinstance(value, bool)
+                or not isinstance(value, (int, float)) or not math.isfinite(value)
+                or not (unit is None or (isinstance(unit, str) and len(unit) <= 10))):
+            continue
+        clean.append({'name': name, 'applies_to': applies_to, 'value': value, 'method': method, 'unit': unit})
+    return clean
 
 
 class ToolBackend(Protocol):
@@ -102,7 +124,7 @@ class PlatformBackend:
                 methods = {}
             return MoleculeRecord(name=canonical, smiles=canonical,
                                   props={k: props[k] for k in keys}, source=source,
-                                  methods=methods, warnings=warnings)
+                                  methods=methods, warnings=warnings, variants=clean_variants(result.get('variants')))
         except (httpx.RequestError, ValueError) as exc:
             raise ToolError("No se pudo verificar o consultar MolDesign") from exc
 

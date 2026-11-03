@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **139**
-- Operaciones HTTP: **147**
+- Paths: **140**
+- Operaciones HTTP: **148**
 - Versión declarada: `1.0.4`
-- SHA-256: `82fd722fc4e05d3e712e3f07bd8a197321f6d329e9929609e83ee101724025c7`
+- SHA-256: `b25c09169d13165903eaf4b93071b9ae61815399ee55223fd2009d14bf45767b`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -83,6 +83,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/evaluation/files/protein/{molecule_id}` | `get_protein_file_evaluation_files_protein__molecule_id__get` | Descargar receptor preparado de una corrida | Evaluación científica, Evaluación científica |
 | `GET` | `/evaluation/gnn-attention/{molecule_id}` | `get_gnn_attention_evaluation_gnn_attention__molecule_id__get` | Leer SVG de atención GNN on-demand (UI-7, fuera del polling) | Evaluación científica |
 | `GET` | `/evaluation/interactions/{molecule_id}` | `get_interactions_evaluation_interactions__molecule_id__get` | Get Interactions | Interaction Analysis |
+| `GET` | `/evaluation/pose-comparison/{task_id}` | `get_pose_comparison_evaluation_pose_comparison__task_id__get` | Comparar dos poses de una corrida con su evidencia estructural | Evaluación científica |
 | `POST` | `/evaluation/preflight` | `evaluation_preflight_evaluation_preflight_post` | Comprobación previa factual de una corrida (no ejecuta docking) | Evaluación científica |
 | `GET` | `/evaluation/result/{molecule_id}` | `get_evaluation_result_evaluation_result__molecule_id__get` | Leer resultado persistido de una molécula | Evaluación científica |
 | `GET` | `/evaluation/status/{task_id}` | `get_evaluation_status_evaluation_status__task_id__get` | Consultar estado de un job de evaluación | Evaluación científica |

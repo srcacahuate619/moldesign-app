@@ -374,6 +374,37 @@ def _calc_sa_score(mol: Mol) -> tuple[float, list[str]]:
         return 5.0, ["Error interno en cálculo de SA"]
 
 
+# ── Variantes de referencia ───────────────────────────────────────────────────
+
+def calculate_reference_variants(smiles: str) -> list[dict]:
+    """
+    Los mismos descriptores con las definiciones que usan otras fuentes públicas.
+
+    `properties.tpsa` y `properties.hba` son los del producto (Ertl con N y O solamente, y todos los N y O) y no
+    cambian: los umbrales de Lipinski y Veber se calibraron con ellos. Pero PubChem publica otra TPSA (con S y P)
+    y otro recuento de aceptores, y dos cifras distintas sin explicación parecen una contradicción. Estas variantes
+    son cálculos reales de RDKit sobre la misma molécula, con su método declarado, para que quien compare pueda
+    comprobar si la diferencia es sólo de definición. No sustituyen a las del producto.
+    """
+    mol = Chem.MolFromSmiles(smiles)
+    if mol is None:
+        return []
+    return [
+        {
+            "name": "tpsa_incl_s_p", "applies_to": "tpsa", "unit": "Å²",
+            "value": round(rdMolDescriptors.CalcTPSA(mol, includeSandP=True), 2),
+            "method": "RDKit rdMolDescriptors.CalcTPSA(mol, includeSandP=True): suma también las contribuciones "
+                      "del azufre y el fósforo (Ertl 2000)",
+        },
+        {
+            "name": "hba_rdkit_num_h_acceptors", "applies_to": "hba", "unit": None,
+            "value": rdMolDescriptors.CalcNumHBA(mol),
+            "method": "RDKit rdMolDescriptors.CalcNumHBA: aceptores de enlace de hidrógeno según los patrones "
+                      "SMARTS de RDKit (no es el recuento de todos los N y O)",
+        },
+    ]
+
+
 # ── Función principal ─────────────────────────────────────────────────────────
 
 def calculate_properties(smiles: str, run_admet_ai: bool = True) -> PhysicochemicalProperties:

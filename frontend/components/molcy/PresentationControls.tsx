@@ -7,9 +7,11 @@ import type { MolcyPresentacion, MolcyEscena } from "@/lib/molcy";
 export const AUTO_PRESENTATION: MolcyPresentacion = { schema: "moldesign.presentacion/1", titulo: null, color_receptor: null, color_residuos: null, colores_lineas: { polar: null, apolar: null }, receptor: "automatico", muestra_anterior: true, etiquetas: true, contactos: true };
 export type EnsembleVariant = "referencia" | "lenta" | "detallada";
 
-export function PresentationControls({ value, onChange, scene, disabled, ensembleVariant, onEnsembleVariant }: {
+export function PresentationControls({ value, onChange, scene, disabled, ensembleVariant, onEnsembleVariant, abierto }: {
   value: MolcyPresentacion; onChange: (value: MolcyPresentacion) => void; scene: MolcyEscena; disabled: boolean;
   ensembleVariant: EnsembleVariant; onEnsembleVariant: (value: EnsembleVariant) => void;
+  /** Abre el panel cuando el chat aplica una presentación, para que se vea qué cambia. */
+  abierto?: boolean;
 }) {
   const { t } = useLanguage();
   const uid = useId();
@@ -20,7 +22,7 @@ export function PresentationControls({ value, onChange, scene, disabled, ensembl
       <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" checked={current === null} onChange={e => next(e.target.checked ? null : "#A78BFA")} disabled={disabled}/>{t("cy_pres_automatic")}</label>{current && <span className="font-mono text-sm text-[var(--text-muted)]">{current}</span>}
     </div>
   </fieldset>;
-  return <details className="mt-6 border-t border-[var(--border)] pt-3">
+  return <details className="mt-6 border-t border-[var(--border)] pt-3" open={abierto || undefined}>
     <summary className="min-h-12 cursor-pointer py-3 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]">{t("cy_pres_customize_presentation")}</summary>
     <p className="mb-4 text-sm leading-6 text-[var(--text-muted)]">{t("cy_pres_visual_changes_are_saved_with_this_job_the_scientifi")}</p>
     <fieldset disabled={disabled} className="min-w-0 space-y-4 disabled:opacity-60">

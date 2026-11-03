@@ -108,13 +108,13 @@
     },
     {
       "bytes": 381,
-      "ficheros": 69,
+      "ficheros": 82,
       "invocacion": "subproceso Python con bootstrap de src vendorizado en loopback; programa independiente",
       "licencia": "GPL-3.0-or-later",
       "licencia_origen": "tools/molchat/molchat-manifest.json",
       "nombre": "__main__.py",
       "procedencia": {
-        "commit": "e21a093cfb0dee1cad08d6fc084cac2be93dfdbf",
+        "commit": "945c4d7a79dcc0480b6d109e4c13885b1e2f508b",
         "proyecto": "moldesign-molchat",
         "rama": "master",
         "repositorio": "https://github.com/srcacahuate619/moldesign-molchat"
@@ -122,7 +122,7 @@
       "programa": "MolChat (asistente de laboratorio de MolDesign)",
       "ruta": "tools/molchat/src/molchat_agent/__main__.py",
       "sha256": "3be72ae355fb6bc5f180778033398acc9a37148b99405e06a688022bb2fb3d47",
-      "sha256_conjunto": "c1e11d9e447be17fda501e8a3d62f73bbde1bd4f43b13437d68d397c74dda8ef",
+      "sha256_conjunto": "7890fdd475bffae16579ad162ae642827042a0ec38cc183fd73307f73725e2c6",
       "version": "0.1.0"
     }
   ],
@@ -321,13 +321,13 @@
       },
       {
         "bytes": 381,
-        "ficheros": 69,
+        "ficheros": 82,
         "invocacion": "subproceso Python con bootstrap de src vendorizado en loopback; programa independiente",
         "licencia": "GPL-3.0-or-later",
         "licencia_origen": "tools/molchat/molchat-manifest.json",
         "nombre": "__main__.py",
         "procedencia": {
-          "commit": "e21a093cfb0dee1cad08d6fc084cac2be93dfdbf",
+          "commit": "945c4d7a79dcc0480b6d109e4c13885b1e2f508b",
           "proyecto": "moldesign-molchat",
           "rama": "master",
           "repositorio": "https://github.com/srcacahuate619/moldesign-molchat"
@@ -335,7 +335,7 @@
         "programa": "MolChat (asistente de laboratorio de MolDesign)",
         "ruta": "tools/molchat/src/molchat_agent/__main__.py",
         "sha256": "3be72ae355fb6bc5f180778033398acc9a37148b99405e06a688022bb2fb3d47",
-        "sha256_conjunto": "c1e11d9e447be17fda501e8a3d62f73bbde1bd4f43b13437d68d397c74dda8ef",
+        "sha256_conjunto": "7890fdd475bffae16579ad162ae642827042a0ec38cc183fd73307f73725e2c6",
         "version": "0.1.0"
       }
     ],

@@ -8,6 +8,11 @@ returns a pending approval the researcher must confirm by digest. The next
 iteration only starts when the driver calls again — "continue" is a human
 act, not a loop. The session file is an *expediente*, never a MolDesign
 case (CR-02 pending, declared).
+
+This module stays human-gated on purpose. The one path that runs without a
+person between steps is ``workflows/iteration.py``, and it is autonomous only
+inside a plan the person approved once, bound to the plan's digest, with its
+stop rule and budgets written before the first molecule (docs/ITERACION_DE_MOLECULAS.md).
 """
 
 from __future__ import annotations

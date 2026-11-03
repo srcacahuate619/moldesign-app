@@ -502,6 +502,35 @@ export function CaseWorkspace() {
     return () => window.removeEventListener("molchat-load-smiles", recibir);
   }, [ownerUserId, repository, selectCase, setActiveView]);
 
+  // Pregunta de sólo lectura del asistente: ¿puede este caso recibir otra molécula? Contesta con las mismas señales
+  // que deciden «busy» al cargar, más el estado de la corrida persistida, para que el asistente espere a que la
+  // corrida anterior cierre en lugar de adivinarlo probando a cargar.
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<{ caseName: string; owner: string; handled: boolean;
+        respond: (result: { status: string; run_state?: string; task_id?: string }) => void }>).detail;
+      if (!detalle || typeof detalle.respond !== "function") return;
+      detalle.handled = true;
+      if (detalle.owner !== ownerUserId) { detalle.respond({ status: "failed" }); return; }
+      void (async () => {
+        try {
+          const normalizar = (name: string) => name.normalize("NFC").trim().toLocaleLowerCase();
+          const encontrados = (await repository.listCases()).filter((c) =>
+            (!c.ownerUserId || c.ownerUserId === detalle.owner) && normalizar(c.name) === normalizar(detalle.caseName));
+          if (encontrados.length === 0) { detalle.respond({ status: "not_found" }); return; }
+          if (encontrados.length > 1) { detalle.respond({ status: "ambiguous" }); return; }
+          const state = navigationState.current;
+          const ocupado = state.hasLiveWork || cargandoSmiles.current || asignandoReceptor.current || evaluandoDesdeChat.current;
+          const corrida = state.activeCase?.id === encontrados[0].id ? state.activeCase.activeRun : undefined;
+          detalle.respond({ status: ocupado ? "busy" : "idle",
+            ...(corrida ? { run_state: corrida.executionState, task_id: corrida.taskId } : {}) });
+        } catch { detalle.respond({ status: "failed" }); }
+      })();
+    };
+    window.addEventListener("molchat-case-status", recibir);
+    return () => window.removeEventListener("molchat-case-status", recibir);
+  }, [ownerUserId, repository]);
+
   useEffect(() => {
     const recibir = (evento: Event) => {
       const detalle = (evento as CustomEvent<{ caseName: string; operation: string; revision: string; owner: string; deadline: number;

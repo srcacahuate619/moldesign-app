@@ -12,6 +12,7 @@ from __future__ import annotations
 import asyncio
 import hashlib
 import json
+import math
 import re
 import time
 import uuid
@@ -34,7 +35,21 @@ from ..conversation.intents import classify
 from ..conversation.tool_loop import Tool, run_tool_loop
 from ..conversation.structure_check import compare_editor_structure
 from ..conversation.harness_tools import assign_case_receptor_tool, create_case_tool, evaluate_case_tool, evaluation_status_tool, load_case_smiles_tool, properties_tool, pubchem_tool, receptor_catalog_tool, random_receptor_tool
-from ..conversation.evidence import context_literals, numbers_in, redact_unverified, split_flow, VERIFICATION_NOTE
+from ..conversation.evidence import context_literals, numbers_in, numeric_leaves, redact_unverified, split_flow, VERIFICATION_NOTE
+from ..conversation.compare_poses import (COMPARE_GUIDANCE, compare_poses_tool, comparison_limits,
+                                          evidence_values as comparison_evidence)
+from ..conversation.explain_evaluation import EXPLAIN_GUIDANCE, declared_limits, evidence_values, explain_evaluation_tool
+from ..conversation.property_methods import property_difference_notes
+from ..conversation.product_actions import (ACTIONS_GUIDANCE, Proposal, mask_unconfirmed_actions, molcy_video_status_tool,
+                                            molcy_video_tool, new_proposal, outcome_text, proposal_answer, run_proposal,
+                                            save_to_moldex_tool, view as proposal_view)
+from ..lang import tr, using, valid as valid_lang
+from ..workflows.notebook import now_iso
+from ..workflows.run_record import molecule_source
+from ..workflows.service import (HostRelay, PlatformHttp, WorkflowProposal, complete_video, execute as execute_workflow, new_workflow,
+                                 video_pending,
+                                 workflow_answer, workflow_outcome_text)
+from ..workflows.tool import ITERATION_GUIDANCE, propose_iteration_tool
 from ..conversation.tools import PlatformBackend
 from ..plan import Plan
 from ..providers.base import ProviderDisabled, ProviderError
@@ -50,6 +65,7 @@ CONTRACT = "moldesign.molchat/1"
 
 MAX_JSON_BODY = 1_000_000
 MAX_CHAT_TEXT = 8000
+MAX_KEPT_LOOKUPS = 40  # PubChem lookups kept per turn in the conversation (a plan has at most 12 molecules)
 MAX_MESSAGES_PER_CONVERSATION = 200
 EXEC_SNAPSHOT_S = 0.5
 EXEC_SNAPSHOT_LIMIT = 720  # 6 minutes of snapshots, then the stream closes
@@ -209,6 +225,7 @@ def create_app(state: ServerState, *, allowed_hosts: tuple[str, ...] | None = No
         conv_id = payload.get("conversation_id")
         if conv_id is not None and not isinstance(conv_id, str):
             return _error(400, "conversation_id no válido")
+        lang = valid_lang(payload.get("lang"))  # the language MolDesign shows; Spanish when the interface sent none
         registro = await state.registro_de_turno(platform_token(request))
         engine = state.engine_for(session.sub, platform_token(request), registro)
         if conv_id is None:
@@ -217,6 +234,11 @@ def create_app(state: ServerState, *, allowed_hosts: tuple[str, ...] | None = No
             return _error(404, "conversación no encontrada")
 
         async def stream() -> AsyncIterator[bytes]:
+            with using(lang):
+                async for chunk in turn_stream():
+                    yield chunk
+
+        async def turn_stream() -> AsyncIterator[bytes]:
             yield encode_event({"type": "conversation", "id": conv_id})
             try:
                 if state.hosted and registro.active_id and not registro.block_reason(registro.active_id):
@@ -343,6 +365,65 @@ def create_app(state: ServerState, *, allowed_hosts: tuple[str, ...] | None = No
         pending[1].set_result(payload)
         return JSONResponse({"accepted": True})
 
+    async def preparation_result(request: Request) -> JSONResponse:
+        """The window's answer to «audit this run in Preparación»: the case projection it built, or why it could not."""
+        session = await need_chat(request)
+        pending = state.preparation_requests.get(request.path_params["request_id"])
+        if pending is None or pending[0] != session.sub or pending[1].done():
+            return _error(404, "solicitud no encontrada")
+        payload = await read_json(request)
+        problems = {"case_not_found", "case_mismatch", "not_auditable", "audit_failed", "busy", "failed", "unknown"}
+        if not isinstance(payload, dict) or payload.get("status") not in problems | {"audited"}:
+            return _error(400, "resultado no válido")
+        if payload["status"] == "audited":
+            projection = payload.get("projection")
+            if (set(payload) != {"status", "molecule_id", "estado", "projection"} or not isinstance(projection, dict)
+                    or not isinstance(payload["molecule_id"], str) or not re.fullmatch(r"[A-Za-z0-9_.:-]{1,128}", payload["molecule_id"])
+                    or payload["estado"] not in {"BLOQUEADO", "REVISION", "TRANSFERIBLE"}):
+                return _error(400, "resultado no válido")
+        else:
+            reason = payload.get("reason")
+            if set(payload) - {"status", "reason"} or (reason is not None and (
+                    not isinstance(reason, str) or len(reason) > 300 or any(ord(ch) < 32 for ch in reason))):
+                return _error(400, "resultado no válido")
+        pending[1].set_result(payload)
+        return JSONResponse({"accepted": True})
+
+    async def case_status_result(request: Request) -> JSONResponse:
+        """The window's answer to «can this case take another molecule?». Read-only on its side; closed vocabulary here."""
+        session = await need_chat(request)
+        pending = state.case_status_requests.get(request.path_params["request_id"])
+        if pending is None or pending[0] != session.sub or pending[1].done():
+            return _error(404, "solicitud no encontrada")
+        payload = await read_json(request)
+        if (not isinstance(payload, dict) or set(payload) - {"status", "run_state", "task_id"}
+                or payload.get("status") not in {"idle", "busy", "not_found", "ambiguous", "failed", "unknown"}
+                or ("run_state" in payload and not (isinstance(payload["run_state"], str) and re.fullmatch(r"[a-z_]{1,32}", payload["run_state"])))
+                or ("task_id" in payload and not (isinstance(payload["task_id"], str) and re.fullmatch(r"[A-Za-z0-9_.:-]{1,128}", payload["task_id"])))):
+            return _error(400, "resultado no válido")
+        pending[1].set_result(payload)
+        return JSONResponse({"accepted": True})
+
+    async def molcy_result(request: Request) -> JSONResponse:
+        """The Molcy tab's answer: the job it started from its own button, or why it could not."""
+        session = await need_chat(request)
+        pending = state.molcy_requests.get(request.path_params["request_id"])
+        if pending is None or pending[0] != session.sub or pending[1].done():
+            return _error(404, "solicitud no encontrada")
+        payload = await read_json(request)
+        if not isinstance(payload, dict) or payload.get("status") not in {"started", "not_found", "unavailable", "busy", "failed", "unknown"}:
+            return _error(400, "resultado no válido")
+        if payload["status"] == "started":
+            if set(payload) != {"status", "job_id"} or not (isinstance(payload["job_id"], str) and re.fullmatch(r"[A-Za-z0-9-]{8,64}", payload["job_id"])):
+                return _error(400, "resultado no válido")
+        else:
+            reason = payload.get("reason")
+            if set(payload) - {"status", "reason"} or (reason is not None and (
+                    not isinstance(reason, str) or len(reason) > 300 or any(ord(ch) < 32 for ch in reason))):
+                return _error(400, "resultado no válido")
+        pending[1].set_result(payload)
+        return JSONResponse({"accepted": True})
+
     async def editor_result(request: Request) -> JSONResponse:
         session = await need_chat(request)
         pending = state.editor_requests.get(request.path_params["request_id"])
@@ -359,6 +440,192 @@ def create_app(state: ServerState, *, allowed_hosts: tuple[str, ...] | None = No
             return _error(400, "revisión no válida")
         pending[1].set_result(payload)
         return JSONResponse({"accepted": True})
+
+    def find_proposal(request: Request, session: Session) -> Proposal | None:
+        proposal = state.proposals.get(request.path_params["action_id"])
+        if proposal is None or proposal.owner != session.sub:
+            return None
+        if proposal.state == "pending" and proposal.expires < time.monotonic():
+            state.proposals.pop(proposal.id, None)
+            return None
+        return proposal
+
+    def record_outcome(proposal: Proposal) -> None:
+        """Keep the resolved action in the conversation, so the next turn reads what really happened."""
+        if proposal.conv_id is None or proposal.outcome is None:
+            return
+        try:
+            state.memory.add_message(proposal.conv_id, proposal.owner, "assistant", outcome_text(proposal, proposal.outcome))
+        except (ConversationNotFound, PersistenciaFallida):
+            pass
+
+    async def action_confirm(request: Request) -> JSONResponse:
+        """The person's click. The model has no route to this endpoint: only the interface calls it."""
+        session = await need_chat(request)
+        proposal = find_proposal(request, session)
+        if proposal is None:
+            return _error(404, "propuesta no encontrada o caducada")
+        if proposal.state == "running":
+            return _error(409, "la propuesta ya se está ejecutando")
+        if proposal.state != "pending":  # a second click returns what happened, it does not repeat it
+            return JSONResponse({"id": proposal.id, "state": proposal.state, "outcome": proposal.outcome})
+        if not state.hosted or state.bridge is None:
+            return _error(409, "se necesita MolDesign para ejecutar esta acción")
+        proposal.state = "running"
+        outcome: dict[str, Any] | None = None
+        try:
+            outcome = await run_proposal(state.bridge.with_token(platform_token(request)), proposal)
+        except Exception:  # noqa: BLE001 - the card must end with an honest status, never hang
+            outcome = None
+        finally:
+            # Also when the interface hung up mid-call: MolDesign may or may not have acted.
+            if outcome is None:
+                outcome = {"status": "unknown", "message": "No se pudo confirmar el resultado; revisa Moldex y Molcy antes de reintentar."}
+            proposal.outcome, proposal.state = outcome, "done"
+            record_outcome(proposal)
+        return JSONResponse({"id": proposal.id, "state": proposal.state, "outcome": outcome})
+
+    async def action_cancel(request: Request) -> JSONResponse:
+        session = await need_chat(request)
+        proposal = find_proposal(request, session)
+        if proposal is None:
+            return _error(404, "propuesta no encontrada o caducada")
+        if proposal.state == "pending":
+            proposal.state, proposal.outcome = "cancelled", {"status": "cancelled", "message": "Cancelado; no se hizo nada."}
+            record_outcome(proposal)
+        return JSONResponse({"id": proposal.id, "state": proposal.state, "outcome": proposal.outcome})
+
+    # ── Iterations: one approval, then the plan runs by itself ──────────────────────────────────────
+    workflow_tasks: dict[str, asyncio.Task[None]] = {}
+    video_tasks: set[asyncio.Task[None]] = set()  # renders followed after the plan ended; kept so they are not collected
+
+    def find_workflow(request: Request, session: Session) -> WorkflowProposal | None:
+        workflow = state.workflows.get(request.path_params["workflow_id"])
+        if workflow is None or workflow.owner != session.sub:
+            return None
+        if workflow.state == "pending" and workflow.expires < time.monotonic():
+            state.workflows.pop(workflow.id, None)
+            return None
+        return workflow
+
+    def workflow_state(workflow: WorkflowProposal) -> dict[str, Any]:
+        return {"id": workflow.id, "state": workflow.state, "digest": workflow.spec.digest, "summary": workflow.summary}
+
+    def remember_workflow(workflow: WorkflowProposal) -> None:
+        """Keep the plan's real outcome in the conversation, so the next turn reads what happened."""
+        if workflow.conv_id is None:
+            return
+        numbers: list[float] = []
+        if workflow.outcome is not None:
+            numbers = [r.affinity_kcal for r in workflow.outcome.records if r.affinity_kcal is not None]
+            numbers += [float(workflow.spec.threshold_kcal), abs(float(workflow.spec.threshold_kcal)), float(len(workflow.spec.molecules))]
+        text = workflow_outcome_text(workflow) if workflow.summary and workflow.summary.get("counts") is not None else tr(
+            "Iteración interrumpida: no se pudo confirmar todo lo que ocurrió; revisa MolDesign antes de repetirlo.",
+            "Iteration interrupted: not everything that happened could be confirmed; check MolDesign before repeating it.")
+        try:
+            state.memory.add_message(workflow.conv_id, workflow.owner, "assistant", text, verified_numbers=sorted(numbers)[:200])
+        except (ConversationNotFound, PersistenciaFallida):
+            pass
+
+    async def run_workflow(workflow: WorkflowProposal, relay: HostRelay, platform: PlatformHttp,
+                           queue: "asyncio.Queue[dict[str, Any]]") -> None:
+        # The plan speaks the language it was proposed in, also the render followed after it (a task copies the context).
+        with using(workflow.lang):
+            await _run_workflow(workflow, relay, platform, queue)
+
+    async def _run_workflow(workflow: WorkflowProposal, relay: HostRelay, platform: PlatformHttp,
+                            queue: "asyncio.Queue[dict[str, Any]]") -> None:
+        def emit(event: dict[str, Any]) -> None:
+            queue.put_nowait(event)
+
+        try:
+            preparation = state.preparation(platform, relay) if callable(state.preparation) else None
+            await execute_workflow(workflow, relay, platform, emit, preparation=preparation, output_dir=state.output_dir)
+            if video_pending(workflow.outcome):
+                # The render goes on in Molcy; the plan does not wait for it. This follows it and rewrites the delivery
+                # with the MP4 when it ends. It needs no window: only MolDesign's backend, with the account's session.
+                follow = asyncio.create_task(complete_video(workflow, platform, output_dir=state.output_dir))
+                video_tasks.add(follow)
+                follow.add_done_callback(video_tasks.discard)
+        except asyncio.CancelledError:
+            workflow.state = "cancelled"
+            workflow.summary = {"state": "interrupted", "counts": None,
+                                "notes": [tr("Se interrumpió antes de terminar.", "It was interrupted before finishing.")]}
+            raise
+        except Exception:  # noqa: BLE001 - the plan must end with an honest status, never hang the card
+            workflow.summary = {"state": "failed", "counts": None,
+                                "notes": [tr("El plan terminó con un error interno; revisa MolDesign antes de repetirlo.",
+                                             "The plan ended with an internal error; check MolDesign before repeating it.")]}
+            emit({"type": "workflow", "event": "done", "summary": workflow.summary})
+        finally:
+            if workflow.state == "running":
+                workflow.state = "done"
+            remember_workflow(workflow)
+            workflow_tasks.pop(workflow.id, None)
+
+    async def workflow_run(request: Request) -> Response:
+        """The person's click. The model has no route to this endpoint: only the interface calls it."""
+        session = await need_chat(request)
+        workflow = find_workflow(request, session)
+        if workflow is None:
+            return _error(404, "plan no encontrado o caducado")
+        payload = await read_json(request)
+        if not isinstance(payload, dict) or payload.get("digest") != workflow.spec.digest:
+            return _error(409, "la huella del plan no coincide con la que se aprobó: no se ejecuta")
+        if workflow.state != "pending":  # a second click returns what happened, it does not run it again
+            return JSONResponse(workflow_state(workflow))
+        if not state.hosted or state.bridge is None:
+            return _error(409, "se necesita MolDesign para ejecutar este plan")
+        workflow.state, workflow.approved_at = "running", now_iso()
+        queue: asyncio.Queue[dict[str, Any]] = asyncio.Queue()
+        platform = PlatformHttp(state.bridge.with_token(platform_token(request)))
+        task = asyncio.create_task(run_workflow(workflow, HostRelay(state, session.sub, queue), platform, queue))
+        workflow_tasks[workflow.id] = task
+
+        async def stream() -> AsyncIterator[bytes]:
+            yield encode_event({"type": "workflow", "event": "approved", "id": workflow.id, "digest": workflow.spec.digest})
+            try:
+                while not (task.done() and queue.empty()):
+                    try:
+                        event = await asyncio.wait_for(queue.get(), timeout=0.5)
+                    except asyncio.TimeoutError:
+                        continue
+                    yield encode_event(event)
+            finally:
+                if not task.done():
+                    task.cancel()  # the window that carries out the host's actions went away: stop honestly
+
+        return StreamingResponse(stream(), media_type="text/event-stream", headers=dict(SSE_HEADERS))
+
+    async def workflow_get(request: Request) -> JSONResponse:
+        session = await need_chat(request)
+        workflow = find_workflow(request, session)
+        if workflow is None:
+            return _error(404, "plan no encontrado o caducado")
+        return JSONResponse({**workflow_state(workflow), "view": workflow.view()})
+
+    async def workflow_cancel(request: Request) -> JSONResponse:
+        session = await need_chat(request)
+        workflow = find_workflow(request, session)
+        if workflow is None:
+            return _error(404, "plan no encontrado o caducado")
+        if workflow.state == "pending":
+            workflow.state = "cancelled"
+            workflow.summary = {"state": "cancelled", "counts": None, "notes": ["Cancelado antes de empezar; no se hizo nada."]}
+        elif workflow.state == "running" and workflow.id in workflow_tasks:
+            workflow_tasks[workflow.id].cancel()
+        return JSONResponse(workflow_state(workflow))
+
+    async def workflow_file(request: Request) -> Response:
+        session = await need_chat(request)
+        workflow = find_workflow(request, session)
+        name = request.path_params["name"]
+        if workflow is None or name not in workflow.files:
+            return _error(404, "archivo no encontrado")
+        media = {"pdf": "application/pdf", "zip": "application/zip", "md": "text/markdown; charset=utf-8",
+                 "json": "application/json"}.get(name.rsplit(".", 1)[-1], "application/octet-stream")
+        return Response(workflow.files[name], media_type=media,
+                        headers={"Content-Disposition": f'attachment; filename="{name}"', "Cache-Control": "no-store"})
 
     async def list_harness_jobs(request: Request) -> JSONResponse:
         session = await need_chat(request)
@@ -614,6 +881,15 @@ def create_app(state: ServerState, *, allowed_hosts: tuple[str, ...] | None = No
             Route("/v1/receptor-requests/{request_id}/result", receptor_result, methods=["POST"]),
             Route("/v1/evaluation-requests/{request_id}/result", evaluation_result, methods=["POST"]),
             Route("/v1/editor-requests/{request_id}/result", editor_result, methods=["POST"]),
+            Route("/v1/preparation-requests/{request_id}/result", preparation_result, methods=["POST"]),
+            Route("/v1/case-status-requests/{request_id}/result", case_status_result, methods=["POST"]),
+            Route("/v1/molcy-requests/{request_id}/result", molcy_result, methods=["POST"]),
+            Route("/v1/actions/{action_id}/confirm", action_confirm, methods=["POST"]),
+            Route("/v1/actions/{action_id}/cancel", action_cancel, methods=["POST"]),
+            Route("/v1/workflows/{workflow_id}", workflow_get, methods=["GET"]),
+            Route("/v1/workflows/{workflow_id}/run", workflow_run, methods=["POST"]),
+            Route("/v1/workflows/{workflow_id}/cancel", workflow_cancel, methods=["POST"]),
+            Route("/v1/workflows/{workflow_id}/files/{name}", workflow_file, methods=["GET"]),
             Route("/v1/harness-jobs", list_harness_jobs, methods=["GET"]),
             Route("/v1/pubchem/permission", pubchem_permission, methods=["GET", "POST", "DELETE"]),
             Route("/v1/conversations/{conv_id}/pubchem-selection", select_pubchem_reference, methods=["POST"]),
@@ -701,6 +977,26 @@ def _hostname(value: str) -> str:
         return ""
 
 
+def _append_once(answer: str, paragraph: str) -> str:
+    """A paragraph the host writes goes in once: two reads of the same pair (or a model that calls a tool twice)
+    must not leave the answer ending in the same sentences twice."""
+    return answer if paragraph in answer else answer + "\n\n" + paragraph
+
+
+def _stored_numbers(messages: list[dict[str, Any]]) -> set[float]:
+    """The numbers earlier assistant turns of this conversation had a read-only tool back, as they were stored.
+
+    A follow-up that refuses something (a confidence interval that does not exist) must not lose the energies and
+    distances the previous turn verified; the person's own conversation is the persisted source."""
+    found: set[float] = set()
+    for entry in messages:
+        stored = entry.get("verified_numbers") if entry.get("role") == "assistant" else None
+        if isinstance(stored, list):
+            found.update(float(value) for value in stored[:2000]
+                         if isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value))
+    return found
+
+
 async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner: str,
                         conv_id: str, text: str, token: str | None) -> AsyncIterator[dict[str, Any]]:
     """Model-first conversation. MolChat owns tools; product changes use the host."""
@@ -711,8 +1007,21 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
     receptor_results: list[dict[str, Any]] = []
     random_receptor_results: list[dict[str, Any]] = []
     comparison_cids: list[int] = []
+    #: Differences with PubChem that a MolDesign variant reproduces (or fails to), written by the host.
+    property_notes: list[dict[str, Any]] = []
     proposed_actions: list[dict[str, Any]] = []
     verified: set[float] = set()
+    #: Numbers of a result MolDesign declared whole, matched at the precision the answer writes.
+    exact: set[float] = set()
+    #: The part of ``exact`` this turn's tools returned (what the next turn can inherit), not what it inherited.
+    turn_exact: set[float] = set()
+    explanation_facts: dict[str, Any] | None = None
+    #: Pose comparisons this turn read (read-only), each with the physical status MolDesign declared.
+    comparison_facts: list[dict[str, Any]] = []
+    #: Proposals this turn left for the person to confirm (nothing is executed until then).
+    new_proposals: list[Proposal] = []
+    #: Iterations this turn proposed (one card; the person's single approval runs the whole plan).
+    new_workflows: list[WorkflowProposal] = []
     events: asyncio.Queue[dict[str, Any]] = asyncio.Queue()
     case_status: dict[str, Any] | None = None
     case_started = False
@@ -746,7 +1055,7 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
         elif phase == "arguments" and args:
             for step in reversed(trace):
                 if step["id"] == call_id:
-                    details = [f"{key}: {str(args[key])[:120]}" for key in ("case_name", "pdb_id", "cid", "name", "query", "page", "section", "availability", "task_id")
+                    details = [f"{key}: {str(args[key])[:120]}" for key in ("case_name", "pdb_id", "cid", "name", "query", "page", "section", "availability", "task_id", "job_id", "scene")
                                if isinstance(args.get(key), str) or (key == "cid" and type(args.get(key)) is int)]
                     if details:
                         step["detail"] = " · ".join(details)
@@ -853,13 +1162,15 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
             state.case_requests.pop(request_id, None)
 
     def case_answer() -> str:
+        unconfirmed = tr("No pude confirmar el resultado. Revisa la lista de casos antes de reintentar.",
+                         "I could not confirm the result. Check the case list before trying again.")
         if not case_status:
-            return "No pude confirmar el resultado. Revisa la lista de casos antes de reintentar."
+            return unconfirmed
         name = case_status["name"]
-        return {"created": f'Se creó el caso "{name}" en MolDesign.',
-                "exists": f'Ya existe un caso o carpeta con el nombre "{name}".',
-                "failed": "MolDesign no pudo crear el caso."}.get(
-                    case_status["status"], "No pude confirmar el resultado. Revisa la lista de casos antes de reintentar.")
+        return {"created": tr(f'Se creó el caso "{name}" en MolDesign.', f'The case "{name}" was created in MolDesign.'),
+                "exists": tr(f'Ya existe un caso o carpeta con el nombre "{name}".', f'A case or folder named "{name}" already exists.'),
+                "failed": tr("MolDesign no pudo crear el caso.", "MolDesign could not create the case.")}.get(
+                    case_status["status"], unconfirmed)
 
     messages: list[dict[str, Any]] = [{"role": "system", "content": (
         "Eres MolChat. Interpreta la solicitud y usa las herramientas disponibles cuando las necesites. "
@@ -869,6 +1180,7 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
         "La aceptación de una tarea no es un resultado ni indica que el cálculo haya terminado. No reintentes un resultado desconocido. "
         "Si el usuario pregunta por el estado o el resultado de una tarea aceptada, usa get_evaluation_status con su task_id; "
         "informa task_status tal cual y, solo si es SUCCESS, la afinidad de Vina como energía de la mejor pose, nunca como actividad ni Ki. "
+        + EXPLAIN_GUIDANCE + COMPARE_GUIDANCE + ACTIONS_GUIDANCE + ITERATION_GUIDANCE +
         "Si el usuario no indicó un PDB ID exacto busca en el catálogo y asigna únicamente si el resultado es inequívoco; si hay varias opciones pregunta. "
         "Si el usuario pidió expresamente un receptor aleatorio o al azar, usa pick_random_receptor y asigna el receptor devuelto; "
         "conserva su sección y disponibilidad, sin sustituirlo por uno verificado salvo que el usuario haya pedido ese filtro. "
@@ -892,6 +1204,9 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
         "en inglés si lo conoces, sin pedir permiso de nuevo; indica el nombre consultado y conserva la "
         "incertidumbre si la identidad no está clara. No reintentes ante errores o falta de permiso. "
         "Distingue los cálculos de MolDesign/RDKit de los datos de PubChem: LogP y XLogP pueden usar métodos distintos. "
+        "Si compute_properties devuelve variants, son cálculos reales con otra definición del descriptor: cítalos como tales y "
+        "no atribuyas por tu cuenta una diferencia con PubChem a un método; el host añade esa nota solo cuando una variante "
+        "reproduce la cifra de PubChem. "
         "Para comparar, consulta PubChem primero y calcula usando exactamente el SMILES de una referencia inequívoca; "
         "espera el resultado de cada herramienta antes de llamar la siguiente. Si hay varias referencias pide elegir. "
         "No digas que las estructuras son iguales sin identity=same y procedencia de PubChem. "
@@ -905,13 +1220,19 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
         "Para listas paginadas indica la página, el total y si hay una siguiente página. "
         "Para verificar el dibujo real frente a PubChem usa verify_editor_structure y comunica su estado. "
         "No afirmes que el dibujo coincide si la herramienta no lo confirmó; indica la estereoquímica no especificada. "
-        "No promete información que no llegó. Comunica los errores con claridad. Responde en español.") }]
+        "No promete información que no llegó. Comunica los errores con claridad. "
+        + tr("Responde en español.", "Answer in English, whatever the language of these instructions.")) }]
     conv = state.memory.get_conversation(conv_id, owner)
     historical_refs: list[dict[str, Any]] = []
+    # Every PubChem lookup of this conversation (earlier turns first), so a plan can say where each SMILES came from.
+    turn_lookups: list[dict[str, Any]] = []
+    earlier_lookups = [lookup for message in (conv.messages if conv else [])
+                       for lookup in (message.get("pubchem_lookups") or []) if isinstance(lookup, dict)]
     if registro.content_granted(provider.id) and conv:
         recent = conv.messages[-12:]
         messages.extend({"role": m["role"], "content": m["content"]} for m in recent
                         if m.get("role") in ("user", "assistant"))
+        exact.update(_stored_numbers(recent))
         # Multiple search results are not a choice. Only a single reference or
         # the reference explicitly selected and persisted by the user is eligible.
         for entry in recent:
@@ -946,6 +1267,15 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
             values = {key: str(value) for key, value in result["properties"].items()
                       if value is not None and isinstance(value, (int, float)) and not isinstance(value, bool)}
             verified.update(float(value) for value in values.values())
+            variants = result.get("variants") if isinstance(result.get("variants"), list) else []
+            for variant in variants:
+                values[f"variante: {variant['name']}"] = str(variant["value"])
+                verified.add(float(variant["value"]))
+            if len(matches) == 1:
+                for note in property_difference_notes(matches[0].get("properties"), result["properties"],
+                                                      result.get("methods", {}), variants):
+                    if not any(known["cid"] == matches[0]["cid"] and known["property"] == note["property"] for known in property_notes):
+                        property_notes.append({"cid": matches[0]["cid"], **note})
             evidence.append({"tool": "compute_properties", "label": str(result.get("name", "")),
                              "epistemic_class": "cálculo", "source": str(result.get("source", "MolDesign")),
                              "values": values, "error": None, "structure": structure,
@@ -1081,6 +1411,13 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
             refs.clear()
             if result.get("status") == "ok":
                 refs.extend(result["matches"])
+                # ``refs`` is the last lookup (what the turn shows); the plan needs every lookup of the turn.
+                # Only identity is kept (CID, name, page, the two SMILES): it is what a plan cites, and it stays small.
+                turn_lookups.append({"query": str(args.get("name", ""))[:120], "matches": [
+                    {"cid": item.get("cid"), "name": item.get("name"), "source": item.get("source"),
+                     "properties": {key: (item.get("properties") or {}).get(key) for key in ("SMILES", "ConnectivitySMILES")
+                                    if (item.get("properties") or {}).get(key)}}
+                    for item in result["matches"] if isinstance(item, dict)]})
                 verified.update(float(item["cid"]) for item in refs)
                 for item in refs:
                     for key in ("MolecularWeight", "XLogP", "TPSA", "HBondDonorCount", "HBondAcceptorCount"):
@@ -1133,6 +1470,62 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
                                  "source": result["source"], "values": values, "error": None})
             return result
         tools.append(Tool(status_tool.name, status_tool.description, status_tool.parameters, capture_status))
+        explain_tool = explain_evaluation_tool(state.bridge.with_token(token))
+        async def capture_explanation(args: dict[str, Any]) -> dict[str, Any]:
+            nonlocal explanation_facts
+            result = await explain_tool.execute(args)
+            if result.get("status") == "ok":
+                explanation_facts = result
+                exact.update(numeric_leaves(result))
+                turn_exact.update(numeric_leaves(result))
+                evidence.append({"tool": explain_tool.name, "label": str(result["task_id"]), "epistemic_class": "dato persistido",
+                                 "source": result["source"], "values": evidence_values(result), "error": None})
+            return result
+        tools.append(Tool(explain_tool.name, explain_tool.description, explain_tool.parameters, capture_explanation))
+        compare_tool = compare_poses_tool(state.bridge.with_token(token))
+        async def capture_comparison(args: dict[str, Any]) -> dict[str, Any]:
+            result = await compare_tool.execute(args)
+            if result.get("status") == "ok":
+                comparison_facts.append(result)
+                exact.update(numeric_leaves(result))
+                turn_exact.update(numeric_leaves(result))
+                evidence.append({"tool": compare_tool.name, "label": f"{result['task_id']} · poses "
+                                 f"{result['poses']['left'].get('rank')} y {result['poses']['right'].get('rank')}",
+                                 "epistemic_class": "dato persistido", "source": result["source"],
+                                 "values": comparison_evidence(result), "error": None})
+            return result
+        tools.append(Tool(compare_tool.name, compare_tool.description, compare_tool.parameters, capture_comparison))
+        action_bridge = state.bridge.with_token(token)
+
+        def propose(kind: str, spec: dict[str, Any], summary: dict[str, Any]) -> dict[str, Any] | None:
+            if any(item.kind == kind for item in new_proposals):
+                return None  # one card per action and turn; asking twice is not two confirmations
+            proposal = new_proposal(state.proposals, owner, conv_id, kind, spec, summary)
+            if proposal is None:
+                return None
+            new_proposals.append(proposal)
+            return {"id": proposal.id}
+
+        tools.extend([save_to_moldex_tool(action_bridge, propose), molcy_video_tool(action_bridge, propose),
+                      molcy_video_status_tool(action_bridge)])
+
+        def propose_workflow(spec: Any) -> dict[str, Any] | None:
+            if new_workflows:
+                return None  # one plan per turn; asking twice is not two approvals
+            workflow = new_workflow(state.workflows, owner, conv_id, spec)
+            if workflow is None:
+                return None
+            lookups = earlier_lookups + turn_lookups
+            workflow.sources = [molecule_source(molecule.smiles, lookups) for molecule in spec.molecules]
+            new_workflows.append(workflow)
+            # The host's own sentence quotes the list size and the threshold the person asked for.
+            numbers = {float(len(spec.molecules)), float(spec.threshold_kcal), abs(float(spec.threshold_kcal))}
+            verified.update(numbers)
+            exact.update(numbers)
+            turn_exact.update(numbers)
+            return workflow.view()
+
+        tools.append(propose_iteration_tool(text, propose_workflow))
     if not registro.content_granted(provider.id):
         tools = []
     task = asyncio.create_task(run_tool_loop(provider, messages, tools, max_steps=10, observe=observe_tool))
@@ -1158,6 +1551,10 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
             answer = "La comprobación del dibujo tiene el siguiente resultado:"
         if not case_status or case_status.get("status") != "created":
             answer = _mask_unconfirmed_case_claims(answer)
+        # The model proposes; the person confirms. Nothing it says in this turn can be a done deed.
+        answer = proposal_answer(new_proposals) if new_proposals else mask_unconfirmed_actions(answer)
+        if new_workflows:
+            answer = workflow_answer(new_workflows[0])
         linked_cids = {item.get("structure", {}).get("pubchem_cid") for item in evidence}
         if editor_check_result and editor_check_result.get("status") != "no_reference":
             linked_cids.add(editor_check_result.get("cid"))
@@ -1189,9 +1586,10 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
             # bare year as an arbitrary numerical measurement.
             literals.add("clasificación de 1997")
         answer, issues = redact_unverified(answer, verified, quotable=frozenset(quoted),
-                                          literals=frozenset(literals))
+                                          literals=frozenset(literals), exact=frozenset(exact))
         if issues:
-            answer = f"{VERIFICATION_NOTE} se ocultaron valores no verificados. " + answer
+            answer = tr(f"{VERIFICATION_NOTE} se ocultaron valores no verificados. ",
+                        "Verification note: unverified values were hidden. ") + answer
         normalized_answer = re.sub(r"[*_`]", "", answer)
         already_confirmed = (case_status and case_status.get("status") == "created"
             and case_status["name"] in normalized_answer
@@ -1257,6 +1655,12 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
             if evaluation_result_data.get("reason"):
                 message += " " + evaluation_result_data["reason"]
             answer += "\n\n" + message
+        if explanation_facts:
+            answer = _append_once(answer, declared_limits(explanation_facts))
+        for facts in comparison_facts[:3]:
+            answer = _append_once(answer, comparison_limits(facts))
+        for note in property_notes[:4]:
+            answer = _append_once(answer, note["text"])
         if editor_check_result:
             status = editor_check_result.get("status")
             explanation = {
@@ -1274,7 +1678,7 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
             }.get(status, "No pude comprobar el dibujo; revisa el editor y vuelve a intentarlo.")
             answer += f'\n\nComprobación del editor · caso «{editor_check_result["case_name"]}» · PubChem {editor_check_result["cid"]}: {explanation}'
         if trace:
-            incomplete = result.exhausted or any(step["status"] not in {"ok", "created", "applied", "started", "already_selected", "exists", "match", "match_stereo_unspecified", "different_stereochemistry", "different_structure"}
+            incomplete = result.exhausted or any(step["status"] not in {"ok", "created", "applied", "started", "already_selected", "exists", "match", "match_stereo_unspecified", "different_stereochemistry", "different_structure", "awaiting_confirmation", "awaiting_approval", "already_saved"}
                 and not (step["tool"] in {"pubchem_lookup", "search_receptors", "pick_random_receptor"} and step["status"] == "not_found")
                 for step in trace)
             save_trace("partial" if incomplete else "completed")
@@ -1286,14 +1690,22 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
                 "messages": result.messages, "provider_id": provider.id, "references": refs})
         state.memory.add_message(conv_id, owner, "user", text)
         state.memory.add_message(conv_id, owner, "assistant", answer, references=displayed_refs, evidence=evidence,
-                                 comparison_cids=comparison_cids, suggested_actions=suggested_actions)
+                                 comparison_cids=comparison_cids, suggested_actions=suggested_actions,
+                                 verified_numbers=sorted(turn_exact)[:2000], pubchem_lookups=turn_lookups[-MAX_KEPT_LOOKUPS:])
         yield {"type": "result", "result": {"text": answer, "intent": "harness", "evidence": evidence,
-               "references": displayed_refs, "comparison_cids": comparison_cids, "suggested_actions": suggested_actions, "used_llm": True, "verified_values": sorted(verified),
+               "references": displayed_refs, "comparison_cids": comparison_cids, "suggested_actions": suggested_actions,
+               "action_proposals": [proposal_view(item) for item in new_proposals],
+               "workflow_proposals": [item.view() for item in new_workflows], "used_llm": True, "verified_values": sorted(verified),
                "latency_ms": int((time.monotonic() - started) * 1000)}}
-    except (ProviderError, ProviderDisabled, ValueError, RuntimeError):
+    except (ProviderError, ProviderDisabled, ValueError, RuntimeError) as exc:
         save_trace("failed")
         trace_finished = True
-        answer = (case_answer() if case_started else "No pude completar el turno con el proveedor de herramientas.")
+        # The reason is said, not swallowed: these messages are ours (an HTTP status, «resultado demasiado grande»...) and
+        # carry no key. Without it a failed turn could not be diagnosed: MolChat's output is not kept on disk.
+        reason = " ".join(str(exc).split())[:200] or type(exc).__name__
+        print(f"molchat: turno fallido: {type(exc).__name__}: {reason}", flush=True)
+        answer = (case_answer() if case_started else tr(f"No pude completar el turno con el proveedor de herramientas ({reason}).",
+                                                         f"I could not complete the turn with the tools provider ({reason})."))
         if smiles_result_data and smiles_result_data.get("status") == "applied":
             answer += f' MolDesign confirmó el SMILES en el campo del caso «{smiles_result_data.get("case_name", "")}»; no se confirmó el guardado ni el dibujo.'
         elif smiles_started:
@@ -1308,6 +1720,10 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
                 answer += " El registro de la tarea en el caso no se confirmó."
         elif evaluation_started:
             answer += " No pude confirmar el inicio de la evaluación; revisa el caso antes de reintentar."
+        if new_proposals:
+            answer += " " + proposal_answer(new_proposals)
+        if new_workflows:
+            answer += " " + workflow_answer(new_workflows[0])
         if trace_error:
             answer += " No se pudo guardar la trazabilidad en Trabajos."
         try:
@@ -1316,6 +1732,8 @@ async def _harness_turn(state: ServerState, registro: Any, provider: Any, owner:
         except PersistenciaFallida:
             pass
         yield {"type": "result", "result": {"text": answer, "intent": "harness", "evidence": [],
+               "action_proposals": [proposal_view(item) for item in new_proposals],
+               "workflow_proposals": [item.view() for item in new_workflows],
                "used_llm": True, "verified_values": [], "latency_ms": int((time.monotonic() - started) * 1000)}}
     finally:
         if not trace_finished:

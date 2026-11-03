@@ -615,6 +615,7 @@ export type InteractionsReport = {
   interactions: InteractionDatum[];
   analysis_ligand_sha256?: string | null;
   contact_coverage?: string;
+  receptor_chemistry?: string;
   computed_at?: string | null;
   contact_map?: ContactMap | null;
   pose_identity_verification?: string;

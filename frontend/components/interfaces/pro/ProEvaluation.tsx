@@ -47,7 +47,7 @@ import resultStyles from "./ResultReadingPresentation.module.css";
 import { ResultReadingPresentation } from "./ResultReadingPresentation";
 import { PoseComparisonDialog } from "./PoseComparisonDialog";
 import { PipelineTimeline, stagesForPipeline } from "./PipelineTimeline";
-import { getTargetPdb, getPoseFile, getProteinFile, getJobStatus, getInteractions } from "../../../lib/api";
+import { getTargetPdb, getPoseFile, getProteinFile, getJobStatus, getInteractions, validateSmiles } from "../../../lib/api";
 import { leerSelloDelResultado } from "../../../lib/moldex";
 import type { Target } from "../../../lib/api";
 import { runAdmet, runMmgbsa } from "../../../lib/proApi";
@@ -60,6 +60,7 @@ import type { StageState } from "./PipelineTimeline";
 import type { CasePipelineConfig, CaseRun, CaseStructuralSystem } from "../../../lib/cases/types";
 
 import { ExternalLink } from "@/components/ui/ExternalLink";
+import { apuntarCursorDelChat } from "@/lib/cursorDelChat";
 interface ProEvaluationProps {
   caseId?: string;
   smiles: string;
@@ -262,9 +263,31 @@ export default function ProEvaluation({
   onRunConfigurationChange,
 }: ProEvaluationProps) {
   const campoSmiles = useRef<HTMLInputElement>(null);
+  // Cuando el chat carga una molécula, la pantalla sube al editor para que se vea qué dibuja el asistente; antes
+  // sólo bajaba al botón de ejecutar y el editor quedaba fuera de la vista en cada iteración.
+  const editorVisible = useRef<HTMLDivElement>(null);
+  const peticionChat = smilesDesdeChat?.requestId;
+  // Cuándo se enseñó por última vez el editor con una molécula del chat: la evaluación que llega justo después
+  // espera a que se haya visto (EDITOR_A_LA_VISTA_MS) antes de bajar al botón.
+  const editorEnseñadoEn = useRef(0);
+  useEffect(() => {
+    if (!peticionChat) return;
+    editorEnseñadoEn.current = Date.now();
+    editorVisible.current?.scrollIntoView?.({ block: "start", behavior: "smooth" });
+    apuntarCursorDelChat(editorVisible.current);
+  }, [peticionChat]);
+  // La molécula que cargó el chat, y cuándo: la evaluación que pida el chat después tiene que ser ESA, aunque Ketcher
+  // emita tarde un dibujo anterior (en un ensayo, una corrida fallida y rápida dejó que la tetrabenazina pisara a la
+  // valbenazina y se evaluó la molécula equivocada).
+  const smilesDelChat = useRef<{ smiles: string; at: number } | null>(null);
+  const smilesActual = useRef(smiles);
+  smilesActual.current = smiles;
   useEffect(() => {
     if (smilesDesdeChat && Date.now() < smilesDesdeChat.deadline && smiles === smilesDesdeChat.smiles &&
-        campoSmiles.current?.value === smilesDesdeChat.smiles) smilesDesdeChat.onApplied();
+        campoSmiles.current?.value === smilesDesdeChat.smiles) {
+      smilesDelChat.current = { smiles: smilesDesdeChat.smiles, at: Date.now() };
+      smilesDesdeChat.onApplied();
+    }
   }, [smiles, smilesDesdeChat]);
   // NIVEL 2 KeepAlive recovery: el wrapper del KeepAlive pasa el flag de
   // visibilidad via Context (las Next.js pages no aceptan props custom).
@@ -878,6 +901,10 @@ export default function ProEvaluation({
   const evaluacionChatInicio = useRef<{ id: string; at: number } | null>(null);
   const [latidoEvaluacionChat, setLatidoEvaluacionChat] = useState(0);
   const ESPERA_DE_PANTALLA_MS = 30000;
+  const EDITOR_A_LA_VISTA_MS = 1500;
+  /** Sólo se defiende la molécula del chat si la cargó hace poco: una edición a mano posterior no se deshace. */
+  const CARGA_RECIENTE_MS = 120000;
+  const verificacionChat = useRef<{ requestId: string; smiles: string; estado: "pendiente" | "igual" | "distinta"; reintentos: number } | null>(null);
   const mmgbsaLabelRef = useRef<HTMLSpanElement>(null);
 
   const handleOpenTarget = () => {
@@ -965,6 +992,44 @@ export default function ProEvaluation({
       const volver = window.setTimeout(() => setLatidoEvaluacionChat(n => n + 1), 500);
       return () => window.clearTimeout(volver);
     }
+    // ¿Sigue en el editor la molécula que cargó el chat? Si el texto cambió, el backend dice si es la misma molécula
+    // escrita de otra forma (Ketcher la reescribe) o una distinta; si es distinta, se vuelve a poner la pedida.
+    const pedida = smilesDelChat.current;
+    if (!blocked && pedida && ahora - pedida.at < CARGA_RECIENTE_MS && smiles !== pedida.smiles) {
+      const previa = verificacionChat.current;
+      const misma = previa?.requestId === request.requestId;
+      if (!misma || previa.smiles !== smiles) {
+        const registro = { requestId: request.requestId, smiles, estado: "pendiente" as "pendiente" | "igual" | "distinta",
+          reintentos: misma ? previa.reintentos : 0 };
+        verificacionChat.current = registro;
+        void Promise.all([validateSmiles(pedida.smiles), validateSmiles(smiles)])
+          .then(([a, b]) => { registro.estado = a.canonical_smiles && a.canonical_smiles === b.canonical_smiles ? "igual" : "distinta"; })
+          .catch(() => { registro.estado = "distinta"; })
+          .finally(() => setLatidoEvaluacionChat(n => n + 1));
+        return;
+      }
+      if (previa.estado === "pendiente") return;
+      if (previa.estado === "distinta") {
+        if (previa.reintentos >= 2) {
+          evaluacionChatProcesada.current = request.requestId;
+          request.onResult({ status: "busy", reason: t("ev_chat_motivo_editor_cambio") });
+          return;
+        }
+        verificacionChat.current = { ...previa, smiles: pedida.smiles, reintentos: previa.reintentos + 1 };
+        setSmiles(pedida.smiles);
+        editorEnseñadoEn.current = Date.now();
+        editorVisible.current?.scrollIntoView?.({ block: "start", behavior: "smooth" });
+        const volver = window.setTimeout(() => setLatidoEvaluacionChat(n => n + 1), 300);
+        return () => window.clearTimeout(volver);
+      }
+    }
+    // La molécula que cargó el chat se deja a la vista un momento antes de bajar al botón: si no, sube y baja sin que
+    // se alcance a ver nada.
+    const faltaPorVer = EDITOR_A_LA_VISTA_MS - (ahora - editorEnseñadoEn.current);
+    if (!blocked && faltaPorVer > 0) {
+      const volver = window.setTimeout(() => setLatidoEvaluacionChat(n => n + 1), faltaPorVer);
+      return () => window.clearTimeout(volver);
+    }
     evaluacionChatProcesada.current = request.requestId;
     if (blocked) {
       const reason = blocked === "blocked" && runBlockedReason ? runBlockedReason.replace(/[\x00-\x1f]/g, " ").slice(0, 500)
@@ -980,8 +1045,16 @@ export default function ProEvaluation({
     boton?.scrollIntoView?.({ block: "center", behavior: "smooth" });
     boton?.focus({ preventScroll: true });
     if (boton) boton.style.outline = "3px solid var(--color-accent-400, #a78bfa)";
+    apuntarCursorDelChat(boton, true);
+    const smilesDecidido = smiles;
     window.setTimeout(() => {
       if (boton) boton.style.outline = "";
+      // Si el editor cambió la molécula durante el resaltado, no se pulsa: se vuelve a comprobar desde el principio.
+      if (smilesActual.current !== smilesDecidido && smilesDelChat.current) {
+        evaluacionChatProcesada.current = null;
+        setLatidoEvaluacionChat(n => n + 1);
+        return;
+      }
       if (!boton?.isConnected || boton.disabled) {
         request.onResult({ status: "busy", reason: t("ev_chat_motivo_boton_perdido") });
         return;
@@ -991,7 +1064,7 @@ export default function ProEvaluation({
       boton.click();
     }, 900);
   }, [evaluacionDesdeChat, reviewingResult, configurationOpen, ejemploEnEditor, canRunEvaluation,
-      runBlockedReason, antiNeedsReview, handleSubmit, busy, isRunning, latidoEvaluacionChat, t]);
+      runBlockedReason, antiNeedsReview, handleSubmit, busy, isRunning, latidoEvaluacionChat, t, smiles, setSmiles]);
 
   return (
     <div className={`${resultStyles.workspace} min-h-full bg-surface-950 p-3 sm:p-4 md:p-8 flex flex-col items-center justify-start space-y-4 sm:space-y-6`}>
@@ -1001,7 +1074,7 @@ export default function ProEvaluation({
         
         {/* Left Column: 2D Ketcher Visor & Standalone SMILES Element */}
         <div className="space-y-4">
-          <div className="h-[min(56vh,480px)] min-h-[320px] sm:h-[min(62vh,560px)] md:h-[640px] border border-zinc-800 rounded-xl overflow-hidden bg-black shadow-2xl flex flex-col justify-center">
+          <div ref={editorVisible} data-testid="editor-del-caso" className="h-[min(56vh,480px)] min-h-[320px] sm:h-[min(62vh,560px)] md:h-[640px] border border-zinc-800 rounded-xl overflow-hidden bg-black shadow-2xl flex flex-col justify-center">
             <KetcherEditor
               caseId={caseId}
               initialSmiles={smiles}

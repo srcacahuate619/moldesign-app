@@ -49,7 +49,7 @@ async def propiedades(payload: PropiedadesSolicitud,
     """Descriptores reales del producto; se abstiene si la validación falla."""
     def calcular() -> dict:
         from chem.validator import validate_smiles
-        from chem.properties import calculate_properties
+        from chem.properties import calculate_properties, calculate_reference_variants
 
         validacion = validate_smiles(payload.smiles)
         if not validacion.is_valid or not validacion.canonical_smiles:
@@ -63,10 +63,14 @@ async def propiedades(payload: PropiedadesSolicitud,
             "methods": {
                 "mw": "RDKit Descriptors.MolWt (masa molecular promedio)",
                 "logp": "RDKit Crippen.MolLogP (contribuciones atómicas)",
-                "tpsa": "RDKit rdMolDescriptors.CalcTPSA (Ertl)",
+                "tpsa": "RDKit rdMolDescriptors.CalcTPSA (Ertl 2000) con includeSandP=False: suma sólo N y O; "
+                        "el azufre y el fósforo no cuentan",
                 "hbd": "RDKit Lipinski.NHOHCount (enlaces N-H y O-H)",
                 "hba": "RDKit Lipinski.NOCount (número de átomos de N y O)",
             },
+            # Los mismos descriptores con las definiciones de otras fuentes (PubChem: TPSA con S y P, aceptores
+            # por patrones). No sustituyen a `properties`; permiten explicar una diferencia con un cálculo.
+            "variants": calculate_reference_variants(validacion.canonical_smiles),
             "properties": {
                 "mw": props.molecular_weight, "logp": props.log_p,
                 "tpsa": props.tpsa, "hbd": props.hbd, "hba": props.hba,

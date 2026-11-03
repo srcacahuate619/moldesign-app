@@ -13,6 +13,13 @@ import httpx
 
 from .tools import capability
 from .config import load_config
+from .lang import current as current_lang
+
+
+async def _ask_in_chat_language(request: httpx.Request) -> None:
+    """MolDesign writes its messages (the run warnings among them) in the language it is asked for: ask for the chat's,
+    so an English conversation does not copy Spanish warnings into its notebook."""
+    request.headers["Accept-Language"] = current_lang()
 
 
 class BridgeError(RuntimeError):
@@ -75,7 +82,7 @@ class MolDesignBridge:
         self._owns_client = client is None
         self._client = client or httpx.AsyncClient(
             base_url=self.base_url, timeout=30.0, follow_redirects=False,
-            trust_env=False,
+            trust_env=False, event_hooks={"request": [_ask_in_chat_language]},
         )
 
     def with_token(self, token: str | None) -> "MolDesignBridge":

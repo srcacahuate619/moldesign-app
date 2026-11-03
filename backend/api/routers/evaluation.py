@@ -930,6 +930,69 @@ async def get_evaluation_status(
 
 
 @router.get(
+    "/pose-comparison/{task_id}",
+    summary="Comparar dos poses de una corrida con su evidencia estructural",
+)
+async def get_pose_comparison(
+    task_id: str,
+    raw_request: Request,
+    left: int = 1,
+    right: int = 2,
+    current_user: UserORM | None = Depends(get_current_user_optional),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """Qué separa a dos poses de una misma corrida: energía de Vina, controles físicos y selector.
+
+    Es la misma evidencia que enseñan Evaluación y Moldex, derivada en el backend para quien no tiene pantalla
+    (`services/evaluation/pose_comparison.py`). No elige ganadora y no inventa lo que la corrida no persistió.
+    """
+    bind_context(endpoint="evaluation_pose_comparison", task_id=task_id)
+
+    for name, rank in (("left", left), ("right", right)):
+        if rank < 1 or rank > 100:
+            raise HTTPException(status_code=422, detail=f"«{name}» debe ser un rango de pose entre 1 y 100.")
+
+    await _authorize_task_access(task_id, raw_request, current_user, db)
+
+    from services.docking.queue_handler import get_job_status
+    from services.evaluation.pose_comparison import compare_two_poses
+
+    status_obj = await get_job_status(task_id)
+    if status_obj is None or status_obj.status != "SUCCESS" or status_obj.result is None:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="La evaluación todavía no tiene un resultado terminado con poses que comparar.",
+        )
+    result = status_obj.result.model_dump(mode="json")
+    comparison = compare_two_poses(result, left, right)
+    # Las cotas de Vina son contra su mejor pose; la distancia entre estas dos sale de las coordenadas guardadas.
+    if comparison["left"]["found"] and comparison["right"]["found"]:
+        comparison["difference"]["pose_rmsd_between_poses"] = await _pose_rmsd(status_obj.result, left, right)
+    # Los identificadores son de la corrida, no de la ciencia: quien quiera pedir los contactos de cada pose
+    # (`/evaluation/interactions/{molecule_id}`) los necesita y no tiene por qué descargar el resultado entero.
+    return {"task_id": task_id, "molecule_id": result.get("molecule_id"), **comparison}
+
+
+async def _pose_rmsd(selected, left: int, right: int) -> dict:
+    """RMSD entre dos poses del SDF de la corrida (ver `services/evaluation/pose_rmsd.py`); nunca falla la comparación."""
+    import asyncio
+
+    from services.docking.result_sdf import ResultSdfUnavailable, read_result_sdf
+    from services.evaluation.pose_rmsd import _unavailable, rmsd_between_poses
+
+    try:
+        artifact = await read_result_sdf(selected)
+    except ResultSdfUnavailable:
+        return _unavailable("POSES_NOT_AVAILABLE")
+    try:
+        measured = await asyncio.to_thread(rmsd_between_poses, artifact.content, left, right)
+    except Exception as exc:  # noqa: BLE001 - la energía y los controles siguen valiendo aunque esta medida falle
+        log.warning("pose_rmsd_failed", error=str(exc))
+        return _unavailable("RMSD_NOT_COMPUTABLE")
+    return {**measured, "poses_sha256": artifact.sha256, "pose_source_kind": artifact.source_kind}
+
+
+@router.get(
     "/result/{molecule_id}",
     response_model=EvaluationResultRead,
     summary="Leer resultado persistido de una molécula",

@@ -293,7 +293,8 @@ class AgentExecutor:
                     if step.capability == "create_docking_proposal" \
                             and getattr(exc, "status_code", None) == 409:
                         detail = (getattr(exc, "detail", None) or "").lower()
-                        if "bloque" in detail or "preflight" in detail:
+                        # MolDesign answers in the chat's language: «bloquea» or «blocked»
+                        if "bloque" in detail or "block" in detail or "preflight" in detail:
                             return self._terminal(
                                 frozen, digest, outcomes, "blocked", step,
                                 "El preflight del servidor bloquea esta evaluación: "

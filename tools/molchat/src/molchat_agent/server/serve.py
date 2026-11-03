@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import asyncio
 from dataclasses import dataclass
+import os
 from pathlib import Path
 from typing import Any
 
@@ -109,7 +110,11 @@ def build_server(config: MolChatConfig | None = None,
         stt=_build_stt(config, bridge),
         hosted=bool(config.host_secret),
         bridge=bridge,
+        output_dir=Path(os.environ.get("MOLCHAT_OUTPUT_DIR") or Path.home() / "MolDesign" / "MolChat" / "entregas"),
     )
+    if state.hosted:
+        from ..workflows.service import PreparationHttp
+        state.preparation = PreparationHttp  # (platform, relay): the window builds the projection, MolDesign audits it
     found = find_ui_dist(ui_dist or config.ui_dist)
     app = create_app(state, ui_dist=found)
     return ServedSidecar(app=app, state=state, bridge=bridge, secret=secret,

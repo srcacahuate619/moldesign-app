@@ -76,6 +76,8 @@ class InteractionResponse(BaseModel):
     interactions: list[dict[str, Any]]
     analysis_ligand_sha256: str | None = None
     contact_coverage: str = "not_declared"
+    #: Qué química del receptor percibió el análisis (ver `InteractionReport.receptor_chemistry`).
+    receptor_chemistry: str = "not_declared"
     computed_at: str | None = None
     contact_map: dict[str, Any] | None = None
     pose_identity_verification: str = "not_declared"
@@ -246,6 +248,7 @@ async def get_interactions(
             "hydrogen_model": report.hydrogen_model,
             "analysis_ligand_sha256": report.ligand_source_sha256,
             "contact_coverage": report.coverage,
+            "receptor_chemistry": report.receptor_chemistry,
             "computed_at": datetime.now(UTC).isoformat(),
             "contact_map": contact_map,
             "total_interactions": len(report.interactions),

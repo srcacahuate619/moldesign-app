@@ -1,6 +1,7 @@
 "use client";
 
 import { presentError } from "../../lib/frontendError";
+import { apuntarCursorDelChat } from "@/lib/cursorDelChat";
 
 /* Hallmark · pre-emit critique: P5 H4 E4 S5 R5 V4
  * Preparación estructural: estados vacíos honestos y requisitos legibles.
@@ -22,7 +23,7 @@ import { useAuth } from "@/lib/auth";
 import { useKeepAliveActive } from "@/context/KeepAliveContext";
 import { crearRepositorioDeCasos } from "@/lib/cases/factory";
 import { pedirEvaluacion } from "@/lib/peticionDeEvaluacion";
-import { escucharPeticionesDePreparacion } from "@/lib/peticionDePreparacion";
+import { escucharPeticionesDePreparacion, pedirPreparacion } from "@/lib/peticionDePreparacion";
 import { anotarDecision } from "@/lib/decisionesDeCaso";
 import { CaseError, presentCaseErrorDetail, type CaseIndexEntry, type CaseRecord, type CaseRun, type RunInputsRelation } from "@/lib/cases/types";
 import {
@@ -621,6 +622,58 @@ function PreparacionDelUsuario({ user, isLoading: authLoading }: Pick<ReturnType
       setIntento((anterior) => anterior + 1);
     })();
   }), [repository, invalidar, abandonarDecision]);
+
+  // El chat de MolChat pide auditar la corrida que acaba de evaluar (acción de host `audit_case_preparation`).
+  // Se atiende por el MISMO camino que la petición de Moldex —abre el caso que tiene esa corrida y esta pestaña
+  // la audita a la vista—, y cuando la auditoría llega se devuelve la proyección que armó esta pestaña, para que
+  // el asistente pida a MolDesign el paquete. No se decide nada: la auditoría la hizo el backend, las decisiones
+  // humanas del caso viajan como están (ninguna se crea aquí) y un REVISION o un BLOQUEADO se devuelve tal cual.
+  const peticionChat = useRef<{
+    caseName: string; taskId: string; owner: string; deadline: number; respond: (result: Record<string, unknown>) => void;
+  } | null>(null);
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<NonNullable<typeof peticionChat.current> & { handled: boolean }>).detail;
+      if (!detalle || typeof detalle.respond !== "function") return;
+      // Sin cuenta todavía (la pestaña acaba de montar y la sesión no ha cargado) no se contesta: el anfitrión
+      // vuelve a preguntar hasta su plazo. Contestar «failed» aquí fue lo que hizo fallar el primer ensayo.
+      if (!ownerId) return;
+      detalle.handled = true;
+      if (detalle.owner !== ownerId) { detalle.respond({ status: "failed", reason: t("molchat_motivo_otra_cuenta") }); return; }
+      if (Date.now() >= detalle.deadline) { detalle.respond({ status: "failed", reason: t("molchat_motivo_plazo_vencido") }); return; }
+      if (peticionChat.current) { detalle.respond({ status: "busy" }); return; }
+      peticionChat.current = detalle;
+      window.setTimeout(() => {
+        if (peticionChat.current !== detalle) return;
+        peticionChat.current = null;
+        detalle.respond({ status: "unknown" });
+      }, Math.max(0, detalle.deadline - Date.now()));
+      pedirPreparacion({ taskId: detalle.taskId });
+      // El cursor de MolChat va a la corrida que se audita (lib/cursorDelChat.ts).
+      apuntarCursorDelChat(document.getElementById("prep-evaluation") ?? document.getElementById("prep-source-title"));
+    };
+    window.addEventListener("molchat-audit-preparation", recibir);
+    return () => window.removeEventListener("molchat-audit-preparation", recibir);
+  }, [ownerId, t]);
+
+  useEffect(() => {
+    const pedido = peticionChat.current;
+    if (!pedido) return;
+    const terminar = (result: Record<string, unknown>) => { peticionChat.current = null; pedido.respond(result); };
+    if (desdeMoldex.sinCaso) { terminar({ status: "case_not_found" }); return; }
+    if (desdeMoldex.buscando || cargandoCaso || !caso || seleccion.current !== pedido.taskId) return;
+    const normalizar = (texto: string) => texto.normalize("NFC").trim().toLocaleLowerCase();
+    if (normalizar(caso.name) !== normalizar(pedido.caseName)) { terminar({ status: "case_mismatch" }); return; }
+    if (corrida && corrida.kind !== "auditable") { terminar({ status: "not_auditable", reason: corrida.kind }); return; }
+    if (corrida?.kind !== "auditable" || corrida.reportable.taskId !== pedido.taskId) return;
+    if (auditError) { terminar({ status: "audit_failed", reason: auditError.slice(0, 300) }); return; }
+    if (!auditoria || auditando || auditoria.corrida?.task_id !== pedido.taskId) return;
+    apuntarCursorDelChat(document.getElementById("prep-board-title"));
+    terminar({
+      status: "audited", molecule_id: corrida.reportable.moleculeId, estado: auditoria.estado,
+      projection: buildCaseProjection({ ...caso, activeRun: corrida.run }, corrida.reportable, corrida.relation),
+    });
+  }, [auditoria, auditError, auditando, caso, corrida, desdeMoldex, cargandoCaso]);
 
   const cambiarCaso = (id: string) => {
     ++lectura.current;

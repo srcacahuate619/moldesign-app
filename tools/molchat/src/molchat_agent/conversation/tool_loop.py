@@ -3,6 +3,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 import json
+import math
+import re
 from typing import Any, Awaitable, Callable
 
 from ..providers.base import ProviderError
@@ -57,6 +59,18 @@ def _arguments(raw: Any, schema: dict[str, Any]) -> dict[str, Any]:
             if type(value) is not int or not spec.get("minimum", 0) <= value <= spec.get("maximum", 999999999999):
                 raise ValueError(f"El campo {key} debe ser un entero válido dentro del rango indicado.")
             return value
+        if kind == "boolean":
+            if type(value) is not bool:
+                raise ValueError(f"El campo {key} debe ser verdadero o falso.")
+            return value
+        if kind == "number":
+            if isinstance(value, str) and re.fullmatch(r"-?\d{1,6}(\.\d{1,6})?", value):
+                value = float(value)
+            if (isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value)
+                    or "minimum" not in spec or "maximum" not in spec
+                    or not spec["minimum"] <= value <= spec["maximum"]):
+                raise ValueError(f"El campo {key} debe ser un número dentro del rango indicado.")
+            return value
         if kind == "string":
             if (not isinstance(value, str) or not value.strip() or len(value) > spec.get("maxLength", 120)
                     or any(ord(char) < 32 for char in value)):
@@ -69,6 +83,12 @@ def _arguments(raw: Any, schema: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(result, dict):
         raise ValueError("argumentos no válidos")
     return result
+
+
+#: Calls run in one step: an iteration has up to 12 molecules and a model may look all of them up at once.
+MAX_CALLS_PER_STEP = 16
+#: Beyond this the answer is not a plan but noise, and the turn ends.
+MAX_CALLS_SEEN = 64
 
 
 async def run_tool_loop(provider: Any, messages: list[dict[str, Any]],
@@ -93,7 +113,7 @@ async def run_tool_loop(provider: Any, messages: list[dict[str, Any]],
         if not isinstance(message, dict) or message.get("role") not in (None, "assistant"):
             raise ProviderError("El modelo devolvió un mensaje no válido.")
         calls = message.get("tool_calls") or []
-        if not isinstance(calls, list) or len(calls) > 8:
+        if not isinstance(calls, list) or len(calls) > MAX_CALLS_SEEN:
             raise ProviderError("El modelo devolvió demasiadas llamadas.")
         content = message.get("content")
         if content is not None and not isinstance(content, str):
@@ -122,8 +142,15 @@ async def run_tool_loop(provider: Any, messages: list[dict[str, Any]],
         if isinstance(reasoning, str):
             assistant_message["reasoning_content"] = reasoning
         transcript.append(assistant_message)
-        for call in clean_calls:
+        for position, call in enumerate(clean_calls):
             function = call["function"]
+            if position >= MAX_CALLS_PER_STEP:
+                # Not run and not a failed turn: every call gets its answer (the protocol needs one per id) and the
+                # model repeats the rest in the next step. Twelve lookups for a twelve-molecule plan used to end the turn.
+                transcript.append({"role": "tool", "tool_call_id": call["id"], "content": json.dumps(
+                    {"error": f"Demasiadas llamadas en un mismo paso (máximo {MAX_CALLS_PER_STEP}); esta no se ejecutó. "
+                              "Repítela en el siguiente paso."}, ensure_ascii=False)})
+                continue
             if observe:
                 observe("start", function["name"], call["id"], None)
             tool = by_name.get(function["name"])

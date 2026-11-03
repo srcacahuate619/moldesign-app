@@ -32,7 +32,8 @@ def pubchem_tool(bridge: MolDesignBridge, client: httpx.AsyncClient) -> Tool:
         return {"status": "ok" if result.matches else "not_found", "truncated": result.truncated,
                 "methodology": {"source": "https://pubchem.ncbi.nlm.nih.gov/docs/glossary",
                     "hba": "PubChem refiere una clasificación de 1997; las reglas detalladas y su aplicación a esta molécula no se han comprobado aquí.",
-                    "xlogp": "XLogP de PubChem; no es necesariamente el LogP de RDKit."},
+                    "xlogp": "XLogP de PubChem; no es necesariamente el LogP de RDKit.",
+                    "tpsa": "TPSA de PubChem, calculada por PubChem; su definición (con o sin S y P) puede diferir de la de RDKit."},
                 "matches": [{"cid": item.cid, "name": item.name, "source": item.source,
                              "properties": item.properties, "properties_available": item.properties_available}
                             for item in result.matches]}
@@ -203,26 +204,39 @@ def assign_case_receptor_tool(request_assign: Callable[[str, str], Awaitable[dic
                 "consulta primero search_receptors y comprueba total=1. No ejecuta docking. Solo confirma si el host responde applied o already_selected.", schema, assign)
 
 
+async def fetch_job(bridge: MolDesignBridge, task_id: str) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """Read one job from MolDesign with the account's session: ``(job, None)`` or ``(None, abstention)``.
+
+    The abstention is already a tool result, so a read-only tool returns it as is. A task
+    that is foreign or unknown is the same ``not_found``: the lock decides, the key never
+    learns which of the two it was.
+    """
+    if not re.fullmatch(r"[A-Za-z0-9_.:-]{1,128}", task_id):
+        return None, {"status": "invalid", "message": "Identificador de tarea no válido."}
+    if not getattr(bridge, "token", None):
+        return None, {"status": "unavailable", "message": "Se necesita una sesión de MolDesign."}
+    try:
+        response = await bridge.client.get(f"/evaluation/status/{task_id}", timeout=30, follow_redirects=False,
+                                           headers={"Authorization": f"Bearer {bridge.token}"})
+        if response.status_code in (403, 404):
+            return None, {"status": "not_found", "task_id": task_id}
+        if response.status_code != 200 or len(response.content) > 5_000_000:
+            return None, {"status": "unavailable", "message": "No se pudo consultar el estado en MolDesign."}
+        data = response.json()
+    except (httpx.RequestError, ValueError):
+        return None, {"status": "unavailable", "message": "No se pudo consultar el estado en MolDesign."}
+    if not isinstance(data, dict) or data.get("task_id") != task_id or not isinstance(data.get("status"), str):
+        return None, {"status": "unavailable", "message": "MolDesign devolvió un estado incompatible."}
+    return data, None
+
+
 def evaluation_status_tool(bridge: MolDesignBridge) -> Tool:
     """Read-only: report what MolDesign says about a task it already accepted."""
     async def status(args: dict[str, Any]) -> dict[str, Any]:
         task_id = args["task_id"].strip()
-        if not re.fullmatch(r"[A-Za-z0-9_.:-]{1,128}", task_id):
-            return {"status": "invalid", "message": "Identificador de tarea no válido."}
-        if not getattr(bridge, "token", None):
-            return {"status": "unavailable", "message": "Se necesita una sesión de MolDesign."}
-        try:
-            response = await bridge.client.get(f"/evaluation/status/{task_id}", timeout=30, follow_redirects=False,
-                                               headers={"Authorization": f"Bearer {bridge.token}"})
-            if response.status_code in (403, 404):
-                return {"status": "not_found", "task_id": task_id}
-            if response.status_code != 200 or len(response.content) > 5_000_000:
-                return {"status": "unavailable", "message": "No se pudo consultar el estado en MolDesign."}
-            data = response.json()
-        except (httpx.RequestError, ValueError):
-            return {"status": "unavailable", "message": "No se pudo consultar el estado en MolDesign."}
-        if not isinstance(data, dict) or data.get("task_id") != task_id or not isinstance(data.get("status"), str):
-            return {"status": "unavailable", "message": "MolDesign devolvió un estado incompatible."}
+        data, abstention = await fetch_job(bridge, task_id)
+        if abstention is not None:
+            return abstention
         safe: dict[str, Any] = {"status": "ok", "task_id": task_id, "task_status": data["status"],
                                 "progress": data.get("progress") if type(data.get("progress")) is int else None,
                                 "source": "MolDesign GET /evaluation/status"}
@@ -296,7 +310,7 @@ def properties_tool(backend: ToolBackend) -> Tool:
             except ImportError:
                 pass
         return {"status": "ok", "name": name, "properties": record.props, "source": record.source,
-                "methods": record.methods, "structure": {"input_smiles": smiles,
+                "methods": record.methods, "variants": record.variants, "structure": {"input_smiles": smiles,
                     "canonical_smiles": record.smiles, "identity": identity,
                     "verifier": verifier, "warnings": record.warnings}}
 

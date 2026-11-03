@@ -471,3 +471,26 @@ def test_advertencias_cientificas_se_traducen_y_el_reporte_ignora_negacion_ingle
     assert traducido[0].startswith("Large molecule (58 heavy atoms, 19 rotatable bonds)")
     assert traducido[1] == aviso_en
     assert not (tmp_path / "i18n_faltantes.jsonl").exists()
+
+
+def test_avisos_de_microestado_y_varianza_de_poses_salen_en_ingles() -> None:
+    """Los dos avisos de corrida que el cuaderno de MolChat copiaba en castellano en una interfaz inglesa (2026-11-03):
+    con el código y la severidad (los de ahora) y como texto suelto (corridas antiguas)."""
+    microestado = (
+        "La tabla de pKa no reconoció centros ionizables. El microestado se eligió por orden del SMILES canónico "
+        "para reproducibilidad; ese orden no estima su población a pH fisiológico."
+    )
+    varianza = "Varianza alta entre poses (3.0 kcal/mol). El modo de unión no es único — la predicción es menos confiable."
+    token = i18n.set_request_locale("en")
+    try:
+        dato = i18n.localize_payload({"scientific_warnings": [
+            {"codigo": "MICROESTADO_SIN_CRITERIO_QUIMICO", "severidad": "precaucion", "mensaje": microestado},
+            varianza,
+        ]})
+    finally:
+        i18n.reset_request_locale(token)
+    avisos = dato["scientific_warnings"]
+    assert avisos[0]["mensaje"].startswith("The pKa table recognized no ionizable centers.")
+    assert avisos[0]["codigo"] == "MICROESTADO_SIN_CRITERIO_QUIMICO"
+    assert avisos[1] == "High variance between poses (3.0 kcal/mol). The binding mode is not unique — the prediction is less reliable."
+    assert not i18n._SPANISH_MARKERS.search(avisos[0]["mensaje"] + avisos[1])

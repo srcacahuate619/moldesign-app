@@ -28,8 +28,9 @@ import { PaqueteMolcyCard } from "@/components/PaqueteMolcyCard";
 import {
   FALTA_PARA_EL_PAQUETE, cancelarMolcy, crearFotosMolcy, descargarProcedenciaMolcy, crearMolcy, descargarMolcy, estadoMolcy, fotogramaMolcy, fuentesMolcy,
   pieDelFotograma, recursosMolcy, renderizadorMolcy, salidaMolcy, videoMolcy,
-  type MolcyEscena, type MolcyFotograma, type MolcyJob, type MolcyOrientacion, type MolcyRenderer, type MolcySalida, type MolcySources,
+  type MolcyEscena, type MolcyFotograma, type MolcyJob, type MolcyOrientacion, type MolcyPresentacion, type MolcyRenderer, type MolcySalida, type MolcySources,
 } from "@/lib/molcy";
+import { apuntarCursorDelChat } from "@/lib/cursorDelChat";
 import {
   Aperture, ArrowLeft, ArrowRight, Camera, Check, CircleHelp, Film, Layers3, MonitorPlay,
   Monitor, ScanEye, Smartphone, Sparkles, WandSparkles,
@@ -363,8 +364,10 @@ function MolcyWorkspace() {
     ? Boolean(canScene && renderer?.disponible && diskBudget?.disponible && canGpu && !busy)
     : Boolean(canScene && renderer?.foto_disponible && diskBudget?.disponible && !busy && !sameSession &&
       (device === "gpu" ? canPhotoGpu : !resourcesError));
-  const generate = async () => {
-    if (!chosen || !canGenerate) return;
+  const ultimoError = useRef<string | null>(null);
+  const generate = async (): Promise<MolcyJob | null> => {
+    if (!chosen || !canGenerate) return null;
+    ultimoError.current = null;
     const revision = selectionRevision.current;
     const owner = userId;
     setError(null);
@@ -383,9 +386,96 @@ function MolcyWorkspace() {
       if (ownerRef.current === owner) window.dispatchEvent(new CustomEvent("moldesign:molcy-job-created", { detail: { ownerId: owner, jobId: next.id } }));
       if (ownerRef.current === owner && revision === selectionRevision.current) verTrabajo(next);
       setEsteVideo(null); // «sólo este vídeo» no se arrastra al siguiente
-    } catch (e) { setError(presentError((e as Error), t)); }
+      return next;
+    } catch (e) { ultimoError.current = presentError((e as Error), t); setError(ultimoError.current); return null; }
     finally { setSubmitting(false); }
   };
+
+  // MolChat pide un vídeo (acción de host `molcy_render`). La pestaña lo prepara A LA VISTA, como lo haría la persona:
+  // elige la corrida guardada en Moldex, la escena y el formato, un paso tras otro, y pulsa «Generar video» con sus
+  // propias comprobaciones (GPU, Blender, espacio en disco). No hay otro camino que ese botón; si no se puede, lo dice.
+  type PedidoChat = { taskId: string; scene: SceneId; format: FormatId; owner: string; deadline: number;
+    presentacion: MolcyPresentacion; variante: EnsembleVariant;
+    respond: (result: Record<string, unknown>) => void };
+  const [presentacionAbierta, setPresentacionAbierta] = useState(false);
+  const pedidoChat = useRef<PedidoChat | null>(null);
+  const listoChat = useRef(false);
+  const plazoChat = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [pasoChat, setPasoChat] = useState(0);
+  const botonGenerar = useRef<HTMLButtonElement>(null);
+  const busyRef = useRef(busy);
+  busyRef.current = busy;
+  // Por qué no se puede generar ahora, en las palabras de la propia pestaña: es lo que se devuelve al chat.
+  const motivoNoGenera = useRef("");
+  motivoNoGenera.current = !renderer?.disponible ? (renderer?.motivo || t("cy_renderer_falta"))
+    : !canGpu ? (renderer.motivo_gpu || t("cy_video_needs_gpu"))
+      : !diskBudget?.disponible ? (diskBudget?.motivo || renderer.espacio_motivo || t("cy_space_unknown"))
+        : !canScene ? t("cy_busqueda_falta") : busy ? t("cy_en_curso_video") : "";
+  const terminarChat = useCallback((result: Record<string, unknown>) => {
+    const pedido = pedidoChat.current;
+    pedidoChat.current = null;
+    listoChat.current = false;
+    if (plazoChat.current) clearTimeout(plazoChat.current);
+    pedido?.respond(result);
+  }, []);
+  useEffect(() => {
+    const recibir = (evento: Event) => {
+      const detalle = (evento as CustomEvent<PedidoChat & { handled: boolean }>).detail;
+      if (!detalle || typeof detalle.respond !== "function") return;
+      if (!userId) return; // sin cuenta todavía: el anfitrión vuelve a preguntar hasta su plazo
+      detalle.handled = true;
+      if (detalle.owner !== userId) { detalle.respond({ status: "failed", reason: t("molchat_motivo_otra_cuenta") }); return; }
+      if (pedidoChat.current || busyRef.current) { detalle.respond({ status: "busy" }); return; }
+      pedidoChat.current = detalle;
+      plazoChat.current = setTimeout(() => terminarChat({ status: "unavailable",
+        reason: motivoNoGenera.current || t("molchat_motivo_molcy_sin_empezar") }), Math.max(0, detalle.deadline - Date.now() - 2000));
+      const pausa = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+      void (async () => {
+        try {
+          raiz.current?.scrollIntoView?.({ block: "start", behavior: "smooth" });
+          modeTouched.current = true;
+          setModeState("video");
+          setSourceKind("moldex");
+          const next = await fuentesMolcy();
+          if (pedidoChat.current !== detalle) return;
+          setSources(next);
+          const fuente = next.moldex?.find((item) => item.task_id === detalle.taskId);
+          if (!fuente) { terminarChat({ status: "not_found", reason: t("molchat_motivo_sin_corrida_moldex") }); return; }
+          // El cursor de MolChat va a cada control a medida que la pestaña lo cambia (lib/cursorDelChat.ts).
+          const control = (selector: string) => raiz.current?.querySelector(selector);
+          apuntarCursorDelChat(control("#molcy-source"));
+          await pausa(700); setSourceId(detalle.taskId);
+          apuntarCursorDelChat(control("#molcy-scenes-title"));
+          await pausa(700); setScene(detalle.scene);
+          apuntarCursorDelChat(control("#molcy-output-title"));
+          await pausa(700); setFormat(detalle.format);
+          // La presentación se aplica a la vista: se abre el panel, se ponen los valores pedidos y queda abierto.
+          await pausa(500); setPresentacionAbierta(true);
+          await pausa(700); setPresentacion(detalle.presentacion); setEnsembleVariant(detalle.variante);
+          await pausa(700);
+          botonGenerar.current?.scrollIntoView?.({ block: "center", behavior: "smooth" });
+          apuntarCursorDelChat(botonGenerar.current, true);
+          listoChat.current = true;
+          setPasoChat((n) => n + 1);
+        } catch (e) { terminarChat({ status: "failed", reason: (e as Error).message?.slice(0, 300) || "no se pudo leer Moldex" }); }
+      })();
+    };
+    window.addEventListener("molchat-molcy-render", recibir);
+    return () => window.removeEventListener("molchat-molcy-render", recibir);
+  }, [userId, terminarChat, t]);
+  useEffect(() => {
+    const pedido = pedidoChat.current;
+    if (!pedido || !listoChat.current || !canGenerate || mode !== "video") return;
+    if (sourceId !== pedido.taskId || scene !== pedido.scene || format !== pedido.format) return;
+    if (!sameMolcyAjustes({ presentacion }, { presentacion: pedido.presentacion })) return;
+    listoChat.current = false;
+    void generate().then((next) => terminarChat(next ? { status: "started", job_id: next.id }
+      : { status: "failed", reason: ultimoError.current || "Molcy rechazó la petición" }));
+    // generate se recrea en cada render; lo que decide es el estado que la pestaña enseña.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pasoChat, canGenerate, mode, sourceId, scene, format, presentacion, terminarChat]);
+  useEffect(() => () => { if (plazoChat.current) clearTimeout(plazoChat.current); }, []);
+
   const selected = scenes[scene][locale];
 
   return (
@@ -616,7 +706,7 @@ function MolcyWorkspace() {
               <p className="mt-2 text-xs leading-5 text-[var(--text-muted)]" data-testid="aviso-marca">{t("cy_photo_mark_note")}</p>
               {sameSession && <p className="mt-2 text-xs leading-5 text-[var(--text-secondary)]">{t("cy_photo_same_session")}</p>}
               </>}
-              <PresentationControls value={presentacion} onChange={setPresentacion} scene={scene} disabled={busy} ensembleVariant={ensembleVariant} onEnsembleVariant={setEnsembleVariant} />
+              <PresentationControls value={presentacion} onChange={setPresentacion} scene={scene} disabled={busy} ensembleVariant={ensembleVariant} onEnsembleVariant={setEnsembleVariant} abierto={presentacionAbierta} />
             </section>
             <section className="border-t border-[var(--border)] pt-6">
               <div className="flex items-center gap-2"><Check size={17} className="text-[var(--categoria-hallazgo)]" /><h2 className="text-sm font-bold">{c.evidence}</h2></div>
@@ -625,7 +715,7 @@ function MolcyWorkspace() {
             <section className="border-t border-[var(--border)] pt-6">
               {salida && <OutputFolder salida={salida} esteVideo={esteVideo} onEsteVideo={setEsteVideo} onSalida={setSalida}
                 disabled={Boolean(submitting || historyBusy || jobEstado === "en_cola" || jobEstado === "renderizando")} />}
-              <button type="button" disabled={!canGenerate} onClick={generate} aria-describedby="molcy-disabled" className="mt-4 flex w-full cursor-pointer items-center justify-between bg-[var(--accent-strong)] px-4 py-4 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-[var(--text-muted)] disabled:opacity-70"><span className="flex items-center gap-2">{mode === "video" ? <WandSparkles size={17} /> : <Camera size={17} />}{mode === "video" ? c.generate : c.preparePhotos}</span><ArrowRight size={16} /></button>
+              <button ref={botonGenerar} type="button" disabled={!canGenerate} onClick={() => { void generate(); }} aria-describedby="molcy-disabled" className="mt-4 flex w-full cursor-pointer items-center justify-between bg-[var(--accent-strong)] px-4 py-4 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-[var(--border)] disabled:text-[var(--text-muted)] disabled:opacity-70"><span className="flex items-center gap-2">{mode === "video" ? <WandSparkles size={17} /> : <Camera size={17} />}{mode === "video" ? c.generate : c.preparePhotos}</span><ArrowRight size={16} /></button>
               <p id="molcy-disabled" className="mt-3 text-xs leading-5 text-[var(--text-dim)]">{renderer?.disponible ? (diskBudget?.disponible ? t("cy_renderer_ok") : t("cy_renderer_space_blocked")) : faltaPaquete ? t("cy_pack_needed_short") : `${t("cy_renderer_falta")}: ${renderer?.motivo || c.disabled}`}</p>
               <RendererSettings renderer={renderer} onChanged={refreshRenderer}
                 busy={Boolean(submitting || historyBusy || paqueteInstalando || jobEstado === "en_cola" || jobEstado === "renderizando")} />

@@ -1,0 +1,125 @@
+{
+  "_comment": "Contactos de las poses 1-3 de la corrida real de 8T69 (clopidogrel, Vina 1.2.7, exhaustividad 8, 9 poses, semilla 42) medidos con ProLIF 2.1.0 sobre el receptor entero y comprobados identicos sobre este bolsillo (residuos a 12 A o menos de las tres poses). Antes de la quimica del receptor eran 0, 0 y 1.",
+  "poses": {
+    "1": {
+      "receptor_chemistry": "standard_residue_templates",
+      "contacts": [
+        [
+          "hydrophobic",
+          "PHE429A",
+          4.42
+        ],
+        [
+          "hydrophobic",
+          "TYR341A",
+          3.94
+        ],
+        [
+          "hydrophobic",
+          "TYR433A",
+          4.18
+        ],
+        [
+          "hydrophobic",
+          "VAL232A",
+          4.18
+        ],
+        [
+          "pi_stacking",
+          "TYR433A",
+          4.0
+        ]
+      ]
+    },
+    "2": {
+      "receptor_chemistry": "standard_residue_templates",
+      "contacts": [
+        [
+          "hydrophobic",
+          "ILE395A",
+          4.39
+        ],
+        [
+          "hydrophobic",
+          "PHE135A",
+          4.37
+        ],
+        [
+          "hydrophobic",
+          "PHE334A",
+          4.48
+        ],
+        [
+          "hydrophobic",
+          "PHE429A",
+          4.09
+        ],
+        [
+          "hydrophobic",
+          "TYR341A",
+          4.47
+        ],
+        [
+          "pi_stacking",
+          "PHE334A",
+          4.73
+        ],
+        [
+          "salt_bridge",
+          "GLU312A",
+          4.34
+        ]
+      ]
+    },
+    "3": {
+      "receptor_chemistry": "standard_residue_templates",
+      "contacts": [
+        [
+          "halogen",
+          "PHE429A",
+          3.38
+        ],
+        [
+          "hbond",
+          "GLU312A",
+          3.24
+        ],
+        [
+          "hydrophobic",
+          "LEU37A",
+          4.43
+        ],
+        [
+          "hydrophobic",
+          "PHE135A",
+          4.15
+        ],
+        [
+          "hydrophobic",
+          "TYR341A",
+          3.94
+        ],
+        [
+          "hydrophobic",
+          "TYR433A",
+          4.16
+        ],
+        [
+          "hydrophobic",
+          "VAL232A",
+          3.74
+        ],
+        [
+          "pi_stacking",
+          "TYR433A",
+          4.08
+        ],
+        [
+          "salt_bridge",
+          "GLU312A",
+          3.24
+        ]
+      ]
+    }
+  }
+}

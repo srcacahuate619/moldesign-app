@@ -259,6 +259,33 @@ describe("Case Workspace", () => {
     expect(detail.respond).not.toHaveBeenCalledWith("applied");
   });
 
+  it("contesta si el caso puede recibir otra molécula sin cambiar nada", async () => {
+    renderWorkspace();
+    await screen.findByText("Crea un caso de estudio");
+    await createCaseViaUi("destino");
+    const pregunta = (caseName: string, owner = "test-owner") => {
+      const detail = { caseName, owner, handled: false, respond: vi.fn() };
+      window.dispatchEvent(new CustomEvent("molchat-case-status", { detail }));
+      return detail;
+    };
+    let libre!: ReturnType<typeof pregunta>;
+    await act(async () => { libre = pregunta("destino"); });
+    await waitFor(() => expect(libre.respond).toHaveBeenCalledWith({ status: "idle" }));
+    // Mientras el chat está cargando una molécula, el caso no puede recibir otra.
+    const carga = { caseName: "destino", smiles: "CCO", requestId: "r9", owner: "test-owner", deadline: Date.now() + 5000, handled: false, respond: vi.fn() };
+    await act(async () => { window.dispatchEvent(new CustomEvent("molchat-load-smiles", { detail: carga })); });
+    let ocupado!: ReturnType<typeof pregunta>;
+    await act(async () => { ocupado = pregunta("destino"); });
+    await waitFor(() => expect(ocupado.respond).toHaveBeenCalledWith({ status: "busy" }));
+    let ausente!: ReturnType<typeof pregunta>;
+    await act(async () => { ausente = pregunta("ausente"); });
+    await waitFor(() => expect(ausente.respond).toHaveBeenCalledWith({ status: "not_found" }));
+    let ajeno!: ReturnType<typeof pregunta>;
+    await act(async () => { ajeno = pregunta("destino", "otro"); });
+    expect(ajeno.respond).toHaveBeenCalledWith({ status: "failed" });
+    expect(carga.respond).not.toHaveBeenCalled(); // preguntar no tocó la carga en curso
+  });
+
   it("no aplica SMILES a un caso inexistente o de otra cuenta", async () => {
     renderWorkspace();
     await screen.findByText("Crea un caso de estudio");

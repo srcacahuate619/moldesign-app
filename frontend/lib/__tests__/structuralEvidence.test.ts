@@ -18,6 +18,10 @@
 // 4. **Nada se inventa.** Lo que la corrida no persistió sale `null`, y el
 //    fallback se declara fallback, no acierto del selector.
 
+import { readFileSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 import {
@@ -499,4 +503,77 @@ describe("conformaciones del protocolo ejecutado", () => {
     expect(view.generation.conformers).toBe(0);
     expect(view.generation.conformersRequested).toBeNull();
   });
+});
+
+
+// ── Paridad con el backend ───────────────────────────────────────────
+//
+// MolChat y los informes leen la MISMA evidencia desde el backend
+// (`backend/services/evaluation/pose_comparison.py`). Dos implementaciones del
+// veredicto se desincronizan en silencio, así que ambas reproducen un archivo
+// dorado compartido: este lado lo escribe (`UPDATE_GOLDEN=1`), el otro lo exige
+// (`backend/tests/test_pose_comparison.py`). Un escenario nuevo se añade a
+// `entradas` del JSON y se regenera `expected`; nadie lo edita a mano.
+
+const GOLDEN = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../../../backend/tests/data/pose_comparison_golden.json",
+);
+
+/** `receptorSha256` → `receptor_sha256`, sólo en claves: los valores no se tocan. */
+function aSnakeCase(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(aSnakeCase);
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([key, inner]) => [
+        key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`),
+        aSnakeCase(inner),
+      ]),
+    );
+  }
+  return value;
+}
+
+describe("paridad con el backend (archivo dorado)", () => {
+  const golden = JSON.parse(readFileSync(GOLDEN, "utf8")) as {
+    scenarios: { name: string; result: unknown; expected: unknown }[];
+  };
+
+  it("el archivo dorado cubre los casos que importan", () => {
+    const nombres = golden.scenarios.map((scenario) => scenario.name);
+    for (const esperado of [
+      "todas_pasan",
+      "todas_fallan",
+      "sugerida_falla_con_alternativas",
+      "cobertura_parcial",
+      "selector_se_abstiene",
+      "corrida_anterior_sin_evidencia",
+      "sin_semilla_ni_version",
+    ]) {
+      expect(nombres).toContain(esperado);
+    }
+    expect(new Set(nombres).size).toBe(nombres.length);
+  });
+
+  if (process.env.UPDATE_GOLDEN === "1") {
+    it("regenera `expected` desde la derivación de la pantalla", () => {
+      for (const scenario of golden.scenarios) {
+        scenario.expected = JSON.parse(
+          JSON.stringify(aSnakeCase(deriveStructuralEvidence(scenario.result as EvaluationResultWithEvidence))),
+        );
+      }
+      writeFileSync(GOLDEN, `${JSON.stringify(golden, null, 2)}\n`, "utf8");
+    });
+    return;
+  }
+
+  for (const scenario of golden.scenarios) {
+    it(`reproduce «${scenario.name}»`, () => {
+      expect(scenario.expected).not.toBeNull();
+      const obtenido = JSON.parse(
+        JSON.stringify(aSnakeCase(deriveStructuralEvidence(scenario.result as EvaluationResultWithEvidence))),
+      );
+      expect(obtenido).toEqual(scenario.expected);
+    });
+  }
 });

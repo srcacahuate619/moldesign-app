@@ -99,6 +99,73 @@ beforeEach(() => {
 });
 afterEach(cleanup);
 
+describe("Molcy preparado desde el chat", () => {
+  const busqueda = { ...fuentes, moldex: [{ ...fuentes.moldex[0], escenas_disponibles: ["resultado", "receptor", "busqueda"] }] };
+  function pedir(over: Record<string, unknown> = {}) {
+    const respond = vi.fn();
+    const detail = { taskId: "run-2026", scene: "busqueda", format: "horizontal", owner: "usuario-qa",
+      presentacion: { ...AUTO_PRESENTATION, colores_lineas: { ...AUTO_PRESENTATION.colores_lineas } }, variante: "lenta",
+      deadline: Date.now() + 90000, handled: false, respond, ...over };
+    act(() => { window.dispatchEvent(new CustomEvent("molchat-molcy-render", { detail })); });
+    return { respond, detail };
+  }
+
+  it("elige a la vista la corrida, la escena y el formato, y pulsa su propio botón", async () => {
+    api.fuentesMolcy.mockResolvedValue(busqueda);
+    render(<MolcyPage />);
+    await screen.findByRole("option", { name: /Aspirina/ });
+    const { respond, detail } = pedir();
+    expect(detail.handled).toBe(true);
+    await waitFor(() => expect(respond).toHaveBeenCalledWith({ status: "started", job_id: "job-1" }), { timeout: 8000 });
+    expect(api.crearMolcy).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ task_id: "run-2026", escena: "busqueda", formato: "horizontal", dispositivo: "gpu" }));
+    expect(screen.getByLabelText("cy_elegir")).toHaveValue("run-2026");
+    expect(screen.getByRole("button", { name: /Búsqueda.*03/ })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("aplica a la vista la presentación pedida (hotspots en verde, receptor morado) y la envía con el vídeo", async () => {
+    api.fuentesMolcy.mockResolvedValue(busqueda);
+    render(<MolcyPage />);
+    await screen.findByRole("option", { name: /Aspirina/ });
+    const presentacion = { ...AUTO_PRESENTATION, color_residuos: "#22C55E", color_receptor: "#8B5CF6", etiquetas: false,
+      colores_lineas: { ...AUTO_PRESENTATION.colores_lineas } };
+    const { respond } = pedir({ presentacion, format: "previsualizacion" });
+    await waitFor(() => expect(respond).toHaveBeenCalledWith({ status: "started", job_id: "job-1" }), { timeout: 9000 });
+    expect(api.crearMolcy).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ formato: "previsualizacion",
+      presentacion: expect.objectContaining({ color_residuos: "#22C55E", color_receptor: "#8B5CF6", etiquetas: false }) }));
+    expect(document.querySelector("details[open]")).not.toBeNull(); // el panel quedó abierto: se ve qué cambió
+  });
+
+  it("si la corrida no está guardada en Moldex, lo dice y no genera nada", async () => {
+    render(<MolcyPage />);
+    await screen.findByRole("option", { name: /Aspirina/ });
+    const { respond } = pedir({ taskId: "otra-corrida" });
+    await waitFor(() => expect(respond).toHaveBeenCalledWith({ status: "not_found", reason: "molchat_motivo_sin_corrida_moldex" }));
+    expect(api.crearMolcy).not.toHaveBeenCalled();
+  });
+
+  it("sin GPU para vídeo contesta «no disponible» con el motivo de la pestaña, sin generar", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      api.fuentesMolcy.mockResolvedValue(busqueda);
+      api.renderizadorMolcy.mockResolvedValue({ ...resources, disponible: true, motivo: null, gpu_disponible: false,
+        motivo_gpu: "Esta máquina no tiene una GPU compatible", foto_disponible: true, foto_gpu_disponible: false });
+      render(<MolcyPage />);
+      await screen.findByRole("option", { name: /Aspirina/ });
+      const { respond } = pedir({ deadline: Date.now() + 6000 });
+      await act(async () => { vi.advanceTimersByTime(7000); });
+      await waitFor(() => expect(respond).toHaveBeenCalledWith({ status: "unavailable", reason: "Esta máquina no tiene una GPU compatible" }));
+      expect(api.crearMolcy).not.toHaveBeenCalled();
+    } finally { vi.useRealTimers(); }
+  });
+
+  it("no contesta por otra cuenta ni antes de conocer la cuenta", async () => {
+    render(<MolcyPage />);
+    await screen.findByRole("option", { name: /Aspirina/ });
+    const { respond } = pedir({ owner: "otra" });
+    expect(respond).toHaveBeenCalledWith({ status: "failed", reason: "molchat_motivo_otra_cuenta" });
+  });
+});
+
 describe("Molcy desde fuentes verificables", () => {
   it("compara el snapshot de la fuente de Moldex y deja el receptor sin corrida", async () => {
     sello.targets = [{ pdb_id: "8HFI", name: "Receptor verificado", seccion_catalogo: "verificado", verificacion: verificacionDePrueba } as Target];

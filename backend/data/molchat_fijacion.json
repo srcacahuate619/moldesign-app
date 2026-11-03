@@ -2,8 +2,8 @@
   "schema": "moldesign.molchat-fijacion/1",
   "repositorio": "https://github.com/srcacahuate619/moldesign-molchat",
   "oficial": true,
-  "commit": "e21a093cfb0dee1cad08d6fc084cac2be93dfdbf",
+  "commit": "945c4d7a79dcc0480b6d109e4c13885b1e2f508b",
   "rama": "master",
   "version": "0.1.0",
-  "sha256_manifiesto": "390b4e6d26ccc62644b7fb41e20e4899f785bd6d87b7ddb7c8f5e1cd213ee8bb"
+  "sha256_manifiesto": "1aae4400fd0ae75138bd7b3f742716fad457793a415dc0646df5ef354a9e1be7"
 }

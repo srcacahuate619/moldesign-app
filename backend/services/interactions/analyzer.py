@@ -72,6 +72,10 @@ class InteractionReport:
     hydrogen_model: str | None = None
     ligand_source_sha256: str | None = None
     coverage: str = "not_declared"
+    #: Qué química del receptor percibió el análisis: `standard_residue_templates` (enlaces dobles, aromaticidad y
+    #: cargas de los residuos estándar), `bonds_by_distance_only` (el PDB sólo trae enlaces sencillos por distancia) o
+    #: `not_declared`. Un receptor sin aromaticidad ni cargas no puede dar apilamiento π, catión–π ni puentes salinos.
+    receptor_chemistry: str = "not_declared"
 
 
 def analyze_complex(
@@ -98,9 +102,7 @@ def analyze_complex(
         ]
         if not atom_lines:
             raise ValueError("El receptor no tiene átomos ATOM")
-        protein_mol = Chem.MolFromPDBBlock(
-            "\n".join(atom_lines) + "\nEND\n", removeHs=False, sanitize=True,
-        )
+        protein_mol, report.receptor_chemistry = _leer_receptor("\n".join(atom_lines) + "\nEND\n")
         if protein_mol is None:
             raise ValueError("RDKit no pudo interpretar el receptor")
         ligand_mol = Chem.SDMolSupplier(str(ligand_sdf_path), removeHs=False)[0]
@@ -108,7 +110,7 @@ def analyze_complex(
             raise ValueError("RDKit no pudo interpretar la pose")
         numeros_originales = _renumerar_residuos_negativos(protein_mol)
         # H geométricos de RDKit: no implica estado de protonación a pH 7.4.
-        protein_mol = Chem.AddHs(protein_mol, addCoords=True)
+        protein_mol = _hidrogenos_en_su_residuo(Chem.AddHs(protein_mol, addCoords=True))
         ligand_mol = Chem.AddHs(ligand_mol, addCoords=True)
         protein = prolif.Molecule.from_rdkit(protein_mol)
         ligand = prolif.Molecule.from_rdkit(ligand_mol)
@@ -168,6 +170,128 @@ def analyze_complex(
     except Exception as exc:
         log.warning("prolif_analysis_unavailable", error=str(exc))
         return _fallback_analysis(protein_pdb_path, ligand_sdf_path, report)
+
+
+# Enlaces dobles (forma de Kekulé) de los residuos estándar, por nombre de átomo del PDB. RDKit lee un PDB con enlaces
+# sencillos por distancia y nada más (medido el 2026-11-02: una Phe sale con 0 átomos aromáticos y 13 enlaces sencillos,
+# el C=O del esqueleto incluido), y ProLIF necesita aromaticidad y cargas para el apilamiento π, el catión–π y los
+# puentes salinos. Con esta tabla los residuos estándar quedan con su química y RDKit percibe la aromaticidad al sanitizar.
+_ESQUELETO_AMINOACIDO = frozenset({
+    "ALA", "ARG", "ASN", "ASP", "ASH", "CYS", "CYX", "CYM", "GLN", "GLU", "GLH", "GLY", "HIS", "HID", "HIE", "HIP",
+    "ILE", "LEU", "LYS", "LYN", "MET", "PHE", "PRO", "SER", "THR", "TRP", "TYR", "VAL",
+})
+_DOBLES_DEL_RESIDUO: dict[str, tuple[tuple[str, str], ...]] = {
+    "PHE": (("CG", "CD1"), ("CE1", "CZ"), ("CE2", "CD2")),
+    "TYR": (("CG", "CD1"), ("CE1", "CZ"), ("CE2", "CD2")),
+    "TRP": (("CG", "CD1"), ("CD2", "CE2"), ("CZ2", "CH2"), ("CZ3", "CE3")),
+    "ASP": (("CG", "OD1"),), "ASH": (("CG", "OD1"),), "ASN": (("CG", "OD1"),),
+    "GLU": (("CD", "OE1"),), "GLH": (("CD", "OE1"),), "GLN": (("CD", "OE1"),),
+    "ARG": (("CZ", "NH2"),),
+}
+_HISTIDINAS = frozenset({"HIS", "HID", "HIE", "HIP"})
+
+
+def _aplicar_quimica_estandar(mol):
+    """Copia de `mol` (sin sanitizar) con los enlaces dobles y cargas de los residuos estándar, ya sanitizada, y cuántos.
+
+    La carga sale de los hidrógenos polares que el PDBQT conserva, no de un pH supuesto: Lys con 3 H en NZ es +1, Arg con
+    5 H en NE, NH1 y NH2 es +1, Asp/Glu sin H en sus oxígenos terminales es −1 y la histidina toma su tautómero del H que
+    trae (HID, HIE o HIP). Si falta la información que decide, el residuo conserva sus enlaces sencillos: no se inventa.
+    """
+    from rdkit import Chem
+
+    residuos: dict[tuple[str, int, str, str], dict[str, int]] = {}
+    for atom in mol.GetAtoms():
+        info = atom.GetPDBResidueInfo()
+        if info is None:
+            continue
+        clave = (info.GetChainId(), info.GetResidueNumber(), info.GetInsertionCode(), info.GetResidueName().strip())
+        residuos.setdefault(clave, {})[info.GetName().strip()] = atom.GetIdx()
+
+    def hidrogenos(idx: int) -> int:
+        return sum(1 for vecino in mol.GetAtomWithIdx(idx).GetNeighbors() if vecino.GetAtomicNum() == 1)
+
+    editable = Chem.RWMol(mol)
+    tipados = 0
+    for (_cadena, _numero, _insercion, nombre), atomos in residuos.items():
+        if nombre not in _ESQUELETO_AMINOACIDO:
+            continue
+        dobles = [("C", "O"), *_DOBLES_DEL_RESIDUO.get(nombre, ())]
+        cargas: dict[str, int] = {}
+        if nombre in _HISTIDINAS:
+            nd1, ne2 = (hidrogenos(atomos[n]) if n in atomos else 0 for n in ("ND1", "NE2"))
+            if nd1 and ne2:
+                dobles += [("CG", "CD2"), ("CE1", "ND1")]
+                cargas["ND1"] = 1
+            elif ne2:
+                dobles += [("CG", "CD2"), ("CE1", "ND1")]
+            elif nd1:
+                dobles += [("CG", "CD2"), ("CE1", "NE2")]
+        elif nombre == "LYS" and "NZ" in atomos and hidrogenos(atomos["NZ"]) >= 3:
+            cargas["NZ"] = 1
+        elif nombre == "ARG" and all(n in atomos for n in ("NE", "NH1", "NH2")) \
+                and sum(hidrogenos(atomos[n]) for n in ("NE", "NH1", "NH2")) >= 5:
+            cargas["NH2"] = 1
+        elif nombre == "ASP" and all(n in atomos for n in ("OD1", "OD2")) \
+                and not hidrogenos(atomos["OD1"]) and not hidrogenos(atomos["OD2"]):
+            cargas["OD2"] = -1
+        elif nombre == "GLU" and all(n in atomos for n in ("OE1", "OE2")) \
+                and not hidrogenos(atomos["OE1"]) and not hidrogenos(atomos["OE2"]):
+            cargas["OE2"] = -1
+        puesto = False
+        for a, b in dobles:
+            if a in atomos and b in atomos:
+                enlace = editable.GetBondBetweenAtoms(atomos[a], atomos[b])
+                if enlace is not None:
+                    enlace.SetBondType(Chem.BondType.DOUBLE)
+                    puesto = True
+        for atomo, carga in cargas.items():
+            editable.GetAtomWithIdx(atomos[atomo]).SetFormalCharge(carga)
+        tipados += puesto
+    Chem.SanitizeMol(editable)
+    return Chem.Mol(editable), tipados
+
+
+def _hidrogenos_en_su_residuo(mol):
+    """Da a cada H que añadió RDKit el residuo de su átomo pesado.
+
+    Sin esa información ProLIF los deja fuera de su residuo: en 8T69, 2871 de 6311 átomos, y los patrones que cuentan H
+    (carbonos hidrofóbicos, donantes) no encuentran nada. `Chem.AddHs(addResidueInfo=True)` lo haría, pero con 6000
+    átomos no termina en minutos (medido); copiar el residuo del vecino es lineal.
+    """
+    from rdkit import Chem
+
+    for atom in mol.GetAtoms():
+        if atom.GetPDBResidueInfo() is not None or atom.GetAtomicNum() != 1:
+            continue
+        vecinos = atom.GetNeighbors()
+        padre = vecinos[0].GetPDBResidueInfo() if vecinos else None
+        if padre is None:
+            continue
+        info = Chem.AtomPDBResidueInfo()
+        info.SetName(" H  ")
+        info.SetResidueName(padre.GetResidueName())
+        info.SetResidueNumber(padre.GetResidueNumber())
+        info.SetChainId(padre.GetChainId())
+        info.SetInsertionCode(padre.GetInsertionCode())
+        info.SetIsHeteroAtom(padre.GetIsHeteroAtom())
+        atom.SetMonomerInfo(info)
+    return mol
+
+
+def _leer_receptor(pdb_text: str):
+    """El receptor como molécula de RDKit y qué química se le percibió (ver `InteractionReport.receptor_chemistry`)."""
+    from rdkit import Chem
+
+    crudo = Chem.MolFromPDBBlock(pdb_text, removeHs=False, sanitize=False)
+    if crudo is not None:
+        try:
+            tipado, residuos = _aplicar_quimica_estandar(crudo)
+            if residuos:
+                return tipado, "standard_residue_templates"
+        except Exception as exc:  # noqa: BLE001 - sin plantillas se analiza como antes, declarándolo
+            log.warning("receptor_chemistry_templates_unavailable", error=str(exc))
+    return Chem.MolFromPDBBlock(pdb_text, removeHs=False, sanitize=True), "bonds_by_distance_only"
 
 
 def _renumerar_residuos_negativos(mol) -> dict[tuple[str, int], int]:

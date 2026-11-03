@@ -8,9 +8,14 @@ verification of the internal 5-layer guard. Same UI contract: the frontend
 
 from __future__ import annotations
 
+from collections.abc import Collection
 from dataclasses import dataclass, field
 from enum import Enum
+import math
 import re
+from typing import Any
+
+from ..lang import tr
 
 #: Closes the evidence block in flow text. The model never sees it in
 #: history; the UI splits evidence from answer on it.
@@ -39,7 +44,59 @@ class Evidence:
     error: str | None = None
 
 
-_NUMBER_RE = re.compile(r"-?\d+\.?\d*")
+#: A number in running text. Spanish writes decimals with a comma ("-9,48") and
+#: models often use the typographic minus (U+2212). A hyphen is a sign only where
+#: a number cannot be the end of a range: "0.22-0.54" holds two positive numbers,
+#: "IC [-0.16; 0.41]" holds one negative.
+_NUMBER_RE = re.compile(r"(?:(?<![\w.,)\]])[-−])?\d+(?:[.,]\d+)?")
+
+
+def to_float(raw: str) -> float:
+    """Parse a token found by ``_NUMBER_RE`` (decimal comma and U+2212 included)."""
+    return float(raw.replace("−", "-").replace(",", "."))
+
+
+def _decimals(raw: str) -> int:
+    body = raw.replace(",", ".")
+    return len(body.split(".", 1)[1]) if "." in body else 0
+
+
+def numeric_leaves(value: Any) -> set[float]:
+    """Every number a tool result carries: in numeric fields and inside its texts.
+
+    Keys are not read ("ic95" does not make 95 a fact). A tool that returns a
+    number is what backs it, so callers register this instead of picking fields
+    by hand and leaving the rest to be hidden as unverified.
+    """
+    found: set[float] = set()
+    pending = [value]
+    while pending:
+        item = pending.pop()
+        if isinstance(item, bool):
+            continue
+        if isinstance(item, (int, float)):
+            if math.isfinite(item):
+                found.add(float(item))
+        elif isinstance(item, str):
+            found.update(to_float(match.group(0)) for match in _NUMBER_RE.finditer(item))
+        elif isinstance(item, dict):
+            pending.extend(item.values())
+        elif isinstance(item, (list, tuple)):
+            pending.extend(item)
+    return found
+
+
+def _backed(raw: str, claimed: float, verified: Collection[float], tolerance: float,
+            exact: Collection[float]) -> bool:
+    """``verified`` keeps its wide tolerance; ``exact`` demands the claim's own precision.
+
+    A claim backed by ``exact`` must be the stored value rounded to the decimals
+    the claim writes: 0.4 and 0.39 agree, 0.3 and 0.39 do not.
+    """
+    if any(abs(claimed - value) <= tolerance for value in verified):
+        return True
+    half = 0.5 * 10 ** -_decimals(raw) + 1e-9
+    return any(abs(claimed - value) <= half for value in exact)
 
 
 def format_evidence(results: list[Evidence]) -> str:
@@ -79,7 +136,6 @@ def split_flow(text: str) -> tuple[str, str]:
     return evidence.strip(), answer.strip()
 
 
-_NUMBER_RE = re.compile(r"-?\d+\.?\d*")
 _ORDINAL_RE = re.compile(r"(?:^|\n)\s*(?:#{1,6}\s+)?(?:\*\*)?\d+(?:\.(?!\d)|[):])")
 
 
@@ -120,9 +176,10 @@ def _ordinal_starts(text: str) -> set[int]:
 def redact_unverified(text: str, verified: set[float],
                       quotable: frozenset[str] = frozenset(),
                       tolerance: float = 0.25,
-                      literals: frozenset[str] = frozenset()) -> tuple[str, list[str]]:
+                      literals: frozenset[str] = frozenset(),
+                      exact: Collection[float] = frozenset()) -> tuple[str, list[str]]:
     """Replace unbacked numbers with a marker; quotable/ordinals survive."""
-    problems = verify_numbers(text, verified, tolerance, quotable, literals)
+    problems = verify_numbers(text, verified, tolerance, quotable, literals, exact)
     if not problems:
         return text, []
     ordinal_starts = _ordinal_starts(text) | _protected_starts(text, literals)
@@ -132,19 +189,20 @@ def redact_unverified(text: str, verified: set[float],
         if raw in quotable or match.start(0) in ordinal_starts:
             return raw
         try:
-            claimed = float(raw)
+            claimed = to_float(raw)
         except ValueError:
             return raw
-        if any(abs(claimed - value) <= tolerance for value in verified):
+        if _backed(raw, claimed, verified, tolerance, exact):
             return raw
-        return "[dato no verificado]"
+        return tr("[dato no verificado]", "[unverified value]")
 
     return _NUMBER_RE.sub(_sub, text), problems
 
 
 def verify_numbers(text: str, verified: set[float], tolerance: float = 0.25,
                    quotable: frozenset[str] = frozenset(),
-                   literals: frozenset[str] = frozenset()) -> list[str]:
+                   literals: frozenset[str] = frozenset(),
+                   exact: Collection[float] = frozenset()) -> list[str]:
     """Every number in ``text`` must match a verified tool value.
 
     Two principled exemptions (both observed against Qwen 1.5B):
@@ -164,9 +222,9 @@ def verify_numbers(text: str, verified: set[float], tolerance: float = 0.25,
         if match.start(0) in ordinal_starts:
             continue
         try:
-            claimed = float(raw)
+            claimed = to_float(raw)
         except ValueError:
             continue
-        if not any(abs(claimed - value) <= tolerance for value in verified):
+        if not _backed(raw, claimed, verified, tolerance, exact):
             problems.append(f"número {raw} sin herramienta que lo respalde")
     return problems

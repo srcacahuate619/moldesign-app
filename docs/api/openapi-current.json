@@ -4674,6 +4674,11 @@
             "title": "Protein Source Sha256",
             "type": "string"
           },
+          "receptor_chemistry": {
+            "default": "not_declared",
+            "title": "Receptor Chemistry",
+            "type": "string"
+          },
           "summary": {
             "additionalProperties": {
               "type": "integer"
@@ -12472,6 +12477,87 @@
         "summary": "Get Interactions",
         "tags": [
           "Interaction Analysis"
+        ]
+      }
+    },
+    "/evaluation/pose-comparison/{task_id}": {
+      "get": {
+        "description": "Qué separa a dos poses de una misma corrida: energía de Vina, controles físicos y selector.\n\nEs la misma evidencia que enseñan Evaluación y Moldex, derivada en el backend para quien no tiene pantalla\n(`services/evaluation/pose_comparison.py`). No elige ganadora y no inventa lo que la corrida no persistió.",
+        "operationId": "get_pose_comparison_evaluation_pose_comparison__task_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "task_id",
+            "required": true,
+            "schema": {
+              "title": "Task Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "left",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Left",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "right",
+            "required": false,
+            "schema": {
+              "default": 2,
+              "title": "Right",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Pose Comparison Evaluation Pose Comparison  Task Id  Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Comparar dos poses de una corrida con su evidencia estructural",
+        "tags": [
+          "Evaluación científica"
         ]
       }
     },
