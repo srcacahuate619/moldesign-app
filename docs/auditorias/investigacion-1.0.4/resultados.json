@@ -1,0 +1,220 @@
+{
+  "D03": {
+    "n": 116,
+    "cobertura": {
+      "CON": 94,
+      "SIN": 96
+    },
+    "discordancias_CON_SIN": [
+      8,
+      10
+    ],
+    "q": 0.15517241379310345,
+    "potencia_116": {
+      "0.05": 0.20600125208610484,
+      "0.1": 0.7574078146932515
+    },
+    "primer_n_con_potencia_80": {
+      "0.05": 515,
+      "0.1": 127
+    }
+  },
+  "D04": {
+    "amina_archivo_sha256": "827ae775cb55cc321b74b40df24713cf83807bc81547c5907eb4d047c5cfd86e",
+    "por_estrato": {
+      "S1_alifatica_normal": {
+        "n": 10,
+        "mae": 0.6900000000000004,
+        "sesgo": 0.3220000000000008
+      },
+      "S2_bencilica": {
+        "n": 2,
+        "mae": 0.7900000000000009,
+        "sesgo": 0.7900000000000009
+      },
+      "S3_alfa_amida": {
+        "n": 4,
+        "mae": 1.8475000000000006,
+        "sesgo": 1.8475000000000006
+      },
+      "S4_atractor": {
+        "n": 4,
+        "mae": 3.3875000000000006,
+        "sesgo": 3.3875000000000006
+      }
+    },
+    "clopidogrel": {
+      "smiles": "COC(=O)[C@H](c1ccccc1Cl)N1CCc2sccc2C1",
+      "smiles_acoplado": "COC(=O)[C@H](c1ccccc1Cl)[NH+]1CCc2sccc2C1",
+      "carga_acoplada": 1,
+      "motivos_de_revision": [],
+      "logp_crippen": 3.6739000000000024,
+      "producto": {
+        "pka": 9.8,
+        "logd": 1.27,
+        "cns_mpo": 4.24
+      },
+      "sensibilidad_4_55": {
+        "logd": 3.67,
+        "cns_mpo": 4.31,
+        "fraccion_protonada": 0.0014105450967152589
+      }
+    }
+  },
+  "D05": {
+    "por_metal": {
+      "CA": {
+        "iones": 5,
+        "coordinados": 4,
+        "entradas": 2,
+        "entradas_coordinadas": 1
+      },
+      "K": {
+        "iones": 3,
+        "coordinados": 1,
+        "entradas": 3,
+        "entradas_coordinadas": 1
+      },
+      "MG": {
+        "iones": 16,
+        "coordinados": 13,
+        "entradas": 11,
+        "entradas_coordinadas": 9
+      },
+      "ZN": {
+        "iones": 28,
+        "coordinados": 25,
+        "entradas": 28,
+        "entradas_coordinadas": 25
+      }
+    },
+    "lectura_seis_pdb": {
+      "1BN1": {
+        "n": 5,
+        "pasaron": 5,
+        "pasaron_y_cerca_del_ion_del_cristal": 5,
+        "pasaron_y_algun_ion_cerca": 5
+      },
+      "2AW1": {
+        "n": 5,
+        "pasaron": 5,
+        "pasaron_y_cerca_del_ion_del_cristal": 5,
+        "pasaron_y_algun_ion_cerca": 5
+      },
+      "4QA0": {
+        "n": 5,
+        "pasaron": 5,
+        "pasaron_y_cerca_del_ion_del_cristal": 0,
+        "pasaron_y_algun_ion_cerca": 0
+      },
+      "2JDI": {
+        "n": 5,
+        "pasaron": 5,
+        "pasaron_y_cerca_del_ion_del_cristal": 5,
+        "pasaron_y_algun_ion_cerca": 5
+      },
+      "4WUD": {
+        "n": 5,
+        "pasaron": 5,
+        "pasaron_y_cerca_del_ion_del_cristal": 5,
+        "pasaron_y_algun_ion_cerca": 5
+      },
+      "4PHL": {
+        "n": 5,
+        "pasaron": 5,
+        "pasaron_y_cerca_del_ion_del_cristal": 0,
+        "pasaron_y_algun_ion_cerca": 0
+      }
+    }
+  },
+  "D06": {
+    "e8": {
+      "n": 89,
+      "rho": 0.39181590636840286,
+      "ic95": [
+        0.22082917225307594,
+        0.5387861612290987
+      ]
+    },
+    "e8s43": {
+      "n": 89,
+      "rho": 0.36705644432218193,
+      "ic95": [
+        0.18240740195966867,
+        0.5275972811773867
+      ]
+    },
+    "e16": {
+      "n": 89,
+      "rho": 0.42777421217341244,
+      "ic95": [
+        0.25967776316740915,
+        0.5698064126495107
+      ]
+    },
+    "e32": {
+      "n": 89,
+      "rho": 0.4345120322699359,
+      "ic95": [
+        0.26709487648612895,
+        0.5755267081496771
+      ]
+    }
+  },
+  "D09": {
+    "sin_ligando": 109,
+    "total_catalogo": 381,
+    "panel": {
+      "False": 38,
+      "True": 2,
+      "None": 4
+    }
+  },
+  "D10": {
+    "meeko": "0.7.1",
+    "rotables_total": {
+      "AAA": {
+        "N-CA": [
+          3,
+          3
+        ],
+        "CA-C": [
+          3,
+          3
+        ],
+        "C-N": [
+          0,
+          2
+        ]
+      },
+      "APA": {
+        "N-CA": [
+          2,
+          3
+        ],
+        "CA-C": [
+          3,
+          3
+        ],
+        "C-N": [
+          1,
+          2
+        ]
+      },
+      "AGKV": {
+        "N-CA": [
+          4,
+          4
+        ],
+        "CA-C": [
+          4,
+          4
+        ],
+        "C-N": [
+          0,
+          3
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "n": 21,
+  "pareados": 21,
+  "cobertura": {
+    "SIN": 8,
+    "SELECTIVAS": 11,
+    "TODAS": 13
+  },
+  "favor_selectivas": 6,
+  "favor_sin": 3,
+  "p": 0.5078125,
+  "perdidas_en_controles": [],
+  "decision_tecnica": "INCONCLUSIVE",
+  "decision_receta": "INCONCLUSIVE",
+  "inyectaron_agua": 19
+}

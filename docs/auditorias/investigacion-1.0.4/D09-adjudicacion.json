@@ -1,0 +1,2090 @@
+{
+  "base": "77aeb73775fd334a24bbe5e3e7382dd2d456379e",
+  "resumen_dictamenes": {
+    "A/A": 25,
+    "B/B": 5,
+    "A/B": 4,
+    "B/A": 2,
+    "C/C": 4,
+    "U/U": 4
+  },
+  "filas": [
+    {
+      "fila": 1,
+      "ensayo": "A2A",
+      "gen": "ADORA2A",
+      "pdb_id": "5NM4",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 2,
+      "ensayo": "alpha1A",
+      "gen": "ADRA1A",
+      "pdb_id": "8THK",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 3,
+      "ensayo": "alpha2A",
+      "gen": "ADRA2A",
+      "pdb_id": "6KUX",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 4,
+      "ensayo": "beta1",
+      "gen": "ADRB1",
+      "pdb_id": "7BVQ",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 5,
+      "ensayo": "beta2",
+      "gen": "ADRB2",
+      "pdb_id": "2RH1",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 6,
+      "ensayo": "CB1",
+      "gen": "CNR1",
+      "pdb_id": "5U09",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 7,
+      "ensayo": "CB2",
+      "gen": "CNR2",
+      "pdb_id": "5ZTY",
+      "A": "B",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 8,
+      "ensayo": "CCK1 (CCKA)",
+      "gen": "CCKAR",
+      "pdb_id": "7F8Y",
+      "A": "A",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 9,
+      "ensayo": "D1",
+      "gen": "DRD1",
+      "pdb_id": "9LLJ",
+      "A": "A",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 10,
+      "ensayo": "D2S",
+      "gen": "DRD2",
+      "pdb_id": "9BS9",
+      "A": "B",
+      "B": "A",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 11,
+      "ensayo": "ETA",
+      "gen": "EDNRA",
+      "pdb_id": "8XVK",
+      "A": "A",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 12,
+      "ensayo": "H1",
+      "gen": "HRH1",
+      "pdb_id": "8X5Y",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 13,
+      "ensayo": "H2",
+      "gen": "HRH2",
+      "pdb_id": "8YUT",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 14,
+      "ensayo": "M1",
+      "gen": "CHRM1",
+      "pdb_id": "6ZFZ",
+      "A": "B",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 15,
+      "ensayo": "M2",
+      "gen": "CHRM2",
+      "pdb_id": "5ZKC",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 16,
+      "ensayo": "M3",
+      "gen": "CHRM3",
+      "pdb_id": "8EA0",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 17,
+      "ensayo": "delta2 (DOP)",
+      "gen": "OPRD1",
+      "pdb_id": "4N6H",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 18,
+      "ensayo": "kappa (KOP)",
+      "gen": "OPRK1",
+      "pdb_id": "7UL2",
+      "A": "C",
+      "B": "C",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 19,
+      "ensayo": "mu (MOP)",
+      "gen": "OPRM1",
+      "pdb_id": "8Y72",
+      "A": "C",
+      "B": "C",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 20,
+      "ensayo": "5-HT1A",
+      "gen": "HTR1A",
+      "pdb_id": "8PJK",
+      "A": "B",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 21,
+      "ensayo": "5-HT1B",
+      "gen": "HTR1B",
+      "pdb_id": "4IAR",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 22,
+      "ensayo": "5-HT2A",
+      "gen": "HTR2A",
+      "pdb_id": "7WC8",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 23,
+      "ensayo": "5-HT2B",
+      "gen": "HTR2B",
+      "pdb_id": "7SRQ",
+      "A": "A",
+      "B": "A",
+      "vigente": true,
+      "propuesta": true
+    },
+    {
+      "fila": 24,
+      "ensayo": "V1a",
+      "gen": "AVPR1A",
+      "pdb_id": "9UWL",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 25,
+      "ensayo": "dopamine transporter",
+      "gen": "SLC6A3",
+      "pdb_id": "9EO4",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 26,
+      "ensayo": "norepinephrine transporter",
+      "gen": "SLC6A2",
+      "pdb_id": "8ZP2",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 27,
+      "ensayo": "5-HT transporter",
+      "gen": "SLC6A4",
+      "pdb_id": "9HCO",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 28,
+      "ensayo": "N neuronal alpha4beta2",
+      "gen": "CHRNA4",
+      "pdb_id": null,
+      "A": "U",
+      "B": "U",
+      "vigente": null,
+      "propuesta": null
+    },
+    {
+      "fila": 29,
+      "ensayo": "5-HT3",
+      "gen": "HTR3A",
+      "pdb_id": "8BLA",
+      "A": "B",
+      "B": "A",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 30,
+      "ensayo": "hERG",
+      "gen": "KCNH2",
+      "pdb_id": "5VA1",
+      "A": "A",
+      "B": "A",
+      "vigente": true,
+      "propuesta": true
+    },
+    {
+      "fila": 31,
+      "ensayo": "KV channel",
+      "gen": null,
+      "pdb_id": null,
+      "A": "U",
+      "B": "U",
+      "vigente": null,
+      "propuesta": null
+    },
+    {
+      "fila": 32,
+      "ensayo": "Na+ channel (site 2)",
+      "gen": "SCN5A",
+      "pdb_id": "6LQA",
+      "A": "C",
+      "B": "C",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 33,
+      "ensayo": "AR",
+      "gen": "AR",
+      "pdb_id": "8E1A",
+      "A": "B",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 34,
+      "ensayo": "COX2",
+      "gen": "PTGS2",
+      "pdb_id": "5IKR",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 35,
+      "ensayo": "acetylcholinesterase",
+      "gen": "ACHE",
+      "pdb_id": "4M0E",
+      "A": "B",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 36,
+      "ensayo": "PDE3A",
+      "gen": "PDE3A",
+      "pdb_id": "7KWE",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 37,
+      "ensayo": "PDE4D2",
+      "gen": "PDE4D",
+      "pdb_id": "1Y2K",
+      "A": "A",
+      "B": "B",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 38,
+      "ensayo": "BZD (central)",
+      "gen": "GABRA1",
+      "pdb_id": "9EQG",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 39,
+      "ensayo": "NMDA",
+      "gen": "GRIN1",
+      "pdb_id": "9GJ1",
+      "A": "C",
+      "B": "C",
+      "vigente": false,
+      "propuesta": false
+    },
+    {
+      "fila": 40,
+      "ensayo": "Ca2+ channel (L, dihydropyridine site)",
+      "gen": "CACNA1C",
+      "pdb_id": "8WE8",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 41,
+      "ensayo": "GR",
+      "gen": "NR3C1",
+      "pdb_id": "4UDD",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 42,
+      "ensayo": "Lck kinase",
+      "gen": "LCK",
+      "pdb_id": "4C3F",
+      "A": "A",
+      "B": "A",
+      "vigente": false,
+      "propuesta": true
+    },
+    {
+      "fila": 43,
+      "ensayo": "COX1",
+      "gen": "PTGS1",
+      "pdb_id": null,
+      "A": "U",
+      "B": "U",
+      "vigente": null,
+      "propuesta": null
+    },
+    {
+      "fila": 44,
+      "ensayo": "MAO-A",
+      "gen": "MAOA",
+      "pdb_id": null,
+      "A": "U",
+      "B": "U",
+      "vigente": null,
+      "propuesta": null
+    }
+  ],
+  "catalogo_general_sin_ligando": [
+    {
+      "pdb_id": "1C3P",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        33.17,
+        37.52,
+        49.74
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "1GKU",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -25.08,
+        -43.86,
+        164.89
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "1IAS",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        49.48,
+        32.92,
+        121.1
+      ],
+      "tamano_A": [
+        24.4,
+        24.4,
+        24.4
+      ]
+    },
+    {
+      "pdb_id": "1IRU",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        68.56,
+        66.62,
+        14.69
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "1J38",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        16.13,
+        -8.0,
+        18.77
+      ],
+      "tamano_A": [
+        26.7,
+        26.7,
+        26.7
+      ]
+    },
+    {
+      "pdb_id": "1KTZ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        39.91,
+        78.74,
+        115.04
+      ],
+      "tamano_A": [
+        24.9,
+        24.9,
+        24.9
+      ]
+    },
+    {
+      "pdb_id": "1M9Z",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        26.41,
+        34.52,
+        4.95
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "1NHY",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -5.23,
+        15.18,
+        20.04
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "1RYP",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        4.85,
+        -176.08,
+        34.66
+      ],
+      "tamano_A": [
+        26.9,
+        26.9,
+        26.9
+      ]
+    },
+    {
+      "pdb_id": "1SM3",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        8.989,
+        2.626,
+        14.979
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "1SUU",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        2.287,
+        39.793,
+        55.507
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "1UZJ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        50.35,
+        38.3,
+        -0.6
+      ],
+      "tamano_A": [
+        26.9,
+        26.9,
+        26.9
+      ]
+    },
+    {
+      "pdb_id": "1VL4",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        23.53,
+        -3.21,
+        -12.81
+      ],
+      "tamano_A": [
+        26.0,
+        26.0,
+        26.0
+      ]
+    },
+    {
+      "pdb_id": "1VPB",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        20.0,
+        36.74,
+        38.57
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "1XWD",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        28.01,
+        -2.99,
+        58.32
+      ],
+      "tamano_A": [
+        26.2,
+        26.2,
+        26.2
+      ]
+    },
+    {
+      "pdb_id": "2B2A",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        61.47,
+        63.11,
+        17.92
+      ],
+      "tamano_A": [
+        25.1,
+        25.1,
+        25.1
+      ]
+    },
+    {
+      "pdb_id": "2I3U",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        3.87,
+        32.26,
+        -9.99
+      ],
+      "tamano_A": [
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "pdb_id": "2J4O",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        39.08,
+        27.96,
+        -27.68
+      ],
+      "tamano_A": [
+        24.8,
+        24.8,
+        24.8
+      ]
+    },
+    {
+      "pdb_id": "2OA8",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        4.19,
+        -4.33,
+        -22.39
+      ],
+      "tamano_A": [
+        22.4,
+        22.4,
+        22.4
+      ]
+    },
+    {
+      "pdb_id": "2P4E",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        56.12,
+        39.81,
+        13.9
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "2QCQ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -14.992,
+        25.971,
+        20.386
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "2R4G",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        5.46,
+        27.54,
+        18.65
+      ],
+      "tamano_A": [
+        25.5,
+        25.5,
+        25.5
+      ]
+    },
+    {
+      "pdb_id": "2W96",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        7.41,
+        2.1,
+        81.55
+      ],
+      "tamano_A": [
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "pdb_id": "2XWT",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        4.5,
+        -19.13,
+        -15.81
+      ],
+      "tamano_A": [
+        26.5,
+        26.5,
+        26.5
+      ]
+    },
+    {
+      "pdb_id": "2ZJT",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        14.154,
+        0.941,
+        -24.073
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "3DU6",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -35.26,
+        55.04,
+        -51.33
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "3E50",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        11.43,
+        -114.76,
+        41.59
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "3F75",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        43.21,
+        2.19,
+        46.19
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "3FHV",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        48.747,
+        37.095,
+        1.528
+      ],
+      "tamano_A": [
+        30.0,
+        30.0,
+        30.0
+      ]
+    },
+    {
+      "pdb_id": "3G04",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        5.53,
+        66.15,
+        56.37
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "3HH2",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -13.39,
+        -23.16,
+        5.47
+      ],
+      "tamano_A": [
+        26.2,
+        26.2,
+        26.2
+      ]
+    },
+    {
+      "pdb_id": "3IG0",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        12.3,
+        -3.12,
+        -15.27
+      ],
+      "tamano_A": [
+        24.8,
+        24.8,
+        24.8
+      ]
+    },
+    {
+      "pdb_id": "3JTG",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        27.59,
+        51.01,
+        25.25
+      ],
+      "tamano_A": [
+        26.1,
+        26.1,
+        26.1
+      ]
+    },
+    {
+      "pdb_id": "3KD2",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -3.37,
+        44.31,
+        25.2
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "3KDA",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -3.68,
+        -9.49,
+        25.88
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "3KYL",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        0.45,
+        5.73,
+        37.63
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "3MXJ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        17.75,
+        -3.35,
+        33.58
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "3OSK",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -2.132,
+        -19.592,
+        22.149
+      ],
+      "tamano_A": [
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "pdb_id": "3RVY",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -43.7,
+        -68.83,
+        -79.18
+      ],
+      "tamano_A": [
+        37.6,
+        37.6,
+        37.6
+      ]
+    },
+    {
+      "pdb_id": "3RVZ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -57.39,
+        -44.09,
+        -78.96
+      ],
+      "tamano_A": [
+        37.8,
+        37.8,
+        37.8
+      ]
+    },
+    {
+      "pdb_id": "3RW0",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -43.98,
+        -5.92,
+        -78.63
+      ],
+      "tamano_A": [
+        37.4,
+        37.4,
+        37.4
+      ]
+    },
+    {
+      "pdb_id": "4DLN",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -12.76,
+        51.71,
+        23.47
+      ],
+      "tamano_A": [
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "pdb_id": "4DM7",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        8.045,
+        -53.725,
+        -21.368
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "4DMF",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -12.4,
+        -33.79,
+        20.71
+      ],
+      "tamano_A": [
+        25.1,
+        25.1,
+        25.1
+      ]
+    },
+    {
+      "pdb_id": "4I04",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        12.06,
+        7.93,
+        -12.75
+      ],
+      "tamano_A": [
+        25.7,
+        25.7,
+        25.7
+      ]
+    },
+    {
+      "pdb_id": "4LMO",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        5.25,
+        -22.88,
+        19.78
+      ],
+      "tamano_A": [
+        25.6,
+        25.6,
+        25.6
+      ]
+    },
+    {
+      "pdb_id": "4MS2",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        190.81,
+        65.9,
+        13.21
+      ],
+      "tamano_A": [
+        43.4,
+        43.4,
+        43.4
+      ]
+    },
+    {
+      "pdb_id": "4NPU",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        26.09,
+        1.26,
+        -21.52
+      ],
+      "tamano_A": [
+        24.9,
+        24.9,
+        24.9
+      ]
+    },
+    {
+      "pdb_id": "5C9H",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        77.42,
+        56.24,
+        178.32
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "5DIY",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -5.08,
+        52.61,
+        35.66
+      ],
+      "tamano_A": [
+        26.7,
+        26.7,
+        26.7
+      ]
+    },
+    {
+      "pdb_id": "5E4G",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        0.54,
+        -3.29,
+        -10.12
+      ],
+      "tamano_A": [
+        25.2,
+        25.2,
+        25.2
+      ]
+    },
+    {
+      "pdb_id": "5E8V",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        31.37,
+        8.75,
+        22.89
+      ],
+      "tamano_A": [
+        25.5,
+        25.5,
+        25.5
+      ]
+    },
+    {
+      "pdb_id": "5FG9",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        4.94,
+        -195.28,
+        17.53
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "5FPW",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        49.96,
+        -3.59,
+        23.6
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "5JHW",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        7.24,
+        -10.98,
+        -46.77
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "5NPT",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        12.11,
+        -9.56,
+        17.4
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "5O65",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        42.38,
+        86.14,
+        -4.61
+      ],
+      "tamano_A": [
+        36.3,
+        36.3,
+        36.3
+      ]
+    },
+    {
+      "pdb_id": "5O67",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        15.66,
+        -6.27,
+        143.6
+      ],
+      "tamano_A": [
+        30.6,
+        30.6,
+        30.6
+      ]
+    },
+    {
+      "pdb_id": "5TPT",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -13.27,
+        -31.49,
+        -21.34
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "5TUN",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        8.44,
+        136.26,
+        21.28
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "5VA1",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        73.15,
+        73.15,
+        78.53
+      ],
+      "tamano_A": [
+        28.8,
+        28.8,
+        30.0
+      ]
+    },
+    {
+      "pdb_id": "5YUA",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -19.91,
+        -0.1,
+        19.75
+      ],
+      "tamano_A": [
+        40.9,
+        40.9,
+        40.9
+      ]
+    },
+    {
+      "pdb_id": "5YWS",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -36.98,
+        -7.53,
+        0.05
+      ],
+      "tamano_A": [
+        25.2,
+        25.2,
+        25.2
+      ]
+    },
+    {
+      "pdb_id": "5YWV",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -30.57,
+        11.71,
+        -5.02
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "6B3J",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        96.19,
+        104.05,
+        99.52
+      ],
+      "tamano_A": [
+        24.4,
+        24.4,
+        24.4
+      ]
+    },
+    {
+      "pdb_id": "6C1P",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        18.48,
+        -100.26,
+        210.52
+      ],
+      "tamano_A": [
+        37.9,
+        37.9,
+        37.9
+      ]
+    },
+    {
+      "pdb_id": "6GAV",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        78.64,
+        21.87,
+        292.93
+      ],
+      "tamano_A": [
+        25.2,
+        25.2,
+        25.2
+      ]
+    },
+    {
+      "pdb_id": "6HL0",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -23.66,
+        -1.2,
+        99.18
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "6MEO",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        145.886,
+        166.486,
+        155.291
+      ],
+      "tamano_A": [
+        27.6,
+        27.6,
+        27.6
+      ]
+    },
+    {
+      "pdb_id": "6MVV",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        120.8,
+        13.18,
+        17.7
+      ],
+      "tamano_A": [
+        39.3,
+        39.3,
+        39.3
+      ]
+    },
+    {
+      "pdb_id": "6MVW",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        139.52,
+        183.51,
+        15.37
+      ],
+      "tamano_A": [
+        38.8,
+        38.8,
+        38.8
+      ]
+    },
+    {
+      "pdb_id": "6OGV",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -3.78,
+        -5.07,
+        -3.08
+      ],
+      "tamano_A": [
+        25.0,
+        25.0,
+        25.0
+      ]
+    },
+    {
+      "pdb_id": "6P6X",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -37.16,
+        -55.8,
+        -82.98
+      ],
+      "tamano_A": [
+        42.9,
+        42.9,
+        42.9
+      ]
+    },
+    {
+      "pdb_id": "6PS2",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -9.95,
+        9.65,
+        34.99
+      ],
+      "tamano_A": [
+        34.6,
+        34.6,
+        34.6
+      ]
+    },
+    {
+      "pdb_id": "6RML",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        14.27,
+        -35.63,
+        -4.7
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "6USO",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -18.26,
+        47.57,
+        25.76
+      ],
+      "tamano_A": [
+        24.5,
+        24.5,
+        24.5
+      ]
+    },
+    {
+      "pdb_id": "6W10",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        13.62,
+        -3.88,
+        50.25
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "6Y5E",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        87.67,
+        129.74,
+        111.96
+      ],
+      "tamano_A": [
+        20.6,
+        20.6,
+        20.6
+      ]
+    },
+    {
+      "pdb_id": "6ZD1",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        20.7,
+        34.52,
+        175.13
+      ],
+      "tamano_A": [
+        21.5,
+        21.5,
+        21.5
+      ]
+    },
+    {
+      "pdb_id": "6ZD2",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -17.01,
+        -4.33,
+        -12.09
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "6ZD6",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        16.58,
+        51.57,
+        173.79
+      ],
+      "tamano_A": [
+        25.1,
+        25.1,
+        25.1
+      ]
+    },
+    {
+      "pdb_id": "6ZDP",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        20.14,
+        61.02,
+        76.37
+      ],
+      "tamano_A": [
+        21.7,
+        21.7,
+        21.7
+      ]
+    },
+    {
+      "pdb_id": "6ZDQ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -39.07,
+        -34.21,
+        -1.82
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "7BVQ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        15.84,
+        -34.47,
+        18.39
+      ],
+      "tamano_A": [
+        34.5,
+        34.5,
+        34.5
+      ]
+    },
+    {
+      "pdb_id": "7KQM",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -7.53,
+        -16.88,
+        10.51
+      ],
+      "tamano_A": [
+        27.4,
+        27.4,
+        27.4
+      ]
+    },
+    {
+      "pdb_id": "7PAC",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -19.32,
+        0.89,
+        -12.26
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "7SBE",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        27.22,
+        15.75,
+        47.75
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "7T9I",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        188.59,
+        164.85,
+        134.46
+      ],
+      "tamano_A": [
+        26.0,
+        26.0,
+        26.0
+      ]
+    },
+    {
+      "pdb_id": "7TM9",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        13.89,
+        -43.79,
+        23.35
+      ],
+      "tamano_A": [
+        23.6,
+        23.6,
+        23.6
+      ]
+    },
+    {
+      "pdb_id": "7XW6",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        126.04,
+        148.34,
+        106.06
+      ],
+      "tamano_A": [
+        35.5,
+        35.5,
+        35.5
+      ]
+    },
+    {
+      "pdb_id": "8F6U",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        42.35,
+        17.73,
+        -13.37
+      ],
+      "tamano_A": [
+        25.5,
+        25.5,
+        25.5
+      ]
+    },
+    {
+      "pdb_id": "8F6V",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -17.07,
+        17.29,
+        -0.83
+      ],
+      "tamano_A": [
+        25.1,
+        25.1,
+        25.1
+      ]
+    },
+    {
+      "pdb_id": "8GJR",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -58.49,
+        63.48,
+        -12.44
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "8HFE",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        96.9,
+        99.61,
+        100.56
+      ],
+      "tamano_A": [
+        26.5,
+        26.5,
+        26.5
+      ]
+    },
+    {
+      "pdb_id": "8J47",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        115.58,
+        107.64,
+        112.46
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "8V52",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        4.93,
+        19.94,
+        107.36
+      ],
+      "tamano_A": [
+        25.7,
+        25.7,
+        25.7
+      ]
+    },
+    {
+      "pdb_id": "8WZL",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        18.3,
+        -19.55,
+        -5.0
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "9E9G",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        25.24,
+        8.24,
+        24.17
+      ],
+      "tamano_A": [
+        25.2,
+        25.2,
+        25.2
+      ]
+    },
+    {
+      "pdb_id": "9F9T",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        126.75,
+        170.74,
+        143.24
+      ],
+      "tamano_A": [
+        26.5,
+        26.5,
+        26.5
+      ]
+    },
+    {
+      "pdb_id": "9KJE",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        19.1,
+        -19.13,
+        39.22
+      ],
+      "tamano_A": [
+        26.2,
+        26.2,
+        26.2
+      ]
+    },
+    {
+      "pdb_id": "9NX5",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -20.65,
+        -89.26,
+        41.27
+      ],
+      "tamano_A": [
+        25.1,
+        25.1,
+        25.1
+      ]
+    },
+    {
+      "pdb_id": "9QA0",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        28.18,
+        -11.72,
+        -19.29
+      ],
+      "tamano_A": [
+        25.6,
+        25.6,
+        25.6
+      ]
+    },
+    {
+      "pdb_id": "9QA1",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -24.4,
+        17.66,
+        53.33
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "9QA2",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -24.36,
+        18.01,
+        54.68
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "9QA3",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -28.38,
+        15.92,
+        51.6
+      ],
+      "tamano_A": [
+        25.3,
+        25.3,
+        25.3
+      ]
+    },
+    {
+      "pdb_id": "9QA4",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -23.53,
+        18.27,
+        52.0
+      ],
+      "tamano_A": [
+        25.4,
+        25.4,
+        25.4
+      ]
+    },
+    {
+      "pdb_id": "9RAW",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        131.208,
+        131.298,
+        106.829
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "9RAX",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        131.191,
+        131.274,
+        105.066
+      ],
+      "tamano_A": [
+        22.0,
+        22.0,
+        22.0
+      ]
+    },
+    {
+      "pdb_id": "9TDZ",
+      "site_evidence": "box_volume",
+      "hotspots_source": "auto_pocket_top15",
+      "centro_A": [
+        -30.364,
+        1.778,
+        -5.039
+      ],
+      "tamano_A": [
+        30.0,
+        30.0,
+        30.0
+      ]
+    }
+  ]
+}

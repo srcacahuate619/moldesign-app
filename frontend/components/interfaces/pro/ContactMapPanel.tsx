@@ -1,7 +1,7 @@
 "use client";
 
 import { presentError } from "../../../lib/frontendError";
-import {useEffect,useId,useMemo,useState} from "react";
+import {useEffect,useId,useMemo,useRef,useState} from "react";
 import {useLanguage} from "@/context/LanguageContext";
 import {useKeepAliveActive} from "@/context/KeepAliveContext";
 import {getContactMap} from "@/lib/api";
@@ -32,12 +32,20 @@ export function ContactMapPanel({moleculeId,taskId,poses}:{moleculeId?:string|nu
   const [zoom,setZoom]=useState(1);
   const rank=ranks.includes(chosenRank)?chosenRank:ranks[0]??1,key=`${moleculeId??""}:${taskId??""}:${rank}`;
   const [load,setLoad]=useState<Load|null>(null);
+  // Informes ya verificados de esta corrida. Calcularlos cuesta segundos en el
+  // backend (ProLIF sobre el receptor entero) y la pestaña se reactiva cada vez
+  // que se vuelve a ella; sin esto, cada visita repetía el cálculo. Sólo se
+  // guardan respuestas que pasaron `contactMapMatches`, así que un fallo siempre se reintenta.
+  const verified=useRef(new Map<string,InteractionsReport>());
   useEffect(()=>{
     if(!active||!moleculeId||!taskId||!ranks.length||rank>20)return;
+    const known=verified.current.get(key);
+    if(known){setLoad(previous=>previous?.key===key&&previous.state==="ready"?previous:{key,state:"ready",report:known});return;}
     const controller=new AbortController();setSelected(null);setLoad({key,state:"loading"});
     getContactMap(moleculeId,taskId,rank,controller.signal).then(report=>{
       if(controller.signal.aborted)return;
       if(!contactMapMatches(report,moleculeId,taskId,rank))throw new Error(t("cm_mismatch"));
+      verified.current.set(key,report);
       setLoad({key,state:"ready",report});
     }).catch(error=>{if(!controller.signal.aborted)setLoad({key,state:"error",error:error instanceof Error?presentError(error, t):t("cm_error")});});
     return()=>controller.abort();

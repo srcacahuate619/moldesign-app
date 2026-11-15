@@ -109,4 +109,59 @@ describe("comprobarWebGL", () => {
     comprobarWebGL();
     expect(espia).toHaveBeenCalledTimes(1);
   });
+
+  it("lo memorizado se puede olvidar: el equipo puede perder el 3D con la sesión abierta", () => {
+    // El proceso de GPU se cae y Chromium deja de dar contextos. Quien ve fallar
+    // un visor vuelve a medir; con la respuesta de antes abriría otro visor roto.
+    conRenderer("ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 SUPER Direct3D11 vs_5_0 ps_5_0, D3D11)");
+    expect(comprobarWebGL().disponible).toBe(true);
+    sinContexto();
+    expect(comprobarWebGL().disponible).toBe(true);
+    reiniciarComprobacionWebGL();
+    expect(comprobarWebGL().disponible).toBe(false);
+  });
+});
+
+/**
+ * La sonda deja dicho en `<html data-dibujo>` si la pantalla la compone el
+ * procesador; `globals.css` da entonces las animaciones por pasos. Medido en el
+ * export sin GPU: la pantalla «evaluando» pasa del 57 % al 27 % de un núcleo.
+ */
+describe("modo de dibujo anunciado al medir", () => {
+  const modo = () => document.documentElement.dataset.dibujo;
+
+  beforeEach(() => {
+    delete document.documentElement.dataset.dibujo;
+  });
+
+  it("por software: se anuncia", () => {
+    conRenderer("ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero)), SwiftShader driver)");
+    comprobarWebGL();
+    expect(modo()).toBe("software");
+  });
+
+  it("sin contexto 3D la pantalla también la compone el procesador", () => {
+    sinContexto();
+    comprobarWebGL();
+    expect(modo()).toBe("software");
+  });
+
+  it("con tarjeta gráfica las animaciones se quedan como están", () => {
+    conRenderer("ANGLE (NVIDIA, NVIDIA GeForce GTX 1660 SUPER Direct3D11 vs_5_0 ps_5_0, D3D11)");
+    comprobarWebGL();
+    expect(modo()).toBe("hardware");
+  });
+
+  it("si el equipo no dice cómo dibuja, no se le rebajan las animaciones", () => {
+    conRenderer(null);
+    comprobarWebGL();
+    expect(modo()).toBe("hardware");
+  });
+
+  it("la hoja de estilos lee ese mismo atributo", async () => {
+    const { readFileSync } = await import("node:fs");
+    const { resolve } = await import("node:path");
+    const css = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
+    expect(css).toMatch(/html\[data-dibujo="software"\]\s*\[class\*="animate-"\]\s*\{[^}]*steps\(/);
+  });
 });

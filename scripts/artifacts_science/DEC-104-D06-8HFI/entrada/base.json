@@ -1,0 +1,5 @@
+{
+  "scripts/calibracion_receptor.py": "d24725ef9c6fc4597e90feeda64698d1cb68f2dfc817e922a88df54f6f615c14",
+  "scripts/accept_evaluation_runtime.py": "528b7ad5af10fae004f1c9a20e01f8e144cce679c10d309ec00b59887c888c18",
+  "tools/vina/vina.exe": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5"
+}

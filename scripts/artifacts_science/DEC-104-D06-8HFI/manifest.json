@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "experiment_id": "DEC-104-D06-8HFI",
+  "hypothesis": "Exhaustividad 32 cambia Spearman de top-1 contra pKi en 8HFI",
+  "protocol": "scripts/artifacts_science/DEC-104-D06-8HFI/entrada/REGISTRO.md",
+  "created_at": "2026-11-15T04:34:46.947117+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "f0c64ee099f14667b12f8ae1b68d32750307b0e1",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "IC95 pareado y margen de 0.10 con control estructural y escenarios de potencia"
+  },
+  "decision": "INCONCLUSIVE",
+  "dataset_hashes": {
+    "scripts/artifacts_science/DEC-104-D06-8HFI/entrada/REGISTRO.md": "942add5af2fc015ce08b8ae58f1cc9ce4e5e2eb0a8ef190ce7f0fa0d5189048a",
+    "scripts/artifacts_science/DEC-104-D06-8HFI/entrada/base.json": "60796e4b9d1872b1e00e331b9b64aaefb4874e0752fcfcb25a2cb89c4a0fc09e",
+    "scripts/artifacts_science/DEC-104-D06-8HFI/entrada/cal-8hfi-protocolo.json": "9bad19463807343b6a86d4d50933599077634cb230f62d14b864e4d1118ba2b6",
+    "scripts/artifacts_science/DEC-104-D06-8HFI/entrada/medir_d06.py": "02b5bb5acb59be61b577069fd0ab9c708de810ab391cf53052166cffd61921d8",
+    "scripts/artifacts_science/DEC-104-D06-8HFI/entrada/panel.csv": "7568423f5d12c408a2db413c9685f0f85e1b28e73944288c95054831aee2d706"
+  },
+  "sealed": true,
+  "sealed_at": "2026-11-15T04:35:11.894269+00:00",
+  "decision_rationale": "243 de 243 corridas exitosas y receptor identico. Delta rho e32-e8 = 0.0133208, IC 95 % [-0.0623785, 0.1046783], fuera del margen de equivalencia por el extremo superior. Redocking valido 3/5 con e8 y 5/5 con e32.",
+  "finished_at": "2026-11-15T15:29:25.073130+00:00"
+}

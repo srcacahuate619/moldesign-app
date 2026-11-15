@@ -240,6 +240,20 @@
         "title": "Body_create_cohort_evaluation_cohorts_post",
         "type": "object"
       },
+      "Body_inspect_custom_target_targets_upload_inspeccion_post": {
+        "properties": {
+          "file": {
+            "contentMediaType": "application/octet-stream",
+            "title": "File",
+            "type": "string"
+          }
+        },
+        "required": [
+          "file"
+        ],
+        "title": "Body_inspect_custom_target_targets_upload_inspeccion_post",
+        "type": "object"
+      },
       "Body_submit_batch_evaluation_batch_post": {
         "properties": {
           "file": {
@@ -290,6 +304,18 @@
             "title": "File",
             "type": "string"
           },
+          "fuente_declarada": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "De dónde viene una estructura que no lo dice (ni método ni marcas de predicción, como el PDB de Boltz): experimental, boltz, otra o no_se. Sin ella, no consta. POST /targets/upload/inspeccion dice si hace falta.",
+            "title": "Fuente Declarada"
+          },
           "grid_center_x": {
             "anyOf": [
               {
@@ -337,6 +363,18 @@
             "default": 20.0,
             "title": "Grid Size Z",
             "type": "number"
+          },
+          "herramienta_declarada": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Nombre de la herramienta de predicción, con fuente_declarada=otra",
+            "title": "Herramienta Declarada"
           },
           "is_anti_target": {
             "default": false,
@@ -10410,6 +10448,96 @@
         ]
       }
     },
+    "/evaluation/analog-pose-comparison": {
+      "get": {
+        "description": "¿Cómo se colocan dos ligandos distintos en el mismo receptor? (`services/evaluation/run_pose_comparison.py`).\n\nMide el RMSD del núcleo común máximo en el marco del receptor (sin superponer) y se abstiene si el núcleo es\npequeño o si las corridas no comparten receptor preparado. No es el RMSD de la molécula entera y no elige\nganadora; la diferencia de afinidad dice si es comparable (mismo protocolo).",
+        "operationId": "get_analog_pose_comparison_evaluation_analog_pose_comparison_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "task_a",
+            "required": true,
+            "schema": {
+              "title": "Task A",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_b",
+            "required": true,
+            "schema": {
+              "title": "Task B",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rank_a",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Rank A",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rank_b",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Rank B",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Analog Pose Comparison Evaluation Analog Pose Comparison Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Comparar las poses de dos ligandos distintos del mismo receptor",
+        "tags": [
+          "Evaluación científica"
+        ]
+      }
+    },
     "/evaluation/batch": {
       "post": {
         "description": "Virtual screening batch. Subi un archivo con SMILES, los evalua contra el target,\ny devuelve resultados rankeados.\n\nMulti-target: usa target_pdb_id=ALL para correr contra todos los targets pre-curados.\nEarly Exit: si esta activado, MolGraph pre-filtra moleculas similares a inactivos conocidos.\nLabel opcional: si el CSV/Excel tiene columna 'active' (1/0), se computa EF/AUC.",
@@ -12561,6 +12689,86 @@
         ]
       }
     },
+    "/evaluation/pose-matches": {
+      "get": {
+        "description": "RMSD de la pose `rank_a` de la evaluación A contra CADA pose de la evaluación B (`run_pose_comparison.pose_matches`).\n\nResponde a quien repitió con otra semilla o con otro protocolo y pregunta qué pose de la repetición es la suya (el\norden por energía cambia, la geometría no tiene por qué). La misma molécula se mide entera; dos ligandos distintos,\npor su núcleo común. Sólo con el mismo receptor preparado: con otro (o sin declararlo) se abstiene y lo dice. No\nelige ganadora: nombra la más cercana, y una pose cercana no es una pose válida.",
+        "operationId": "get_pose_matches_evaluation_pose_matches_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "task_a",
+            "required": true,
+            "schema": {
+              "title": "Task A",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_b",
+            "required": true,
+            "schema": {
+              "title": "Task B",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rank_a",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Rank A",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Pose Matches Evaluation Pose Matches Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cuál de las poses de otra evaluación se parece más a una pose dada",
+        "tags": [
+          "Evaluación científica"
+        ]
+      }
+    },
     "/evaluation/preflight": {
       "post": {
         "description": "Inspecciona receptor, ligando y configuración efectiva antes de ejecutar.\n\nNo valida el SMILES con `validate_smiles_or_raise`: un SMILES inválido no\npuede terminar en un 422 sin informe. Tiene que salir como un bloqueante\ndentro del propio preflight, que es donde el usuario lo va a leer.",
@@ -12693,6 +12901,96 @@
           }
         },
         "summary": "Leer resultado persistido de una molécula",
+        "tags": [
+          "Evaluación científica"
+        ]
+      }
+    },
+    "/evaluation/run-pose-comparison": {
+      "get": {
+        "description": "¿Cambió la pose de ESTA molécula entre dos corridas? (`services/evaluation/run_pose_comparison.py`).\n\nSólo la misma molécula; el RMSD sólo con el mismo receptor preparado (si no, se abstiene con su motivo). Nombra\nlo que difiere entre las dos corridas y no elige ganadora.",
+        "operationId": "get_run_pose_comparison_evaluation_run_pose_comparison_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "task_a",
+            "required": true,
+            "schema": {
+              "title": "Task A",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "task_b",
+            "required": true,
+            "schema": {
+              "title": "Task B",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rank_a",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Rank A",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "rank_b",
+            "required": false,
+            "schema": {
+              "default": 1,
+              "title": "Rank B",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Run Pose Comparison Evaluation Run Pose Comparison Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Comparar la pose de una molécula entre dos evaluaciones",
         "tags": [
           "Evaluación científica"
         ]
@@ -16798,7 +17096,7 @@
     },
     "/sar/{molecule_id}": {
       "get": {
-        "description": "Structure-Activity Relationship table.\n\nReturns all molecules evaluated against the SAME target,\nsorted by score (best first). The affinity difference against the\nbaseline is ONLY computed when both runs share the same chemical\npreparation condition (pH, protonation, tautomer) and the same\nstructural protocol (receptor, box, seed, effort). Otherwise the row\ndeclares `comparison_state=\"abstained\"` with the reason naming both\nconflicting values — the raw affinities stay visible; the difference\nbetween distinct chemical species is never fabricated (SOL-04/AMP-02).\n\nCAS-02. Por defecto la tabla usa la proyección más reciente de cada\nmolécula, que cambia al reevaluarla con otro protocolo. Con `task_id` la base\nes lo que ESA corrida produjo, y con `cohort_task_ids` el conjunto de análogos\nes el de las corridas pedidas, leídas de sus snapshots inmutables. La\nabstención sigue gobernando el delta: una cohorte explícita no vuelve\ncomparable lo que no lo es. La respuesta declara de dónde salió la tabla\n(`cohort`).",
+        "description": "Structure-Activity Relationship table.\n\nReturns the molecules evaluated against the SAME target by the SAME owner\nthat are most structurally similar to the reference (Tanimoto, Morgan r=2,\n1024 bits): up to 50 comparisons chosen BEFORE the cut, plus the reference\nitself (`is_base`), which does not take a slot. Candidates need a registered\ndocking affinity and no registered error; the composite index plays no part\nin admission or order. An explicit cohort (`cohort_task_ids`) is returned as\nrequested, sorted by score. The affinity difference against the\nbaseline is ONLY computed when both runs share the same chemical\npreparation condition (pH, protonation, tautomer) and the same\nstructural protocol (receptor, box, seed, effort). Otherwise the row\ndeclares `comparison_state=\"abstained\"` with the reason naming both\nconflicting values — the raw affinities stay visible; the difference\nbetween distinct chemical species is never fabricated (SOL-04/AMP-02).\n\nCAS-02. Por defecto la tabla usa la proyección más reciente de cada\nmolécula, que cambia al reevaluarla con otro protocolo. Con `task_id` la base\nes lo que ESA corrida produjo, y con `cohort_task_ids` el conjunto de análogos\nes el de las corridas pedidas, leídas de sus snapshots inmutables. La\nabstención sigue gobernando el delta: una cohorte explícita no vuelve\ncomparable lo que no lo es. La respuesta declara de dónde salió la tabla\n(`cohort`).",
         "operationId": "get_sar_table_sar__molecule_id__get",
         "parameters": [
           {
@@ -17472,6 +17770,64 @@
           }
         },
         "summary": "Subir y preparar un target personalizado",
+        "tags": [
+          "Targets biológicos"
+        ]
+      }
+    },
+    "/targets/upload/inspeccion": {
+      "post": {
+        "description": "Lee el archivo como lo haría la subida, sin guardar nada, y dice si hay que preguntar de dónde viene.\n\n``pregunta_fuente`` es ``true`` cuando la estructura no declara su método ni trae marcas de predicción (el PDB de\nBoltz no trae ninguna cabecera): entonces la subida necesita ``fuente_declarada`` para saber si leer su pLDDT. Es\nla misma regla que usa la subida (``prediccion.hay_que_preguntar_la_fuente``). Un archivo que la subida\nrechazaría sale con el mismo error.",
+        "operationId": "inspect_custom_target_targets_upload_inspeccion_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_inspect_custom_target_targets_upload_inspeccion_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "¿Dice la estructura de dónde viene? (antes de subirla)",
         "tags": [
           "Targets biológicos"
         ]

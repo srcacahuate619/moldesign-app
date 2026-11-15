@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "DEC-104-D05-PROLIF",
+  "hypothesis": "ProLIF reconoce coordinaciones presentes en seis depositos y omite controles negativos",
+  "protocol": "scripts/artifacts_science/DEC-104-D05-PROLIF/entrada/REGISTRO.md",
+  "created_at": "2026-11-15T15:09:56.771158+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "f0c64ee099f14667b12f8ae1b68d32750307b0e1",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Cinco pares positivos y nueve negativos, comparacion geometrica sobre treinta poses"
+  },
+  "decision": "NO_GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/DEC-104-D05-PROLIF/entrada/REGISTRO.md": "e566ec57448ea2e097cfd5ca9aba75fd5479328b4e76aa9605ae36ef509784a6",
+    "scripts/artifacts_science/DEC-104-D05-PROLIF/entrada/fuentes.json": "8e0ace23a002e4f83c9166c5b80bce4f2965c9d57b713b9b3b03ffe5974ee6f9",
+    "scripts/artifacts_science/DEC-104-D05-PROLIF/entrada/medir_d05.py": "42e5b26e2ec1b2219695940ac7e8c34409a922530b02767bd985fc7a824cde7d"
+  },
+  "sealed": true,
+  "sealed_at": "2026-11-15T15:10:01.681098+00:00",
+  "decision_rationale": "MetalAcceptor y MetalDonor detectan 3 de 5 cristales positivos y ninguno de 9 pares de control negativo; no satisfacen la cobertura requerida",
+  "finished_at": "2026-11-15T15:10:30.308381+00:00"
+}

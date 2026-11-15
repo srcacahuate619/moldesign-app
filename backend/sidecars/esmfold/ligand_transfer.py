@@ -17,7 +17,9 @@ from rdkit.Chem import AllChem
 
 
 PROTOCOL_VERSION = "PEPTIDE_ESMFOLD_VINA_V1"
-MAPPING_VERSION = "peptide_atom_map_v1"
+#: v2: el emparejamiento admite tautómeros e ionización (reintento por grafo) y exige la misma
+#: especie neutra que la secuencia leída. Con la v1 un péptido a pH 7,4 se abstenía o no se leía.
+MAPPING_VERSION = "peptide_atom_map_v2"
 
 
 class TransferenciaPeptidicaError(ValueError):
@@ -60,6 +62,56 @@ _NOMBRES_LATERALES: dict[str, tuple[str, ...]] = {
     "Y": ("CB", "CG", "CD1", "CD2", "CE1", "CE2", "CZ", "OH"),
     "V": ("CB", "CG1", "CG2"),
 }
+
+
+def _hidrogenos_neutros(mol: Chem.Mol) -> int:
+    """Hidrógenos de la especie neutra: los del grafo menos su carga formal.
+
+    Cada protonación suma un hidrógeno y una carga (`NH2` → `NH3+`), y cada
+    desprotonación resta ambos (`COOH` → `COO-`), así que la cantidad no cambia
+    con el estado de ionización. Sí cambia con un residuo distinto: la
+    ciclohexilalanina tiene 6 hidrógenos más que la fenilalanina.
+    """
+    return sum(a.GetTotalNumHs(includeNeighbors=True) - a.GetFormalCharge() for a in mol.GetAtoms())
+
+
+def _emparejar_con_la_referencia(mol: Chem.Mol, reference: Chem.Mol) -> tuple[tuple[int, ...], str]:
+    """Correspondencia átomo a átomo del SMILES con el péptido de referencia (FASTA).
+
+    Primero por grafo y orden de enlace, que es lo que se hacía y fija el mismo
+    átomo para las parejas equivalentes de siempre. Si no casa, se reintenta con
+    los enlaces genéricos: el péptido a pH 7,4 puede escribir el doble enlace del
+    guanidinio o del imidazol en otro nitrógeno (`[NH+]=C(N)N`), y eso es un
+    tautómero y no otro residuo. La quiralidad se sigue exigiendo en los dos.
+
+    Un grafo igual no basta para aceptar la identidad: la ciclohexilalanina tiene
+    el mismo grafo que la fenilalanina sin orden de enlace. Lo que decide es
+    `_exigir_misma_especie_neutra`, que se llama después de emparejar.
+    """
+    estricto = mol.GetSubstructMatch(reference, useChirality=True)
+    if estricto:
+        return estricto, "orden_de_enlace"
+    parametros = Chem.AdjustQueryParameters.NoAdjustments()
+    parametros.makeBondsGeneric = True
+    generico = mol.GetSubstructMatch(Chem.AdjustQueryProperties(reference, parametros), useChirality=True)
+    return generico, "grafo"
+
+
+def _exigir_misma_especie_neutra(mol: Chem.Mol, reference: Chem.Mol) -> None:
+    """Rechaza un péptido cuya especie neutra no es la de la secuencia leída.
+
+    Los residuos ya se validaron uno a uno al leer la secuencia; esto lo repite
+    sobre la molécula entera, con los terminales, antes de transferir ninguna
+    pose: una pérdida de hidrógenos (un doble enlace de más, un anillo saturado)
+    no puede llegar a Meeko con el nombre de un residuo estándar.
+    """
+    esperado, visto = _hidrogenos_neutros(reference), _hidrogenos_neutros(mol)
+    if esperado != visto:
+        raise TransferenciaPeptidicaError(
+            "CHEMICAL_IDENTITY_MISMATCH",
+            f"El SMILES tiene {visto} hidrógenos en su especie neutra y el péptido estándar "
+            f"de la secuencia leída {esperado}: no es ese péptido.",
+        )
 
 
 def _atom_names(sequence: str) -> list[str]:
@@ -228,12 +280,13 @@ def transferir_coordenadas(peptide_smiles: str, folded_pdb: str) -> Transferenci
     if reference is None:
         raise TransferenciaPeptidicaError("CHEMICAL_IDENTITY_MISMATCH", "No se pudo construir el grafo de referencia.")
     Chem.AssignStereochemistry(reference, cleanIt=True, force=True)
-    mapping = mol.GetSubstructMatch(reference, useChirality=True)
+    mapping, emparejamiento = _emparejar_con_la_referencia(mol, reference)
     if not mapping or len(mapping) != reference.GetNumAtoms() or mol.GetNumAtoms() != reference.GetNumAtoms():
         raise TransferenciaPeptidicaError(
             "TERMINAL_MODIFICATION_UNSUPPORTED",
             "El grafo del SMILES no coincide con el constructor V1 de terminales estandar.",
         )
+    _exigir_misma_especie_neutra(mol, reference)
 
     names = _atom_names(sequence)
     if len(names) != reference.GetNumAtoms():
@@ -286,6 +339,7 @@ def transferir_coordenadas(peptide_smiles: str, folded_pdb: str) -> Transferenci
         "protocol_version": PROTOCOL_VERSION,
         "status": "completed",
         "mapping_version": MAPPING_VERSION,
+        "atom_match": emparejamiento,
         "chemical_graph_source": "smiles",
         "coordinate_source": "esmfold",
         "coordinates_transferred": len(transferred),

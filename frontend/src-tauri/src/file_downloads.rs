@@ -18,11 +18,11 @@ pub struct FileDownloads {
 
 impl FileDownloads {
     pub fn load(app: &tauri::AppHandle) -> Result<Self, String> {
-        let storage = app
-            .path()
-            .app_local_data_dir()
-            .map_err(|e| e.to_string())?
-            .join("downloaded-files.json");
+        let carpeta = match crate::perfil_de_prueba::carpeta("app-local") {
+            Some(dir) => dir,
+            None => app.path().app_local_data_dir().map_err(|e| e.to_string())?,
+        };
+        let storage = carpeta.join("downloaded-files.json");
         let entries = std::fs::read(&storage)
             .ok()
             .and_then(|bytes| serde_json::from_slice::<Vec<DownloadedFile>>(&bytes).ok())

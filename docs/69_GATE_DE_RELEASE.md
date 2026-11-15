@@ -179,6 +179,7 @@ propietario.
 | **Firma Authenticode** | El certificado y su custodia. |
 | **Hashes y manifiesto de release** | Los binarios de terceros ya llevan su SHA-256 en el SBOM. El manifiesto del artefacto final necesita ese artefacto. |
 | **Piloto observado con investigadores** | Reclutarlos y su consentimiento de datos. |
+| **Resistencia sobre la ventana real** (`npm run resistencia -- --binario …`) | El binario de release. El guion existe desde el 2026-11-10 (`frontend/scripts/resistencia.mjs`): 30 cambios de caso, 3 evaluaciones y 10 min de reposo, con presupuestos de memoria, nodos, oyentes y procesador, y su `--autotest` demuestra que ve una fuga y un consumo plantados. Se probó contra el export y contra el binario de depuración (ver `docs/auditorias/resistencia-y-visores-2026-11-10.md`). Propuesto: colgarlo entre `tauri build` y `seal:installer`, para que un instalador que no pasa no se selle. **No está cableado**: decisión del propietario al cerrar 1.0.4, que es cuando habrá binario de release. |
 
 ## Verificación local de la batería de CI
 

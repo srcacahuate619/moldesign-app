@@ -9,14 +9,15 @@
 .toggle[data-has-system=false] { grid-template-columns: minmax(0,1fr) 18px; }
 .toggle[data-has-system=false] .toggleChevron { grid-column: 2; }
 :global(details[open]) > .toggle .toggleChevron { transform: rotate(180deg); }
-.systemCompact { min-width: 0; grid-column: 2; grid-row: 1; color: var(--text); font: 13px/1.65 var(--font-sans); text-align: left; }
-.systemCompactTop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 20px; }
+.systemCompact { min-width: 0; grid-column: 2; grid-row: 1; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 3px 20px; color: var(--text); font: 13px/1.65 var(--font-sans); text-align: left; }
+/* Dos columnas: título y receptor a la izquierda; corrida de origen y caja a la derecha, una bajo la otra. */
+.systemCompactTop, .systemCompactFacts { display: contents; }
 .systemCompactTitle { font: 600 14px/1.6 var(--font-sans); }
-.systemCompactRun { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; min-width: 0; }
+.systemCompactRun { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; min-width: 0; justify-self: end; }
 .systemCompactRun code { color: var(--text); font: 13px/1.65 var(--font-mono); overflow-wrap: anywhere; }
 .systemCompactLabel { color: var(--text-muted); }
-.systemCompactFacts { display: flex; flex-wrap: wrap; gap: 4px 20px; margin-top: 3px; }
 .systemCompactFacts > span { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; min-width: 0; }
+.systemCompactFacts > span:last-child { justify-self: end; }
 .smilesField { min-width: 0; }
 .smilesSystemNote { margin: 8px 16px 0; color: var(--text-muted); font: 13px/1.65 var(--font-sans); overflow-wrap: anywhere; }
 .intro { max-width: 90ch; margin-bottom: 24px; color: var(--text-muted); }

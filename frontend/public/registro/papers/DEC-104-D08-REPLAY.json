@@ -1,0 +1,321 @@
+{
+ "id": "DEC-104-D08-REPLAY",
+ "meta": {
+  "titulo": "El UMS no reconoce los aniones que coordinan un metal, y la réplica lo reproduce byte a byte",
+  "entradilla": "La señal UMS busca con patrones químicos los grupos que suelen coordinar un metal. En seis pares neutro/anión ve las seis formas neutras y ninguna aniónica. Añadir tres patrones las cubre todas sin activar ningún negativo. Este registro es la réplica del control, con el código fijado en Git."
+ },
+ "bloques": [
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "GO.",
+     "m": "fuerte"
+    },
+    {
+     "t": " La réplica reproduce exactamente el resultado del control original. Ese control dice que los patrones actuales reconocen 6 de 12 positivos y que, con los candidatos, reconocen los 12 sin activar ninguno de los 12 negativos.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué se midió",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "UMS es la señal que dice si un ligando tiene un grupo capaz de coordinar un metal (sulfonamida, hidroxamato, tiol…). La busca con patrones SMARTS sobre el SMILES de entrada. Si el usuario escribe el grupo ya desprotonado, como queda al coordinar, puede pasar inadvertido y la señal sale en cero.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Positivos:",
+      "m": "fuerte"
+     },
+     {
+      "t": " seis moléculas en sus dos formas, neutra y aniónica: metanosulfonamida, bencenosulfonamida, acetohidroxamato, benzohidroxamato, etanotiol y tiofenol.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Negativos:",
+      "m": "fuerte"
+     },
+     {
+      "t": " doce grupos parecidos que no deben activar estas familias: acetamida, acetato, sulfona, sulfóxido, tioéter, disulfuro, tioacetato, fenolato, entre otros.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Dos brazos sobre el mismo SMILES:",
+      "m": "fuerte"
+     },
+     {
+      "t": " los patrones del producto y tres patrones candidatos para las formas aniónicas, cargados sólo en memoria. El producto no cambia.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué pasó",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "tabla",
+   "cabecera": [
+    [
+     {
+      "t": "Familia",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Patrones actuales",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Con candidatos",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Negativos sin activar",
+      "m": null
+     }
+    ]
+   ],
+   "alineacion": [
+    "izquierda",
+    "derecha",
+    "derecha",
+    "derecha"
+   ],
+   "filas": [
+    [
+     [
+      {
+       "t": "Sulfonamida primaria",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2/4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4/4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12/12",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Hidroxamato",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2/4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4/4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12/12",
+       "m": null
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Tiol",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "2/4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "4/4",
+       "m": null
+      }
+     ],
+     [
+      {
+       "t": "12/12",
+       "m": null
+      }
+     ]
+    ]
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Los seis aniones se pierden con los patrones actuales;",
+      "m": "fuerte"
+     },
+     {
+      "t": " las seis formas neutras se reconocen.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "En M4 no cambia el orden:",
+      "m": "fuerte"
+     },
+     {
+      "t": " la fórmula del score no depende de esta señal. En un perfil M5 que la pondere, sí podría cambiar.",
+      "m": null
+     }
+    ]
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Por qué es una réplica",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "parrafo",
+   "frag": [
+    {
+     "t": "El sello original del control se apartó íntegro cuando el verificador vio que tres de sus ficheros podían cambiar de bytes al pasar por git, porque no tenían protegido el final de línea. Esta réplica fija los blobs del código por su hash de Git, vuelve a correr la sonda y obtiene el mismo resultado. Sólo prueba que el control se reproduce; no lo amplía.",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "encabezado",
+   "nivel": 2,
+   "frag": [
+    {
+     "t": "Qué dice y qué no dice",
+     "m": null
+    }
+   ]
+  },
+  {
+   "tipo": "lista",
+   "ordenada": false,
+   "items": [
+    [
+     {
+      "t": "Dice que un cero de UMS no significa «no hay grupo»:",
+      "m": "fuerte"
+     },
+     {
+      "t": " puede ser un anión que los patrones no cubren.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No mide coordinación real ni rendimiento:",
+      "m": "fuerte"
+     },
+     {
+      "t": " son doce positivos elegidos a mano, sin potencia para estimar una tasa.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "No se cambian los patrones:",
+      "m": "fuerte"
+     },
+     {
+      "t": " ampliarlos exige versionar la señal y probar más familias negativas.",
+      "m": null
+     }
+    ],
+    [
+     {
+      "t": "Lo que cambió en el producto",
+      "m": "fuerte"
+     },
+     {
+      "t": " es sólo un texto: desde ",
+      "m": null
+     },
+     {
+      "t": "7190fe00",
+      "m": "codigo"
+     },
+     {
+      "t": ", un cero de UMS en el dossier dice que estos aniones también dan cero. La evidencia completa está en la ",
+      "m": null
+     },
+     {
+      "t": "ficha D-08 de la investigación de 1.0.4",
+      "m": "enlace",
+      "href": "../auditorias/investigacion-1.0.4/D08.md"
+     },
+     {
+      "t": ".",
+      "m": null
+     }
+    ]
+   ]
+  }
+ ],
+ "fuente": "docs/papers/DEC-104-D08-REPLAY.md"
+}

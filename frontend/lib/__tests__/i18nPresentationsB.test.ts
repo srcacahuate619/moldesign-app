@@ -4,7 +4,7 @@ import { aaInfoFromName, formatResidueLabel } from "../aminoAcidPresentation";
 import { antiTargetFieldText } from "../antiTargetPresentation";
 import { etiquetaPPB } from "../admetEtiquetas";
 import { etiquetaDeCarga } from "../../components/interfaces/pro/EstadoDelLigando";
-import { getFeatureExplanation } from "../../components/interfaces/pro/ProXaiTab";
+import { explainFeature } from "../xaiFeatures";
 import { engineExplanation, engineStateLabel, engineStatusDetail } from "../enginePresentation";
 import { ENGINE_LABELS, toEngineStatus } from "../../context/DownloadProvider";
 import { comprobarWebGL, reiniciarComprobacionWebGL, webglReason } from "../webgl";
@@ -42,9 +42,12 @@ describe.each(["es", "en"] as const)("presentaciones de B en %s", locale => {
     expect(etiquetaPPB(null,t)).toBeNull(); expect(etiquetaPPB("external-code",t)).toBe("external-code");
   });
   it("interpola ECIF y capas de distancia después de elegir la plantilla", () => {
-    expect(getFeatureExplanation("ecif_C_aro_N",t).label).toBe(locale === "es" ? "Interacción C-aro-N" : "Interaction C-aro-N");
-    expect(getFeatureExplanation("shell_O_N_4_8",t).label).toBe(locale === "es" ? "Capa Distancia O-N (4-8 Å)" : "Distance Shell O-N (4-8 Å)");
-    if (locale === "en") for (const feature of ["ecif_C_aro_N","shell_O_N_4_8","molecular_weight"]) expect(getFeatureExplanation(feature,t).desc).not.toMatch(/[ñáéíóú]|Interacci|Propiedad/);
+    // Las etiquetas dicen qué es de la proteína y qué del ligando (control X02 de
+    // `test_xai_controles_extractor.py`: en `ecif_{proteína}_{ligando}` y en
+    // `shell_{proteína}_{ligando}_…` el primer elemento es el de la proteína).
+    expect(explainFeature("ecif_C_aro_N",t).label).toBe(locale === "es" ? "Proteína: carbono aromático · Ligando: nitrógeno" : "Protein: aromatic carbon · Ligand: nitrogen");
+    expect(explainFeature("shell_O_N_4_8",t).label).toBe(locale === "es" ? "Capa 4–8 Å · proteína O – ligando N" : "Shell 4–8 Å · protein O – ligand N");
+    if (locale === "en") for (const feature of ["ecif_C_aro_N","shell_O_N_4_8","mw"]) expect(explainFeature(feature,t).desc).not.toMatch(/[ñáéíóú]|Interacci|Propiedad|Cuenta/);
   });
   it("explica el motor por estado y conserva el detalle de Rust", () => {
     for (const state of Object.keys(ENGINE_LABELS) as Array<keyof typeof ENGINE_LABELS>) {

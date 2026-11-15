@@ -195,10 +195,24 @@ def estereo_no_asignada(mol: Mol) -> tuple[int, int]:
         for centro in sin_asignar
     )
     dobles = sum(
-        centro.type == Chem.StereoType.Bond_Double
+        centro.type == Chem.StereoType.Bond_Double and not _doble_enlace_sin_isomeria_EZ(mol, centro)
         for centro in sin_asignar
     )
     return centros, dobles
+
+
+def _doble_enlace_sin_isomeria_EZ(mol: Mol, centro) -> bool:
+    """`True` si el doble enlace marcado como estéreo potencial no puede tener isómeros E/Z.
+
+    Medido en E06 de la cápsula de QA (6HW5, 2026-11-12): RDKit marca el N=N⁺ de una azida (`R–N=[N+]=[N-]`) como estéreo
+    potencial, pero su nitrógeno central es lineal (hibridación sp) y no lleva dos sustituyentes distintos: no hay E ni Z. El
+    aviso salía como CRÍTICA («1 doble enlace E/Z sin especificar») para una molécula que no tiene ninguno que especificar.
+    """
+    enlace = mol.GetBondWithIdx(int(centro.centeredOn))
+    return any(
+        atomo.GetSymbol() == "N" and atomo.GetHybridization() == Chem.HybridizationType.SP
+        for atomo in (enlace.GetBeginAtom(), enlace.GetEndAtom())
+    )
 
 
 def _check_chemical_plausibility(state: _ValidationState) -> None:
@@ -323,11 +337,12 @@ def _check_molecular_weight(state: _ValidationState) -> None:
 
     # El techo lo decide `_check_size` con los regímenes publicados. Aquí sólo
     # queda el extremo BAJO, y con la cita de la única regla implementada que
-    # lo define: Ghose et al. 1999 empieza en 160 Da y 20 átomos pesados. Por
-    # debajo de ahí ninguno de los filtros de drug-likeness del producto
-    # (Lipinski, Veber, Ghose, Egan, Muegge) está evaluando lo que dice
-    # evaluar, y eso se declara en vez de compararlo con un mínimo propio de
-    # 100 Da que no salía de ninguna parte.
+    # lo define: Ghose et al. 1999 empieza en 160 Da y 20 átomos TOTALES (con
+    # hidrógenos; el valproico tiene 10 pesados y 26 totales). Por debajo de ahí
+    # ninguno de los filtros de drug-likeness del producto (Lipinski, Veber,
+    # Ghose, Egan, Muegge) está evaluando lo que dice evaluar, y eso se declara
+    # en vez de compararlo con un mínimo propio de 100 Da que no salía de
+    # ninguna parte.
     from chem.properties import GhoseRule
 
     if mw < GhoseRule.MW_RANGE[0]:
@@ -335,7 +350,8 @@ def _check_molecular_weight(state: _ValidationState) -> None:
             f"Masa molecular por debajo del rango de las reglas de "
             f"drug-likeness ({mw:.1f} Da). El filtro de Ghose et al. 1999 "
             f"empieza en {GhoseRule.MW_RANGE[0]:.0f} Da y {GhoseRule.ATOM_RANGE[0]} "
-            "átomos pesados: a este tamaño esos filtros, y los umbrales de "
+            "átomos totales (hidrógenos incluidos): a este tamaño esos filtros, "
+            "y los umbrales de "
             "eficiencia de ligando, no están evaluando lo que dicen evaluar. "
             "El acoplamiento se ejecuta igual."
         )

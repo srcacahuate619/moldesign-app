@@ -79,8 +79,8 @@ export function CaseReportView({
   };
 
   return (
-    <main className="flex h-full min-h-0 w-full flex-col overflow-hidden px-4 py-3 font-sans sm:px-6">
-      <div className="grid h-full min-h-0 flex-1 grid-cols-1 grid-rows-[minmax(0,1.1fr)_minmax(0,0.9fr)] gap-4 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] xl:grid-rows-1 xl:items-stretch">
+    <main className="flex h-full min-h-0 w-full flex-col overflow-y-auto px-4 py-3 font-sans sm:px-6 xl:overflow-hidden">
+      <div className="grid min-h-0 flex-1 grid-cols-1 grid-rows-[auto_auto] gap-4 xl:h-full xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] xl:grid-rows-1 xl:items-stretch">
         <section aria-labelledby="case-report-title" className="flex min-h-0 min-w-0 flex-col">
           <header className="shrink-0 border-b border-surface-800 pb-3">
             <h2 id="case-report-title" className="text-2xl font-semibold tracking-tight text-zinc-100">
@@ -126,7 +126,7 @@ export function CaseReportView({
 
         <aside
           aria-label={t("ca_dossier_review_sidebar")}
-          className="h-full min-h-0 min-w-0 overflow-y-auto rounded-lg border border-surface-800 bg-surface-950"
+          className="min-h-0 min-w-0 rounded-lg border border-surface-800 bg-surface-950 xl:h-full xl:overflow-y-auto"
         >
           {showDisposition && (
             <CaseDispositionPanel

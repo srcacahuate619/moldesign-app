@@ -1,0 +1,310 @@
+[
+ {
+  "archivo": "boltz/cdk2_apo__mmcif/boltz_results_cdk2_apo/predictions/cdk2_apo/cdk2_apo_model_0.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "boltz/cdk2_apo__pdb/boltz_results_cdk2_apo/predictions/cdk2_apo/cdk2_apo_model_0.pdb",
+  "es_predicha": false,
+  "fuente": null,
+  "no_disponible": null,
+  "evidencia": [],
+  "metodo_declarado": null,
+  "plddt_en": null,
+  "escala": null,
+  "verificada": null,
+  "residuos_con_plddt": 0
+ },
+ {
+  "archivo": "boltz/cdk2_lig__mmcif/boltz_results_cdk2_lig/predictions/cdk2_lig/cdk2_lig_model_0.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "boltz/cdk2_lig__pdb/boltz_results_cdk2_lig/predictions/cdk2_lig/cdk2_lig_model_0.pdb",
+  "es_predicha": false,
+  "fuente": null,
+  "no_disponible": null,
+  "evidencia": [],
+  "metodo_declarado": null,
+  "plddt_en": null,
+  "escala": null,
+  "verificada": null,
+  "residuos_con_plddt": 0
+ },
+ {
+  "archivo": "boltz/net_apo__mmcif/boltz_results_net_apo/predictions/net_apo/net_apo_model_0.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 617
+ },
+ {
+  "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_0.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_1.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_2.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_3.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_4.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_0.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_1.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_2.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_3.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_4.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 298
+ },
+ {
+  "archivo": "chai/net_apo__mmcif/pred.model_idx_0.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 617
+ },
+ {
+  "archivo": "chai/net_apo__mmcif/pred.model_idx_1.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 617
+ },
+ {
+  "archivo": "chai/net_apo__mmcif/pred.model_idx_2.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 617
+ },
+ {
+  "archivo": "chai/net_apo__mmcif/pred.model_idx_3.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 617
+ },
+ {
+  "archivo": "chai/net_apo__mmcif/pred.model_idx_4.cif",
+  "es_predicha": true,
+  "fuente": "modelcif",
+  "no_disponible": null,
+  "evidencia": [
+   "pLDDT en _ma_qa_metric_local (ModelCIF)",
+   "ModelCIF (_ma_model_list o _ma_qa_metric)"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": false,
+  "residuos_con_plddt": 617
+ },
+ {
+  "archivo": "referencias/AF-P23975-F1-model_v6.cif",
+  "es_predicha": true,
+  "fuente": "alphafold_db",
+  "no_disponible": null,
+  "evidencia": [
+   "_entry.id: AF-P23975-F1 · pLDDT en _ma_qa_metric_local"
+  ],
+  "metodo_declarado": null,
+  "plddt_en": "ma_qa_metric_local",
+  "escala": "0-100",
+  "verificada": true,
+  "residuos_con_plddt": 617
+ }
+]

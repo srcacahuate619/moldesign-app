@@ -15,8 +15,19 @@ import { useEffect, useRef, useState } from "react";
 
 import { Editor } from "ketcher-react";
 import { StandaloneStructServiceProvider } from "ketcher-standalone";
-import type { Ketcher } from "ketcher-core";
+import { provideEditorInstance, type Ketcher } from "ketcher-core";
 import { claimEditorExport, editorInstanceId, registerEditorReader, type EditorSnapshot } from "../lib/editorSnapshot";
+import { vigilarKetcher, type VigiaDeKetcher } from "../lib/ketcherOyentes";
+import { protegerWorkerDeIndigo } from "../lib/indigoSinFuga";
+import { protegerReactRefresh } from "../lib/reactRefreshSinFuga";
+
+// El worker de Indigo pierde ~1,3 MB por conversión si lleva la biblioteca de monómeros (`lib/indigoSinFuga.ts`). Se
+// protege antes de que Ketcher lo cree: este módulo se carga antes que cualquier editor.
+if (typeof Worker !== "undefined") protegerWorkerDeIndigo(Worker.prototype);
+
+// Sólo en desarrollo: React Refresh retiene la raíz de React de cada Ketcher desmontado (`lib/reactRefreshSinFuga.ts`).
+// En el export no existe React Refresh, y esta línea desaparece al compilar.
+if (process.env.NODE_ENV === "development") protegerReactRefresh();
 
 // El CSS de Ketcher NO se importa aqui. Ver `app/layout.tsx`.
 //
@@ -65,6 +76,30 @@ export default function KetcherEditorInner({
 }: Props) {
   const ketcherRef = useRef<Ketcher | null>(null);
   const [ready, setReady] = useState(false);
+  // Ketcher deja oyentes en `window` y `document` al desmontarse, y con ellos retenido el DOM de todo el caso
+  // (`lib/ketcherOyentes.ts`). Aquí se le vigila desde antes de que arranque y se limpia al desmontar de verdad.
+  const envoltura = useRef<HTMLDivElement>(null);
+  const vigia = useRef<VigiaDeKetcher | null>(null);
+  useEffect(() => {
+    // `let`, y se suelta al terminar: los cierres de este efecto los conserva Ketcher, y la caja arrastra la pantalla
+    // entera del caso (sus padres siguen enlazados aunque el conjunto ya no esté en el documento).
+    let caja: HTMLDivElement | null = envoltura.current;
+    const raiz = caja?.querySelector<HTMLElement>(".Ketcher-root") ?? null;
+    if (raiz && !vigia.current) vigia.current = vigilarKetcher(raiz, { editorCentral: provideEditorInstance });
+    return () => {
+      const actual = caja;
+      caja = null;
+      // El modo estricto de React (desarrollo) simula un desmontaje sin quitar nada del documento: el editor sigue
+      // vivo y no hay que tocarlo. En un desmontaje de verdad, a estas alturas la caja ya no está en el documento.
+      if (!actual || actual.isConnected) return;
+      // El vigía no se olvida: si Ketcher aún estaba arrancando, su aviso (`handleInit`) llega después y lo necesita.
+      vigia.current?.soltar();
+      // Ketcher tiene más de una forma de conservar su raíz (su editor de macromoléculas se suscribe en un conjunto
+      // estático). Separarla de la caja impide que arrastre consigo el resto de la pantalla del caso.
+      actual.replaceChildren();
+      ketcherRef.current = null;
+    };
+  }, []);
   const lastReportedSmiles = useRef<string | null>(null);
   // Lo que Ketcher devuelve justo después de cargar un SMILES externo. No es una
   // edición del usuario: es su reescritura del texto, y en un macrociclo cambia
@@ -110,6 +145,10 @@ export default function KetcherEditorInner({
   // When Ketcher initializes, store the instance and load initial SMILES
   const handleInit = async (ketcher: Ketcher) => {
     ketcherRef.current = ketcher;
+    // Ketcher llama a esto aunque el editor ya se haya desmontado; el vigía lo necesita igual para limpiar.
+    let editor: unknown = null;
+    try { editor = ketcher.editor; } catch { /* instancia ya destruida */ }
+    vigia.current?.listo(editor, ketcher);
     onLectorDelDibujo?.(async () => {
       try {
         return await ketcher.getMolfile();
@@ -322,6 +361,7 @@ export default function KetcherEditorInner({
 
   return (
     <div
+      ref={envoltura}
       className="ketcher-wrapper rounded-xl border border-zinc-800"
       style={{ height: height || 750, position: "relative", overflow: "hidden", maxWidth: "100%" }}
     >

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "DEC-104-D08-REPLAY",
+  "hypothesis": "Reproducir byte a byte la sonda D08, con los SHA de codigo fijados en Git",
+  "protocol": "scripts/artifacts_science/DEC-104-D08-REPLAY/entrada/PROTOCOLO.md",
+  "created_at": "2026-11-15T04:23:48.452794+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "f0c64ee099f14667b12f8ae1b68d32750307b0e1",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Equivalencia con el sello previo, tras normalizar transporte CRLF/LF"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/DEC-104-D08-REPLAY/entrada/PROTOCOLO.md": "ae84377d3fa1a315d01d482f6ca9cf2ba83f2590b6e4742a9418d3839e0292e2",
+    "scripts/artifacts_science/DEC-104-D08-REPLAY/entrada/codigo.json": "61b3b39e9e29abdaa176dab022a1c097c8bed7b3a64c868e6b6e27f09b24666f",
+    "scripts/artifacts_science/DEC-104-D08-REPLAY/entrada/medir_d08.py": "e6e333a3a64d539426dfab71383adb84e6f072990ef344fa5a8219286a77e9f9"
+  },
+  "sealed": true,
+  "sealed_at": "2026-11-15T04:23:49.733060+00:00",
+  "decision_rationale": "Coinciden ambas salidas con el sello previo. La replica solo comprueba reproduccion del control.",
+  "finished_at": "2026-11-15T04:23:59.369934+00:00"
+}

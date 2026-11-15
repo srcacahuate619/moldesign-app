@@ -1,0 +1,86 @@
+{
+  "depositos_cc0": {
+    "1BN1.sdf": {
+      "sha256": "2a3d1574b1ecec98ff66b3d51dfa2b7d55e112d757c461c14a7127a26e1fe453",
+      "url": "https://models.rcsb.org/v1/1BN1/ligand?auth_asym_id=A&auth_seq_id=555&encoding=sdf"
+    },
+    "1BN1.pdb.gz": {
+      "sha256": "76c8f37f02ebd3941523b6921725d78ea7ad3c73babf3a8e24f2fd186c805528",
+      "url": "https://www.rcsb.org/structure/1BN1"
+    },
+    "2AW1.sdf": {
+      "sha256": "f1f1e144b333fe4cd0d9c3e69616903dce65b2f29df9f441c1ad9fc716aec682",
+      "url": "https://models.rcsb.org/v1/2AW1/ligand?auth_asym_id=A&auth_seq_id=264&encoding=sdf"
+    },
+    "2AW1.pdb.gz": {
+      "sha256": "4f6c99c720b1b698c90387de37b08c68f9b905d09c505cd1d04fe9989572bc6c",
+      "url": "https://www.rcsb.org/structure/2AW1"
+    },
+    "4QA0.sdf": {
+      "sha256": "722aeb12da24cd5ec0efe7dd16eba27346272e52878898a9f3ae8316b82dca14",
+      "url": "https://models.rcsb.org/v1/4QA0/ligand?auth_asym_id=A&auth_seq_id=404&encoding=sdf"
+    },
+    "4QA0.pdb.gz": {
+      "sha256": "e93674d8df0f54c56533f521d422e9dc3416cf56fb7121b3aa74e8bd8bc95491",
+      "url": "https://www.rcsb.org/structure/4QA0"
+    },
+    "2JDI.sdf": {
+      "sha256": "5d3e1ed85989358e9a0d91e5d503c5278a17703bf365d1a4b6ee24355698e93c",
+      "url": "https://models.rcsb.org/v1/2JDI/ligand?auth_asym_id=A&auth_seq_id=1511&encoding=sdf"
+    },
+    "2JDI.pdb.gz": {
+      "sha256": "26e4d0486a0965cfa6c15660af29ee9c6885bea313ca8cce61296cc3f02e7a5e",
+      "url": "https://www.rcsb.org/structure/2JDI"
+    },
+    "4WUD.sdf": {
+      "sha256": "159f2a498ba4ca51ad4e0c4827f30f5f8b67b6c9e9512960e6f782ca5f853935",
+      "url": "https://models.rcsb.org/v1/4WUD/ligand?auth_asym_id=A&auth_seq_id=401&encoding=sdf"
+    },
+    "4WUD.pdb.gz": {
+      "sha256": "7239322c707b2d23368a9ed5b6ff944a54272a58af8d8a615a285f064abe812a",
+      "url": "https://www.rcsb.org/structure/4WUD"
+    },
+    "4PHL.sdf": {
+      "sha256": "b715e7a5b22cfe7171677166e1d3a41c3f7e2b400891eeaf539921bf1e185118",
+      "url": "https://models.rcsb.org/v1/4PHL/ligand?auth_asym_id=A&auth_seq_id=1003&encoding=sdf"
+    },
+    "4PHL.pdb.gz": {
+      "sha256": "8ba1f564e0db0f725b7bf026b17a22f11c1f78811c3a6d7931b08e0fa615adab",
+      "url": "https://www.rcsb.org/structure/4PHL"
+    }
+  },
+  "fecha_local": "2026-11-15",
+  "crudos_MET01R1": {
+    "_work/confirmatory/shard-1/1BN1-CON-s42-attempt1.json.gz": "96d864946447d3e3a0d9417bc9e309189bdc99e91ee214cb92df0c9318c0fd76",
+    "_work/confirmatory/shard-1/1BN1-CON-s43-attempt1.json.gz": "d7e7eb86c5a36ff17081fea4c2eae1f5cee84d162eab8914d10a629d3d081fbd",
+    "_work/confirmatory/shard-1/1BN1-CON-s44-attempt1.json.gz": "1a375923c4f5bd9317c7645f94e055298b29cc08bf197a863b0b36c80a5d9ba7",
+    "_work/confirmatory/shard-1/1BN1-CON-s45-attempt1.json.gz": "320c5ff76f457c2a78dcb4572d7036ecbf491cc200378ad94b5a37d9452bba55",
+    "_work/confirmatory/shard-1/1BN1-CON-s46-attempt1.json.gz": "2c78430ce99926002bc9fbff723f0c7b0cfc572ed5259d5b0fb4919565defe0d",
+    "_work/confirmatory/shard-1/2AW1-CON-s42-attempt1.json.gz": "95e52f81ace1038128efcd8dfafa85f416f2807a63efacffb7eac3c10b17aa37",
+    "_work/confirmatory/shard-1/2AW1-CON-s43-attempt1.json.gz": "7023e9ba3ca725469811675f82ba008e3d982c2f8bd86a60693a1f26287eb06f",
+    "_work/confirmatory/shard-1/2AW1-CON-s44-attempt1.json.gz": "5b28b43922e9a66aee1679d7ecc14eb1a72c06521747e616bcadc69627ef78c7",
+    "_work/confirmatory/shard-1/2AW1-CON-s45-attempt1.json.gz": "eb0739dab7b21926fa2724c519d567a378437f4e34decda45ed5e79430200702",
+    "_work/confirmatory/shard-1/2AW1-CON-s46-attempt1.json.gz": "493ef45e5744beeb6e951cb27f266ed3612c3b77ae4332cde8abdbfc8ad0adeb",
+    "_work/confirmatory/shard-3/2JDI-CON-s42-attempt1.json.gz": "79881eb21adf44ae56a59cf39d5820f0fb9b6c5ab093f1f4706deedb20db257d",
+    "_work/confirmatory/shard-3/2JDI-CON-s43-attempt1.json.gz": "4cb5787250e66c2bfe241fc30fbf26f8005e3c1c96b7bba9d04654d9e62cddbb",
+    "_work/confirmatory/shard-3/2JDI-CON-s44-attempt1.json.gz": "aa8295341bd31f365376b18e6b9c7b3352b3f73e9830f53874bfacfb8844f7c2",
+    "_work/confirmatory/shard-3/2JDI-CON-s45-attempt1.json.gz": "6f2ced0733c54bfa1bbac65df2bf0f5e491af13e86f912eed3a117450391bac0",
+    "_work/confirmatory/shard-3/2JDI-CON-s46-attempt1.json.gz": "f44f547125bceda8ae57800b7e8f8b976eea3897afba559615e2b0ae8fb07a54",
+    "_work/confirmatory/shard-1/4PHL-CON-s42-attempt1.json.gz": "fcaa7c2e03902eba0f6906fbbe1148338ed8d11473c0bf0b1f9a412a26e1d981",
+    "_work/confirmatory/shard-1/4PHL-CON-s43-attempt1.json.gz": "c096297cd29da205649936813d0c2977173cdd6ac6cea973ff13019574a0bcf1",
+    "_work/confirmatory/shard-1/4PHL-CON-s44-attempt1.json.gz": "83edd5c4c1c068113879f7b2e4c8a70628773564e17cc9624e622140373b9de1",
+    "_work/confirmatory/shard-1/4PHL-CON-s45-attempt1.json.gz": "9f193340690134b5e67b76e78fb6c32f6e80e3d0668c3da7bebd0f81ea707755",
+    "_work/confirmatory/shard-1/4PHL-CON-s46-attempt1.json.gz": "3a4c1fea0c231d32ae5197d5af006407d764c5bc0affc9047d3b299d683f40f2",
+    "_work/confirmatory/shard-2/4QA0-CON-s42-attempt1.json.gz": "018ea51a6842b6b59cb9cb7b1599bc07bdce853a1874793848d2123ae9fbab2c",
+    "_work/confirmatory/shard-2/4QA0-CON-s43-attempt1.json.gz": "de2e16b2ebb5b00fb4428694c03259665febec902751e1ea27e7263d7cb793d8",
+    "_work/confirmatory/shard-2/4QA0-CON-s44-attempt1.json.gz": "863afef940137d99d545802b7ccc8a706d629d75a74d068b269b35c736dc3362",
+    "_work/confirmatory/shard-2/4QA0-CON-s45-attempt1.json.gz": "37ef9ebdc15d462768cf44cba1918aabb6808b9a977696dba1940dd681053689",
+    "_work/confirmatory/shard-2/4QA0-CON-s46-attempt1.json.gz": "cae8a86c236d08a432d0773f790dfb637be70d89255d3d3900656e1130f39e62",
+    "_work/confirmatory/shard-1/4WUD-CON-s42-attempt1.json.gz": "57435ddf66265438669a8abfbc7774a2c2ad90fbeed6d13454a482d671062a3e",
+    "_work/confirmatory/shard-1/4WUD-CON-s43-attempt1.json.gz": "e827506c720e41102ff9f7ad8f48ae39881a0fcfec5d9bd73566bb9f3b9536f6",
+    "_work/confirmatory/shard-1/4WUD-CON-s44-attempt1.json.gz": "1242718ca42256014656835a515c899efe408b7c2f24396e20ddc4a4f9e3bcef",
+    "_work/confirmatory/shard-1/4WUD-CON-s45-attempt1.json.gz": "15ef2eb94a2b90f36ce2c882cfbc4f32014f1e7596e4347cebb2e8db0ac63662",
+    "_work/confirmatory/shard-1/4WUD-CON-s46-attempt1.json.gz": "c021d6f68e68a621d1ad0b9f8d77469d81bdbf669373ee08517629391878d9bd"
+  },
+  "geometria_fecha_repositorio": "06975d223683b81c45bb6401ff2c3b816d8a6547f7b7f56bbda8a34078e4b971"
+}

@@ -372,7 +372,10 @@ export function CaseDossierViewer({
       )}
 
       {/* ── Cuerpo ───────────────────────────────────────────────────── */}
-      <div className="relative min-h-0 flex-1 bg-surface-950">
+      {/* `min-h-[28rem]`: sin ella, la vista previa medía 53 px a 1024×768 y 16 px a 1024×700 (el mínimo de la ventana):
+          todo el cuerpo es absoluto y el contenedor no tenía con qué crecer. Con la altura mínima, una ventana baja
+          hace scroll en la página; no deja un dossier ilegible. */}
+      <div className="relative min-h-[28rem] flex-1 bg-surface-950">
         {loading && (
           <div
             role="status"

@@ -1,5 +1,5 @@
 {
- "generado_en": "2026-11-03T19:46:01.191267+00:00",
+ "generado_en": "2026-11-15T22:30:42.469175+00:00",
  "generador": "scripts/build_registro_cientifico.py",
  "advertencia": "El cociente GO/NO_GO del manifest NO es una tasa de aciertos: mezcla prerregistros -sellados GO al declararse-, mediciones sin gate y experimentos con gate real. Esta vista separa las tres poblaciones.",
  "categorias": {
@@ -11,15 +11,15 @@
   "inconcluso": "Ejecutado y declarado sin conclusion. No se reclasifica a posteriori."
  },
  "conteo": {
-  "hallazgo": 30,
-  "refutacion": 33,
+  "hallazgo": 32,
+  "refutacion": 34,
   "medicion": 47,
   "prerregistro": 42,
   "corrigendum": 13,
-  "inconcluso": 22
+  "inconcluso": 24
  },
- "total": 187,
- "con_paper": 100,
+ "total": 192,
+ "con_paper": 103,
  "destacados": {
   "hallazgo": [
    "FEP-04",
@@ -629,6 +629,205 @@
    "tiene_paper": false,
    "titulo": "D-MF-HARD-EXH4-VAL",
    "entradilla": null
+  },
+  {
+   "id": "DEC-104-D03-R1",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Las aguas puente conservadas pueden mejorar redocking en HSP90 y BRD4-BD1",
+   "protocolo": "scripts/artifacts_science/DEC-104-D03-R1/entrada/REGISTRO.md",
+   "gate": "McNemar primario, controles de desplazamiento y potencia declarada",
+   "razonamiento": "21 pares evaluables. SIN 8/21, SELECTIVAS 11/21, TODAS locales 13/21. Contraste primario 6 vs 3 discordancias, p exacta bilateral 0.5078125. Ninguna perdida de exito selectiva en los controles de desplazamiento. Potencia limitada y oxigenos rigidos sin quimica de agua orientada.",
+   "sellado_en": "2026-11-15T15:05:18.383655+00:00",
+   "creado_en": "2026-11-15T15:05:14.001008+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "f0c64ee099",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 3,
+   "n_complejos": 21,
+   "n_fallos": 0,
+   "metricas": {
+    "n": 21,
+    "pareados": 21,
+    "favor_selectivas": 6,
+    "favor_sin": 3,
+    "p": 0.5078125,
+    "decision_tecnica": "INCONCLUSIVE",
+    "decision_receta": "INCONCLUSIVE",
+    "inyectaron_agua": 19
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "DEC-104-D03-R1",
+   "entradilla": null
+  },
+  {
+   "id": "DEC-104-D04-CHEMBL",
+   "categoria": "hallazgo",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "El error de pKa de la tabla depende de la clase y del entorno",
+   "protocolo": "scripts\\artifacts_science\\DEC-104-D04-CHEMBL/entrada/REGISTRO.md",
+   "gate": "Comparacion de mediana por clase en andamios retenidos y cobertura en las dos cohortes",
+   "razonamiento": "Amidina y amina_alifatica pasan el gate de mejora descriptiva y merecen contraste microscopico; la cobertura directa de ambos corpus no autoriza sustituir valores",
+   "sellado_en": "2026-11-15T05:25:36.150544+00:00",
+   "creado_en": "2026-11-15T05:25:34.944263+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "f0c64ee099",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 2,
+   "n_complejos": 2345,
+   "n_fallos": 0,
+   "metricas": {
+    "n_admitidos": 2345
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "El pKa único por clase se equivoca más en las aminas y las amidinas, pero todavía no hay con qué sustituirlo",
+   "entradilla": "Para decidir la carga de un ligando a pH 7,4, MolDesign usa un pKa fijo por grupo químico. Contra 2345 pKa medidos de ChEMBL25, dos clases mejoran claramente con otro valor: las aminas alifáticas y las amidinas. Ninguna especie cambia, y los datos no dicen qué átomo se midió, así que el valor de la tabla se queda."
+  },
+  {
+   "id": "DEC-104-D05-PROLIF",
+   "categoria": "refutacion",
+   "etiquetas": [],
+   "decision": "NO_GO",
+   "hipotesis": "ProLIF reconoce coordinaciones presentes en seis depositos y omite controles negativos",
+   "protocolo": "scripts/artifacts_science/DEC-104-D05-PROLIF/entrada/REGISTRO.md",
+   "gate": "Cinco pares positivos y nueve negativos, comparacion geometrica sobre treinta poses",
+   "razonamiento": "MetalAcceptor y MetalDonor detectan 3 de 5 cristales positivos y ninguno de 9 pares de control negativo; no satisfacen la cobertura requerida",
+   "sellado_en": "2026-11-15T15:10:01.681098+00:00",
+   "creado_en": "2026-11-15T15:09:56.771158+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "f0c64ee099",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 3,
+   "n_complejos": 49,
+   "n_fallos": 0,
+   "metricas": {
+    "prolif": "2.1.0",
+    "n_cristales_positivos": 5,
+    "positivos_detectados": 3,
+    "n_pares_control_negativo": 9,
+    "falsos_positivos": 0,
+    "decision": "NO_GO",
+    "con_pares_ion_pose": 35,
+    "con_geometrica": 20,
+    "con_ProLIF": 15
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "ProLIF no basta para ver si un ligando coordina el zinc",
+   "entradilla": "Las interacciones de MolDesign no muestran la coordinación con metales. ProLIF trae dos detectores que podrían cubrirla. Con los iones pasados de forma explícita, reconocen 3 de 5 coordinaciones del cristal y se les escapan dos de zinc con sulfonamida, así que no entran en el producto."
+  },
+  {
+   "id": "DEC-104-D06-8HFI",
+   "categoria": "inconcluso",
+   "etiquetas": [],
+   "decision": "INCONCLUSIVE",
+   "hipotesis": "Exhaustividad 32 cambia Spearman de top-1 contra pKi en 8HFI",
+   "protocolo": "scripts/artifacts_science/DEC-104-D06-8HFI/entrada/REGISTRO.md",
+   "gate": "IC95 pareado y margen de 0.10 con control estructural y escenarios de potencia",
+   "razonamiento": "243 de 243 corridas exitosas y receptor identico. Delta rho e32-e8 = 0.0133208, IC 95 % [-0.0623785, 0.1046783], fuera del margen de equivalencia por el extremo superior. Redocking valido 3/5 con e8 y 5/5 con e32.",
+   "sellado_en": "2026-11-15T04:35:11.894269+00:00",
+   "creado_en": "2026-11-15T04:34:46.947117+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "f0c64ee099",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 5,
+   "n_complejos": 243,
+   "n_fallos": 0,
+   "metricas": {
+    "decision": "INCONCLUSIVE",
+    "n_pareados": 57,
+    "delta_rho": 0.01332080122069984,
+    "ruido_semilla": -0.009561159027023008
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": false,
+   "titulo": "DEC-104-D06-8HFI",
+   "entradilla": null
+  },
+  {
+   "id": "DEC-104-D08-REPLAY",
+   "categoria": "hallazgo",
+   "etiquetas": [],
+   "decision": "GO",
+   "hipotesis": "Reproducir byte a byte la sonda D08, con los SHA de codigo fijados en Git",
+   "protocolo": "scripts/artifacts_science/DEC-104-D08-REPLAY/entrada/PROTOCOLO.md",
+   "gate": "Equivalencia con el sello previo, tras normalizar transporte CRLF/LF",
+   "razonamiento": "Coinciden ambas salidas con el sello previo. La replica solo comprueba reproduccion del control.",
+   "sellado_en": "2026-11-15T04:23:49.733060+00:00",
+   "creado_en": "2026-11-15T04:23:48.452794+00:00",
+   "duracion_s": null,
+   "semillas": 42,
+   "git": {
+    "rama": "codex/release-hygiene",
+    "commit": "f0c64ee099",
+    "sucio": true
+   },
+   "entorno": {
+    "os": "Windows",
+    "cpu": 12,
+    "ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+   },
+   "n_hashes": 3,
+   "n_complejos": 24,
+   "n_fallos": 0,
+   "metricas": {
+    "python": "3.11.9",
+    "rdkit": "2025.09.6"
+   },
+   "mantenimiento_sello": 0,
+   "reemplazado_por": null,
+   "tiene_paper": true,
+   "titulo": "El UMS no reconoce los aniones que coordinan un metal, y la réplica lo reproduce byte a byte",
+   "entradilla": "La señal UMS busca con patrones químicos los grupos que suelen coordinar un metal. En seis pares neutro/anión ve las seis formas neutras y ninguna aniónica. Añadir tres patrones las cubre todas sin activar ningún negativo. Este registro es la réplica del control, con el código fijado en Git."
   },
   {
    "id": "FEP-01",

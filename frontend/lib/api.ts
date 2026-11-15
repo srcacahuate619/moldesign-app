@@ -760,6 +760,35 @@ export async function getTargets(): Promise<Target[]> {
   return request<Target[]>("/targets/");
 }
 
+/** Lo que responde `POST /targets/upload/inspeccion`: si la estructura no dice de dónde viene y hay que preguntarlo. */
+export interface InspeccionDeReceptor {
+  formato: string;
+  pregunta_fuente: boolean;
+  fuentes: string[];
+}
+
+/**
+ * Pregunta al backend, antes de subir, si la estructura dice de dónde viene (método o marcas de predicción). La regla
+ * es la de la subida (`prediccion.hay_que_preguntar_la_fuente`), así que la interfaz no la repite. `null` si no se
+ * pudo saber: la subida dirá entonces lo que falle.
+ */
+export async function inspeccionarReceptor(file: File): Promise<InspeccionDeReceptor | null> {
+  const formData = new FormData();
+  formData.append("file", file);
+  try {
+    const response = await fetchBackend("/targets/upload/inspeccion", {
+      method: "POST",
+      body: formData,
+      headers: { "ngrok-skip-browser-warning": "true", ...getAuthHeaders() },
+    });
+    if (!response.ok) return null;
+    const datos = await response.json();
+    return typeof datos?.pregunta_fuente === "boolean" ? (datos as InspeccionDeReceptor) : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function uploadCustomTarget(formData: FormData): Promise<{ success: boolean; message: string; target: Target }> {
   const fetchUrl = `/targets/upload`;
   const fetchInit = {

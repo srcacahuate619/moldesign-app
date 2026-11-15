@@ -150,14 +150,16 @@ class GhoseRule:
     MR_RANGE     = (40.0, 130.0)
 
     @classmethod
-    def evaluate(cls, mw: float, log_p: float, heavy_atoms: int, molar_refractivity: float) -> tuple[bool, list[str]]:
+    def evaluate(cls, mw: float, log_p: float, total_atoms: int, molar_refractivity: float) -> tuple[bool, list[str]]:
         violations = []
         if mw < cls.MW_RANGE[0] or mw > cls.MW_RANGE[1]:
             violations.append(f"MW={mw:.1f} fuera de [{cls.MW_RANGE[0]}, {cls.MW_RANGE[1]}]")
         if log_p < cls.LOGP_RANGE[0] or log_p > cls.LOGP_RANGE[1]:
             violations.append(f"logP={log_p:.2f} fuera de [{cls.LOGP_RANGE[0]}, {cls.LOGP_RANGE[1]}]")
-        if heavy_atoms < cls.ATOM_RANGE[0] or heavy_atoms > cls.ATOM_RANGE[1]:
-            violations.append(f"heavy_atoms={heavy_atoms} fuera de [{cls.ATOM_RANGE[0]}, {cls.ATOM_RANGE[1]}]")
+        # El rango de Ghose et al. (1999) es de átomos TOTALES, hidrógenos incluidos: con átomos pesados el tope de 70
+        # contradice el de MW ≤ 480 (≈ 35 pesados) y una molécula pequeña de 23 átomos totales fallaba por «pocos átomos».
+        if total_atoms < cls.ATOM_RANGE[0] or total_atoms > cls.ATOM_RANGE[1]:
+            violations.append(f"átomos totales={total_atoms} fuera de [{cls.ATOM_RANGE[0]}, {cls.ATOM_RANGE[1]}]")
         if not cls.MR_RANGE[0] <= molar_refractivity <= cls.MR_RANGE[1]:
             violations.append(f"MR={molar_refractivity:.1f} fuera de [{cls.MR_RANGE[0]}, {cls.MR_RANGE[1]}]")
         return len(violations) == 0, violations
@@ -495,7 +497,7 @@ def calculate_properties(smiles: str, run_admet_ai: bool = True) -> Physicochemi
     lipinski_pass, lipinski_violations = LipinskiRule.evaluate(mw, log_p, hbd, hba)
     veber_pass, veber_violations = VerberRule.evaluate(rot_bonds, tpsa, hbd, hba)
     molar_refractivity = Crippen.MolMR(mol)
-    ghose_pass, _ = GhoseRule.evaluate(mw, log_p, heavy_atoms, molar_refractivity)
+    ghose_pass, _ = GhoseRule.evaluate(mw, log_p, rdMolDescriptors.CalcNumAtoms(mol), molar_refractivity)
     egan_pass, _ = EganRule.evaluate(tpsa, log_p)
 
     # Muegge: necesita num_carbons y num_heteroatoms del mol

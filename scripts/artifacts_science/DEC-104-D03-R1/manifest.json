@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "experiment_id": "DEC-104-D03-R1",
+  "hypothesis": "Las aguas puente conservadas pueden mejorar redocking en HSP90 y BRD4-BD1",
+  "protocol": "scripts/artifacts_science/DEC-104-D03-R1/entrada/REGISTRO.md",
+  "created_at": "2026-11-15T15:05:14.001008+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "f0c64ee099f14667b12f8ae1b68d32750307b0e1",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "McNemar primario, controles de desplazamiento y potencia declarada"
+  },
+  "decision": "INCONCLUSIVE",
+  "dataset_hashes": {
+    "scripts/artifacts_science/DEC-104-D03-R1/entrada/REGISTRO.md": "aad16bc184a19379a5248832d9feb39b7a345e99bb1e81cf37f6c0869fa1e934",
+    "scripts/artifacts_science/DEC-104-D03-R1/entrada/fuentes.json": "7843bc1546e575afc288f46e0a598267c5f6c3f8611dab1799b2c26a57730501",
+    "scripts/artifacts_science/DEC-104-D03-R1/entrada/medir_d03.py": "fffba0e971ba76b2bf19ea9986d1f4e83da02a3426922ad3373825d499599400"
+  },
+  "sealed": true,
+  "sealed_at": "2026-11-15T15:05:18.383655+00:00",
+  "decision_rationale": "21 pares evaluables. SIN 8/21, SELECTIVAS 11/21, TODAS locales 13/21. Contraste primario 6 vs 3 discordancias, p exacta bilateral 0.5078125. Ninguna perdida de exito selectiva en los controles de desplazamiento. Potencia limitada y oxigenos rigidos sin quimica de agua orientada.",
+  "finished_at": "2026-11-15T15:45:01.098755+00:00"
+}

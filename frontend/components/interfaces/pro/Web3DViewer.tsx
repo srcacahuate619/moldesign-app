@@ -7,17 +7,24 @@ import { useLanguage } from "@/context/LanguageContext";
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V5 */
 
 // Visor Web3D ligero (react-three-fiber) — alternativa a MolStar.
-// - Átomos con InstancedMesh (1 draw call → sin lag, soporta 50k+ átomos)
-// - Grid box con cuadrículas (estilo grid de docking)
-// - Sitio activo: hotspots como esferas púrpura + esfera del bolsillo
+//
+// Su trabajo es uno: ver DÓNDE busca Vina. Por eso lo que manda es la caja de búsqueda con su retícula, el sitio activo
+// (esfera de alambre y superficie del bolsillo), la pose y lo que el receptor trae además de aminoácidos —metales,
+// cofactores, aguas—, que Vina ve y Mol* sí enseña. El resto del receptor es contexto: gris, con luz y niebla para que se
+// lea la profundidad sin competir con el sitio.
+//
+// - Átomos con InstancedMesh (una llamada de dibujo por nube)
+// - Hasta MAX_ATOMS átomos del receptor: si hay más, los más cercanos a la caja, y se dice
+// - Dibuja sólo cuando algo cambia (`frameloop="demand"`)
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Box, EyeOff, Atom, Zap, Settings } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Box, EyeOff, Atom, Zap, Settings, Maximize2, Minimize2 } from "lucide-react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { LineSegments2, LineSegmentsGeometry, LineMaterial, MarchingCubes } from "three-stdlib";
 import type { InteractionDatum } from "../../../lib/types";
+import { comprobarWebGL } from "../../../lib/webgl";
 import {
   VIEWER_LABEL_BUTTON_CLASS,
   VIEWER_LABEL_PANEL_CLASS,
@@ -55,7 +62,19 @@ type Props = {
   // Solo reportar la cámara cuando el visor está visible (evita que el visor
   // oculto pise la vista del activo).
   active?: boolean;
+  /** El equipo le quitó el contexto 3D y no lo devolvió: quien lo monta decide qué abrir. */
+  onNoDisponible?: () => void;
+  /**
+   * De dónde sale `proteinData`. Con un resultado es el receptor que acopló Vina (lo que lleva, Vina lo vio); antes de
+   * evaluar es el depósito del catálogo, y la preparación decide después qué metales, cofactores y aguas conserva.
+   */
+  origenDelReceptor?: "corrida" | "deposito";
 };
+
+const SIN_HOTSPOTS: NonNullable<Props["hotspots"]> = [];
+
+/** Cuánto se espera a que el navegador devuelva un contexto perdido antes de darlo por perdido. */
+const ESPERA_DE_CONTEXTO_MS = 4000;
 
 // ── Radios físicos: radios covalentes (Å, CRC Handbook) escalados a la
 //    escala visual del visor. Todos los átomos de un mismo elemento comparten
@@ -78,7 +97,9 @@ const LIGAND_ELEMENT_COLOR: Record<string, string> = {
   C: "#e6e6f2", N: "#5b8cff", O: "#ff5a5a", S: "#e8c84f", P: "#ff9d5c",
   F: "#2fd99a", CL: "#2fd99a", BR: "#b5673a", I: "#9b5de5", H: "#ffffff",
 };
-const REST_ATOM_COLOR = "#4a4a5a"; // gris apagado (resto del receptor)
+const REST_ATOM_COLOR = "#5b6475"; // gris del resto del receptor: con luz se lee el volumen sin quitarle el sitio
+/** Fracción del radio covalente con que se dibuja el receptor fuera del sitio. */
+const RADIO_DEL_CONTEXTO = 0.5;
 const LIGAND_BOND_COLOR = "#8fa3c0"; // enlaces de la molécula
 // Paleta por residuo hotspot: cada residuo tiene SU color (convención
 // "spectrum" de PyMOL) para distinguirlos sin etiquetas.
@@ -100,6 +121,91 @@ const INTERACTION_LABELS: Record<string, string> = {
 // AA_INFO: polar=azul, hidrofóbico=ámbar, aromático=púrpura, ácido=rojo,
 // básico=verde, estructural=gris) — el color de la etiqueta que ya existe.
 const MAX_ATOMS = 50000;
+
+// ── Lo que el receptor trae además de aminoácidos ──────────────────────
+//
+// Se clasifica por el NOMBRE del residuo, no por el registro: Meeko escribe los iones como ATOM y los depósitos
+// escriben la selenometionina como HETATM. Un residuo fuera de esta lista es un heteroátomo (metal, agua o grupo).
+const RESIDUOS_DE_PROTEINA = new Set([
+  "ALA", "ARG", "ASN", "ASP", "CYS", "GLN", "GLU", "GLY", "HIS", "ILE", "LEU", "LYS", "MET", "PHE", "PRO", "SER",
+  "THR", "TRP", "TYR", "VAL",
+  // protonaciones y variantes que escriben AMBER, CHARMM, PDB2PQR y Meeko
+  "HID", "HIE", "HIP", "HSD", "HSE", "HSP", "CYX", "CYM", "ASH", "GLH", "LYN", "ARN", "TYM",
+  // residuos modificados que forman parte de la cadena
+  "MSE", "SEP", "TPO", "PTR", "CSO", "CSD", "CSX", "CME", "KCX", "LLP", "MLY", "HYP", "PCA",
+  // extremos
+  "ACE", "NME", "NH2",
+  // ácidos nucleicos
+  "DA", "DC", "DG", "DT", "DU", "A", "C", "G", "U",
+]);
+const AGUAS = new Set(["HOH", "WAT", "DOD", "H2O", "TIP", "TIP3", "SOL"]);
+const METALES = new Set(["ZN", "MG", "CA", "FE", "MN", "CU", "CO", "NI", "NA", "K", "CD", "HG", "LI", "SR", "BA", "PT", "AU", "AG", "W", "MO", "V", "CR", "AL", "GA"]);
+/** Colores de Jmol para los metales: el convenio que reconoce quien mira estructuras. */
+const COLOR_DE_METAL: Record<string, string> = {
+  ZN: "#7d80b0", MG: "#8aff00", CA: "#3dff00", FE: "#e06633", MN: "#9c7ac7", CU: "#c88033", CO: "#f090a0", NI: "#50d050",
+  NA: "#ab5cf2", K: "#8f40d4", CD: "#ffd98f", HG: "#b8b8d0",
+};
+/** Los cofactores y grupos se tiñen en ámbar: no son el ligando (blanco) ni el receptor (gris). */
+const HETERO_ELEMENT_COLOR: Record<string, string> = {
+  C: "#f2b544", N: "#5b8cff", O: "#ff5a5a", S: "#e8c84f", P: "#ff9d5c", FE: "#e06633",
+};
+const AGUA_COLOR = "#ff8a8a";
+
+export type GrupoHetero = { clave: string; residuo: string; cadena: string; numero: string; tipo: "metal" | "agua" | "grupo"; atomos: number };
+export type AtomoHetero = { x: number; y: number; z: number; element: string; tipo: GrupoHetero["tipo"]; grupo: string };
+
+/** Elemento de una línea ATOM/HETATM: la columna 77-78 y, si falta, el nombre del átomo. Sin la carga de la columna 79. */
+function elementoDeLaLinea(line: string): string {
+  const declarado = line.slice(76, 78).trim();
+  if (declarado) return declarado.toUpperCase();
+  const nombre = line.slice(12, 16).trim().replace(/[^A-Za-z]/g, "");
+  return (nombre.slice(0, 1) || "C").toUpperCase();
+}
+
+/**
+ * Metales, aguas y demás grupos del receptor, con su cadena. Las aguas del depósito se cuentan pero no se devuelven
+ * como átomos: son cientos y la receta del catálogo las retira todas.
+ */
+export function parsePdbHetero(pdb: string, { conAguas }: { conAguas: boolean }): { atomos: AtomoHetero[]; grupos: GrupoHetero[] } {
+  const atomos: AtomoHetero[] = [];
+  const grupos = new Map<string, GrupoHetero>();
+  for (const line of pdb.split("\n")) {
+    if (!line.startsWith("ATOM") && !line.startsWith("HETATM")) continue;
+    const residuo = line.slice(17, 20).trim().toUpperCase();
+    if (RESIDUOS_DE_PROTEINA.has(residuo)) continue;
+    const x = parseFloat(line.slice(30, 38)), y = parseFloat(line.slice(38, 46)), z = parseFloat(line.slice(46, 54));
+    if (isNaN(x) || isNaN(y) || isNaN(z)) continue;
+    const element = elementoDeLaLinea(line);
+    const tipo: GrupoHetero["tipo"] = AGUAS.has(residuo) ? "agua" : METALES.has(element) && METALES.has(residuo) ? "metal" : "grupo";
+    const cadena = (line[21] ?? "").trim().toUpperCase();
+    const numero = line.slice(22, 27).trim();
+    const clave = `${cadena}:${residuo}${numero}`;
+    const g = grupos.get(clave) ?? { clave, residuo, cadena, numero, tipo, atomos: 0 };
+    g.atomos++;
+    grupos.set(clave, g);
+    if (tipo !== "agua" || conAguas) atomos.push({ x, y, z, element, tipo, grupo: clave });
+  }
+  return { atomos, grupos: [...grupos.values()] };
+}
+
+/** La clave de un residuo es su cadena y su nombre con número: en un homodímero, A:ASP25 y B:ASP25 son dos. */
+export const claveDeResiduo = (cadena: string | undefined, resId: string) => `${(cadena ?? "").toUpperCase()}:${resId.toUpperCase()}`;
+
+/**
+ * Si el receptor pasa de `max` átomos, se quedan los del sitio y los más cercanos a `centro`. Antes se cortaba en el
+ * orden del archivo, sin avisar, y en un complejo grande el corte podía llevarse el sitio entero.
+ */
+export function recortarAlrededor<T extends { x: number; y: number; z: number; isHotspot?: boolean }>(atomos: T[], centro: [number, number, number], max: number): T[] {
+  if (atomos.length <= max) return atomos;
+  const [cx, cy, cz] = centro;
+  const delSitio = atomos.filter((a) => a.isHotspot);
+  const resto = atomos.filter((a) => !a.isHotspot)
+    .map((a) => ({ a, d: (a.x - cx) ** 2 + (a.y - cy) ** 2 + (a.z - cz) ** 2 }))
+    .sort((p, q) => p.d - q.d)
+    .slice(0, Math.max(0, max - delSitio.length))
+    .map((p) => p.a);
+  return [...delSitio, ...resto];
+}
 
 // ── Estilo glassglow unificado: los 4 botones de esquina comparten el MISMO
 //    tamaño (padding, tipografía, radio) y el mismo efecto vidrio + glow. ──
@@ -124,26 +230,25 @@ function buildHotspotLookup(hotspots: Array<{ name: string }>, fallbackChain?: s
   return map;
 }
 
+/** Los átomos de la proteína (o del ácido nucleico). Los heteroátomos van aparte: `parsePdbHetero`. Sin límite. */
 export function parsePdbAtoms(pdb: string, lookup: Map<string, Set<string>>, chains?: Set<string>): Atom[] {
   const atoms: Atom[] = [];
   for (const line of pdb.split("\n")) {
-    if (!line.startsWith("ATOM")) continue;
-    const ch = line[21].trim().toUpperCase();
+    if (!line.startsWith("ATOM") && !line.startsWith("HETATM")) continue;
+    const resName = line.slice(17, 20).trim().toUpperCase();
+    if (!RESIDUOS_DE_PROTEINA.has(resName)) continue;
+    const ch = (line[21] ?? "").trim().toUpperCase();
     if (chains && chains.size > 0 && !chains.has(ch)) continue;
-    try {
-      const x = parseFloat(line.slice(30, 38));
-      const y = parseFloat(line.slice(38, 46));
-      const z = parseFloat(line.slice(46, 54));
-      if (isNaN(x) || isNaN(y) || isNaN(z)) continue;
-      const element = (line.slice(76, 78).trim() || line.slice(12, 16).trim() || "C").toUpperCase();
-      // ¿Este átomo pertenece a un residuo del sitio activo (hotspot)?
-      const resName = line.slice(17, 20).trim().toUpperCase();
-      const resSeq = line.slice(22, 27).trim();
-      const rid = `${resName}${resSeq}`.toUpperCase();
-      const isHotspot = lookup.get(ch)?.has(rid) || lookup.get("*")?.has(rid);
-      atoms.push({ x, y, z, element, isHotspot: !!isHotspot, resId: rid, chain: ch });
-      if (atoms.length >= MAX_ATOMS) break;
-    } catch { /* skip */ }
+    const x = parseFloat(line.slice(30, 38));
+    const y = parseFloat(line.slice(38, 46));
+    const z = parseFloat(line.slice(46, 54));
+    if (isNaN(x) || isNaN(y) || isNaN(z)) continue;
+    const element = elementoDeLaLinea(line);
+    // ¿Este átomo pertenece a un residuo del sitio activo (hotspot)?
+    const resSeq = line.slice(22, 27).trim();
+    const rid = `${resName}${resSeq}`.toUpperCase();
+    const isHotspot = lookup.get(ch)?.has(rid) || lookup.get("*")?.has(rid);
+    atoms.push({ x, y, z, element, isHotspot: !!isHotspot, resId: rid, chain: ch });
   }
   return atoms;
 }
@@ -196,62 +301,73 @@ export function parsePdbHotspots(pdb: string, hotspots: Array<{ name: string; im
   return result;
 }
 
-// ── Información de aminoácidos para el popup de hotspots ───────────────
+// ── Nubes de átomos con InstancedMesh (una llamada de dibujo por nube) ──
 
-// ── Nube de átomos con InstancedMesh (sin lag) ─────────────────────────
+type Esfera = { x: number; y: number; z: number; r: number; color: string };
 
-function AtomCloud({ atoms, hotspotColors }: { atoms: Atom[]; hotspotColors: Map<string, string> }) {
+/**
+ * Esferas con luz. Antes eran `meshBasicMaterial`, que ignora las luces: cada átomo era un disco plano del mismo color
+ * y la escena no tenía profundidad. Lambert calcula la luz por vértice, que es barato también sin tarjeta gráfica.
+ */
+function NubeDeEsferas({ esferas, segmentos = 10, brillo = false }: { esferas: Esfera[]; segmentos?: number; brillo?: boolean }) {
   const ref = useRef<THREE.InstancedMesh>(null);
+  const invalidate = useThree((s) => s.invalidate);
 
-  // Matrices por átomo: posición + escala (radio covalente) + color.
-  // SITIO ACTIVO: cada residuo hotspot con SU color (convención spectrum);
-  // el resto del receptor gris uniforme apagado. El radio es FÍSICO
-  // (covalente), idéntico para átomos del mismo elemento.
-  const { matrices, colors } = useMemo(() => {
-    const count = atoms.length;
-    const matrices = new Float32Array(count * 16);
-    const colors = new Float32Array(count * 3);
+  useEffect(() => {
+    const mesh = ref.current;
+    if (!mesh) return;
     const m = new THREE.Matrix4();
     const p = new THREE.Vector3();
     const q = new THREE.Quaternion();
-    const s = new THREE.Vector3();
+    const e = new THREE.Vector3();
     const c = new THREE.Color();
-
-    atoms.forEach((a, i) => {
-      const color = a.isHotspot
-        ? hotspotColors.get(a.resId ?? "") ?? HOTSPOT_ELEMENT_COLOR[a.element] ?? HOTSPOT_ELEMENT_COLOR.C
-        : REST_ATOM_COLOR;
-      const r = atomRadius(a.element);
+    esferas.forEach((a, i) => {
       p.set(a.x, a.y, a.z);
-      q.identity();
-      s.set(r, r, r);
-      m.compose(p, q, s);
-      m.toArray(matrices, i * 16);
-      c.set(color);
-      colors[i * 3] = c.r;
-      colors[i * 3 + 1] = c.g;
-      colors[i * 3 + 2] = c.b;
+      e.set(a.r, a.r, a.r);
+      mesh.setMatrixAt(i, m.compose(p, q, e));
+      mesh.setColorAt(i, c.set(a.color));
     });
-    return { matrices, colors };
-  }, [atoms]);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const mesh = ref.current;
-    for (let i = 0; i < atoms.length; i++) {
-      mesh.setMatrixAt(i, new THREE.Matrix4().fromArray(matrices, i * 16));
-      mesh.setColorAt(i, new THREE.Color().setRGB(colors[i * 3], colors[i * 3 + 1], colors[i * 3 + 2]));
-    }
     mesh.instanceMatrix.needsUpdate = true;
     if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-  }, [atoms, matrices, colors]);
+    mesh.computeBoundingSphere();
+    // El lienzo sólo dibuja cuando se le pide (`frameloop="demand"`): un cambio
+    // hecho a mano sobre la malla hay que anunciarlo.
+    invalidate();
+  }, [esferas, invalidate]);
 
+  if (esferas.length === 0) return null;
   return (
-    <instancedMesh ref={ref} args={[undefined, undefined, atoms.length]} frustumCulled={false}>
-      <sphereGeometry args={[1, 8, 8]} />
-      <meshBasicMaterial />
+    <instancedMesh key={esferas.length} ref={ref} args={[undefined, undefined, esferas.length]} frustumCulled={false}>
+      <sphereGeometry args={[1, segmentos, Math.max(6, Math.round(segmentos * 0.75))]} />
+      {brillo ? <meshPhongMaterial shininess={70} specular="#3a4458" /> : <meshLambertMaterial />}
     </instancedMesh>
   );
+}
+
+/**
+ * El receptor. SITIO ACTIVO: cada residuo con SU color (convención spectrum), identificado por cadena y número; el resto,
+ * gris. El radio es el covalente, igual para todos los átomos del mismo elemento.
+ */
+function AtomCloud({ atoms, hotspotColors }: { atoms: Atom[]; hotspotColors: Map<string, string> }) {
+  // El resto del receptor va a la mitad del radio: es contexto. A tamaño completo, los átomos que quedan entre la cámara
+  // y la caja tapaban el sitio entero (captura del 2026-11-10 con 8HFI).
+  const esferas = useMemo(() => atoms.map((a): Esfera => ({
+    x: a.x, y: a.y, z: a.z, r: atomRadius(a.element) * (a.isHotspot ? 1 : RADIO_DEL_CONTEXTO),
+    color: a.isHotspot
+      ? hotspotColors.get(claveDeResiduo(a.chain, a.resId ?? "")) ?? HOTSPOT_ELEMENT_COLOR[a.element] ?? HOTSPOT_ELEMENT_COLOR.C
+      : REST_ATOM_COLOR,
+  })), [atoms, hotspotColors]);
+  return <NubeDeEsferas esferas={esferas} segmentos={8} />;
+}
+
+/** Metales (esfera grande, color de Jmol), cofactores y grupos (ámbar) y, si Vina las vio, aguas (punto rojo). */
+function HeteroCloud({ atomos }: { atomos: AtomoHetero[] }) {
+  const esferas = useMemo(() => atomos.map((a): Esfera => ({
+    x: a.x, y: a.y, z: a.z,
+    r: a.tipo === "metal" ? 0.95 : a.tipo === "agua" ? 0.32 : atomRadius(a.element),
+    color: a.tipo === "metal" ? COLOR_DE_METAL[a.element] ?? "#b8b8d0" : a.tipo === "agua" ? AGUA_COLOR : HETERO_ELEMENT_COLOR[a.element] ?? HETERO_ELEMENT_COLOR.C,
+  })), [atomos]);
+  return <NubeDeEsferas esferas={esferas} segmentos={14} brillo />;
 }
 
 // ── Molécula (ligando acoplado) desde SDF ──────────────────────────────
@@ -333,100 +449,78 @@ function buildBondLines(atoms: LigandAtom[], bonds: LigandBond[]): number[] {
   return pts;
 }
 
-// Molécula en el canvas: átomos (InstancedMesh) + enlaces (fat lines).
-function LigandCloud({ atoms, bonds }: { atoms: LigandAtom[]; bonds: LigandBond[] }) {
-  const ref = useRef<THREE.InstancedMesh>(null);
+/** Libera la geometría y el material de una línea gruesa cuando dejan de usarse (no lo hace nadie más: son `primitive`). */
+function useLiberar(obj: { geometry: { dispose(): void }; material: unknown } | null) {
+  useEffect(() => () => {
+    if (!obj) return;
+    obj.geometry.dispose();
+    (obj.material as THREE.Material).dispose();
+  }, [obj]);
+}
 
-  const { matrices, colors } = useMemo(() => {
-    const count = atoms.length;
-    const matrices = new Float32Array(count * 16);
-    const colors = new Float32Array(count * 3);
-    const m = new THREE.Matrix4();
-    const p = new THREE.Vector3();
-    const q = new THREE.Quaternion();
-    const s = new THREE.Vector3();
-    const c = new THREE.Color();
-
-    atoms.forEach((a, i) => {
-      const color = LIGAND_ELEMENT_COLOR[a.element] ?? LIGAND_ELEMENT_COLOR.C;
-      const r = atomRadius(a.element);
-      p.set(a.x, a.y, a.z);
-      q.identity();
-      s.set(r, r, r);
-      m.compose(p, q, s);
-      m.toArray(matrices, i * 16);
-      c.set(color);
-      colors[i * 3] = c.r;
-      colors[i * 3 + 1] = c.g;
-      colors[i * 3 + 2] = c.b;
-    });
-    return { matrices, colors };
-  }, [atoms]);
-
+/** El grosor de una línea gruesa se calcula en píxeles: necesita el tamaño del lienzo. */
+function useResolucion(materiales: LineMaterial[]) {
+  const { size, invalidate } = useThree();
   useEffect(() => {
-    if (!ref.current) return;
-    const mesh = ref.current;
-    for (let i = 0; i < atoms.length; i++) {
-      mesh.setMatrixAt(i, new THREE.Matrix4().fromArray(matrices, i * 16));
-      mesh.setColorAt(i, new THREE.Color().setRGB(colors[i * 3], colors[i * 3 + 1], colors[i * 3 + 2]));
-    }
-    mesh.instanceMatrix.needsUpdate = true;
-    if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
-  }, [atoms, matrices, colors]);
+    for (const m of materiales) m.resolution.set(size.width, size.height);
+    invalidate();
+  }, [size.width, size.height, materiales, invalidate]);
+}
+
+// Molécula en el canvas: átomos con brillo (se distinguen del receptor, que es mate) + enlaces (fat lines).
+function LigandCloud({ atoms, bonds }: { atoms: LigandAtom[]; bonds: LigandBond[] }) {
+  const esferas = useMemo(() => atoms.map((a): Esfera => ({
+    x: a.x, y: a.y, z: a.z, r: atomRadius(a.element) * 0.85,
+    color: LIGAND_ELEMENT_COLOR[a.element] ?? LIGAND_ELEMENT_COLOR.C,
+  })), [atoms]);
 
   // Enlaces como fat lines (LineSegments2 — grosor real en px), con el orden
   // de enlace químico real (single/doble/triple).
-  const bondGeo = useMemo(() => {
+  const bondObj = useMemo(() => {
     const geo = new LineSegmentsGeometry();
     geo.setPositions(buildBondLines(atoms, bonds));
-    return geo;
-  }, [atoms, bonds]);
-
-  const bondMat = useMemo(() => {
-    return new LineMaterial({
+    const mat = new LineMaterial({
       color: new THREE.Color(LIGAND_BOND_COLOR).getHex(),
       transparent: true,
-      opacity: 0.65,
-      linewidth: 2,
+      opacity: 0.9,
+      linewidth: 3,
       depthWrite: false,
     });
-  }, []);
-
-  const { size } = useThree();
-  useEffect(() => {
-    bondMat.resolution.set(size.width, size.height);
-  }, [size.width, size.height, bondMat]);
-
-  const bondObj = useMemo(() => new LineSegments2(bondGeo, bondMat), [bondGeo, bondMat]);
+    return new LineSegments2(geo, mat);
+  }, [atoms, bonds]);
+  useLiberar(bondObj);
+  const materiales = useMemo(() => [bondObj.material as LineMaterial], [bondObj]);
+  useResolucion(materiales);
 
   if (atoms.length === 0) return null;
 
   return (
     <group>
       <primitive object={bondObj} />
-      <instancedMesh ref={ref} args={[undefined, undefined, atoms.length]} frustumCulled={false}>
-        <sphereGeometry args={[1, 12, 12]} />
-        <meshBasicMaterial />
-      </instancedMesh>
+      <NubeDeEsferas esferas={esferas} segmentos={16} brillo />
     </group>
   );
 }
 
 // ── Grid box con cuadrículas (estilo grid de docking) ─────────────────
+//
+// Es lo que hace reconocible un visor de docking: la caja de Vina con su retícula. Se mantienen las cuatro piezas —
+// aristas, retícula de 8 divisiones en las caras, caras translúcidas y centro—, pero con jerarquía: las aristas mandan
+// (gruesas y brillantes), la retícula acompaña (fina y tenue) y el centro lleva los tres ejes, como la caja de
+// AutoDockTools, para saber hacia dónde mira la escena.
+
+const CAJA_COLOR = "#22d3ee";
+const DIVISIONES_DE_LA_CAJA = 8;
 
 function GridBox({ gridInfo }: { gridInfo: NonNullable<Props["gridInfo"]> }) {
   const { centerX, centerY, centerZ, sizeX, sizeY, sizeZ } = gridInfo;
 
-  // Líneas del cubo: bordes + cuadrícula 3D (estilo grid de docking)
-  // Genera líneas paralelas a X, Y y Z a través del volumen del cubo.
-  const lines = useMemo(() => {
-    const pts: number[] = [];
+  const { aristas, reticula, ejes } = useMemo(() => {
     const hx = sizeX / 2, hy = sizeY / 2, hz = sizeZ / 2;
     const cx = centerX, cy = centerY, cz = centerZ;
-    const divisions = 8; // 8 divisiones por eje → 9 planos
-
-    // Helper: push de un segmento
-    const seg = (a: number[], b: number[]) => { pts.push(...a, ...b); };
+    const enAristas: number[] = [];
+    const enReticula: number[] = [];
+    const seg = (dest: number[], a: number[], b: number[]) => { dest.push(...a, ...b); };
 
     // ── Bordes del cubo (12 aristas) ──
     const v = [
@@ -435,115 +529,121 @@ function GridBox({ gridInfo }: { gridInfo: NonNullable<Props["gridInfo"]> }) {
       [cx - hx, cy - hy, cz + hz], [cx + hx, cy - hy, cz + hz],
       [cx + hx, cy + hy, cz + hz], [cx - hx, cy + hy, cz + hz],
     ];
-    const edges = [
-      [0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7],
-    ];
-    edges.forEach(([a, b]) => seg(v[a], v[b]));
+    [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]].forEach(([i, j]) => seg(enAristas, v[i], v[j]));
 
-    // ── Cuadrícula: líneas paralelas a X ──
-    // Planos YZ fijos, barrer en Y y Z
-    for (let i = 1; i < divisions; i++) {
-      const offY = -hy + sizeY * (i / divisions);
-      const offZ = -hz + sizeZ * (i / divisions);
-      // Líneas paralelas a X en un plano Y fijo (barriendo Z)
-      seg([cx - hx, cy + offY, cz - hz], [cx + hx, cy + offY, cz - hz]);
-      seg([cx - hx, cy + offY, cz + hz], [cx + hx, cy + offY, cz + hz]);
-      // Líneas paralelas a X en un plano Z fijo (barriendo Y)
-      seg([cx - hx, cy - hy, cz + offZ], [cx + hx, cy - hy, cz + offZ]);
-      seg([cx - hx, cy + hy, cz + offZ], [cx + hx, cy + hy, cz + offZ]);
-    }
-    // ── Cuadrícula: líneas paralelas a Y ──
-    for (let i = 1; i < divisions; i++) {
-      const offX = -hx + sizeX * (i / divisions);
-      const offZ = -hz + sizeZ * (i / divisions);
-      seg([cx + offX, cy - hy, cz - hz], [cx + offX, cy + hy, cz - hz]);
-      seg([cx + offX, cy - hy, cz + hz], [cx + offX, cy + hy, cz + hz]);
-      seg([cx - hx, cy - hy, cz + offZ], [cx - hx, cy + hy, cz + offZ]);
-      seg([cx + hx, cy - hy, cz + offZ], [cx + hx, cy + hy, cz + offZ]);
-    }
-    // ── Cuadrícula: líneas paralelas a Z ──
-    for (let i = 1; i < divisions; i++) {
-      const offX = -hx + sizeX * (i / divisions);
-      const offY = -hy + sizeY * (i / divisions);
-      seg([cx + offX, cy - hy, cz - hz], [cx + offX, cy - hy, cz + hz]);
-      seg([cx + offX, cy + hy, cz - hz], [cx + offX, cy + hy, cz + hz]);
-      seg([cx - hx, cy + offY, cz - hz], [cx - hx, cy + offY, cz + hz]);
-      seg([cx + hx, cy + offY, cz - hz], [cx + hx, cy + offY, cz + hz]);
+    // ── Retícula sobre las seis caras: líneas paralelas a cada eje ──
+    for (let i = 1; i < DIVISIONES_DE_LA_CAJA; i++) {
+      const f = i / DIVISIONES_DE_LA_CAJA;
+      const ox = -hx + sizeX * f, oy = -hy + sizeY * f, oz = -hz + sizeZ * f;
+      // paralelas a X
+      seg(enReticula, [cx - hx, cy + oy, cz - hz], [cx + hx, cy + oy, cz - hz]);
+      seg(enReticula, [cx - hx, cy + oy, cz + hz], [cx + hx, cy + oy, cz + hz]);
+      seg(enReticula, [cx - hx, cy - hy, cz + oz], [cx + hx, cy - hy, cz + oz]);
+      seg(enReticula, [cx - hx, cy + hy, cz + oz], [cx + hx, cy + hy, cz + oz]);
+      // paralelas a Y
+      seg(enReticula, [cx + ox, cy - hy, cz - hz], [cx + ox, cy + hy, cz - hz]);
+      seg(enReticula, [cx + ox, cy - hy, cz + hz], [cx + ox, cy + hy, cz + hz]);
+      seg(enReticula, [cx - hx, cy - hy, cz + oz], [cx - hx, cy + hy, cz + oz]);
+      seg(enReticula, [cx + hx, cy - hy, cz + oz], [cx + hx, cy + hy, cz + oz]);
+      // paralelas a Z
+      seg(enReticula, [cx + ox, cy - hy, cz - hz], [cx + ox, cy - hy, cz + hz]);
+      seg(enReticula, [cx + ox, cy + hy, cz - hz], [cx + ox, cy + hy, cz + hz]);
+      seg(enReticula, [cx - hx, cy + oy, cz - hz], [cx - hx, cy + oy, cz + hz]);
+      seg(enReticula, [cx + hx, cy + oy, cz - hz], [cx + hx, cy + oy, cz + hz]);
     }
 
-    return new Float32Array(pts);
+    const lineas = (puntos: number[], opciones: ConstructorParameters<typeof LineMaterial>[0]) => {
+      const geo = new LineSegmentsGeometry();
+      geo.setPositions(puntos);
+      return new LineSegments2(geo, new LineMaterial({ transparent: true, depthWrite: false, ...opciones }));
+    };
+    // Los tres ejes desde el centro: X rojo, Y verde, Z azul (el convenio de los programas de modelado).
+    const largo = Math.max(1.5, Math.min(sizeX, sizeY, sizeZ) / 6);
+    const ejes = (["#f87171", "#4ade80", "#60a5fa"] as const).map((color, k) => {
+      const fin = [cx, cy, cz];
+      fin[k] += largo;
+      return lineas([cx, cy, cz, ...fin], { color: new THREE.Color(color).getHex(), opacity: 0.95, linewidth: 2.5 });
+    });
+    return {
+      aristas: lineas(enAristas, { color: new THREE.Color(CAJA_COLOR).getHex(), opacity: 0.95, linewidth: 2.5 }),
+      reticula: lineas(enReticula, { color: new THREE.Color(CAJA_COLOR).getHex(), opacity: 0.32, linewidth: 1 }),
+      ejes,
+    };
   }, [centerX, centerY, centerZ, sizeX, sizeY, sizeZ]);
 
-  const lineGeo = useMemo(() => {
-    const geo = new LineSegmentsGeometry();
-    geo.setPositions(Array.from(lines));
-    return geo;
-  }, [lines]);
-
-  const lineMat = useMemo(() => {
-    return new LineMaterial({
-      color: new THREE.Color("#22d3ee").getHex(),
-      transparent: true,
-      opacity: 0.85,
-      linewidth: 2, // grosor real en px (fat lines)
-      depthWrite: false,
-    });
-  }, []);
-
+  const todas = useMemo(() => [aristas, reticula, ...ejes], [aristas, reticula, ejes]);
+  useEffect(() => () => {
+    for (const l of todas) { l.geometry.dispose(); (l.material as THREE.Material).dispose(); }
+  }, [todas]);
   // CRÍTICO: LineMaterial necesita la resolución del canvas para calcular el
   // grosor en píxeles. Sin esto, linewidth se ve mal o las líneas no aparecen.
-  const { size } = useThree();
-  useEffect(() => {
-    lineMat.resolution.set(size.width, size.height);
-  }, [size.width, size.height, lineMat]);
+  const materiales = useMemo(() => todas.map((l) => l.material as LineMaterial), [todas]);
+  useResolucion(materiales);
 
-  // Instancia única memoizada (no recrear en cada render)
-  const linesObj = useMemo(() => new LineSegments2(lineGeo, lineMat), [lineGeo, lineMat]);
-
+  const fmt = (n: number) => n.toFixed(1);
   return (
     <group>
-      {/* Caras semitransparentes — cian (contrasta con púrpura de hotspots) */}
+      {/* Caras translúcidas: el volumen que explora Vina */}
       <mesh position={[centerX, centerY, centerZ]}>
         <boxGeometry args={[sizeX, sizeY, sizeZ]} />
-        <meshBasicMaterial color="#22d3ee" transparent opacity={0.04} depthWrite={false} side={THREE.DoubleSide} />
+        <meshBasicMaterial color={CAJA_COLOR} transparent opacity={0.035} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
-      {/* Cuadrícula completa — cian brillante, líneas GRUESAS */}
-      <primitive object={linesObj} />
-      {/* Centro del bolsillo */}
+      <primitive object={reticula} />
+      <primitive object={aristas} />
+      {ejes.map((eje, i) => <primitive key={i} object={eje} />)}
+      {/* Centro de la caja */}
       <mesh position={[centerX, centerY, centerZ]}>
-        <sphereGeometry args={[0.8, 16, 16]} />
-        <meshBasicMaterial color="#a5f3fc" />
+        <sphereGeometry args={[0.45, 16, 16]} />
+        <meshBasicMaterial color="#cffafe" />
       </mesh>
-      {/* Punto central + etiqueta de coordenadas flotante */}
-      <GridLabel position={[centerX, centerY + sizeY / 2 + 2, centerZ]} text={`C: ${centerX.toFixed(1)}, ${centerY.toFixed(1)}, ${centerZ.toFixed(1)}`} />
+      <GridLabel
+        position={[centerX, centerY + sizeY / 2 + Math.max(1.2, sizeY * 0.08), centerZ]}
+        ancho={Math.max(sizeX, sizeZ) * 0.95}
+        lineas={[`C  ${fmt(centerX)}, ${fmt(centerY)}, ${fmt(centerZ)} Å`, `${fmt(sizeX)} × ${fmt(sizeY)} × ${fmt(sizeZ)} Å`]}
+      />
     </group>
   );
 }
 
-// Etiqueta de coordenadas flotante (textura memoizada por texto)
-function GridLabel({ position, text }: { position: [number, number, number]; text: string }) {
+/**
+ * Etiqueta de la caja. Antes era un sprite sin escala, de 1 Å de ancho: ilegible a cualquier distancia. Ahora mide lo
+ * que la caja, se dibuja a doble resolución y siempre encima (no la tapa ningún átomo).
+ */
+function GridLabel({ position, ancho, lineas }: { position: [number, number, number]; ancho: number; lineas: string[] }) {
+  const texto = lineas.join("|");
   const texture = useMemo(() => {
     const canvas = document.createElement("canvas");
-    canvas.width = 512;
-    canvas.height = 64;
-    const ctx = canvas.getContext("2d")!;
-    ctx.fillStyle = "rgba(8,20,30,0.9)";  // fondo más oscuro para que el cian resalte
-    ctx.fillRect(0, 0, 512, 64);
-    ctx.strokeStyle = "rgba(34,211,238,0.5)";
-    ctx.strokeRect(1, 1, 510, 62);
-    ctx.fillStyle = "#a5f3fc";  // cian claro
-    ctx.font = "bold 28px monospace";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText(text, 256, 32);
+    canvas.width = 1024;
+    canvas.height = 64 + 56 * lineas.length;
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+      ctx.fillStyle = "rgba(6,16,26,0.82)";
+      ctx.beginPath();
+      ctx.roundRect?.(4, 4, canvas.width - 8, canvas.height - 8, 18);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(34,211,238,0.55)";
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      lineas.forEach((linea, i) => {
+        ctx.fillStyle = i === 0 ? "#cffafe" : "#67e8f9";
+        ctx.font = `${i === 0 ? "bold " : ""}46px ui-monospace, Consolas, monospace`;
+        ctx.fillText(linea, canvas.width / 2, 36 + 28 + i * 56);
+      });
+    }
     const tex = new THREE.CanvasTexture(canvas);
+    tex.anisotropy = 4;
     tex.needsUpdate = true;
     return tex;
-  }, [text]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [texto]);
+  useEffect(() => () => texture.dispose(), [texture]);
+  const alto = ancho * (texture.image.height / texture.image.width);
 
   return (
-    <sprite position={position}>
-      <spriteMaterial map={texture} transparent depthTest={false} />
+    <sprite position={position} scale={[ancho, alto, 1]} renderOrder={10}>
+      <spriteMaterial map={texture} transparent depthTest={false} depthWrite={false} />
     </sprite>
   );
 }
@@ -563,9 +663,9 @@ function FatWireSphere({ position, radius, color, opacity = 0.35, lineWidth = 2.
   // Genera líneas de paralelos y meridianos de la esfera
   const geometry = useMemo(() => {
     const pts: number[] = [];
-    const segments = 24; // resolución del círculo
-    const rings = 10;    // nº de paralelos
-    const meridians = 12;
+    const segments = 32; // resolución del círculo
+    const rings = 8;     // nº de paralelos
+    const meridians = 10;
 
     // Paralelos (círculos a lo largo de "latitud")
     for (let r = 1; r < rings; r++) {
@@ -611,10 +711,10 @@ function FatWireSphere({ position, radius, color, opacity = 0.35, lineWidth = 2.
   }, [color, opacity, lineWidth]);
 
   // Resolución del canvas para el grosor correcto en px
-  const { size } = useThree();
-  useEffect(() => {
-    material.resolution.set(size.width, size.height);
-  }, [size.width, size.height, material]);
+  const materiales = useMemo(() => [material], [material]);
+  useResolucion(materiales);
+  useEffect(() => () => geometry.dispose(), [geometry]);
+  useEffect(() => () => material.dispose(), [material]);
 
   const lineObj = useMemo(() => new LineSegments2(geometry, material), [geometry, material]);
 
@@ -672,10 +772,11 @@ function PocketSurface({ atoms }: { atoms: { x: number; y: number; z: number; r:
     // ~1.6 células/Å → campo de 24³ a 48³
     const resolution = Math.min(48, Math.max(24, Math.round(fieldSize * 1.6)));
 
-    const material = new THREE.MeshBasicMaterial({
+    // Con luz: la superficie se lee como un volumen y no como una mancha de color.
+    const material = new THREE.MeshLambertMaterial({
       vertexColors: true,
       transparent: true,
-      opacity: 0.3,
+      opacity: 0.26,
       side: THREE.DoubleSide,
       depthWrite: false,
     });
@@ -710,7 +811,6 @@ function PocketSurface({ atoms }: { atoms: { x: number; y: number; z: number; r:
 // un segmento entre el átomo del ligando y el átomo de la proteína por
 // contacto (H-bond, hidrofóbico, π-stacking, puente salino, catión-π...).
 function InteractionLines({ interactions }: { interactions: InteractionDatum[] }) {
-  const { size } = useThree();
   const items = useMemo(() => {
     if (interactions.length === 0) return [];
     const byType = new Map<string, number[]>();
@@ -739,11 +839,8 @@ function InteractionLines({ interactions }: { interactions: InteractionDatum[] }
     });
   }, [interactions]);
 
-  useEffect(() => {
-    items.forEach((it) => {
-      (it.obj.material as LineMaterial).resolution.set(size.width, size.height);
-    });
-  }, [size.width, size.height, items]);
+  const materiales = useMemo(() => items.map((it) => it.obj.material as LineMaterial), [items]);
+  useResolucion(materiales);
 
   useEffect(() => () => {
     items.forEach((it) => {
@@ -785,10 +882,45 @@ function CameraRig({ center, distance, externalCamera, onCameraChange, active }:
   onCameraChange?: (cam: ViewerCamera) => void;
   active?: boolean;
 }) {
-  const { camera } = useThree();
+  const { camera, invalidate } = useThree();
   const controlsRef = useRef<any>(null);
   const lastKey = useRef("");
   const lastExternal = useRef("");
+
+  // El lienzo dibuja a demanda. El encuadre de abajo vive en `useFrame`, que ya
+  // no corre solo: cuando cambia el foco o llega una cámara de fuera hay que
+  // pedir el fotograma en que se aplica.
+  const claveDelFoco = `${center[0].toFixed(2)},${center[1].toFixed(2)},${center[2].toFixed(2)}`;
+  const claveExterna = externalCamera
+    ? externalCamera.position.map((v) => v.toFixed(2)).join(",") + "|" + externalCamera.target.map((v) => v.toFixed(2)).join(",")
+    : "";
+  useEffect(() => { invalidate(); }, [claveDelFoco, claveExterna, invalidate]);
+
+  // Reportar la cámara cuando el usuario la deja quieta (rotación/zoom/pan).
+  //
+  // Antes esto vivía en `useFrame` y obligaba a dibujar 60 veces por segundo
+  // aunque nadie tocara nada. Medido en el export (2026-11-09): con Web3D abierto
+  // y en reposo, el navegador gastaba el 46 % de un núcleo con tarjeta gráfica y,
+  // sin ella, entre 9 y 11 núcleos enteros —el rasterizador por software usa todos
+  // los que hay—, que son los mismos que necesita Vina. Ahora se dibuja sólo
+  // cuando algo cambia y la cámara se informa al terminar el gesto.
+  const informe = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const informar = useRef<() => void>(() => {});
+  informar.current = () => {
+    if (!onCameraChange || !controlsRef.current || !active) return; // visor oculto → no pisa al activo
+    const t = controlsRef.current.target;
+    const pos = camera.position;
+    onCameraChange({
+      position: [pos.x, pos.y, pos.z],
+      target: [t.x, t.y, t.z],
+      distance: pos.distanceTo(t),
+    });
+  };
+  const alMoverLaCamara = useRef(() => {
+    if (informe.current) clearTimeout(informe.current);
+    informe.current = setTimeout(() => { informe.current = null; informar.current(); }, 250);
+  });
+  useEffect(() => () => { if (informe.current) clearTimeout(informe.current); }, []);
 
   useFrame(() => {
     // ── Adoptar cámara externa (de MolStar) — UNA vez por cambio ──
@@ -807,6 +939,9 @@ function CameraRig({ center, distance, externalCamera, onCameraChange, active }:
           controlsRef.current.target.set(tx, ty, tz);
           controlsRef.current.update();
         }
+        // Se informa DESPUÉS de encuadrar: antes de este fotograma los controles
+        // apuntan al origen y el otro visor heredaría una vista que nadie ha visto.
+        alMoverLaCamara.current();
       }
       return;
     }
@@ -824,46 +959,128 @@ function CameraRig({ center, distance, externalCamera, onCameraChange, active }:
       controlsRef.current.target.set(cx, cy, cz);
       controlsRef.current.update();
     }
+    alMoverLaCamara.current();
   });
 
-  // Reportar cambios de cámara del usuario (rotación/zoom/pan) con debounce
-  const lastReport = useRef(0);
-  useFrame(() => {
-    const now = performance.now();
-    if (now - lastReport.current < 300) return; // reportar cada 300ms máx
-    if (!onCameraChange || !controlsRef.current) return;
-    if (!active) return; // visor oculto → no reportar (no pisa al activo)
-    lastReport.current = now;
-    const t = controlsRef.current.target;
-    const pos = camera.position;
-    onCameraChange({
-      position: [pos.x, pos.y, pos.z],
-      target: [t.x, t.y, t.z],
-      distance: pos.distanceTo(t),
-    });
-  });
-
-  return <OrbitControls ref={controlsRef} enableZoom enablePan makeDefault />;
+  return <OrbitControls ref={controlsRef} enableZoom enablePan makeDefault onChange={alMoverLaCamara.current} />;
 }
+
+/** Vigila el contexto del lienzo: si se pierde y el navegador no lo devuelve, avisa. */
+function VigiaDelContexto({ onPerdido }: { onPerdido?: () => void }) {
+  const gl = useThree((s) => s.gl);
+  const avisar = useRef(onPerdido);
+  avisar.current = onPerdido;
+  useEffect(() => {
+    const lienzo = gl.domElement;
+    let espera: ReturnType<typeof setTimeout> | null = null;
+    const alPerder = () => {
+      if (espera) clearTimeout(espera);
+      espera = setTimeout(() => { espera = null; avisar.current?.(); }, ESPERA_DE_CONTEXTO_MS);
+    };
+    const alRecuperar = () => { if (espera) clearTimeout(espera); espera = null; };
+    lienzo.addEventListener("webglcontextlost", alPerder);
+    lienzo.addEventListener("webglcontextrestored", alRecuperar);
+    return () => {
+      if (espera) clearTimeout(espera);
+      lienzo.removeEventListener("webglcontextlost", alPerder);
+      lienzo.removeEventListener("webglcontextrestored", alRecuperar);
+    };
+  }, [gl]);
+  return null;
+}
+
+// ── Luz y profundidad ───────────────────────────────────────────────────
+
+/** Una luz que sale de la cámara: la cara que se mira siempre está iluminada, se gire como se gire. */
+function LuzDeCamara() {
+  const camera = useThree((s) => s.camera);
+  const luz = useRef<THREE.PointLight>(null);
+  useFrame(() => { luz.current?.position.copy(camera.position); });
+  return <pointLight ref={luz} intensity={2.6} decay={0} />;
+}
+
+/**
+ * Pantalla completa. La del sistema si la ventana la concede; si no (o si falla), el visor ocupa la ventana entera.
+ * En los dos casos se sale con Escape.
+ */
+function usePantallaCompleta(raiz: React.RefObject<HTMLDivElement | null>) {
+  const [nativa, setNativa] = useState(false);
+  const [enVentana, setEnVentana] = useState(false);
+  useEffect(() => {
+    const alCambiar = () => setNativa(!!raiz.current && document.fullscreenElement === raiz.current);
+    document.addEventListener("fullscreenchange", alCambiar);
+    return () => document.removeEventListener("fullscreenchange", alCambiar);
+  }, [raiz]);
+  useEffect(() => {
+    if (!enVentana) return;
+    const alTeclear = (e: KeyboardEvent) => { if (e.key === "Escape") setEnVentana(false); };
+    window.addEventListener("keydown", alTeclear);
+    return () => window.removeEventListener("keydown", alTeclear);
+  }, [enVentana]);
+  // Si el visor se desmonta en pantalla completa (cambiar de caso, cambiar de visor), la ventana no se queda así.
+  useEffect(() => {
+    const nodo = raiz.current;
+    return () => { if (nodo && document.fullscreenElement === nodo) void document.exitFullscreen().catch(() => {}); };
+  }, [raiz]);
+  const alternar = useCallback(() => {
+    const nodo = raiz.current;
+    if (!nodo) return;
+    if (nativa) { void document.exitFullscreen().catch(() => {}); return; }
+    if (enVentana) { setEnVentana(false); return; }
+    if (typeof nodo.requestFullscreen === "function") nodo.requestFullscreen().catch(() => setEnVentana(true));
+    else setEnVentana(true);
+  }, [nativa, enVentana, raiz]);
+  return { activa: nativa || enVentana, enVentana, alternar };
+}
+
+type ResiduoDelSitio = {
+  clave: string;
+  nombre: string;
+  color: string;
+  importancia: number;
+  centro: [number, number, number];
+  radio: number;
+  atomos: Atom[];
+};
+
+const PALETA_DE_TIPO_POR_DEFECTO = "#c084fc";
+/** En la leyenda, más grupos que éstos se resumen en «y N más»: la lista no puede tapar la escena. */
+const GRUPOS_EN_LA_LEYENDA = 10;
 
 // ── Componente principal ────────────────────────────────────────────────
 
-export default function Web3DViewer({ proteinData, poseData, interactions, hotspots = [], chain, gridInfo, onSwitchViewer, viewerLabel, onCameraChange, externalCamera, active = true }: Props) {
+export default function Web3DViewer({ proteinData, poseData, interactions, hotspots = SIN_HOTSPOTS, chain, gridInfo, onSwitchViewer, viewerLabel, onCameraChange, externalCamera, active = true, onNoDisponible, origenDelReceptor = "deposito" }: Props) {
   const { t, locale } = useLanguage();
+  // Sin tarjeta gráfica cada píxel lo calcula el procesador: se dibuja a la
+  // resolución de la pantalla, sin sobremuestreo ni suavizado de bordes.
+  const porSoftware = comprobarWebGL().aceleracion === "software";
+  const avisarNoDisponible = useRef(onNoDisponible);
+  avisarNoDisponible.current = onNoDisponible;
   // Modo foco: ocultar los átomos grises del receptor (solo sitio activo + grid)
   const [showAtoms, setShowAtoms] = useState(true);
   // Visibilidad de la molécula (ligando acoplado, SDF)
   const [showMolecule, setShowMolecule] = useState(true);
   // Visibilidad de las líneas de interacción (H-bonds, hidrofóbicos...)
   const [showInteractions, setShowInteractions] = useState(true);
-  // HUD colapsable (header siempre visible, detalle colapsado)
-  const [hudOpen, setHudOpen] = useState(true);
-  // Leyenda colapsable (como el HUD)
-  const [legendOpen, setLegendOpen] = useState(true);
+  // Metales, cofactores y aguas
+  const [showHetero, setShowHetero] = useState(true);
+  // Los dos paneles de la izquierda no se abren a la vez. Antes los dos abrían por defecto y la leyenda, con cada
+  // residuo partido en dos líneas, tapaba el resumen y un cuarto de la escena.
+  const [panel, setPanel] = useState<"resumen" | "leyenda" | null>(null);
+  const alternarPanel = (cual: "resumen" | "leyenda") => setPanel((abierto) => (abierto === cual ? null : cual));
   // Panel OPCIONES (visibilidad receptor / molécula / interacciones)
   const [optionsOpen, setOptionsOpen] = useState(false);
   // Hotspot seleccionado (popup explicativo)
   const [selectedHotspot, setSelectedHotspot] = useState<{ name: string; importance: number } | null>(null);
+  const raiz = useRef<HTMLDivElement>(null);
+  const pantalla = usePantallaCompleta(raiz);
+  // En pantalla completa hay sitio: la leyenda se abre sola.
+  const pantallaActiva = useRef(false);
+  useEffect(() => {
+    if (pantallaActiva.current === pantalla.activa) return;
+    pantallaActiva.current = pantalla.activa;
+    setPanel(pantalla.activa ? "leyenda" : null);
+  }, [pantalla.activa]);
 
   // Lookup de hotspots por CADENA (físico): "B:LYS14" → cadena B, "MET97" →
   // cadena del receptor. En dímeros (HIV-proteasa) el residuo homónimo de la
@@ -883,7 +1100,7 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
     });
     return set;
   }, [chain, hotspots]);
-  const atoms = useMemo(() => {
+  const todosLosAtomos = useMemo(() => {
     if (!proteinData) return [];
     // Filtro por cadenas del receptor (docking + cadenas de hotspots): si no
     // producen átomos (PDB sin esas cadenas), degradar a todas las cadenas.
@@ -912,76 +1129,92 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
       if (f) out.push({ x: f.x, y: f.y, z: f.z, name: h.name, importance: h.importance ?? f.importance ?? 0.5 });
     });
     return out;
-  }, [proteinData, hotspots, chain]);
-  // Envolventes por residuo (para centrar las esferas de click).
-  const residueEnvelopes = useMemo(
-    () => buildResidueEnvelopes(atoms, hotspotMarkers),
-    [atoms, hotspotMarkers]
+  }, [proteinData, hotspots, receptorChains]);
+
+  // Dónde mirar: la caja; sin ella, el sitio; sin sitio, el receptor entero.
+  const centroDeInteres = useMemo((): [number, number, number] => {
+    if (gridInfo) return [gridInfo.centerX, gridInfo.centerY, gridInfo.centerZ];
+    const delSitio = todosLosAtomos.filter((a) => a.isHotspot);
+    const base = delSitio.length > 0 ? delSitio : hotspotMarkers.length > 0 ? hotspotMarkers : todosLosAtomos;
+    return base.length > 0 ? hotspotCentroid(base) : [0, 0, 0];
+  }, [gridInfo, todosLosAtomos, hotspotMarkers]);
+  const atoms = useMemo(() => recortarAlrededor(todosLosAtomos, centroDeInteres, MAX_ATOMS), [todosLosAtomos, centroDeInteres]);
+  const recortado = atoms.length < todosLosAtomos.length;
+
+  // Metales, cofactores y aguas. Las aguas sólo si son del receptor acoplado: las del depósito se retiran al preparar.
+  const hetero = useMemo(
+    () => (proteinData ? parsePdbHetero(proteinData, { conAguas: origenDelReceptor === "corrida" }) : { atomos: [] as AtomoHetero[], grupos: [] as GrupoHetero[] }),
+    [proteinData, origenDelReceptor]
   );
-  // Color por residuo hotspot: paleta estable (orden alfabético) para
-  // distinguir cada residuo sin etiquetas (convención spectrum de PyMOL).
-  const hotspotColors = useMemo(() => {
-    const map = new Map<string, string>();
-    [...hotspotMarkers]
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .forEach((h, i) => {
-        const clean = h.name.toUpperCase().split(":").pop() ?? "";
-        map.set(clean, RESIDUE_PALETTE[i % RESIDUE_PALETTE.length]);
+  const metales = useMemo(() => hetero.grupos.filter((g) => g.tipo === "metal"), [hetero]);
+  const otrosGrupos = useMemo(() => hetero.grupos.filter((g) => g.tipo === "grupo"), [hetero]);
+  const aguas = useMemo(() => hetero.grupos.filter((g) => g.tipo === "agua"), [hetero]);
+
+  // Residuos del sitio, por CADENA y número. Antes el color, la envolvente y la leyenda los identificaban sin cadena,
+  // y en un homodímero los residuos homónimos de las dos cadenas compartían color y entrada.
+  const residuosDelSitio = useMemo((): ResiduoDelSitio[] => {
+    const importancia = new Map<string, number>();
+    hotspots.forEach((h) => {
+      const up = h.name.toUpperCase().trim();
+      const partes = up.split(":");
+      if (partes.length === 2 && partes[0].trim()) importancia.set(claveDeResiduo(partes[0].trim(), partes[1].trim()), h.importance ?? 0.5);
+      else importancia.set(`*:${up}`, h.importance ?? 0.5);
+    });
+    const grupos = new Map<string, Atom[]>();
+    for (const a of atoms) {
+      if (!a.isHotspot || !a.resId) continue;
+      const clave = claveDeResiduo(a.chain, a.resId);
+      const lista = grupos.get(clave) ?? [];
+      lista.push(a);
+      grupos.set(clave, lista);
+    }
+    return [...grupos.entries()]
+      .sort(([x], [y]) => x.localeCompare(y))
+      .map(([clave, lista], i) => {
+        const n = lista.length;
+        const cx = lista.reduce((s2, a) => s2 + a.x, 0) / n;
+        const cy = lista.reduce((s2, a) => s2 + a.y, 0) / n;
+        const cz = lista.reduce((s2, a) => s2 + a.z, 0) / n;
+        const radio = Math.max(...lista.map((a) => Math.hypot(a.x - cx, a.y - cy, a.z - cz) + atomRadius(a.element)));
+        const [cadena, resId] = clave.split(":");
+        return {
+          clave,
+          nombre: cadena ? `${cadena}:${resId}` : resId,
+          color: RESIDUE_PALETTE[i % RESIDUE_PALETTE.length],
+          importancia: importancia.get(clave) ?? importancia.get(`*:${resId}`) ?? 0.5,
+          centro: [cx, cy, cz] as [number, number, number],
+          radio,
+          atomos: lista,
+        };
       });
-    return map;
-  }, [hotspotMarkers]);
+  }, [atoms, hotspots]);
+  const hotspotColors = useMemo(() => new Map(residuosDelSitio.map((r) => [r.clave, r.color])), [residuosDelSitio]);
   // Átomos del sitio activo con color por TIPO de residuo (convención AA_INFO:
   // polar=azul, hidrofóbico=ámbar, aromático=púrpura, ácido=rojo, básico=verde)
   // — alimentan la superficie adaptativa del bolsillo.
-  const pocketCloudAtoms = useMemo(() => {
-    const colorByKey = new Map<string, string>();
-    hotspotMarkers.forEach((h) => {
-      const upper = h.name.toUpperCase();
-      const parts = upper.split(":");
-      const rid = (parts.length === 2 ? parts[1] : upper);
-      const ch = parts.length === 2 ? parts[0] : "";
-      const color = aaInfoFromName(h.name, t).typeColor;
-      colorByKey.set(`${ch}:${rid}`, color);
-      colorByKey.set(rid, color);
-    });
-    return atoms
-      .filter((a) => a.isHotspot && a.resId)
-      .map((a) => ({
-        x: a.x, y: a.y, z: a.z, r: atomRadius(a.element),
-        color: new THREE.Color(
-          colorByKey.get(`${a.chain ?? ""}:${a.resId!}`) ?? colorByKey.get(a.resId!) ?? "#c084fc"
-        ),
-      }));
-  }, [atoms, hotspotMarkers, t]);
-  // Esfera-envolvente del bolsillo (ayuda de orientación, de vuelta): centroide
-  // ponderado por importancia + radio que CONTIENE los átomos del sitio activo
-  // con un pequeño margen visual. Envolvente, no superficie física.
+  const pocketCloudAtoms = useMemo(() => residuosDelSitio.flatMap((r) => {
+    const color = new THREE.Color(aaInfoFromName(r.nombre, t).typeColor ?? PALETA_DE_TIPO_POR_DEFECTO);
+    return r.atomos.map((a) => ({ x: a.x, y: a.y, z: a.z, r: atomRadius(a.element), color }));
+  }), [residuosDelSitio, t]);
+  // Esfera-envolvente del bolsillo (ayuda de orientación): centroide ponderado
+  // por importancia + radio que CONTIENE los átomos del sitio activo con un
+  // pequeño margen visual. Envolvente, no superficie física.
   const pocketSphere = useMemo(() => {
-    const hs = atoms.filter((a) => a.isHotspot && a.resId);
-    if (hs.length < 2) return null;
-    const impByRes = new Map(
-      hotspotMarkers.map((h) => {
-        const clean = h.name.toUpperCase().split(":").pop() ?? "";
-        return [clean, h.importance > 0 ? h.importance : 0.5] as const;
-      })
-    );
-    const wTotal = hs.reduce((s, a) => s + (impByRes.get(a.resId!) ?? 0.5), 0) || hs.length;
-    const cx = hs.reduce((s, a) => s + a.x * (impByRes.get(a.resId!) ?? 0.5), 0) / wTotal;
-    const cy = hs.reduce((s, a) => s + a.y * (impByRes.get(a.resId!) ?? 0.5), 0) / wTotal;
-    const cz = hs.reduce((s, a) => s + a.z * (impByRes.get(a.resId!) ?? 0.5), 0) / wTotal;
-    const radius = Math.max(...hs.map((a) => Math.hypot(a.x - cx, a.y - cy, a.z - cz) + atomRadius(a.element)));
+    const pesos = residuosDelSitio.flatMap((r) => r.atomos.map((a) => ({ a, w: r.importancia > 0 ? r.importancia : 0.5 })));
+    if (pesos.length < 2) return null;
+    const wTotal = pesos.reduce((s2, p2) => s2 + p2.w, 0) || pesos.length;
+    const cx = pesos.reduce((s2, p2) => s2 + p2.a.x * p2.w, 0) / wTotal;
+    const cy = pesos.reduce((s2, p2) => s2 + p2.a.y * p2.w, 0) / wTotal;
+    const cz = pesos.reduce((s2, p2) => s2 + p2.a.z * p2.w, 0) / wTotal;
+    const radius = Math.max(...pesos.map(({ a }) => Math.hypot(a.x - cx, a.y - cy, a.z - cz) + atomRadius(a.element)));
     return { center: [cx, cy, cz] as [number, number, number], radius: radius + 1.0 };
-  }, [atoms, hotspotMarkers]);
+  }, [residuosDelSitio]);
   const ligand = useMemo(
     () => (poseData ? parseSdfLigand(poseData) : { atoms: [] as LigandAtom[], bonds: [] as LigandBond[] }),
     [poseData]
   );
 
-  const focusCenter: [number, number, number] = gridInfo
-    ? [gridInfo.centerX, gridInfo.centerY, gridInfo.centerZ]
-    : hotspotMarkers.length > 0
-      ? hotspotCentroid(hotspotMarkers)
-      : [0, 0, 0];
+  const focusCenter = centroDeInteres;
   const focusDistance = gridInfo
     ? Math.max(60, Math.max(gridInfo.sizeX, gridInfo.sizeY, gridInfo.sizeZ) * 3)
     : 100;
@@ -1003,19 +1236,67 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
   }
 
   const selectedInfo = selectedHotspot ? aaInfoFromName(selectedHotspot.name, t) : null;
+  const numero = (n: number) => n.toLocaleString(appLocale(locale));
+  const hayHetero = hetero.atomos.length > 0 || aguas.length > 0;
+  const tiposDelSitio = [...new Map(residuosDelSitio.map((r) => {
+    const info = aaInfoFromName(r.nombre, t);
+    return [info.typeCode, info] as const;
+  })).values()];
+  const entradasDeLeyenda = 1 + residuosDelSitio.length + metales.length + Math.min(otrosGrupos.length, GRUPOS_EN_LA_LEYENDA);
+  const chip = "flex items-center gap-1.5 whitespace-nowrap";
+  const origenDelHetero = t(origenDelReceptor === "corrida" ? "pn_w3d_hetero_corrida" : "pn_w3d_hetero_deposito");
+  const opciones = [
+    { activo: showAtoms, alternar: () => setShowAtoms((v) => !v), icono: <EyeOff size={12} className={showAtoms ? "text-amber-400" : "text-slate-500"} />,
+      texto: showAtoms ? t("pr_viewer_hide_receptor") : t("pr_viewer_show_receptor"), titulo: showAtoms ? t("auto_7a2d6cf4994c") : t("auto_144067985189"), sinDatos: false },
+    { activo: showMolecule, alternar: () => setShowMolecule((v) => !v), icono: <Atom size={12} className={showMolecule ? "text-sky-400" : "text-slate-500"} />,
+      texto: showMolecule ? t("pr_viewer_hide_ligand") : t("pr_viewer_show_ligand"),
+      titulo: ligand.atoms.length === 0 ? t("auto_abcb7f140cae") : showMolecule ? t("auto_b0487918dd42") : t("auto_e5d668feb775"), sinDatos: ligand.atoms.length === 0 },
+    { activo: showInteractions, alternar: () => setShowInteractions((v) => !v), icono: <Zap size={12} className={showInteractions ? "text-yellow-400" : "text-slate-500"} />,
+      texto: showInteractions ? t("pr_viewer_hide_interactions") : t("pr_viewer_show_interactions"),
+      titulo: !interactions || interactions.length === 0 ? t("auto_fe9905aee429") : showInteractions ? t("auto_eef39378ea52") : t("auto_1054995e158b"), sinDatos: !interactions || interactions.length === 0 },
+    { activo: showHetero, alternar: () => setShowHetero((v) => !v), icono: <Atom size={12} className={showHetero ? "text-amber-300" : "text-slate-500"} />,
+      texto: t(showHetero ? "pn_w3d_ocultar_hetero" : "pn_w3d_ver_hetero"), titulo: origenDelHetero, sinDatos: !hayHetero },
+  ];
 
   return (
-    <div className="relative isolate h-full w-full overflow-hidden bg-[#05080f]">
+    <div
+      ref={raiz}
+      data-pantalla-completa={pantalla.activa ? "" : undefined}
+      className={pantalla.enVentana ? "fixed inset-0 z-[60] isolate overflow-hidden bg-[#05080f]" : "relative isolate h-full w-full overflow-hidden bg-[#05080f]"}
+    >
       <Canvas
         camera={{ position: [focusCenter[0] + focusDistance * 0.8, focusCenter[1] + focusDistance * 0.6, focusCenter[2] + focusDistance], fov: 45 }}
         className="cursor-move"
-        dpr={[1, 1.5]}
+        dpr={porSoftware ? 1 : [1, 1.5]}
+        // El renderizador se crea AQUÍ, no dentro de la librería, para poder ver si
+        // falla. R3F lo construye en una promesa: cuando three no consigue contexto
+        // («Error creating WebGL context»), esa excepción no pasa por React, no la
+        // recoge ninguna frontera y el visor se quedaba en un lienzo vacío sin
+        // mensaje. Reproducido en el export (2026-11-09).
+        gl={(porDefecto) => {
+          try {
+            return new THREE.WebGLRenderer({ ...porDefecto, antialias: !porSoftware } as THREE.WebGLRendererParameters);
+          } catch (fallo) {
+            // Fuera de esta pila: quien lo monta cambia de visor, y eso desmonta este lienzo.
+            setTimeout(() => avisarNoDisponible.current?.(), 0);
+            throw fallo;
+          }
+        }}
+        // Sólo se dibuja cuando algo cambia. Con el bucle por defecto el visor
+        // repintaba 60 veces por segundo una escena quieta.
+        frameloop="demand"
       >
-        <ambientLight intensity={0.6} />
-        <pointLight position={[focusCenter[0] + 100, focusCenter[1] + 100, focusCenter[2] + 100]} intensity={0.8} />
+        <VigiaDelContexto onPerdido={onNoDisponible} />
+        {/* Fondo y niebla del mismo color: lo lejano se apaga y la profundidad se lee sin girar la escena. */}
+        <color attach="background" args={["#05080f"]} />
+        <fog attach="fog" args={["#05080f", focusDistance * 0.6, focusDistance * 2.6]} />
+        <hemisphereLight args={["#e0ecff", "#0b1020", 1.1]} />
+        <ambientLight intensity={0.35} />
+        <LuzDeCamara />
         {/* AtomCloud SIEMPRE montado; recibe solo hotspots cuando showAtoms=false
             (el receptor se oculta pero el sitio activo permanece). */}
         <AtomCloud atoms={visibleAtoms} hotspotColors={hotspotColors} />
+        {showHetero && <HeteroCloud atomos={hetero.atomos} />}
         {/* Molécula acoplada (SDF): átomos + enlaces; toggle "Ver molécula" */}
         <LigandCloud atoms={showMolecule ? ligand.atoms : []} bonds={showMolecule ? ligand.bonds : []} />
         {/* Líneas discontinuas de interacción ligando-proteína (PLIF) */}
@@ -1031,67 +1312,84 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
             position={pocketSphere.center}
             radius={pocketSphere.radius}
             color="#a855f7"
-            opacity={0.5}
-            lineWidth={2.5}
+            opacity={0.34}
+            lineWidth={1.6}
           />
         )}
-        {/* Esferas de CLICK sobre los hotspots (casi invisibles, centradas en
+        {/* Esferas de CLICK sobre los residuos del sitio (casi invisibles, centradas en
             la envolvente del residuo para capturar toda su cadena lateral) */}
-        {hotspotMarkers.map((h, i) => {
-          const clean = h.name.toUpperCase().split(":").pop() ?? "";
-          const e = residueEnvelopes.get(clean);
-          const pos: [number, number, number] = e ? [e.cx, e.cy, e.cz] : [h.x, h.y, h.z];
-          const clickR = e ? e.radius + 0.6 : 2.2;
-          return (
-            <mesh
-              key={i}
-              position={pos}
-              onClick={(ev) => {
-                ev.stopPropagation();
-                setSelectedHotspot({ name: h.name, importance: h.importance });
-              }}
-            >
-              <sphereGeometry args={[clickR, 8, 8]} />
-              {/* opacity 0.01 (no 0) para que el raycast de R3F lo capture */}
-              <meshBasicMaterial transparent opacity={0.01} depthWrite={false} />
-            </mesh>
-          );
-        })}
+        {residuosDelSitio.map((r) => (
+          <mesh
+            key={r.clave}
+            position={r.centro}
+            onClick={(ev) => {
+              ev.stopPropagation();
+              setSelectedHotspot({ name: r.nombre, importance: r.importancia });
+            }}
+          >
+            <sphereGeometry args={[r.radio + 0.6, 8, 8]} />
+            {/* opacity 0.01 (no 0) para que el raycast de R3F lo capture */}
+            <meshBasicMaterial transparent opacity={0.01} depthWrite={false} />
+          </mesh>
+        ))}
         {gridInfo && <GridBox gridInfo={gridInfo} />}
         <CameraRig center={focusCenter} distance={focusDistance} externalCamera={externalCamera} onCameraChange={onCameraChange} active={active} />
       </Canvas>
 
-      {/* ── Esquina TL: HUD Web3D (colapsable) ── */}
-      <div className="absolute left-3 top-3 z-10">
-        <button
-          onClick={() => setHudOpen((v) => !v)}
-          className={`${VIEWER_LABEL_BUTTON_CLASS} min-w-[112px] justify-between`}
-        >
-          <span className="text-emerald-300">Web3D</span>
-          <span className="text-slate-500">{hudOpen ? "▾" : "▸"}</span>
-        </button>
-        {hudOpen && (
-          <div className={`${VIEWER_LABEL_PANEL_CLASS} mt-2 flex max-w-[340px] flex-col gap-1.5 px-3 py-2.5`}>
+      {/* ── Esquina superior izquierda: cambio de visor y resumen ──
+          El cambio de visor vivía abajo a la derecha, justo debajo de la burbuja de MolChat, que lo tapaba. */}
+      <div className="absolute left-3 top-3 z-10 flex max-w-[calc(100%-1.5rem)] flex-col items-start gap-2">
+        <div className="flex items-center gap-2">
+          {onSwitchViewer && (
+            <button onClick={onSwitchViewer} className={VIEWER_SWITCH_BUTTON_CLASS}>
+              <Box size={12} className="text-emerald-400" />
+              {t("pr_viewer_view")} {viewerLabel ?? "MolStar"}
+            </button>
+          )}
+          <button
+            onClick={() => alternarPanel("resumen")}
+            aria-expanded={panel === "resumen"}
+            className={`${VIEWER_LABEL_BUTTON_CLASS} justify-between`}
+          >
+            <span className="text-emerald-300">Web3D</span>
+            <span className="font-mono normal-case tracking-normal text-slate-400">{numero(visibleAtoms.length)} {t("pn_atomos")}</span>
+            <span className="text-slate-500">{panel === "resumen" ? "▾" : "▸"}</span>
+          </button>
+        </div>
+        {panel === "resumen" && (
+          <div className={`${VIEWER_LABEL_PANEL_CLASS} flex max-w-[360px] flex-col gap-1.5 px-3 py-2.5`}>
             <span className="text-[12px] font-mono text-slate-300">
-              <span className="text-emerald-400 font-black">{visibleAtoms.length.toLocaleString(appLocale(locale))}</span> {t("pn_atomos")}
+              <span className="text-emerald-400 font-black">{numero(visibleAtoms.length)}</span> {t("pn_atomos")}
               <span className="text-slate-500"> {showAtoms ? t("auto_1e853721429d") : t("auto_2cdce3bc9ced")}</span>
             </span>
+            {recortado && (
+              <span role="status" className="text-[11px] leading-snug text-amber-300">
+                {t("pn_w3d_recorte", { dibujados: numero(atoms.length), total: numero(todosLosAtomos.length) })}
+              </span>
+            )}
             <span className="text-[12px] font-mono text-cyan-300">
-              <span className="font-black">{hotspotMarkers.length}</span> {t("pn_residuos_sitio")}
+              <span className="font-black">{residuosDelSitio.length}</span> {t("pn_residuos_sitio")}
             </span>
+            {hayHetero && (
+              <span className="text-[11px] leading-snug text-slate-400">
+                {t("pn_w3d_hetero_cuenta", { metales: metales.length, grupos: otrosGrupos.length, aguas: aguas.length })} {origenDelHetero}
+              </span>
+            )}
             <span className="text-[11px] font-mono text-slate-400">{t("pn_selecciona_residuo")}</span>
           </div>
         )}
       </div>
 
-      {/* ── Esquina BL: Leyenda (colapsable, panel hacia arriba) ── */}
+      {/* ── Esquina inferior izquierda: Leyenda (cerrada; panel hacia arriba) ── */}
       <div className="absolute bottom-3 left-3 z-10">
         <button
-          onClick={() => setLegendOpen((v) => !v)}
+          onClick={() => alternarPanel("leyenda")}
+          aria-expanded={panel === "leyenda"}
           className={`${VIEWER_LABEL_BUTTON_CLASS} min-w-[112px] justify-between`}
         >
           <span className="text-emerald-300">{t("pr_viewer_legend")}</span>
-          <span className="text-slate-500">{legendOpen ? "▾" : "▸"}</span>
+          <span className="font-mono text-slate-500">{entradasDeLeyenda}</span>
+          <span className="text-slate-500">{panel === "leyenda" ? "▾" : "▸"}</span>
         </button>
         {/* La barra de desplazamiento existía, pero no se podía usar.
             EL FALLO: el panel combinaba `overflow-y-auto` con
@@ -1111,133 +1409,129 @@ export default function Web3DViewer({ proteinData, poseData, interactions, hotsp
             `preventDefault` es el error clásico al arreglar esto — y además
             React registra `wheel` como pasivo, así que no haría nada salvo
             avisar por consola. */}
-        {legendOpen && (
+        {panel === "leyenda" && (
           <div
             onWheel={(e) => e.stopPropagation()}
-            className={`${VIEWER_LABEL_PANEL_CLASS} pointer-events-auto absolute bottom-full left-0 mb-2 flex max-h-[55vh] max-w-[380px] flex-wrap items-center gap-x-3 gap-y-1.5 overflow-y-auto overscroll-contain px-3 py-2.5 text-[11px] font-semibold tracking-normal text-slate-300`}
+            className={`${VIEWER_LABEL_PANEL_CLASS} pointer-events-auto absolute bottom-full left-0 mb-2 flex ${pantalla.activa ? "max-h-[70vh] w-[420px]" : "max-h-[42vh] w-[min(380px,calc(100vw-3rem))]"} flex-col gap-2 overflow-y-auto overscroll-contain px-3 py-2.5 text-[11px] font-semibold tracking-normal text-slate-300`}
           >
-            <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#22d3ee] inline-block" /> {t("pn_caja_acoplamiento")}</span>
-            {hotspotMarkers.map((h) => {
-              const clean = h.name.toUpperCase().split(":").pop() ?? "";
-              const c = hotspotColors.get(clean) ?? "#7dd3fc";
-              return (
-                <span key={clean} className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-full inline-block" style={{ backgroundColor: c }} /> {formatResidueLabel(h.name, t)}
-                </span>
-              );
-            })}
-            {/* Tipos de residuo presentes (color de la superficie del bolsillo) */}
-            {hotspotMarkers.length > 0 && (
-              [...new Set(hotspotMarkers.map((h) => aaInfoFromName(h.name, t).typeCode))].map((typeCode) => {
-                const info = hotspotMarkers.map((h) => aaInfoFromName(h.name, t)).find((i) => i.typeCode === typeCode);
-                return (
-                  <span key={typeCode} className="flex items-center gap-1.5">
-                    <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: info?.typeColor ?? "#c084fc" }} /> {info?.type ?? typeCode}
+            <div className="flex flex-wrap gap-x-3 gap-y-1">
+              <span className={chip}><span className="h-2.5 w-2.5 rounded-sm bg-[#22d3ee] inline-block" /> {t("pn_caja_acoplamiento")}</span>
+              {showMolecule && ligand.atoms.length > 0 && (
+                <span className={chip}><span className="h-2.5 w-2.5 rounded-full bg-[#e6e6f2] inline-block" /> {t("pr_viewer_ligand_docked")}</span>
+              )}
+              {showAtoms && (
+                <span className={chip}><span className="h-2.5 w-2.5 rounded-full inline-block" style={{ backgroundColor: REST_ATOM_COLOR }} /> {t(recortado ? "pn_w3d_receptor_recortado" : "pr_viewer_receptor_full")}</span>
+              )}
+            </div>
+            {residuosDelSitio.length > 0 && (
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(88px,1fr))] gap-x-2 gap-y-1">
+                {residuosDelSitio.map((r) => (
+                  <span key={r.clave} className={chip} title={formatResidueLabel(r.nombre, t)}>
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full inline-block" style={{ backgroundColor: r.color }} />
+                    <span className="truncate font-mono">{r.nombre}</span>
                   </span>
-                );
-              })
+                ))}
+              </div>
             )}
-            {showAtoms && <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-full bg-[#4a4a5a] inline-block" /> {t("pr_viewer_receptor_full")}</span>}
-            {showMolecule && ligand.atoms.length > 0 && (
-              <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-[#e6e6f2] inline-block" /> {t("pr_viewer_ligand_docked")}</span>
+            {/* Tipos de residuo presentes (color de la superficie del bolsillo) */}
+            {tiposDelSitio.length > 0 && (
+              <div className="flex flex-wrap gap-x-3 gap-y-1">
+                {tiposDelSitio.map((info) => (
+                  <span key={info.typeCode} className={chip}>
+                    <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: info.typeColor ?? PALETA_DE_TIPO_POR_DEFECTO }} /> {info.type}
+                  </span>
+                ))}
+              </div>
+            )}
+            {showHetero && hayHetero && (
+              <div className="flex flex-col gap-1">
+                <div className="flex flex-wrap gap-x-3 gap-y-1">
+                  {metales.map((g) => (
+                    <span key={g.clave} className={chip}>
+                      <span className="h-2.5 w-2.5 rounded-full inline-block" style={{ backgroundColor: COLOR_DE_METAL[g.residuo] ?? "#b8b8d0" }} />
+                      <span className="font-mono">{g.cadena ? `${g.cadena}:` : ""}{g.residuo}{g.numero}</span>
+                    </span>
+                  ))}
+                  {otrosGrupos.slice(0, GRUPOS_EN_LA_LEYENDA).map((g) => (
+                    <span key={g.clave} className={chip}>
+                      <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: HETERO_ELEMENT_COLOR.C }} />
+                      <span className="font-mono">{g.cadena ? `${g.cadena}:` : ""}{g.residuo}{g.numero}</span>
+                    </span>
+                  ))}
+                  {otrosGrupos.length > GRUPOS_EN_LA_LEYENDA && (
+                    <span className="text-slate-500">{t("pn_w3d_y_mas", { n: otrosGrupos.length - GRUPOS_EN_LA_LEYENDA })}</span>
+                  )}
+                  {aguas.length > 0 && origenDelReceptor === "corrida" && (
+                    <span className={chip}><span className="h-2 w-2 rounded-full inline-block" style={{ backgroundColor: AGUA_COLOR }} /> {t("pn_w3d_aguas", { n: aguas.length })}</span>
+                  )}
+                </div>
+                <span className="text-[10px] font-normal leading-snug text-slate-500">{origenDelHetero}</span>
+              </div>
             )}
             {showInteractions && interactions && interactions.length > 0 && (
-              [...new Set(interactions.map((i) => i.type))].map((interactionType) => (
-                <span key={interactionType} className="flex items-center gap-1.5">
-                  <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: INTERACTION_COLORS[interactionType] ?? "#94a3b8" }} />
-                  {INTERACTION_LABELS[interactionType] ? t(INTERACTION_LABELS[interactionType]) : interactionType}
-                </span>
-              ))
+              <div className="flex flex-wrap gap-x-3 gap-y-1">
+                {[...new Set(interactions.map((i) => i.type))].map((interactionType) => (
+                  <span key={interactionType} className={chip}>
+                    <span className="h-2.5 w-2.5 rounded-sm inline-block" style={{ backgroundColor: INTERACTION_COLORS[interactionType] ?? "#94a3b8" }} />
+                    {INTERACTION_LABELS[interactionType] ? t(INTERACTION_LABELS[interactionType]) : interactionType}
+                  </span>
+                ))}
+              </div>
             )}
           </div>
         )}
       </div>
 
-      {/* Esquina inferior derecha: cambio de visor, idéntico en ambos motores. */}
-      {onSwitchViewer && (
-        <div className="absolute bottom-3 right-3 z-10">
-          <button onClick={onSwitchViewer} className={VIEWER_SWITCH_BUTTON_CLASS}>
-            <Box size={12} className="text-emerald-400" />
-            {t("pr_viewer_view")} {viewerLabel ?? "MolStar"}
-          </button>
-        </div>
-      )}
-
-      {/* Esquina superior derecha: visibilidad del receptor, ligando e interacciones. */}
-      <div className="absolute right-3 top-3 z-10">
+      {/* Esquina superior derecha: pantalla completa y visibilidad del receptor, ligando, interacciones y heteroátomos. */}
+      <div className="absolute right-3 top-3 z-10 flex items-start gap-2">
         <button
-          onClick={() => setOptionsOpen((v) => !v)}
-          className={`${VIEWER_LABEL_BUTTON_CLASS} min-w-[112px] justify-between`}
+          onClick={pantalla.alternar}
+          aria-pressed={pantalla.activa}
+          title={t(pantalla.activa ? "pn_w3d_salir_pantalla_completa" : "pn_w3d_pantalla_completa")}
+          aria-label={t(pantalla.activa ? "pn_w3d_salir_pantalla_completa" : "pn_w3d_pantalla_completa")}
+          className={`${VIEWER_LABEL_BUTTON_CLASS} px-2.5`}
         >
-          <span className="flex items-center gap-2 text-purple-300">
-            <Settings size={12} />
-            {t("ev_opciones")}
-          </span>
-          <span className="text-slate-500">{optionsOpen ? "▾" : "▸"}</span>
+          {pantalla.activa ? <Minimize2 size={13} /> : <Maximize2 size={13} />}
         </button>
-        {optionsOpen && (
-          <>
-            {/* Backdrop: cerrar al hacer click fuera del panel */}
-            <div className="fixed inset-0 z-10" onClick={() => setOptionsOpen(false)} />
-            {/* z-20: el panel DEBE quedar sobre el backdrop, si no los clicks
-                de los switches golpean el backdrop y cierran sin togglear */}
-            <div className={`${VIEWER_LABEL_PANEL_CLASS} absolute right-0 top-full z-20 mt-2 w-[232px] overflow-hidden`}>
-              <button
-                onClick={() => setShowAtoms((v) => !v)}
-                className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-white/5 transition-colors cursor-pointer"
-                title={showAtoms ? t("auto_7a2d6cf4994c") : t("auto_144067985189")}
-              >
-                <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
-                  <EyeOff size={12} className={showAtoms ? "text-amber-400" : "text-slate-500"} />
-                  {showAtoms ? t("pr_viewer_hide_receptor") : t("pr_viewer_show_receptor")}
-                </span>
-                <span className={`relative h-4 w-7 rounded-full transition-colors ${showAtoms ? "bg-purple-500/60" : "bg-white/10"}`}>
-                  <span className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white transition-transform ${showAtoms ? "translate-x-3" : ""}`} />
-                </span>
-              </button>
-              <button
-                onClick={() => setShowMolecule((v) => !v)}
-                disabled={ligand.atoms.length === 0}
-                className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-white/5 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                title={
-                  ligand.atoms.length === 0
-                    ? t("auto_abcb7f140cae")
-                    : showMolecule
-                    ? t("auto_b0487918dd42")
-                    : t("auto_e5d668feb775")
-                }
-              >
-                <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
-                  <Atom size={12} className={showMolecule ? "text-sky-400" : "text-slate-500"} />
-                  {showMolecule ? t("pr_viewer_hide_ligand") : t("pr_viewer_show_ligand")}
-                </span>
-                <span className={`relative h-4 w-7 rounded-full transition-colors ${showMolecule ? "bg-purple-500/60" : "bg-white/10"}`}>
-                  <span className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white transition-transform ${showMolecule ? "translate-x-3" : ""}`} />
-                </span>
-              </button>
-              <button
-                onClick={() => setShowInteractions((v) => !v)}
-                disabled={!interactions || interactions.length === 0}
-                className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-white/5 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-                title={
-                  !interactions || interactions.length === 0
-                    ? t("auto_fe9905aee429")
-                    : showInteractions
-                    ? t("auto_eef39378ea52")
-                    : t("auto_1054995e158b")
-                }
-              >
-                <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
-                  <Zap size={12} className={showInteractions ? "text-yellow-400" : "text-slate-500"} />
-                  {showInteractions ? t("pr_viewer_hide_interactions") : t("pr_viewer_show_interactions")}
-                </span>
-                <span className={`relative h-4 w-7 rounded-full transition-colors ${showInteractions ? "bg-purple-500/60" : "bg-white/10"}`}>
-                  <span className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white transition-transform ${showInteractions ? "translate-x-3" : ""}`} />
-                </span>
-              </button>
-            </div>
-          </>
-        )}
+        <div className="relative">
+          <button
+            onClick={() => setOptionsOpen((v) => !v)}
+            className={`${VIEWER_LABEL_BUTTON_CLASS} min-w-[112px] justify-between`}
+          >
+            <span className="flex items-center gap-2 text-purple-300">
+              <Settings size={12} />
+              {t("ev_opciones")}
+            </span>
+            <span className="text-slate-500">{optionsOpen ? "▾" : "▸"}</span>
+          </button>
+          {optionsOpen && (
+            <>
+              {/* Backdrop: cerrar al hacer click fuera del panel */}
+              <div className="fixed inset-0 z-10" onClick={() => setOptionsOpen(false)} />
+              {/* z-20: el panel DEBE quedar sobre el backdrop, si no los clicks
+                  de los switches golpean el backdrop y cierran sin togglear */}
+              <div className={`${VIEWER_LABEL_PANEL_CLASS} absolute right-0 top-full z-20 mt-2 w-[232px] overflow-hidden`}>
+                {opciones.map((op, i) => (
+                  <button
+                    key={i}
+                    onClick={op.alternar}
+                    disabled={op.sinDatos}
+                    className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-white/5 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    title={op.titulo}
+                  >
+                    <span className="flex items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-300">
+                      {op.icono}
+                      {op.texto}
+                    </span>
+                    <span className={`relative h-4 w-7 rounded-full transition-colors ${op.activo ? "bg-purple-500/60" : "bg-white/10"}`}>
+                      <span className={`absolute top-0.5 left-0.5 h-3 w-3 rounded-full bg-white transition-transform ${op.activo ? "translate-x-3" : ""}`} />
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {/* Popup de hotspot (ventana emergente explicativa) */}

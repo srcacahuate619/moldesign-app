@@ -84,14 +84,24 @@ REGLAS CRITICAS:
 1. NUNCA inventes numeros. Usa exactamente los valores del JSON.
 2. Si la lista "residuos_clave_alcanzados" esta vacia ([]), DEBES decir explicitamente que la molecula fracaso en tocar los hotspots.
 3. No uses saludos, vinetas ni titulos. Escribe un solo parrafo continuo.
-4. Puedes comparar con evaluaciones previas del usuario si estan disponibles abajo."""
+4. "indice_compuesto_heredado_0_100" es un indice historico de MolDesign, no una medida del potencial: no juzgues la molecula por el y, si lo citas, llamalo indice compuesto heredado."""
+    # La regla de comparar con evaluaciones previas sólo tiene sentido si llega ese contexto. Desde el corte de la
+    # memoria de cuenta (Fase 6.6) nunca llega, y la regla invitaba a citar comparaciones que el modelo no tenía
+    # (segunda opinión, 2026-11-15).
+    if memory_context:
+        system_prompt += "\n5. Puedes comparar con evaluaciones previas del usuario si estan disponibles abajo."
 
+    # El índice compuesto (`total_score`) no ordena mejor que la afinidad de Vina (SUP-02, NO_GO) y la interfaz lo
+    # rotula «índice compuesto heredado»; antes viajaba al modelo como «score general sobre 100» y el párrafo lo
+    # presentaba como la nota de la molécula (D-07 de la investigación de 1.0.4).
     data = {
         "molecula": smiles,
-        "score_general_sobre_100": score,
+        "indice_compuesto_heredado_0_100": score,
         "afinidad_kcal_mol": afinidad,
         "eficiencia_ligando_LE": le,
-        "eficiencia_lipofilica_LLE": lle,
+        # La LLE se define con pKi/pIC50 medidos; ésta sale de la afinidad de Vina, y el
+        # nombre de la clave lo dice para que el párrafo no la presente como la medida.
+        "LLE_aparente_proxy_de_Vina": lle,
         "accesibilidad_sintetica_SA": sa_score,
         "residuos_clave_alcanzados": hotspots,
     }

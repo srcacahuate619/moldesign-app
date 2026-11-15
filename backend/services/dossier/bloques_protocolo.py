@@ -26,6 +26,15 @@ from typing import Any
 
 from services.dossier.taxonomy import Estado
 
+#: Lo que se imprime cuando la señal SMARTS de warheads vale 0 (D-08 de la investigación de 1.0.4). Se calcula sobre
+#: el SMILES de entrada de la corrida (`pipeline_params.molecule_smiles`, que `ejecutar_m5` pasa a `ums_autorizado`),
+#: no sobre la especie protonada que se acopla: por eso importa cómo se escribió.
+NOTA_UMS_CERO = (
+    "0.0000 — el SMILES de entrada no casa con ninguno de los patrones SMARTS de la señal. Buscan la forma neutra o "
+    "protonada: una sulfonamida, un hidroxamato o un tiol escritos como anión (N⁻, O⁻, S⁻) no se reconocen y también "
+    "dan 0. Un 0 no descarta grupos que esos patrones no buscan."
+)
+
 
 def campos_de_m4(Campo, campo_dato, leer, eval_result, resumen) -> list:
     """M4: la observación de Vina y la interpretación de XGBoost, separadas.
@@ -192,9 +201,13 @@ def campos_de_m5_zn(Campo, campo_dato, leer, eval_result, resumen, target) -> li
     # como si fuera el otro.
     ums = leer(eval_result, "ums_warhead")
     if isinstance(ums, (int, float)):
+        # Un cero calculado no es un cero «sin warheads» en cualquier escritura: los SMARTS buscan la forma neutra o
+        # protonada, y una sulfonamida, un hidroxamato o un tiol escritos como anión dan 0 (DEC-104-D08: 6/12
+        # positivos con los patrones actuales; el carboxilato sí se reconoce como anión). La nota sólo va con el cero,
+        # para que cero, ausente e histórico sigan siendo tres salidas distintas.
         campo_ums = campo_dato(
             "Señal · warheads de zinc (UMS, SMARTS)",
-            f"{float(ums):.4f}",
+            NOTA_UMS_CERO if float(ums) == 0.0 else f"{float(ums):.4f}",
             "No se calculó la señal de warheads.",
         )
     else:

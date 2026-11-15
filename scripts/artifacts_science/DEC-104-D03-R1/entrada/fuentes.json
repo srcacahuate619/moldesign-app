@@ -1,0 +1,200 @@
+{
+  "vina": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+  "licencia": "CC0 1.0",
+  "fecha_local": "2026-11-14",
+  "archivos": {
+    "2JJC.pdb": {
+      "sha256": "07dc36bc59f953100614daf5dbdeb1446517e32ec68cdf4c324f03f94d64f875",
+      "url": "https://files.rcsb.org/download/2JJC.pdb"
+    },
+    "2JJC.sdf": {
+      "ccd": "LGA",
+      "sha256": "2c5ca959aea34191fe4cd62a6053db91d45d6ea68b904ef563f848b308e2b49b",
+      "url": "https://models.rcsb.org/v1/2JJC/ligand?auth_asym_id=A&auth_seq_id=1225&encoding=sdf"
+    },
+    "2WI2.pdb": {
+      "sha256": "170e5f2e48c20848fcb019e37e6904e10d90e5aa60ab129e50d65f1d37080b5f",
+      "url": "https://files.rcsb.org/download/2WI2.pdb"
+    },
+    "2WI2.sdf": {
+      "ccd": "ZZ3",
+      "sha256": "5187d90d626402852fc4148dfecd8c246df84c8915d99ccedb7fc9a6f86d8d12",
+      "url": "https://models.rcsb.org/v1/2WI2/ligand?auth_asym_id=A&auth_seq_id=1226&encoding=sdf"
+    },
+    "2YE4.pdb": {
+      "sha256": "33ee6b97155f7370f9b1a959da32d2fc61e207ee7e0f94a46a748a10817374d1",
+      "url": "https://files.rcsb.org/download/2YE4.pdb"
+    },
+    "2YE4.sdf": {
+      "ccd": "2FY",
+      "sha256": "09a82f09d75f85c1bb983116c81a7bef15e9a735dc637a9d0b8bf16a82454573",
+      "url": "https://models.rcsb.org/v1/2YE4/ligand?auth_asym_id=A&auth_seq_id=1224&encoding=sdf"
+    },
+    "2YE5.pdb": {
+      "sha256": "3a57ff8decb38336b1f05fc673bd4b2c69f342436a777b7a1e0cbe2f0851425c",
+      "url": "https://files.rcsb.org/download/2YE5.pdb"
+    },
+    "2YE5.sdf": {
+      "ccd": "2A7",
+      "sha256": "e13f95e4f199cae4a4f4bbaef7ba60aac1a668e8d900fdd261fe1b73de14ab92",
+      "url": "https://models.rcsb.org/v1/2YE5/ligand?auth_asym_id=A&auth_seq_id=1224&encoding=sdf"
+    },
+    "2YE6.pdb": {
+      "sha256": "e681cfd78699413b2fedfe2a382cdcc224056c5966eead978ca503ff945dc69f",
+      "url": "https://files.rcsb.org/download/2YE6.pdb"
+    },
+    "2YE6.sdf": {
+      "ccd": "2AE",
+      "sha256": "1dcaf68d825d472f01760c7ce5770264148476c7035a42348eedd03718fc4843",
+      "url": "https://models.rcsb.org/v1/2YE6/ligand?auth_asym_id=A&auth_seq_id=1224&encoding=sdf"
+    },
+    "2YEA.pdb": {
+      "sha256": "c7e4f778dd35f531193bb3c883cf85e2ccd3ade65f1c8b0324993e82dd734584",
+      "url": "https://files.rcsb.org/download/2YEA.pdb"
+    },
+    "2YEA.sdf": {
+      "ccd": "2A9",
+      "sha256": "374fce57b1ffd1c5c5aa115573779e3e6b863c1df3562145456b90ffb707cc0d",
+      "url": "https://models.rcsb.org/v1/2YEA/ligand?auth_asym_id=A&auth_seq_id=1224&encoding=sdf"
+    },
+    "2YEB.pdb": {
+      "sha256": "1e1f4419604047d5d85bf89eed431f7c6e222517c8de293dd6a7155a041d1aed",
+      "url": "https://files.rcsb.org/download/2YEB.pdb"
+    },
+    "2YEB.sdf": {
+      "ccd": "2K4",
+      "sha256": "24b449d700b294e96c07bfc24f56b7e1b5efe1a1e271f462738d32e0c05d053b",
+      "url": "https://models.rcsb.org/v1/2YEB/ligand?auth_asym_id=A&auth_seq_id=1224&encoding=sdf"
+    },
+    "2YEC.pdb": {
+      "sha256": "a0f788b9cd34acc72df2d46278bcb4c25bf8ae664669bd1d3415930e6aa09eb9",
+      "url": "https://files.rcsb.org/download/2YEC.pdb"
+    },
+    "2YEC.sdf": {
+      "ccd": "XQ0",
+      "sha256": "8478ae3ec716c3aae0ffc984eaa4bd554ff81b7abab1637fe9ee09638d33ed0c",
+      "url": "https://models.rcsb.org/v1/2YEC/ligand?auth_asym_id=A&auth_seq_id=1226&encoding=sdf"
+    },
+    "2YED.pdb": {
+      "sha256": "37392a344e6aa61e07aaf49840390c22b65d129071ec6c4188d5ae465ac478be",
+      "url": "https://files.rcsb.org/download/2YED.pdb"
+    },
+    "2YED.sdf": {
+      "ccd": "ADE",
+      "sha256": "e84bd0876d762b122fd1edc5753df7ceb726a0cfd1996386bb5d8eb24a50017e",
+      "url": "https://models.rcsb.org/v1/2YED/ligand?auth_asym_id=A&auth_seq_id=1225&encoding=sdf"
+    },
+    "3B24.pdb": {
+      "sha256": "19abfd738b9ee168d0b5dd78f4ca3f9b66fd54d465dab3c1dc8bb55c9458acd5",
+      "url": "https://files.rcsb.org/download/3B24.pdb"
+    },
+    "3B24.sdf": {
+      "ccd": "B2J",
+      "sha256": "ce377306df03405f5b6f49c2a19de888b1ecfa86d35650888c1e469840e0ca58",
+      "url": "https://models.rcsb.org/v1/3B24/ligand?auth_asym_id=A&auth_seq_id=237&encoding=sdf"
+    },
+    "4FCP.pdb": {
+      "sha256": "a2f7916d4c2e90e8bc3561c153ed67b4efd7e9f81a738a1b9f33ec7ffee4eff5",
+      "url": "https://files.rcsb.org/download/4FCP.pdb"
+    },
+    "4FCP.sdf": {
+      "ccd": "42C",
+      "sha256": "2257edc54587641945759ad26f9d02d55028b5dbc98be08cf69f589afcf28db0",
+      "url": "https://models.rcsb.org/v1/4FCP/ligand?auth_asym_id=A&auth_seq_id=301&encoding=sdf"
+    },
+    "4BJX.pdb": {
+      "sha256": "7835025ffa5f44aeb7b78af04715e646d470fdbc5d9a48d465620933da1eb9c7",
+      "url": "https://files.rcsb.org/download/4BJX.pdb"
+    },
+    "4BJX.sdf": {
+      "ccd": "73B",
+      "sha256": "421378e3ff70bcba902f895c40de11e01ad1935b20e1ab643ff2f70c56640b5a",
+      "url": "https://models.rcsb.org/v1/4BJX/ligand?auth_asym_id=A&auth_seq_id=1169&encoding=sdf"
+    },
+    "5WA5.pdb": {
+      "sha256": "1c2272b0b76c5510de0347329b207f94bc5ae45cc6eafbfa7abd962ad4aac28f",
+      "url": "https://files.rcsb.org/download/5WA5.pdb"
+    },
+    "5WA5.sdf": {
+      "ccd": "4K4",
+      "sha256": "6b849d429cf178d1be44ea1a69fcb032bd44573e7db6c91055bda906d9fb7b88",
+      "url": "https://models.rcsb.org/v1/5WA5/ligand?auth_asym_id=A&auth_seq_id=201&encoding=sdf"
+    },
+    "4PS5.pdb": {
+      "sha256": "865762c13b7fb9bfd1137e578bdabcf67b7e67cef0687bd7e6ecc6a9889c2b47",
+      "url": "https://files.rcsb.org/download/4PS5.pdb"
+    },
+    "4PS5.sdf": {
+      "ccd": "2TA",
+      "sha256": "e0a4b060f16ca814dde79003f4af9f3970854c18bd651eda13182297365a020c",
+      "url": "https://models.rcsb.org/v1/4PS5/ligand?auth_asym_id=A&auth_seq_id=201&encoding=sdf"
+    },
+    "5D0C.pdb": {
+      "sha256": "cc04c9918a37d00221df78f168afdcb644d62b86a0a6351a950533a269fbcc7b",
+      "url": "https://files.rcsb.org/download/5D0C.pdb"
+    },
+    "5D0C.sdf": {
+      "ccd": "E0B",
+      "sha256": "2b7aaca33917b87fb3358be97f460dfaac630e22fadae15b948f8a0750c44bc6",
+      "url": "https://models.rcsb.org/v1/5D0C/ligand?auth_asym_id=A&auth_seq_id=206&encoding=sdf"
+    },
+    "5U28.pdb": {
+      "sha256": "c3eb9c23218279f119c401050057160be1293f8562dd3bde40bfc098522bbb4e",
+      "url": "https://files.rcsb.org/download/5U28.pdb"
+    },
+    "5U28.sdf": {
+      "ccd": "82V",
+      "sha256": "964cb7d3e38108415097ff514c2b79e8a92f186d6bb85d0e6f8f716221aed4b3",
+      "url": "https://models.rcsb.org/v1/5U28/ligand?auth_asym_id=A&auth_seq_id=201&encoding=sdf"
+    },
+    "6MH1.pdb": {
+      "sha256": "a8c716c6d53a324ba778f3d61100910036d6d38155b0d9be2aaf4769208117dd",
+      "url": "https://files.rcsb.org/download/6MH1.pdb"
+    },
+    "6MH1.sdf": {
+      "ccd": "JQP",
+      "sha256": "4f05e214c4c28ccd27b6e96b8e56fe777a54fb970b53a45fdc6eb7af15a1798f",
+      "url": "https://models.rcsb.org/v1/6MH1/ligand?auth_asym_id=A&auth_seq_id=201&encoding=sdf"
+    },
+    "5I88.pdb": {
+      "sha256": "ddca5865ed666bcbf0736b9aaf7b9a5412c35a50db747439731decc51136f472",
+      "url": "https://files.rcsb.org/download/5I88.pdb"
+    },
+    "5I88.sdf": {
+      "ccd": "69G",
+      "sha256": "442f573357ad966592c1b4795831ef28bf5b71ddbd8c90e5fd61c623fc0b3994",
+      "url": "https://models.rcsb.org/v1/5I88/ligand?auth_asym_id=A&auth_seq_id=205&encoding=sdf"
+    },
+    "4GPJ.pdb": {
+      "sha256": "bb2c39a9167f13963c375817f259a6388164408b6902fad1e9cb05e8c47f4443",
+      "url": "https://files.rcsb.org/download/4GPJ.pdb"
+    },
+    "4GPJ.sdf": {
+      "ccd": "0Q1",
+      "sha256": "59ea60227d8ca61f6b9a3934983deeb3a8b78a7b036956a252f7cfbff20e8ffb",
+      "url": "https://models.rcsb.org/v1/4GPJ/ligand?auth_asym_id=A&auth_seq_id=201&encoding=sdf"
+    },
+    "5DLZ.pdb": {
+      "sha256": "cf6832b0ec6ee127450251da19c6e6e311ca257c2cd072117887d1cce5187350",
+      "url": "https://files.rcsb.org/download/5DLZ.pdb"
+    },
+    "5DLZ.sdf": {
+      "ccd": "5D1",
+      "sha256": "72137e1220caae4adc5389285cc033586ae75e90ca61b3354d57d8a342931bbd",
+      "url": "https://models.rcsb.org/v1/5DLZ/ligand?auth_asym_id=A&auth_seq_id=201&encoding=sdf"
+    },
+    "3ZYU.pdb": {
+      "sha256": "7845c2964c1e3ac0ec0c4dd14a8a1a1172f41b9baa8db13b2d0927dde4ffc8d9",
+      "url": "https://files.rcsb.org/download/3ZYU.pdb"
+    },
+    "3ZYU.sdf": {
+      "ccd": "1GH",
+      "sha256": "474a6a201e6485708f51a8d353a9b1f6b7f7b957a5206c7c9ca1b43e205426d1",
+      "url": "https://models.rcsb.org/v1/3ZYU/ligand?auth_asym_id=A&auth_seq_id=1173&encoding=sdf"
+    },
+    "5NNE.pdb": {
+      "sha256": "bd90f8a7978e7dc428530ad51122b6f0fba1e03a80535710ba755f2fcc12fc29",
+      "url": "https://files.rcsb.org/download/5NNE.pdb"
+    }
+  }
+}

@@ -1179,12 +1179,18 @@ def query_admet_correlation(
     for group, entries in groups.items():
         if not entries:
             continue
-        bbb_yes = sum(1 for e in entries if e.get("bbb"))
+        bbb_yes = sum(1 for e in entries if e.get("bbb") is True)
+        # Cobertura: una abstención del consenso (`blood_bbb_permeable = None`) no es un «no permeable».
+        # El porcentaje se calcula entre las moléculas CON veredicto y la cobertura se declara aparte;
+        # sin ninguna con veredicto no hay porcentaje (None), no un 0 que afirmaría «ninguna permeable».
+        bbb_con_veredicto = sum(1 for e in entries if e.get("bbb") is not None)
         hia_yes = sum(1 for e in entries if e.get("hia"))
         total = len(entries)
         result[group] = {
             "count": total,
-            "bbb_permeable_pct": round(bbb_yes / total * 100, 1) if total else 0,
+            "bbb_permeable_pct": round(bbb_yes / bbb_con_veredicto * 100, 1) if bbb_con_veredicto else None,
+            "bbb_con_veredicto": bbb_con_veredicto,
+            "bbb_sin_veredicto": total - bbb_con_veredicto,
             "hia_permeable_pct": round(hia_yes / total * 100, 1) if total else 0,
             "avg_mw": round(sum(e.get("mw", 0) for e in entries) / total, 1),
         }

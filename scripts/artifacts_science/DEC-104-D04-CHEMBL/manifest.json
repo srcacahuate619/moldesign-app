@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "experiment_id": "DEC-104-D04-CHEMBL",
+  "hypothesis": "El error de pKa de la tabla depende de la clase y del entorno",
+  "protocol": "scripts\\artifacts_science\\DEC-104-D04-CHEMBL/entrada/REGISTRO.md",
+  "created_at": "2026-11-15T05:25:34.944263+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "f0c64ee099f14667b12f8ae1b68d32750307b0e1",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "Comparacion de mediana por clase en andamios retenidos y cobertura en las dos cohortes"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "scripts/artifacts_science/DEC-104-D04-CHEMBL/entrada/REGISTRO.md": "a60352be0d81066a1cd61b8bad5b238ed8b9923b60a94402f675d745ed1d4d8f",
+    "scripts/artifacts_science/DEC-104-D04-CHEMBL/entrada/medir_d04.py": "038bdf596ff59a601327b8ce729597e31fe4e297819d493325018e6c5650569f"
+  },
+  "sealed": true,
+  "sealed_at": "2026-11-15T05:25:36.150544+00:00",
+  "decision_rationale": "Amidina y amina_alifatica pasan el gate de mejora descriptiva y merecen contraste microscopico; la cobertura directa de ambos corpus no autoriza sustituir valores",
+  "finished_at": "2026-11-15T15:06:04.966991+00:00"
+}

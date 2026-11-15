@@ -16,6 +16,11 @@ vi.mock("ketcher-standalone", () => ({
   StandaloneStructServiceProvider: class {},
 }));
 
+// El editor central de Ketcher (el de macromoléculas): aquí no hay ninguno.
+vi.mock("ketcher-core", () => ({
+  provideEditorInstance: () => undefined,
+}));
+
 import KetcherEditorInner from "../KetcherEditorInner";
 import { createEditorReadBudget, currentEditorReader } from "../../lib/editorSnapshot";
 

@@ -78,29 +78,11 @@ def test_la_distancia_se_sigue_midiendo():
 # Un carbono no tiene pares libres ni la electronegatividad para aceptar un
 # puente de hidrógeno; ECIF cuenta contactos dentro de un radio de corte.
 
-def _etiquetas_shap() -> str:
-    return (FRONTEND / "components" / "interfaces" / "pro" / "ProXaiTab.tsx").read_text(
-        encoding="utf-8"
-    )
-
-
-@pytest.mark.parametrize("clave", ["ecif_N_don_C", "ecif_O_don_C"])
-def test_ningun_contacto_con_carbono_se_llama_puente_de_hidrogeno(clave):
-    fuente = _etiquetas_shap()
-    linea = next(l for l in fuente.split("\n") if l.strip().startswith(f'"{clave}"'))
-    assert "Puentes H" not in linea, (
-        f"{clave} vuelve a llamarse puente de hidrógeno; el carbono no acepta"
-    )
-    assert "Contactos" in linea
-
-
-@pytest.mark.parametrize("clave", ["ecif_N_don_N", "ecif_N_don_O", "ecif_O_don_O", "ecif_O_don_N"])
-def test_los_pares_electronegativos_se_declaran_como_compatibles_no_como_medidos(clave):
-    """ECIF cuenta por distancia: no comprueba geometría ni ángulo."""
-    fuente = _etiquetas_shap()
-    linea = next(l for l in fuente.split("\n") if l.strip().startswith(f'"{clave}"'))
-    assert "Puentes H (" not in linea
-    assert "distancia" in linea or "radio de corte" in linea
+# La tabla de etiquetas que leían estas pruebas (`ProXaiTab.tsx`) ya no existe: desde
+# b63ea46a las etiquetas ECIF salen de una gramática en `frontend/lib/xaiFeatures.ts`.
+# La regla (carbono → empaquetamiento; N/O con N/O → «compatible», sin verificar
+# geometría) la fija ahora `frontend/lib/__tests__/xaiFeatures.test.ts` (K05 y K09),
+# sobre el texto que ve el usuario y no sobre una línea de código fuente.
 
 
 # ═════════════════════════════════════════════════════════════════════════

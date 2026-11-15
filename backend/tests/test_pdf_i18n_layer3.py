@@ -128,6 +128,9 @@ def test_pdf_de_capa_3_se_localiza_y_preserva_identidades(monkeypatch: pytest.Mo
     assert "2 serialized poses; best raw affinity -5.80 kcal/mol 1.2.7." in texto
     assert "Contact map not evaluated: missing SDF pose, receptor PDB structure." in texto
     assert "Aqueous solubility (LogS)" in texto
+    # Auditoría científica 1.0.4, S1-3.4: la LLE sale de la afinidad de Vina, y el rótulo lo dice en los dos idiomas.
+    assert "Apparent LLE (Vina proxy)" in texto
+    assert "LLE aparente" not in texto and "Lipophilic ligand efficiency" not in texto
     assert "Modeled property (ADMET-AI)" in texto
     assert "NOT REPORTED model not reported." in texto
     assert "Ácido Mefenámico (entrada)" in texto
@@ -160,6 +163,7 @@ def test_pdf_conserva_el_español_al_renderizar_en_es(monkeypatch: pytest.Monkey
     assert "Sistema de entrada:" in texto
     assert "Naturaleza computacional:" in texto
     assert "Supuestos registrados" in texto
+    assert "LLE aparente (proxy de Vina)" in texto and "Eficiencia Lipofílica" not in texto
     assert "Ácido Mefenámico (entrada)" in texto
     assert "EVALUATION REPORT" not in texto
     assert metadatos["title"].startswith("Informe de evaluación · 5IKR")

@@ -41,6 +41,7 @@ describe("listas y detalles del catálogo", () => {
     expect(screen.getByRole("note").title).not.toContain(catalogo.es.cat_receptor_sin_declarar);
     expect(screen.getByRole("note").title).not.toContain(catalogo.es.cat_parametros_sin_declarar);
     fireEvent.click(screen.getByRole("button", { name: "lo_view_run_result" }));
+    fireEvent.click(await screen.findByRole("button", { name: "Verificado" }));
     expect(await screen.findByText(catalogo.es.cat_cond_serie)).toBeVisible();
     const full = screen.getAllByRole("note").find((note) => within(note).queryByText("Verificado"));
     expect(full).toBeTruthy();

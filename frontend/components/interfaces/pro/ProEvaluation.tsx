@@ -31,9 +31,15 @@ import { OrbeDeEvaluacion } from "./OrbeDeEvaluacion";
 import { useKeepAliveActive } from "../../../context/KeepAliveContext";
 import dynamic from "next/dynamic";
 const AdvancedMolstarViewer = dynamic(() => import("./AdvancedMolstarViewer"), { ssr: false });
-import { AvisoSinWebGL } from "./AvisoSinWebGL";
-import { comprobarWebGL } from "../../../lib/webgl";
+import { comprobarWebGL, reiniciarComprobacionWebGL } from "../../../lib/webgl";
 const Web3DViewer = dynamic(() => import("./Web3DViewer"), { ssr: false });
+// Una sola lista vacía: una nueva en cada render hacía que Web3D volviera a leer el PDB entero cada vez.
+const SIN_HOTSPOTS_DEL_RESULTADO: never[] = [];
+// Importación directa, no diferida: es el visor al que se cae cuando los demás
+// fallan, y no puede depender de que se descargue otro trozo de la aplicación.
+import VisorSinWebGL from "./VisorSinWebGL";
+import { FronteraDelVisor } from "./FronteraDelVisor";
+import { siguienteVisor, type Motor3D, type Visor } from "../../../lib/cadenaDeVisores";
 import { InsigniaDelCatalogo } from "@/components/science/InsigniaDelCatalogo";
 import TargetSelectorModal from "./TargetSelectorModal";
 import ProOptionsModal from "./ProOptionsModal";
@@ -46,6 +52,7 @@ import { EvaluationActionBar } from "./EvaluationActionBar";
 import resultStyles from "./ResultReadingPresentation.module.css";
 import { ResultReadingPresentation } from "./ResultReadingPresentation";
 import { PoseComparisonDialog } from "./PoseComparisonDialog";
+import { etiquetaDeCorrida, fuentesDelCaso } from "../../../lib/comparadorDePoses";
 import { PipelineTimeline, stagesForPipeline } from "./PipelineTimeline";
 import { getTargetPdb, getPoseFile, getProteinFile, getJobStatus, getInteractions, validateSmiles } from "../../../lib/api";
 import { leerSelloDelResultado } from "../../../lib/moldex";
@@ -304,7 +311,7 @@ export default function ProEvaluation({
   // La interfaz se sirve en los dos idiomas que declara el paquete. Todo
   // texto visible pasa por `t()`; una cadena escrita a mano aqui se veria en
   // castellano con el idioma en English, que es motivo de rechazo en Store.
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [showPdfPreview, setShowPdfPreview] = useState(false);
   const [showCertificationModal, setShowCertificationModal] = useState(false);
   const [receptorPdb, setReceptorPdb] = useState<string | null>(null);
@@ -401,8 +408,37 @@ export default function ProEvaluation({
 
   // ── Estados para el modal de Opciones ──
   const [showOptionsModal, setShowOptionsModal] = useState(false);
-  // Visor activo: "molstar" (full, poses) | "web3d" (ligero, átomos + grid)
-  const [viewerMode, setViewerMode] = useState<"molstar" | "web3d">("molstar");
+  // Visor activo: "molstar" (full, poses) | "web3d" (ligero, átomos + grid) |
+  // "simple" (lienzo 2D, sin WebGL: sólo se llega a él cuando los otros fallan).
+  const [viewerMode, setViewerMode] = useState<Visor>("molstar");
+  // ── Cuando un visor no puede dibujar, se abre el siguiente ───────────────
+  //
+  // Antes cada fallo acababa en un mensaje dentro de un recuadro negro: Mol*
+  // que no arranca, un contexto 3D que el equipo retira a media sesión, o
+  // three.js lanzando al crear el suyo (y eso último tumbaba la pestaña entera,
+  // porque la única frontera de errores era la de toda la aplicación).
+  const motoresFallidos = useRef<Set<Motor3D>>(new Set());
+  const [cambioAlVisorLigero, setCambioAlVisorLigero] = useState(false);
+  const alFallarElVisor = useCallback((motor: Motor3D) => {
+    motoresFallidos.current.add(motor);
+    // Lo que el equipo puede dibujar cambia con la sesión abierta —el proceso
+    // de GPU puede caerse—: se vuelve a medir en vez de fiarse de lo memorizado.
+    reiniciarComprobacionWebGL();
+    const disponible = comprobarWebGL().disponible;
+    setWebglDisponible(disponible);
+    if (!disponible) { setCambioAlVisorLigero(false); return; }
+    const siguiente = siguienteVisor(motor, motoresFallidos.current);
+    setCambioAlVisorLigero(siguiente === "web3d");
+    setViewerMode(siguiente);
+  }, []);
+  const reintentarVisor3D = useCallback(() => {
+    motoresFallidos.current.clear();
+    setCambioAlVisorLigero(false);
+    reiniciarComprobacionWebGL();
+    const disponible = comprobarWebGL().disponible;
+    setWebglDisponible(disponible);
+    if (disponible) setViewerMode("molstar");
+  }, []);
   // Cámara compartida entre visores (vista COMPLETA: position+target) para
   // sincronizar posición Y orientación al cambiar de visor.
   const [molstarCamera, setMolstarCamera] = useState<{ position: [number, number, number]; target: [number, number, number]; distance: number } | null>(null);
@@ -878,6 +914,9 @@ export default function ProEvaluation({
   }, [realResult?.molecule_id, realResult?.task_id, realResult?.poses_file_path]);
 
   const resourcesMatch = resourceKey === `${realResult?.molecule_id ?? ""}:${realResult?.task_id ?? ""}`;
+  // Lo que enseña el visor, sea cual sea: con resultado, los archivos de ESA corrida; sin él, el receptor elegido.
+  const proteinaDelVisor = realResult ? (resourcesMatch ? realProteinData ?? undefined : undefined) : proteinData ?? receptorPdb ?? undefined;
+  const poseDelVisor = realResult ? (resourcesMatch ? realPoseData ?? undefined : undefined) : poseData ?? undefined;
 
   const executedBox = realResult?.docking_protocol?.execution_provenance;
   const numericTriple = (value: unknown): value is [number, number, number] =>
@@ -1129,15 +1168,23 @@ export default function ProEvaluation({
                 memoria y contexto GPU a la vez. La cámara de cada modo se
                 conserva en el estado del contenedor al cambiar. */}
             {webglDisponible === false ? (
-              <AvisoSinWebGL />
+              // Sin WebGL no se monta ningún motor 3D: se dibuja en un lienzo 2D.
+              <VisorSinWebGL
+                motivo="sin-webgl"
+                proteinData={proteinaDelVisor}
+                poseData={poseDelVisor}
+                gridInfo={viewerGrid}
+                onReintentar3D={reintentarVisor3D}
+              />
             ) : webglDisponible === null ? (
               <div role="status" className="font-sans text-sm uppercase tracking-wider text-zinc-400">
                 {t("ev_comprobando_visor")}
               </div>
             ) : viewerMode === "molstar" ? (
+              <FronteraDelVisor key="molstar" onFallo={() => alFallarElVisor("molstar")}>
               <AdvancedMolstarViewer
-                proteinData={realResult ? resourcesMatch ? realProteinData ?? undefined : undefined : proteinData ?? receptorPdb ?? undefined}
-                poseData={realResult ? resourcesMatch ? realPoseData ?? undefined : undefined : poseData ?? undefined}
+                proteinData={proteinaDelVisor}
+                poseData={poseDelVisor}
                 height={640}
                 isActive={isActive}
                 onSwitchViewer={() => setViewerMode("web3d")}
@@ -1145,23 +1192,41 @@ export default function ProEvaluation({
                 gridInfo={viewerGrid}
                 externalCamera={web3dCamera}
                 onCameraChange={setMolstarCamera}
+                onNoDisponible={() => alFallarElVisor("molstar")}
               />
-            ) : (
+              </FronteraDelVisor>
+            ) : viewerMode === "web3d" ? (
+              <FronteraDelVisor key="web3d" onFallo={() => alFallarElVisor("web3d")}>
               <Web3DViewer
-                proteinData={realResult ? resourcesMatch ? realProteinData ?? undefined : undefined : proteinData ?? receptorPdb ?? undefined}
-                poseData={realResult ? resourcesMatch ? realPoseData ?? undefined : undefined : poseData ?? undefined}
+                proteinData={proteinaDelVisor}
+                poseData={poseDelVisor}
                 interactions={resourcesMatch && interactions.length > 0 ? interactions : undefined}
                 chain={realResult ? undefined : selectedTargetObj?.chain ?? undefined}
-                hotspots={realResult ? realResult.target_hotspots ?? [] : targetHotspotsList}
+                hotspots={realResult ? realResult.target_hotspots ?? SIN_HOTSPOTS_DEL_RESULTADO : targetHotspotsList}
+                origenDelReceptor={realResult ? "corrida" : "deposito"}
                 gridInfo={viewerGrid}
-                onSwitchViewer={() => setViewerMode("molstar")}
+                onSwitchViewer={() => { setCambioAlVisorLigero(false); setViewerMode("molstar"); }}
                 viewerLabel="MolStar"
                 externalCamera={molstarCamera}
                 onCameraChange={setWeb3dCamera}
                 active={viewerMode === "web3d"}
+                onNoDisponible={() => alFallarElVisor("web3d")}
+              />
+              </FronteraDelVisor>
+            ) : (
+              <VisorSinWebGL
+                motivo="visor-fallo"
+                proteinData={proteinaDelVisor}
+                poseData={poseDelVisor}
+                gridInfo={viewerGrid}
+                onReintentar3D={reintentarVisor3D}
               />
             )}
           </div>
+
+          {cambioAlVisorLigero && viewerMode === "web3d" && webglDisponible && (
+            <p role="status" className="text-sm leading-6 text-amber-300">{t("pn_visor_cambio_a_ligero")}</p>
+          )}
 
           {realResult && resourcesMatch && !resourcePending && !realProteinData && <p role="status" className="text-sm leading-6 text-amber-300">{t("rx_sin_receptor_exacto")}</p>}
 
@@ -1986,6 +2051,7 @@ export default function ProEvaluation({
           taskId={realResult.task_id}
           leftRank={poseComparison.leftRank}
           rightRank={poseComparison.rightRank}
+          runs={fuentesDelCaso(caseRuns, realResult.task_id, (run) => etiquetaDeCorrida(run, t, locale), realResult.molecule_id)}
           onClose={() => setPoseComparison(null)}
         />
       )}

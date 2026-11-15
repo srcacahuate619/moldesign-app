@@ -1,13 +1,15 @@
 import {beforeAll,describe,it,expect} from "vitest";
 import {render,screen,fireEvent,waitFor,within} from "@testing-library/react";
-import {ProXaiTab} from "../ProXaiTab";
+import type {EvaluationResult} from "../../../../lib/types";
+import {ProModelsTab} from "../ProModelsTab";
 import {ResultReadingPresentation} from "../ResultReadingPresentation";
 
 beforeAll(()=>{
   Object.defineProperty(HTMLDialogElement.prototype,"showModal",{configurable:true,value:function(this:HTMLDialogElement){this.setAttribute("open","");}});
   Object.defineProperty(HTMLDialogElement.prototype,"close",{configurable:true,value:function(this:HTMLDialogElement){this.removeAttribute("open");this.dispatchEvent(new Event("close"));}});
 });
-const show=(values:Record<string,number>|null)=><ResultReadingPresentation><ProXaiTab shapValues={values} gnnAttention={null} gnnAttentionSvg={null} gnnPharmacophores={null}/></ResultReadingPresentation>;
+// El SHAP vive dentro de la ficha de la regresión en «Modelos»: se renderiza esa sección con un resultado mínimo.
+const show=(values:Record<string,number>|null)=><ResultReadingPresentation><ProModelsTab result={{ml_pki:6.1,model_used:"model_a_gpcr",shap_values:values,shap_output:"delta_pKi",in_applicability_domain:true} as unknown as EvaluationResult}/></ResultReadingPresentation>;
 
 describe("Gráfica SHAP recuperada",()=>{
   it("conserva orden, valores exactos y claves futuras, distinguiendo negativo, positivo y cero",()=>{
@@ -30,9 +32,9 @@ describe("Gráfica SHAP recuperada",()=>{
     fireEvent.click(within(dialog).getByRole("button",{name:"Cerrar"}));
     await waitFor(()=>expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
   });
-  it("mantiene explícita la ausencia de SHAP y el dominio sin determinar",()=>{
+  it("mantiene explícita la ausencia de SHAP y no dibuja una gráfica vacía",()=>{
     const {container}=render(show(null));
     expect(container.querySelector("[data-shap-chart]")).not.toBeInTheDocument();
-    expect(screen.getByText("No disponible",{exact:false})).toBeInTheDocument();
+    expect(container.querySelector('[data-model-shap="absent"]')).toHaveTextContent("no guardó contribuciones SHAP");
   });
 });

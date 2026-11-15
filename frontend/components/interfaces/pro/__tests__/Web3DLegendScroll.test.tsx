@@ -18,7 +18,7 @@
 // MolDesign alrededor del canvas, que es DOM normal.
 
 import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 // El canvas no se monta: `Canvas` devuelve null y sus hijos —los que usan
 // `useFrame`/`useThree`— nunca llegan a renderizarse.
@@ -100,9 +100,10 @@ describe("identidad de los residuos del visor", () => {
   });
 });
 
-/** El panel desplegable es el hermano inmediato del botón que lo abre. */
+/** El panel desplegable es el hermano inmediato del botón que lo abre. Empieza cerrado: se abre. */
 function panelDeLeyenda(): HTMLElement {
   const boton = screen.getByRole("button", { name: /leyenda/i });
+  if (boton.getAttribute("aria-expanded") !== "true") fireEvent.click(boton);
   const panel = boton.nextElementSibling;
   if (!(panel instanceof HTMLElement)) throw new Error("la leyenda no desplegó su panel");
   return panel;
@@ -113,8 +114,10 @@ function montar() {
 }
 
 describe("panel de Leyenda del Web3D", () => {
-  it("es el panel de la leyenda y está desplegado", () => {
+  it("empieza cerrada y al abrirla es el panel de la leyenda", () => {
     montar();
+    // Cerrada por defecto: abierta tapaba el resumen y un cuarto de la escena.
+    expect(screen.getByRole("button", { name: /leyenda/i }).getAttribute("aria-expanded")).toBe("false");
     // Ancla de contenido: si esto deja de cumplirse, las clases que se afirman
     // abajo estarían describiendo otro elemento.
     expect(panelDeLeyenda()).toHaveTextContent(/Caja de búsqueda/i);

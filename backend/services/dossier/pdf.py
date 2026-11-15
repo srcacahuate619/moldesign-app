@@ -25,7 +25,9 @@ queden huérfanos al final de una página.
 from __future__ import annotations
 
 import io
+import json
 import os
+from dataclasses import replace
 from typing import Any
 
 from reportlab.lib import colors
@@ -37,23 +39,52 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas as pdfcanvas
 from reportlab.platypus import (
+    CondPageBreak,
     KeepTogether,
-    Paragraph,
+    Paragraph as _Paragraph,
     SimpleDocTemplate,
     Spacer,
-    Table,
+    Table as _Table,
     TableStyle,
 )
 
 from core.i18n import current_locale, translate_text
+from core.i18n_plantillas import traducir
 from services.dossier.localization import traducir_dossier
+from services.pdf_glifos import codigo_en_monoespaciada, sin_glifos_ausentes
 from services.dossier.model import CaseDossier, Campo, Control
 from services.dossier.taxonomy import ETIQUETA, GLOSARIO, Estado
+
+class Table(_Table):
+    """`Table` cuya fuente por defecto es la incrustada.
+
+    `Table._drawCell` selecciona la fuente de la CELDA aunque lleve un `Paragraph` con la suya, y la de una celda sin
+    estilo es la Helvetica estándar: cada página del PDF la declaraba, sin incrustar (B6). Los estilos que se añadan
+    después se aplican encima, en el orden en que llegan.
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+        self.setStyle(TableStyle([("FONTNAME", (0, 0), (-1, -1), _fuentes_de_texto()[0])]))
+
+
+class Paragraph(_Paragraph):
+    """`Paragraph` que no deja pasar lo que un PDF no puede dibujar.
+
+    Todo texto del dossier acaba aquí, así que es el sitio donde no se escapa nada: quita los pictogramas que la fuente no
+    tiene (B1) y dibuja `código` entre comillas inversas en monoespaciada, sin las comillas (B7).
+    """
+
+    def __init__(self, text: Any, *args: Any, **kwargs: Any) -> None:
+        if isinstance(text, str):
+            text = codigo_en_monoespaciada(sin_glifos_ausentes(text), fuente_monoespaciada())
+        super().__init__(text, *args, **kwargs)
+
 
 # ── Tokens de presentación ───────────────────────────────────────────
 INK = colors.HexColor("#0f172a")
 SLATE = colors.HexColor("#475569")
-SLATE_LT = colors.HexColor("#94a3b8")
+SLATE_LT = colors.HexColor("#64748b")
 LINE = colors.HexColor("#e2e8f0")
 HEAD_BG = colors.HexColor("#f1f5f9")
 BRAND = colors.HexColor("#1e40af")
@@ -67,8 +98,8 @@ COLOR_ESTADO: dict[Estado, colors.Color] = {
     Estado.ABSTENCION: colors.HexColor("#b91c1c"),
     Estado.NO_EVALUADO: colors.HexColor("#64748b"),
     Estado.NO_DISPONIBLE: colors.HexColor("#64748b"),
-    Estado.NO_DEFINIDO: colors.HexColor("#94a3b8"),
-    Estado.NO_APLICA: colors.HexColor("#94a3b8"),
+    Estado.NO_DEFINIDO: colors.HexColor("#64748b"),
+    Estado.NO_APLICA: colors.HexColor("#64748b"),
 }
 
 _ANCHO_UTIL = A4[0] - 3.6 * cm  # márgenes de 1.8 cm a cada lado
@@ -140,6 +171,41 @@ def fuente_de_texto_incrustada() -> bool:
     return _fuentes_de_texto()[0] != "Helvetica"
 
 
+def fuente_de_cursiva() -> str:
+    """La cursiva de la misma familia (o la Helvetica-Oblique estándar si no hay TrueType)."""
+    regular, _ = _fuentes_de_texto()
+    return "Helvetica-Oblique" if regular == "Helvetica" else f"{_FAMILIA_DE_TEXTO}-I"
+
+
+# La monoespaciada, también incrustada (B6): hashes, SMILES y `código` iban en la Courier estándar, que no se incrusta.
+_CANDIDATAS_MONOESPACIADA = (
+    os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts", "consola.ttf"),
+    os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts", "cour.ttf"),
+    "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+    "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf",
+)
+_FUENTE_MONOESPACIADA: str | None = None
+
+
+def fuente_monoespaciada() -> str:
+    """El nombre de la TrueType monoespaciada registrada, o «Courier» si en este equipo no hay ninguna."""
+    global _FUENTE_MONOESPACIADA
+    if _FUENTE_MONOESPACIADA is not None:
+        return _FUENTE_MONOESPACIADA
+    for ruta in _CANDIDATAS_MONOESPACIADA:
+        if not os.path.exists(ruta):
+            continue
+        try:
+            nombre = "MolDesignMono-" + os.path.splitext(os.path.basename(ruta))[0]
+            pdfmetrics.registerFont(TTFont(nombre, ruta))
+            _FUENTE_MONOESPACIADA = nombre
+            return nombre
+        except Exception:  # noqa: BLE001 - una fuente ilegible no tumba el dossier
+            continue
+    _FUENTE_MONOESPACIADA = "Courier"
+    return _FUENTE_MONOESPACIADA
+
+
 def _escapar(texto: Any) -> str:
     """
     Escapa para `Paragraph`, que interpreta un subconjunto de XML.
@@ -150,11 +216,54 @@ def _escapar(texto: Any) -> str:
     if texto is None:
         return ""
     return (
-        str(texto)
+        # Un aviso heredado empieza con «⚠️», que la fuente del PDF no tiene: salía como cuadros (B1).
+        sin_glifos_ausentes(str(texto))
         .replace("&", "&amp;")
         .replace("<", "&lt;")
         .replace(">", "&gt;")
     )
+
+
+def _legible(valor: Any) -> str:
+    """Un valor JSON como lo leería una persona: `clave: valor; clave: valor`, sin llaves, corchetes ni comillas.
+
+    Caza 1, A08: «Versiones de preparación» y «Configuración PRO declarada» salían como `{"meeko": "0.7.1", …}`. El modelo canónico y
+    el paquete conservan el JSON; sólo el PDF lo presenta.
+    """
+    if isinstance(valor, dict):
+        return "; ".join(f"{clave}: {_legible_anidado(v)}" for clave, v in valor.items())
+    if isinstance(valor, list):
+        return ", ".join(_legible_anidado(v) for v in valor)
+    if isinstance(valor, bool):
+        return ("yes" if valor else "no") if current_locale() == "en" else ("sí" if valor else "no")
+    return "" if valor is None else str(valor)
+
+
+def _legible_anidado(valor: Any) -> str:
+    return f"({_legible(valor)})" if isinstance(valor, dict) else _legible(valor)
+
+
+def _texto_legible(texto: str) -> str:
+    """`texto` si no es un objeto JSON; si lo es, su lectura (`_legible`)."""
+    candidato = texto.strip()
+    if candidato.startswith(("{", "[")):
+        try:
+            return _legible(json.loads(candidato))
+        except ValueError:
+            return texto
+    return texto
+
+
+#: Los campos de procedencia que el dossier puede declarar sin sellar, con el nombre que se lee.
+_NOMBRE_DE_CAMPO_DE_PROCEDENCIA = {
+    "ligando_smiles_sha256": "hash del ligando (SMILES)",
+    "receptor_referencia": "referencia del receptor",
+    "configuracion_sha256": "hash de la configuración",
+    "poses_sha256": "hash de las poses",
+    "motor": "motor de acoplamiento",
+    "modelo": "modelo de rescoring",
+    "vocabulario_especies": "vocabulario de especies del sitio",
+}
 
 
 def _romper_largo(texto: str) -> str:
@@ -177,6 +286,10 @@ class _Chrome(pdfcanvas.Canvas):
     """Encabezado, pie y numeración «página N de M»."""
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
+        # Sin esto cada página abría con «BT /Helvetica 12 Tf», una fuente estándar que figuraba en el PDF sin incrustar.
+        # (`BaseDocTemplate` la pasa explícitamente como `None`, así que `setdefault` no bastaba.)
+        if not kwargs.get("initialFontName"):
+            kwargs["initialFontName"] = _fuentes_de_texto()[0]
         super().__init__(*args, **kwargs)
         self._paginas: list[dict[str, Any]] = []
         self.encabezado = ""
@@ -243,13 +356,13 @@ def _estilos() -> dict[str, ParagraphStyle]:
             "DossierCeldaNota", parent=base["Normal"], fontSize=7.4, leading=9.6, textColor=SLATE,
         ),
         "mono": ParagraphStyle(
-            "DossierMono", parent=base["Normal"], fontName="Courier", fontSize=7.4,
+            "DossierMono", parent=base["Normal"], fontName=fuente_monoespaciada(), fontSize=7.4,
             leading=9.4, textColor=INK,
         ),
     }
     for nombre, estilo in estilos.items():
         if nombre == "mono":
-            continue  # hashes y SMILES: ASCII, la monoespaciada incorporada basta
+            continue  # lleva su propia fuente: la monoespaciada
         estilo.fontName = negrita if nombre in ("titulo", "seccion") else regular
     return estilos
 
@@ -270,7 +383,7 @@ def _tabla_campos(campos: list[Campo], est: dict[str, ParagraphStyle]) -> Table:
     ]]
     estilos_fila = []
     for indice, campo in enumerate(campos, start=1):
-        texto = campo.texto
+        texto = _texto_legible(campo.texto)
         # Missing-value labels are generated taxonomy, not case-authored data.
         # Translate only that exact fallback so free-text case values remain intact.
         if texto == ETIQUETA[campo.estado]:
@@ -321,10 +434,10 @@ def _tabla_controles(controles: list[Control], est: dict[str, ParagraphStyle]) -
             cuerpo += (f"<br/><font size='7' color='#64748b'>{translate_text('Protocolo')}: "
                        f"{_escapar(control.protocolo)}</font>")
         if control.procedencia:
-            cuerpo += (f"<br/><font size='7' color='#94a3b8'>{translate_text('Procedencia')}: "
+            cuerpo += (f"<br/><font size='7' color='#64748b'>{translate_text('Procedencia')}: "
                        f"{_escapar(control.procedencia)}</font>")
         filas.append([
-            Paragraph(f"{_escapar(control.titulo)}<br/><font size='6.6' color='#94a3b8'>{_escapar(control.codigo)}</font>", est["celda"]),
+            Paragraph(f"{_escapar(control.titulo)}<br/><font size='6.6' color='#64748b'>{_escapar(control.codigo)}</font>", est["celda"]),
             Paragraph(cuerpo, est["celda"]),
             Paragraph(translate_text(ETIQUETA[control.estado]), est["celda_nota"]),
         ])
@@ -394,22 +507,73 @@ def _tabla_poses_evidencia(evidencia: list[Any], est: dict[str, ParagraphStyle])
     return tabla
 
 
+#: Espacio que tiene que quedar en la página para abrir una sección en ella: el título y las primeras filas de su tabla.
+_ESPACIO_PARA_ABRIR_SECCION = 4.2 * cm
+
+
 def _seccion(titulo: str, est: dict[str, ParagraphStyle], *cuerpo: Any) -> list[Any]:
     """
-    Encabezado unido a su primer bloque.
+    Encabezado seguido de su cuerpo, sin dejar el título solo al pie de una página.
 
-    Sin `KeepTogether`, un título podía quedarse solo al pie de una página con
-    su tabla en la siguiente: el defecto de «encabezado huérfano» que el QA
-    visual busca.
+    La versión anterior metía el título y el PRIMER bloque en un `KeepTogether`. Eso evitaba el título huérfano, pero una tabla
+    de campos de media página que no cabía en lo que quedaba saltaba entera a la hoja siguiente y dejaba un hueco del 44 al
+    71 % de la página en 13 de 14 dossiers medidos (B5). Con `CondPageBreak` la sección se abre en la página actual si caben
+    el título y las primeras filas; si no, se abre en la siguiente. La tabla se parte entre filas (`repeatRows`, `splitInRow`).
     """
-    partes: list[Any] = [KeepTogether([Paragraph(translate_text(titulo), est["seccion"]), *list(cuerpo)[:1]])]
-    partes.extend(list(cuerpo)[1:])
-    return partes
+    return [CondPageBreak(_ESPACIO_PARA_ABRIR_SECCION), Paragraph(translate_text(titulo), est["seccion"]), *cuerpo]
+
+
+#: Valores de sistema que el caso guarda como códigos, con el nombre que les da la interfaz (`CASE_STUDY_KIND_LABELS` y
+#: `RUN_EXECUTION_STATES` de `frontend/lib/cases/types.ts`). El PDF imprimía «prepare-evidence», «completed» y «docking_vina»
+#: tal cual en 14 de 14 corridas de la cápsula (N2). Sólo cambia lo que se IMPRIME: el modelo y el paquete conservan el código,
+#: que es lo que lee una máquina. Un valor que no esté en la tabla se imprime como llegó, nunca se omite ni se adivina.
+_ROTULOS_DE_SISTEMA: dict[str, dict[str, str]] = {
+    "Tipo de estudio": {
+        "explore-hypothesis": "Explorar una hipótesis",
+        "compare-series": "Comparar una serie",
+        "review-pose": "Revisar una pose",
+        "prepare-evidence": "Preparar evidencia para un cálculo posterior",
+    },
+    "Estado de ejecución (técnico)": {
+        "idle": "Sin ejecutar",
+        "submitted": "Enviada",
+        "running": "En curso",
+        "interrupted": "Seguimiento perdido: no se sabe cómo terminó",
+        "completed": "Completada",
+        "failed": "Fallida",
+        "cancelled": "Cancelada",
+    },
+    "Política de heteroátomos declarada": {
+        "docking_vina": "Docking con AutoDock Vina",
+    },
+}
+
+
+def _con_rotulos_de_sistema(dossier: CaseDossier) -> CaseDossier:
+    """El dossier para imprimir: los códigos de sistema, con su nombre en el idioma del documento."""
+    idioma = current_locale()
+    etiquetas = {}
+    for es, tabla in _ROTULOS_DE_SISTEMA.items():
+        etiquetas[es] = tabla
+        etiquetas[traducir(es, "en")] = tabla  # el modelo puede llegar ya traducido
+
+    def campo(c: Campo) -> Campo:
+        tabla = etiquetas.get(c.etiqueta)
+        if not tabla or not c.valor or c.valor not in tabla:
+            return c
+        return replace(c, valor=traducir(tabla[c.valor], idioma))
+
+    return replace(
+        dossier,
+        proposito=[campo(c) for c in dossier.proposito],
+        ejecucion={k: campo(c) if isinstance(c, Campo) else c for k, c in dossier.ejecucion.items()},
+        preparacion=[campo(c) for c in dossier.preparacion],
+    )
 
 
 def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     """Convierte el modelo canónico en PDF. Sin red, sin cálculo, sin estado."""
-    dossier = traducir_dossier(dossier, current_locale())
+    dossier = _con_rotulos_de_sistema(traducir_dossier(dossier, current_locale()))
     est = _estilos()
     buf = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -594,6 +758,8 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
     cuerpo_val: list[Any] = [_tabla_campos(dossier.validacion, est)]
     if dossier.evidencia_poses:
         cuerpo_val.append(Spacer(1, 0.25 * cm))
+        # El subtítulo no puede quedar solo al pie de la página con su tabla en la siguiente (B4).
+        cuerpo_val.append(CondPageBreak(_ESPACIO_PARA_ABRIR_SECCION))
         cuerpo_val.append(Paragraph(f"<b>{translate_text('Veredicto por pose')}</b>", est["cuerpo"]))
         cuerpo_val.append(_tabla_poses_evidencia(dossier.evidencia_poses, est))
     else:
@@ -663,7 +829,7 @@ def render_dossier_pdf(dossier: CaseDossier) -> io.BytesIO:
             est["cuerpo"]),
         Paragraph(
             translate_text(f"Campos de procedencia sin sellar en esta corrida: "
-            f"{_escapar(', '.join(faltantes)) if faltantes else 'ninguno'}."),
+            f"{_escapar(', '.join(translate_text(_NOMBRE_DE_CAMPO_DE_PROCEDENCIA.get(f, f)) for f in faltantes)) if faltantes else 'ninguno'}."),
             est["cuerpo"]),
         Paragraph(
             translate_text("<b>Cómo verificar el paquete, sin ejecutar nada:</b> (1) abrir el ZIP y leer "

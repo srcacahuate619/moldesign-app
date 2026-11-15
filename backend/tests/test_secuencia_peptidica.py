@@ -62,8 +62,17 @@ def test_los_veinte_estandar_son_distinguibles():
 
 
 def test_leucina_e_isoleucina_no_colisionan():
-    assert _POR_HUELLA["*CC(C)C"] == "L"
-    assert _POR_HUELLA["*C(C)CC"] == "I"
+    # La huella es el grafo de elementos más los hidrógenos de la especie neutra
+    # (S1-2 de la auditoría 1.0.4): leucina e isoleucina tienen 9 H cada una.
+    assert _POR_HUELLA["*CC(C)C|H9"] == "L"
+    assert _POR_HUELLA["*C(C)CC|H9"] == "I"
+
+
+def test_fenilalanina_y_ciclohexilalanina_no_comparten_huella():
+    """Sin órdenes de enlace el anillo de seis carbonos es el mismo grafo: lo que
+    separa fenilo de ciclohexilo es el conteo de hidrógenos."""
+    assert _POR_HUELLA["*CC1CCCCC1|H7"] == "F"
+    assert "*CC1CCCCC1|H13" not in _POR_HUELLA
 
 
 # ── Lectura de secuencia ───────────────────────────────────────────────────
@@ -89,6 +98,78 @@ def test_la_prolina_no_confunde_su_anillo_con_una_ramificacion():
 def test_los_aromaticos_se_reconocen():
     trp_his = "N[C@@H](Cc1c[nH]c2ccccc12)C(=O)N[C@@H](Cc1c[nH]cn1)C(=O)O"
     assert extraer_secuencia(trp_his).secuencia == "WH"
+
+
+# ── El estado de ionización: el péptido llega a pH 7,4 ─────────────────────
+#
+# Auditoría científica 1.0.4, S1-2. El conformador entrega el péptido ionizado
+# (`[NH3+]`, `C(=O)[O-]`, guanidinio) y la huella sólo conocía los veinte en su
+# forma neutra: `AKA→AXA`, `GRGD→GXGX`, `KDEL→XXXL`, `EAK→XAX`, y el predictor
+# rechazaba la secuencia antes de plegar.
+
+IONIZADOS = [
+    # (secuencia esperada, SMILES a pH 7,4)
+    ("AKA", "C[C@H]([NH3+])C(=O)N[C@@H](CCCC[NH3+])C(=O)N[C@@H](C)C(=O)[O-]"),
+    ("EAK", "[NH3+][C@@H](CCC(=O)[O-])C(=O)N[C@@H](C)C(=O)N[C@@H](CCCC[NH3+])C(=O)[O-]"),
+    ("GRGD", "[NH3+]CC(=O)N[C@@H](CCCNC(=[NH2+])N)C(=O)NCC(=O)N[C@@H](CC(=O)[O-])C(=O)[O-]"),
+    ("KDEL", "[NH3+][C@@H](CCCC[NH3+])C(=O)N[C@@H](CC(=O)[O-])C(=O)N[C@@H](CCC(=O)[O-])C(=O)"
+             "N[C@@H](CC(C)C)C(=O)[O-]"),
+    ("AHA", "C[C@H]([NH3+])C(=O)N[C@@H](Cc1c[nH]c[nH+]1)C(=O)N[C@@H](C)C(=O)[O-]"),   # His protonada
+    ("AHA", "C[C@H]([NH3+])C(=O)N[C@@H](Cc1cnc[nH]1)C(=O)N[C@@H](C)C(=O)[O-]"),       # His, tautómero ε
+    ("AHA", "C[C@H]([NH3+])C(=O)N[C@@H](Cc1c[nH]cn1)C(=O)N[C@@H](C)C(=O)[O-]"),       # His, tautómero δ
+    ("ACA", "C[C@H]([NH3+])C(=O)N[C@@H](C[S-])C(=O)N[C@@H](C)C(=O)[O-]"),
+    ("AYA", "C[C@H]([NH3+])C(=O)N[C@@H](Cc1ccc([O-])cc1)C(=O)N[C@@H](C)C(=O)[O-]"),
+    # El guanidinio con el doble enlace en el nitrógeno interno es un tautómero, no otro residuo.
+    ("ARA", "C[C@H]([NH3+])C(=O)N[C@@H](CCC[NH+]=C(N)N)C(=O)N[C@@H](C)C(=O)[O-]"),
+    # Prolina con el amino terminal protonado.
+    ("PAK", "[NH2+]1CCC[C@H]1C(=O)N[C@@H](C)C(=O)N[C@@H](CCCC[NH3+])C(=O)[O-]"),
+]
+
+
+@pytest.mark.parametrize("esperada,smiles", IONIZADOS, ids=[f"{e}-{i}" for i, (e, _) in enumerate(IONIZADOS)])
+def test_un_peptido_ionizado_se_lee_como_su_forma_neutra(esperada, smiles):
+    lectura = extraer_secuencia(smiles)
+
+    assert lectura.secuencia == esperada
+    assert not lectura.tiene_no_estandar
+    assert all(r.serie in ("L", None) for r in lectura.residuos), "ionizar no vuelve D a ningún residuo"
+
+
+def test_ionizar_no_cambia_la_serie_d():
+    """Un D-péptido ionizado sigue siendo D: ESMFold lo debe rechazar igual."""
+    d_ala_lys = "C[C@@H]([NH3+])C(=O)N[C@H](CCCC[NH3+])C(=O)[O-]"
+    lectura = extraer_secuencia(d_ala_lys)
+
+    assert lectura.secuencia == "AK" and lectura.tiene_d
+
+
+NO_ESTANDAR = [
+    ("ciclohexilalanina", "C[C@H](N)C(=O)N[C@@H](CC1CCCCC1)C(=O)N[C@@H](C)C(=O)O"),
+    ("homofenilalanina", "C[C@H](N)C(=O)N[C@@H](CCc1ccccc1)C(=O)N[C@@H](C)C(=O)O"),
+    ("norleucina", "C[C@H](N)C(=O)N[C@@H](CCCC)C(=O)N[C@@H](C)C(=O)O"),
+    ("4-fluorofenilalanina", "C[C@H](N)C(=O)N[C@@H](Cc1ccc(F)cc1)C(=O)N[C@@H](C)C(=O)O"),
+    ("citrulina", "C[C@H](N)C(=O)N[C@@H](CCCNC(N)=O)C(=O)N[C@@H](C)C(=O)O"),
+    # Tenían huella de residuo estándar con el criterio antiguo (Pro y Nva compartían `*CCC`).
+    ("norvalina", "C[C@H](N)C(=O)N[C@@H](CCC)C(=O)N[C@@H](C)C(=O)O"),
+    ("lisina trimetilada", "C[C@H](N)C(=O)N[C@@H](CCCC[N+](C)(C)C)C(=O)N[C@@H](C)C(=O)O"),
+]
+
+
+@pytest.mark.parametrize("nombre,smiles", NO_ESTANDAR, ids=[n for n, _ in NO_ESTANDAR])
+def test_un_residuo_modificado_sigue_dando_x_aunque_su_grafo_se_parezca(nombre, smiles):
+    """Tolerar la ionización no puede volver estándar un residuo que no lo es.
+
+    El grafo de elementos de la ciclohexilalanina es el de la fenilalanina; sólo el
+    conteo de hidrógenos de la especie neutra los separa.
+    """
+    lectura = extraer_secuencia(smiles)
+
+    assert lectura.secuencia == "AXA", nombre
+    assert lectura.tiene_no_estandar
+
+
+def test_la_prolina_sigue_siendo_prolina():
+    assert extraer_secuencia("C[C@H](N)C(=O)N1CCC[C@H]1C(=O)N[C@@H](C)C(=O)O").secuencia == "APA"
 
 
 # ── La quiralidad ──────────────────────────────────────────────────────────

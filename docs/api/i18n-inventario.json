@@ -22941,7 +22941,7 @@
       "fichero": "services/dossier/preparacion_confianza.py",
       "linea": 36,
       "pendiente": false,
-      "texto_es": "El archivo parece una estructura predicha, pero MolDesign sólo tiene verificada la convención de AlphaFold DB (factor B = pLDDT, escala 0–100). De Boltz, Chai-1 y AlphaFold 3 no se verificó con un archivo real dónde guardan el pLDDT, así que no se afirma ni se lee.",
+      "texto_es": "El archivo se declara un modelo (método teórico), pero no es de AlphaFold DB ni declara el pLDDT en _ma_qa_metric_local (ModelCIF). Sólo en AlphaFold DB está verificado que el factor B sea el pLDDT; en otro archivo podría ser otra cosa, así que no se lee.",
       "tipo": "fija"
     },
     {

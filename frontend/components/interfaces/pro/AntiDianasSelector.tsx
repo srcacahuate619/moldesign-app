@@ -35,7 +35,8 @@ export function AntiDianasSelector({ targets, selected, onChange, error = false,
   </section>;
   const available = targets.filter(disponible);
   const effective = antiDianasParaEnviar(targets, selected);
-  const rows = [...targets];
+  // En el catálogo sólo se ofrece lo que se puede elegir: las no disponibles no se listan ni se cuentan.
+  const rows = [...(catalogo ? available : targets)];
   for (const pid of selected) {
     if (!rows.some((a) => a.pdb_id === pid)) rows.push({ pdb_id: pid, name: pid, category: t("pn_anti_guardadas"), disponible: false, motivo_no_disponible: t("pn_anti_ausente") });
   }
@@ -59,9 +60,7 @@ export function AntiDianasSelector({ targets, selected, onChange, error = false,
     {titulo}
     {catalogo && <>
       <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm leading-6 text-zinc-300">
-        <span>{t("pn_anti_catalogo_total", { n: targets.length })}</span>
-        <span className="text-emerald-800 dark:text-emerald-300">{t("pn_anti_catalogo_disponibles", { n: available.length })}</span>
-        <span>{t("pn_anti_catalogo_no_disponibles", { n: targets.length - available.length })}</span>
+        <span>{t("pn_anti_catalogo_total", { n: available.length })}</span>
       </div>
       <p className="text-base leading-6 text-zinc-300">{t("pn_anti_catalogo_ayuda")}</p>
       <label htmlFor={`${id}-search`} className="block space-y-1.5 text-sm font-medium text-zinc-200">
@@ -76,8 +75,8 @@ export function AntiDianasSelector({ targets, selected, onChange, error = false,
         </select>
       </label>
     </>}
-    <div className="flex flex-wrap items-center gap-2">
-      {ACCIONES_PREDETERMINADAS.map(({ action, label }) => <button type="button" key={action} disabled={disabled} className="min-h-11 rounded-lg border border-zinc-600 px-2 py-1 text-sm text-zinc-200 transition-colors hover:bg-zinc-800 active:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400" onClick={() => onChange(seleccionarAntiDianasPorAccion(action, antiDianasPorDefecto(targets), available.map((a) => a.pdb_id!)))}>{t(label)}</button>)}
+    <div className={catalogo ? "flex flex-nowrap items-center gap-1.5" : "flex flex-wrap items-center gap-2"}>
+      {ACCIONES_PREDETERMINADAS.map(({ action, label }) => <button type="button" key={action} disabled={disabled} className={`${catalogo ? "min-h-9 whitespace-nowrap px-1.5 text-xs" : "min-h-11 px-2 text-sm"} rounded-lg border border-zinc-600 py-1 text-zinc-200 transition-colors hover:bg-zinc-800 active:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400`} onClick={() => onChange(seleccionarAntiDianasPorAccion(action, antiDianasPorDefecto(targets), available.map((a) => a.pdb_id!)))}>{t(label)}</button>)}
       {!catalogo && <span role="status" className="text-sm text-zinc-400">{t("pn_anti_recuento", { n: effective.length, total: available.length })}</span>}
     </div>
     <AntiDianasAviso targets={targets} selected={selected} />
@@ -89,10 +88,12 @@ export function AntiDianasSelector({ targets, selected, onChange, error = false,
       {agruparAntiDianas(rows).map(({ seccion, targets: miembros }) => {
         const deSeccion = new Set(miembros);
         const gruposDeSeccion = visibles.map((group) => ({ ...group, members: group.members.filter((row) => deSeccion.has(row)), visibles: group.visibles.filter((row) => deSeccion.has(row)) })).filter((group) => group.visibles.length > 0);
+        // En el catálogo, «Subir anti-diana» está junto a «Evaluar seleccionadas»; la sección propia sólo aparece si ya hay propias.
+        if (catalogo && seccion === "propias" && miembros.length === 0) return null;
         return <section key={seccion} aria-label={t(seccion === "panel" ? "cat_anti_panel" : "cat_anti_propias")} className="space-y-3">
           <h4 className="text-base font-semibold text-zinc-100">{t(seccion === "panel" ? "cat_anti_panel" : "cat_anti_propias")}</h4>
           <p className="text-sm leading-6 text-zinc-300">{t(seccion === "panel" ? "cat_anti_panel_texto" : "cat_anti_propias_texto")}</p>
-          {seccion === "propias" && <>
+          {seccion === "propias" && !catalogo && <>
             <button type="button" disabled={disabled} onClick={() => setShowUpload(true)} className="min-h-11 rounded-lg border border-zinc-600 px-3 text-sm text-zinc-100 hover:bg-zinc-800 focus-visible:outline-2 disabled:opacity-50">{t("cat_anti_subir")}</button>
             {miembros.length === 0 && <p className="text-sm leading-6 text-zinc-300">{t("cat_anti_vacio")}</p>}
           </>}

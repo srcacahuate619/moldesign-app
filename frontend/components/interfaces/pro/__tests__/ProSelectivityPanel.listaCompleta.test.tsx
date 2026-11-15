@@ -69,15 +69,15 @@ describe("el panel sale del API, no de tres filas escritas a mano", () => {
     expect(screen.getByRole("region", { name: "Catálogo de anti-dianas" })).toBeInTheDocument();
   });
 
-  it("el catálogo visible enseña las 44, con las 4 sin estructura deshabilitadas, y marcar una la añade al panel", async () => {
+  it("el catálogo visible enseña las 40 elegibles (las 4 sin estructura no se listan), y marcar una la añade al panel", async () => {
     conApi(filas);
     render(<ProSelectivityPanel moleculeId={MOLECULA} />);
     await waitFor(() => expect(tarjetas()).toHaveLength(2));
 
     const casillas = await screen.findAllByRole("checkbox");
-    expect(casillas).toHaveLength(44);
+    expect(casillas).toHaveLength(40);
     expect(casillas.filter((c) => (c as HTMLInputElement).checked)).toHaveLength(2);
-    expect(casillas.filter((c) => (c as HTMLInputElement).disabled)).toHaveLength(4);
+    expect(casillas.filter((c) => (c as HTMLInputElement).disabled)).toHaveLength(0);
 
     fireEvent.click(screen.getByRole("checkbox", { name: /Diana 7/ }));
     await waitFor(() => expect(tarjetas()).toHaveLength(3));
@@ -115,9 +115,13 @@ describe("las métricas cuentan TODAS las anti-dianas del panel", () => {
     conApi(filas);
     render(<ProSelectivityPanel moleculeId={MOLECULA} />);
     await screen.findAllByRole("checkbox");
-    expect(screen.getByText("44 en catálogo")).toBeInTheDocument();
-    expect(screen.getByText("40 disponibles")).toBeInTheDocument();
-    expect(screen.getByText("4 no disponibles")).toBeInTheDocument();
+    expect(screen.getByText("40 en catálogo")).toBeInTheDocument();
+    expect(screen.queryByText(/no disponibles/)).toBeNull();
+    // «Subir anti-diana» está junto a «Evaluar seleccionadas», no escondido al final del catálogo.
+    const subir = screen.getByRole("button", { name: "Subir anti-diana" });
+    const evaluarTodas = screen.getByRole("button", { name: /Evaluar seleccionadas/ });
+    expect(subir.parentElement).toBe(evaluarTodas.parentElement);
+    expect(subir.compareDocumentPosition(evaluarTodas) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     fireEvent.change(screen.getByRole("searchbox", { name: "Buscar anti-diana" }), { target: { value: "x7" } });
     expect(screen.getAllByRole("checkbox")).toHaveLength(1);
     fireEvent.click(screen.getByRole("checkbox", { name: /Diana 7/ }));
@@ -139,7 +143,7 @@ describe("las métricas cuentan TODAS las anti-dianas del panel", () => {
     expect(screen.getByText(/No hay coincidencias/)).toBeInTheDocument();
     expect(screen.queryAllByRole("checkbox")).toHaveLength(0);
     expect(tarjetas()).toHaveLength(2);
-    expect(screen.getByText("44 en catálogo")).toBeInTheDocument();
+    expect(screen.getByText("40 en catálogo")).toBeInTheDocument();
   });
 
   it("conserva un resultado fuera de la selección y no lo vuelve a calcular al evaluar las seleccionadas", async () => {

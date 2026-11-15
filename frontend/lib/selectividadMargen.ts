@@ -29,7 +29,14 @@
 //
 // La magnitud correcta es la diferencia: ΔΔG = ΔG_off − ΔG_on, en kcal/mol.
 
-/** ln(10)·R·T a 298.15 K, en kcal/mol. Convierte ΔΔG en órdenes de magnitud. */
+/**
+ * ln(10)·R·T a ≈ 298 K, en kcal/mol. Convierte ΔΔG en órdenes de magnitud.
+ * Aclaración de B-5 (2026-11-15): 1.3633 es el valor a 297.94 K; a 298.15 K son 1.3643. La diferencia (0.07 %) es menor
+ * que la dispersión de Vina y no mueve ningún corte (están en kcal/mol), así que no se corrige. Es la temperatura estándar
+ * de esta conversión, distinta de los 310.15 K con que el panel pasa un score a concentración (`RT_KCAL` en
+ * `ProSelectivityPanel.tsx`). Igual que en `backend/services/docking/selectividad_margen.py`: lo fija
+ * `backend/tests/test_constantes_termicas.py`.
+ */
 export const KCAL_POR_DECADA = 1.3633;
 
 /** Dispersión típica del score de Vina frente a afinidad medida (kcal/mol). */

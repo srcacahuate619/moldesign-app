@@ -80,6 +80,7 @@ from services.chemistry.censo_de_aguas import (
     censar_aguas,
     censo_en_cache,
     describir_aguas_conservadas,
+    describir_receptor_propio_sin_aguas,
     describir_censo,
     guardar_censo,
 )
@@ -823,7 +824,7 @@ def _check_ligand_fits_box(
     if diametro + margin > lado_menor:
         return (
             f"El diámetro del ligando ({diametro:.1f} Å) más {margin:.1f} Å de margen "
-            f"supera el lado menor de la caja ({lado_menor:.1f} Å). Target: {target_pdb_id}. "
+            f"supera el lado menor de la caja ({lado_menor:.1f} Å). "
             "Vina puede rotar el ligando, pero no hay una orientación que garantice que "
             "quepa entero: revise si las poses tocan el borde."
         )
@@ -1169,6 +1170,9 @@ async def run_vina_docking(
                         aviso("AGUAS_DEL_SITIO_CONSERVADAS", Severidad.INFO,
                               describir_aguas_conservadas(_conservadas, _censo))
                         if _conservadas else
+                        # Un receptor propio sin aguas no pasó por la receta del catálogo: no se «preparó desolvatado».
+                        aviso("SITIO_DESOLVATADO", Severidad.INFO, describir_receptor_propio_sin_aguas(_censo))
+                        if _sin_la_receta_del_catalogo(preparation_report) else
                         aviso("SITIO_DESOLVATADO", Severidad.INFO, describir_censo(_censo))
                     )
                 except Exception as _err:  # noqa: BLE001 — declarativo, nunca bloquea

@@ -1,0 +1,5 @@
+# Reanudación de DEC-104-D03-R1
+
+Al terminar los 11 complejos HSP90, el trabajo se reagrupó por semilla dentro de los receptores BRD4. Se conservan los resultados terminales de los complejos anteriores. La reanudación lee el mismo binario y las mismas entradas selladas, comprueba que los PDBQT de preparación de los casos que estaban en curso se regeneran byte a byte, y reutiliza sólo las poses de semillas cuyo log de Vina y PDBQT están completos. Las demás semillas usan `dock` del arnés sellado con un hilo y parámetros idénticos. Se comprobó el lector de reanudación sobre 2YED/SIN/42 y coincidió exactamente en energía, RMSD top-1 y oráculo, y recuento de poses.
+
+En las semillas recuperadas a partir de poses completas, el tiempo individual no se conserva en el log crudo del arnés. El reagrupamiento cambia únicamente la concurrencia y la forma de retomar resultados, y no los brazos, semillas, criterios ni comparaciones. [Reanudador](reanudar_d03.py) · [Entrada sellada](../../../scripts/artifacts_science/DEC-104-D03-R1/manifest.json)

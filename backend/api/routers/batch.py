@@ -396,7 +396,10 @@ async def get_batch_status(
         "early_exit_enabled": batch.get("early_exit", False),
         "has_active_labels": batch.get("has_labels", False),
         "ef_metrics": batch.get("ef_metrics"),
-        "ranking_policy": "por_diana_y_componentes_completos_primero",
+        # El orden es por diana y por afinidad de Vina (`_orden_exportado`); el nombre viejo describía el orden por índice.
+        "ranking_policy": "por_diana_y_afinidad_de_vina",
+        # Ya no gobierna el orden. Se conserva: dice si las filas mezclan pesos de apilado, que es lo que vuelve
+        # incomparable entre ellas la columna `total_score` (índice compuesto heredado).
         "ranking_mixto": len({r.get("stacking_degraded") for r in results
                               if r.get("status") == "success"}) > 1,
         "results": results,
@@ -445,11 +448,17 @@ def _regla_exportada(valor: bool | None, si: str = "PASS", no: str = "FAIL") -> 
 
 
 def _orden_exportado(resultado: dict) -> tuple:
-    valor = _numero_exportado(resultado.get("total_score"), 4)
+    """Por diana, las corridas correctas primero y, dentro, por el score de Vina (el más negativo arriba).
+
+    Antes ordenaba por `total_score`, el índice compuesto heredado, que no ordena una serie mejor que Vina (SUP-02,
+    NO_GO: ρ 0,397 frente a 0,392 en 8T69, y 0,03 frente a 0,13 en 8HFI) y además dependía de si el stacking se
+    degradó. La columna `TotalScore` se conserva en la exportación; sólo deja de decidir el orden (segunda opinión
+    de D-07, 2026-11-15). `sorted` es estable: los empates conservan el orden del lote.
+    """
+    afinidad = _numero_exportado(resultado.get("affinity_kcal"), 4)
     return (resultado.get("target") or "",
             resultado.get("status") != "success",
-            resultado.get("stacking_degraded") is not False,
-            valor is None, -(valor or 0.0))
+            afinidad is None, afinidad or 0.0)
 
 
 def _fila_exportada(rango: int, resultado: dict) -> list[Any]:
@@ -767,8 +776,20 @@ async def _process_batch(
     log.info("batch_complete", batch_id=batch_id, targets=len(targets), total=batch["total"] if batch else 0)
 
 
+#: Con qué se ordena para EF/AUC: la afinidad de Vina, negada para que «mejor» sea «mayor». Es lo que hacen las cohortes
+#: (`services/cohort/evidence.py`) y lo que decide el orden de la exportación (`_orden_exportado`).
+BASE_DE_EF_AUC = "affinity_kcal"
+
+
 def _compute_ef_metrics(results: list[dict], molecules: list[dict], skipped: int) -> dict | None:
-    """EF/AUC por diana. Fallos cuentan como el peor score y quedan declarados."""
+    """EF/AUC por diana, ordenando por la afinidad de Vina (más negativa = mejor). Fallos cuentan como el peor score y
+    quedan declarados.
+
+    Antes ordenaba por `total_score`, el índice compuesto heredado, o por `affinity_score` si los pesos del apilado
+    diferían entre filas. SUP-02 (NO_GO) midió que ese índice no ordena una serie mejor que Vina (8T69: ρ 0,397 frente a
+    0,392; 8HFI: 0,03 frente a 0,13), y una métrica que cambia de base según el lote no es comparable entre lotes. Desde
+    2026-11-15 la base es una sola y no depende de los pesos: la afinidad de Vina, como en las cohortes.
+    """
     from collections import Counter
     from scoring.enriquecimiento import ef_fraccional, roc_auc_midrank
 
@@ -793,12 +814,7 @@ def _compute_ef_metrics(results: list[dict], molecules: list[dict], skipped: int
              else (r.get("name"), r.get("smiles"))): r
             for r in target_rows
         }
-        signatures = {
-            (r.get("stacking_degraded"),
-             tuple(sorted((r.get("stacking_effective_weights") or {}).items())))
-            for r in target_rows if r.get("status") == "success"
-        }
-        basis = "affinity_score" if len(signatures) > 1 else "total_score"
+        basis = BASE_DE_EF_AUC
         scores: list[float] = []
         y: list[bool] = []
         reasons: Counter[str] = Counter()
@@ -807,11 +823,11 @@ def _compute_ef_metrics(results: list[dict], molecules: list[dict], skipped: int
             row = by_key.get(key)
             value = row.get(basis) if row and row.get("status") == "success" else None
             try:
-                score = float(value) if value is not None else float("-inf")
-                if math.isnan(score):
-                    score = float("-inf")
+                afinidad = float(value) if value is not None else None
             except (TypeError, ValueError):
-                score = float("-inf")
+                afinidad = None
+            # Vina: más negativo = mejor. Se niega para que el mayor score sea el mejor, como pide `scoring.enriquecimiento`.
+            score = -afinidad if afinidad is not None and math.isfinite(afinidad) else float("-inf")
             if score == float("-inf"):
                 reason = (row.get("error") or row.get("status") or "sin_score") if row else "sin_resultado"
                 reasons[str(reason)[:80]] += 1

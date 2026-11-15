@@ -30,7 +30,9 @@ DEPENDEN_DE_REPORTLAB = frozenset({"manifest.json"})
 
 #: SHA-256 de las cuatro Arial con las que se fijó la instantánea. Cada Windows trae las suyas: «es Windows» no
 #: basta, y el 2026-11-01 la CI pública dio otro PDF que el Windows 11 donde se escribió.
-HUELLA_DE_LA_FUENTE = "4481faa17b2718878b2d7338ff7ae4f603b0eb47b477e917be2184748919616c"
+#: 2026-11-12: Windows 11 (10.0.26300) trajo otra Arial que la de 2026-11-01 (huella anterior
+#: 4481faa1…616c); se actualiza a propósito para poder reescribir las instantáneas del dossier en esta máquina.
+HUELLA_DE_LA_FUENTE = "43367a64c6a5ad29ce254ec8eac8afeaacd768c39b35ce9baea0eee5a59abb85"
 
 
 def huella_de_la_fuente() -> str | None:

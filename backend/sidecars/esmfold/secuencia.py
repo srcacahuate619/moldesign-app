@@ -64,6 +64,10 @@ extraídas **con este mismo código** desde sus SMILES canónicos. Comparar
 manzanas con manzanas: si la extracción tiene un sesgo, lo tiene en los dos
 lados y no produce una falsa coincidencia.
 
+La comparación no depende del estado de ionización ni del tautómero: el
+conformador entrega el péptido a pH 7,4 (Lys, Arg, Asp, Glu e His cargadas) y
+esos residuos son los mismos que en su forma neutra. Ver `_huella_lateral`.
+
 Lo que este módulo NO resuelve, y declara:
 
   · aminoácidos no estándar y modificaciones postraduccionales — se marcan
@@ -175,7 +179,39 @@ def _atomos_de_cadena_lateral(mol: Chem.Mol, ca: int, esqueleto: set[int]) -> se
 
 
 def _huella_lateral(mol: Chem.Mol, ca: int, esqueleto: set[int]) -> str:
-    """SMILES canónico de la cadena lateral con el Cα marcado como anclaje.
+    """Huella de la cadena lateral: su grafo de elementos y sus hidrógenos NEUTROS.
+
+    Dos partes, unidas con `|`: `*CC(C)C|H9` es la leucina.
+
+    ═════════════════════════════════════════════════════════════════════
+    LA HUELLA NO DEBE DEPENDER DEL ESTADO DE IONIZACIÓN
+    ═════════════════════════════════════════════════════════════════════
+
+    Auditoría científica 1.0.4, S1-2. La huella anterior copiaba la carga formal,
+    los hidrógenos explícitos y la aromaticidad de cada átomo, y comparaba contra
+    los veinte aminoácidos en su forma NEUTRA. El conformador deja el péptido a
+    pH 7,4 (`[NH3+]`, `C(=O)[O-]`, guanidinio), así que Lys, Arg, Asp, Glu y
+    la His protonada daban `X`: `AKA→AXA`, `GRGD→GXGX`, `KDEL→XXXL`, `EAK→XAX`.
+    El predictor rechazaba la secuencia antes de plegar.
+
+    Por eso aquí no cuentan la carga, el orden de enlace ni la aromaticidad
+    (un anillo de seis carbonos es el mismo grafo sea fenilo o ciclohexilo, y la
+    posición del doble enlace del guanidinio o del imidazol es un tautómero).
+    Pero un grafo de elementos solo es demasiado laxo: la ciclohexilalanina
+    daría fenilalanina (`AFA`). Lo que lo ata es el número de hidrógenos de la
+    especie NEUTRA, que es el de la cadena lateral menos su carga formal: cada
+    protonación suma un H y una carga, y cada doble enlace de menos suma dos H.
+
+        Lys   NH3+  3 H, carga +1  ->  2 H     (igual que NH2)
+        Asp   COO-  0 H, carga -1  ->  1 H     (igual que COOH)
+        Cha   C6H11                 ->  11 H    (Phe: 5 H, distinta)
+
+    Los residuos no estándar siguen dando `X`: la huella agrupa estados de
+    ionización y tautómeros del MISMO residuo, no residuos distintos.
+
+    ═════════════════════════════════════════════════════════════════════
+    EL ANCLAJE
+    ═════════════════════════════════════════════════════════════════════
 
     EL ANCLAJE HAY QUE MARCARLO, y costó dos intentos verlo:
 
@@ -203,31 +239,30 @@ def _huella_lateral(mol: Chem.Mol, ca: int, esqueleto: set[int]) -> str:
     fragmento = Chem.RWMol()
     correspondencia: dict[int, int] = {}
     for idx in indices:
-        original = mol.GetAtomWithIdx(idx)
-        # Número atómico 0 = átomo ficticio. Es el marcador del anclaje.
-        nuevo = Chem.Atom(0 if idx == ca else original.GetAtomicNum())
-        nuevo.SetFormalCharge(original.GetFormalCharge())
-        nuevo.SetIsAromatic(original.GetIsAromatic() and idx != ca)
-        if idx == ca:
-            nuevo.SetNoImplicit(True)
-        else:
-            # Los hidrógenos explícitos se copian: sin ellos el NH del imidazol
-            # de la histidina y el del indol del triptófano se pierden, y RDKit
-            # no puede kekulizar el anillo. La huella salía igualmente única
-            # —el mismo código se aplica a los dos lados— pero el fragmento era
-            # una molécula imposible y ensuciaba la salida con avisos.
-            nuevo.SetNumExplicitHs(original.GetNumExplicitHs())
-            nuevo.SetNoImplicit(original.GetNoImplicit())
-        correspondencia[idx] = fragmento.AddAtom(nuevo)
+        # Número atómico 0 = átomo ficticio. Es el marcador del anclaje. Sólo
+        # cuenta el elemento: sin carga, sin hidrógenos, sin aromaticidad.
+        elemento = 0 if idx == ca else mol.GetAtomWithIdx(idx).GetAtomicNum()
+        correspondencia[idx] = fragmento.AddAtom(Chem.Atom(elemento))
 
     for enlace in mol.GetBonds():
         i, j = enlace.GetBeginAtomIdx(), enlace.GetEndAtomIdx()
         if i in correspondencia and j in correspondencia:
-            fragmento.AddBond(correspondencia[i], correspondencia[j], enlace.GetBondType())
+            fragmento.AddBond(correspondencia[i], correspondencia[j], Chem.BondType.SINGLE)
 
     salida = fragmento.GetMol()
-    Chem.SanitizeMol(salida, catchErrors=True)
-    return Chem.MolToSmiles(salida, canonical=True, isomericSmiles=False)
+    salida.UpdatePropertyCache(strict=False)
+    Chem.FastFindRings(salida)
+    grafo = Chem.MolToSmiles(salida, canonical=True, isomericSmiles=False)
+
+    # Hidrógenos de la especie neutra: los de cada átomo lateral (implícitos,
+    # explícitos y los que vengan como átomos) menos su carga formal. El Cα queda
+    # fuera: su hidrógeno es del esqueleto y no distingue residuo.
+    hidrogenos_neutros = sum(
+        mol.GetAtomWithIdx(i).GetTotalNumHs(includeNeighbors=True)
+        - mol.GetAtomWithIdx(i).GetFormalCharge()
+        for i in lateral
+    )
+    return f"{grafo}|H{hidrogenos_neutros}"
 
 
 def _tabla_de_referencia() -> dict[str, str]:

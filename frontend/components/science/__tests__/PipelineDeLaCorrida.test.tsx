@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import type { EvaluationResult } from "../../../lib/types";
 import { PipelineDeLaCorrida } from "../PipelineDeLaCorrida";
@@ -11,6 +11,13 @@ function resultado(parcial: Partial<EvaluationResult> = {}): EvaluationResult {
   } as EvaluationResult;
 }
 
+const TITULO_AYUDA = "¿Qué aporta cada señal?";
+
+function abrirAyuda() {
+  fireEvent.click(screen.getByRole("button", { name: TITULO_AYUDA }));
+  return screen.getByRole("dialog", { name: TITULO_AYUDA });
+}
+
 describe("un solo protocolo utilizado", () => {
   it.each(["default", "gpcr", "protease", "kinase", "nuclear_receptor", "soluble_enzyme", "metaloenzyme"])(
     "aplica la misma regla a cualquier familia: %s", (familia) => {
@@ -18,7 +25,7 @@ describe("un solo protocolo utilizado", () => {
         target_family: familia, m5_scientific_status: "REVIEW_OUT_OF_VALIDATED_TARGET",
       })} />);
       expect(screen.getByRole("heading", { name: "Protocolo utilizado: M4" })).toBeVisible();
-      expect(screen.getByText(/Protocolo general de evaluación: reúne los resultados del docking/)).toBeVisible();
+      expect(screen.getByText(/Protocolo general para moléculas pequeñas/)).toBeVisible();
       expect(container.textContent).not.toMatch(/M5/);
     },
   );
@@ -40,6 +47,7 @@ describe("un solo protocolo utilizado", () => {
       m5_scientific_status: "REVIEW_OUT_OF_VALIDATED_TARGET",
     })} />);
     expect(screen.getByRole("heading", { name: "Protocolo utilizado: no registrado" })).toBeVisible();
+    expect(screen.queryByRole("button", { name: TITULO_AYUDA })).not.toBeInTheDocument();
     expect(container.textContent).not.toMatch(/M4|M5/);
   });
 
@@ -48,9 +56,12 @@ describe("un solo protocolo utilizado", () => {
       m5_scientific_status: "VALIDATED", m5_protocol_id: "M5_ZN_MMP9_1GKC_V2", m5_score: 0,
     })} />);
     expect(screen.getByRole("heading", { name: "Protocolo utilizado: M5-Zn" })).toBeVisible();
-    expect(screen.getByText(/Protocolo para dianas de zinc:/)).toBeVisible();
-    expect(screen.queryByText(/Protocolo general de evaluación:/)).not.toBeInTheDocument();
+    expect(screen.getByText(/Protocolo de puntuación complementario para estructuras específicas con zinc/)).toBeVisible();
+    expect(screen.queryByText(/Protocolo general para moléculas pequeñas/)).not.toBeInTheDocument();
     expect(container.textContent).not.toMatch(/M4/);
+    const ayuda = within(abrirAyuda());
+    expect(ayuda.getByText("UMS-warhead")).toBeVisible();
+    expect(ayuda.getByText("GNN-D")).toBeVisible();
     const detalle = screen.getByText("Detalles del protocolo").closest("details")!;
     expect(detalle.open).toBe(false);
     fireEvent.click(screen.getByText("Detalles del protocolo"));
@@ -78,6 +89,38 @@ describe("un solo protocolo utilizado", () => {
       stacking_effective_weights: null, stacking_vina_weight: 1,
     })} />);
     expect(screen.getByRole("heading", { name: "Protocolo utilizado: M4" })).toBeVisible();
+  });
+
+  it("abre la ayuda de M4 junto al título y muestra las cuatro señales en el diálogo", () => {
+    render(<PipelineDeLaCorrida resultado={resultado()} />);
+    const encabezado = screen.getByRole("heading", { name: "Protocolo utilizado: M4" });
+    const boton = screen.getByRole("button", { name: TITULO_AYUDA });
+    expect(encabezado.nextElementSibling).toContainElement(boton);
+    expect(screen.queryByText(TITULO_AYUDA)).not.toBeInTheDocument();
+    const dialogo = abrirAyuda();
+    expect(screen.getByRole("region", { name: "Protocolo de la corrida" })).not.toContainElement(dialogo);
+    for (const senal of ["AutoDock Vina", "XGBoost", "GNN legacy (RTMScore)", "CL-GNN"]) {
+      expect(within(dialogo).getByText(senal, { exact: true })).toBeVisible();
+    }
+    fireEvent.keyDown(dialogo, { key: "Escape" });
+    expect(dialogo).not.toBeInTheDocument();
+    expect(boton).toHaveFocus();
+  });
+
+  it("identifica la ruta experimental por el motor efectivo de la corrida", () => {
+    render(<PipelineDeLaCorrida resultado={resultado({ docking_protocol: { engine: "esmfold" } })} />);
+    expect(screen.getByRole("heading", { name: "Protocolo utilizado: ESMFold + Vina" })).toBeVisible();
+    const ayuda = within(abrirAyuda());
+    expect(ayuda.getByText("ESMFold", { exact: true })).toBeVisible();
+    expect(ayuda.getByText("pLDDT")).toBeVisible();
+    expect(ayuda.getByText("AutoDock Vina", { exact: true })).toBeVisible();
+  });
+
+  it("mantiene M4 cuando se solicitó ESMFold y la corrida ejecutó Vina", () => {
+    const docking_protocol = { engine: "vina", solicitado: { engine: "esmfold" } };
+    render(<PipelineDeLaCorrida resultado={resultado({ docking_protocol })} />);
+    expect(screen.getByRole("heading", { name: "Protocolo utilizado: M4" })).toBeVisible();
+    expect(screen.queryByText(/Protocolo experimental para péptidos/)).not.toBeInTheDocument();
   });
 
   it("no usa un estado desconocido con un número para declarar M5", () => {

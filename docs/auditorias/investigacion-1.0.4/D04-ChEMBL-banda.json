@@ -1,0 +1,12 @@
+{
+  "amidina": {
+    "n": 24,
+    "correctos_tabla": 13,
+    "correctos_mediana": 13
+  },
+  "amina_alifatica": {
+    "n": 188,
+    "correctos_tabla": 139,
+    "correctos_mediana": 139
+  }
+}

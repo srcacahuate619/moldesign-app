@@ -54,9 +54,9 @@ describe("Mapa de contactos ligado a la pose",()=>{
   it("sin corrida no consulta la última evaluación de la molécula",()=>{
     render(<ContactMapPanel moleculeId="mol-a"/>);expect(api).not.toHaveBeenCalled();expect(screen.getByText(/corrida guardada e identificable/)).toBeVisible();
   });
-  it("el mapa funciona sin SHAP y no reactiva un SVG GNN heredado",async()=>{
-    api.mockResolvedValue(report());const {container}=render(<ResultReadingPresentation><ProXaiTab shapValues={null} gnnAttention={[1]} gnnAttentionSvg='<svg id="legacy-heuristic"/>' gnnPharmacophores={{fake:100}} moleculeId="mol-a" taskId="run-a" poses={[{rank:1}]}/></ResultReadingPresentation>);
-    await screen.findByRole("img");expect(container.querySelector('#legacy-heuristic')).not.toBeInTheDocument();
+  it("la pestaña Explicabilidad muestra el mapa sin ningún modelo y sin gráfica SHAP",async()=>{
+    api.mockResolvedValue(report());const {container}=render(<ResultReadingPresentation><ProXaiTab moleculeId="mol-a" taskId="run-a" poses={[{rank:1}]}/></ResultReadingPresentation>);
+    await screen.findByRole("img");expect(container.querySelector("[data-shap-chart]")).not.toBeInTheDocument();
   });
   it("rechaza índices incompatibles y no confunde el hash de archivo con el del SDF analizado",()=>{
     const data=report();expect(contactMapMatches(data,"mol-a","run-a",1)).toBe(true);

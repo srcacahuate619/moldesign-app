@@ -973,6 +973,171 @@ async def get_pose_comparison(
     return {"task_id": task_id, "molecule_id": result.get("molecule_id"), **comparison}
 
 
+async def _cargar_dos_corridas(task_a: str, task_b: str, raw_request: Request, current_user, db) -> tuple[list, list[dict], list]:
+    """Autoriza y lee dos corridas terminadas con sus SDF de poses (`None` si no están disponibles).
+
+    Lo comparten las dos comparaciones entre corridas: la misma molécula y los análogos."""
+    if task_a == task_b:
+        raise HTTPException(status_code=422, detail="Elige dos evaluaciones distintas.")
+    await _authorize_task_access(task_a, raw_request, current_user, db)
+    await _authorize_task_access(task_b, raw_request, current_user, db)
+
+    from services.docking.queue_handler import get_job_status
+    from services.docking.result_sdf import ResultSdfUnavailable, read_result_sdf
+
+    runs = []
+    for task in (task_a, task_b):
+        status_obj = await get_job_status(task)
+        if status_obj is None or status_obj.status != "SUCCESS" or status_obj.result is None:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail=f"La evaluación {task} todavía no tiene un resultado terminado con poses que comparar.",
+            )
+        runs.append(status_obj.result)
+    sdfs: list = []
+    for run in runs:
+        try:
+            sdfs.append(await read_result_sdf(run))
+        except ResultSdfUnavailable:
+            sdfs.append(None)
+    return runs, [run.model_dump(mode="json") for run in runs], sdfs
+
+
+def _validar_rangos(rank_a: int, rank_b: int) -> None:
+    for name, rank in (("rank_a", rank_a), ("rank_b", rank_b)):
+        if rank < 1 or rank > 100:
+            raise HTTPException(status_code=422, detail=f"«{name}» debe ser un rango de pose entre 1 y 100.")
+
+
+@router.get(
+    "/run-pose-comparison",
+    summary="Comparar la pose de una molécula entre dos evaluaciones",
+)
+async def get_run_pose_comparison(
+    task_a: str,
+    task_b: str,
+    raw_request: Request,
+    rank_a: int = 1,
+    rank_b: int = 1,
+    current_user: UserORM | None = Depends(get_current_user_optional),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """¿Cambió la pose de ESTA molécula entre dos corridas? (`services/evaluation/run_pose_comparison.py`).
+
+    Sólo la misma molécula; el RMSD sólo con el mismo receptor preparado (si no, se abstiene con su motivo). Nombra
+    lo que difiere entre las dos corridas y no elige ganadora.
+    """
+    bind_context(endpoint="evaluation_run_pose_comparison", task_a=task_a, task_b=task_b)
+    _validar_rangos(rank_a, rank_b)
+    _, (result_a, result_b), (sdf_a, sdf_b) = await _cargar_dos_corridas(task_a, task_b, raw_request, current_user, db)
+    if not result_a.get("molecule_id") or result_a.get("molecule_id") != result_b.get("molecule_id"):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Las dos evaluaciones son de moléculas distintas: para comparar análogos usa /evaluation/analog-pose-comparison.",
+        )
+
+    import asyncio
+
+    from services.evaluation.run_pose_comparison import _unavailable, compare_runs, rmsd_between_sdfs
+
+    rmsd = _unavailable("POSES_NOT_AVAILABLE")
+    if sdf_a is not None and sdf_b is not None:
+        try:
+            rmsd = await asyncio.to_thread(rmsd_between_sdfs, sdf_a.content, rank_a, sdf_b.content, rank_b)
+            rmsd = {**rmsd, "poses_sha256": {"a": sdf_a.sha256, "b": sdf_b.sha256}}
+        except Exception as exc:  # noqa: BLE001 - la energía y los controles siguen valiendo aunque esta medida falle
+            log.warning("run_pose_rmsd_failed", error=str(exc))
+            rmsd = _unavailable("RMSD_NOT_COMPUTABLE")
+    comparison = compare_runs(result_a, result_b, rank_a, rank_b, rmsd)
+    return {"task_a": task_a, "task_b": task_b, "molecule_id": result_a.get("molecule_id"), **comparison}
+
+
+@router.get(
+    "/analog-pose-comparison",
+    summary="Comparar las poses de dos ligandos distintos del mismo receptor",
+)
+async def get_analog_pose_comparison(
+    task_a: str,
+    task_b: str,
+    raw_request: Request,
+    rank_a: int = 1,
+    rank_b: int = 1,
+    current_user: UserORM | None = Depends(get_current_user_optional),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """¿Cómo se colocan dos ligandos distintos en el mismo receptor? (`services/evaluation/run_pose_comparison.py`).
+
+    Mide el RMSD del núcleo común máximo en el marco del receptor (sin superponer) y se abstiene si el núcleo es
+    pequeño o si las corridas no comparten receptor preparado. No es el RMSD de la molécula entera y no elige
+    ganadora; la diferencia de afinidad dice si es comparable (mismo protocolo).
+    """
+    bind_context(endpoint="evaluation_analog_pose_comparison", task_a=task_a, task_b=task_b)
+    _validar_rangos(rank_a, rank_b)
+    _, (result_a, result_b), (sdf_a, sdf_b) = await _cargar_dos_corridas(task_a, task_b, raw_request, current_user, db)
+
+    import asyncio
+
+    from services.evaluation.run_pose_comparison import _unavailable, compare_analogs, rmsd_core_between_sdfs
+
+    core = _unavailable("POSES_NOT_AVAILABLE")
+    if sdf_a is not None and sdf_b is not None:
+        try:
+            core = await asyncio.to_thread(rmsd_core_between_sdfs, sdf_a.content, rank_a, sdf_b.content, rank_b)
+            core = {**core, "poses_sha256": {"a": sdf_a.sha256, "b": sdf_b.sha256}}
+        except Exception as exc:  # noqa: BLE001 - la energía y los controles siguen valiendo aunque esta medida falle
+            log.warning("analog_core_rmsd_failed", error=str(exc))
+            core = _unavailable("RMSD_NOT_COMPUTABLE")
+    comparison = compare_analogs(result_a, result_b, rank_a, rank_b, core)
+    return {
+        "task_a": task_a, "task_b": task_b,
+        "molecule_id_a": result_a.get("molecule_id"), "molecule_id_b": result_b.get("molecule_id"),
+        **comparison,
+    }
+
+
+@router.get(
+    "/pose-matches",
+    summary="Cuál de las poses de otra evaluación se parece más a una pose dada",
+)
+async def get_pose_matches(
+    task_a: str,
+    task_b: str,
+    raw_request: Request,
+    rank_a: int = 1,
+    current_user: UserORM | None = Depends(get_current_user_optional),
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """RMSD de la pose `rank_a` de la evaluación A contra CADA pose de la evaluación B (`run_pose_comparison.pose_matches`).
+
+    Responde a quien repitió con otra semilla o con otro protocolo y pregunta qué pose de la repetición es la suya (el
+    orden por energía cambia, la geometría no tiene por qué). La misma molécula se mide entera; dos ligandos distintos,
+    por su núcleo común. Sólo con el mismo receptor preparado: con otro (o sin declararlo) se abstiene y lo dice. No
+    elige ganadora: nombra la más cercana, y una pose cercana no es una pose válida.
+    """
+    bind_context(endpoint="evaluation_pose_matches", task_a=task_a, task_b=task_b)
+    _validar_rangos(rank_a, 1)
+    _, (result_a, result_b), (sdf_a, sdf_b) = await _cargar_dos_corridas(task_a, task_b, raw_request, current_user, db)
+
+    import asyncio
+
+    from services.evaluation.run_pose_comparison import frame_status, pose_matches
+
+    kind = "molecule" if result_a.get("molecule_id") and result_a.get("molecule_id") == result_b.get("molecule_id") else "core"
+    frame = frame_status(result_a, result_b)
+    base = {"task_a": task_a, "task_b": task_b, "rank_a": rank_a, "kind": kind, "frame": frame}
+    absent = {"available": False, "matches": [], "closest_rank": None, "closest_rmsd_angstrom": None}
+    if frame != "same":
+        return {**base, **absent, "reason_code": "DIFFERENT_RECEPTOR" if frame == "different" else "RECEPTOR_NOT_DECLARED"}
+    if sdf_a is None or sdf_b is None:
+        return {**base, **absent, "reason_code": "POSES_NOT_AVAILABLE"}
+    try:
+        medida = await asyncio.to_thread(pose_matches, sdf_a.content, rank_a, sdf_b.content, kind=kind)
+    except Exception as exc:  # noqa: BLE001 - la comparación principal sigue valiendo aunque esta ayuda falle
+        log.warning("pose_matches_failed", error=str(exc))
+        return {**base, **absent, "reason_code": "RMSD_NOT_COMPUTABLE"}
+    return {**base, **medida, "poses_sha256": {"a": sdf_a.sha256, "b": sdf_b.sha256}}
+
+
 async def _pose_rmsd(selected, left: int, right: int) -> dict:
     """RMSD entre dos poses del SDF de la corrida (ver `services/evaluation/pose_rmsd.py`); nunca falla la comparación."""
     import asyncio

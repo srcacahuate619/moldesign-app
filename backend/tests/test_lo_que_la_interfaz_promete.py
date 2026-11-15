@@ -9,8 +9,8 @@ anunciaban capacidades y cifras que el árbol no respalda:
   Los sustitutos 1SO2/6MVW no representan PDE3A/NaV1.5 humanos.
 
 * **«predicción 91.5% en 94 fármacos»** para BBB. Esa cifra no aparece en
-  ninguna parte del backend ni de las pruebas. Lo que hay medido es 39 de 41
-  fármacos de difusión pasiva dentro de una cohorte de regresión de 46, sin
+  ninguna parte del backend ni de las pruebas. Lo que hay medido es 38 de 41
+  fármacos de difusión pasiva (con 1 abstención) dentro de una cohorte de regresión de 47, sin
   holdout independiente: es el conjunto con el que se ajustó el consenso, no
   una validación externa.
 
@@ -97,18 +97,39 @@ def test_no_se_anuncia_una_cifra_de_bbb_que_el_arbol_no_sostiene():
     texto = _texto(VISTAS)
     assert "91.5" not in texto, (
         "vuelve el «91.5% en 94 fármacos» de BBB. Esa cifra no está medida en "
-        "ninguna parte del backend. Lo que hay es 39/41 de difusión pasiva en "
-        "una cohorte de regresión de 46, sin holdout: ver test_bbb_consenso.py."
+        "ninguna parte del backend. Lo que hay es 38/41 de difusión pasiva, con 1 "
+        "abstención, en una cohorte de regresión de 47, sin holdout: ver test_bbb_consenso.py."
     )
 
 
 def test_la_cohorte_de_bbb_es_la_que_dice_la_prueba():
     """Ancla la cifra real, para que el texto de la interfaz pueda citarla."""
-    fuente = (Path(__file__).parent / "test_bbb_consenso.py").read_text(encoding="utf-8")
-    assert "46" in fuente, (
+    from tests.test_bbb_consenso import REFERENCIA, _decidir
+
+    texto = _sin_comentarios(VISTAS)
+    en_la_interfaz = re.search(r"cohorte de regresi[oó]n de (\d+)", texto)
+    assert en_la_interfaz, "la interfaz dejó de citar el tamaño de la cohorte de BBB"
+    assert int(en_la_interfaz.group(1)) == len(REFERENCIA), (
         "la cohorte del consenso de BBB cambió de tamaño: revisa lo que la "
-        "interfaz dice sobre ella"
+        f"interfaz dice sobre ella (la tabla tiene {len(REFERENCIA)} filas)"
     )
+
+    # Las cifras con cobertura: aciertos y abstenciones se calculan del panel, no se copian.
+    pasivos = [f for f in REFERENCIA if f[11] == "pasiva"]
+    aciertos_pasivos = sum(1 for f in pasivos if _decidir(f).permeable == f[10])
+    abstenciones_pasivos = sum(1 for f in pasivos if _decidir(f).permeable is None)
+    abstenciones = sum(1 for f in REFERENCIA if _decidir(f).permeable is None)
+    frase = re.search(
+        r"acierta (\d+) de los (\d+) f[aá]rmacos de difusi[oó]n pasiva y se abstiene en (\d+)", texto
+    )
+    assert frase, "la interfaz dejó de citar los aciertos de difusión pasiva con su cobertura"
+    assert tuple(int(g) for g in frase.groups()) == (aciertos_pasivos, len(pasivos), abstenciones_pasivos), (
+        f"la interfaz dice {frase.group(0)!r}; el panel da {aciertos_pasivos} de {len(pasivos)} "
+        f"con {abstenciones_pasivos} abstención(es)"
+    )
+    cobertura = re.search(r"\((\d+) con veredicto, (\d+) abstenciones en total\)", texto)
+    assert cobertura, "la interfaz dejó de citar la cobertura total del panel"
+    assert (int(cobertura.group(1)), int(cobertura.group(2))) == (len(REFERENCIA) - abstenciones, abstenciones)
 
 
 def test_la_seleccion_no_promete_un_veredicto_de_seguridad():
@@ -183,7 +204,6 @@ def test_el_indice_cuantico_se_sigue_calculando_y_guardando():
 def test_el_perfil_sanguineo_no_se_presenta_como_pronostico():
     texto = _sin_comentarios(
         (
-            RAIZ / "frontend" / "components" / "ScoreCard.tsx",
             RAIZ / "frontend" / "components" / "interfaces" / "pro" / "ProParametersTab.tsx",
         )
     )

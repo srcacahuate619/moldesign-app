@@ -31,6 +31,8 @@ from services.docking.selectivity import (
     validar_protocolo_panel,
     seleccionar_anti_dianas,
     panel_bowes_2012,
+    sitio_adjudicado_de,
+    texto_de_alerta,
     ANTI_TARGET_PANEL,
 )
 from services.targets.disponibilidad import motivo_no_disponible
@@ -400,6 +402,7 @@ async def run_selectivity_stream(
                     "threshold": at.get("affinity_threshold", -7.0),
                     "status": "sin_sitio",
                     "error": sitio.motivo,
+                    "sitio_adjudicado": sitio_adjudicado_de(pdb_id),
                 }
                 off_target_results.append(res)
                 yield f"data: {json.dumps({'type': 'target', 'index': idx, 'result': res})}\n\n"
@@ -456,6 +459,7 @@ async def run_selectivity_stream(
                         "error": reason,
                     }
 
+            res.setdefault("sitio_adjudicado", sitio_adjudicado_de(pdb_id))
             off_target_results.append(res)
 
             # Safety metrics check for this target
@@ -463,10 +467,9 @@ async def run_selectivity_stream(
             threshold = res.get("threshold", -7.0)
             if aff is not None:
                 if aff < threshold:
-                    safety_flags.append(
-                        f"ALERTA {res['name']}: afinidad {aff:.1f} kcal/mol < umbral {threshold:.1f}. "
-                        f"Riesgo: {res.get('risk', 'Desconocido')}"
-                    )
+                    safety_flags.append(texto_de_alerta(res["name"], aff, threshold,
+                                                        res.get("risk", "Desconocido"),
+                                                        res.get("sitio_adjudicado")))
                 if aff < worst_off_affinity:
                     worst_off_affinity = aff
                     peor_anti_diana = res.get("name") or res.get("pdb_id")
@@ -741,6 +744,7 @@ async def dock_single_anti_target(
     # parezca. Si esto falla, el cliente se entera por `persisted` y puede
     # reintentar; lo que no puede es creer que quedo guardado.
     res["task_id"] = evaluation.task_id
+    res.setdefault("sitio_adjudicado", sitio_adjudicado_de(res.get("pdb_id")))
     persistido = await _persistir_anti_target(db, evaluation, res)
     return {"target": res, "persisted": persistido}
 
@@ -1076,6 +1080,22 @@ async def run_admet_endpoint(
     # Ya calculado: se devuelve tal cual. Repetirlo costaria la carga del modelo
     # para obtener el mismo numero, y en una maquina virtual eso son minutos.
     if not recalcular and evaluation.blood_viability_score is not None:
+        # Un perfil calculado antes de que la corrida lo guardara en su propio
+        # addendum está en la proyección pero no al reabrir la corrida (Historial).
+        # Se anexa aquí, sin recalcular: es el mismo número.
+        try:
+            if await repository.anexar_admet_existente(
+                mol_uuid, evaluation.task_id, evaluation,
+            ):
+                from core.database import commit_with_retry
+
+                await commit_with_retry(db)
+        except Exception as exc:  # noqa: BLE001 - se reporta, no se traga
+            log.error(
+                "admet_post_docking_anexo_fallo",
+                molecule_id=molecule_id,
+                error=f"{type(exc).__name__}: {exc}",
+            )
         return {
             "molecule_id": molecule_id,
             "task_id": evaluation.task_id,
@@ -1127,7 +1147,8 @@ async def run_admet_endpoint(
         # El mapeo canonico, el mismo que usa el pipeline. `is_control` se
         # reenvia porque `upsert_evaluation_result` lo escribe SIEMPRE y su
         # valor por omision convertiria un control en molecula normal.
-        persistido = await repository.update_properties_for_task(
+        # Proyección Y addendum de la corrida: el Historial lee el segundo.
+        persistido = await repository.guardar_admet_de_la_corrida(
             mol_uuid, evaluation.task_id, props,
         )
         from core.database import commit_with_retry

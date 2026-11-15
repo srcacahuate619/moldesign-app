@@ -173,3 +173,24 @@ def _molcy_sin_la_maquina_real(request, monkeypatch):
     autodeteccion.invalidar()
     yield
     autodeteccion.invalidar()
+
+
+# ── Interacciones: la caché de informes no cruza de una prueba a otra ─────────
+
+
+@pytest.fixture(autouse=True)
+def _cache_de_interacciones_limpia():
+    """El router guarda los informes de contactos ya calculados (clave: molécula, corrida, pose y
+    hashes de pose y receptor). Una prueba que sustituye `analyze_complex` no debe heredar el
+    informe que dejó otra."""
+    import sys
+
+    def limpiar():
+        # Sólo si la prueba ya cargó el router: no se importa FastAPI para todas las demás.
+        modulo = sys.modules.get("api.routers.interactions")
+        if modulo is not None:
+            modulo.limpiar_cache_de_interacciones()
+
+    limpiar()
+    yield
+    limpiar()

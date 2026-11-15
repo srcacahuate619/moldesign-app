@@ -528,6 +528,128 @@ export async function getSarData(
   return res.json();
 }
 
+// ── Comparar la pose de una molécula entre dos evaluaciones ─────
+
+export interface PoseDeCorrida {
+  rank: number;
+  found: boolean;
+  vina_affinity_kcal_mol?: number | null;
+  physical_status?: string | null;
+  physically_valid?: boolean | null;
+}
+
+export interface ComparacionEntreCorridas {
+  task_a: string;
+  task_b: string;
+  molecule_id: string;
+  a: PoseDeCorrida;
+  b: PoseDeCorrida;
+  /** `same` sólo si las dos corridas declaran el mismo receptor preparado. */
+  frame: "same" | "different" | "undeclared";
+  difference: {
+    b_minus_a_vina_kcal_mol: number | null;
+    pose_rmsd_between_runs: {
+      available: boolean;
+      reason_code: string | null;
+      rmsd_angstrom: number | null;
+      heavy_atoms: number | null;
+    };
+  };
+  protocol_differences: Array<{ field: string; a: unknown; b: unknown }>;
+}
+
+export async function getRunPoseComparison(
+  taskA: string, taskB: string, rankA = 1, rankB = 1,
+): Promise<ComparacionEntreCorridas> {
+  const consulta = new URLSearchParams({ task_a: taskA, task_b: taskB, rank_a: String(rankA), rank_b: String(rankB) });
+  const res = await customFetch(`/evaluation/run-pose-comparison?${consulta.toString()}`);
+  await assertOk(res);
+  return res.json();
+}
+
+export interface ComparacionDeAnalogos {
+  task_a: string;
+  task_b: string;
+  molecule_id_a: string;
+  molecule_id_b: string;
+  a: PoseDeCorrida;
+  b: PoseDeCorrida;
+  frame: "same" | "different" | "undeclared";
+  difference: {
+    b_minus_a_vina_kcal_mol: number | null;
+    /** Sólo es una comparación honesta si las dos corridas usaron el mismo protocolo. */
+    affinity_delta_comparable: boolean;
+    core_rmsd: {
+      available: boolean;
+      reason_code: string | null;
+      rmsd_angstrom: number | null;
+      core_heavy_atoms?: number;
+      heavy_atoms_a?: number;
+      heavy_atoms_b?: number;
+      core_fraction_of_smaller?: number | null;
+      core_search_complete?: boolean;
+      /** Qué átomos de cada pose son del núcleo: índice del registro SDF (desde 0, con hidrógenos). Sólo si se midió. */
+      core_atoms?: { a: number[]; b: number[]; index_basis: string };
+    };
+  };
+  protocol_differences: Array<{ field: string; a: unknown; b: unknown }>;
+}
+
+export async function getAnalogPoseComparison(
+  taskA: string, taskB: string, rankA = 1, rankB = 1,
+): Promise<ComparacionDeAnalogos> {
+  const consulta = new URLSearchParams({ task_a: taskA, task_b: taskB, rank_a: String(rankA), rank_b: String(rankB) });
+  const res = await customFetch(`/evaluation/analog-pose-comparison?${consulta.toString()}`);
+  await assertOk(res);
+  return res.json();
+}
+
+/** RMSD de una pose de la evaluación A contra CADA pose de la evaluación B (`/evaluation/pose-matches`). */
+export interface CoincidenciasDePoses {
+  task_a: string;
+  task_b: string;
+  rank_a: number;
+  /** `molecule`: la misma molécula entera. `core`: ligandos distintos, por su núcleo común. */
+  kind: "molecule" | "core";
+  frame: "same" | "different" | "undeclared";
+  available: boolean;
+  reason_code: string | null;
+  matches: Array<{ rank: number; available: boolean; reason_code: string | null; rmsd_angstrom: number | null }>;
+  closest_rank: number | null;
+  closest_rmsd_angstrom: number | null;
+  core_heavy_atoms?: number;
+  core_fraction_of_smaller?: number | null;
+}
+
+export async function getPoseMatches(taskA: string, taskB: string, rankA = 1): Promise<CoincidenciasDePoses> {
+  const consulta = new URLSearchParams({ task_a: taskA, task_b: taskB, rank_a: String(rankA) });
+  const res = await customFetch(`/evaluation/pose-matches?${consulta.toString()}`);
+  await assertOk(res);
+  return res.json();
+}
+
+/** Dos poses de UNA misma corrida (`/evaluation/pose-comparison/{task_id}`). */
+export interface ComparacionDeLaMismaCorrida {
+  task_id: string;
+  left: PoseDeCorrida;
+  right: PoseDeCorrida;
+  difference: {
+    right_minus_left_vina_kcal_mol: number | null;
+    pose_rmsd_between_poses?: {
+      available: boolean;
+      reason_code: string | null;
+      rmsd_angstrom: number | null;
+    };
+  };
+}
+
+export async function getSameRunPoseComparison(taskId: string, left: number, right: number): Promise<ComparacionDeLaMismaCorrida> {
+  const consulta = new URLSearchParams({ left: String(left), right: String(right) });
+  const res = await customFetch(`/evaluation/pose-comparison/${encodeURIComponent(taskId)}?${consulta.toString()}`);
+  await assertOk(res);
+  return res.json();
+}
+
 // ── Blockchain: verify ─────────────────────────────────────────
 
 export async function verifyBlockchainSignature(signature: string): Promise<{

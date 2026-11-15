@@ -619,9 +619,17 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
     # sola vez. No se podía probar sin el modelo, así que no se probaba: por eso
     # la condición central pudo vivir con la precedencia mal puesta —un
     # `or admet_bbb == 1` suelto que saltaba por encima de todos los filtros—
-    # hasta que alguien lo leyó a mano. Ahora la decisión se prueba contra 46
+    # hasta que alguien lo leyó a mano. Ahora la decisión se prueba contra 47
     # fármacos con veredicto clínico conocido y sin cargar un solo modelo.
-    from chem.bbb_consenso import decidir_bbb
+    from chem.bbb_consenso import decidir_bbb, ppb_valida
+
+    # La misma PPB validada alimenta el consenso y la categoría. Un valor fuera
+    # de [0, 100] (o no finito) es una salida inválida del regresor: queda como
+    # no disponible y el dato bruto sólo se conserva en `admet_preds` y en el log.
+    ppb_bruta = admet_preds.get("PPB")
+    ppb = ppb_valida(ppb_bruta)
+    if ppb_bruta is not None and ppb is None:
+        logger.warning("ppb_fuera_de_rango", ppb_bruta=ppb_bruta, smiles=smiles[:30])
 
     n_aro = None
     try:
@@ -642,7 +650,7 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
         tpsa=properties.tpsa,
         hbd=properties.hbd,
         hba=properties.hba,
-        ppb=admet_preds.get("PPB"),
+        ppb=ppb,
         anillos_aromaticos=n_aro,
     )
     properties.blood_bbb_permeable = decision.permeable
@@ -680,7 +688,7 @@ def calculate_blood_viability(smiles: str, properties: PhysicochemicalProperties
     # visto bueno aunque el clasificador no hubiera corrido.
     properties.blood_tabpfn_estado = _tabpfn_estado
 
-    ppb = admet_preds.get("PPB")
+    # «extreme» (> 99 %) informa: no veta el consenso de BBB desde 2026-11-14.
     if ppb is None:
         properties.blood_ppb_category = None
     elif ppb > 99.0:

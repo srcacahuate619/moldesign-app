@@ -2827,8 +2827,8 @@
       ]
     },
     {
-      "en": "The file looks like a predicted structure, but MolDesign has only verified the AlphaFold DB convention (B-factor = pLDDT, scale 0–100). For Boltz, Chai-1 and AlphaFold 3 it was not verified with a real file where they store the pLDDT, so it is neither claimed nor read.",
-      "es": "El archivo parece una estructura predicha, pero MolDesign sólo tiene verificada la convención de AlphaFold DB (factor B = pLDDT, escala 0–100). De Boltz, Chai-1 y AlphaFold 3 no se verificó con un archivo real dónde guardan el pLDDT, así que no se afirma ni se lee.",
+      "en": "The file declares itself a model (theoretical method), but it is not from AlphaFold DB and does not declare the pLDDT in _ma_qa_metric_local (ModelCIF). Only for AlphaFold DB has the B-factor been verified to be the pLDDT; in another file it could be something else, so it is not read.",
+      "es": "El archivo se declara un modelo (método teórico), pero no es de AlphaFold DB ni declara el pLDDT en _ma_qa_metric_local (ModelCIF). Sólo en AlphaFold DB está verificado que el factor B sea el pLDDT; en otro archivo podría ser otra cosa, así que no se lee.",
       "problemas": [],
       "referencias": [
         "core/i18n_receptores_propios.py:187",

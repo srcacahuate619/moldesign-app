@@ -32,8 +32,20 @@ PLANTILLAS_ES_EN: tuple[tuple[str, str], ...] = (
         "Ligand efficiency LE={le}. With {atoms} heavy atoms, the 0.45 threshold is crossed by any affinity better than {affinity} kcal/mol, so exceeding it does not distinguish good binding from mediocre binding. In this mass range (< 300 Da, Rule of Three), efficiency per atom is high by construction: it can compare molecules of the same size, but cannot serve as a verdict.",
     ),
     (
+        "La especie acoplada no es la entrada: {input} → {docked} (carga neta {charge}). Las alternativas no evaluadas siguen siendo incertidumbre química.",
+        "The docked species differs from the input: {input} → {docked} (net charge {charge}). Unevaluated alternatives remain a source of chemical uncertainty.",
+    ),
+    (
+        "Rango de afinidad entre poses: {n1} kcal/mol (la varianza de las afinidades supera el umbral del modelo).",
+        "Affinity range between poses: {n1} kcal/mol (the variance of the affinities exceeds the model threshold).",
+    ),
+    (
         "La especie acoplada no es la entrada: {input} → {docked}. Las alternativas no evaluadas siguen siendo incertidumbre química.",
         "The docked species differs from the input: {input} → {docked}. Unevaluated alternatives remain a source of chemical uncertainty.",
+    ),
+    (
+        "No concluyente: el modelo de permeabilidad da p = {p}, un resultado positivo, pero la unión a proteína plasmática predicha es del {ppb} % en una molécula con {anillos} anillos aromáticos. Las dos señales se contradicen y este consenso no las resuelve.",
+        "Inconclusive: the permeability model gives p = {p}, a positive result, but the predicted plasma protein binding is {ppb} % in a molecule with {anillos} aromatic rings. The two signals contradict each other and this consensus does not resolve them.",
     ),
     ("SHA-256 del modelo: {hash}.", "Model SHA-256: {hash}."),
     (
@@ -156,7 +168,7 @@ PLANTILLAS_ES_EN: tuple[tuple[str, str], ...] = (
     ("La entrada dejó {n1} centro(s) y {n2} doble(s) E/Z sin especificar; el conformero representa un isómero. {n3} doble(s) siguen sin clasificar desde 3D. Los demás estereoisómeros no se evaluaron.", "The input left {n1} center(s) and {n2} E/Z double bond(s) unspecified; the conformer represents one isomer. {n3} double bond(s) remain unassigned from 3D. The other stereoisomers were not evaluated."),
     ("Registros HETATM retirados del ensamblaje: aguas {n1}, metales {n2}, cofactores orgánicos {n3}, otras especies {n4}. A {n5} Å o menos de la caja: retirado {n6}; conservado {n7}.", "HETATM records removed from the assembly: waters {n1}, metals {n2}, organic cofactors {n3}, other species {n4}. Within {n5} Å of the box: removed {n6}; retained {n7}."),
     ("La escala se sujetó a HA={n1}: el ajuste de Reynolds cubre 15-50 átomos pesados y esta molécula queda fuera, así que el valor es un límite, no una interpolación.", "The scale was capped at HA={n1}: the Reynolds fit covers 15–50 heavy atoms, and this molecule falls outside that range, so the value is a bound, not an interpolation."),
-    ("{n1} kcal/mol por átomo pesado ({n2} átomos). Hopkins et al. 2004. Depende del tamaño por construcción: medido sobre la cohorte de este proyecto (17 431 moléculas), su correlación con el número de átomos es tan fuerte como la del score crudo, con el signo cambiado.", "{n1} kcal/mol per heavy atom ({n2} atoms). Hopkins et al. 2004. It depends on size by construction: measured across this project's cohort (17,431 molecules), its correlation with atom count is as strong as that of the raw score, with the opposite sign."),
+    ("{n1} kcal/mol por átomo pesado ({n2} átomos). Hopkins et al. 2004. Depende del tamaño por construcción: medido sobre la cohorte de acoplamiento de este proyecto (8 dianas, 17 431 moléculas con score de Vina; informe EFICIENCIA_NORMALIZADA_COHORTE_2026-09-04), su correlación con el número de átomos es tan fuerte como la del score crudo, con el signo cambiado.", "{n1} kcal/mol per heavy atom ({n2} atoms). Hopkins et al. 2004. It depends on size by construction: measured across this project's docking cohort (8 targets, 17,431 molecules with a Vina score; report EFICIENCIA_NORMALIZADA_COHORTE_2026-09-04), its correlation with atom count is as strong as that of the raw score, with the opposite sign."),
     ("{n1} = |afinidad| / HA^0.3. Nissink, J. Chem. Inf. Model. 49 (2009) 1617. El artículo no publica un umbral, así que aquí no hay ninguno.", "{n1} = |affinity| / HA^0.3. Nissink, J. Chem. Inf. Model. 49 (2009) 1617. The paper does not publish a threshold, so none is used here."),
     # SCI-A-024/026: la piscina se dice en inglés; van antes de la genérica, que
     # dejaba « · pose elegida entre N candidatas» en castellano dentro de {n3}.
@@ -179,6 +191,7 @@ PLANTILLAS_ES_EN: tuple[tuple[str, str], ...] = (
      "{n1} conformers were requested and the run continued with a single one: the ensemble was not generated and its coverage is missing."),
     ("Se pidieron {n1} conformaciones y se generaron {n2}: la cobertura geométrica es menor que la solicitada. El ensemble amplía cobertura; no mejora, por sí solo, la elección de la pose top-1.", "{n1} conformers were requested and {n2} were generated: geometric coverage is below the requested amount. An ensemble broadens coverage; by itself, it does not improve top-1 pose selection."),
     ("{count} elegidos{n2} del catálogo: {n3}", "{count} selected{n2} from the catalog: {n3}"),
+    ("{count} del catálogo: {n1} … y {n2} más", "{count} from the catalog: {n1} … and {n2} more"),
     ("{count} del catálogo: {lista}", "{count} from the catalog: {lista}"),
     ("El cliente declaró la relación corrida/inputs como «{n1}», pero las huellas dicen «{n2}». Manda lo comprobable.", "The client declared the run/input relationship as “{n1}”, but the fingerprints say “{n2}”. The verifiable evidence takes precedence."),
     ("{n1} control(es) reconocido(s)", "{n1} acknowledged check(s)"),
@@ -552,8 +565,8 @@ PLANTILLAS_ES_EN: tuple[tuple[str, str], ...] = (
         "<b>Vina score margin (docking ΔΔG):</b> <font color='{n1}'>{n2} kcal/mol</font>. {frase1}. Vina scores from different receptors are not directly comparable experimental free energies, and this difference is not a measured affinity ratio.",
     ),
     (
-        "<font color='#94a3b8' size='6'>* {n1} anti-target(s) subido(s) por el usuario incluido(s) en este panel.</font>",
-        "<font color='#94a3b8' size='6'>* {n1} user-uploaded anti-target(s) included in this panel.</font>",
+        "<font color='#64748b' size='6'>* {n1} anti-target(s) subido(s) por el usuario incluido(s) en este panel.</font>",
+        "<font color='#64748b' size='6'>* {n1} user-uploaded anti-target(s) included in this panel.</font>",
     ),
     (
         "<b>Lectura de las reglas:</b> {n1}. Estas reglas describen propiedades; no califican por sí solas la idoneidad farmacológica.",
@@ -575,8 +588,41 @@ PLANTILLAS_ES_EN: tuple[tuple[str, str], ...] = (
         "Desolvated preparation: the deposited structure had no crystallographic waters inside the docking box, so none were removed from the site during preparation.",
     ),
     (
+        "Preparación en condición desolvatada: se retiraron {n1} aguas cristalográficas de la caja de acoplamiento, {n2} de ellas con {n3} o más contactos a menos de {n4} Å con el receptor (la mejor coordinada, {n5}). Si alguna de esas aguas forma parte del reconocimiento en esta diana, los contactos de esta corrida no la incluyen.",
+        "Desolvated preparation: {n1} crystallographic waters were removed from the docking box; {n2} had at least {n3} contacts within {n4} Å of the receptor (the best-coordinated water had {n5}). If any of these waters participates in recognition by this target, this run's contacts do not include it.",
+    ),
+    (
         "Preparación en condición desolvatada: se retiraron {n1} aguas cristalográficas de la caja de acoplamiento, {n2} de ellas con {n3} o más contactos a menos de {n4} Å con el receptor (la mejor coordinada, {n5}). Si alguna de esas aguas forma parte del reconocimiento en esta diana —la catalítica de la proteasa del VIH-1, la red de la bisagra en varias quinasas—, los contactos de esta corrida no la incluyen.",
         "Desolvated preparation: {n1} crystallographic waters were removed from the docking box; {n2} had at least {n3} contacts within {n4} Å of the receptor (the best-coordinated water had {n5}). If any of these waters participates in recognition by this target—such as the catalytic water in HIV-1 protease or the hinge network in some kinases—this run's contacts do not include it.",
+    ),
+    # Caza 1, A02: receptor propio (camino B o C) que entró a Vina sin aguas en la caja: `censo_de_aguas.describir_receptor_propio_sin_aguas`.
+    (
+        "El receptor acoplado no trae aguas cristalográficas dentro de la caja de acoplamiento, y su estructura de origen tampoco las tenía.",
+        "The docked receptor has no crystallographic waters inside the docking box, and its source structure did not have any either.",
+    ),
+    (
+        "El receptor acoplado no trae aguas cristalográficas dentro de la caja de acoplamiento; su estructura de origen tiene {n1} agua(s) en la caja que no están en el receptor. MolDesign no las retiró.",
+        "The docked receptor has no crystallographic waters inside the docking box; its source structure has {n1} water(s) in the box that are not in the receptor. MolDesign did not remove them.",
+    ),
+    # Caza 1, A10: la especie sobre la pose se describe por su geometría (`preparacion.py`, «Otras especies junto al sitio»).
+    (
+        "{n1} ocupa el mismo lugar que la pose (a menos de {n2} Å del ligando acoplado): puede ser el ligando que cocristalizó con la estructura, no un aditivo.",
+        "{n1} occupies the same place as the pose (within {n2} Å of the docked ligand): it may be the ligand that co-crystallized with the structure, not an additive.",
+    ),
+    (
+        "{n1} ocupan el mismo lugar que la pose (a menos de {n2} Å del ligando acoplado): pueden ser el ligando que cocristalizó con la estructura, no aditivos.",
+        "{n1} occupy the same place as the pose (within {n2} Å of the docked ligand): they may be the ligand that co-crystallized with the structure, not additives.",
+    ),
+    # Caza 1, A05: de cuántas filas enseñan una parte las tablas.
+    ("Se muestran las {n1} mejores poses de {n2}.", "Showing the {n1} best poses of {n2}."),
+    ("Se muestran los {n1} residuos más cercanos al ligando de los {n2} con contacto.", "Showing the {n1} residues closest to the ligand of the {n2} in contact."),
+    # Caza 1, A08: el aviso de la caja ya no nombra el id interno del receptor (el texto antiguo, con «Target: {t}», sigue abajo).
+    (
+        'El diámetro del ligando ({d} Å) más {m} Å de margen supera el lado menor de la caja ({l} Å). Vina puede '
+        'rotar el ligando, pero no hay una orientación que garantice que quepa entero: revise si las poses tocan el borde.',
+        'The ligand diameter ({d} Å), with {m} Å of margin added, exceeds the shorter side of the box ({l} Å). Vina can '
+        'rotate the ligand, but there is no orientation that guarantees it fits entirely: check whether the poses touch the '
+        'edge.',
     ),
     # Receptor propio que conserva aguas (camino B o C): `censo_de_aguas.describir_aguas_conservadas`.
     (
@@ -777,8 +823,8 @@ PLANTILLAS_ES_EN: tuple[tuple[str, str], ...] = (
     ("La molécula tiene solo {n1} átomo(s) pesado(s). El mínimo para evaluación farmacológica es 5.", "The molecule has only {n1} heavy atom(s). The minimum for pharmacological evaluation is 5."),
     ("{n1}: {n2} Da y {n3} átomos pesados. {n4}. {n5}", "{n1}: {n2} Da and {n3} heavy atoms. {n4}. {n5}"),
     (
-        "Masa molecular por debajo del rango de las reglas de drug-likeness ({n1} Da). El filtro de Ghose et al. 1999 empieza en {n2} Da y {n3} átomos pesados: a este tamaño esos filtros, y los umbrales de eficiencia de ligando, no están evaluando lo que dicen evaluar. El acoplamiento se ejecuta igual.",
-        "Molecular weight is below the range for the drug-likeness rules ({n1} Da). The Ghose et al. 1999 filter starts at {n2} Da and {n3} heavy atoms: at this size, those filters and ligand-efficiency thresholds do not assess what they claim to assess. Docking still runs.",
+        "Masa molecular por debajo del rango de las reglas de drug-likeness ({n1} Da). El filtro de Ghose et al. 1999 empieza en {n2} Da y {n3} átomos totales (hidrógenos incluidos): a este tamaño esos filtros, y los umbrales de eficiencia de ligando, no están evaluando lo que dicen evaluar. El acoplamiento se ejecuta igual.",
+        "Molecular weight is below the range for the drug-likeness rules ({n1} Da). The Ghose et al. 1999 filter starts at {n2} Da and {n3} total atoms (hydrogens included): at this size, those filters and ligand-efficiency thresholds do not assess what they claim to assess. Docking still runs.",
     ),
     ("La molécula contiene {n1} fragmentos desconectados. En modo científico estricto se rechazan sales/mezclas para evitar ambigüedad en docking y scoring.", "The molecule contains {n1} disconnected fragments. Strict scientific mode rejects salts/mixtures to avoid ambiguity in docking and scoring."),
     ("La molécula tiene {n1} fragmentos desconectados (posiblemente una sal o mezcla). Solo se evaluará el fragmento más grande. Considera usar únicamente la parte activa.", "The molecule has {n1} disconnected fragments (possibly a salt or mixture). Only the largest fragment will be evaluated. Consider using only the active moiety."),
@@ -1145,6 +1191,29 @@ PLANTILLAS_ES_EN: tuple[tuple[str, str], ...] = (
         'Aviso del catálogo: {codigo}.',
         'Catalog notice: {codigo}.',
     ),
+    # Avisos de docking y de modelo que salían en castellano en los PDF ingleses (cápsula de QA, 2026-11-11, N3/B3).
+    (
+        'La caja ocupa {v} Å³ (> {t} Å³). Exhaustividad efectiva: {e}. El umbral y el escalón automático son una política '
+        'conservadora; no garantizan convergencia de poses.',
+        'The box occupies {v} Å³ (> {t} Å³). Effective exhaustiveness: {e}. The threshold and the automatic step are a '
+        'conservative policy; they do not guarantee pose convergence.',
+    ),
+    (
+        'El diámetro del ligando ({d} Å) más {m} Å de margen supera el lado menor de la caja ({l} Å). Target: {t}. Vina puede '
+        'rotar el ligando, pero no hay una orientación que garantice que quepa entero: revise si las poses tocan el borde.',
+        'The ligand diameter ({d} Å), with {m} Å of margin added, exceeds the shorter side of the box ({l} Å). Target: {t}. Vina can '
+        'rotate the ligand, but there is no orientation that guarantees it fits entirely: check whether the poses touch the '
+        'edge.',
+    ),
+    (
+        "Familia '{n1}' sin modelo validado (quality gate: Spearman {n2} < {n3} y p {n4} >= {n5}) — modelo universal usado.",
+        "Family '{n1}' has no validated model (quality gate: Spearman {n2} < {n3} and p {n4} >= {n5}) — the universal model "
+        "was used.",
+    ),
+    (
+        "Familia '{n1}' sin modelo validado (quality gate: Spearman {n2} < {n3}) — modelo universal usado.",
+        "Family '{n1}' has no validated model (quality gate: Spearman {n2} < {n3}) — the universal model was used.",
+    ),
 )
 
 @dataclass(frozen=True)
@@ -1311,4 +1380,41 @@ def traducir(texto: str, idioma: str) -> str:
                 if indice < len(separadores):
                     partes.append(separadores[indice].group())
             return "".join(partes)
+        por_tramos = _traducir_por_tramos(frases, separadores)
+        if por_tramos is not None:
+            return por_tramos
     return texto
+
+
+#: Tope de frases para probar tramos: cada tramo se prueba contra todas las plantillas.
+_MAX_FRASES_EN_TRAMOS = 12
+
+
+def _traducir_por_tramos(frases: list[str], separadores: list[re.Match[str]]) -> str | None:
+    """Traduce un texto de varias frases cuando alguna entrada del catálogo abarca DOS o más frases seguidas.
+
+    `traducir` va frase a frase, y una entrada que contiene dos («La ruta de docking retira todas las aguas. No se ha
+    decidido cuáles son estructurales y cuáles desplazables.») nunca casaba dentro de un texto más largo: la frase suelta
+    no está en el catálogo y el mensaje entero salía en castellano (N3, 4 de 14 dossiers). Sólo se llega aquí si la
+    traducción frase a frase ya falló, así que no cambia ningún texto que antes se tradujera. Prueba el tramo más largo
+    primero; si alguna frase no tiene traducción, el mensaje queda intacto.
+    """
+    if len(frases) > _MAX_FRASES_EN_TRAMOS:
+        return None
+    salida: list[str] = []
+    inicio = 0
+    while inicio < len(frases):
+        for fin in range(len(frases), inicio, -1):
+            tramo = "".join(
+                frases[k] + (separadores[k].group() if k < fin - 1 else "") for k in range(inicio, fin)
+            )
+            traducido = _traducir_una(tramo)
+            if traducido is not None:
+                salida.append(traducido)
+                if fin < len(frases):
+                    salida.append(separadores[fin - 1].group())
+                inicio = fin
+                break
+        else:
+            return None
+    return "".join(salida)

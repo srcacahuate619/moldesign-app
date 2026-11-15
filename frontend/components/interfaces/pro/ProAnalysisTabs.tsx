@@ -26,6 +26,8 @@ import { EstadoDelLigando } from "./EstadoDelLigando";
 import { ProAlertsTab } from "./ProAlertsTab";
 import { cuentaQueImporta, normalizarAvisos } from "../../../lib/avisos";
 import { ProXaiTab } from "./ProXaiTab";
+import { ProModelsTab } from "./ProModelsTab";
+import { fichasDeModelos } from "../../../lib/fichasDeModelos";
 import { ProSelectivityPanel } from "./ProSelectivityPanel";
 import { ProSarTab } from "./ProSarTab";
 import { ProDockingTab } from "./ProDockingTab";
@@ -44,7 +46,7 @@ import {
 } from "../../../lib/structuralEvidence";
 
 type PrimaryTab = "structure" | "properties" | "advanced" | "provenance";
-type AdvancedTab = "xai" | "selectivity" | "sar" | "mmgbsa" | "admet";
+type AdvancedTab = "xai" | "models" | "selectivity" | "sar" | "mmgbsa" | "admet";
 
 const PHYSICAL_STATUS: Record<PhysicalStatus, { label: string; className: string }> = {
   passed: { label: "Controles superados", className: "text-emerald-300" },
@@ -265,6 +267,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   const [poseDetailsExpanded, setPoseDetailsExpanded] = useState(false);
   const result = (structuralEvidenceResult ?? status?.result ?? null) as EvaluationResultWithEvidence | null;
   const evidenceView = useMemo(() => deriveStructuralEvidence(result), [result]);
+  const fichas = useMemo(() => fichasDeModelos(result), [result]);
   const poseRanks = evidenceView.comparison.map((row) => row.rank);
   const poseRanksKey = poseRanks.join(",");
   useEffect(() => { setPoseDetailsExpanded(false); }, [evaluationKey]);
@@ -303,6 +306,10 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
   // sentido (`physicalFocusRequest` lleva de la evidencia a la pose); esto es
   // el mismo mecanismo al revés.
   const [focoEnEvidencia, setFocoEnEvidencia] = useState(0);
+  // Petición «abre el ADMET» desde su panel de Análisis. Se apaga al salir de
+  // Propiedades para que volver a esa pestaña a mano no reabra ni desplace nada.
+  const [abrirAdmet, setAbrirAdmet] = useState(0);
+  useEffect(() => { if (activeTab !== "properties") setAbrirAdmet(0); }, [activeTab]);
   const abrirControlesDeLaPose = () => {
     setFocoEnEvidencia((n) => n + 1);
     setActiveTab("structure");
@@ -330,10 +337,11 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
     // SAR consulta la base por `moleculeId`; sin corrida no hay nada que
     // comparar, y con corrida el propio panel dice si encontró análogos.
     sar: false, // A consultation is available; it is not a recorded SAR result.
-    xai:
-      Boolean(result?.shap_values) ||
-      Boolean(result?.gnn_attention) ||
-      Boolean(result?.gnn_attention_svg),
+    // Modelos: hay al menos una ficha con salida guardada (ver `fichasDeModelos`).
+    models: fichas.conAlguna,
+    // Explicabilidad: el mapa de contactos se calcula de las poses guardadas, no
+    // de ningún modelo; sin poses no hay nada que explicar.
+    xai: Boolean(result?.docking_poses?.length),
   };
   const avanzadoDisponibles = Object.values(avanzadoConDatos).filter(Boolean).length;
   const advancedTabsTotal = Object.keys(avanzadoConDatos).length;
@@ -343,6 +351,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
     { id: "mmgbsa", icon: FlaskConical, label: "MM-GBSA" },
     { id: "admet", icon: Gauge, label: "ADMET" },
     { id: "sar", icon: GitFork, label: "SAR" },
+    { id: "models", icon: Boxes, label: t("mod_tab") },
     { id: "xai", icon: Activity, label: t("pr_tab_explainability") },
   ];
 
@@ -411,7 +420,7 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
               calculan sobre la forma neutra que escribió el usuario, y la
               especie que se acopló puede ser otra. */}
           <EstadoDelLigando result={result} />
-          <ProParametersTab result={result} />
+          <ProParametersTab result={result} abrirAdmet={abrirAdmet} />
           <section className="border-t border-white/[0.07] pt-5" aria-labelledby="analysis-alerts-title">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <AlertTriangle size={15} className="text-amber-300" aria-hidden="true" />
@@ -570,6 +579,16 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
                   <Gauge size={14} aria-hidden="true" />
                   {admetRunning ? t("c_calculando") : admetDone ? t("pr_admet_available") : t("pr_admet_calculate")}
                 </button>
+                {avanzadoConDatos.admet && (
+                  <button
+                    type="button"
+                    onClick={() => { setActiveTab("properties"); setAbrirAdmet(n => n + 1); }}
+                    data-admet-ver-resultados="true"
+                    className="inline-flex min-h-10 shrink-0 items-center gap-2 rounded-lg border border-sky-400/30 px-3 py-2 font-sans text-sm font-bold uppercase tracking-wider text-sky-100 transition-colors hover:bg-sky-500/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-300"
+                  >
+                    {t("mod_admet_ver")}
+                  </button>
+                )}
               </div>
               {!moleculeId && (
                 <p className="mt-3 text-base leading-6 text-zinc-300 font-sans">{t("ev_admet_requiere_corrida")}</p>
@@ -589,18 +608,18 @@ export const ProAnalysisTabs: React.FC<ProAnalysisTabsProps> = ({
             </section>
           )}
 
+          {activeTab === "advanced" && advancedTab === "models" && (
+            <div id="advanced-panel-models" role="tabpanel" aria-labelledby="advanced-tab-models">
+              <ProModelsTab result={result} />
+            </div>
+          )}
+
           {activeTab === "advanced" && advancedTab === "xai" && (
             <div id="advanced-panel-xai" role="tabpanel" aria-labelledby="advanced-tab-xai">
               <ProXaiTab
-                shapValues={result?.shap_values}
-                gnnAttention={result?.gnn_attention}
-                gnnAttentionSvg={result?.gnn_attention_svg}
-                gnnPharmacophores={result?.gnn_pharmacophores}
                 moleculeId={moleculeId}
-                inApplicabilityDomain={result?.in_applicability_domain}
                 taskId={result?.task_id??taskId}
                 poses={result?.docking_poses}
-                fallbackReason={result?.fallback_reason}
               />
             </div>
           )}

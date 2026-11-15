@@ -1,6 +1,6 @@
 {
   "case_id": "caso-serie-a-001",
-  "dossier_model_sha256": "2b0069dcd6f2af3cb9a254d9f9b8ec834600cd82040503c9a716d202557bc508",
+  "dossier_model_sha256": "8eade2679c06b8173a08a7588b15d51a589d4b8e03ee0f0406cda1d5dabf16ff",
   "dossier_schema_version": 1,
   "exclusiones": {
     "<paquete>.zip": "El paquete no se contiene a sí mismo.",
@@ -35,8 +35,8 @@
       "path": "case/dossier_model.json",
       "razon": null,
       "rol": "modelo_canonico",
-      "sha256": "2b0069dcd6f2af3cb9a254d9f9b8ec834600cd82040503c9a716d202557bc508",
-      "tamano": 33283
+      "sha256": "8eade2679c06b8173a08a7588b15d51a589d4b8e03ee0f0406cda1d5dabf16ff",
+      "tamano": 33406
     },
     {
       "estado": "REGISTRADO",
@@ -45,8 +45,8 @@
       "path": "dossier.pdf",
       "razon": null,
       "rol": "lectura_humana",
-      "sha256": "c4b8e25967cd1376cfcb603fd75781502421c5e3c9a3c438b11442fe02106cd7",
-      "tamano": 101820
+      "sha256": "5ed4b8e705458cccd9afa914b7d777b92778d5dcdbd53bd8472b8ebd952c8674",
+      "tamano": 123256
     },
     {
       "estado": "REGISTRADO",
@@ -55,8 +55,8 @@
       "path": "evidencia/evidence_summary.json",
       "razon": null,
       "rol": "evidencia",
-      "sha256": "376cf788d7a4e7b0275f38f0283c03bb0727915d0711557093b4d0c3cfa735aa",
-      "tamano": 6838
+      "sha256": "8005c4b4f95fce53477f1d7c676b2233928bfe3d2897ba66276dec2d6b3aeedb",
+      "tamano": 6961
     },
     {
       "estado": "REGISTRADO",

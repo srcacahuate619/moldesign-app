@@ -157,7 +157,6 @@ function EtiquetaDelSitio({ target, explicacion, avisos }: {
         {avisos > 0 && <TriangleAlert size={14} aria-hidden="true" />}
         <span>{etiqueta}</span>
         {avisos > 0 && <span className={styles.review}>{t("rr_site_review")}</span>}
-        <span className={styles.question} aria-hidden="true">?</span>
       </span>
     </button>
     {abierto && createPortal(

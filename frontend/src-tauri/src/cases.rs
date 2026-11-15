@@ -344,6 +344,9 @@ impl CaseRegistry {
 }
 
 pub(crate) fn registry_path(app: &tauri::AppHandle) -> Option<PathBuf> {
+    if let Some(dir) = crate::perfil_de_prueba::carpeta("app-data") {
+        return Some(dir.join(REGISTRY_FILE));
+    }
     if crate::is_packaged_app() {
         // MSIX: app_data_dir() (Roaming) se redirige a LocalCache y se borra al
         // desinstalar; el índice de casos iría a la basura con el paquete. Se
@@ -1860,9 +1863,12 @@ pub async fn case_default_parent_directory(
     app: tauri::AppHandle,
     registry: tauri::State<'_, CaseRegistry>,
 ) -> Result<PickedFolder, String> {
-    let documents = app.path().document_dir().map_err(|e| {
-        format!("NOT_FOUND: no se encontró la carpeta Documentos de este equipo ({e}).")
-    })?;
+    let documents = match crate::perfil_de_prueba::carpeta("documentos") {
+        Some(dir) => dir,
+        None => app.path().document_dir().map_err(|e| {
+            format!("NOT_FOUND: no se encontró la carpeta Documentos de este equipo ({e}).")
+        })?,
+    };
     let dir = core_ensure_default_parent(&documents)?;
     grant_folder(&registry, &dir)
 }

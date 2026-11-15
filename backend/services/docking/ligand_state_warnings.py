@@ -5,16 +5,32 @@ from __future__ import annotations
 from services.avisos import Severidad, aviso
 
 
+def _carga_neta(smiles: str | None) -> str | None:
+    """Carga formal total del SMILES, escrita con signo (`+2`, `-1`, `0`); `None` si no se puede leer."""
+    if not smiles:
+        return None
+    from rdkit import Chem
+
+    molecula = Chem.MolFromSmiles(str(smiles))
+    if molecula is None:
+        return None
+    total = sum(atomo.GetFormalCharge() for atomo in molecula.GetAtoms())
+    return f"{total:+d}" if total else "0"
+
+
 def avisos_estado_ligando(estado: dict | None) -> list[dict]:
     if not isinstance(estado, dict):
         return []
     resultado: list[dict] = []
     if estado.get("cambio_respecto_a_la_entrada"):
+        carga = _carga_neta(estado.get("smiles_acoplado"))
         resultado.append(aviso(
             "ESPECIE_ACOPLADA_DISTINTA", Severidad.PRECAUCION,
             f"La especie acoplada no es la entrada: {estado.get('smiles_entrada')} "
-            f"→ {estado.get('smiles_acoplado')}. Las alternativas no evaluadas "
-            "siguen siendo incertidumbre química.",
+            f"→ {estado.get('smiles_acoplado')}"
+            # B09: el SMILES con [NH+] obliga a contar cargas a mano; imatinib e indinavir se acoplaban como dicationes sin decirlo.
+            + (f" (carga neta {carga})" if carga is not None else "")
+            + ". Las alternativas no evaluadas siguen siendo incertidumbre química.",
         ))
     elif (estado.get("protonacion") or {}).get("motivo"):
         resultado.append(aviso(

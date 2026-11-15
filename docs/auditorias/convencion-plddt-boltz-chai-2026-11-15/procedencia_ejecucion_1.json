@@ -1,0 +1,409 @@
+{
+  "gpu": {
+    "nombre": "NVIDIA L4",
+    "memoria": "23034 MiB",
+    "driver": "580.82.07",
+    "compute_capability": 8.9
+  },
+  "inicio": "2026-11-14T23:51:03+00:00",
+  "python_del_cuaderno": "3.13.16",
+  "plataforma": "Linux-6.6.159+-x86_64-with-glibc2.39",
+  "parametros": {
+    "semilla": 42,
+    "msa_servidor": true,
+    "version_boltz": "última",
+    "version_chai": "última",
+    "muestras_chai": 5,
+    "casos": [
+      {
+        "id": "cdk2_apo",
+        "uniprot": "P24941",
+        "ligando": null
+      },
+      {
+        "id": "cdk2_lig",
+        "uniprot": "P24941",
+        "ligando": {
+          "smiles": "OCc1cccc(Nc2nc(OCC3CCCCC3)c3nc[nH]c3n2)c1",
+          "origen": "ligando de cdk2 del benchmark de OpenFF, tal como lo envió FEP-09-R1 (scripts/artifacts_science/FEP-09-R1/_work/pilot/evidence/cdk2__baseline__0/submit_request.json)"
+        }
+      },
+      {
+        "id": "net_apo",
+        "uniprot": "P23975",
+        "ligando": null
+      }
+    ],
+    "formatos_boltz": {
+      "cdk2_apo": [
+        "mmcif",
+        "pdb"
+      ],
+      "cdk2_lig": [
+        "mmcif",
+        "pdb"
+      ],
+      "net_apo": [
+        "mmcif"
+      ]
+    },
+    "referencia_afdb": {
+      "url": "https://alphafold.ebi.ac.uk/files/AF-P23975-F1-model_v6.cif",
+      "sha256_en_el_producto": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+    }
+  },
+  "secuencias": {
+    "P23975": {
+      "cabecera": ">sp|P23975|SC6A2_HUMAN Sodium-dependent noradrenaline transporter OS=Homo sapiens OX=9606 GN=SLC6A2 PE=1 SV=1",
+      "longitud": 617,
+      "sha256": "7f69aba6b465001d13b7bd7589de4d14647de313773b2cdfa0446b095330ee08",
+      "version_uniprot": "2026_04",
+      "fecha_version": "04-November-2026",
+      "descargada": "2026-11-14T23:51:04+00:00",
+      "secuencia": "MLLARMNPQVQPENNGADTGPEQPLRARKTAELLVVKERNGVQCLLAPRDGDAQPRETWGKKIDFLLSVVGFAVDLANVWRFPYLCYKNGGGAFLIPYTLFLIIAGMPLFYMELALGQYNREGAATVWKICPFFKGVGYAVILIALYVGFYYNVIIAWSLYYLFSSFTLNLPWTDCGHTWNSPNCTDPKLLNGSVLGNHTKYSKYKFTPAAEFYERGVLHLHESSGIHDIGLPQWQLLLCLMVVVIVLYFSLWKGVKTSGKVVWITATLPYFVLFVLLVHGVTLPGASNGINAYLHIDFYRLKEATVWIDAATQIFFSLGAGFGVLIAFASYNKFDNNCYRDALLTSSINCITSFVSGFAIFSILGYMAHEHKVNIEDVATEGAGLVFILYPEAISTLSGSTFWAVVFFVMLLALGLDSSMGGMEAVITGLADDFQVLKRHRKLFTFGVTFSTFLLALFCITKGGIYVLTLLDTFAAGTSILFAVLMEAIGVSWFYGVDRFSNDIQQMMGFRPGLYWRLCWKFVSPAFLLFVVVVSIINFKPLTYDDYIFPPWANWVGWGIALSSMVLVPIYVIYKFLSTQGSLWERLAYGITPENEHHLVAQRDIRQFQLQHWLAI"
+    },
+    "P24941": {
+      "cabecera": ">sp|P24941|CDK2_HUMAN Cyclin-dependent kinase 2 OS=Homo sapiens OX=9606 GN=CDK2 PE=1 SV=2",
+      "longitud": 298,
+      "sha256": "fe22d91e18cd544a85d7c768cd864172200252df906b774d890dc103224f7c8d",
+      "version_uniprot": "2026_04",
+      "fecha_version": "04-November-2026",
+      "descargada": "2026-11-14T23:51:05+00:00",
+      "secuencia": "MENFQKVEKIGEGTYGVVYKARNKLTGEVVALKKIRLDTETEGVPSTAIREISLLKELNHPNIVKLLDVIHTENKLYLVFEFLHQDLKKFMDASALTGIPLPLIKSYLFQLLQGLAFCHSHRVLHRDLKPQNLLINTEGAIKLADFGLARAFGVPVRTYTHEVVTLWYRAPEILLGCKYYSTAVDIWSLGCIFAEMVTRRALFPGDSEIDQLFRIFRTLGTPDEVVWPGVTSMPDYKPSFPKWARQDFSKVVPPLDEDGRSLLSQMLHYDPNKRISAKAALAHPFFQDVTKPVPHLRL"
+    }
+  },
+  "referencia_afdb_descargada": {
+    "url": "https://alphafold.ebi.ac.uk/files/AF-P23975-F1-model_v6.cif",
+    "last_modified": "Thu, 18 Sep 2025 10:54:39 GMT",
+    "sha256": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899",
+    "igual_que_el_del_producto": true
+  },
+  "instalacion": {
+    "uv": "uv 0.13.8 (x86_64-unknown-linux-gnu)",
+    "boltz": {
+      "paquete_pedido": "boltz[cuda]",
+      "segundos": 31.6,
+      "version": "2.2.1",
+      "licencia_metadata": null,
+      "licencia_expresion": null,
+      "clasificadores_de_licencia": [],
+      "torch": "2.15.0+cu132",
+      "cuda": "13.2",
+      "python": "3.11.18"
+    },
+    "chai": {
+      "paquete_pedido": "chai_lab",
+      "segundos": 28.8,
+      "version": "0.6.1",
+      "licencia_metadata": null,
+      "licencia_expresion": null,
+      "clasificadores_de_licencia": [],
+      "torch": "2.6.0+cu124",
+      "cuda": "12.4",
+      "python": "3.11.18"
+    }
+  },
+  "versiones": {
+    "boltz": "2.2.1",
+    "chai_lab": "0.6.1"
+  },
+  "entradas": {
+    "cdk2_apo": {
+      "boltz": "cdk2_apo.yaml",
+      "sha256_boltz": "f4040ed9ad5a0c5584875b185c824b2d7fe2852faafbf2d8660ee4a21c8ca8f4",
+      "chai": "cdk2_apo.fasta",
+      "sha256_chai": "0956133e377ad9b04b1846dcdbf20e75bbef47e494a0096936068edb74416ad1"
+    },
+    "cdk2_lig": {
+      "boltz": "cdk2_lig.yaml",
+      "sha256_boltz": "8ec5b3455b5bcbe269ed5d580f610697fa077c883fbec53c6f7d096562e7269f",
+      "chai": "cdk2_lig.fasta",
+      "sha256_chai": "93024428de5b7f9011e9bfb24053199afcf14427ab4936545df2b752068461a0"
+    },
+    "net_apo": {
+      "boltz": "net_apo.yaml",
+      "sha256_boltz": "00129175e5906b5ff24258b43e528f25aefc202a0beafa32f3a9b08a763576cf",
+      "chai": "net_apo.fasta",
+      "sha256_chai": "e68c4ce184dba4a88a7dfa67cfbb5afcb73451c111ae4a0374e83148cee5f23f"
+    }
+  },
+  "corridas_boltz": {
+    "cdk2_apo__mmcif": {
+      "orden": [
+        "/content/venvs/boltz/bin/boltz",
+        "predict",
+        "/content/plddt_boltz_chai/resultados/entradas/cdk2_apo.yaml",
+        "--out_dir",
+        "/content/plddt_boltz_chai/resultados/boltz/cdk2_apo__mmcif",
+        "--cache",
+        "/content/cache/boltz",
+        "--output_format",
+        "mmcif",
+        "--diffusion_samples",
+        "1",
+        "--recycling_steps",
+        "3",
+        "--sampling_steps",
+        "200",
+        "--accelerator",
+        "gpu",
+        "--devices",
+        "1",
+        "--seed",
+        "42",
+        "--write_full_pae",
+        "--override",
+        "--use_msa_server"
+      ],
+      "banderas_no_aceptadas": [],
+      "codigo": 0,
+      "segundos": 168.5,
+      "fin": "2026-11-14T23:55:25+00:00"
+    },
+    "cdk2_apo__pdb": {
+      "orden": [
+        "/content/venvs/boltz/bin/boltz",
+        "predict",
+        "/content/plddt_boltz_chai/resultados/entradas/cdk2_apo.yaml",
+        "--out_dir",
+        "/content/plddt_boltz_chai/resultados/boltz/cdk2_apo__pdb",
+        "--cache",
+        "/content/cache/boltz",
+        "--output_format",
+        "pdb",
+        "--diffusion_samples",
+        "1",
+        "--recycling_steps",
+        "3",
+        "--sampling_steps",
+        "200",
+        "--accelerator",
+        "gpu",
+        "--devices",
+        "1",
+        "--seed",
+        "42",
+        "--write_full_pae",
+        "--override",
+        "--use_msa_server"
+      ],
+      "banderas_no_aceptadas": [],
+      "codigo": 0,
+      "segundos": 71.8,
+      "fin": "2026-11-14T23:56:37+00:00"
+    },
+    "cdk2_lig__mmcif": {
+      "orden": [
+        "/content/venvs/boltz/bin/boltz",
+        "predict",
+        "/content/plddt_boltz_chai/resultados/entradas/cdk2_lig.yaml",
+        "--out_dir",
+        "/content/plddt_boltz_chai/resultados/boltz/cdk2_lig__mmcif",
+        "--cache",
+        "/content/cache/boltz",
+        "--output_format",
+        "mmcif",
+        "--diffusion_samples",
+        "1",
+        "--recycling_steps",
+        "3",
+        "--sampling_steps",
+        "200",
+        "--accelerator",
+        "gpu",
+        "--devices",
+        "1",
+        "--seed",
+        "42",
+        "--write_full_pae",
+        "--override",
+        "--use_msa_server"
+      ],
+      "banderas_no_aceptadas": [],
+      "codigo": 0,
+      "segundos": 78.9,
+      "fin": "2026-11-14T23:57:56+00:00"
+    },
+    "cdk2_lig__pdb": {
+      "orden": [
+        "/content/venvs/boltz/bin/boltz",
+        "predict",
+        "/content/plddt_boltz_chai/resultados/entradas/cdk2_lig.yaml",
+        "--out_dir",
+        "/content/plddt_boltz_chai/resultados/boltz/cdk2_lig__pdb",
+        "--cache",
+        "/content/cache/boltz",
+        "--output_format",
+        "pdb",
+        "--diffusion_samples",
+        "1",
+        "--recycling_steps",
+        "3",
+        "--sampling_steps",
+        "200",
+        "--accelerator",
+        "gpu",
+        "--devices",
+        "1",
+        "--seed",
+        "42",
+        "--write_full_pae",
+        "--override",
+        "--use_msa_server"
+      ],
+      "banderas_no_aceptadas": [],
+      "codigo": 0,
+      "segundos": 73.3,
+      "fin": "2026-11-14T23:59:10+00:00"
+    },
+    "net_apo__mmcif": {
+      "orden": [
+        "/content/venvs/boltz/bin/boltz",
+        "predict",
+        "/content/plddt_boltz_chai/resultados/entradas/net_apo.yaml",
+        "--out_dir",
+        "/content/plddt_boltz_chai/resultados/boltz/net_apo__mmcif",
+        "--cache",
+        "/content/cache/boltz",
+        "--output_format",
+        "mmcif",
+        "--diffusion_samples",
+        "1",
+        "--recycling_steps",
+        "3",
+        "--sampling_steps",
+        "200",
+        "--accelerator",
+        "gpu",
+        "--devices",
+        "1",
+        "--seed",
+        "42",
+        "--write_full_pae",
+        "--override",
+        "--use_msa_server"
+      ],
+      "banderas_no_aceptadas": [],
+      "codigo": 0,
+      "segundos": 131.6,
+      "fin": "2026-11-15T00:01:23+00:00"
+    }
+  },
+  "corridas_chai": {
+    "cdk2_apo__mmcif": {
+      "orden": [
+        "/content/venvs/chai/bin/python",
+        "/content/plddt_boltz_chai/ejecutar_chai.py",
+        "--fasta",
+        "/content/plddt_boltz_chai/resultados/entradas/cdk2_apo.fasta",
+        "--salida",
+        "/content/plddt_boltz_chai/resultados/chai/cdk2_apo__mmcif",
+        "--semilla",
+        "42",
+        "--msa-servidor",
+        "1",
+        "--muestras",
+        "5"
+      ],
+      "codigo": 1,
+      "segundos": 30.8,
+      "fin": "2026-11-15T00:01:55+00:00"
+    },
+    "cdk2_lig__mmcif": {
+      "orden": [
+        "/content/venvs/chai/bin/python",
+        "/content/plddt_boltz_chai/ejecutar_chai.py",
+        "--fasta",
+        "/content/plddt_boltz_chai/resultados/entradas/cdk2_lig.fasta",
+        "--salida",
+        "/content/plddt_boltz_chai/resultados/chai/cdk2_lig__mmcif",
+        "--semilla",
+        "42",
+        "--msa-servidor",
+        "1",
+        "--muestras",
+        "5"
+      ],
+      "codigo": 1,
+      "segundos": 22.9,
+      "fin": "2026-11-15T00:02:19+00:00"
+    },
+    "net_apo__mmcif": {
+      "orden": [
+        "/content/venvs/chai/bin/python",
+        "/content/plddt_boltz_chai/ejecutar_chai.py",
+        "--fasta",
+        "/content/plddt_boltz_chai/resultados/entradas/net_apo.fasta",
+        "--salida",
+        "/content/plddt_boltz_chai/resultados/chai/net_apo__mmcif",
+        "--semilla",
+        "42",
+        "--msa-servidor",
+        "1",
+        "--muestras",
+        "5"
+      ],
+      "codigo": 1,
+      "segundos": 25.2,
+      "fin": "2026-11-15T00:02:45+00:00"
+    }
+  },
+  "pesos": {
+    "boltz": {
+      "archivos_grandes": {
+        "boltz2_aff.ckpt": {
+          "bytes": 2062139170,
+          "sha256": "dcc5cd3722b1c9eaa34267e4ae32f55cbbf1963f4c19319381ccfa30fdd2ca9e"
+        },
+        "boltz2_conf.ckpt": {
+          "bytes": 2286561469,
+          "sha256": "090e82ac8c92f5e943fa1b39e7410a44027bea7243c0bbb3caa67a77fc1428e1"
+        },
+        "mols/IR0.pkl": {
+          "bytes": 2991290,
+          "sha256": "5d89f433f02fccc8d5eac79c9e4b73c7db52cf20405963ea69a18d7c619c6123"
+        },
+        "mols/JSG.pkl": {
+          "bytes": 1428337,
+          "sha256": "b9dbb123c7e87bc2b049fb9d88455c8fc68ce2ade499c32302aba919fce38916"
+        },
+        "mols/T8W.pkl": {
+          "bytes": 1434959,
+          "sha256": "16e571832cc5c33f145e97758d067702ecf6360f08ebf150c737ebe780fa46bf"
+        },
+        "mols/WJR.pkl": {
+          "bytes": 1068971,
+          "sha256": "f9973f8190bf245489e98a34e2a3c8c2195fa8932de4cb2548f518dfd7564495"
+        },
+        "mols/WJW.pkl": {
+          "bytes": 1068971,
+          "sha256": "3f806e0b20120aa1f304111ea2d0331103cae591898d8a9332fd49df0d142795"
+        },
+        "mols.tar": {
+          "bytes": 1855662080,
+          "sha256": "39e076d96dbec6b4e86982bbda16f3a53a2a60c9bdc17828d88f6f9a0c7d1fd7"
+        }
+      },
+      "archivos_pequenos_sin_hash": 45222,
+      "bytes_totales": 8025061538
+    },
+    "chai": {
+      "archivos_grandes": {
+        "conformers_v1.apkl": {
+          "bytes": 124726115,
+          "sha256": "f2161256b565bbd84198da8b3e3d3978ae2f179f778d0995cd135c4c0c57c41f"
+        }
+      },
+      "archivos_pequenos_sin_hash": 1,
+      "bytes_totales": 124726115
+    },
+    "torch_hub": {
+      "archivos_grandes": {},
+      "archivos_pequenos_sin_hash": 1,
+      "bytes_totales": 51776
+    }
+  },
+  "fin": "2026-11-15T00:03:07+00:00",
+  "sha256_analisis_plddt": "9020fc1df331b1d290d17daeb3d1a3686db11c09e573263d16bd5dd2bff75533",
+  "sha256_ejecutar_chai": "1f52ddd864af55cdcfea35cc7350bd45b4cade1313a3714ec2d77c44bb38ad07"
+}

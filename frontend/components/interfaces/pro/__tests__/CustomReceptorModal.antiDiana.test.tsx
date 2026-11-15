@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { CustomReceptorModal } from "../CustomReceptorModal";
 
 const upload = vi.hoisted(() => vi.fn());
-vi.mock("@/lib/api", () => ({ uploadCustomTarget: upload }));
+vi.mock("@/lib/api", () => ({ uploadCustomTarget: upload, inspeccionarReceptor: vi.fn().mockResolvedValue(null) }));
 vi.mock("@/context/LanguageContext", () => ({ useLanguage: () => ({ t: (key: string) => key }) }));
 beforeEach(() => { upload.mockReset(); upload.mockResolvedValue({}); });
 

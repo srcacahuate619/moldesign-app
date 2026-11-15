@@ -1,0 +1,68 @@
+{
+  "prolif": "2.1.0",
+  "n_cristales_positivos": 5,
+  "positivos_detectados": 3,
+  "n_pares_control_negativo": 9,
+  "falsos_positivos": 0,
+  "decision": "NO_GO",
+  "con_pares_ion_pose": 35,
+  "con_geometrica": 20,
+  "con_ProLIF": 15,
+  "discordantes_con": [
+    {
+      "pdb": "1BN1",
+      "brazo": "CON",
+      "semilla": 42,
+      "metal": "ZN",
+      "id": "A:262",
+      "cristal_coordina": true,
+      "hits": [],
+      "distancia_NOS_A": 2.46875474683088,
+      "aviso_NOS": true
+    },
+    {
+      "pdb": "1BN1",
+      "brazo": "CON",
+      "semilla": 43,
+      "metal": "ZN",
+      "id": "A:262",
+      "cristal_coordina": true,
+      "hits": [],
+      "distancia_NOS_A": 2.301277254048282,
+      "aviso_NOS": true
+    },
+    {
+      "pdb": "1BN1",
+      "brazo": "CON",
+      "semilla": 44,
+      "metal": "ZN",
+      "id": "A:262",
+      "cristal_coordina": true,
+      "hits": [],
+      "distancia_NOS_A": 2.30558539204255,
+      "aviso_NOS": true
+    },
+    {
+      "pdb": "1BN1",
+      "brazo": "CON",
+      "semilla": 45,
+      "metal": "ZN",
+      "id": "A:262",
+      "cristal_coordina": true,
+      "hits": [],
+      "distancia_NOS_A": 2.312358536213621,
+      "aviso_NOS": true
+    },
+    {
+      "pdb": "1BN1",
+      "brazo": "CON",
+      "semilla": 46,
+      "metal": "ZN",
+      "id": "A:262",
+      "cristal_coordina": true,
+      "hits": [],
+      "distancia_NOS_A": 2.3009000412881915,
+      "aviso_NOS": true
+    }
+  ]
+}

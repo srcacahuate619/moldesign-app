@@ -5,7 +5,7 @@ MET-01 (2026-10-11) la evaluación descartaba esa lista y acoplaba sin el metal,
 esas corridas describía un receptor que no se usó. La corrida registra su lista en
 `execution_provenance.receptor_prep.cofactors_whitelist`.
 
-SCI-A-068: una lista vacía registrada es una decisión («ninguno conservado») y se imprimía
+SCI-A-068: una lista vacía registrada es una decisión («lista declarada: vacía») y se imprimía
 «sin whitelist registrada», lo mismo que cuando la corrida no registró nada. Cuando la lista
 sale de la diana, se dice.
 """
@@ -31,11 +31,11 @@ def _caso(registrada=None, declarada=("ZN",), registra=True):
 def test_la_corrida_que_no_conservo_el_metal_no_lo_nombra_y_dice_que_registro_vacia():
     nota = _nota_de_cofactores(*_caso(registrada=[]))
     assert "ZN" not in nota
-    assert nota == "ninguno conservado (la corrida registró una lista vacía)"
+    assert nota == "lista declarada: vacía (la corrida registró una lista vacía)"
 
 
 def test_la_corrida_que_lo_conservo_lo_nombra():
-    assert _nota_de_cofactores(*_caso(registrada=["ZN"])) == "ZN"
+    assert _nota_de_cofactores(*_caso(registrada=["ZN"])) == "lista declarada: ZN"
 
 
 def test_sin_lista_registrada_se_usa_la_de_la_diana_y_se_dice():
@@ -55,7 +55,7 @@ def test_vacia_y_ausente_ya_no_dicen_lo_mismo():
 
 
 @pytest.mark.parametrize("caso, esperado", [
-    (dict(registrada=[]), "none kept (the run recorded an empty list)"),
+    (dict(registrada=[]), "declared list: empty (the run recorded an empty list)"),
     (dict(registra=False), "the target's list (the run did not record its own): ZN"),
 ])
 def test_las_notas_tienen_ingles(caso, esperado):

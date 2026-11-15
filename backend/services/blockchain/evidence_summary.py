@@ -221,10 +221,9 @@ def _elementos_de_reconstruccion(eval_result: Any) -> list[tuple[str, bool]]:
 
 #: Lo que se supone de las aguas cuando el receptor salió de la receta del catálogo.
 SUPUESTO_DESOLVATADO = (
-    "Preparación en condición desolvatada: se eliminaron todas las aguas "
-    "cristalográficas del receptor. Si esta diana requiere aguas puente "
-    "conservadas para el reconocimiento molecular, los contactos y las "
-    "afinidades de esta corrida no las incluyen."
+    "La preparación estándar retira todas las aguas cristalográficas del receptor (condición desolvatada); la cuenta de las que "
+    "había en el sitio va aparte. Si esta diana requiere aguas puente conservadas para el reconocimiento molecular, los "
+    "contactos y las afinidades de esta corrida no las incluyen."
 )
 
 #: Lo que se supone cuando el receptor lo preparó quien lo subió (camino B o C).
@@ -572,7 +571,8 @@ def build_evidence_summary(
             "status": "available" if target_readiness == "listo" else "review" if target_readiness == "revisar" else "missing",
             "status_label": "DOCUMENTADA" if target_readiness == "listo" else "REVISAR" if target_readiness == "revisar" else "INSUFICIENTE",
             "detail": (
-                "El inventario registra receptor preparado, grid y referencias estructurales."
+                "El inventario registra receptor preparado, grid y referencias estructurales. "
+                "No incluye la auditoría de Preparación (metales, huecos y aguas)."
                 if target_readiness == "listo"
                 else "El inventario no permite confirmar todos los requisitos de preparación."
             ),
@@ -637,10 +637,11 @@ def build_evidence_summary(
             "id": "model",
             "label": "Dominio del modelo",
             "status": "available" if model_in_domain is True else "review" if model_in_domain is False else "not_evaluated",
-            "status_label": "DENTRO DEL DOMINIO DECLARADO" if model_in_domain is True else "FUERA DEL DOMINIO" if model_in_domain is False else "NO INFORMADO",
+            # B13: el dominio es el del modelo que se usó (universal si la familia no tenía modelo), y se dice.
+            "status_label": "DENTRO DEL DOMINIO DEL MODELO USADO" if model_in_domain is True else "FUERA DEL DOMINIO" if model_in_domain is False else "NO INFORMADO",
             "detail": (
                 f"{model_name}"
-                + (f"; fallback: {fallback_reason_visible}." if fallback_reason_visible else ".")
+                + (f"; fallback: {str(fallback_reason_visible).rstrip('.')}." if fallback_reason_visible else ".")
                 + " El motor de acoplamiento y su version se declaran en la traza de"
                   " reproducibilidad, no aqui: son identidades distintas."
             ),

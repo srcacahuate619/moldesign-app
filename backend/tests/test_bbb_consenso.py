@@ -1,5 +1,6 @@
 """
-El consenso de BBB contra 46 fármacos con veredicto clínico conocido.
+El consenso de BBB contra 47 fármacos con veredicto clínico conocido (41 de
+difusión pasiva y 6 que entran o se excluyen por transportador).
 
 # Por qué esta prueba existe
 
@@ -36,6 +37,14 @@ límite se vea. No cuentan en el umbral de aciertos.
     antes del arreglo del int()   37/41    el modelo valía 0 para toda molécula
     con el modelo vivo, sin más   33/41    ← arreglar el int() empeoraba
     con este consenso             39/41
+
+Desde la capa 2b como conflicto (2026-11-14) el mismo panel da, entre los 41 de
+difusión pasiva, 38 aciertos, 2 errores y 1 abstención (domperidona), y entre los
+6 de transportador, 2 aciertos, 3 errores y 1 abstención (loperamida): 45 de 47 con
+veredicto. Los errores son los mismos de antes; lo que cambia es que dos aciertos
+pasan a abstenciones, porque el panel no distingue el atrapamiento por albúmina
+del eflujo por P-gp, y las dos moléculas son sustratos de P-gp en ensayos de
+transporte.
 """
 
 from __future__ import annotations
@@ -197,8 +206,14 @@ PASIVOS = [f for f in REFERENCIA if f[11] == "pasiva"]
 TRANSPORTADOR = [f for f in REFERENCIA if f[11] == "transportador"]
 
 #: Aciertos exigidos sobre los de difusión pasiva. Es lo medido, no una meta:
-#: baja este número sólo con una medición que lo justifique.
-ACIERTOS_MINIMOS_PASIVA = 39
+#: baja este número sólo con una medición que lo justifique. Eran 39 con la capa 2b
+#: como veto; una abstención no es un acierto, así que domperidona deja de contar.
+ACIERTOS_MINIMOS_PASIVA = 38
+
+#: Los dos fármacos en que la PPB alta con varios anillos aromáticos contradice un
+#: positivo del modelo: el consenso se abstiene. Ambos son sustratos de P-gp en
+#: ensayos de transporte, y el fixture rotula a la domperidona como `pasiva`.
+ABSTENCIONES_CONOCIDAS = {"domperidona", "loperamida"}
 
 #: Los dos que este consenso falla, nombrados. Son bases polares cuyo pKa real
 #: está lejos del representativo de clase que `ionizacion.py` les asigna. Se
@@ -230,8 +245,28 @@ def test_acierta_al_menos_lo_medido_en_difusion_pasiva():
     fallos = [f[0] for f in PASIVOS if _decidir(f).permeable != f[10]]
     assert aciertos >= ACIERTOS_MINIMOS_PASIVA, (
         f"{aciertos}/{len(PASIVOS)} aciertos, por debajo de "
-        f"{ACIERTOS_MINIMOS_PASIVA}. Fallan: {fallos}"
+        f"{ACIERTOS_MINIMOS_PASIVA}. No aciertan: {fallos}"
     )
+
+
+def test_las_abstenciones_del_panel_son_exactamente_las_declaradas():
+    """Una abstención no es un acierto ni un error: se cuenta aparte y se nombra."""
+    abstenciones = {f[0] for f in REFERENCIA if _decidir(f).permeable is None}
+
+    assert abstenciones == ABSTENCIONES_CONOCIDAS, (
+        f"sobran {abstenciones - ABSTENCIONES_CONOCIDAS}, faltan {ABSTENCIONES_CONOCIDAS - abstenciones}"
+    )
+
+
+def test_cobertura_y_resultado_del_panel_de_47():
+    """45 de 47 con veredicto: 40 aciertos, 5 errores y 2 abstenciones. Es la cifra que publica la interfaz."""
+    veredictos = [(f, _decidir(f).permeable) for f in REFERENCIA]
+    con_veredicto = [(f, v) for f, v in veredictos if v is not None]
+
+    assert len(REFERENCIA) == 47
+    assert len(con_veredicto) == 45
+    assert sum(1 for f, v in con_veredicto if v == f[10]) == 40
+    assert sum(1 for f, v in con_veredicto if v != f[10]) == 5
 
 
 def test_no_pierde_ningun_farmaco_del_snc_por_difusion_pasiva():
@@ -251,7 +286,10 @@ def test_los_falsos_positivos_son_exactamente_los_declarados():
 
 def test_el_limite_del_transporte_activo_esta_declarado():
     """Lo que no puede acertar se enseña, no se cura fuera del conjunto."""
-    fallados = {f[0] for f in TRANSPORTADOR if _decidir(f).permeable != f[10]}
+    fallados = {
+        f[0] for f in TRANSPORTADOR
+        if _decidir(f).permeable is not None and _decidir(f).permeable != f[10]
+    }
     assert fallados == TRANSPORTE_ACTIVO_CONOCIDO, (
         f"cambió el conjunto de casos de transportador que se fallan: {fallados}"
     )

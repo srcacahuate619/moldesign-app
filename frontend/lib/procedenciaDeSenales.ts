@@ -20,6 +20,8 @@
 //
 // La regla, en una frase: **«sin salida serializada» sólo cuando no hay valor.**
 
+import type { DockingProtocol } from "./types";
+
 /** Lo que el backend serializó para una etapa, si serializó algo. */
 export type SenalReal = { value?: string; weight?: number; sub?: string };
 
@@ -29,13 +31,15 @@ export function protocoloRegistrado(real: Parameters<typeof pesosRegistrados>[0]
   m5_protocol_id?: string | null;
   m5_score?: number | null;
   m5_scientific_status?: string | null;
-}): "M4" | "M5-Zn" | null {
+  docking_protocol?: DockingProtocol | null;
+}): "M4" | "M5-Zn" | "ESMFold + Vina" | null {
   const estadosConCalculo = ["VALIDATED", "REVIEW_INVALID_BENCHMARK_SITE",
     "REVIEW_BENCHMARK_PROVENANCE_INCOMPLETE", "REVIEW_BENCHMARK_TOP1_NOT_METAL_COORDINATING"];
   if (real.m5_protocol_id?.trim() && typeof real.m5_score === "number"
     && Number.isFinite(real.m5_score) && estadosConCalculo.includes(real.m5_scientific_status ?? "")) {
     return "M5-Zn";
   }
+  if (real.docking_protocol?.engine === "esmfold") return "ESMFold + Vina";
   return pesosRegistrados(real).source !== "missing" || real.weights_calibration_id?.trim() ? "M4" : null;
 }
 

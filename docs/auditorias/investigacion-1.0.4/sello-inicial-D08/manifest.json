@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "experiment_id": "DEC-104-D08",
+  "hypothesis": "Los candidatos anionicos cubren los positivos sin activar controles",
+  "protocol": "docs/auditorias/investigacion-1.0.4/PROTOCOLO.md",
+  "created_at": "2026-11-15T04:06:38.849170+00:00",
+  "status": "finished",
+  "git_state": {
+    "branch": "codex/release-hygiene",
+    "commit": "f0c64ee099f14667b12f8ae1b68d32750307b0e1",
+    "dirty": true
+  },
+  "environment": {
+    "os": "Windows",
+    "arch": "AMD64",
+    "cpu_count": 12,
+    "total_ram_mb": 32659,
+    "gpu": "NVIDIA GeForce GTX 1660 SUPER"
+  },
+  "seeds": 42,
+  "dependencies": {
+    "python_version": "3.11.9",
+    "packages": []
+  },
+  "gate": {
+    "description": "12 de 12 positivos, 12 de 12 negativos y orden M4 independiente de UMS"
+  },
+  "decision": "GO",
+  "dataset_hashes": {
+    "docs/auditorias/investigacion-1.0.4/PROTOCOLO.md": "ae84377d3fa1a315d01d482f6ca9cf2ba83f2590b6e4742a9418d3839e0292e2"
+  },
+  "assets_hashes": {
+    "docs/auditorias/investigacion-1.0.4/medir_d08.py": "e6e333a3a64d539426dfab71383adb84e6f072990ef344fa5a8219286a77e9f9",
+    "backend/scoring/ums.py": "0082e9e344bf045f87c3c6d47a40ef820c812b676820ad5906507dc441334711",
+    "backend/scoring/engine.py": "c05158c6da5826b1b5cb9a95f6d18e3728d71cd8be6bebf2cef5330d8cf51c00",
+    "backend/services/pipeline/protocols/m5/zinc.py": "f2c08736ef86da0b3031497dda37c21bd5b09788aed87794ec24337a3dda2706"
+  },
+  "sealed": true,
+  "sealed_at": "2026-11-15T04:06:39.827047+00:00",
+  "decision_rationale": "Control dirigido: 12/12 positivos y 12/12 negativos. En M4 ums_finite alimenta diagnostico y serializacion; no interviene en el indice.",
+  "finished_at": "2026-11-15T04:07:21.955146+00:00"
+}

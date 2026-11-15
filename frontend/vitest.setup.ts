@@ -153,3 +153,19 @@ afterEach(() => {
   // Restablece entorno Tauri a no-Tauri (default jsdom).
   setTauriEnv(false);
 });
+
+// jsdom no implementa <dialog>.showModal()/close(); los diálogos de la interfaz
+// (sello «Verificado», etiqueta «Sitio», …) los usan al abrirse.
+if (typeof HTMLDialogElement !== "undefined") {
+  if (!HTMLDialogElement.prototype.showModal) {
+    HTMLDialogElement.prototype.showModal = function showModal(this: HTMLDialogElement) {
+      this.setAttribute("open", "");
+    };
+  }
+  if (!HTMLDialogElement.prototype.close) {
+    HTMLDialogElement.prototype.close = function close(this: HTMLDialogElement) {
+      this.removeAttribute("open");
+      this.dispatchEvent(new Event("close"));
+    };
+  }
+}

@@ -54,6 +54,7 @@ export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps
       return;
     }
 
+    let desplazamiento: { dx: number; dy: number } | null = null;
     const recolocar = () => {
       const boton = botonRef.current;
       const panel = panelRef.current;
@@ -77,15 +78,26 @@ export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps
         top = Math.max(margen, Math.min(top, maxTop));
       }
 
+      // Distancia del panel al botón al abrir: es lo que se mantiene al scrollear.
+      desplazamiento = { dx: left - rectBoton.left, dy: top - rectBoton.top };
       setPosicion({ top, left });
     };
 
+    // Clavado al contenido: se coloca UNA vez al abrir (ajustado a la pantalla)
+    // y después sólo acompaña al botón con esa distancia fija. No se vuelve a
+    // ajustar ni se recalcula con el tamaño de la ventana.
     recolocar();
-    window.addEventListener("resize", recolocar);
-    document.addEventListener("scroll", recolocar, true);
+    const alHacerScroll = (evento: Event) => {
+      const origen = evento.target as Node | null;
+      if (origen && panelRef.current?.contains(origen)) return;
+      const boton = botonRef.current;
+      if (!boton || !desplazamiento) return;
+      const r = boton.getBoundingClientRect();
+      setPosicion({ top: r.top + desplazamiento.dy, left: r.left + desplazamiento.dx });
+    };
+    document.addEventListener("scroll", alHacerScroll, true);
     return () => {
-      window.removeEventListener("resize", recolocar);
-      document.removeEventListener("scroll", recolocar, true);
+      document.removeEventListener("scroll", alHacerScroll, true);
     };
   }, [abierto]);
 
@@ -139,7 +151,7 @@ export function Ayuda({ titulo, children, etiqueta, className = "" }: AyudaProps
             left: posicion?.left ?? 0,
             visibility: posicion ? "visible" : "hidden",
           }}
-          className="fixed z-[120] max-h-[calc(100dvh-24px)] w-[min(22rem,calc(100vw-24px))] overflow-y-auto rounded-lg border border-surface-700 bg-surface-900 p-3 shadow-xl"
+          className="fixed z-[120] max-h-[calc(100dvh-24px)] w-[min(32rem,calc(100vw-24px))] overflow-y-auto overscroll-contain rounded-lg border border-surface-700 bg-surface-900 p-3 shadow-xl"
         >
           <div className="flex items-start justify-between gap-2">
             <p className="font-sans text-sm font-bold uppercase tracking-wider text-zinc-400">

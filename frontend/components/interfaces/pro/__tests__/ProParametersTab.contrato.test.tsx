@@ -21,7 +21,8 @@ function row(label: string) { return screen.getByText(label).parentElement!; }
 describe("el contrato de propiedades conserva valores y ausencias", () => {
   it.each([2.3, 0])("lee la clave canónica de LLE: %s", (value) => {
     render(<ProParametersTab result={{ ...base, ligand_lipophilicity_efficiency: value }} />);
-    expect(row("LLE")).toHaveTextContent(value.toFixed(2));
+    // La LLE se define con pKi/pIC50 medidos; aquí sale de la afinidad de Vina (auditoría 1.0.4, S1-3.4).
+    expect(row("LLE aparente (proxy de Vina)")).toHaveTextContent(value.toFixed(2));
   });
 
   it("null en filtros y PAINS no se representa como fallo ni aprobado", () => {

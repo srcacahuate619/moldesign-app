@@ -134,6 +134,96 @@ class TestJuntoAlResultado:
         assert "estado_de_calibracion" in fuente
 
 
+# Un receptor sin familia ni preparación: la calibración que una corrida pudo congelar al terminar.
+SIN_CURAR = SimpleNamespace(
+    pdb_id="ZZZZ", name="Hoy", structural_family=None, spearman_rho=None, is_prepared=False,
+    hotspots=[], id="target-2", is_private=False, is_community=False,
+)
+
+
+class TestElEstadoConservaLaCalibracionDeLaCorrida:
+    """`GET /evaluation/status` no puede decir hoy lo que la corrida no sabía entonces.
+
+    SC-9 congela `target_calibracion` en el snapshot de la corrida (`Repository`, al
+    terminarla). La ruta de estado la volvía a calcular con el receptor de HOY y pisaba la
+    guardada: una corrida de un receptor promovido o degradado después se explicaba con el
+    respaldo nuevo. `/evaluation/result?task_id=` ya respetaba el snapshot.
+    """
+
+    @staticmethod
+    def _corrida(**extra):
+        from tests.test_report_contract import _canonical_result_payload
+
+        payload = _canonical_result_payload()
+        payload.pop("target_calibracion", None)
+        payload.update(extra)
+        return SimpleNamespace(snapshot_json=payload, status="SUCCESS", task_id="run-A")
+
+    def test_la_calibracion_guardada_por_la_corrida_gana_sobre_la_de_hoy(self):
+        from services.docking.desktop_job_status import _serialize_run_snapshot
+
+        guardada = estado_de_calibracion(SIN_CURAR).to_dict()
+        hoy = estado_de_calibracion(SIN_CALIBRAR).to_dict()
+        # Control: las dos calibraciones difieren, o la prueba no distinguiría nada.
+        assert guardada["nivel"] != hoy["nivel"]
+
+        resultado = _serialize_run_snapshot(
+            self._corrida(target_calibracion=guardada), SimpleNamespace(target=SIN_CALIBRAR)
+        )
+
+        assert resultado.target_calibracion == guardada
+        assert resultado.target_calibracion != hoy
+
+    def test_una_corrida_sin_calibracion_guardada_conserva_la_advertencia_de_hoy(self):
+        from services.docking.desktop_job_status import _serialize_run_snapshot
+
+        resultado = _serialize_run_snapshot(self._corrida(), SimpleNamespace(target=SIN_CALIBRAR))
+
+        # Las corridas anteriores al congelado no pierden la advertencia (sería peor que repetirla).
+        assert resultado.target_calibracion == estado_de_calibracion(SIN_CALIBRAR).to_dict()
+        assert resultado.target_calibracion["requiere_advertencia"] is True
+
+    @pytest.mark.asyncio
+    async def test_el_servicio_de_estado_entrega_la_calibracion_de_la_corrida(self, monkeypatch):
+        import threading
+        from datetime import UTC, datetime
+        from uuid import uuid4
+
+        from services.docking import desktop_job_status as servicio
+        from utils.cache import LocalRuntimeStore
+
+        guardada = estado_de_calibracion(SIN_CURAR).to_dict()
+        run = self._corrida(target_calibracion=guardada)
+        molecula = SimpleNamespace(target=SIN_CALIBRAR)
+
+        class Contexto:
+            async def __aenter__(self):
+                return object()
+
+            async def __aexit__(self, *args):
+                return False
+
+        class Repositorio:
+            async def get_evaluation_run(self, _task_id, _molecule_id=None):
+                return run
+
+            async def get_molecule(self, _molecule_id):
+                return molecula
+
+        monkeypatch.setattr(servicio, "get_db_session", lambda: Contexto())
+        monkeypatch.setattr(servicio, "Repository", lambda _db: Repositorio())
+        ahora = datetime.now(UTC).isoformat()
+        jobs = {"run-A": {"status": "SUCCESS", "progress": 100, "error": None, "started_at": ahora,
+                          "finished_at": ahora, "result": {"molecule_id": str(uuid4())}}}
+
+        estado = await servicio.get_desktop_job_status(
+            "run-A", jobs=jobs, lock=threading.Lock(), cache=LocalRuntimeStore()
+        )
+
+        assert estado.status == "SUCCESS"
+        assert estado.result.target_calibracion == guardada
+
+
 class TestEnElCatalogo:
     def test_el_receptor_declara_su_respaldo(self):
         from core.models import Target

@@ -35,6 +35,7 @@ from services.targets.errores_subida import (
     error_de_cadena,
 )
 from services.targets.sitio_de_union import anotar_sitio
+from services.targets.titulo_del_deposito import titulo_del_deposito
 from utils.structural import discover_pocket_from_pdb
 from utils.logger import get_logger
 
@@ -187,13 +188,14 @@ async def ingest_new_target(
     if not existing:
         # v1.7: Resolver nombre biológico desde el HEADER/TITLE del PDB
         _target_name = pdb_id
-        if pdb_content and isinstance(pdb_content, str):
+        # Caza 1, A04: el título entero (con sus líneas de continuación), no sólo la primera.
+        _titulo = titulo_del_deposito(pdb_content) if isinstance(pdb_content, str) else None
+        if _titulo:
+            _target_name = _titulo
+        elif pdb_content and isinstance(pdb_content, str):
             for line in pdb_content.split("\n"):
                 stripped = line.strip()
-                if stripped.startswith("TITLE "):
-                    _target_name = stripped[6:80].strip().rstrip(".").strip().strip('"').strip("'")
-                    break
-                elif stripped.startswith("HEADER") and _target_name == pdb_id:
+                if stripped.startswith("HEADER") and _target_name == pdb_id:
                     comp = stripped[10:50].strip().split()
                     if comp:
                         _target_name = comp[0]
@@ -307,10 +309,17 @@ async def ingest_custom_target(
     origen_filename: str | None = None,
     modo_preparacion: str | None = None,
     site_ligand: str | None = None,
+    fuente_declarada: str | None = None,
+    herramienta_declarada: str | None = None,
+    prediccion_heredada: dict | None = None,
 ) -> dict:
     """
     Ingesta un target subido manualmente por el usuario.
     `site_ligand` es el ligando del cristal que la preparación retira; lo pasa una variante, heredado de su padre.
+    `fuente_declarada` y `herramienta_declarada` son lo que dijo quien lo subió de un archivo que no dice de dónde
+    viene (un PDB sin cabecera, como el de Boltz); ver `prediccion.analizar`.
+    `prediccion_heredada` (``{"prediccion", "plddt_residuos", "de"}``) la pasa una variante: su archivo es el PDB ya
+    convertido del padre, que perdió la cabecera y las tablas ModelCIF del original, así que no se vuelve a analizar.
     Si is_curated=True, asume que es un archivo .pdbqt listo.
     Si is_curated=False, asume que es un .pdb y lo cura.
     """
@@ -385,6 +394,7 @@ async def ingest_custom_target(
             preparation_parent_id=preparation_parent_id, preparation_recipe=preparation_recipe,
             organism=extracted_organism, resolution=extracted_resolution,
             preparation_provenance=_preparation_provenance,
+            fuente_declarada=fuente_declarada, herramienta_declarada=herramienta_declarada,
         )
     else:
         if archivo.formato == FORMATO_PDBQT:
@@ -493,12 +503,19 @@ async def ingest_custom_target(
             entrada["pqr"] = informe_pqr
         if normalizacion:
             entrada["normalizacion"] = normalizacion
-        # ¿Es una predicción? Lo dice el propio archivo; la confianza (pLDDT) sólo se lee con una convención
-        # verificada en un archivo real de esa fuente (ver `prediccion.py`).
-        prediccion, plddt = analizar_prediccion(
-            archivo.formato, archivo.texto, pdb_text,
-            {c["original"]: c["pdb"] for c in conversion.informe["cadenas"]} if conversion is not None else None,
-        )
+        # ¿Es una predicción? Lo dice el propio archivo o, si calla, quien lo subió; la confianza (pLDDT) sólo se lee
+        # con una convención comprobada en un archivo real de esa fuente (ver `prediccion.py`).
+        if prediccion_heredada is not None:
+            # Una variante: los mismos residuos que su padre, así que valen su análisis y su pLDDT por residuo; el
+            # sitio se mide después con la caja de la variante.
+            prediccion = {**prediccion_heredada["prediccion"], "heredada_de": prediccion_heredada.get("de")}
+            plddt = prediccion_heredada.get("plddt_residuos")
+        else:
+            prediccion, plddt = analizar_prediccion(
+                archivo.formato, archivo.texto, pdb_text,
+                {c["original"]: c["pdb"] for c in conversion.informe["cadenas"]} if conversion is not None else None,
+                fuente_declarada=fuente_declarada, herramienta_declarada=herramienta_declarada,
+            )
         await perfil_receptor.guardar(pdb_id, {
             "pdb_id": pdb_id, "modo": modo, "camino": "B" if respetar else "A",
             "entrada": entrada, "prediccion": prediccion,

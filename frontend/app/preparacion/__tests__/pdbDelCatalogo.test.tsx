@@ -41,7 +41,7 @@ describe("Preparación: identidad del receptor del sello", () => {
     } as unknown as AuditoriaPreparacion);
     render(<PreparacionPage />);
     fireEvent.change(await screen.findByRole("combobox"), { target: { value: "case" } });
-    expect(await screen.findByText("Verificado")).toBeVisible();
+    fireEvent.click(await screen.findByRole("button", { name: "Verificado" }));
     expect(screen.getByText(/ρ = 0.41.*n = 57/)).toBeVisible();
     expect(screen.getByText(/Medido con exhaustividad 8, 9 poses y semilla 42/)).toBeVisible();
     expect(screen.getByRole("heading", { name: "Bloqueado" })).toBeVisible();

@@ -49,7 +49,7 @@ def test_moldex_localizes_both_warning_shapes_without_changing_smiles():
     assert "-5.9 kcal/mol" in result[0]
     assert result[1]["mensaje"] == (
         "The docked species differs from the input: CC(=O)Oc1ccccc1C(=O)O → "
-        "CC(=O)Oc1ccccc1C(=O)[O-]. Unevaluated alternatives remain a source of chemical uncertainty.")
+        "CC(=O)Oc1ccccc1C(=O)[O-] (net charge -1). Unevaluated alternatives remain a source of chemical uncertainty.")
     assert warnings[0].startswith("Eficiencia de ligando")
 
 

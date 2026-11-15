@@ -3,7 +3,7 @@
 
 import { Translated, useLanguage } from "@/context/LanguageContext";
 import { memo, useEffect, useRef, useState } from "react";
-import { liberarVisor3D } from "../lib/visor3d";
+import { liberarVisor3D, pdbDelBolsillo, pintarVisor3D } from "../lib/visor3d";
 import { comprobarWebGL, type EstadoWebGL } from "../lib/webgl";
 
 type Props = {
@@ -15,6 +15,31 @@ type Props = {
   hideLegend?: boolean;
   mobileTopOffset?: boolean;
   pocketFocus?: boolean;
+  /**
+   * Un segundo ligando en la MISMA escena, para superponerlo al primero. Sus coordenadas se dibujan tal cual, sin
+   * alinear nada: sólo tiene sentido si las dos poses se calcularon contra el mismo receptor preparado, y eso lo
+   * comprueba quien lo pide (el visor no sabe de dónde viene cada archivo).
+   */
+  overlayPoseData?: string;
+  /** Ocultar un ligando cambia su estilo, no recarga la escena: la cámara se queda donde el usuario la dejó. */
+  showPrimaryLigand?: boolean;
+  showOverlayLigand?: boolean;
+  /**
+   * Qué átomos de cada ligando son del núcleo común con el otro (índice del registro SDF, desde 0, hidrógenos
+   * incluidos; es el `index` que 3Dmol da a los átomos de ese modelo). Con ellos el núcleo se dibuja fino y tenue y lo
+   * que cambia —los sustituyentes— grueso y a todo color. Sin la lista, el ligando se dibuja como siempre.
+   */
+  primaryCoreAtoms?: readonly number[];
+  overlayCoreAtoms?: readonly number[];
+  /** Segmentos punteados ya calculados (contactos de una pose con el receptor) que quien llama quiere ver. */
+  contactLines?: readonly LineaDeContacto[];
+};
+
+/** Un segmento entre un átomo del ligando y uno del receptor, en el marco del receptor dibujado. */
+export type LineaDeContacto = {
+  readonly start: { readonly x: number; readonly y: number; readonly z: number };
+  readonly end: { readonly x: number; readonly y: number; readonly z: number };
+  readonly color: string;
 };
 
 type ViewMode = "standard" | "surface" | "charges";
@@ -22,6 +47,9 @@ type ViewMode = "standard" | "surface" | "charges";
 type ContactGeometry = {
   proteinData?: string;
   poseData?: string;
+  /** Con qué ligandos se calculó: el segundo y cuáles estaban visibles. Cambiar cualquiera obliga a recalcular. */
+  overlayPoseData?: string;
+  ligands?: string;
   protAtoms: any[];
   pocketResis: Set<string>;
   pocketSelArray: Array<{ chain: string; resi: number }>;
@@ -30,7 +58,14 @@ type ContactGeometry = {
 };
 
 /** Índice espacial de 5 Å: sólo se inspeccionan átomos del ligando cercanos. */
-function calculateContactGeometry(protAtoms: any[], ligAtoms: any[], proteinData?: string, poseData?: string): ContactGeometry {
+function calculateContactGeometry(
+  protAtoms: any[],
+  ligAtoms: any[],
+  proteinData?: string,
+  poseData?: string,
+  overlayPoseData?: string,
+  ligands?: string,
+): ContactGeometry {
   const pocketResis = new Set<string>();
   const pocketSelArray: Array<{ chain: string; resi: number }> = [];
   const polarProximities: Array<{ p: any; l: any; dist2: number }> = [];
@@ -72,15 +107,59 @@ function calculateContactGeometry(protAtoms: any[], ligAtoms: any[], proteinData
     }
   }
   polarProximities.sort((a, b) => a.dist2 - b.dist2);
-  return { proteinData, poseData, protAtoms, pocketResis, pocketSelArray, polarProximities, nearestAtomByResidue };
+  return { proteinData, poseData, overlayPoseData, ligands, protAtoms, pocketResis, pocketSelArray, polarProximities, nearestAtomByResidue };
 }
 
-export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, proteinData, height = 450, hotspots = [], hotspotsHit = [], hideLegend = false, mobileTopOffset = false, pocketFocus = false }: Props) {
+/**
+ * Lo que el visor tiene cargado. Con la misma proteína, cambiar de pose reemplaza sólo los modelos de ligando
+ * (`reemplazable`); si 3Dmol no devolvió los modelos no se pueden quitar uno a uno y el siguiente cambio recarga todo.
+ */
+type Escena = {
+  proteinData?: string;
+  hasProtein: boolean;
+  hasLigand: boolean;
+  ligando: any | null;
+  superpuesto: any | null;
+  /**
+   * Los residuos a 5 Å del ligando, como un modelo pequeño con su propia clave. Es siempre el ÚLTIMO modelo de la
+   * lista: se quita el primero al cambiar de pose y 3Dmol recorta sólo el final, así que los ids de los demás no se
+   * mueven. `modelo` es null si 3Dmol no lo devolvió y no se puede quitar.
+   */
+  bolsillo: { modelo: any | null; clave: string } | null;
+  reemplazable: boolean;
+};
+
+/** Una lista vacía que no cambia entre renders: con `= []` cada render traía una nueva y los efectos se rehacían. */
+const SIN_HOTSPOTS: string[] = [];
+
+/** ¿Hay un registro SDF que dibujar? Mismo umbral que el resto del visor. */
+const hayDatos = (datos?: string) => !!datos && datos.trim().length > 10;
+
+export const MoleculeViewer3D = memo(function MoleculeViewer3D({
+  poseData,
+  proteinData,
+  height = 450,
+  hotspots = SIN_HOTSPOTS,
+  hotspotsHit = SIN_HOTSPOTS,
+  hideLegend = false,
+  mobileTopOffset = false,
+  pocketFocus = false,
+  overlayPoseData,
+  showPrimaryLigand = true,
+  showOverlayLigand = true,
+  primaryCoreAtoms,
+  overlayCoreAtoms,
+  contactLines,
+}: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
   const viewerRef    = useRef<any>(null);
   const geometryRef = useRef<ContactGeometry | null>(null);
   const fitCameraRef = useRef(false);
+  // Qué hay cargado en el visor y qué estilo tiene la proteína: de eso depende que cambiar de pose sea cambiar el
+  // ligando y no volver a construir el receptor entero.
+  const escenaRef = useRef<Escena | null>(null);
+  const estiloRef = useRef<{ estilo: string; superficie: string } | null>(null);
 
   const [viewMode, setViewMode] = useState<ViewMode>("standard");
   const [showInteractions, setShowInteractions] = useState(false);
@@ -91,6 +170,12 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
 
   const [isMobile, setIsMobile] = useState(false);
   const [isInteractive, setIsInteractive] = useState(false);
+
+  // El navegador puede quitarle el contexto WebGL a un visor vivo (límite de contextos, reinicio del proceso de GPU).
+  // 3Dmol no lanza: en cada dibujo escribe «could not initialize shader» en la consola. Aquí se detecta, se deja de
+  // dibujar y se ofrece reabrir la vista; `reinicio` fuerza al efecto de carga a crear un visor nuevo.
+  const [contextoPerdido, setContextoPerdido] = useState(false);
+  const [reinicio, setReinicio] = useState(0);
 
   // ── Sin aceleración 3D no se crea el visor ─────────────────────────────
   //
@@ -137,6 +222,9 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
     return () => {
       const visor = viewerRef.current;
       viewerRef.current = null;
+      escenaRef.current = null;
+      estiloRef.current = null;
+      geometryRef.current = null;
       liberarVisor3D(contenedor, visor);
     };
   }, []);
@@ -166,7 +254,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
       previousWidth = width;
       previousHeight = height;
       v.resize();
-      v.render();
+      setContextoPerdido(!pintarVisor3D(v));
     };
     // Los paneles de Moldex cambian el ancho disponible sin redimensionar la
     // ventana. ResizeObserver mantiene el canvas nítido en ambos casos.
@@ -187,6 +275,8 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
 
     const hasProtein = !!proteinData && proteinData.trim().length > 10;
     const hasLigand  = !!poseData    && poseData.trim().length    > 10;
+    // Sin el primer ligando no hay a qué superponer: el segundo solo se dibuja junto al primero.
+    const hasOverlay = hasLigand && hayDatos(overlayPoseData);
 
     if (!hasProtein && !hasLigand) {
       setModelsLoaded(false);
@@ -201,7 +291,7 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
       }, 600);
       return () => clearTimeout(t);
     }
-    
+
     loadModels($3d);
 
     function loadModels($3dmol: any) {
@@ -214,64 +304,141 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
           backgroundColor: bgColor,
           antialias: true,
         });
+        escenaRef.current = null;
+        estiloRef.current = null;
       }
       const v = viewerRef.current;
-      v.clear();
-      geometryRef.current = null;
-      fitCameraRef.current = true;
+      const escena = escenaRef.current;
+      const poseUno = hasLigand ? poseData!.split('$$$$')[0] + '\n$$$$\n' : null;
+      const poseDos = hasOverlay ? overlayPoseData!.split('$$$$')[0] + '\n$$$$\n' : null;
 
-      if (hasProtein) {
-        v.addModel(proteinData, "pdb");
+      // CAMBIAR DE POSE NO ES VOLVER A CONSTRUIR EL RECEPTOR. Con la misma proteína sólo se reemplazan los modelos de
+      // ligando: no se vuelve a leer la proteína, ni se descarta su geometría en la GPU, ni se mueve la cámara (quien
+      // compara poses las quiere ver desde el mismo sitio). Antes, cada cambio hacía `clear()` + `addModel(proteína)`
+      // + el estilo entero + reencuadrar.
+      //
+      // 3Dmol numera cada modelo nuevo con el largo de su lista y, al quitar uno, recorta sólo el final: quitar primero
+      // el segundo ligando y luego el primero y volver a añadirlos en ese orden deja siempre 0 = proteína, 1 = ligando,
+      // 2 = segundo ligando, que es lo que el efecto de estilos da por hecho.
+      if (
+        escena && escena.reemplazable && hasProtein && escena.hasProtein &&
+        escena.proteinData === proteinData && typeof v.removeModel === "function" &&
+        (!escena.bolsillo || !!escena.bolsillo.modelo)
+      ) {
+        // El bolsillo es el último modelo: fuera primero. El efecto de estilos lo vuelve a levantar para la pose nueva.
+        if (escena.bolsillo?.modelo) v.removeModel(escena.bolsillo.modelo);
+        if (escena.superpuesto) v.removeModel(escena.superpuesto);
+        if (escena.ligando) v.removeModel(escena.ligando);
+        const ligando = poseUno ? v.addModel(poseUno, "sdf") : null;
+        const superpuesto = poseDos ? v.addModel(poseDos, "sdf") : null;
+        escenaRef.current = {
+          ...escena,
+          hasLigand,
+          ligando,
+          superpuesto,
+          bolsillo: null,
+          reemplazable: (!poseUno || !!ligando) && (!poseDos || !!superpuesto),
+        };
+        // Sin ligando previo no había a dónde mirar: ahora sí.
+        if (!escena.hasLigand && hasLigand) fitCameraRef.current = true;
+      } else {
+        v.clear();
+        geometryRef.current = null;
+        estiloRef.current = null;
+        fitCameraRef.current = true;
+
+        if (hasProtein) {
+          v.addModel(proteinData, "pdb");
+        }
+        const ligando = poseUno ? v.addModel(poseUno, "sdf") : null;
+        const superpuesto = poseDos ? v.addModel(poseDos, "sdf") : null;
+        escenaRef.current = {
+          proteinData,
+          hasProtein,
+          hasLigand,
+          ligando,
+          superpuesto,
+          bolsillo: null,
+          reemplazable: (!poseUno || !!ligando) && (!poseDos || !!superpuesto),
+        };
       }
 
-      if (hasLigand) {
-        const singlePoseData = poseData!.split('$$$$')[0] + '\n$$$$\n';
-        v.addModel(singlePoseData, "sdf");
-      }
-      
       setModelsLoaded(true);
     }
-  }, [poseData, proteinData, estadoWebGL]);
+  }, [poseData, proteinData, overlayPoseData, estadoWebGL, reinicio]);
 
   useEffect(() => {
     if (!modelsLoaded || !viewerRef.current) return;
     const v = viewerRef.current;
     const $3d = window.$3Dmol;
-    
+
     const hasProtein = !!proteinData && proteinData.trim().length > 10;
     const hasLigand  = !!poseData    && poseData.trim().length    > 10;
     const ligIdx = hasProtein ? 1 : 0;
+    const hasOverlay = hasLigand && hayDatos(overlayPoseData);
+    // Con dos ligandos, el segundo se carga justo detrás del primero.
+    const overlayIdx = ligIdx + 1;
 
-    v.removeAllSurfaces();
+    // Las formas (contactos pedidos y líneas polares) son baratas y dependen de la pose: se rehacen siempre.
     v.removeAllShapes();
 
-    if (hasProtein) {
-      v.setStyle({ model: 0 }, { cartoon: { color: "spectrum", opacity: 0.50, thickness: 0.30 } });
-    }
-    if (hasLigand) {
-      v.setStyle({ model: ligIdx }, { stick: { colorscheme: "greenCarbon", radius: 0.22 } });
-    }
-
+    // ── 1. Geometría de contactos: se mide contra los ligandos que se ven y se reutiliza mientras no cambie nada de eso.
+    let geometry: ContactGeometry | null = null;
     if (hasProtein && hasLigand) {
       const m0 = v.getModel(0);
       const m1 = v.getModel(ligIdx);
       if (m0 && m1) {
-        const resisWithLines = new Set<string>();
-        let geometry = geometryRef.current;
-        if (!geometry || geometry.proteinData !== proteinData || geometry.poseData !== poseData) {
-          geometry = calculateContactGeometry(m0.selectedAtoms({}), m1.selectedAtoms({}), proteinData, poseData);
+        const ligands = `${showPrimaryLigand ? 1 : 0}${hasOverlay && showOverlayLigand ? 1 : 0}`;
+        const overlayKey = hasOverlay ? overlayPoseData : undefined;
+        geometry = geometryRef.current;
+        if (
+          !geometry ||
+          geometry.proteinData !== proteinData ||
+          geometry.poseData !== poseData ||
+          geometry.overlayPoseData !== overlayKey ||
+          geometry.ligands !== ligands
+        ) {
+          let ligAtoms: any[] = showPrimaryLigand ? m1.selectedAtoms({}) : [];
+          if (hasOverlay && showOverlayLigand) {
+            const m2 = v.getModel(overlayIdx);
+            if (m2) ligAtoms = ligAtoms.concat(m2.selectedAtoms({}));
+          }
+          geometry = calculateContactGeometry(m0.selectedAtoms({}), ligAtoms, proteinData, poseData, overlayKey, ligands);
           geometryRef.current = geometry;
         }
-        
-        // Distancia entre heteroátomos; no se infiere puente H ni energía.
-        geometry.polarProximities.slice(0, 5).forEach(({ p, l }) => {
-            resisWithLines.add(`${p.chain}:${p.resn}${p.resi}`);
-            if (showInteractions) v.addCylinder({ start: l, end: p, radius: 0.05, color: "white", dashed: true });
-          });
+      }
+    }
 
-        geometry.pocketSelArray.forEach(sel => {
-          v.addStyle({ model: 0, ...sel }, { stick: { colorscheme: "lightgreyCarbon", radius: 0.14, opacity: 0.99 } });
-        });
+    // Distancia entre heteroátomos; no se infiere puente H ni energía.
+    const resisWithLines = new Set<string>();
+    const proximidades = geometry ? geometry.polarProximities.slice(0, 5) : [];
+    proximidades.forEach(({ p }) => resisWithLines.add(`${p.chain}:${p.resn}${p.resi}`));
+
+    // ── 2. La proteína sólo se vuelve a estilar cuando algo de SU estilo cambió: los hotspots o, si el visor no puede
+    // quitar modelos, el bolsillo. Estilar un modelo hace que 3Dmol reconstruya su geometría entera, y con el cartoon
+    // de un receptor eso es lo caro (crece con el receptor).
+    const bolsillo = geometry ? geometry.pocketSelArray.map((s) => `${s.chain}${s.resi}`).join(",") : "";
+    // Lo normal: las varillas del bolsillo son un modelo aparte y cambiar de pose no toca la proteína. Un visor sin
+    // `removeModel` (no es el de 3Dmol empaquetado) las pinta como estilo de la proteína, como se hacía antes.
+    const bolsilloComoModelo = typeof v.removeModel === "function";
+    const claveEstilo = [
+      geometry ? 1 : 0,
+      bolsilloComoModelo ? "" : bolsillo,
+      // Los hotspots se colorean según haya o no proximidad polar con su residuo: sin hotspots, eso no es estilo.
+      showHotspots && hotspots.length > 0 ? `${hotspots.join(",")}#${hotspotsHit.join(",")}#${[...resisWithLines].join(",")}` : "-",
+    ].join("|");
+    const usaBolsillo = pocketFocus || isMobile;
+    const claveSuperficie = [viewMode, isMobile ? 1 : 0, pocketFocus ? 1 : 0, geometry ? 1 : 0, usaBolsillo ? bolsillo : ""].join("|");
+    const previo = estiloRef.current;
+
+    if (hasProtein && (!previo || previo.estilo !== claveEstilo)) {
+      v.setStyle({ model: 0 }, { cartoon: { color: "spectrum", opacity: 0.50, thickness: 0.30 } });
+      if (geometry) {
+        if (!bolsilloComoModelo) {
+          geometry.pocketSelArray.forEach(sel => {
+            v.addStyle({ model: 0, ...sel }, { stick: { colorscheme: "lightgreyCarbon", radius: 0.14, opacity: 0.99 } });
+          });
+        }
 
         if (showHotspots) {
           hotspots.forEach(hs => {
@@ -285,8 +452,8 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
               // Un hotspot es un residuo, no una esfera por cada átomo del
               // residuo. Marcar el átomo más próximo a la pose evita la nube
               // de esferas y sitúa el marcador dentro del bolsillo real.
-              const candidates = geometry.protAtoms.filter((p: any) => p.resn === resn && p.resi === resi && (!chain || p.chain === chain));
-              const preferred = candidates.find((p: any) => geometry.nearestAtomByResidue.get(`${p.chain}:${p.resi}`)?.atom === p)
+              const candidates = geometry!.protAtoms.filter((p: any) => p.resn === resn && p.resi === resi && (!chain || p.chain === chain));
+              const preferred = candidates.find((p: any) => geometry!.nearestAtomByResidue.get(`${p.chain}:${p.resi}`)?.atom === p)
                 ?? candidates.find((p: any) => p.atom === "CA")
                 ?? candidates[0];
               if (!preferred?.atom) return;
@@ -300,8 +467,14 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
             }
           });
         }
+      }
+    }
 
-        const surfaceSelector = (pocketFocus || isMobile) && geometry.pocketResis.size > 0
+    // La superficie es otro objeto, no un estilo: sólo se rehace si cambió la vista o, en bolsillo, el bolsillo.
+    if (!previo || previo.superficie !== claveSuperficie) {
+      v.removeAllSurfaces();
+      if (geometry) {
+        const surfaceSelector = usaBolsillo && geometry.pocketResis.size > 0
           ? { model: 0, predicate: (atom: any) => geometry!.pocketResis.has(`${atom.chain}:${atom.resi}`) }
           : { model: 0 };
 
@@ -317,6 +490,60 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
         }
       }
     }
+    estiloRef.current = { estilo: claveEstilo, superficie: claveSuperficie };
+
+    // ── 2b. El bolsillo: los residuos a 5 Å de los ligandos que se ven, como varillas sobre el cartoon, en un modelo
+    // pequeño aparte. Cambia con cada pose, y reconstruir ~130 átomos cuesta lo que no cuesta reconstruir el receptor.
+    // Es el último modelo (3 con dos ligandos, 2 con uno): se quita antes de reemplazar los ligandos y vuelve a
+    // levantarse aquí, así los ids de los demás no se mueven.
+    const escenaViva = escenaRef.current;
+    if (escenaViva && hasProtein && bolsilloComoModelo) {
+      const claveBolsillo = geometry && hasLigand ? bolsillo : "";
+      const actual = escenaViva.bolsillo;
+      // Si 3Dmol no devolvió el modelo anterior no hay cómo quitarlo: se deja como está en vez de duplicarlo.
+      if ((actual?.clave ?? "") !== claveBolsillo && !(actual && !actual.modelo)) {
+        if (actual?.modelo) v.removeModel(actual.modelo);
+        const pdb = geometry && claveBolsillo ? pdbDelBolsillo(proteinData!, geometry.pocketResis) : "";
+        if (pdb) {
+          const modelo = v.addModel(pdb, "pdb") ?? null;
+          v.setStyle({ model: hasOverlay ? overlayIdx + 1 : overlayIdx }, { stick: { colorscheme: "lightgreyCarbon", radius: 0.14, opacity: 0.99 } });
+          escenaViva.bolsillo = { modelo, clave: claveBolsillo };
+        } else {
+          escenaViva.bolsillo = null;
+        }
+      }
+    }
+
+    // ── 3. Los ligandos: un carbono de color distinto por ligando —el verde de siempre y el magenta, que se separan
+    // también con daltonismo rojo-verde—. La paleta que se pinta en la leyenda de quien superpone sale de
+    // `lib/visor3d.ts`.
+    const oculto = { stick: { hidden: true } };
+    // Con el núcleo conocido, lo que cambia (sustituyentes) va grueso y el núcleo común fino y tenue: el ojo va a la
+    // diferencia. Se pinta primero todo el ligando grueso y luego se afina el núcleo, que es la excepción.
+    const estiloDelLigando = (index: number, esquema: string, visible: boolean, nucleo?: readonly number[]) => {
+      if (!visible) {
+        v.setStyle({ model: index }, oculto);
+      } else if (!nucleo) {
+        v.setStyle({ model: index }, { stick: { colorscheme: esquema, radius: 0.22 } });
+      } else {
+        const delNucleo = new Set(nucleo);
+        v.setStyle({ model: index }, { stick: { colorscheme: esquema, radius: 0.3 } });
+        v.setStyle({ model: index, predicate: (atom: any) => delNucleo.has(atom.index) }, { stick: { colorscheme: esquema, radius: 0.13, opacity: 0.7 } });
+      }
+    };
+    if (hasLigand) estiloDelLigando(ligIdx, "greenCarbon", showPrimaryLigand, primaryCoreAtoms);
+    if (hasOverlay) estiloDelLigando(overlayIdx, "magentaCarbon", showOverlayLigand, overlayCoreAtoms);
+
+    // ── 4. Contactos que quien llama quiere ver (p. ej. los que una pose gana o pierde frente a la otra) y, si se
+    // pidió, la proximidad polar.
+    if (hasProtein && hasLigand) {
+      for (const linea of contactLines ?? []) {
+        v.addCylinder({ start: linea.start, end: linea.end, radius: 0.05, color: linea.color, dashed: true });
+      }
+    }
+    if (showInteractions) {
+      proximidades.forEach(({ p, l }) => v.addCylinder({ start: l, end: p, radius: 0.05, color: "white", dashed: true }));
+    }
 
     if (fitCameraRef.current) {
       const pocket = geometryRef.current?.pocketResis;
@@ -326,15 +553,28 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
         v.zoomTo({ model: 0, predicate: (atom: any) => pocket.has(`${atom.chain}:${atom.resi}`) });
         v.zoom(0.82);
       } else if (hasLigand) {
-        v.zoomTo({ model: ligIdx });
+        v.zoomTo({ model: hasOverlay ? [ligIdx, overlayIdx] : ligIdx });
         v.zoom(0.85);
       } else {
         v.zoomTo();
       }
       fitCameraRef.current = false;
     }
-    v.render();
-  }, [modelsLoaded, viewMode, showInteractions, showHotspots, poseData, proteinData, hotspots, hotspotsHit, isMobile, pocketFocus]);
+    setContextoPerdido(!pintarVisor3D(v));
+  }, [modelsLoaded, viewMode, showInteractions, showHotspots, poseData, proteinData, overlayPoseData, showPrimaryLigand, showOverlayLigand, primaryCoreAtoms, overlayCoreAtoms, contactLines, hotspots, hotspotsHit, isMobile, pocketFocus]);
+
+  // Reabrir la vista: se suelta el visor (con su contexto) y el efecto de carga crea uno nuevo con los mismos datos.
+  const reabrirVisor = () => {
+    const visor = viewerRef.current;
+    viewerRef.current = null;
+    escenaRef.current = null;
+    estiloRef.current = null;
+    geometryRef.current = null;
+    liberarVisor3D(containerRef.current, visor);
+    setContextoPerdido(false);
+    setModelsLoaded(false);
+    setReinicio((n) => n + 1);
+  };
 
   const hasData = !!(poseData || proteinData);
 
@@ -361,6 +601,24 @@ export const MoleculeViewer3D = memo(function MoleculeViewer3D({ poseData, prote
             <p className="max-w-sm text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400">
               <Translated id="z_3d_datos" />
             </p>
+          </div>
+        )}
+
+        {!sinWebGL && contextoPerdido && (
+          <div
+            role="status"
+            className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-white/90 px-6 text-center dark:bg-[#0a0a0a]/90"
+          >
+            <p className="max-w-sm text-xs font-semibold leading-relaxed text-zinc-700 dark:text-zinc-300">
+              {t("pn_visor3d_perdido")}
+            </p>
+            <button
+              type="button"
+              onClick={reabrirVisor}
+              className="min-h-9 cursor-pointer border border-[var(--border-light)] bg-[var(--bg-card)] px-3 py-1.5 text-[11px] font-semibold text-[var(--text)] transition-colors hover:bg-[var(--bg-secondary)] focus-visible:outline-2 focus-visible:outline-[var(--accent-strong)]"
+            >
+              {t("pn_visor3d_reabrir")}
+            </button>
           </div>
         )}
 

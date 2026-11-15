@@ -17,7 +17,8 @@ décadas, y este módulo las adopta en lugar de inventar:
 
     Molécula pequeña    Rule of Five       MW <= 500           Lipinski et al. 1997
     Más allá de Ro5     bRo5               500 < MW <= 1000    Doak et al. 2014
-    Fuera de alcance    —                  MW > 1000, o > 70 átomos (Ghose 1999)
+    Fuera de alcance    —                  MW > 1000, o > 70 átomos pesados (la conversión
+                                           de ese techo; no es un criterio de Ghose)
 
 # Las referencias, y qué dice cada una
 
@@ -36,9 +37,10 @@ que la Ro5 excluye. Por eso aquí NO se rechaza: se declara. Rechazarlo sería
 afirmar que ese espacio no existe, y existe.
 
 **Ghose** — Ghose, Viswanadhan, Wendoloski, *J. Comb. Chem.* 1 (1999) 55-68.
-Su rango de átomos, 20-70, ya está en `chem/properties.py::GhoseRule`. Su tope
-de 70 átomos pesados es el que se usa aquí como frontera superior dura, y
-coincide con lo que da la conversión desde 1000 Da.
+Su rango de 20-70 átomos cuenta átomos TOTALES, hidrógenos incluidos, y ya está
+en `chem/properties.py::GhoseRule`. No es un criterio de átomos pesados y no
+fija el tope de 70 que se usa aquí (auditoría científica 1.0.4, S1-1): ese
+número es la conversión del techo bRo5 de 1000 Da (ver más abajo), redondeada.
 
 **Rule of Three** — Congreve, Carr, Murray, Jhoti,
 *Drug Discov. Today* 8 (2003) 876-877. MW < 300, cLogP <= 3, HBD <= 3, HBA <= 3.
@@ -68,9 +70,11 @@ Mediana 13.86 Da por átomo pesado. De ahí:
     MW  500  ->  ~36 átomos pesados
     MW 1000  ->  ~72 átomos pesados
 
-El 72 concuerda con el tope de 70 de Ghose por un camino independiente, y por
-eso el límite duro se pone en 70: es el número publicado, y la medición lo
-corrobora en vez de contradecirlo.
+El tope duro en átomos pesados se pone en 70, el 72 de la conversión
+redondeado hacia abajo. Es un límite OPERATIVO de este producto, derivado del
+techo de 1000 Da de Doak et al.; no es un número publicado, ni un umbral de
+rendimiento de Vina que se haya medido. (El 70 de Ghose cuenta átomos totales, y
+coincide con éste sólo en la cifra: son unidades distintas.)
 
 # Qué significa cada régimen PARA ESTE PRODUCTO
 
@@ -86,8 +90,8 @@ No es una etiqueta decorativa: cambia qué se puede afirmar del resultado.
 
     FUERA   Por encima de 1000 Da o de 70 átomos pesados no hay ninguna regla
             de las implementadas que aplique, el muestreo conformacional de
-            Vina se degrada y el resultado no es interpretable con lo que este
-            producto sabe medir.
+            Vina no está medido a ese tamaño y el resultado no es interpretable
+            con lo que este producto sabe medir.
 """
 
 from __future__ import annotations
@@ -110,8 +114,9 @@ MW_RO5 = 500.0
 #: Beyond Rule of Five (Doak et al. 2014). Techo del espacio oral conocido.
 MW_BRO5 = 1000.0
 
-#: Ghose et al. 1999, rango de átomos 20-70. El tope superior, que además
-#: coincide con los ~72 que da la conversión desde 1000 Da.
+#: Tope operativo en átomos pesados: los ~72 que da la conversión desde 1000 Da
+#: (`MW_BRO5`), redondeados a 70. No es el rango de Ghose et al. 1999, que cuenta
+#: átomos totales (con hidrógenos); la cifra coincide, la unidad no.
 HA_MAXIMO = 70
 
 #: Equivalentes en átomos pesados de las fronteras de MW, medidos (ver módulo).
@@ -186,13 +191,14 @@ _FUERA = Clasificacion(
     regimen=Regimen.FUERA_DE_ALCANCE,
     etiqueta="Fuera del alcance de la aplicación",
     criterio=(
-        f"Por encima del espacio bRo5 (MW > {MW_BRO5:.0f} Da) o del rango de "
-        f"átomos de Ghose et al. 1999 ({HA_MAXIMO} átomos pesados)"
+        f"Por encima del espacio bRo5 (Doak et al. 2014; MW > {MW_BRO5:.0f} Da) o de "
+        f"{HA_MAXIMO} átomos pesados, la conversión de ese techo"
     ),
     implicacion=(
         "Ninguna de las reglas de drug-likeness implementadas cubre este "
-        "tamaño, el muestreo conformacional de Vina se degrada, y el resultado "
-        "no sería interpretable con lo que este producto sabe medir. La corrida "
+        "tamaño, el muestreo conformacional de Vina no está medido a esta "
+        "escala, y el resultado no sería interpretable con lo que este producto "
+        "sabe medir. La corrida "
         "se detiene en vez de producir un número que nadie puede leer."
     ),
     bloquea=True,
@@ -225,10 +231,11 @@ def clasificar(peso_molecular: float, atomos_pesados: int) -> Clasificacion:
     Así que el peso decide. Los átomos sólo intervienen en dos casos, los dos
     justificados:
 
-      1. **Como tope duro superior**: 70 átomos pesados es el límite del rango
-         de Ghose et al. 1999, un criterio publicado por derecho propio, no una
-         conversión. Una molécula con más de 70 átomos queda fuera aunque su
-         masa no llegue a 1000 Da.
+      1. **Como tope duro superior**: 70 átomos pesados es la conversión del
+         techo de 1000 Da (~72), redondeada: un límite operativo de este
+         producto, no un criterio publicado (el rango de Ghose et al. 1999 cuenta
+         átomos totales). Una molécula con más de 70 átomos pesados queda fuera
+         aunque su masa no llegue a 1000 Da.
       2. **Cuando no hay masa**: se usa la conversión y se dice.
 
     Si las dos magnitudes apuntan a regímenes distintos, el resultado lo fija
@@ -260,15 +267,16 @@ def clasificar(peso_molecular: float, atomos_pesados: int) -> Clasificacion:
             ),
         )
 
-    # Tope duro por átomos: es el rango publicado de Ghose, no una conversión.
+    # Tope duro por átomos: la conversión redondeada del techo de 1000 Da. Un límite
+    # operativo de este producto; no es el rango de Ghose, que cuenta átomos totales.
     if atomos_pesados > HA_MAXIMO:
         return replace(
             _FUERA,
             cumple_ro3=False,
             discrepancia=(
                 f"MW {peso_molecular:.0f} Da cabría en el espacio bRo5, pero la "
-                f"molécula tiene {atomos_pesados} átomos pesados y el rango de "
-                f"Ghose et al. 1999 termina en {HA_MAXIMO}."
+                f"molécula tiene {atomos_pesados} átomos pesados y el tope de "
+                f"este producto, la conversión de ese techo, es {HA_MAXIMO}."
             )
             if peso_molecular <= MW_BRO5
             else None,

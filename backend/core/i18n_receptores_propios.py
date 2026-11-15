@@ -158,6 +158,9 @@ PLANTILLAS: tuple[tuple[str, str], ...] = (
     ("{n} por debajo de 70: {lista}", "{n} below 70: {lista}"),
     ("otros {n} por debajo de 70 sin listar", "{n} more below 70 not listed"),
     ("{n} residuos del sitio sin pLDDT", "{n} site residues without pLDDT"),
+    # El nombre de la herramienta lo escribió quien subió el archivo: se copia sin traducir.
+    ("Quien subió el archivo declaró que es una predicción de {herramienta}, pero MolDesign no ha comprobado con un archivo real dónde guarda esa herramienta el pLDDT: su factor B podría ser otra cosa, así que no se lee. Están comprobadas AlphaFold DB y Boltz 2.2.1.",
+     "Whoever uploaded the file declared it a prediction from {herramienta}, but MolDesign has not checked with a real file where that tool stores the pLDDT: its B-factor could be something else, so it is not read. AlphaFold DB and Boltz 2.2.1 have been checked."),
 )
 
 #: «Archivo del receptor» se compone con una frase por hecho, separadas por « · ». Cada frase se traduce sola.
@@ -184,8 +187,8 @@ MENSAJES.update({
     "Confianza de la estructura (pLDDT)": "Structure confidence (pLDDT)",
     "El archivo es un modelo predicho (ModelCIF) pero no declara el pLDDT por residuo: no se lee la confianza del sitio.":
         "The file is a predicted model (ModelCIF) but does not declare the per-residue pLDDT: the confidence of the site is not read.",
-    "El archivo parece una estructura predicha, pero MolDesign sólo tiene verificada la convención de AlphaFold DB (factor B = pLDDT, escala 0–100). De Boltz, Chai-1 y AlphaFold 3 no se verificó con un archivo real dónde guardan el pLDDT, así que no se afirma ni se lee.":
-        "The file looks like a predicted structure, but MolDesign has only verified the AlphaFold DB convention (B-factor = pLDDT, scale 0–100). For Boltz, Chai-1 and AlphaFold 3 it was not verified with a real file where they store the pLDDT, so it is neither claimed nor read.",
+    "El archivo se declara un modelo (método teórico), pero no es de AlphaFold DB ni declara el pLDDT en _ma_qa_metric_local (ModelCIF). Sólo en AlphaFold DB está verificado que el factor B sea el pLDDT; en otro archivo podría ser otra cosa, así que no se lee.":
+        "The file declares itself a model (theoretical method), but it is not from AlphaFold DB and does not declare the pLDDT in _ma_qa_metric_local (ModelCIF). Only for AlphaFold DB has the B-factor been verified to be the pLDDT; in another file it could be something else, so it is not read.",
     "Todos los valores de pLDDT del archivo son ≤ 1: podrían estar en escala 0–1 o ser una confianza ínfima. No se interpreta sin verificar la convención de esa fuente.":
         "All the pLDDT values in the file are ≤ 1: they could be on a 0–1 scale or be a negligible confidence. They are not interpreted without verifying that source's convention.",
     "El factor B del archivo no coincide con el pLDDT que declara _ma_qa_metric_local: no se sabe cuál es el correcto y no se usa ninguno.":
@@ -204,6 +207,23 @@ MENSAJES.update({
         "No residue with pLDDT next to the box: the confidence of the site cannot be judged.",
     "Sin indicios de estructura predicha en el archivo (no declara método).":
         "No evidence of a predicted structure in the file (no method declared).",
+    # Un archivo que no dice de dónde viene: lo que declaró quien lo subió.
+    "El archivo no declara su método ni trae marcas de predicción, y no consta de dónde viene: no se sabe si es experimental o una predicción. Si es una predicción, su confianza (pLDDT) no se lee; para leerla, vuelve a subirlo indicando qué herramienta lo generó.":
+        "The file declares no method and carries no prediction markers, and its origin is not recorded: it is not known whether it is experimental or a prediction. If it is a prediction, its confidence (pLDDT) is not read; to read it, upload it again stating which tool generated it.",
+    "Quien subió el archivo declaró que es una predicción, pero MolDesign no ha comprobado con un archivo real dónde guarda esa herramienta el pLDDT: su factor B podría ser otra cosa, así que no se lee. Están comprobadas AlphaFold DB y Boltz 2.2.1.":
+        "Whoever uploaded the file declared it a prediction, but MolDesign has not checked with a real file where that tool stores the pLDDT: its B-factor could be something else, so it is not read. AlphaFold DB and Boltz 2.2.1 have been checked.",
+    "Quien subió el archivo declaró que es de Boltz-2, pero no es como los PDB que escribe Boltz 2.2.1 (el mismo pLDDT, entre 0 y 100, en todos los átomos de cada residuo). No se sabe qué guarda su factor B, así que no se lee.":
+        "Whoever uploaded the file declared it comes from Boltz-2, but it is not like the PDB files Boltz 2.2.1 writes (the same pLDDT, between 0 and 100, on every atom of each residue). What its B-factor holds is unknown, so it is not read.",
+    "Sin indicios de estructura predicha: el archivo no declara método y quien lo subió declaró que es experimental.":
+        "No evidence of a predicted structure: the file declares no method and whoever uploaded it declared it experimental.",
+    "estructura predicha por Boltz-2 (fuente declarada por quien subió el archivo)":
+        "structure predicted by Boltz-2 (source declared by whoever uploaded the file)",
+    "pLDDT leído del factor B (convención comprobada con un archivo real de Boltz 2.2.1)":
+        "pLDDT read from the B-factor (convention checked with a real Boltz 2.2.1 file)",
+    "estructura predicha por Chai-1 (declarado por el archivo en _struct.title)":
+        "structure predicted by Chai-1 (declared by the file in _struct.title)",
+    "pLDDT leído de _ma_qa_metric_local: en este archivo coincide con el factor B del Cα de cada residuo, que no es la media del residuo que da el modelo (así lo escribe Chai-1 0.6.1; el archivo no declara su versión)":
+        "pLDDT read from _ma_qa_metric_local: in this file it matches the B-factor of each residue's Cα, which is not the per-residue mean the model gives (this is how Chai-1 0.6.1 writes it; the file does not declare its version)",
     "estructura predicha por AlphaFold DB": "structure predicted by AlphaFold DB",
     "estructura predicha (ModelCIF)": "predicted structure (ModelCIF)",
     "estructura predicha": "predicted structure",

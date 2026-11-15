@@ -1,0 +1,11 @@
+{
+  "commit": "945c4d7a79dcc0480b6d109e4c13885b1e2f508b",
+  "archivos_sha256": {
+    "src/molchat_agent/conversation/deterministic.py": "28724123d41b12eb27a4f64379c5f2bbff2a98b59412288d2eb8afdfec25a34c",
+    "src/molchat_agent/conversation/engine.py": "8b68295974c04fb0c38b0b763d480aaf1edbaeaced1184bedd00cae9b8ddcbd2",
+    "src/molchat_agent/conversation/tools.py": "f7051dcbf1e6525bd1969817f217192096dc0c6284a222db5428f4e65469885c"
+  },
+  "pregunta": "\u00bfCu\u00e1l tiene mayor score?",
+  "si_contexto_tipado_recibe_score": "Entre las 2 mol\u00e9culas de esta conversaci\u00f3n, la de mayor score es **A** con 83.0/100. Ranking: 1. A (83.0/100), 2. B (42.0/100).",
+  "por_mapeo_de_propiedades": null
+}

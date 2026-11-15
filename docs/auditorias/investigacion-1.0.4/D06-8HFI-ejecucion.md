@@ -1,0 +1,5 @@
+# Ejecución y reanudación de DEC-104-D06-8HFI
+
+Al iniciar las cápsulas en el aislamiento de ejecución HTTP, el backend permaneció sin responder a `/health` y sin escribir el registro de arranque. No se obtuvo una salida científica de esos intentos. Se mantuvo el arnés fijado y se inició la API de pruebas en localhost con la autorización de ejecución correspondiente, en tres cápsulas con cuatro hilos de Vina y datos separados. Esta vía conservó los parámetros del registro. 
+
+La campaña se interrumpió con 205 corridas terminales exitosas. El 2026-11-15 se reanudaron únicamente las filas sin terminal mediante el mismo intérprete, binario, receta, arnés, partición y semillas. El orden final del análisis se fija por padre y brazo. El bootstrap y las reglas se conservaron. Los tiempos por corrida reflejan carga concurrente de esta estación y la fase de arranque/reanudación influye en la latencia. Las fechas de las salidas antiguas y reanudadas se pueden auditar en los crudos y los registros del backend.

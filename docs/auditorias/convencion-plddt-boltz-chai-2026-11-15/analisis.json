@@ -1,0 +1,5619 @@
+{
+ "criterio": {
+  "minimo_de_estructuras": 2,
+  "escalas": [
+   1.0,
+   100.0,
+   0.01
+  ],
+  "tolerancia": "0,5 × 10^-decimales escritos (+1e-5)"
+ },
+ "grupos": {
+  "boltz/mmcif": {
+   "estructuras": 3,
+   "series_verificadas": [
+    "b_ca_por_residuo_proteina",
+    "b_media_por_residuo_proteina",
+    "b_por_token",
+    "ma_qa_metric_local[pLDDT]_proteina"
+   ],
+   "motivo_si_no": null,
+   "por_serie": {
+    "b_ca_por_residuo_proteina": {
+     "verificada": true,
+     "estructuras_que_coinciden": 3,
+     "estructuras": 3,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.0004994125366266644
+    },
+    "b_media_por_residuo_proteina": {
+     "verificada": true,
+     "estructuras_que_coinciden": 3,
+     "estructuras": 3,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.0004994125366266644
+    },
+    "b_por_token": {
+     "verificada": true,
+     "estructuras_que_coinciden": 3,
+     "estructuras": 3,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.0004994125366266644
+    },
+    "ma_qa_metric_local[pLDDT]_proteina": {
+     "verificada": true,
+     "estructuras_que_coinciden": 3,
+     "estructuras": 3,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.0004994125366266644
+    }
+   }
+  },
+  "boltz/pdb": {
+   "estructuras": 2,
+   "series_verificadas": [
+    "b_ca_por_residuo_proteina",
+    "b_media_por_residuo_proteina",
+    "b_por_token"
+   ],
+   "motivo_si_no": null,
+   "por_serie": {
+    "b_ca_por_residuo_proteina": {
+     "verificada": true,
+     "estructuras_que_coinciden": 2,
+     "estructuras": 2,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.004993124008180416
+    },
+    "b_media_por_residuo_proteina": {
+     "verificada": true,
+     "estructuras_que_coinciden": 2,
+     "estructuras": 2,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.004993124008166205
+    },
+    "b_por_token": {
+     "verificada": true,
+     "estructuras_que_coinciden": 2,
+     "estructuras": 2,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.004993124008166205
+    }
+   }
+  },
+  "chai/mmcif": {
+   "estructuras": 15,
+   "series_verificadas": [
+    "b_media_por_residuo_proteina",
+    "b_por_token"
+   ],
+   "motivo_si_no": null,
+   "por_serie": {
+    "b_ca_por_residuo_proteina": {
+     "verificada": false,
+     "estructuras_que_coinciden": 0,
+     "estructuras": 15,
+     "escala_en_el_archivo": [],
+     "max_dif": null
+    },
+    "b_media_por_residuo_proteina": {
+     "verificada": true,
+     "estructuras_que_coinciden": 15,
+     "estructuras": 15,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.0004309661865278258
+    },
+    "b_por_token": {
+     "verificada": true,
+     "estructuras_que_coinciden": 15,
+     "estructuras": 15,
+     "escala_en_el_archivo": [
+      "0-100"
+     ],
+     "max_dif": 0.0004960994720448753
+    },
+    "ma_qa_metric_local[pLDDT]_proteina": {
+     "verificada": false,
+     "estructuras_que_coinciden": 0,
+     "estructuras": 15,
+     "escala_en_el_archivo": [],
+     "max_dif": null
+    }
+   }
+  }
+ },
+ "control_alphafold_db": [
+  {
+   "archivo": "boltz/net_apo__mmcif/boltz_results_net_apo/predictions/net_apo/net_apo_model_0.cif",
+   "residuos_comunes": 617,
+   "spearman_b_media_vs_afdb": 0.7358067633793084,
+   "referencia": "AF-P23975-F1-model_v6.cif",
+   "referencia_sha256": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+  },
+  {
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_0.cif",
+   "residuos_comunes": 617,
+   "spearman_b_media_vs_afdb": 0.7835259725908461,
+   "referencia": "AF-P23975-F1-model_v6.cif",
+   "referencia_sha256": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+  },
+  {
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_1.cif",
+   "residuos_comunes": 617,
+   "spearman_b_media_vs_afdb": 0.7924742539172636,
+   "referencia": "AF-P23975-F1-model_v6.cif",
+   "referencia_sha256": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+  },
+  {
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_2.cif",
+   "residuos_comunes": 617,
+   "spearman_b_media_vs_afdb": 0.7819948496459271,
+   "referencia": "AF-P23975-F1-model_v6.cif",
+   "referencia_sha256": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+  },
+  {
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_3.cif",
+   "residuos_comunes": 617,
+   "spearman_b_media_vs_afdb": 0.7947243842727572,
+   "referencia": "AF-P23975-F1-model_v6.cif",
+   "referencia_sha256": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+  },
+  {
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_4.cif",
+   "residuos_comunes": 617,
+   "spearman_b_media_vs_afdb": 0.7886975887792491,
+   "referencia": "AF-P23975-F1-model_v6.cif",
+   "referencia_sha256": "e2f921b2b10d499aa1f8d5aebefb3f1c53a6cee0b95c755dbb3a7e5a048fd899"
+  }
+ ],
+ "estructuras": [
+  {
+   "herramienta": "boltz",
+   "caso": "cdk2_apo",
+   "formato": "mmcif",
+   "archivo": "boltz/cdk2_apo__mmcif/boltz_results_cdk2_apo/predictions/cdk2_apo/cdk2_apo_model_0.cif",
+   "sha256": "bbe8d0c7c979e310d5d92a42913edd73a66fd26ce1cd96272bde3326fe7242e5",
+   "max_modelo": 0.9891321659088135,
+   "media_modelo": 0.9009305238723755,
+   "n_modelo": 298,
+   "confianza_declarada_por_el_modelo": {
+    "confidence_score": 0.9096980094909668,
+    "ptm": 0.9447678923606873,
+    "iptm": 0.0,
+    "ligand_iptm": 0.0,
+    "protein_iptm": 0.0,
+    "complex_plddt": 0.9009305238723755,
+    "complex_iplddt": 0.9009305238723755,
+    "complex_pde": 0.43216902017593384,
+    "complex_ipde": 0.0,
+    "chains_ptm": {
+     "0": 0.9447678923606873
+    },
+    "pair_chains_iptm": {
+     "0": {
+      "0": 0.9447678923606873
+     }
+    }
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 2397,
+    "hidrogenos_omitidos": 0,
+    "b_min": 47.747,
+    "b_max": 98.913,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 0.0,
+     "uno_por_residuo": true,
+     "residuos_con_dispersion": 0
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       ""
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/d18ba38/base/mmcif_ma-core.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.6"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_id": [
+       "1"
+      ],
+      "model_group_id": [
+       "1"
+      ],
+      "model_name": [
+       "Model"
+      ],
+      "model_group_name": [
+       "All models"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "",
+       "Model"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       ""
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Model subunit A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004994125366266644,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999997184749
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004994125366266644,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999997184748
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004994125366266644,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999997184749
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004994125366266644,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999997184748
+    }
+   ]
+  },
+  {
+   "herramienta": "boltz",
+   "caso": "cdk2_apo",
+   "formato": "pdb",
+   "archivo": "boltz/cdk2_apo__pdb/boltz_results_cdk2_apo/predictions/cdk2_apo/cdk2_apo_model_0.pdb",
+   "sha256": "8b78bdb9898f661346b6351bff6b6c78427b9492653c0bca740d88467a67863e",
+   "max_modelo": 0.9891321659088135,
+   "media_modelo": 0.9009305238723755,
+   "n_modelo": 298,
+   "confianza_declarada_por_el_modelo": {
+    "confidence_score": 0.9096980094909668,
+    "ptm": 0.9447678923606873,
+    "iptm": 0.0,
+    "ligand_iptm": 0.0,
+    "protein_iptm": 0.0,
+    "complex_plddt": 0.9009305238723755,
+    "complex_iplddt": 0.9009305238723755,
+    "complex_pde": 0.43216902017593384,
+    "complex_ipde": 0.0,
+    "chains_ptm": {
+     "0": 0.9447678923606873
+    },
+    "pair_chains_iptm": {
+     "0": {
+      "0": 0.9447678923606873
+     }
+    }
+   },
+   "resumen": {
+    "formato": "pdb",
+    "criterio_polimero": "registro ATOM",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 2397,
+    "hidrogenos_omitidos": 0,
+    "b_min": 47.75,
+    "b_max": 98.91,
+    "decimales_b": 2,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 0.0,
+     "uno_por_residuo": true,
+     "residuos_con_dispersion": 0
+    },
+    "metricas_modelcif": [],
+    "metricas_globales": [],
+    "categorias": null,
+    "procedencia": null,
+    "cabecera_pdb": []
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.004993124008166205,
+     "tolerancia": 0.00501,
+     "decimales": 2,
+     "n": 298,
+     "pearson": 0.9999999726628552
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.004993124008180416,
+     "tolerancia": 0.00501,
+     "decimales": 2,
+     "n": 298,
+     "pearson": 0.9999999726628553
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.004993124008166205,
+     "tolerancia": 0.00501,
+     "decimales": 2,
+     "n": 298,
+     "pearson": 0.9999999726628552
+    }
+   ]
+  },
+  {
+   "herramienta": "boltz",
+   "caso": "cdk2_lig",
+   "formato": "mmcif",
+   "archivo": "boltz/cdk2_lig__mmcif/boltz_results_cdk2_lig/predictions/cdk2_lig/cdk2_lig_model_0.cif",
+   "sha256": "1ed0ce4e37b875ad0d2d93f991bab2e8905553d7e01b20e7b7f472705f4d3591",
+   "max_modelo": 0.9899696707725525,
+   "media_modelo": 0.9624896836869511,
+   "n_modelo": 324,
+   "confianza_declarada_por_el_modelo": {
+    "confidence_score": 0.9671048521995544,
+    "ptm": 0.9806618690490723,
+    "iptm": 0.9855654239654541,
+    "ligand_iptm": 0.9855654239654541,
+    "protein_iptm": 0.0,
+    "complex_plddt": 0.962489664554596,
+    "complex_iplddt": 0.9533864855766296,
+    "complex_pde": 0.3130107820034027,
+    "complex_ipde": 0.37343844771385193,
+    "chains_ptm": {
+     "0": 0.9808712005615234,
+     "1": 0.9471593499183655
+    },
+    "pair_chains_iptm": {
+     "0": {
+      "0": 0.9808712005615234,
+      "1": 0.6836182475090027
+     },
+     "1": {
+      "0": 0.9855654239654541,
+      "1": 0.9471593499183655
+     }
+    }
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [
+     {
+      "nombre": "LIG1",
+      "cadena": "B",
+      "numero": "1",
+      "atomos": 26,
+      "b_min": 84.35,
+      "b_max": 98.478
+     }
+    ],
+    "atomos_pesados": 2423,
+    "hidrogenos_omitidos": 0,
+    "b_min": 61.241,
+    "b_max": 98.997,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 0.0,
+     "uno_por_residuo": true,
+     "residuos_con_dispersion": 0
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_entity_nonpoly.",
+     "_pdbx_nonpoly_scheme.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       ""
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/d18ba38/base/mmcif_ma-core.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.6"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_id": [
+       "1"
+      ],
+      "model_group_id": [
+       "1"
+      ],
+      "model_name": [
+       "Model"
+      ],
+      "model_group_name": [
+       "All models"
+      ],
+      "data_id": [
+       "3"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2",
+       "3"
+      ],
+      "name": [
+       "",
+       "",
+       "Model"
+      ],
+      "content_type": [
+       "target",
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "data_id": [
+       "1",
+       "2"
+      ],
+      "origin": [
+       "designed",
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "type": [
+       "polymer",
+       "non-polymer"
+      ],
+      "src_method": [
+       "man",
+       "man"
+      ],
+      "pdbx_description": [
+       "",
+       ""
+      ],
+      "formula_weight": [
+       "",
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1",
+       "1"
+      ],
+      "details": [
+       "",
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A",
+       "B"
+      ],
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "details": [
+       "Model subunit A",
+       "Model subunit B"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004979457855256442,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999986990746
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004979457855256442,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999986990746
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004979457855256442,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 324,
+     "pearson": 0.999999998652126
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004979457855256442,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999986990746
+    }
+   ]
+  },
+  {
+   "herramienta": "boltz",
+   "caso": "cdk2_lig",
+   "formato": "pdb",
+   "archivo": "boltz/cdk2_lig__pdb/boltz_results_cdk2_lig/predictions/cdk2_lig/cdk2_lig_model_0.pdb",
+   "sha256": "6279bc94429728705b9e3df1c1890b100a203a5be1ad7b728e3097e322d1c64f",
+   "max_modelo": 0.9899696707725525,
+   "media_modelo": 0.9624896836869511,
+   "n_modelo": 324,
+   "confianza_declarada_por_el_modelo": {
+    "confidence_score": 0.9671048521995544,
+    "ptm": 0.9806618690490723,
+    "iptm": 0.9855654239654541,
+    "ligand_iptm": 0.9855654239654541,
+    "protein_iptm": 0.0,
+    "complex_plddt": 0.962489664554596,
+    "complex_iplddt": 0.9533864855766296,
+    "complex_pde": 0.3130107820034027,
+    "complex_ipde": 0.37343844771385193,
+    "chains_ptm": {
+     "0": 0.9808712005615234,
+     "1": 0.9471593499183655
+    },
+    "pair_chains_iptm": {
+     "0": {
+      "0": 0.9808712005615234,
+      "1": 0.6836182475090027
+     },
+     "1": {
+      "0": 0.9855654239654541,
+      "1": 0.9471593499183655
+     }
+    }
+   },
+   "resumen": {
+    "formato": "pdb",
+    "criterio_polimero": "registro ATOM",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [
+     {
+      "nombre": "LIG",
+      "cadena": "B",
+      "numero": "1",
+      "atomos": 26,
+      "b_min": 84.35,
+      "b_max": 98.48
+     }
+    ],
+    "atomos_pesados": 2423,
+    "hidrogenos_omitidos": 0,
+    "b_min": 61.24,
+    "b_max": 99.0,
+    "decimales_b": 2,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 0.0,
+     "uno_por_residuo": true,
+     "residuos_con_dispersion": 0
+    },
+    "metricas_modelcif": [],
+    "metricas_globales": [],
+    "categorias": null,
+    "procedencia": null,
+    "cabecera_pdb": []
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.004982109069828766,
+     "tolerancia": 0.00501,
+     "decimales": 2,
+     "n": 298,
+     "pearson": 0.99999987189542
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.004982109069828766,
+     "tolerancia": 0.00501,
+     "decimales": 2,
+     "n": 298,
+     "pearson": 0.9999998718954195
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.004982109069828766,
+     "tolerancia": 0.00501,
+     "decimales": 2,
+     "n": 324,
+     "pearson": 0.9999998728477387
+    }
+   ]
+  },
+  {
+   "herramienta": "boltz",
+   "caso": "net_apo",
+   "formato": "mmcif",
+   "archivo": "boltz/net_apo__mmcif/boltz_results_net_apo/predictions/net_apo/net_apo_model_0.cif",
+   "sha256": "9dc410335a38e57c473aa86f8ea657f8d2d41971b0eb9809aaaf622426a572e3",
+   "max_modelo": 0.9727178812026978,
+   "media_modelo": 0.8400112187166848,
+   "n_modelo": 617,
+   "confianza_declarada_por_el_modelo": {
+    "confidence_score": 0.8470857739448547,
+    "ptm": 0.8753836154937744,
+    "iptm": 0.0,
+    "ligand_iptm": 0.0,
+    "protein_iptm": 0.0,
+    "complex_plddt": 0.8400112390518188,
+    "complex_iplddt": 0.8400112390518188,
+    "complex_pde": 0.749801516532898,
+    "complex_ipde": 0.0,
+    "chains_ptm": {
+     "0": 0.8753836154937744
+    },
+    "pair_chains_iptm": {
+     "0": {
+      "0": 0.8753836154937744
+     }
+    }
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 617,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 4912,
+    "hidrogenos_omitidos": 0,
+    "b_min": 27.21,
+    "b_max": 97.272,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 617,
+     "max_dispersion": 0.0,
+     "uno_por_residuo": true,
+     "residuos_con_dispersion": 0
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       ""
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/d18ba38/base/mmcif_ma-core.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.6"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_id": [
+       "1"
+      ],
+      "model_group_id": [
+       "1"
+      ],
+      "model_name": [
+       "Model"
+      ],
+      "model_group_name": [
+       "All models"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "",
+       "Model"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       ""
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Model subunit A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004986534118813779,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999998368194
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.000498653411867167,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999998368194
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004986534118813779,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999998368194
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.000498653411867167,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999998368194
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_apo",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_0.cif",
+   "sha256": "e44bffe983c413cae2eed195571e6c14619ec7f88787ea96ede6b6408372dcad",
+   "max_modelo": 0.9892319440841675,
+   "media_modelo": 0.9096586800261632,
+   "n_modelo": 298,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.19220000505447388
+    ],
+    "ptm": [
+     0.9607999920845032
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.9607999920845032
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9607999920845032
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 2397,
+    "hidrogenos_omitidos": 0,
+    "b_min": 39.945,
+    "b_max": 98.949,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 43.263,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00036147308350109597,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999404746
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 18.001071954727166,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9493445550811638
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00036147308350109597,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999404746
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 18.001071954727166,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9493445550811638
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_apo",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_1.cif",
+   "sha256": "e7741a7acbdfbb653bf702971083529307069fd0d9218bcc5d02754da26ea315",
+   "max_modelo": 0.9892351031303406,
+   "media_modelo": 0.9085696083587288,
+   "n_modelo": 298,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.19210000336170197
+    ],
+    "ptm": [
+     0.9606999754905701
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.9606999754905701
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9606999754905701
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 2397,
+    "hidrogenos_omitidos": 0,
+    "b_min": 39.472,
+    "b_max": 98.948,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 43.202000000000005,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00029625053404913615,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999453413
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 17.88236574363708,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9510221345585979
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00029625053404913615,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999453413
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 17.88236574363708,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9510221345585979
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_apo",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_2.cif",
+   "sha256": "965a1b9b8d59a8fd228954ce789480f765f836a5a8267f8e3e4a22773dd27b7f",
+   "max_modelo": 0.9892230033874512,
+   "media_modelo": 0.9085032131847919,
+   "n_modelo": 298,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.19210000336170197
+    ],
+    "ptm": [
+     0.9606000185012817
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.9606000185012817
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9606000185012817
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 2397,
+    "hidrogenos_omitidos": 0,
+    "b_min": 39.343,
+    "b_max": 98.948,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 43.01499999999999,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0003150806427072439,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999469382
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 17.844111913681033,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9518866460361743
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0003150806427072439,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999469382
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 17.844111913681033,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9518866460361743
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_apo",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_3.cif",
+   "sha256": "cc89e18f49f8f9822dace0121898a816046e5eb5ba480a0c8d94dd2df9f55f90",
+   "max_modelo": 0.9892243146896362,
+   "media_modelo": 0.9080890453101804,
+   "n_modelo": 298,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.19210000336170197
+    ],
+    "ptm": [
+     0.9603999853134155
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.9603999853134155
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9603999853134155
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 2397,
+    "hidrogenos_omitidos": 0,
+    "b_min": 39.734,
+    "b_max": 98.948,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 43.328,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0003930644989083021,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999459559
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 18.011771970748896,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9513134977231125
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0003930644989083021,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999459559
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 18.011771970748896,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9513134977231125
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_apo",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_apo__mmcif/pred.model_idx_4.cif",
+   "sha256": "4b711dbe4bd5d44fa2db9f65a1b874ba12412d54e2cbdae37f3251f4a4db795d",
+   "max_modelo": 0.9892128109931946,
+   "media_modelo": 0.9080453475049678,
+   "n_modelo": 298,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.19210000336170197
+    ],
+    "ptm": [
+     0.9606999754905701
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.9606999754905701
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9606999754905701
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 2397,
+    "hidrogenos_omitidos": 0,
+    "b_min": 39.349,
+    "b_max": 98.948,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 43.202000000000005,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00040684127807821824,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999440469
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 17.873382497787475,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9513347113243823
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00040684127807821824,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999440469
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 17.873382497787475,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9513347113243823
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_lig",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_0.cif",
+   "sha256": "dfb9b82f6de2bbb4b8e0fd4ac24e171d2810b6b2c43166ae61cc76047842705b",
+   "max_modelo": 0.9897807836532593,
+   "media_modelo": 0.9284810079836551,
+   "n_modelo": 324,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.9332000017166138
+    ],
+    "ptm": [
+     0.9763000011444092
+    ],
+    "iptm": [
+     0.9223999977111816
+    ],
+    "per_chain_ptm": [
+     [
+      0.9757000207901001,
+      0.8034999966621399
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9757000207901001,
+       0.7139999866485596
+      ],
+      [
+       0.9223999977111816,
+       0.8034999966621399
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [
+     {
+      "nombre": "LIG2",
+      "cadena": "B",
+      "numero": "1",
+      "atomos": 26,
+      "b_min": 71.41,
+      "b_max": 97.65
+     }
+    ],
+    "atomos_pesados": 2423,
+    "hidrogenos_omitidos": 0,
+    "b_min": 42.594,
+    "b_max": 98.985,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 45.4,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_entity_nonpoly.",
+     "_pdbx_nonpoly_scheme.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "3"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2",
+       "3"
+      ],
+      "name": [
+       "Entity A",
+       "Entity B",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "data_id": [
+       "1",
+       "2"
+      ],
+      "origin": [
+       "designed",
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "type": [
+       "polymer",
+       "non-polymer"
+      ],
+      "src_method": [
+       "man",
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A",
+       "Entity B"
+      ],
+      "formula_weight": [
+       "",
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1",
+       "1"
+      ],
+      "details": [
+       "",
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A",
+       "B"
+      ],
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "details": [
+       "Chain A",
+       "Chain B"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00035674667357454837,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999116654
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.047400791168215,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9183673898989775
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004618568420369229,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 324,
+     "pearson": 0.9999999998739174
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.047400791168215,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9183673898989775
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_lig",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_1.cif",
+   "sha256": "c8eb91bf7419c89da1340c8e50a7d90127705cec24e68746d1e236297c7b2c66",
+   "max_modelo": 0.9897744655609131,
+   "media_modelo": 0.9281551089183784,
+   "n_modelo": 324,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.9330000281333923
+    ],
+    "ptm": [
+     0.9763000011444092
+    ],
+    "iptm": [
+     0.9222000241279602
+    ],
+    "per_chain_ptm": [
+     [
+      0.9757000207901001,
+      0.8075000047683716
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9757000207901001,
+       0.7092000246047974
+      ],
+      [
+       0.9222000241279602,
+       0.8075000047683716
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [
+     {
+      "nombre": "LIG2",
+      "cadena": "B",
+      "numero": "1",
+      "atomos": 26,
+      "b_min": 73.446,
+      "b_max": 97.602
+     }
+    ],
+    "atomos_pesados": 2423,
+    "hidrogenos_omitidos": 0,
+    "b_min": 42.237,
+    "b_max": 98.985,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 45.671,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_entity_nonpoly.",
+     "_pdbx_nonpoly_scheme.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "3"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2",
+       "3"
+      ],
+      "name": [
+       "Entity A",
+       "Entity B",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "data_id": [
+       "1",
+       "2"
+      ],
+      "origin": [
+       "designed",
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "type": [
+       "polymer",
+       "non-polymer"
+      ],
+      "src_method": [
+       "man",
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A",
+       "Entity B"
+      ],
+      "formula_weight": [
+       "",
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1",
+       "1"
+      ],
+      "details": [
+       "",
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A",
+       "B"
+      ],
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "details": [
+       "Chain A",
+       "Chain B"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0003245609828184115,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999131585
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.173757589340212,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9184925383293524
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00047136116027957087,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 324,
+     "pearson": 0.9999999998805567
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.173757589340212,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9184925383293524
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_lig",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_2.cif",
+   "sha256": "17bcf9c8a8b1575843506a5f7cd56cb8803f8e9cc53bbdc30c3446e059fadb5f",
+   "max_modelo": 0.9897817373275757,
+   "media_modelo": 0.9288157390223609,
+   "n_modelo": 324,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.9327999949455261
+    ],
+    "ptm": [
+     0.9761999845504761
+    ],
+    "iptm": [
+     0.921999990940094
+    ],
+    "per_chain_ptm": [
+     [
+      0.9753999710083008,
+      0.8138999938964844
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9753999710083008,
+       0.7211999893188477
+      ],
+      [
+       0.921999990940094,
+       0.8138999938964844
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [
+     {
+      "nombre": "LIG2",
+      "cadena": "B",
+      "numero": "1",
+      "atomos": 26,
+      "b_min": 72.228,
+      "b_max": 97.621
+     }
+    ],
+    "atomos_pesados": 2423,
+    "hidrogenos_omitidos": 0,
+    "b_min": 41.996,
+    "b_max": 98.985,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 45.841,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_entity_nonpoly.",
+     "_pdbx_nonpoly_scheme.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "3"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2",
+       "3"
+      ],
+      "name": [
+       "Entity A",
+       "Entity B",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "data_id": [
+       "1",
+       "2"
+      ],
+      "origin": [
+       "designed",
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "type": [
+       "polymer",
+       "non-polymer"
+      ],
+      "src_method": [
+       "man",
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A",
+       "Entity B"
+      ],
+      "formula_weight": [
+       "",
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1",
+       "1"
+      ],
+      "details": [
+       "",
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A",
+       "B"
+      ],
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "details": [
+       "Chain A",
+       "Chain B"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004309661865278258,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999160001
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.24993445014954,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9182243343852569
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00046471595764785434,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 324,
+     "pearson": 0.9999999998838407
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.24993445014954,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9182243343852569
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_lig",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_3.cif",
+   "sha256": "d4ce787465ecae2c1f9704ebaf402ac654a0ed57570f5e8cd77c20d784588f81",
+   "max_modelo": 0.9897845983505249,
+   "media_modelo": 0.9280850754843818,
+   "n_modelo": 324,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.9329000115394592
+    ],
+    "ptm": [
+     0.9763000011444092
+    ],
+    "iptm": [
+     0.9221000075340271
+    ],
+    "per_chain_ptm": [
+     [
+      0.9757000207901001,
+      0.807699978351593
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9757000207901001,
+       0.7075999975204468
+      ],
+      [
+       0.9221000075340271,
+       0.807699978351593
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [
+     {
+      "nombre": "LIG2",
+      "cadena": "B",
+      "numero": "1",
+      "atomos": 26,
+      "b_min": 73.185,
+      "b_max": 97.567
+     }
+    ],
+    "atomos_pesados": 2423,
+    "hidrogenos_omitidos": 0,
+    "b_min": 42.714,
+    "b_max": 98.985,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 45.604,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_entity_nonpoly.",
+     "_pdbx_nonpoly_scheme.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "3"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2",
+       "3"
+      ],
+      "name": [
+       "Entity A",
+       "Entity B",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "data_id": [
+       "1",
+       "2"
+      ],
+      "origin": [
+       "designed",
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "type": [
+       "polymer",
+       "non-polymer"
+      ],
+      "src_method": [
+       "man",
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A",
+       "Entity B"
+      ],
+      "formula_weight": [
+       "",
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1",
+       "1"
+      ],
+      "details": [
+       "",
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A",
+       "B"
+      ],
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "details": [
+       "Chain A",
+       "Chain B"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0003343029022317978,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999220772
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.12615904998779,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9188322633585959
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004960994720448753,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 324,
+     "pearson": 0.9999999998713656
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.12615904998779,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9188322633585959
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "cdk2_lig",
+   "formato": "mmcif",
+   "archivo": "chai/cdk2_lig__mmcif/pred.model_idx_4.cif",
+   "sha256": "18fcc64e19c71cfd2a18db94f5b793df0496fdfd87dfb2ff5ad7aacf97993286",
+   "max_modelo": 0.9897817373275757,
+   "media_modelo": 0.9278921153810289,
+   "n_modelo": 324,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.9330999851226807
+    ],
+    "ptm": [
+     0.9761999845504761
+    ],
+    "iptm": [
+     0.9223999977111816
+    ],
+    "per_chain_ptm": [
+     [
+      0.9754999876022339,
+      0.8112000226974487
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.9754999876022339,
+       0.7124000191688538
+      ],
+      [
+       0.9223999977111816,
+       0.8112000226974487
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 298,
+    "residuos_no_proteina": [
+     {
+      "nombre": "LIG2",
+      "cadena": "B",
+      "numero": "1",
+      "atomos": 26,
+      "b_min": 73.973,
+      "b_max": 97.563
+     }
+    ],
+    "atomos_pesados": 2423,
+    "hidrogenos_omitidos": 0,
+    "b_min": 42.295,
+    "b_max": 98.985,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 298,
+     "max_dispersion": 45.263,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 298
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_entity_nonpoly.",
+     "_pdbx_nonpoly_scheme.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "3"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2",
+       "3"
+      ],
+      "name": [
+       "Entity A",
+       "Entity B",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "data_id": [
+       "1",
+       "2"
+      ],
+      "origin": [
+       "designed",
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "type": [
+       "polymer",
+       "non-polymer"
+      ],
+      "src_method": [
+       "man",
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A",
+       "Entity B"
+      ],
+      "formula_weight": [
+       "",
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1",
+       "1"
+      ],
+      "details": [
+       "",
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A",
+       "B"
+      ],
+      "entity_id": [
+       "1",
+       "2"
+      ],
+      "details": [
+       "Chain A",
+       "Chain B"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.000329845428467479,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9999999999150389
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.070831142425533,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9195620254066438
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.0004898796081533874,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 324,
+     "pearson": 0.9999999998643482
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo_primeros_n_residuos",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 19.070831142425533,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 298,
+     "pearson": 0.9195620254066438
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "net_apo",
+   "formato": "mmcif",
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_0.cif",
+   "sha256": "c0585a8f4dec7c974e853be224910b42f716c2a6d6a42fba4675a48077c11be4",
+   "max_modelo": 0.9676720499992371,
+   "media_modelo": 0.8432081622861,
+   "n_modelo": 617,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.17790000140666962
+    ],
+    "ptm": [
+     0.8894000053405762
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.8894000053405762
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.8894000053405762
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 617,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 4912,
+    "hidrogenos_omitidos": 0,
+    "b_min": 24.394,
+    "b_max": 97.578,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 617,
+     "max_dispersion": 37.036,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 617
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00033164978026434255,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999661603
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.529770446777349,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9823528714680756
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00033164978026434255,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999661603
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.529770446777349,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9823528714680756
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "net_apo",
+   "formato": "mmcif",
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_1.cif",
+   "sha256": "7cde1e0399fe18db198fb743ef4718ff0d291c61005dd147c06e8709ea76f1ab",
+   "max_modelo": 0.9680318832397461,
+   "media_modelo": 0.8435355560609549,
+   "n_modelo": 617,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.17790000140666962
+    ],
+    "ptm": [
+     0.8896999955177307
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.8896999955177307
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.8896999955177307
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 617,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 4912,
+    "hidrogenos_omitidos": 0,
+    "b_min": 26.498,
+    "b_max": 97.629,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 617,
+     "max_dispersion": 38.46000000000001,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 617
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00029615554809936384,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.999999999967464
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.829005363464361,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9825679509570615
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00029615554809936384,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.999999999967464
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.829005363464361,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9825679509570615
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "net_apo",
+   "formato": "mmcif",
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_2.cif",
+   "sha256": "eb67a8a9d345962525f1ac56ec2d57e59137aa2228f011843a758f6e368ae86d",
+   "max_modelo": 0.967215895652771,
+   "media_modelo": 0.8426991143721236,
+   "n_modelo": 617,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.17820000648498535
+    ],
+    "ptm": [
+     0.8912000060081482
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.8912000060081482
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.8912000060081482
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 617,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 4912,
+    "hidrogenos_omitidos": 0,
+    "b_min": 24.708,
+    "b_max": 97.578,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 617,
+     "max_dispersion": 37.352000000000004,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 617
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.000427881240852912,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999669454
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.41847899627686,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9827294398647296
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.000427881240852912,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999669454
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.41847899627686,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9827294398647296
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "net_apo",
+   "formato": "mmcif",
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_3.cif",
+   "sha256": "9d42be8603631612277f580f424042922533fc68c3ff09557cccb835601a6073",
+   "max_modelo": 0.9681944251060486,
+   "media_modelo": 0.8441009649967645,
+   "n_modelo": 617,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.17820000648498535
+    ],
+    "ptm": [
+     0.8907999992370605
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.8907999992370605
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.8907999992370605
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 617,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 4912,
+    "hidrogenos_omitidos": 0,
+    "b_min": 25.989,
+    "b_max": 97.63,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 617,
+     "max_dispersion": 36.946999999999996,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 617
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00032883071899902916,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999686232
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.282379732131957,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.982457270894638
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00032883071899902916,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999686232
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.282379732131957,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.982457270894638
+    }
+   ]
+  },
+  {
+   "herramienta": "chai",
+   "caso": "net_apo",
+   "formato": "mmcif",
+   "archivo": "chai/net_apo__mmcif/pred.model_idx_4.cif",
+   "sha256": "7febdd2e730bc0b6398fb4aad5568d81a356270ec5dd2cd583365b3ed2c11860",
+   "max_modelo": 0.9680420160293579,
+   "media_modelo": 0.8430615177610512,
+   "n_modelo": 617,
+   "confianza_declarada_por_el_modelo": {
+    "aggregate_score": [
+     0.17820000648498535
+    ],
+    "ptm": [
+     0.890999972820282
+    ],
+    "iptm": [
+     0.0
+    ],
+    "per_chain_ptm": [
+     [
+      0.890999972820282
+     ]
+    ],
+    "per_chain_pair_iptm": [
+     [
+      [
+       0.890999972820282
+      ]
+     ]
+    ],
+    "has_inter_chain_clashes": [
+     false
+    ],
+    "chain_chain_clashes": [
+     [
+      [
+       0
+      ]
+     ]
+    ]
+   },
+   "resumen": {
+    "formato": "mmcif",
+    "criterio_polimero": "_entity.type",
+    "residuos_proteina": 617,
+    "residuos_no_proteina": [],
+    "atomos_pesados": 4912,
+    "hidrogenos_omitidos": 0,
+    "b_min": 26.303,
+    "b_max": 97.626,
+    "decimales_b": 3,
+    "dentro_del_residuo": {
+     "residuos": 617,
+     "max_dispersion": 37.236000000000004,
+     "uno_por_residuo": false,
+     "residuos_con_dispersion": 617
+    },
+    "metricas_modelcif": [
+     {
+      "id": "1",
+      "nombre": "pLDDT",
+      "tipo": "pLDDT",
+      "modo": "local"
+     }
+    ],
+    "metricas_globales": [],
+    "categorias": [
+     "_atom_site.",
+     "_atom_type.",
+     "_audit_author.",
+     "_audit_conform.",
+     "_chem_comp.",
+     "_entity.",
+     "_entity_poly.",
+     "_entity_poly_seq.",
+     "_entry.",
+     "_ma_data.",
+     "_ma_model_group.",
+     "_ma_model_group_link.",
+     "_ma_model_list.",
+     "_ma_qa_metric.",
+     "_ma_qa_metric_local.",
+     "_ma_target_entity.",
+     "_ma_target_entity_instance.",
+     "_pdbx_poly_seq_scheme.",
+     "_struct.",
+     "_struct_asym."
+    ],
+    "procedencia": {
+     "_entry.": {
+      "id": [
+       "model"
+      ]
+     },
+     "_struct.": {
+      "entry_id": [
+       "model"
+      ],
+      "pdbx_model_details": [
+       ""
+      ],
+      "pdbx_structure_determination_methodology": [
+       "computational"
+      ],
+      "title": [
+       "Chai-1 predicted structure"
+      ]
+     },
+     "_audit_conform.": {
+      "dict_location": [
+       "https://raw.githubusercontent.com/ihmwg/ModelCIF/fece26d/dist/mmcif_ma.dic"
+      ],
+      "dict_name": [
+       "mmcif_ma.dic"
+      ],
+      "dict_version": [
+       "1.4.9"
+      ]
+     },
+     "_audit_author.": {
+      "name": [
+       "Chai Discovery team"
+      ],
+      "pdbx_ordinal": [
+       "1"
+      ]
+     },
+     "_ma_model_list.": {
+      "ordinal_id": [
+       "1"
+      ],
+      "model_name": [
+       "pred_model_1"
+      ],
+      "data_id": [
+       "2"
+      ],
+      "model_type": [
+       "Ab initio model"
+      ],
+      "model_type_other_details": [
+       ""
+      ]
+     },
+     "_ma_qa_metric.": {
+      "id": [
+       "1"
+      ],
+      "name": [
+       "pLDDT"
+      ],
+      "description": [
+       "Predicted lddt"
+      ],
+      "type": [
+       "pLDDT"
+      ],
+      "mode": [
+       "local"
+      ],
+      "type_other_details": [
+       ""
+      ],
+      "software_group_id": [
+       ""
+      ]
+     },
+     "_ma_data.": {
+      "id": [
+       "1",
+       "2"
+      ],
+      "name": [
+       "Entity A",
+       "pred_model_1"
+      ],
+      "content_type": [
+       "target",
+       "model coordinates"
+      ],
+      "content_type_other_details": [
+       "",
+       ""
+      ]
+     },
+     "_ma_target_entity.": {
+      "entity_id": [
+       "1"
+      ],
+      "data_id": [
+       "1"
+      ],
+      "origin": [
+       "designed"
+      ]
+     },
+     "_entity.": {
+      "id": [
+       "1"
+      ],
+      "type": [
+       "polymer"
+      ],
+      "src_method": [
+       "man"
+      ],
+      "pdbx_description": [
+       "Entity A"
+      ],
+      "formula_weight": [
+       ""
+      ],
+      "pdbx_number_of_molecules": [
+       "1"
+      ],
+      "details": [
+       ""
+      ]
+     },
+     "_struct_asym.": {
+      "id": [
+       "A"
+      ],
+      "entity_id": [
+       "1"
+      ],
+      "details": [
+       "Chain A"
+      ]
+     }
+    },
+    "cabecera_pdb": null
+   },
+   "comparaciones": [
+    {
+     "serie_archivo": "b_media_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00033422851562647793,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999679858
+    },
+    {
+     "serie_archivo": "b_ca_por_residuo_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.472062078475957,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9826028407021642
+    },
+    {
+     "serie_archivo": "b_por_token",
+     "serie_modelo": "modelo",
+     "coincide": true,
+     "escala": 100.0,
+     "max_dif": 0.00033422851562647793,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9999999999679858
+    },
+    {
+     "serie_archivo": "ma_qa_metric_local[pLDDT]_proteina",
+     "serie_modelo": "modelo",
+     "coincide": false,
+     "escala": 100.0,
+     "max_dif": 13.472062078475957,
+     "tolerancia": 0.00051,
+     "decimales": 3,
+     "n": 617,
+     "pearson": 0.9826028407021642
+    }
+   ]
+  }
+ ],
+ "regenerado": {
+  "motivo": "la celda de análisis de la segunda ejecución se cayó (booleanos de scores.npz de Chai-1); se repite en local sobre el archivo",
+  "modulo": "scripts/colab_plddt/analisis_plddt.py",
+  "sha256_modulo": "222643a3dd9b9296facb39693dc84c71fcd36e510a8c055ec9c7f35de444d26b",
+  "commit": "69626e13"
+ }
+}

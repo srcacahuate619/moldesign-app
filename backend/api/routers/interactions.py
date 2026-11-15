@@ -8,6 +8,7 @@ pi-stacking, salt bridges, cation-pi, halogen bonds.
 
 from __future__ import annotations
 
+from collections import OrderedDict
 from pathlib import Path
 from typing import Any
 import asyncio
@@ -53,6 +54,34 @@ def _pdbqt_receptor_a_pdb(contenido: str) -> str:
             continue
         atomos.append(linea[:66].ljust(76) + f"{elemento:>2}")
     return "\n".join(atomos) + "\nEND\n" if atomos else ""
+
+
+#: Informes de contactos ya calculados. Calcularlos cuesta segundos (ProLIF sobre
+#: el receptor entero más el dibujo 2D; 3 s medidos con 8HFI) y la interfaz los
+#: vuelve a pedir cada vez que se reabre la pestaña. La clave lleva los hashes de
+#: la pose y del receptor que se analizan: si cambia cualquiera de los dos
+#: archivos, no hay acierto. La propiedad se comprueba ANTES, en cada petición.
+_CACHE_DE_INTERACCIONES_MAX = 16
+_cache_de_interacciones: "OrderedDict[tuple, dict[str, Any]]" = OrderedDict()
+
+
+def limpiar_cache_de_interacciones() -> None:
+    """Vacía la caché (pruebas y cambios de receptor en caliente)."""
+    _cache_de_interacciones.clear()
+
+
+def _cache_get(clave: tuple) -> dict[str, Any] | None:
+    hallado = _cache_de_interacciones.get(clave)
+    if hallado is not None:
+        _cache_de_interacciones.move_to_end(clave)
+    return hallado
+
+
+def _cache_put(clave: tuple, valor: dict[str, Any]) -> None:
+    _cache_de_interacciones[clave] = valor
+    _cache_de_interacciones.move_to_end(clave)
+    while len(_cache_de_interacciones) > _CACHE_DE_INTERACCIONES_MAX:
+        _cache_de_interacciones.popitem(last=False)
 
 
 class InteractionResponse(BaseModel):
@@ -161,6 +190,14 @@ async def get_interactions(
     if not pdb_content:
         raise HTTPException(status_code=409, detail="El receptor preparado no contiene átomos analizables.")
 
+    clave_cache = (
+        molecule_id, getattr(evaluation, "task_id", None), pose_rank, bool(include_map),
+        pose_sha256, protein_sha256, target.pdb_id,
+    )
+    en_cache = _cache_get(clave_cache)
+    if en_cache is not None:
+        return en_cache
+
     import tempfile
 
     tmp_dir = tempfile.mkdtemp()
@@ -231,7 +268,7 @@ async def get_interactions(
                 **atom_metadata(inter),
             })
 
-        return {
+        respuesta = {
             "molecule_id": molecule_id,
             "task_id": getattr(evaluation, "task_id", None),
             "target_pdb_id": target.pdb_id,
@@ -271,6 +308,8 @@ async def get_interactions(
                 **atom_metadata(i),
             } for i in report.interactions],
         }
+        _cache_put(clave_cache, respuesta)
+        return respuesta
 
     finally:
         # Cleanup temp files

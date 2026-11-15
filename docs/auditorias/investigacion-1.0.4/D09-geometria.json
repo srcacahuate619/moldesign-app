@@ -1,0 +1,74 @@
+{
+  "centroides": {
+    "7SRQ": {
+      "residuo_PDB": "7LD R 502 ",
+      "distancia_al_centro_A": 0.0008660254037475507
+    },
+    "6LQA": {
+      "residuo_PDB": "QDN B2110 ",
+      "distancia_al_centro_A": 0.00019543398998398182
+    },
+    "5IKR": {
+      "residuo_PDB": "ID8 A 601 ",
+      "distancia_al_centro_A": 0.0004614791034906664
+    },
+    "7KWE": {
+      "residuo_PDB": "X5M A1101 ",
+      "distancia_al_centro_A": 0.0004999999999978658
+    },
+    "9EQG": {
+      "residuo_PDB": "A1H D 505 ",
+      "distancia_al_centro_A": 0.000594418483320642
+    },
+    "8WE8": {
+      "residuo_PDB": "6UB A2309 ",
+      "distancia_al_centro_A": 0.0006575697371406672
+    }
+  },
+  "pimozida_sobre_5VA1": {
+    "A": {
+      "rmsd_Ca_A": 0.48261346228201357,
+      "centroide_a_centro_A": 4.35595678680543,
+      "max_distancia_por_eje_A": [
+        8.459228689180406,
+        8.321877584475203,
+        5.889314781776463
+      ],
+      "atomos_dentro": 34,
+      "atomos_pimozida": 34
+    },
+    "B": {
+      "rmsd_Ca_A": 0.4374865155052338,
+      "centroide_a_centro_A": 4.15886098348579,
+      "max_distancia_por_eje_A": [
+        7.879583046214606,
+        7.6603858552762745,
+        6.026134527262869
+      ],
+      "atomos_dentro": 34,
+      "atomos_pimozida": 34
+    },
+    "C": {
+      "rmsd_Ca_A": 0.6015475178740839,
+      "centroide_a_centro_A": 4.0962820600924665,
+      "max_distancia_por_eje_A": [
+        7.733317858474933,
+        8.16074864513108,
+        5.762616968315214
+      ],
+      "atomos_dentro": 34,
+      "atomos_pimozida": 34
+    },
+    "D": {
+      "rmsd_Ca_A": 0.44371080631956655,
+      "centroide_a_centro_A": 4.27383752945066,
+      "max_distancia_por_eje_A": [
+        7.844040548021283,
+        8.266665219226098,
+        5.977721420244478
+      ],
+      "atomos_dentro": 34,
+      "atomos_pimozida": 34
+    }
+  }
+}

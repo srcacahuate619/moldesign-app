@@ -69,6 +69,7 @@ Limitaciones documentadas:
 from __future__ import annotations
 
 import os
+import re
 import tempfile
 import warnings
 from functools import lru_cache
@@ -86,7 +87,9 @@ log = get_logger(__name__)
 # ─────────────────────────────────────────────────────────────
 
 # Cache version — increment when features change to invalidate cache
-CACHE_VERSION: int = 5
+# v6 (2026-11-08): el tipo donador/aceptor de la proteína cuenta también los hidrógenos escritos
+# como átomos en el PDB (`_tiene_hidrogeno`). Cambia las características de un receptor protonado.
+CACHE_VERSION: int = 6
 
 INTERACTION_FEATURES: list[str] = [
     "hbond_donor_count",        # H-bonds donde el ligando es donor
@@ -586,30 +589,13 @@ class InteractionFeatureExtractor:
                 # Go directly to the AD4→Element manual parser instead.
                 try:
                     from rdkit.Geometry import Point3D
-                    AD4_TO_ELEMENT = {
-                        "C": "C", "A": "C", "N": "N", "NA": "N", "NS": "N",
-                        "O": "O", "OA": "O", "OS": "O", "H": "H", "HD": "H", "HS": "H", "HO": "H",
-                        "S": "S", "SA": "S", "P": "P", "F": "F", "Cl": "Cl", "Br": "Br", "I": "I",
-                        "Mg": "Mg", "Ca": "Ca", "Zn": "Zn", "Fe": "Fe", "Mn": "Mn",
-                        "G": "C",   # AD4 generic carbon (some Vina outputs use 'G')
-                    }
-                    atoms = []
-                    coords = []
-                    for line in pdbqt_block.splitlines():
-                        if not (line.startswith("ATOM") or line.startswith("HETATM")):
-                            continue
-                        if len(line) < 79:
-                            continue
-                        ad4_type = line[77:79].strip()
-                        elem = AD4_TO_ELEMENT.get(ad4_type, "C")
-                        try:
-                            x = float(line[30:38])
-                            y = float(line[38:46])
-                            z = float(line[46:54])
-                        except ValueError:
-                            continue
-                        atoms.append(elem)
-                        coords.append((x, y, z))
+                    atoms, coords, _n_pseudo, _n_desconocidos = _leer_ligando_pdbqt(pdbqt_block)
+                    if _n_desconocidos:
+                        log.warning(
+                            "pdbqt_tipos_ad4_sin_elemento",
+                            n=_n_desconocidos,
+                            msg="átomos descartados: su tipo AD4 no corresponde a ningún elemento",
+                        )
                     if atoms:
                         editable = Chem.RWMol()
                         for elem in atoms:
@@ -1019,6 +1005,18 @@ def _compute_shell_atom_counts(
 # ECIF-lite (Extended Connectivity Interaction Features) — v4
 # ─────────────────────────────────────────────────────────────
 
+def _tiene_hidrogeno(atom) -> bool:
+    """¿El átomo lleva algún hidrógeno, implícito O escrito como átomo del archivo?
+
+    `GetTotalNumHs()` a secas cuenta los implícitos y deja fuera los hidrógenos que el PDB trae
+    como átomos: en un receptor protonado (5TBO, 8ZP2 y 1BN1 entre los 34 de la caché local) todo
+    N y todo O salía «aceptor» y las características `ecif_N_don_*` y `ecif_O_don_*` valían cero,
+    mientras que el mismo receptor sin hidrógenos las poblaba. Medido por X01 con hidrógenos
+    explícitos y sin ellos (`rescoring/tests/test_xai_controles_extractor.py`).
+    """
+    return atom.GetTotalNumHs(includeNeighbors=True) > 0
+
+
 def _assign_prot_ecif_type(atom) -> str:
     """
     Assign ECIF protein atom type.
@@ -1037,9 +1035,9 @@ def _assign_prot_ecif_type(atom) -> str:
     if sym == 'C':
         return 'C_aro' if atom.GetIsAromatic() else 'C_ali'
     if sym == 'N':
-        return 'N_don' if atom.GetTotalNumHs() > 0 else 'N_acc'
+        return 'N_don' if _tiene_hidrogeno(atom) else 'N_acc'
     if sym == 'O':
-        return 'O_don' if atom.GetTotalNumHs() > 0 else 'O_acc'
+        return 'O_don' if _tiene_hidrogeno(atom) else 'O_acc'
     if sym == 'S':
         return 'S'
     return 'other'
@@ -1189,15 +1187,103 @@ def extract_single_complex(
     return ext.extract_from_files(protein_pdb, ligand_sdf)
 
 
+#: Tipos AutoDock (columnas 78-80 de un PDBQT) → símbolo de elemento.
+#: `A` es el carbono aromático; `NA`, `OA`, `SA` son aceptores; `HD` es el
+#: hidrógeno polar. `CG0`..`CG9` son carbonos REALES de una molécula
+#: macrocíclica abierta por Meeko (su átomo `G0` vecino no lo es).
+_AD4_A_ELEMENTO: dict[str, str] = {
+    "C": "C", "A": "C", "N": "N", "NA": "N", "NS": "N",
+    "O": "O", "OA": "O", "OS": "O",
+    "H": "H", "HD": "H", "HS": "H", "HO": "H",
+    "S": "S", "SA": "S", "P": "P", "F": "F",
+    "Cl": "Cl", "Br": "Br", "I": "I",
+    "Mg": "Mg", "Ca": "Ca", "Zn": "Zn", "Fe": "Fe", "Mn": "Mn",
+    **{f"CG{i}": "C" for i in range(10)},
+}
+
+#: Pseudoátomos de pegado: `G`, `G0`..`G9`. Meeko los inserta al abrir un
+#: macrociclo para que Vina pueda cerrar el anillo. NO existen en la molécula
+#: (la fila real de Vina para el exaltólido trae 19 átomos y la molécula 17),
+#: así que no se cuentan como ligando. Los `CG*` NO están aquí: son carbonos reales.
+_PSEUDOATOMO_DE_PEGADO = re.compile(r"^G\d?$")
+
+
+def _ad4_a_elemento(ad4_type: str) -> str | None:
+    """Símbolo del elemento de un tipo AutoDock, o `None`.
+
+    `None` significa «no es un átomo de ligando»: o es un pseudoátomo de pegado
+    de un macrociclo, o el tipo no corresponde a ningún elemento. En ninguno de
+    los dos casos se inventa un carbono (antes, cualquier tipo desconocido —boro,
+    silicio— caía en `C` y inflaba las capas `shell_*_C_*`).
+    """
+    tipo = (ad4_type or "").strip()
+    if not tipo or _PSEUDOATOMO_DE_PEGADO.match(tipo):
+        return None
+    if tipo in _AD4_A_ELEMENTO:
+        return _AD4_A_ELEMENTO[tipo]
+    try:
+        from rdkit import Chem
+        table = Chem.GetPeriodicTable()
+        # Sólo si el tipo ES un símbolo (p. ej. `B`, `Si`): sin prefijos ni aproximaciones.
+        if table.GetElementSymbol(table.GetAtomicNumber(tipo)) == tipo:
+            return tipo
+    except Exception:
+        pass
+    return None
+
+
+def _leer_ligando_pdbqt(
+    pdbqt_block: str,
+) -> tuple[list[str], list[tuple[float, float, float]], int, int]:
+    """Elementos y coordenadas de las líneas ATOM/HETATM de un bloque PDBQT.
+
+    El tipo AutoDock se toma como el ÚLTIMO campo de la línea, no de unas
+    columnas fijas: una línea a la que se le quitó el espacio final (tipo de un
+    solo carácter, p. ej. `C`) se descartaba entera por medir menos de 79
+    caracteres, y los tipos de tres caracteres (`CG0`) se truncaban.
+
+    Returns:
+        (elementos, coordenadas, n_pseudoatomos_de_pegado, n_tipos_desconocidos)
+    """
+    elementos: list[str] = []
+    coords: list[tuple[float, float, float]] = []
+    n_pseudo = 0
+    n_desconocidos = 0
+    for line in pdbqt_block.splitlines():
+        if not line.startswith(("ATOM", "HETATM")):
+            continue
+        try:
+            xyz = (float(line[30:38]), float(line[38:46]), float(line[46:54]))
+        except ValueError:
+            continue
+        campos = line[54:].split()
+        ad4_type = campos[-1] if len(campos) >= 4 else ""
+        elemento = _ad4_a_elemento(ad4_type)
+        if elemento is None:
+            if _PSEUDOATOMO_DE_PEGADO.match(ad4_type):
+                n_pseudo += 1
+            else:
+                n_desconocidos += 1
+            continue
+        elementos.append(elemento)
+        coords.append(xyz)
+    return elementos, coords, n_pseudo, n_desconocidos
+
+
 def _manual_parse_pdbqt_coords(pdbqt_block: str) -> np.ndarray | None:
     """
     Parser manual de emergencia para extraer coordenadas de un PDBQT.
     Útil cuando MDAnalysis/RDKit fallan por temas de valencia o hidrógenos.
+
+    No cuenta los pseudoátomos de pegado de un macrociclo (ver `_ad4_a_elemento`).
     """
     coords = []
     try:
         for line in pdbqt_block.splitlines():
             if line.startswith(("ATOM", "HETATM")):
+                campos = line[54:].split()
+                if campos and _PSEUDOATOMO_DE_PEGADO.match(campos[-1]):
+                    continue
                 # PDB format: x(31-38), y(39-46), z(47-54)
                 try:
                     x = float(line[30:38].strip())

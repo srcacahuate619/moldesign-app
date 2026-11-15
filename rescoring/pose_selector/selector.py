@@ -6,9 +6,13 @@ Port de produccion de scripts/ruta_c_fase3_calibracion.py::puntuar_complejo:
   1. 224 features raw por pose (extractor v0.5, ver feature_extractor.py).
   2. features de conjunto: pose_score_variance/range sobre las N poses del
      request (semantica v0.5: varianza/rango dentro del MISMO run de
-     docking) y cluster_density intra-complejo (pares de poses con RMSD
-     pocket-frame < 2.0 A sin alinear, umbral UMBRAL_CLUSTER del dataset
-     builder).
+     docking) y cluster_density intra-complejo (pares de poses con distancia
+     < 2.0 sin alinear, umbral UMBRAL_CLUSTER del dataset builder). OJO: esa
+     distancia es sqrt(mean((xi - xj)**2)) sobre el tensor (N, 3), es decir el
+     RMSD 3D por atomo DIVIDIDO POR sqrt(3): el umbral 2.0 equivale a un RMSD
+     3D de 2*sqrt(3) ~ 3.46 A. Es la convencion con la que se entreno el booster
+     v0.6 (scripts/build_pose_selector_dataset.py) y no se cambia sin reentrenar
+     (auditoria cientifica 1.0.4, S2-3); no es el RMSD 2 A de la literatura.
   3. Transformacion por complejo: z-score por columna (std == 0 -> z = 0)
      + rango percentil 0-100 (empates -> rango promedio) de las 9 features
      de orden_pct (complejo de 1 pose -> 50.0). NaN -> 0 despues de
@@ -37,7 +41,7 @@ from pose_selector.feature_extractor import (
 
 # Punto de operacion de Fase 3 (barrido sobre val, regla pre-registrada).
 UMBRAL_ABSTENCION_DEFECTO = 0.097663
-UMBRAL_CLUSTER = 2.0  # A — vecino de cluster (dataset builder)
+UMBRAL_CLUSTER = 2.0  # sobre sqrt(mean(d**2)) en (N, 3): ~3.46 A de RMSD 3D (ver cabecera)
 NOMBRE_MODELO = "pose_selector_v06"
 
 
@@ -75,9 +79,12 @@ def _pct_por_complejo(X: np.ndarray, indices: list[int]) -> np.ndarray:
 
 
 def _cluster_density_por_serials(bloques: list[str]) -> tuple:
-    """Densidad de cluster intra-complejo (pares pose-pose con RMSD
-    pocket-frame < 2.0 A, sin alinear) con correspondencia de atomos por
-    SERIAL de los bloques PDBQT. Devuelve (densidades, warning):
+    """Densidad de cluster intra-complejo: pares pose-pose cuya distancia
+    sqrt(mean(d**2)) sobre (N, 3), sin alinear, es < UMBRAL_CLUSTER (2.0). Esa
+    distancia es el RMSD 3D por atomo dividido por sqrt(3), asi que el umbral
+    equivale a un RMSD 3D de ~3.46 A, no al RMSD de 2 A de la literatura (ver la
+    cabecera del modulo; auditoria cientifica 1.0.4, S2-3). Correspondencia de
+    atomos por SERIAL de los bloques PDBQT. Devuelve (densidades, warning):
       densidades: np.ndarray (N,) — cuenta de vecinos por pose.
       warning: str | None — si los seriales no se alinean entre bloques se
         degrada todo a 0 y se reporta el motivo."""
@@ -106,6 +113,7 @@ def _cluster_density_por_serials(bloques: list[str]) -> tuple:
     dens = np.zeros(n, dtype=np.float64)
     for i in range(n):
         for j in range(i + 1, n):
+            # mean sobre (N, 3): RMSD 3D / sqrt(3). No «arreglar» sin reentrenar.
             dd = float(np.sqrt(np.mean((coords[i] - coords[j]) ** 2)))
             if dd < UMBRAL_CLUSTER:
                 dens[i] += 1

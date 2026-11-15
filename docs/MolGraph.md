@@ -367,6 +367,8 @@ query_admet_correlation() →
   → MolChat: "LogP > 3.5 duplica la penetración BBB."
 ```
 
+Desde 1.0.4, `bbb_permeable_pct` se calcula entre las moléculas **con veredicto** de BBB y cada grupo declara su cobertura (`bbb_con_veredicto` y `bbb_sin_veredicto`): una abstención del consenso no cuenta como «no permeable», y sin ningún veredicto el porcentaje es `null`, no 0.
+
 **Tool**: `molgraph_admet()`
 
 ---

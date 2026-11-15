@@ -5,7 +5,7 @@ import { presentError } from "../../../lib/frontendError";
 import React, { useState, useRef, useEffect } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
 import { X, Upload, Info, FileText, CheckCircle2, Zap, Layers, Package } from "lucide-react";
-import { uploadCustomTarget } from "../../../lib/api";
+import { inspeccionarReceptor, uploadCustomTarget } from "../../../lib/api";
 import { invalidarCatalogo } from "../../../lib/catalogoDeReceptores";
 
 interface CustomReceptorModalProps {
@@ -46,6 +46,22 @@ export function extensionAdmitida(nombre: string, extensiones: readonly string[]
   return extensiones.some((e) => n.endsWith(e));
 }
 
+/**
+ * De dónde viene una estructura que no lo dice (ni método ni marcas de predicción; el PDB de Boltz no trae cabecera).
+ * Son los valores de `fuente_declarada` que acepta el backend (`prediccion.FUENTES_DECLARABLES`). Sólo se pregunta
+ * cuando `POST /targets/upload/inspeccion` dice que hace falta, y la respuesta queda registrada como declaración.
+ */
+export type FuenteDeclarada = "experimental" | "boltz" | "otra" | "no_se";
+export const FUENTES_DECLARABLES: readonly FuenteDeclarada[] = ["experimental", "boltz", "otra", "no_se"];
+export const MAX_HERRAMIENTA = 80;
+/** Título y nota de cada opción: qué hará Preparación con ella. */
+const TEXTOS_FUENTE: Record<FuenteDeclarada, readonly [string, string]> = {
+  experimental: ["pr_rp_fuente_experimental", "pr_rp_fuente_experimental_nota"],
+  boltz: ["pr_rp_fuente_boltz", "pr_rp_fuente_boltz_nota"],
+  otra: ["pr_rp_fuente_otra", "pr_rp_fuente_otra_nota"],
+  no_se: ["pr_rp_fuente_no_se", "pr_rp_fuente_no_se_nota"],
+};
+
 const aceptar = (extensiones: readonly string[]) => [...extensiones, ".gz"].join(",");
 
 export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: CustomReceptorModalProps) {
@@ -72,7 +88,36 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
   const fileInputRef = useRef<HTMLInputElement>(null);
   const origenInputRef = useRef<HTMLInputElement>(null);
 
+  // ¿La estructura dice de dónde viene? Lo decide el backend con la regla de la subida. En A y B se mira el archivo; en
+  // C, la estructura de origen (el PDBQT ya perdió el factor B). El envío espera a la respuesta: no hay carrera.
+  const [preguntaFuente, setPreguntaFuente] = useState(false);
+  const [inspeccionando, setInspeccionando] = useState(false);
+  const [fuente, setFuente] = useState<FuenteDeclarada | "">("");
+  const [herramienta, setHerramienta] = useState("");
+  const inspeccion = useRef<Promise<boolean>>(Promise.resolve(false));
+  const turnoDeInspeccion = useRef(0);
+
   const config = CAMINOS[camino];
+
+  const inspeccionar = (archivo: File | null) => {
+    const turno = ++turnoDeInspeccion.current;
+    setPreguntaFuente(false);
+    setFuente("");
+    setHerramienta("");
+    if (!archivo) {
+      inspeccion.current = Promise.resolve(false);
+      setInspeccionando(false);
+      return;
+    }
+    setInspeccionando(true);
+    const promesa = inspeccionarReceptor(archivo).then((r) => r?.pregunta_fuente === true);
+    inspeccion.current = promesa;
+    void promesa.then((pregunta) => {
+      if (turno !== turnoDeInspeccion.current) return;     // ya se eligió otro archivo
+      setPreguntaFuente(pregunta);
+      setInspeccionando(false);
+    });
+  };
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -89,8 +134,11 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
     setCamino(nuevo);
     setError(null);
     // El archivo que ya no corresponde a este camino se descarta; el que sí corresponde se conserva.
-    if (file && !extensionAdmitida(file.name, CAMINOS[nuevo].extensiones)) setFile(null);
+    const conserva = file !== null && extensionAdmitida(file.name, CAMINOS[nuevo].extensiones);
+    if (file && !conserva) setFile(null);
     if (nuevo !== "C") setOrigen(null);
+    // Lo que se preguntó era del archivo descartado (o del origen, que en otro camino no existe).
+    if (!conserva || nuevo === "C" || camino === "C") inspeccionar(null);
   };
 
   const rechazar = (nombre: string, extensiones: readonly string[]) =>
@@ -106,6 +154,7 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
     }
     setError(null);
     setFile(selected);
+    if (camino !== "C") inspeccionar(selected);
   };
 
   const handleOrigenChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,6 +167,7 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
     }
     setError(null);
     setOrigen(selected);
+    inspeccionar(selected);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -140,12 +190,27 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
       setError(t("pr_rp_caja_incompleta"));
       return;
     }
+    // Si se envía antes de que vuelva la consulta, se espera; si hace falta preguntar, se pregunta antes de subir.
+    const hayQuePreguntar = await inspeccion.current;
+    if (hayQuePreguntar && !fuente) {
+      setPreguntaFuente(true);
+      setError(t("pr_rp_fuente_falta"));
+      return;
+    }
+    if (hayQuePreguntar && fuente === "otra" && !herramienta.trim()) {
+      setError(t("pr_rp_fuente_falta_herramienta"));
+      return;
+    }
 
     setLoading(true);
     setError(null);
 
     try {
       const formData = new FormData();
+      if (hayQuePreguntar && fuente) {
+        formData.append("fuente_declarada", fuente);
+        if (fuente === "otra") formData.append("herramienta_declarada", herramienta.trim());
+      }
       formData.append("file", file);
       if (camino === "C" && origen) formData.append("source_file", origen);
       formData.append("name", name);
@@ -378,7 +443,7 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
                     {origen && (
                       <button
                         type="button"
-                        onClick={() => { setOrigen(null); if (origenInputRef.current) origenInputRef.current.value = ""; }}
+                        onClick={() => { setOrigen(null); inspeccionar(null); if (origenInputRef.current) origenInputRef.current.value = ""; }}
                         className="px-3 rounded-xl border border-zinc-800 text-xs text-zinc-400 hover:text-white cursor-pointer"
                       >
                         {t("pr_rp_origen_quitar")}
@@ -389,6 +454,46 @@ export function CustomReceptorModal({ onClose, onSuccess, antiDiana = false }: C
                     {t("pr_rp_origen_nota")} {t("pr_rp_extensiones", { ext: EXTENSIONES_ORIGEN.join(" ") })}
                   </p>
                 </div>
+              )}
+
+              {inspeccionando && (
+                <p className="text-[11px] text-zinc-500" data-testid="rp-fuente-leyendo">{t("pr_rp_fuente_leyendo")}</p>
+              )}
+
+              {preguntaFuente && (
+                <fieldset data-testid="rp-fuente" className="border border-amber-500/30 bg-amber-950/10 rounded-xl p-3">
+                  <legend className="px-1 text-xs font-bold uppercase text-amber-200/90">{t("pr_rp_fuente_titulo")}</legend>
+                  <p className="text-[11px] text-zinc-400 leading-relaxed mb-2">{t("pr_rp_fuente_explica")}</p>
+                  <div className="space-y-1.5">
+                    {FUENTES_DECLARABLES.map((id) => (
+                      <label key={id} className="flex items-start gap-2 cursor-pointer">
+                        <input
+                          type="radio"
+                          name="rp-fuente"
+                          value={id}
+                          checked={fuente === id}
+                          onChange={() => { setFuente(id); setError(null); }}
+                          className="mt-0.5 accent-purple-500 cursor-pointer"
+                        />
+                        <span className="text-xs text-zinc-200 normal-case">
+                          {t(TEXTOS_FUENTE[id][0])}
+                          <span className="block text-[11px] text-zinc-500">{t(TEXTOS_FUENTE[id][1])}</span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                  {fuente === "otra" && (
+                    <input
+                      type="text"
+                      value={herramienta}
+                      maxLength={MAX_HERRAMIENTA}
+                      onChange={(e) => setHerramienta(e.target.value)}
+                      placeholder={t("pr_rp_fuente_herramienta")}
+                      aria-label={t("pr_rp_fuente_herramienta")}
+                      className="mt-2 w-full bg-black border border-zinc-800 rounded-xl px-3.5 py-2 text-white font-mono text-xs focus:outline-none focus:border-purple-500/40 transition-all"
+                    />
+                  )}
+                </fieldset>
               )}
 
               <div>

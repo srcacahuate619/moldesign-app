@@ -87,6 +87,26 @@ describe("comportamiento del componente", () => {
     expect(screen.queryByRole("dialog")).toBeNull();
   });
 
+  it("queda clavado al contenido: acompaña al botón al scrollear y no se cierra", () => {
+    render(<Ayuda titulo="Señales">Texto largo.</Ayuda>);
+    const boton = screen.getByRole("button", { name: /Señales/ });
+    const rect = (top: number) =>
+      ({ top, bottom: top + 16, left: 300, right: 316, width: 16, height: 16, x: 300, y: top, toJSON() {} }) as DOMRect;
+    boton.getBoundingClientRect = () => rect(100);
+    fireEvent.click(boton);
+    const panel = screen.getByRole("dialog");
+    const top0 = parseFloat(panel.style.top);
+
+    boton.getBoundingClientRect = () => rect(40); // la página scrolleó 60 px
+    fireEvent.scroll(document);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(parseFloat(screen.getByRole("dialog").style.top)).toBeCloseTo(top0 - 60);
+
+    // Scroll dentro del panel: no lo mueve.
+    fireEvent.scroll(screen.getByRole("dialog"));
+    expect(parseFloat(screen.getByRole("dialog").style.top)).toBeCloseTo(top0 - 60);
+  });
+
   it("cada ayuda se llama por lo que explica, no «Ayuda»", () => {
     render(
       <div>

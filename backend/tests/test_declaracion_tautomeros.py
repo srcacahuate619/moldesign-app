@@ -65,6 +65,35 @@ def test_la_estereoquimica_sp3_sobrevive():
     assert s["smiles_canonico"] != r["smiles_canonico"]
 
 
+def test_la_ez_de_un_doble_enlace_sobrevive_y_los_dos_isomeros_difieren():
+    """Auditoría científica 1.0.4, S2-5. `tautomerRemoveBondStereo = True` (el valor por
+    defecto de RDKit) borraba la configuración de todo doble enlace del sistema
+    tautomérico: el (E)- y el (Z)-resveratrol declaraban la misma lista de 25 candidatos y
+    el mismo canónico, y ninguno de los dos conservaba la geometría que se le acopla."""
+    e = declarar_tautomeros("Oc1ccc(/C=C/c2cc(O)cc(O)c2)cc1")
+    z = declarar_tautomeros("Oc1ccc(/C=C\\c2cc(O)cc(O)c2)cc1")
+
+    assert e["smiles_canonico"] != z["smiles_canonico"]
+    assert "/C=C/" in e["smiles_canonico"] and "/C=C\\" in z["smiles_canonico"]
+    assert [c["smiles"] for c in e["candidatos"]] != [c["smiles"] for c in z["candidatos"]]
+    # Cada declaración reconoce SU entrada entre los candidatos.
+    assert sum(c["es_entrada"] for c in e["candidatos"]) == 1
+    assert sum(c["es_entrada"] for c in z["candidatos"]) == 1
+    # Conservar la E/Z no cambia cuántos tautómeros hay ni si la enumeración termina.
+    assert e["n_candidatos"] == z["n_candidatos"] == 25 and e["enumeracion_completa"]
+
+
+def test_la_declaracion_dice_con_que_parametros_enumero():
+    """La cadena `motor` es lo que un tercero lee para reconstruir la lista: tiene que
+    nombrar los dos parámetros que conservan la estereoquímica, y la versión del
+    formato subió cuando cambió la salida."""
+    d = declarar_tautomeros("CCO")
+
+    assert "tautomerRemoveSp3Stereo=False" in d["motor"]
+    assert "tautomerRemoveBondStereo=False" in d["motor"]
+    assert d["version"] == 2
+
+
 def test_si_la_enumeracion_se_corta_en_el_tope_no_queda_resuelto():
     """Un flavonoide tipo quercetina pasa de 32 tautómeros: la lista de candidatos
     está incompleta, y eso no puede presentarse como «varios sin descartar»."""

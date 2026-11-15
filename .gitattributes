@@ -32,6 +32,8 @@ docs/auditorias/FEP-09-*.md        -text
 docs/papers/FEP-09-SENSIBILIDAD.md -text
 docs/papers/FEP-09-R1.md          -text
 docs/auditorias/preparacion-sensibilidad-2026-10-11.md -text
+# Investigación de las decisiones de 1.0.4: su manifiesto.json y sus .sha256 hashean las fichas, actas y scripts.
+docs/auditorias/investigacion-1.0.4/** -text
 # Definiciones CCD de los cofactores y las plantillas Meeko derivadas: el
 # manifiesto de `backend/data/meeko_templates/` hashea ambas. Los .cif del CCD
 # traen espacios al final de linea por su propio formato y no se pueden
@@ -320,3 +322,6 @@ tools/molchat/**                  -text
 # Sumas del reto FEP-06-HUM: con autocrlf el checkout las dejaba en CRLF y `sha256sum -c` no encontraba
 # «P01.zip\r» (2026-10-26).
 SHA256SUMS                        text eol=lf
+# Recortes de Boltz-2 y Chai-1: su procedencia declara el SHA-256 de cada uno.
+backend/tests/data/receptores_propios/boltz_*  -text
+backend/tests/data/receptores_propios/chai_*   -text

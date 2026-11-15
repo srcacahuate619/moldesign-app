@@ -9,13 +9,16 @@ import {
 } from "../CustomReceptorModal";
 
 const upload = vi.hoisted(() => vi.fn());
-vi.mock("@/lib/api", () => ({ uploadCustomTarget: upload }));
+const inspeccionar = vi.hoisted(() => vi.fn());
+vi.mock("@/lib/api", () => ({ uploadCustomTarget: upload, inspeccionarReceptor: inspeccionar }));
 vi.mock("@/context/LanguageContext", () => ({
   useLanguage: () => ({ t: (key: string, vars?: Record<string, string>) => (vars ? `${key}:${JSON.stringify(vars)}` : key) }),
 }));
 beforeEach(() => {
   upload.mockReset();
   upload.mockResolvedValue({});
+  inspeccionar.mockReset();
+  inspeccionar.mockResolvedValue(null);          // sin respuesta: no se pregunta nada (lo de antes)
 });
 
 const archivo = (nombre: string) => new File(["ATOM\n"], nombre, { type: "text/plain" });
@@ -341,5 +344,121 @@ describe("los textos de los tres caminos", () => {
         expect(pro[idioma][clave], `${idioma}.${clave}`).not.toMatch(/\bsdf\b/i);
       }
     }
+  });
+});
+
+describe("un archivo que no dice de dónde viene (el PDB de Boltz no trae cabecera)", () => {
+  const sinCabecera = { formato: "pdb", pregunta_fuente: true, fuentes: ["experimental", "boltz", "otra", "no_se"] };
+  const opcion = (view: ReturnType<typeof montar>["view"], id: string) =>
+    view.container.querySelector(`input[name="rp-fuente"][value="${id}"]`) as HTMLInputElement;
+
+  it("pregunta de dónde viene y no sube nada sin respuesta", async () => {
+    inspeccionar.mockResolvedValue(sinCabecera);
+    const { nombrar, elegir, enviar, alerta } = montar();
+    nombrar();
+    elegir("cdk2_lig_model_0.pdb");
+
+    expect(await screen.findByTestId("rp-fuente")).toBeTruthy();
+    expect(within(screen.getByTestId("rp-fuente")).getByText("pr_rp_fuente_titulo")).toBeTruthy();
+    enviar();
+
+    await waitFor(() => expect(alerta()).toContain("pr_rp_fuente_falta"));
+    expect(upload).not.toHaveBeenCalled();
+    expect((inspeccionar.mock.calls[0][0] as File).name).toBe("cdk2_lig_model_0.pdb");
+  });
+
+  it("envía la fuente elegida como declaración", async () => {
+    inspeccionar.mockResolvedValue(sinCabecera);
+    const { view, nombrar, elegir, enviar, onSuccess } = montar();
+    nombrar();
+    elegir("cdk2_lig_model_0.pdb");
+    await screen.findByTestId("rp-fuente");
+    fireEvent.click(opcion(view, "boltz"));
+    enviar();
+
+    await waitFor(() => expect(onSuccess).toHaveBeenCalledTimes(1));
+    const datos = upload.mock.calls[0][0] as FormData;
+    expect(datos.get("fuente_declarada")).toBe("boltz");
+    expect(datos.get("herramienta_declarada")).toBeNull();
+  });
+
+  it("«otra herramienta» pide su nombre y lo envía", async () => {
+    inspeccionar.mockResolvedValue(sinCabecera);
+    const { view, nombrar, elegir, enviar, onSuccess, alerta } = montar();
+    nombrar();
+    elegir("modelo.pdb");
+    await screen.findByTestId("rp-fuente");
+    fireEvent.click(opcion(view, "otra"));
+    enviar();
+    await waitFor(() => expect(alerta()).toContain("pr_rp_fuente_falta_herramienta"));
+    expect(upload).not.toHaveBeenCalled();
+
+    fireEvent.change(screen.getByLabelText("pr_rp_fuente_herramienta"), { target: { value: "  ColabFold 1.5 " } });
+    enviar();
+
+    await waitFor(() => expect(onSuccess).toHaveBeenCalledTimes(1));
+    const datos = upload.mock.calls[0][0] as FormData;
+    expect(datos.get("fuente_declarada")).toBe("otra");
+    expect(datos.get("herramienta_declarada")).toBe("ColabFold 1.5");
+  });
+
+  it("si se envía antes de que vuelva la consulta, la espera y pregunta en vez de subir", async () => {
+    let responder: (valor: unknown) => void = () => {};
+    inspeccionar.mockReturnValue(new Promise((resolve) => { responder = resolve; }));
+    const { nombrar, elegir, enviar, alerta } = montar();
+    nombrar();
+    elegir("cdk2_lig_model_0.pdb");
+    expect(screen.getByTestId("rp-fuente-leyendo")).toBeTruthy();
+    enviar();
+    responder(sinCabecera);
+
+    await waitFor(() => expect(alerta()).toContain("pr_rp_fuente_falta"));
+    expect(screen.getByTestId("rp-fuente")).toBeTruthy();
+    expect(upload).not.toHaveBeenCalled();
+  });
+
+  it("un archivo que dice de dónde viene no pregunta ni envía fuente (control)", async () => {
+    inspeccionar.mockResolvedValue({ ...sinCabecera, pregunta_fuente: false });
+    const { nombrar, elegir, enviar, onSuccess } = montar();
+    nombrar();
+    elegir("8HFI.pdb");
+    enviar();
+
+    await waitFor(() => expect(onSuccess).toHaveBeenCalledTimes(1));
+    expect(screen.queryByTestId("rp-fuente")).toBeNull();
+    expect((upload.mock.calls[0][0] as FormData).get("fuente_declarada")).toBeNull();
+  });
+
+  it("en C pregunta por la estructura de origen, no por el PDBQT", async () => {
+    inspeccionar.mockResolvedValue(sinCabecera);
+    const { view, camino, nombrar, elegir, caja, enviar, onSuccess } = montar();
+    fireEvent.click(camino("C"));
+    nombrar();
+    elegir("receptor.pdbqt");
+    caja("1", "2", "3");
+    expect(inspeccionar).not.toHaveBeenCalled();
+
+    fireEvent.change(screen.getByTestId("rp-origen"), { target: { files: [archivo("cdk2_lig_model_0.pdb")] } });
+    await screen.findByTestId("rp-fuente");
+    fireEvent.click(opcion(view, "no_se"));
+    enviar();
+
+    await waitFor(() => expect(onSuccess).toHaveBeenCalledTimes(1));
+    expect((inspeccionar.mock.calls[0][0] as File).name).toBe("cdk2_lig_model_0.pdb");
+    expect((upload.mock.calls[0][0] as FormData).get("fuente_declarada")).toBe("no_se");
+  });
+
+  it("quitar el origen o cambiar de camino descarta la pregunta", async () => {
+    inspeccionar.mockResolvedValue(sinCabecera);
+    const { camino, elegir } = montar();
+    elegir("cdk2_lig_model_0.pdb");
+    await screen.findByTestId("rp-fuente");
+
+    fireEvent.click(camino("C"));                          // el PDB no vale en C: se descarta con su pregunta
+    expect(screen.queryByTestId("rp-fuente")).toBeNull();
+    fireEvent.change(screen.getByTestId("rp-origen"), { target: { files: [archivo("origen.pdb")] } });
+    await screen.findByTestId("rp-fuente");
+    fireEvent.click(screen.getByText("pr_rp_origen_quitar"));
+    expect(screen.queryByTestId("rp-fuente")).toBeNull();
   });
 });

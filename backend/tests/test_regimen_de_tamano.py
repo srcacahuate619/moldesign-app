@@ -16,7 +16,7 @@ Ahora las fronteras son las de la química medicinal (`chem/regimenes.py`):
 
     Molécula pequeña   Rule of Five        MW ≤ 500        Lipinski et al. 1997
     Más allá de Ro5    bRo5                500 < MW ≤ 1000  Doak et al. 2014
-    Fuera de alcance   —                   MW > 1000, o > 70 átomos (Ghose 1999)
+    Fuera de alcance   —                   MW > 1000, o > 70 átomos pesados (la conversión de ese techo)
 
 Y el segundo defecto del mismo caso: la eficiencia de ligando se juzgaba con
 umbrales fijos (0.25 / 0.45) sobre `|afinidad| / átomos_pesados`, de modo que el
@@ -92,17 +92,40 @@ def test_las_fronteras_son_las_de_la_literatura():
     assert MW_RO5 == 500.0, "Rule of Five (Lipinski et al. 1997)"
     assert MW_BRO5 == 1000.0, "Beyond Rule of Five (Doak et al. 2014)"
     assert MW_FRAGMENTO == 300.0, "Rule of Three (Congreve et al. 2003)"
-    assert HA_MAXIMO == 70, "rango de átomos de Ghose et al. 1999 (20-70)"
+    assert HA_MAXIMO == 70, "tope operativo: la conversión redondeada de 1000 Da"
 
 
-def test_el_tope_de_atomos_coincide_con_ghose_ya_implementado():
-    """No se introduce un número nuevo: es el que ya usaba GhoseRule."""
+def test_el_tope_de_atomos_es_la_conversion_del_techo_bro5_y_no_el_rango_de_ghose():
+    """Auditoría científica 1.0.4, S1-1.
+
+    El 70 de Ghose et al. 1999 cuenta átomos TOTALES (hidrógenos incluidos): con átomos
+    pesados es inalcanzable con MW ≤ 480. Que `HA_MAXIMO` valga lo mismo es una
+    coincidencia de cifra entre unidades distintas, y este tope se justifica por la
+    conversión medida del techo de 1000 Da (~72 átomos pesados), no por Ghose.
+    """
     from chem.properties import GhoseRule
 
-    assert HA_MAXIMO == GhoseRule.ATOM_RANGE[1], (
-        "el tope de átomos dejó de coincidir con el filtro de Ghose que el "
-        "producto ya aplicaba: habría dos fronteras distintas para lo mismo"
+    mediana_da_por_atomo = 13.86  # medida sobre los once fármacos de `chem/regimenes.py`
+    assert abs(HA_MAXIMO - MW_BRO5 / mediana_da_por_atomo) <= 3, (
+        "el tope de átomos pesados dejó de ser la conversión del techo de 1000 Da"
     )
+    # Y la regla de Ghose sigue contando átomos totales: el aceite de 70 átomos pesados
+    # no es lo que ella describe.
+    assert GhoseRule.ATOM_RANGE == (20, 70)
+
+
+def test_el_mensaje_del_tope_no_atribuye_el_70_a_ghose():
+    """Un alcano de 71 carbonos (998 Da, 71 pesados, 215 totales) sale del alcance por
+    el tope operativo, y la discrepancia lo dice sin citar a Ghose."""
+    from rdkit import Chem
+    from rdkit.Chem import Descriptors
+
+    mol = Chem.MolFromSmiles("C" * 71)
+    resultado = clasificar(Descriptors.MolWt(mol), mol.GetNumHeavyAtoms())
+
+    assert resultado.regimen is Regimen.FUERA_DE_ALCANCE and resultado.bloquea
+    assert resultado.discrepancia and "Ghose" not in resultado.discrepancia
+    assert "Ghose" not in resultado.criterio and "Doak" in resultado.criterio
 
 
 @pytest.mark.parametrize("nombre,smiles,esperado", FARMACOS, ids=[f[0] for f in FARMACOS])
@@ -200,6 +223,19 @@ def test_el_validador_bloquea_por_el_criterio_publicado():
     assert "Ghose" in texto or "bRo5" in texto, (
         "el rechazo por tamaño no dice qué criterio lo motiva"
     )
+
+
+def test_el_aviso_de_masa_baja_cuenta_atomos_totales_como_hace_ghose():
+    """Auditoría científica 1.0.4, S1-1. El ácido valproico (144 Da, 10 átomos pesados, 26
+    totales) recibía «el filtro de Ghose empieza en 20 átomos pesados»: Ghose cuenta
+    átomos totales, y con 26 el valproico ya está dentro de su rango de átomos."""
+    from chem.validator import validate_smiles
+
+    resultado = validate_smiles("CCCC(CCC)C(=O)O")
+    avisos = [w for w in resultado.warnings if "Ghose" in w]
+
+    assert resultado.is_valid and avisos, "el valproico debe llevar el aviso de masa baja"
+    assert "átomos totales" in avisos[0] and "átomos pesados" not in avisos[0]
 
 
 def test_el_validador_deja_pasar_bro5_avisando():

@@ -35,7 +35,7 @@ from typing import Any
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
-from reportlab.platypus import KeepTogether, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import KeepTogether, SimpleDocTemplate, Spacer, TableStyle
 
 from core.i18n import current_locale, translate_text
 from services.dossier.package import (
@@ -46,7 +46,7 @@ from services.dossier.package import (
 )
 from services.cohort.schemas import modo_tautomero_de
 from services.dossier.localization import traducir_dossier
-from services.dossier.pdf import _Chrome, _escapar, _estilos, _romper_largo
+from services.dossier.pdf import Paragraph, Table, _Chrome, _escapar, _estilos, _romper_largo
 from services.dossier.taxonomy import Estado
 
 #: Contrato del dossier de cohorte.
@@ -63,6 +63,24 @@ def raiz_paquete_cohorte(cohort_name: str, run_id: uuid.UUID) -> str:
 
 
 # ── PDF ──────────────────────────────────────────────────────────────
+
+
+#: Los códigos que guarda la corrida (`cohort/execution.py`, `cohort/taxonomy.py`), con el nombre que se imprime. El PDF
+#: imprimía «completed», «catalogo» y «none» tal cual (N2). Un valor que no esté aquí se imprime como llegó.
+_ROTULOS = {
+    "queued": "En cola", "running": "En curso", "completed": "Completada",
+    "completed_with_exceptions": "Completada con excepciones", "failed": "Fallida",
+    "interrupted": "Interrumpida", "cancelled": "Cancelada", "pending": "Pendiente",
+    "not_evaluated": "No evaluada", "duplicate_reused": "Duplicada: se reutilizó el resultado",
+    "catalogo": "Catálogo", "cohorte": "Declarada por la cohorte",
+    "reference": "Referencia", "positive": "Positivo", "negative": "Negativo", "none": "Ninguno",
+}
+
+
+def _rotulo(valor: Any) -> str:
+    """El código de sistema con su nombre, en el idioma del documento."""
+    texto = "—" if valor is None else str(valor)
+    return translate_text(_ROTULOS.get(texto, texto))
 
 
 def _tabla(datos: list[list[Any]], est, anchos: list[float]) -> Table:
@@ -146,6 +164,10 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
         # el PDF imprimía las etiquetas tal cual, en los dos idiomas.
         return Paragraph(f"<b>{_escapar(translate_text(texto))}</b>", est["cuerpo"])
 
+    def vineta(texto: str) -> Paragraph:
+        # El texto se traduce SIN la viñeta: con «· » delante ninguna frase del catálogo casaba y salía en castellano.
+        return Paragraph("· " + _escapar(translate_text(texto)), est["cuerpo"])
+
     def seccion(titulo: str) -> None:
         historia.append(Spacer(1, 0.45 * cm))
         historia.append(Paragraph(_escapar(translate_text(titulo)), est["seccion"]))
@@ -162,7 +184,7 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
         [
             ["Campo", "Valor"],
             ["Cohorte", evidencia["cohort_name"]],
-            ["Estado de la corrida", evidencia["run_status"]],
+            ["Estado de la corrida", _rotulo(evidencia["run_status"])],
             ["Huella de cohorte", _romper_largo(evidencia["cohort_fingerprint"])],
             ["Huella de corrida", _romper_largo(evidencia["run_fingerprint"])],
             ["Contrato", COHORT_DOSSIER_CONTRACT],
@@ -198,7 +220,7 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
             ["Parámetro", "Valor"],
             ["Caja (centro)", str(config.get("grid_center"))],
             ["Caja (tamaño)", str(config.get("grid_size"))],
-            ["Origen de la caja", str(config.get("grid_origin"))],
+            ["Origen de la caja", _rotulo(config.get("grid_origin"))],
             ["Motor", str(config.get("docking_engine"))],
             ["Versión del motor", str(config.get("engine_version") or translate_text("NO DISPONIBLE"))],
             ["Exhaustividad", str(config.get("exhaustiveness"))],
@@ -328,10 +350,10 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
         filas_pdf.append([
             str(entrada["source_row_index"]),
             _escapar(entrada["source_name"] or "—"),
-            entrada["status"],
+            _rotulo(entrada["status"]),
             f"{afinidad:.2f}" if afinidad is not None else translate_text("NO DISPONIBLE"),
             {True: translate_text("activa"), False: translate_text("inactiva"), None: "—"}[entrada["active_label"]],
-            entrada["control_role"],
+            _rotulo(entrada["control_role"]),
         ])
     historia.append(_tabla(filas_pdf, est, [1.2 * cm, 5.0 * cm, 3.2 * cm, 3.6 * cm, 1.7 * cm, 1.8 * cm]))
 
@@ -345,7 +367,7 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
             filas_c.append([
                 str(c["source_row_index"]),
                 _escapar(c["source_name"] or "—"),
-                c["control_role"],
+                _rotulo(c["control_role"]),
                 {True: translate_text("activa"), False: translate_text("inactiva"), None: "—"}[c["active_label"]],
                 f"{afinidad:.2f}" if afinidad is not None else translate_text("NO DISPONIBLE"),
             ])
@@ -398,11 +420,11 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
         "Qué proporción de la cohorte llegó a producir un resultado, y qué quedó fuera.",
         "Que dos corridas con la misma huella describen el mismo cálculo.",
     ]:
-        historia.append(parrafo(f"· {texto}"))
+        historia.append(vineta(texto))
     historia.append(Spacer(1, 0.2 * cm))
     historia.append(parrafo("NO puede concluirse:"))
     for texto in evidencia["limits"]:
-        historia.append(parrafo(f"· {texto}"))
+        historia.append(vineta(texto))
 
     # ── 9. Próximos pasos ────────────────────────────────────────────
     seccion("9 · Próximos pasos justificables")
@@ -416,7 +438,7 @@ def render_cohort_dossier_pdf(evidencia: dict[str, Any]) -> io.BytesIO:
         "Ampliar los controles declarados. Una cohorte sin referencia no se puede "
         "interpretar aunque sus números sean buenos.",
     ]:
-        historia.append(parrafo(f"· {texto}"))
+        historia.append(vineta(texto))
     historia.append(parrafo(
         "Ninguno de estos pasos recomienda un fármaco, un candidato clínico ni un "
         "compuesto seguro. Describen qué trabajo computacional queda justificado."

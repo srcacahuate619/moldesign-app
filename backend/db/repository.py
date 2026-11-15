@@ -20,7 +20,7 @@ from datetime import UTC, datetime
 from typing import Any
 from types import SimpleNamespace
 
-from sqlalchemy import select, update, or_, JSON, case
+from sqlalchemy import select, update, or_, JSON
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
@@ -73,6 +73,16 @@ def run_snapshot_values(data: dict[str, Any]) -> dict[str, Any]:
                 value = None
         values[column.name] = value
     return values
+
+
+# El perfil ADMET que viaja como addendum de la corrida (ver
+# `Repository.guardar_admet_de_la_corrida`). Una sola lista: si una columna
+# `blood_*` nueva no entra aquí, se guarda en la proyección y se pierde al reabrir.
+CAMPOS_ADMET = (
+    "blood_viability_score", "blood_solubility_logs", "blood_ppb_category",
+    "blood_bbb_permeable", "blood_bbb_motivo", "blood_cns_mpo",
+    "blood_hia_permeable", "blood_systemic_reactivity", "blood_tabpfn_estado",
+)
 
 
 def _property_values(properties: PhysicochemicalProperties) -> dict[str, Any]:
@@ -140,36 +150,75 @@ class Repository:
         result = await self.db.execute(stmt)
         return list(result.scalars().all())
 
-    async def get_sar_analogs(
+    async def get_sar_candidatas(
         self,
         target_pdb_id: str,
-        user_id: uuid.UUID | None = None,
-        limit: int = 50,
+        user_id: uuid.UUID,
+        *,
+        excluir_molecula_id: uuid.UUID | None = None,
+    ) -> list[Any]:
+        """Las candidatas a comparación de la tabla SAR: filas LIGERAS, una por molécula.
+
+        Decisión del propietario (auditoría 1.0.4, S1-3.3): son candidatas las últimas evaluaciones
+        (`evaluation_results` guarda una por molécula) de este dueño y este receptor, SIN error registrado y con
+        `affinity_kcal` informada. El índice (`total_score`) no interviene. Devuelve sólo lo necesario para medir la
+        similitud —id, SMILES, fecha y afinidad—: el ORM completo (poses, resultados) se carga después, para las
+        elegidas.
+
+        `user_id` es obligatorio y el filtro no es opcional: es el dueño de la petición (`dueno_de_la_peticion`), que
+        sin sesión es el espacio anónimo, no «todos». Si alguien pasa `None`, la comparación SQL es `IS NULL`
+        (moléculas sin dueño) y no devuelve lo de nadie: falla cerrado. La finitud de la afinidad (un `NaN` o un
+        infinito pasan `IS NOT NULL`) la comprueba la selección.
+        """
+        from core.models import EvaluationResultORM, MoleculeORM, TargetORM
+
+        stmt = (
+            select(
+                EvaluationResultORM.molecule_id,
+                MoleculeORM.smiles,
+                EvaluationResultORM.evaluated_at,
+                EvaluationResultORM.affinity_kcal,
+            )
+            .join(MoleculeORM, EvaluationResultORM.molecule_id == MoleculeORM.id)
+            .join(TargetORM, MoleculeORM.target_id == TargetORM.id)
+            .where(TargetORM.pdb_id == target_pdb_id.upper())
+            .where(MoleculeORM.user_id == user_id)
+            .where(EvaluationResultORM.error_message.is_(None))
+            .where(EvaluationResultORM.affinity_kcal.isnot(None))
+        )
+        if excluir_molecula_id is not None:
+            stmt = stmt.where(MoleculeORM.id != excluir_molecula_id)
+        return list((await self.db.execute(stmt)).all())
+
+    async def get_sar_evaluaciones(
+        self,
+        target_pdb_id: str,
+        user_id: uuid.UUID,
+        molecule_ids: list[uuid.UUID],
     ) -> list[EvaluationResultORM]:
-        """Retorna evaluaciones contra el mismo target, ordenadas por score."""
+        """El ORM completo de las comparaciones ya elegidas, con el mismo dueño y receptor que las candidatas.
+
+        Los filtros se repiten a propósito: entre la consulta ligera y esta, una molécula puede haber cambiado de
+        dueño o de receptor, y lo que no cumple ya no se entrega. El orden es el de la base de datos; quien llama
+        reordena por el de selección.
+        """
         from core.models import EvaluationResultORM, MoleculeORM, TargetORM
         from sqlalchemy.orm import joinedload
 
+        if not molecule_ids:
+            return []
         stmt = (
             select(EvaluationResultORM)
             .join(MoleculeORM, EvaluationResultORM.molecule_id == MoleculeORM.id)
             .join(TargetORM, MoleculeORM.target_id == TargetORM.id)
             .where(TargetORM.pdb_id == target_pdb_id.upper())
-            .where(EvaluationResultORM.total_score.isnot(None))
+            .where(MoleculeORM.user_id == user_id)
+            .where(EvaluationResultORM.molecule_id.in_(molecule_ids))
             .options(
                 joinedload(EvaluationResultORM.molecule).joinedload(MoleculeORM.target)
             )
-            .order_by(
-                case((EvaluationResultORM.stacking_degraded.is_(False), 0), else_=1),
-                EvaluationResultORM.total_score.desc(),
-            )
-            .limit(limit)
         )
-        if user_id:
-            stmt = stmt.where(MoleculeORM.user_id == user_id)
-
-        result = await self.db.execute(stmt)
-        return list(result.scalars().all())
+        return list((await self.db.execute(stmt)).scalars().all())
 
     async def get_anti_targets(self) -> list[TargetORM]:
         """Retorna todos los targets marcados como anti-targets de seguridad."""
@@ -966,6 +1015,7 @@ class Repository:
             "ai_report": {"ai_report"},
             "certificate": {"blockchain_tx_id", "blockchain_hash",
                             "certified_task_id", "certified_total_score"},
+            "admet": set(CAMPOS_ADMET),
         }
         if kind not in allowed or not set(payload).issubset(allowed[kind]):
             raise ValueError(f"Addendum {kind!r} contiene campos no permitidos")
@@ -1000,7 +1050,7 @@ class Repository:
                                  separators=(",", ":"), allow_nan=False).encode("utf-8")
             if hashlib.sha256(encoded).hexdigest() != row.sha256:
                 raise ValueError(f"Addendum corrupto: {row.id}")
-            if row.kind in {"selectivity", "ai_report", "certificate"}:
+            if row.kind in {"selectivity", "ai_report", "certificate", "admet"}:
                 data.update(row.payload_json)
             elif row.kind == "mmgbsa":
                 data["mmgbsa_score"] = row.payload_json.get("mmgbsa_score")
@@ -1053,6 +1103,43 @@ class Repository:
     async def update_properties_for_task(self, molecule_id, task_id, properties) -> bool:
         return await self.update_evaluation_for_task(
             molecule_id, task_id, **_property_values(properties))
+
+    async def guardar_admet_de_la_corrida(self, molecule_id, task_id, properties) -> bool:
+        """Guarda el perfil ADMET calculado DESPUÉS del docking, donde se vuelve a leer.
+
+        Dos sitios, porque hay dos lecturas: la fila de proyección (dossier, PDF,
+        «última corrida») y el addendum de la corrida (lo que sirve
+        `GET /evaluation/result/{id}?task_id=`, el camino del Historial). Escribir
+        sólo la primera dejaba el perfil visible hasta cerrar la pestaña y ausente
+        al reabrir la corrida. El snapshot base no se toca.
+
+        Un perfil sin índice no se guarda: es «no se pudo evaluar», no un perfil.
+        """
+        if properties.blood_viability_score is None:
+            return False
+        valores = _property_values(properties)
+        proyectado = await self.update_evaluation_for_task(molecule_id, task_id, **valores)
+        await self._anexar_admet(molecule_id, task_id, valores)
+        return proyectado
+
+    async def anexar_admet_existente(self, molecule_id, task_id, evaluacion) -> bool:
+        """Copia a la corrida un perfil que ya estaba en la proyección y no en la corrida.
+
+        Cubre lo calculado antes de que existiera el addendum: sin esto, esas
+        corridas seguirían sin perfil al reabrirse aunque la base lo tenga.
+        """
+        if getattr(evaluacion, "blood_viability_score", None) is None:
+            return False
+        return await self._anexar_admet(molecule_id, task_id, evaluacion)
+
+    async def _anexar_admet(self, molecule_id, task_id, origen) -> bool:
+        if await self.get_evaluation_run(task_id, molecule_id) is None:
+            return False  # sin corrida congelada no hay dónde anexar
+        leer = origen.get if isinstance(origen, dict) else (lambda c: getattr(origen, c, None))
+        payload = {campo: leer(campo) for campo in CAMPOS_ADMET}
+        payload["blood_systemic_reactivity"] = list(payload["blood_systemic_reactivity"] or [])
+        await self.append_run_addendum(molecule_id, task_id, "admet", payload)
+        return True
 
     async def merge_selectivity_for_task(self, molecule_id, task_id, entries, **values):
         """Fusiona anti-dianas con CAS: ni otra corrida ni otro escritor se pierden.

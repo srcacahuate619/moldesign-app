@@ -740,6 +740,11 @@ fn spawn_backend(layout: &RuntimeLayout, port: u16) -> Result<OwnedBackend, Stri
     .env("MOLDESIGN_MOLCY_DIR", &layout.molcy_dir)
     .env("TABPFN_NO_BROWSER", "true");
 
+    // Perfil de prueba: el backend ve un usuario nuevo dentro de esa carpeta (ver `perfil_de_prueba`).
+    for (variable, valor) in crate::perfil_de_prueba::entorno_del_backend() {
+        cmd.env(variable, valor);
+    }
+
     cmd.env_remove("MOLDESIGN_CASE_REGISTRY");
     cmd.env_remove("MOLDESIGN_MOLCY_OUTPUTS");
     if let Some(Some(path)) = CASE_REGISTRY_PATH.get() {

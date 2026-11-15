@@ -37,8 +37,9 @@ describe("panel de demostración y anti-dianas propias", () => {
     render(<AntiDianasSelector targets={rows} selected={[]} onChange={onChange} onRetry={retry} catalogo />);
     expect(screen.getAllByRole("heading", { level: 4 }).map((h) => h.textContent)).toEqual([catalogo[locale].cat_anti_panel, catalogo[locale].cat_anti_propias]);
     const demo = within(screen.getByRole("region", { name: catalogo[locale].cat_anti_panel }));
-    expect(demo.getByRole("checkbox", { name: /Bowes/ })).toBeDisabled();
-    expect(demo.getByText("Sin estructura")).toBeTruthy();
+    // Lo que no se puede elegir no se lista ni se cuenta en el catálogo.
+    expect(demo.queryByRole("checkbox", { name: /Bowes/ })).toBeNull();
+    expect(screen.queryByText("Sin estructura")).toBeNull();
     fireEvent.click(demo.getByRole("checkbox", { name: /hERG/ }));
     expect(onChange).toHaveBeenCalledWith(["5VA1"]);
     const propias = within(screen.getByRole("region", { name: catalogo[locale].cat_anti_propias }));
@@ -46,16 +47,21 @@ describe("panel de demostración y anti-dianas propias", () => {
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "LOCAL" } });
     expect(screen.getAllByRole("checkbox")).toHaveLength(1);
     expect(propias.getByRole("checkbox", { name: /Mi anti-diana/ })).toBeVisible();
-    fireEvent.click(propias.getByRole("button", { name: catalogo[locale].cat_anti_subir }));
-    fireEvent.click(screen.getByRole("button", { name: "SUBIDA_ANTI" }));
-    expect(retry).toHaveBeenCalledTimes(1);
+    // «Subir anti-diana» vive junto a «Evaluar seleccionadas», no en el catálogo.
+    expect(screen.queryByRole("button", { name: catalogo[locale].cat_anti_subir })).toBeNull();
+    expect(retry).not.toHaveBeenCalled();
   });
-  it("la sección propia vacía sigue visible y la búsqueda abarca ambos grupos", () => {
+  it("sin anti-dianas propias, el catálogo no enseña esa sección; la búsqueda sigue funcionando", () => {
     render(<AntiDianasSelector targets={rows.slice(0, 2)} selected={[]} onChange={() => {}} catalogo />);
-    expect(screen.getByText(catalogo.es.cat_anti_vacio)).toBeTruthy();
+    expect(screen.queryByText(catalogo.es.cat_anti_vacio)).toBeNull();
+    expect(screen.queryByRole("region", { name: "Tus anti-dianas" })).toBeNull();
+    expect(screen.getAllByRole("checkbox")).toHaveLength(1);
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "hERG" } });
     expect(screen.getAllByRole("checkbox")).toHaveLength(1);
-    expect(screen.getByRole("region", { name: "Tus anti-dianas" })).toBeTruthy();
+  });
+  it("fuera del catálogo (parámetros de la evaluación) conserva el botón de subir", () => {
+    render(<AntiDianasSelector targets={rows.slice(0, 2)} selected={[]} onChange={() => {}} />);
+    expect(screen.getByRole("button", { name: catalogo.es.cat_anti_subir })).toBeTruthy();
   });
   it.each(["es", "en"] as const)("la acción ninguna vacía la selección aunque cambie su etiqueta en %s", (locale) => {
     idioma.value = locale;

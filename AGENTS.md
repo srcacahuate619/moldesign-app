@@ -290,7 +290,7 @@ cambiaron 1RKP y 6KE5, como se predijo.
 
 **Subida de receptores propios, arreglada el 2026-10-09** (rama
 `claude/receptores-propios`, integrada en `6eef2ce9`; nota en
-`ENTREGA_RECEPTORES_PROPIOS.md`). Tres caminos, medidos con Vina real por la API
+`docs/entregas/1.0.2/ENTREGA_RECEPTORES_PROPIOS.md`). Tres caminos, medidos con Vina real por la API
 sobre un corpus de 36 casos (antes 1 de 4):
 - **A**, estructura cruda: PDB, `.ent` y mmCIF, con cadenas de varias letras y
   códigos CCD largos con correspondencia explícita, y estructuras predichas;
@@ -300,12 +300,51 @@ sobre un corpus de 36 casos (antes 1 de 4):
 - **C**, PDBQT listo para Vina: se evalúa tal cual; con la estructura de origen,
   Preparación audita lo que se retiró.
 
-Los rechazos dicen qué falló y qué hacer. De una estructura predicha sólo se lee
-el pLDDT con la convención verificada de **AlphaFold DB**; Boltz, Chai-1 y
-AlphaFold 3 salen «no disponible», porque no hay un archivo real con el que
-comprobarla. Un pLDDT < 70 junto al sitio pide revisión y no bloquea. El modo vive
-en `targets/USR_*/perfil.json`: **el catálogo nunca tiene perfil**, así que su
-preparación no puede cambiar (los cinco receptores de
+Los rechazos dicen qué falló y qué hacer. De una estructura predicha se lee el
+pLDDT con la convención verificada de **AlphaFold DB** y, de cualquier otro
+ModelCIF que lo declare, de `_ma_qa_metric_local`, rotulado «convención sin
+verificar», porque el archivo no siempre dice quién lo generó. Un pLDDT < 70 junto
+al sitio pide revisión y no bloquea. **Boltz 2.2.1 y Chai-1 0.6.1 se comprobaron
+con archivos reales el 2026-11-14/15** (acta en
+`docs/auditorias/convencion-plddt-boltz-chai-2026-11-15/`):
+- en el mmCIF de Boltz, `_ma_qa_metric_local` es el pLDDT del modelo, así que se
+  lee bien;
+- con Chai-1, ese campo es el pLDDT del Cα y no la media por residuo que da el
+  modelo, así que la regla ve menos residuos bajos (9 frente a 21 en CDK2 sin
+  ligando);
+- el PDB de Boltz no trae ninguna cabecera, así que pasaba por experimental y la
+  regla del sitio nunca avisaba.
+
+**Desde el 2026-11-15, un archivo que no dice de dónde viene** (ni método ni
+marcas de predicción) **se pregunta en la subida**, por los tres caminos (en C, por
+la estructura de origen). La regla vive en
+`prediccion.hay_que_preguntar_la_fuente` y la interfaz la consulta en
+`POST /targets/upload/inspeccion`. Las respuestas son experimental, Boltz-2, otra
+herramienta (con su nombre) o «no lo sé», y viajan como `fuente_declarada`:
+- con Boltz-2, el factor B se lee como pLDDT sólo si el archivo es como los que
+  escribe Boltz 2.2.1 (un valor por residuo, entre 0 y 100);
+- con otra herramienta, se registra y no se lee;
+- sin respuesta, o con «no lo sé», Preparación dice que no consta si es una
+  predicción. Antes lo daba por experimental.
+
+Preparación y el dossier nombran la respuesta como «fuente declarada por quien subió
+el archivo». Una variante hereda el análisis de su padre, porque relee su PDB
+convertido, que ha perdido la cabecera y las tablas ModelCIF. Hasta ese día, una
+variante de un mmCIF predicho salía como experimental. Pruebas en
+`tests/test_prediccion_fuente_declarada.py`, con recortes reales de Boltz y Chai-1.
+
+Con Chai-1 la regla lee el Cα (decisión del propietario del 2026-11-15, D-01: las dos lecturas dieron el mismo aviso
+en los casos medidos), y AlphaFold 3 no se ha comprobado. Desde el 2026-11-15, un mmCIF con la
+firma de su exportador (`_struct.title 'Chai-1 predicted structure'`) se nombra en Preparación y en el dossier como
+«Chai-1 (declarado por el archivo)». Dice que el valor es el del Cα sólo si en ese archivo coincide con el factor B del
+Cα de cada residuo: la firma es un autorreporte y no da la versión, así que la convención sigue «sin verificar» y la regla
+lee lo mismo (D-01 de `docs/auditorias/investigacion-1.0.4/`).
+Hasta el 2026-11-15 este párrafo decía que Boltz y Chai-1 salían «no disponible».
+Lo decía desde `b0529f41` (2026-10-09), el mismo commit que ya leía cualquier
+ModelCIF.
+
+El modo de preparación vive en `targets/USR_*/perfil.json`: **el catálogo nunca
+tiene perfil**, así que su preparación no puede cambiar (los cinco receptores de
 `scripts/invariancia_catalogo_receptores.py` dan el mismo `receptor_sha256`).
 Ocho códigos de aviso nuevos de la subida (`DECODIFICADO_LATIN1`, `MMCIF_*`,
 `PDBQT_*`) están en `CODIGOS_DE_AVISO`; la interfaz muestra el código tal cual y no
@@ -549,7 +588,7 @@ docs/             programa experimental, gates de release, auditorías
 
 ```bash
 cd frontend
-npm run test:run      # 2333 pruebas en 263 archivos (2026-10-26)
+npm run test:run      # 2687 pruebas en 276 archivos (2026-11-11)
 npm run tauri:build   # instalador completo
 ```
 
@@ -653,6 +692,22 @@ Cada una viene de un fallo real que costó al menos un instalador.
    mide la memoria privada del proceso renderer, no `usedJSHeapSize`. Si aun así
    la página muere, `src-tauri/src/vigia_webview.rs` la recarga y escribe el
    motivo en `desktop-bootstrap.log` (comprobado matando el renderer de la app real).
+   **Y lo que se monta y desmonta, también.** Cambiar de caso dejaba retenida la
+   pantalla entera del caso anterior (~21 MB por cambio, 2026-11-10): cuatro cosas
+   de Ketcher 3.18 que no se sueltan al desmontar (ver `frontend/lib/ketcherOyentes.ts`).
+   Para fugas de DOM, la memoria privada es ruidosa (±25 MB); lo determinista son los
+   nodos y los oyentes de `Memory.getDOMCounters` tras recoger la basura. Las mide
+   `frontend/scripts/resistencia.mjs` (cambios de caso, evaluaciones y reposo, con
+   presupuesto y `--autotest`), también sobre la ventana real de WebView2
+   (`--binario`, con `MOLDESIGN_PERFIL_DE_PRUEBA`). Pásala antes de dar por bueno un
+   cambio en Evaluación, sus visores o el editor. Dos trampas medidas: el worker de
+   Indigo se queda con todo lo que recibe (no libera sus mapas de opciones; ver
+   `frontend/lib/indigoSinFuga.ts`), así que lo que se le envía cuenta como memoria; y
+   Playwright activa el dominio Network de DevTools, que guarda cada respuesta y suma
+   ~1,4 MB por cambio de caso que la aplicación no retiene. `next dev` tenía tres causas
+   más que el export no tiene: dos del modo estricto de React y una de React Refresh
+   (`frontend/lib/reactRefreshSinFuga.ts`; la misma auditoría, §7). Una fuga que sólo
+   se ve en desarrollo puede ser de la herramienta: mídela también en el export.
 
 8. **La rama de desarrollo no se empuja al repositorio público.** Su historial
    contiene manuscritos sin enviar, el deck y registros internos
@@ -944,7 +999,9 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
   muestra a mano). La entrega está en `E:\SUPUESTOS-01\`. Se miden por coste, con registro previo:
   - **`SUP-02-TOTAL-SCORE` (NO_GO):** el `total_score` de 0 a 100 no ordena mejor que Vina (8T69: ρ 0,397 frente a 0,392;
     8HFI: 0,03 frente a 0,13). Desde 1.0.4 sólo lo enseña Moldex, rotulado «índice compuesto heredado» con una nota que cita
-    SUP-02; Comunidad ya no lo pinta y el Historial no lo mostraba desde QA2-007.
+    SUP-02; Comunidad ya no lo pinta y el Historial no lo mostraba desde QA2-007. Desde el 2026-11-15 tampoco ordena la
+    exportación del Batch histórico ni decide su EF/AUC, que van por el score de Vina (las cohortes, que es la pantalla Lotes,
+    ya lo hacían); la columna `TotalScore` sigue en el CSV y el XLSX.
   - **`SUP-03-VALIDADOR-LIGANDO` (GO):** las cuatro reglas bloqueantes del validador no rechazan ninguna de 640 moléculas con
     actividad medida.
   - **`SUP-04-EXHAUSTIVIDAD-8T69` (INCONCLUSIVE; paper `docs/papers/SUP-04-EXHAUSTIVIDAD-8T69.md`):** con la serie de 89 Ki de

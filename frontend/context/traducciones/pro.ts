@@ -37,6 +37,7 @@ export const pro: ModuloDeTraduccion = {
     pr_anti_7SRQ_bioDetails: "El agonismo prolongado de 5-HT2B estimula la mitogénesis y proliferación aberrante de fibroblastos en las válvulas del corazón, produciendo fibrosis valvular irreversible y regurgitación aórtica/mitral (caso histórico Fenfluramina / Dexfenfluramina), así como hipertensión arterial pulmonar.",
     pr_anti_7SRQ_mitigationSar: "Estrategias de Optimización SAR: Eliminar o modificar farmacóforos triptamínicos básicos; sustituir aminas secundarias por grupos voluminosos o amidas no protonables; verificar el modo de enlace para asegurar comportamiento como antagonista neutro en lugar de agonista.",
     pr_sel_alert: "ALERTA {name}: Afinidad potente ({affinity} kcal/mol) rebasó el umbral crítico ({threshold} kcal/mol). Riesgo: {risk}",
+    pr_sel_alert_sin_adjudicar: "ALERTA {name}: Afinidad potente ({affinity} kcal/mol) rebasó el umbral crítico ({threshold} kcal/mol). Riesgo: {risk} — Sitio no adjudicado: no se ha comprobado que la caja corresponda al sitio del mecanismo de ese riesgo, así que la alerta refleja sólo el score de Vina en esa caja.",
     pr_webgl_no_hardware: "este equipo no expone aceleración 3D por hardware. Es lo habitual en una máquina virtual sin GPU virtualizada.",
     pr_webgl_error: "no se pudo crear un contexto WebGL ({detail}).",
     pr_pose_pair: "Mismo receptor y misma corrida; se muestran las coordenadas SDF reales de las poses #{left} y #{right}.",
@@ -212,7 +213,7 @@ export const pro: ModuloDeTraduccion = {
     pr_param_hbd_hba: "HBD / HBA",
     pr_param_hia: "HIA",
     pr_param_le: "LE",
-    pr_param_lle: "LLE",
+    pr_param_lle: "LLE aparente (proxy de Vina)",
     pr_param_logp: "LogP",
     pr_param_ml_stacking: "Apilamiento de modelos (ML)",
     pr_param_modelo_universal: "Universal",
@@ -306,7 +307,7 @@ export const pro: ModuloDeTraduccion = {
     pr_rp_a_punto1:
       "Cadenas, huecos, aguas, metales y cofactores se resuelven o quedan declarados en Preparación.",
     pr_rp_a_punto2:
-      "Si es una predicción (AlphaFold DB), se lee la confianza (pLDDT) del sitio y Preparación pide revisión donde es baja.",
+      "Si es una predicción, se lee su confianza (pLDDT) junto al sitio y Preparación pide revisión donde es baja. Si el archivo no dice de dónde viene, se te pregunta.",
     pr_rp_a_punto3:
       "Si el archivo no trae el ligando del cristal, indica el centro de la caja de búsqueda.",
     pr_rp_b_titulo:
@@ -359,6 +360,35 @@ export const pro: ModuloDeTraduccion = {
       "Otra cadena",
     pr_rp_cadena_nota:
       "Escribe la cadena tal como está en el archivo (un mmCIF puede llamarlas, por ejemplo, «AAA»).",
+    // ── Un archivo que no dice de dónde viene (el PDB de Boltz no trae cabecera) ──
+    pr_rp_fuente_titulo:
+      "¿De dónde viene esta estructura?",
+    pr_rp_fuente_explica:
+      "El archivo no declara su método ni dice si es una predicción (el PDB de Boltz, por ejemplo, no trae cabecera). Indícalo para que Preparación sepa si leer su confianza (pLDDT).",
+    pr_rp_fuente_experimental:
+      "Experimental (cristal, crio-EM o RMN)",
+    pr_rp_fuente_experimental_nota:
+      "No se lee ningún pLDDT.",
+    pr_rp_fuente_boltz:
+      "Predicción de Boltz-2",
+    pr_rp_fuente_boltz_nota:
+      "Se lee el pLDDT del factor B si el archivo es como los que escribe Boltz 2.2.1.",
+    pr_rp_fuente_otra:
+      "Predicción de otra herramienta",
+    pr_rp_fuente_otra_nota:
+      "Queda registrada, pero su pLDDT no se lee: su convención no está comprobada.",
+    pr_rp_fuente_no_se:
+      "No lo sé",
+    pr_rp_fuente_no_se_nota:
+      "Preparación dirá que no consta si es una predicción.",
+    pr_rp_fuente_herramienta:
+      "¿Cuál? (por ejemplo, ColabFold o ESMFold)",
+    pr_rp_fuente_falta:
+      "Indica de dónde viene la estructura (o «No lo sé»).",
+    pr_rp_fuente_falta_herramienta:
+      "Escribe qué herramienta generó la predicción.",
+    pr_rp_fuente_leyendo:
+      "Leyendo el archivo…",
     pr_custom_receptor_title: "Subir receptor personalizado",
     pr_custom_manual_mode: "Modo manual (.PDBQT)",
     pr_custom_active_site: "sitio activo",
@@ -656,8 +686,20 @@ export const pro: ModuloDeTraduccion = {
     pr_signals_missing_weighted: "Señales con peso registrado que no produjeron salida: {signals}.",
     pr_pipeline_run_label: "Protocolo de la corrida",
     pr_pipeline_used: "Protocolo utilizado: {protocol}",
-    pr_pipeline_m4_description: "Protocolo general de evaluación: reúne los resultados del docking y combina las señales disponibles con los pesos registrados de la corrida.",
-    pr_pipeline_m5_description: "Protocolo para dianas de zinc: combina las señales requeridas por el perfil específico de la estructura evaluada.",
+    pr_pipeline_m4_description: "Protocolo general para moléculas pequeñas. Contempla señales de cuatro métodos (AutoDock Vina, XGBoost, GNN legacy y CL-GNN). En esta versión, sólo Vina pesa en el ranking de M4.",
+    pr_pipeline_m5_description: "Protocolo de puntuación complementario para estructuras específicas con zinc. Las señales y sus pesos dependen del perfil aplicado.",
+    pr_pipeline_peptide_description: "Protocolo experimental para péptidos lineales de aminoácidos estándar. ESMFold propone una estructura 3D y AutoDock Vina la acopla al receptor. Las poses se interpretan como exploratorias.",
+    pr_protocol_signal_help: "¿Qué aporta cada señal?",
+    pr_protocol_signal_vina: "Busca poses dentro de la caja de búsqueda y las ordena con una puntuación empírica en kcal/mol. Tiene en cuenta el encaje, los contactos hidrofóbicos y los puentes de hidrógeno.",
+    pr_protocol_signal_xgb: "Usa descriptores del ligando, contactos con el receptor y datos de Vina. Puede aportar una estimación de pKi y una puntuación de clasificación de unión.",
+    pr_protocol_signal_rtm: "Modelo histórico que puntúa la geometría de una pose según las distancias entre átomos del ligando y residuos del receptor. Su peso en el ranking actual es cero.",
+    pr_protocol_signal_clgnn: "Red neuronal de grafos con aprendizaje contrastivo. Usa la pose acoplada y los residuos cercanos para clasificar la unión. Es una señal experimental con peso cero en el ranking actual de M4.",
+    pr_protocol_signal_vina_norm: "Cuando el perfil usa Vina, escala la magnitud de la puntuación de acoplamiento con una referencia fija de ese perfil.",
+    pr_protocol_signal_xgb_zn: "Aporta la puntuación del clasificador de unión a partir de descriptores del ligando y de la pose.",
+    pr_protocol_signal_ums_warhead: "Busca en el SMILES grupos químicos con potencial para coordinar zinc. Para saber si un grupo llega al metal hay que examinar la pose.",
+    pr_protocol_signal_gnn_d: "Red de grafos experimental específica para sistemas metálicos. El perfil CA2 la requiere y queda sin evaluar porque esta versión carece de una salida de ese modelo.",
+    pr_protocol_signal_esmfold: "Predice la geometría 3D a partir de la secuencia. MolDesign transfiere esas coordenadas al grafo químico del péptido para conservar su identidad.",
+    pr_protocol_signal_plddt: "Estima la confianza local de ESMFold en la geometría del péptido. La señal de acoplamiento al receptor viene de Vina.",
     pr_pipeline_not_recorded: "Protocolo utilizado: no registrado",
     pr_pipeline_details: "Detalles del protocolo",
     pr_pipeline_audit_review: "Resultado de auditoría: requiere revisión.",
@@ -741,6 +783,7 @@ export const pro: ModuloDeTraduccion = {
     pr_anti_7SRQ_bioDetails: "Prolonged 5-HT2B agonism stimulates mitogenesis and abnormal fibroblast proliferation in heart valves, causing irreversible valvular fibrosis and aortic/mitral regurgitation (the historical Fenfluramine / Dexfenfluramine case), as well as pulmonary arterial hypertension.",
     pr_anti_7SRQ_mitigationSar: "SAR Optimization Strategies: Remove or modify basic tryptamine pharmacophores; replace secondary amines with bulky groups or non-protonatable amides; verify the binding mode to ensure behavior as a neutral antagonist rather than an agonist.",
     pr_sel_alert: "ALERT {name}: Potent affinity ({affinity} kcal/mol) exceeded the critical threshold ({threshold} kcal/mol). Risk: {risk}",
+    pr_sel_alert_sin_adjudicar: "ALERT {name}: Potent affinity ({affinity} kcal/mol) exceeded the critical threshold ({threshold} kcal/mol). Risk: {risk} — Site not adjudicated: it has not been verified that the box corresponds to the site of the mechanism behind that risk, so the alert reflects only the Vina score in that box.",
     pr_webgl_no_hardware: "this computer does not expose hardware 3D acceleration. This is common in a virtual machine without a virtualized GPU.",
     pr_webgl_error: "a WebGL context could not be created ({detail}).",
     pr_pose_pair: "Same receptor and same run; the actual SDF coordinates of poses #{left} and #{right} are shown.",
@@ -916,7 +959,7 @@ export const pro: ModuloDeTraduccion = {
     pr_param_hbd_hba: "HBD / HBA",
     pr_param_hia: "HIA",
     pr_param_le: "LE",
-    pr_param_lle: "LLE",
+    pr_param_lle: "Apparent LLE (Vina proxy)",
     pr_param_logp: "LogP",
     pr_param_ml_stacking: "Stacked model ensemble (ML)",
     pr_param_modelo_universal: "Universal",
@@ -1010,7 +1053,7 @@ export const pro: ModuloDeTraduccion = {
     pr_rp_a_punto1:
       "Chains, gaps, waters, metals and cofactors are resolved or declared in Preparation.",
     pr_rp_a_punto2:
-      "If it is a prediction (AlphaFold DB), the confidence (pLDDT) of the site is read and Preparation asks for review where it is low.",
+      "If it is a prediction, its confidence (pLDDT) next to the site is read and Preparation asks for review where it is low. If the file does not say where it comes from, you are asked.",
     pr_rp_a_punto3:
       "If the file does not contain the crystal ligand, give the center of the search box.",
     pr_rp_b_titulo:
@@ -1063,6 +1106,34 @@ export const pro: ModuloDeTraduccion = {
       "Other chain",
     pr_rp_cadena_nota:
       "Type the chain as it appears in the file (an mmCIF may call them, for example, «AAA»).",
+    pr_rp_fuente_titulo:
+      "Where does this structure come from?",
+    pr_rp_fuente_explica:
+      "The file does not declare its method or say whether it is a prediction (a Boltz PDB, for example, has no header). Say where it comes from so Preparation knows whether to read its confidence (pLDDT).",
+    pr_rp_fuente_experimental:
+      "Experimental (crystal, cryo-EM or NMR)",
+    pr_rp_fuente_experimental_nota:
+      "No pLDDT is read.",
+    pr_rp_fuente_boltz:
+      "Boltz-2 prediction",
+    pr_rp_fuente_boltz_nota:
+      "The pLDDT is read from the B-factor if the file is like those Boltz 2.2.1 writes.",
+    pr_rp_fuente_otra:
+      "Prediction from another tool",
+    pr_rp_fuente_otra_nota:
+      "It is recorded, but its pLDDT is not read: its convention has not been checked.",
+    pr_rp_fuente_no_se:
+      "I don't know",
+    pr_rp_fuente_no_se_nota:
+      "Preparation will say it is unknown whether it is a prediction.",
+    pr_rp_fuente_herramienta:
+      "Which one? (for example, ColabFold or ESMFold)",
+    pr_rp_fuente_falta:
+      "Say where the structure comes from (or «I don't know»).",
+    pr_rp_fuente_falta_herramienta:
+      "Write which tool generated the prediction.",
+    pr_rp_fuente_leyendo:
+      "Reading the file…",
     pr_custom_receptor_title: "Upload custom receptor",
     pr_custom_manual_mode: "Manual mode (.PDBQT)",
     pr_custom_active_site: "active site",
@@ -1357,8 +1428,20 @@ export const pro: ModuloDeTraduccion = {
     pr_signals_missing_weighted: "Signals with recorded weights that produced no output: {signals}.",
     pr_pipeline_run_label: "Run protocol",
     pr_pipeline_used: "Protocol used: {protocol}",
-    pr_pipeline_m4_description: "General evaluation protocol: gathers docking results and combines the available signals using the weights recorded for this run.",
-    pr_pipeline_m5_description: "Protocol for zinc targets: combines the signals required by the specific profile of the evaluated structure.",
+    pr_pipeline_m4_description: "General protocol for small molecules. It covers signals from four methods (AutoDock Vina, XGBoost, legacy GNN and CL-GNN). In this version, only Vina carries weight in the M4 ranking.",
+    pr_pipeline_m5_description: "Supplementary scoring protocol for specific zinc-containing structures. The signals and their weights depend on the applied profile.",
+    pr_pipeline_peptide_description: "Experimental protocol for linear peptides made of standard amino acids. ESMFold proposes a 3D structure and AutoDock Vina docks it to the receptor. The resulting poses are exploratory.",
+    pr_protocol_signal_help: "What does each signal contribute?",
+    pr_protocol_signal_vina: "Searches for poses inside the search box and ranks them with an empirical score in kcal/mol. It accounts for fit, hydrophobic contacts and hydrogen bonds.",
+    pr_protocol_signal_xgb: "Uses ligand descriptors, receptor contacts and Vina data. It can provide an estimated pKi and a binding classification score.",
+    pr_protocol_signal_rtm: "Historical model that scores pose geometry using distances between ligand atoms and receptor residues. Its weight in the current ranking is zero.",
+    pr_protocol_signal_clgnn: "Graph neural network trained with contrastive learning. It uses the docked pose and nearby residues to classify binding. This experimental signal has zero weight in the current M4 ranking.",
+    pr_protocol_signal_vina_norm: "When the profile uses Vina, it scales the magnitude of the docking score using a fixed reference for that profile.",
+    pr_protocol_signal_xgb_zn: "Provides the binding classifier score based on ligand and pose descriptors.",
+    pr_protocol_signal_ums_warhead: "Searches the SMILES for chemical groups that could coordinate zinc. Check the pose to see whether a group reaches the metal.",
+    pr_protocol_signal_gnn_d: "Experimental graph network for metal-containing systems. The CA2 profile requires it and remains unevaluated because this version has no output from that model.",
+    pr_protocol_signal_esmfold: "Predicts 3D geometry from the sequence. MolDesign transfers those coordinates to the peptide’s chemical graph to preserve its identity.",
+    pr_protocol_signal_plddt: "Estimates ESMFold’s local confidence in the peptide geometry. The receptor docking signal comes from Vina.",
     pr_pipeline_not_recorded: "Protocol used: not recorded",
     pr_pipeline_details: "Protocol details",
     pr_pipeline_audit_review: "Audit result: review required.",

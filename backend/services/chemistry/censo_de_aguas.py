@@ -431,9 +431,27 @@ def describir_censo(censo: CensoDeAguas) -> str:
         f"{censo.bien_coordinadas} de ellas con {PUENTES_BIEN_COORDINADA} o más "
         f"contactos a menos de {CORTE_PUENTE_A:.1f} Å con el receptor "
         f"(la mejor coordinada, {censo.max_puentes}). Si alguna de esas aguas "
-        f"forma parte del reconocimiento en esta diana —la catalítica de la "
-        f"proteasa del VIH-1, la red de la bisagra en varias quinasas—, los "
-        f"contactos de esta corrida no la incluyen."
+        f"forma parte del reconocimiento en esta diana, los contactos de esta "
+        f"corrida no la incluyen."
+    )
+
+
+def describir_receptor_propio_sin_aguas(origen: CensoDeAguas) -> str:
+    """La frase de un receptor propio (camino B o C) que entró a Vina SIN aguas en la caja.
+
+    Caza 1, A02: decía «Preparación en condición desolvatada: la estructura depositada no tenía aguas…, así que el sitio no perdió
+    ninguna al prepararlo» de un receptor que MolDesign no preparó, junto al supuesto «MolDesign no las retiró». Se mide el
+    receptor acoplado y, si la estructura de origen traía aguas en la caja, se dice cuántas y que no están en él.
+    """
+    if origen.en_la_caja == 0:
+        return (
+            "El receptor acoplado no trae aguas cristalográficas dentro de la caja de acoplamiento, "
+            "y su estructura de origen tampoco las tenía."
+        )
+    return (
+        f"El receptor acoplado no trae aguas cristalográficas dentro de la caja de acoplamiento; su "
+        f"estructura de origen tiene {origen.en_la_caja} agua(s) en la caja que no están en el receptor. "
+        f"MolDesign no las retiró."
     )
 
 

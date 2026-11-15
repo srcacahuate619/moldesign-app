@@ -6,6 +6,7 @@ import { newlyLoadedStructureRef, structureByRef } from "../../../lib/molstarStr
 import { useLanguage } from "@/context/LanguageContext";
 import { useEffect, useRef, useState } from "react";
 import { Box, Crosshair } from "lucide-react";
+import { pedirMolstar, type Prestamo } from "../../../lib/molstarResidente";
 import { AvisoSinWebGL, NotaRenderPorSoftware } from "./AvisoSinWebGL";
 import {
   VIEWER_LABEL_BUTTON_CLASS,
@@ -38,7 +39,24 @@ type Props = {
   // resize explícito para que Molstar recupere el aspect ratio correcto.
   // Sin esto, el visor aparece negro/colgado hasta que el usuario mueve algo.
   isActive?: boolean;
+  /**
+   * Mol* no puede dibujar aquí: no arrancó, o el equipo le quitó el contexto y no
+   * se lo devolvió. Quien monta el visor decide qué abrir en su lugar; sin este
+   * aviso lo único que quedaba era un recuadro con un mensaje.
+   */
+  onNoDisponible?: (motivo: MotivoSinMolstar) => void;
 };
+
+export type MotivoSinMolstar = "sin-contexto" | "contexto-perdido" | "no-cargo";
+
+/**
+ * Cuánto se espera a que el navegador devuelva un contexto perdido.
+ *
+ * Chromium lo restaura solo cuando el proceso de GPU se recupera, y Mol* sabe
+ * reconstruirse entonces. Si pasado este tiempo no ha vuelto, no va a volver en
+ * esta sesión (el proceso de GPU cayó demasiadas veces) y hay que decirlo.
+ */
+export const ESPERA_DE_CONTEXTO_MS = 4000;
 
 const loadScript = (src: string, id: string): Promise<void> => {
   if (typeof document === "undefined") return Promise.resolve();
@@ -220,8 +238,12 @@ const createGnnAttentionPdb = (sdfStr: string, attention: number[]) => {
 const NO_HOTSPOTS: string[] = [];
 const NO_ATTENTION: number[] = [];
 
-export default function AdvancedMolstarViewer({ poseData, proteinData, height = 500, hotspots = NO_HOTSPOTS, hotspotsHit = NO_HOTSPOTS, gnnAttention = NO_ATTENTION, onOpenTargetSelector, onSwitchViewer, viewerLabel, gridInfo, externalCamera, onCameraChange, isActive = true }: Props) {
+export default function AdvancedMolstarViewer({ poseData, proteinData, height = 500, hotspots = NO_HOTSPOTS, hotspotsHit = NO_HOTSPOTS, gnnAttention = NO_ATTENTION, onOpenTargetSelector, onSwitchViewer, viewerLabel, gridInfo, externalCamera, onCameraChange, isActive = true, onNoDisponible }: Props) {
   const { t } = useLanguage();
+  // En una referencia: el efecto que crea el visor no debe repetirse porque el
+  // contenedor pase una función nueva en cada render.
+  const avisarNoDisponible = useRef(onNoDisponible);
+  avisarNoDisponible.current = onNoDisponible;
   const containerRef = useRef<HTMLDivElement>(null);
   const viewerRef = useRef<any>(null);
   const candidateStructureRef = useRef<string | null>(null);
@@ -275,14 +297,22 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
     }
   };
 
-  // 1. Initial Load of Scripts and Molstar Instance (Only once on unmount)
+  // 1. Pedir el visor de Mol* y devolverlo al desmontar.
+  //
+  // El visor es UNO para toda la sesión (`lib/molstarResidente.ts`): no se crea ni se destruye con cada caso. Este
+  // efecto corre una vez por montaje; los textos se leen de una referencia para que cambiar de idioma no lo repita.
+  const traducir = useRef(t);
+  traducir.current = t;
+  const prestamoRef = useRef<Prestamo | null>(null);
   useEffect(() => {
-    let viewer: any = null;
+    let prestamo: Prestamo | null = null;
     let cancelled = false;
     let sub: any = null;
+    let dejarDeVigilarElContexto: (() => void) | null = null;
 
     const initMolstar = async () => {
-      if (!containerRef.current) return;
+      const destino = containerRef.current;
+      if (!destino) return;
       setLoading(true);
       setError(null);
 
@@ -306,12 +336,10 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           throw new Error("Viewer.create is not a function.");
         }
 
-        if (cancelled || !containerRef.current) return;
+        if (cancelled) return;
 
-        containerRef.current.innerHTML = "";
-
-        // Create the viewer instance with default controls enabled (settings, selection, expand)
-        viewer = await Viewer.create(containerRef.current, {
+        // Con los controles por defecto (ajustes, selección, ampliar). Sólo se llama si aún no hay visor.
+        prestamo = await pedirMolstar(destino, (caja) => Viewer.create(caja, {
           layoutIsExpanded: false,
           layoutShowControls: false,
           layoutShowRemoteState: false,
@@ -323,14 +351,17 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           // Sin esto Mol* rechaza el contexto por software y en un equipo sin GPU lanza sin dibujar,
           // aunque `comprobarWebGL` diga que hay contexto. Lo midió la CI pública, que no tiene GPU.
           allowMajorPerformanceCaveat: true,
-        });
+        }));
+        const viewer = prestamo.visor;
 
-        // Subscribe to layout changes to reactively update the outer container's size
-        sub = viewer.plugin.layout.events.updated.subscribe(() => {
-          if (viewer.plugin && viewer.plugin.layout) {
-            setIsExpanded(!!viewer.plugin.layout.state.isExpanded);
-          }
-        });
+        // EL VISOR QUE LLEGA TARDE. Si el componente se desmontó mientras Mol* arrancaba (cambiar de caso deprisa), la
+        // limpieza de abajo ya corrió y no tenía nada que devolver. Antes ese visor se quedaba creado, dibujando y
+        // sin dueño para el resto de la sesión.
+        if (cancelled) {
+          prestamo.devolver();
+          prestamo = null;
+          return;
+        }
 
         // ── Mol* puede «crear» y aun así no dibujar ────────────────────────
         //
@@ -344,18 +375,72 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
         // Por eso no basta con el `catch`: hay que MIRAR el contenedor. Si Mol*
         // se ha pintado un error, se desecha el visor y se levanta un estado
         // propio, que es lo que ve el usuario.
-        const pintado = containerRef.current?.textContent ?? "";
-        const seQuejoDeWebGL = /webgl/i.test(pintado) && !containerRef.current?.querySelector("canvas");
-        if (seQuejoDeWebGL) {
-          try { viewer.dispose(); } catch { /* ya está roto; no empeora */ }
-          if (!cancelled) {
-            if (containerRef.current) containerRef.current.innerHTML = "";
-            setSinContexto3D(true);
-          }
+        const pintado = destino.textContent ?? "";
+        const seQuejoDeWebGL = /webgl/i.test(pintado) && !destino.querySelector("canvas");
+        // MIRAR EL TEXTO NO BASTABA. Mol* pinta ese mensaje en un render posterior:
+        // cuando `Viewer.create` resuelve puede no estar todavía, la guarda de
+        // arriba no veía nada, el visor se daba por listo y segundos después
+        // aparecía el mensaje crudo de la librería sobre un recuadro blanco.
+        // Reproducido en el export (2026-11-09) con un equipo que da contexto a la
+        // sonda y se lo niega a Mol*. Lo que sí es cierto al resolver es si Mol*
+        // llegó a crear su lienzo 3D: `create` espera a ese intento antes de volver.
+        const sinLienzo3D = !viewer?.plugin?.canvas3d;
+        if (seQuejoDeWebGL || sinLienzo3D) {
+          // Un visor sin lienzo no se guarda para el caso siguiente.
+          prestamo.descartar();
+          prestamo = null;
+          setSinContexto3D(true);
+          avisarNoDisponible.current?.("sin-contexto");
           return;
         }
 
+        // Subscribe to layout changes to reactively update the outer container's size
+        sub = viewer.plugin.layout.events.updated.subscribe(() => {
+          if (viewer.plugin && viewer.plugin.layout) {
+            setIsExpanded(!!viewer.plugin.layout.state.isExpanded);
+          }
+        });
+
+        // ── El contexto se puede perder con el visor abierto ──────────────
+        //
+        // Pasa cuando el proceso de GPU se reinicia: un driver que se cuelga, la
+        // pantalla de una máquina virtual que se apaga, o memoria de vídeo
+        // agotada. Mol* escucha los dos eventos y se reconstruye solo si el
+        // navegador devuelve el contexto. Lo que no cubría nadie es que NO lo
+        // devuelva: el lienzo se quedaba en negro, sin mensaje y sin salida.
+        const lienzo = destino.querySelector("canvas");
+        if (lienzo) {
+          let espera: ReturnType<typeof setTimeout> | null = null;
+          const alPerder = () => {
+            if (espera) clearTimeout(espera);
+            espera = setTimeout(() => {
+              espera = null;
+              if (cancelled) return;
+              // Este visor ya no va a dibujar: no se le pasa al caso siguiente ni a «Reintentar 3D».
+              prestamo?.descartar();
+              prestamo = null;
+              prestamoRef.current = null;
+              viewerRef.current = null;
+              setViewerReady(false);
+              setSinContexto3D(true);
+              avisarNoDisponible.current?.("contexto-perdido");
+            }, ESPERA_DE_CONTEXTO_MS);
+          };
+          const alRecuperar = () => {
+            if (espera) clearTimeout(espera);
+            espera = null;
+          };
+          lienzo.addEventListener("webglcontextlost", alPerder);
+          lienzo.addEventListener("webglcontextrestored", alRecuperar);
+          dejarDeVigilarElContexto = () => {
+            if (espera) clearTimeout(espera);
+            lienzo.removeEventListener("webglcontextlost", alPerder);
+            lienzo.removeEventListener("webglcontextrestored", alRecuperar);
+          };
+        }
+
         viewerRef.current = viewer;
+        prestamoRef.current = prestamo;
         setViewerReady(true);
       } catch (err) {
         if (!cancelled) {
@@ -364,8 +449,10 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           // para poder explicar qué sigue siendo válido en vez de dar un error.
           if (/webgl|context|gpu/i.test(String(err))) {
             setSinContexto3D(true);
+            avisarNoDisponible.current?.("sin-contexto");
           } else {
-            setError(t("auto_fafd22a23afe"));
+            setError(traducir.current("auto_fafd22a23afe"));
+            avisarNoDisponible.current?.("no-cargo");
           }
         }
       } finally {
@@ -378,41 +465,49 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
     return () => {
       cancelled = true;
       setViewerReady(false);
+      viewerRef.current = null;
+      prestamoRef.current = null;
+      dejarDeVigilarElContexto?.();
       if (sub) {
         try { sub.unsubscribe(); } catch (e) { /* ignore */ }
       }
-      if (viewer) {
-        try { viewer.dispose(); } catch (e) { /* ignore */ }
+      if (prestamo) {
+        // Mol* ampliado a toda la ventana no puede quedarse así para el siguiente que lo pida.
+        try {
+          const disposicion = prestamo.visor?.plugin?.layout;
+          if (disposicion?.state?.isExpanded) disposicion.setProps({ isExpanded: false });
+        } catch { /* se queda como esté */ }
+        prestamo.devolver();
       }
     };
-  }, [t]);
+  }, []);
 
-  // 2. Dynamic Reload of Models when Data changes (Fast reload without WebGL flashing)
+  // 2. Cargar las estructuras cuando cambian los datos (sin crear otro visor).
+  //
+  // Va por la cola del visor (`prestamo.cargar`): siempre parte de un visor vacío y ninguna carga se cruza con otra.
+  // Antes cada cambio lanzaba su carga sin esperar a la anterior; con un visor por caso lo peor era un receptor
+  // duplicado al cambiar de receptor deprisa, pero con un visor compartido habría sido enseñar el del caso de antes.
   useEffect(() => {
-    const viewer = viewerRef.current;
-    if (!viewer || !viewerReady) return;
+    const prestamo = prestamoRef.current;
+    if (!prestamo || !viewerReady) return;
 
     let cancelled = false;
+    setLoading(true);
 
-    const loadStructures = async () => {
+    void prestamo.cargar(async (viewer, vigente) => {
+      const sigue = () => vigente() && !cancelled;
       try {
-        setLoading(true);
-
-        // Clear previous structures
         candidateStructureRef.current = null;
-        await viewer.plugin.clear();
 
         const hasProtein = !!proteinData && proteinData.trim().length > 10;
         const hasLigand = !!poseData && poseData.trim().length > 10;
-
-        if (cancelled) return;
 
         if (hasProtein) {
           // Load cleaned protein receptor structure (no overlapping HETATMs)
           const cleanProt = cleanPdb(proteinData!);
           await viewer.loadStructureFromData(cleanProt, "pdb", { dataLabel: "Receptor" });
 
-          if (cancelled) return;
+          if (!sigue()) return;
 
           // Always load crystallographic reference ligand as a separate named structure
           const refLig = extractReferenceLigand(proteinData!);
@@ -420,7 +515,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
             await viewer.loadStructureFromData(refLig, "pdb", { dataLabel: t("pr_frontend_078") });
           }
 
-          if (cancelled) return;
+          if (!sigue()) return;
 
           // Always load pocket hotspots as a separate named structure
           if (hotspots.length > 0) {
@@ -431,7 +526,7 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           }
         }
 
-        if (cancelled) return;
+        if (!sigue()) return;
 
         if (hasLigand) {
           // Load candidate ligand (patched to avoid "unknown" label in tooltip)
@@ -439,10 +534,8 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           const patchedSdf = patchSdfTitle(singlePoseData);
           const before = viewer.plugin.managers.structure.hierarchy.current.structures.map((structure: any) => structure.cell.transform.ref);
           await viewer.loadStructureFromData(patchedSdf, "sdf", { dataLabel: t("pr_frontend_080") });
-          if (cancelled) return;
+          if (!sigue()) return;
           candidateStructureRef.current = newlyLoadedStructureRef(before, viewer.plugin.managers.structure.hierarchy.current.structures);
-
-          if (cancelled) return;
 
           // Load GNN Attention overlay if available
           if (gnnAttention && gnnAttention.length > 0) {
@@ -453,16 +546,14 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           }
         }
       } catch (err) {
-        if (!cancelled) {
+        if (sigue()) {
           console.error("Error al cargar estructuras en Molstar:", err);
           setError(t("auto_0a42461c773d"));
         }
       } finally {
         if (!cancelled) setLoading(false);
       }
-    };
-
-    loadStructures();
+    });
 
     return () => {
       cancelled = true;
@@ -689,11 +780,22 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
         }
       `}</style>
 
-      {/* Floating Controls Bar */}
-      {hasData && !loading && !error && !isExpanded && (
+      {/* Esquina superior izquierda: cambio de visor e «Identificar mi diseño».
+          El cambio de visor vivía abajo a la derecha, justo debajo de la burbuja de MolChat, que lo tapaba. */}
+      {hasData && !loading && !error && (
         <div className="pointer-events-auto absolute left-3 top-3 z-10 flex items-center gap-2">
+          {onSwitchViewer && (
+            <button
+              onClick={onSwitchViewer}
+              className={VIEWER_SWITCH_BUTTON_CLASS}
+              title={viewerLabel ? t("pr_viewer_switch_to", { viewer: viewerLabel }) : t("pr_viewer_switch")}
+            >
+              <Crosshair size={12} className="text-indigo-400" />
+              {t("pr_viewer_switch_label", { viewer: viewerLabel ?? "Web3D" })}
+            </button>
+          )}
           {/* Identify Candidate Ligand Button */}
-          {poseData && (
+          {poseData && !isExpanded && (
             <button
               onClick={handleFocusCandidate}
               className={VIEWER_LABEL_BUTTON_CLASS}
@@ -711,24 +813,6 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
         className="w-full h-full [&_canvas]:!w-full [&_canvas]:!h-full [&_.msp-plugin]:!w-full [&_.msp-plugin]:!h-full [&_.msp-plugin-container]:!w-full [&_.msp-plugin-container]:!h-full [&_.msp-viewport]:!w-full [&_.msp-viewport]:!h-full" 
         style={canvasStyle} 
       />
-
-      {/* Esquina inferior derecha exclusiva para cambiar de visor. */}
-      {hasData && !loading && !error && (
-        <div className="pointer-events-auto absolute bottom-3 right-3 z-10">
-          {/* Botón cambiar visor */}
-          {onSwitchViewer && (
-            <button
-              onClick={onSwitchViewer}
-              className={VIEWER_SWITCH_BUTTON_CLASS}
-              title={viewerLabel ? t("pr_viewer_switch_to", { viewer: viewerLabel }) : t("pr_viewer_switch")}
-            >
-              <Crosshair size={12} className="text-indigo-400" />
-              {t("pr_viewer_switch_label", { viewer: viewerLabel ?? "Web3D" })}
-            </button>
-          )}
-
-        </div>
-      )}
 
       {/* Loading HUD */}
       {loading && (
@@ -749,8 +833,16 @@ export default function AdvancedMolstarViewer({ poseData, proteinData, height = 
           que la máquina no puede dibujar en 3D manda a buscar un fallo que no
           existe. */}
       {sinContexto3D && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#05080f]/95 p-4">
+        <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[#05080f]/95 p-4">
           <AvisoSinWebGL forzar />
+          {/* El aviso manda a «el botón del visor», y este panel lo tapa: se
+              ofrece aquí mismo. Sin él, el consejo no se podía seguir. */}
+          {onSwitchViewer && (
+            <button type="button" onClick={onSwitchViewer} className={VIEWER_LABEL_BUTTON_CLASS}>
+              <Box size={12} className="text-emerald-400" aria-hidden="true" />
+              {t("pn_visor_abrir_ligero")}
+            </button>
+          )}
         </div>
       )}
 

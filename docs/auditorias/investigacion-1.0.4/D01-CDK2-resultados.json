@@ -1,0 +1,790 @@
+{
+  "fuentes": {
+    "1HCL": {
+      "url": "https://www.rcsb.org/structure/1HCL",
+      "sha256": "4c44cc9de5eb61b5ad197f7d3058fa59327d7ea3c721c3ca3945cc8c3d41f9ae"
+    },
+    "1H1Q": {
+      "url": "https://www.rcsb.org/structure/1H1Q",
+      "sha256": "21dc4df2252e8ffbd572e906d05603fb50a2ccd338c366123984d1c099e66586"
+    }
+  },
+  "licencia": "CC0 1.0",
+  "fecha_local": "2026-11-15",
+  "sitio": {
+    "1HCL": 23,
+    "1H1Q": 23
+  },
+  "filas": [
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_0.cif",
+      "sha256": "e44bffe983c413cae2eed195571e6c14619ec7f88787ea96ede6b6408372dcad",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 96.81695373184735,
+          "observados_bajo70": 48,
+          "campo_local": {
+            "rho": 0.8660260989957741,
+            "predichos_bajo70": 6,
+            "tp": 6,
+            "tn": 246
+          },
+          "media": {
+            "rho": 0.757817108921819,
+            "predichos_bajo70": 17,
+            "tp": 16,
+            "tn": 245
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 90.27777777777779,
+          "observados_bajo70": 3,
+          "campo_local": {
+            "rho": 0.7391304347826088,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          },
+          "media": {
+            "rho": 0.5632411067193676,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 97.20486111111111,
+          "observados_bajo70": 21,
+          "campo_local": {
+            "rho": 0.8074985060034572,
+            "predichos_bajo70": 9,
+            "tp": 5,
+            "tn": 271
+          },
+          "media": {
+            "rho": 0.7159662935521686,
+            "predichos_bajo70": 20,
+            "tp": 13,
+            "tn": 268
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 95.28301886792453,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.8122529644268776,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          },
+          "media": {
+            "rho": 0.6027667984189723,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_1.cif",
+      "sha256": "e7741a7acbdfbb653bf702971083529307069fd0d9218bcc5d02754da26ea315",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 96.13247863247864,
+          "observados_bajo70": 45,
+          "campo_local": {
+            "rho": 0.8583402775973257,
+            "predichos_bajo70": 6,
+            "tp": 6,
+            "tn": 249
+          },
+          "media": {
+            "rho": 0.7598317585411695,
+            "predichos_bajo70": 17,
+            "tp": 14,
+            "tn": 246
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 90.13157894736842,
+          "observados_bajo70": 3,
+          "campo_local": {
+            "rho": 0.8626482213438734,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          },
+          "media": {
+            "rho": 0.6561264822134387,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 96.875,
+          "observados_bajo70": 28,
+          "campo_local": {
+            "rho": 0.8553266878640859,
+            "predichos_bajo70": 10,
+            "tp": 9,
+            "tn": 267
+          },
+          "media": {
+            "rho": 0.754382260254795,
+            "predichos_bajo70": 20,
+            "tp": 19,
+            "tn": 267
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 95.08196721311475,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.7813195197753164,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          },
+          "media": {
+            "rho": 0.5569557867089068,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_2.cif",
+      "sha256": "965a1b9b8d59a8fd228954ce789480f765f836a5a8267f8e3e4a22773dd27b7f",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 96.75666199158485,
+          "observados_bajo70": 45,
+          "campo_local": {
+            "rho": 0.8620729900969968,
+            "predichos_bajo70": 7,
+            "tp": 7,
+            "tn": 249
+          },
+          "media": {
+            "rho": 0.7617815868409507,
+            "predichos_bajo70": 17,
+            "tp": 15,
+            "tn": 247
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 90.45454545454545,
+          "observados_bajo70": 3,
+          "campo_local": {
+            "rho": 0.7322134387351779,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          },
+          "media": {
+            "rho": 0.5859683794466404,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 97.25975975975976,
+          "observados_bajo70": 28,
+          "campo_local": {
+            "rho": 0.8356963046262103,
+            "predichos_bajo70": 11,
+            "tp": 10,
+            "tn": 267
+          },
+          "media": {
+            "rho": 0.750024843550257,
+            "predichos_bajo70": 20,
+            "tp": 19,
+            "tn": 267
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 94.93243243243244,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.8428853754940712,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          },
+          "media": {
+            "rho": 0.633399209486166,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_3.cif",
+      "sha256": "cc89e18f49f8f9822dace0121898a816046e5eb5ba480a0c8d94dd2df9f55f90",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 96.17818889970789,
+          "observados_bajo70": 45,
+          "campo_local": {
+            "rho": 0.8718258803665538,
+            "predichos_bajo70": 8,
+            "tp": 7,
+            "tn": 248
+          },
+          "media": {
+            "rho": 0.772319087302719,
+            "predichos_bajo70": 17,
+            "tp": 15,
+            "tn": 247
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 89.54545454545455,
+          "observados_bajo70": 3,
+          "campo_local": {
+            "rho": 0.8280632411067194,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          },
+          "media": {
+            "rho": 0.6106719367588932,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 96.5655637254902,
+          "observados_bajo70": 29,
+          "campo_local": {
+            "rho": 0.8379001805852381,
+            "predichos_bajo70": 12,
+            "tp": 12,
+            "tn": 267
+          },
+          "media": {
+            "rho": 0.7317306288359947,
+            "predichos_bajo70": 20,
+            "tp": 19,
+            "tn": 266
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 96.53846153846153,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.8040524090287412,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          },
+          "media": {
+            "rho": 0.5579441731981861,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_4.cif",
+      "sha256": "4b711dbe4bd5d44fa2db9f65a1b874ba12412d54e2cbdae37f3251f4a4db795d",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 96.595124536301,
+          "observados_bajo70": 43,
+          "campo_local": {
+            "rho": 0.8658657563017945,
+            "predichos_bajo70": 6,
+            "tp": 5,
+            "tn": 250
+          },
+          "media": {
+            "rho": 0.767989206336365,
+            "predichos_bajo70": 17,
+            "tp": 13,
+            "tn": 247
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 90.67796610169492,
+          "observados_bajo70": 3,
+          "campo_local": {
+            "rho": 0.6857707509881423,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          },
+          "media": {
+            "rho": 0.5227272727272728,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 20
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 97.01190476190476,
+          "observados_bajo70": 29,
+          "campo_local": {
+            "rho": 0.8390939078500678,
+            "predichos_bajo70": 10,
+            "tp": 9,
+            "tn": 266
+          },
+          "media": {
+            "rho": 0.7439551575501429,
+            "predichos_bajo70": 20,
+            "tp": 19,
+            "tn": 266
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 96.15384615384616,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.7915019762845852,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          },
+          "media": {
+            "rho": 0.6057312252964426,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 22
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_0.cif",
+      "sha256": "dfb9b82f6de2bbb4b8e0fd4ac24e171d2810b6b2c43166ae61cc76047842705b",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 99.41168327796235,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.7546025999575142,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 293
+          },
+          "media": {
+            "rho": 0.6739095007585254,
+            "predichos_bajo70": 5,
+            "tp": 1,
+            "tn": 289
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 98.38709677419355,
+          "observados_bajo70": 0,
+          "campo_local": {
+            "rho": 0.7598814229249011,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          },
+          "media": {
+            "rho": 0.6847826086956521,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 93.80122950819671,
+          "observados_bajo70": 55,
+          "campo_local": {
+            "rho": 0.8584398440937807,
+            "predichos_bajo70": 3,
+            "tp": 3,
+            "tn": 241
+          },
+          "media": {
+            "rho": 0.7178170045349727,
+            "predichos_bajo70": 9,
+            "tp": 9,
+            "tn": 241
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 91.45569620253164,
+          "observados_bajo70": 2,
+          "campo_local": {
+            "rho": 0.5701581027667983,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          },
+          "media": {
+            "rho": 0.30830039525691705,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_1.cif",
+      "sha256": "c8eb91bf7419c89da1340c8e50a7d90127705cec24e68746d1e236297c7b2c66",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 99.24242424242425,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.7072073465201113,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 293
+          },
+          "media": {
+            "rho": 0.6473355204099561,
+            "predichos_bajo70": 4,
+            "tp": 1,
+            "tn": 290
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 98.10606060606061,
+          "observados_bajo70": 0,
+          "campo_local": {
+            "rho": 0.28218434268925097,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          },
+          "media": {
+            "rho": 0.3928836294885368,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 94.6437578814628,
+          "observados_bajo70": 55,
+          "campo_local": {
+            "rho": 0.8629787754889949,
+            "predichos_bajo70": 3,
+            "tp": 3,
+            "tn": 241
+          },
+          "media": {
+            "rho": 0.7194244809320997,
+            "predichos_bajo70": 8,
+            "tp": 8,
+            "tn": 241
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 92.08333333333334,
+          "observados_bajo70": 2,
+          "campo_local": {
+            "rho": 0.5800395256916997,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          },
+          "media": {
+            "rho": 0.3211462450592885,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_2.cif",
+      "sha256": "17bcf9c8a8b1575843506a5f7cd56cb8803f8e9cc53bbdc30c3446e059fadb5f",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 99.35897435897436,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.7740113576337512,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 293
+          },
+          "media": {
+            "rho": 0.7035998086023139,
+            "predichos_bajo70": 5,
+            "tp": 1,
+            "tn": 289
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 97.68518518518519,
+          "observados_bajo70": 0,
+          "campo_local": {
+            "rho": 0.7608695652173914,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          },
+          "media": {
+            "rho": 0.7262845849802372,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 93.83484162895928,
+          "observados_bajo70": 56,
+          "campo_local": {
+            "rho": 0.8642973129818946,
+            "predichos_bajo70": 3,
+            "tp": 3,
+            "tn": 240
+          },
+          "media": {
+            "rho": 0.7319855502536962,
+            "predichos_bajo70": 9,
+            "tp": 9,
+            "tn": 240
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 91.66666666666667,
+          "observados_bajo70": 2,
+          "campo_local": {
+            "rho": 0.5678280380909795,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          },
+          "media": {
+            "rho": 0.24857920205375342,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_3.cif",
+      "sha256": "d4ce787465ecae2c1f9704ebaf402ac654a0ed57570f5e8cd77c20d784588f81",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 99.32432432432432,
+          "observados_bajo70": 1,
+          "campo_local": {
+            "rho": 0.7387440926559841,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 293
+          },
+          "media": {
+            "rho": 0.6598588163317824,
+            "predichos_bajo70": 4,
+            "tp": 1,
+            "tn": 290
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 99.12790697674419,
+          "observados_bajo70": 0,
+          "campo_local": {
+            "rho": 0.5691699604743083,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          },
+          "media": {
+            "rho": 0.4407114624505929,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 94.03467908902692,
+          "observados_bajo70": 57,
+          "campo_local": {
+            "rho": 0.8609535768094012,
+            "predichos_bajo70": 3,
+            "tp": 3,
+            "tn": 239
+          },
+          "media": {
+            "rho": 0.7153540683657862,
+            "predichos_bajo70": 8,
+            "tp": 8,
+            "tn": 239
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 91.98113207547169,
+          "observados_bajo70": 2,
+          "campo_local": {
+            "rho": 0.5592885375494071,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          },
+          "media": {
+            "rho": 0.2974308300395257,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          }
+        }
+      }
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_4.cif",
+      "sha256": "18fcc64e19c71cfd2a18db94f5b793df0496fdfd87dfb2ff5ad7aacf97993286",
+      "1HCL": {
+        "cadena": {
+          "n": 294,
+          "lddt_mediano": 99.29074446680082,
+          "observados_bajo70": 0,
+          "campo_local": {
+            "rho": 0.8092485000813425,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 294
+          },
+          "media": {
+            "rho": 0.7334834697897898,
+            "predichos_bajo70": 5,
+            "tp": 0,
+            "tn": 289
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 97.54098360655738,
+          "observados_bajo70": 0,
+          "campo_local": {
+            "rho": 0.7658102766798419,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          },
+          "media": {
+            "rho": 0.6571146245059288,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 23
+          }
+        }
+      },
+      "1H1Q": {
+        "cadena": {
+          "n": 296,
+          "lddt_mediano": 94.2442794058611,
+          "observados_bajo70": 56,
+          "campo_local": {
+            "rho": 0.8686548625556029,
+            "predichos_bajo70": 3,
+            "tp": 3,
+            "tn": 240
+          },
+          "media": {
+            "rho": 0.735662348227199,
+            "predichos_bajo70": 9,
+            "tp": 9,
+            "tn": 240
+          }
+        },
+        "sitio": {
+          "n": 23,
+          "lddt_mediano": 92.85714285714286,
+          "observados_bajo70": 2,
+          "campo_local": {
+            "rho": 0.599802371541502,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          },
+          "media": {
+            "rho": 0.37549407114624506,
+            "predichos_bajo70": 0,
+            "tp": 0,
+            "tn": 21
+          }
+        }
+      }
+    }
+  ]
+}

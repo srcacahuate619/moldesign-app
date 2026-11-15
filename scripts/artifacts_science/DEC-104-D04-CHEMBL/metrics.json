@@ -1,0 +1,2793 @@
+{
+  "n_admitidos": 2345,
+  "descartes": {
+    "mezcla_o_carga": 1360,
+    "sin_asignacion_univoca": 2753,
+    "mediciones_discordantes": 84
+  },
+  "por_clase": {
+    "acido_carboxilico": {
+      "n": 269,
+      "n_ajuste": 178,
+      "n_evaluacion": 91,
+      "tipo": "acido",
+      "mae_tabla": 0.9659293680297397,
+      "sesgo_tabla": -0.16302973977695148,
+      "autorizado": false,
+      "pka_mediana_ajuste": 4.0,
+      "andamios_evaluacion": 36,
+      "mejora_mae_evaluacion": 0.02879120879120884,
+      "ic95_mejora": [
+        -0.04547202797202799,
+        0.08000434782608706
+      ],
+      "no_ambiguos": 91,
+      "correctos_tabla": 88,
+      "correctos_mediana": 88
+    },
+    "amidina": {
+      "n": 100,
+      "n_ajuste": 73,
+      "n_evaluacion": 27,
+      "tipo": "base",
+      "mae_tabla": 3.782200000000001,
+      "sesgo_tabla": 3.7062,
+      "autorizado": true,
+      "pka_mediana_ajuste": 8.0,
+      "andamios_evaluacion": 21,
+      "mejora_mae_evaluacion": 1.8088888888888888,
+      "ic95_mejora": [
+        0.6442592592592588,
+        2.757871794871795
+      ],
+      "no_ambiguos": 25,
+      "correctos_tabla": 13,
+      "correctos_mediana": 13
+    },
+    "amina_alifatica": {
+      "n": 855,
+      "n_ajuste": 614,
+      "n_evaluacion": 241,
+      "tipo": "base",
+      "mae_tabla": 1.8862152046783631,
+      "sesgo_tabla": 1.6966830409356732,
+      "autorizado": true,
+      "pka_mediana_ajuste": 8.3,
+      "andamios_evaluacion": 131,
+      "mejora_mae_evaluacion": 0.5074273858921168,
+      "ic95_mejora": [
+        0.18366084861757534,
+        0.8832466933098192
+      ],
+      "no_ambiguos": 193,
+      "correctos_tabla": 139,
+      "correctos_mediana": 139
+    },
+    "anilina": {
+      "n": 134,
+      "n_ajuste": 93,
+      "n_evaluacion": 41,
+      "tipo": "base",
+      "mae_tabla": 2.125186567164179,
+      "sesgo_tabla": -1.0992910447761197,
+      "autorizado": false,
+      "pka_mediana_ajuste": 5.9,
+      "andamios_evaluacion": 18,
+      "mejora_mae_evaluacion": -0.3307317073170733,
+      "ic95_mejora": [
+        -0.7967647058823533,
+        0.38664575289575226
+      ],
+      "no_ambiguos": 41,
+      "correctos_tabla": 34,
+      "correctos_mediana": 34
+    },
+    "biguanida": {
+      "n": 6,
+      "n_ajuste": 1,
+      "n_evaluacion": 5,
+      "tipo": "base",
+      "mae_tabla": 1.3966666666666663,
+      "sesgo_tabla": 0.8533333333333338,
+      "autorizado": false,
+      "pka_mediana_ajuste": 11.5,
+      "andamios_evaluacion": 2,
+      "mejora_mae_evaluacion": -0.6500000000000007,
+      "ic95_mejora": [
+        -0.9299999999999997,
+        -0.580000000000001
+      ],
+      "no_ambiguos": 5,
+      "correctos_tabla": 4,
+      "correctos_mediana": 4
+    },
+    "fenol": {
+      "n": 165,
+      "n_ajuste": 54,
+      "n_evaluacion": 111,
+      "tipo": "acido",
+      "mae_tabla": 2.593454545454545,
+      "sesgo_tabla": 2.142,
+      "autorizado": false,
+      "pka_mediana_ajuste": 7.35,
+      "andamios_evaluacion": 30,
+      "mejora_mae_evaluacion": 0.27558558558558555,
+      "ic95_mejora": [
+        -0.5480822213500784,
+        1.8661590909090906
+      ],
+      "no_ambiguos": 100,
+      "correctos_tabla": 66,
+      "correctos_mediana": 34
+    },
+    "fosfato": {
+      "n": 13,
+      "n_ajuste": 9,
+      "n_evaluacion": 4,
+      "tipo": "acido",
+      "mae_tabla": 3.0507692307692307,
+      "sesgo_tabla": -3.0476923076923077,
+      "autorizado": false,
+      "pka_mediana_ajuste": 5.6,
+      "andamios_evaluacion": 2,
+      "mejora_mae_evaluacion": -0.2549999999999999,
+      "ic95_mejora": [
+        -0.9733333333333333,
+        1.9000000000000004
+      ],
+      "no_ambiguos": 4,
+      "correctos_tabla": 4,
+      "correctos_mediana": 4
+    },
+    "guanidina": {
+      "n": 123,
+      "n_ajuste": 99,
+      "n_evaluacion": 24,
+      "tipo": "base",
+      "mae_tabla": 2.527439024390244,
+      "sesgo_tabla": 2.4233739837398374,
+      "autorizado": false,
+      "pka_mediana_ajuste": 9.7,
+      "andamios_evaluacion": 7,
+      "mejora_mae_evaluacion": 0.7366666666666664,
+      "ic95_mejora": [
+        -0.027091666666667413,
+        2.027272727272728
+      ],
+      "no_ambiguos": 24,
+      "correctos_tabla": 20,
+      "correctos_mediana": 20
+    },
+    "imidazol": {
+      "n": 48,
+      "n_ajuste": 32,
+      "n_evaluacion": 16,
+      "tipo": "base",
+      "mae_tabla": 1.8481250000000002,
+      "sesgo_tabla": 1.1139583333333332,
+      "autorizado": false,
+      "pka_mediana_ajuste": 5.74,
+      "andamios_evaluacion": 8,
+      "mejora_mae_evaluacion": 0.6825,
+      "ic95_mejora": [
+        -0.31499999999999995,
+        1.1199999999999999
+      ],
+      "no_ambiguos": 16,
+      "correctos_tabla": 13,
+      "correctos_mediana": 13
+    },
+    "piridina": {
+      "n": 417,
+      "n_ajuste": 298,
+      "n_evaluacion": 119,
+      "tipo": "base",
+      "mae_tabla": 1.9769184652278178,
+      "sesgo_tabla": -0.9045203836930454,
+      "autorizado": false,
+      "pka_mediana_ajuste": 6.4,
+      "andamios_evaluacion": 64,
+      "mejora_mae_evaluacion": 0.21630252100840314,
+      "ic95_mejora": [
+        -0.2096972103835724,
+        0.5492177914110428
+      ],
+      "no_ambiguos": 111,
+      "correctos_tabla": 93,
+      "correctos_mediana": 93
+    },
+    "sulfonamida_arilo": {
+      "n": 98,
+      "n_ajuste": 44,
+      "n_evaluacion": 54,
+      "tipo": "acido",
+      "mae_tabla": 3.2663265306122446,
+      "sesgo_tabla": 3.257142857142857,
+      "autorizado": false,
+      "pka_mediana_ajuste": 5.62,
+      "andamios_evaluacion": 14,
+      "mejora_mae_evaluacion": 0.2622222222222221,
+      "ic95_mejora": [
+        -1.146451131028596,
+        2.9829999999999997
+      ],
+      "no_ambiguos": 53,
+      "correctos_tabla": 28,
+      "correctos_mediana": 25
+    },
+    "sulfonamida_primaria_arilo": {
+      "n": 74,
+      "n_ajuste": 40,
+      "n_evaluacion": 34,
+      "tipo": "acido",
+      "mae_tabla": 1.1500675675675678,
+      "sesgo_tabla": 0.7216891891891896,
+      "autorizado": false,
+      "pka_mediana_ajuste": 8.33,
+      "andamios_evaluacion": 5,
+      "mejora_mae_evaluacion": -0.6438235294117645,
+      "ic95_mejora": [
+        -0.8487209302325579,
+        0.9270000000000003
+      ],
+      "no_ambiguos": 33,
+      "correctos_tabla": 32,
+      "correctos_mediana": 32
+    },
+    "sulfonilurea_arilo": {
+      "n": 11,
+      "n_ajuste": 4,
+      "n_evaluacion": 7,
+      "tipo": "acido",
+      "mae_tabla": 0.39909090909090916,
+      "sesgo_tabla": -0.10818181818181798,
+      "autorizado": false,
+      "pka_mediana_ajuste": 5.45,
+      "andamios_evaluacion": 3,
+      "mejora_mae_evaluacion": 0.018571428571428555,
+      "ic95_mejora": [
+        -0.1299999999999999,
+        0.1299999999999999
+      ],
+      "no_ambiguos": 7,
+      "correctos_tabla": 7,
+      "correctos_mediana": 7
+    },
+    "tetrazol": {
+      "n": 32,
+      "n_ajuste": 23,
+      "n_evaluacion": 9,
+      "tipo": "acido",
+      "mae_tabla": 0.6462500000000002,
+      "sesgo_tabla": 0.4425000000000003,
+      "autorizado": false,
+      "pka_mediana_ajuste": 4.29,
+      "andamios_evaluacion": 6,
+      "mejora_mae_evaluacion": -0.32111111111111107,
+      "ic95_mejora": [
+        -0.538888888888889,
+        0.12333333333333336
+      ],
+      "no_ambiguos": 9,
+      "correctos_tabla": 9,
+      "correctos_mediana": 9
+    }
+  },
+  "candidatos": {
+    "amidina": 8.0,
+    "amina_alifatica": 8.3
+  },
+  "corpus": {
+    "MolFlex": {
+      "n": 203,
+      "leidos": 203,
+      "medido_entrada_exacta": 1,
+      "medido_normalizado_isomerico": 1,
+      "solo_conectividad": 2,
+      "comparados_ajuste_por_clase": 67,
+      "cambia_carga_ajuste_por_clase": 0,
+      "cambia_especie_ajuste_por_clase": 0,
+      "cambia_logd_ajuste_por_clase": 63,
+      "cambia_cns_mpo_ajuste_por_clase": 66,
+      "comparados_referencia_medida": 1,
+      "cambia_carga_referencia_medida": 0,
+      "cambia_especie_referencia_medida": 0,
+      "cambia_logd_referencia_medida": 0,
+      "cambia_cns_mpo_referencia_medida": 0
+    },
+    "8T69": {
+      "n": 89,
+      "leidos": 89,
+      "medido_entrada_exacta": 0,
+      "medido_normalizado_isomerico": 0,
+      "solo_conectividad": 0,
+      "comparados_ajuste_por_clase": 89,
+      "cambia_carga_ajuste_por_clase": 0,
+      "cambia_especie_ajuste_por_clase": 0,
+      "cambia_logd_ajuste_por_clase": 89,
+      "cambia_cns_mpo_ajuste_por_clase": 89
+    }
+  },
+  "cambios": [
+    {
+      "conjunto": "MolFlex",
+      "id": "10gs",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -1,
+        "logd": -1.73,
+        "cns_mpo": 2.29
+      },
+      "despues": {
+        "carga": -1,
+        "logd": -1.66,
+        "cns_mpo": 3.04
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1a30",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -2,
+        "logd": -4.51,
+        "cns_mpo": 2.99
+      },
+      "despues": {
+        "carga": -2,
+        "logd": -4.45,
+        "cns_mpo": 3.74
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1a99",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -2.72,
+        "cns_mpo": 4.6
+      },
+      "despues": {
+        "carga": 2,
+        "logd": -1.27,
+        "cns_mpo": 5.35
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1aaq",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -2.24,
+        "cns_mpo": 2.1
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -0.79,
+        "cns_mpo": 2.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1b2h",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 3,
+        "logd": -4.9,
+        "cns_mpo": 2.9
+      },
+      "despues": {
+        "carga": 3,
+        "logd": -4.84,
+        "cns_mpo": 3.65
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1b46",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 3,
+        "logd": -4.13,
+        "cns_mpo": 3.02
+      },
+      "despues": {
+        "carga": 3,
+        "logd": -4.07,
+        "cns_mpo": 3.77
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1b4z",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -5.16,
+        "cns_mpo": 2.89
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -5.1,
+        "cns_mpo": 3.64
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1bju",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -0.83,
+        "cns_mpo": 3.83
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.57,
+        "cns_mpo": 4.55
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1bjv",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.31,
+        "cns_mpo": 2.96
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.71,
+        "cns_mpo": 3.1
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1bty",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -3.13,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.27,
+        "cns_mpo": 5.5
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1c4u",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -3.08,
+        "cns_mpo": 2.17
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.32,
+        "cns_mpo": 3.17
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1c5o",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -3.13,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.27,
+        "cns_mpo": 5.5
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1c5p",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -3.13,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.27,
+        "cns_mpo": 5.5
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1cet",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 2.41,
+        "cns_mpo": 3.23
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 3.86,
+        "cns_mpo": 3.26
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1cnw",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -4.23,
+        "cns_mpo": 2.9
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -2.78,
+        "cns_mpo": 3.65
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1cnx",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -3.35,
+        "cns_mpo": 3.27
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -1.9,
+        "cns_mpo": 4.02
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1d3p",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 3.81,
+        "cns_mpo": 2.03
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 5.26,
+        "cns_mpo": 2.68
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1d9i",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -2.37,
+        "cns_mpo": 2.77
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -0.92,
+        "cns_mpo": 3.52
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1eb2",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -0.54,
+        "cns_mpo": 2.23
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 2.87,
+        "cns_mpo": 2.8
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1ela",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 0.51,
+        "cns_mpo": 3.09
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 1.96,
+        "cns_mpo": 3.84
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1elb",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.05,
+        "cns_mpo": 2.29
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.5,
+        "cns_mpo": 2.79
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1ezq",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -0.85,
+        "cns_mpo": 2.17
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 2.3,
+        "cns_mpo": 2.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1f0t",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -2.73,
+        "cns_mpo": 2.39
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.67,
+        "cns_mpo": 3.39
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1f0u",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -0.85,
+        "cns_mpo": 2.17
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 2.3,
+        "cns_mpo": 2.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1f5k",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -3.13,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.27,
+        "cns_mpo": 5.5
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1fh7",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -6.27,
+        "cns_mpo": 3.1
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -4.82,
+        "cns_mpo": 3.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1g3d",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -1,
+        "logd": -3.58,
+        "cns_mpo": 3.01
+      },
+      "despues": {
+        "carga": -1,
+        "logd": -2.63,
+        "cns_mpo": 4.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1g3e",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -1,
+        "logd": -3.58,
+        "cns_mpo": 3.01
+      },
+      "despues": {
+        "carga": -1,
+        "logd": -2.63,
+        "cns_mpo": 4.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1gpn",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": -0.31,
+        "cns_mpo": 4.6
+      },
+      "despues": {
+        "carga": 0,
+        "logd": 1.14,
+        "cns_mpo": 5.35
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1h22",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": 2.42,
+        "cns_mpo": 2.22
+      },
+      "despues": {
+        "carga": 0,
+        "logd": 3.87,
+        "cns_mpo": 2.24
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1h4w",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -3.13,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.27,
+        "cns_mpo": 5.5
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1i7z",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -0.53,
+        "cns_mpo": 5.1
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.92,
+        "cns_mpo": 5.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1igb",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -1.74,
+        "cns_mpo": 4.27
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -0.29,
+        "cns_mpo": 5.02
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1jq8",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -1,
+        "logd": -3.87,
+        "cns_mpo": 2.1
+      },
+      "despues": {
+        "carga": -1,
+        "logd": -3.81,
+        "cns_mpo": 2.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1lan",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": -2.82,
+        "cns_mpo": 4.6
+      },
+      "despues": {
+        "carga": 0,
+        "logd": -2.76,
+        "cns_mpo": 5.35
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1lbk",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -1,
+        "logd": -5.47,
+        "cns_mpo": 3.1
+      },
+      "despues": {
+        "carga": -1,
+        "logd": -5.41,
+        "cns_mpo": 3.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1moq",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -1,
+        "logd": -10.52,
+        "cns_mpo": 3.1
+      },
+      "despues": {
+        "carga": -1,
+        "logd": -10.52,
+        "cns_mpo": 3.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1nm6",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 3,
+        "logd": -0.04,
+        "cns_mpo": 2.76
+      },
+      "despues": {
+        "carga": 3,
+        "logd": 1.41,
+        "cns_mpo": 3.51
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1nw5",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": -4.8,
+        "cns_mpo": 2.81
+      },
+      "despues": {
+        "carga": 0,
+        "logd": -4.74,
+        "cns_mpo": 3.56
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1aid",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 3.47,
+        "cns_mpo": 1.71
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.92,
+        "cns_mpo": 2.2
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1b32",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -3.89,
+        "cns_mpo": 2.77
+      },
+      "despues": {
+        "carga": 2,
+        "logd": -3.82,
+        "cns_mpo": 3.52
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1c5q",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -1.31,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.09,
+        "cns_mpo": 5.46
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1c5s",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -1.91,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 1.49,
+        "cns_mpo": 5.5
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1c5t",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -2.52,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 0.88,
+        "cns_mpo": 5.5
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1ceb",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": -2.43,
+        "cns_mpo": 4.6
+      },
+      "despues": {
+        "carga": 0,
+        "logd": -2.37,
+        "cns_mpo": 5.35
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1cny",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -2.62,
+        "cns_mpo": 2.25
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -1.17,
+        "cns_mpo": 3.0
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1d3d",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 5.3,
+        "cns_mpo": 1.73
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 6.75,
+        "cns_mpo": 2.48
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1dy4",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -0.07,
+        "cns_mpo": 4.6
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 1.38,
+        "cns_mpo": 5.35
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1e6s",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -7.28,
+        "cns_mpo": 3.0
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -3.88,
+        "cns_mpo": 4.0
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1f8c",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": -6.36,
+        "cns_mpo": 3.1
+      },
+      "despues": {
+        "carga": 0,
+        "logd": -6.3,
+        "cns_mpo": 3.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1f8d",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": -6.36,
+        "cns_mpo": 3.1
+      },
+      "despues": {
+        "carga": 0,
+        "logd": -6.3,
+        "cns_mpo": 3.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1f8e",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -6.4,
+        "cns_mpo": 3.1
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -6.34,
+        "cns_mpo": 3.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1ft7",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -2,
+        "logd": -4.91,
+        "cns_mpo": 4.27
+      },
+      "despues": {
+        "carga": -2,
+        "logd": -4.91,
+        "cns_mpo": 5.02
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1g36",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.08,
+        "cns_mpo": 2.87
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.48,
+        "cns_mpo": 3.13
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1hk4",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -1,
+        "logd": 1.29,
+        "cns_mpo": 2.4
+      },
+      "despues": {
+        "carga": -1,
+        "logd": 1.35,
+        "cns_mpo": 3.15
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1jak",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -5.02,
+        "cns_mpo": 3.71
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -3.57,
+        "cns_mpo": 4.46
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1k1j",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -1.67,
+        "cns_mpo": 2.17
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 1.73,
+        "cns_mpo": 3.17
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1k22",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -3.34,
+        "cns_mpo": 2.5
+      },
+      "despues": {
+        "carga": 2,
+        "logd": -2.39,
+        "cns_mpo": 3.35
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1k6c",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 0.47,
+        "cns_mpo": 2.17
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 1.92,
+        "cns_mpo": 2.92
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1k6p",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 0.8,
+        "cns_mpo": 2.0
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 2.25,
+        "cns_mpo": 2.62
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1k6v",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 1.36,
+        "cns_mpo": 1.72
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 2.81,
+        "cns_mpo": 2.06
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1ksn",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -1.68,
+        "cns_mpo": 2.55
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 1.72,
+        "cns_mpo": 3.55
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1lah",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -4.13,
+        "cns_mpo": 4.27
+      },
+      "despues": {
+        "carga": 1,
+        "logd": -4.07,
+        "cns_mpo": 5.02
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1lcp",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": -2,
+        "logd": -4.91,
+        "cns_mpo": 4.27
+      },
+      "despues": {
+        "carga": -2,
+        "logd": -4.91,
+        "cns_mpo": 5.02
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1lpk",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": -0.49,
+        "cns_mpo": 2.22
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 2.92,
+        "cns_mpo": 2.76
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "MolFlex",
+      "id": "1nvq",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.44,
+        "cns_mpo": 2.97
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.89,
+        "cns_mpo": 3.27
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-1",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.95,
+        "cns_mpo": 3.96
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.4,
+        "cns_mpo": 4.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-2",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.65,
+        "cns_mpo": 4.24
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.1,
+        "cns_mpo": 4.44
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-3",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.04,
+        "cns_mpo": 3.92
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.49,
+        "cns_mpo": 3.95
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-4",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.95,
+        "cns_mpo": 3.96
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.4,
+        "cns_mpo": 4.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-5",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.34,
+        "cns_mpo": 3.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.79,
+        "cns_mpo": 3.52
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-6",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.65,
+        "cns_mpo": 4.24
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.1,
+        "cns_mpo": 4.44
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-7",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.04,
+        "cns_mpo": 3.92
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.49,
+        "cns_mpo": 3.95
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-8",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.95,
+        "cns_mpo": 3.96
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.4,
+        "cns_mpo": 4.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-9",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.34,
+        "cns_mpo": 3.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.79,
+        "cns_mpo": 3.52
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-10",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.65,
+        "cns_mpo": 4.24
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.1,
+        "cns_mpo": 4.44
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-11",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.04,
+        "cns_mpo": 3.92
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.49,
+        "cns_mpo": 3.95
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-12",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.34,
+        "cns_mpo": 3.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.79,
+        "cns_mpo": 3.52
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-13",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.65,
+        "cns_mpo": 4.24
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.1,
+        "cns_mpo": 4.44
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-14",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.04,
+        "cns_mpo": 3.92
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.49,
+        "cns_mpo": 3.95
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-15",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.34,
+        "cns_mpo": 3.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.79,
+        "cns_mpo": 3.52
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-16",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.95,
+        "cns_mpo": 3.96
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.4,
+        "cns_mpo": 4.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-17",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.41,
+        "cns_mpo": 4.53
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.86,
+        "cns_mpo": 4.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-19",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.13,
+        "cns_mpo": 4.33
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.58,
+        "cns_mpo": 4.79
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-20",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.8,
+        "cns_mpo": 4.41
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.25,
+        "cns_mpo": 5.03
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-21",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.18,
+        "cns_mpo": 4.43
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.63,
+        "cns_mpo": 4.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-22",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.03,
+        "cns_mpo": 4.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.49,
+        "cns_mpo": 5.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-23",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.85,
+        "cns_mpo": 3.72
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.3,
+        "cns_mpo": 3.82
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-24",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.91,
+        "cns_mpo": 4.78
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.36,
+        "cns_mpo": 5.35
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-25",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.3,
+        "cns_mpo": 3.94
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.75,
+        "cns_mpo": 4.31
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-26",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.03,
+        "cns_mpo": 4.59
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.49,
+        "cns_mpo": 5.09
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-27",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.55,
+        "cns_mpo": 4.46
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.0,
+        "cns_mpo": 4.71
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-28",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.75,
+        "cns_mpo": 4.22
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.2,
+        "cns_mpo": 4.37
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-29",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.69,
+        "cns_mpo": 4.11
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.14,
+        "cns_mpo": 4.29
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-30",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.79,
+        "cns_mpo": 4.73
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.24,
+        "cns_mpo": 5.36
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-32",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.94,
+        "cns_mpo": 4.17
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.39,
+        "cns_mpo": 4.22
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-36",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.89,
+        "cns_mpo": 3.9
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.34,
+        "cns_mpo": 3.98
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-38",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.8,
+        "cns_mpo": 4.32
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.25,
+        "cns_mpo": 4.45
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-40",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.41,
+        "cns_mpo": 4.53
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.86,
+        "cns_mpo": 4.85
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-41",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.48,
+        "cns_mpo": 3.69
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.93,
+        "cns_mpo": 3.97
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-42",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.08,
+        "cns_mpo": 3.78
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.53,
+        "cns_mpo": 3.8
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-44",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.71,
+        "cns_mpo": 3.87
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.16,
+        "cns_mpo": 4.04
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-45",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.08,
+        "cns_mpo": 3.78
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.53,
+        "cns_mpo": 3.8
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-46",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.08,
+        "cns_mpo": 3.78
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.53,
+        "cns_mpo": 3.8
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-47",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.16,
+        "cns_mpo": 4.09
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.61,
+        "cns_mpo": 4.54
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-48",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.4,
+        "cns_mpo": 4.26
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 1.85,
+        "cns_mpo": 5.01
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-49",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.31,
+        "cns_mpo": 3.73
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.76,
+        "cns_mpo": 4.1
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-50",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.31,
+        "cns_mpo": 3.73
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.76,
+        "cns_mpo": 4.1
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-52",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.02,
+        "cns_mpo": 4.72
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.47,
+        "cns_mpo": 5.24
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-53",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.18,
+        "cns_mpo": 4.43
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.63,
+        "cns_mpo": 4.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-54",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.18,
+        "cns_mpo": 4.43
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.63,
+        "cns_mpo": 4.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-55",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.77,
+        "cns_mpo": 4.39
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.22,
+        "cns_mpo": 5.03
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-56",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.96,
+        "cns_mpo": 4.15
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.41,
+        "cns_mpo": 4.2
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-57",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.43,
+        "cns_mpo": 3.35
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.88,
+        "cns_mpo": 3.37
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-58",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.16,
+        "cns_mpo": 4.09
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.61,
+        "cns_mpo": 4.54
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-59",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.05,
+        "cns_mpo": 3.72
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.5,
+        "cns_mpo": 3.74
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-60",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.59,
+        "cns_mpo": 3.29
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.04,
+        "cns_mpo": 3.33
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-61",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.28,
+        "cns_mpo": 3.63
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.73,
+        "cns_mpo": 3.65
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-63",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.73,
+        "cns_mpo": 3.09
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.18,
+        "cns_mpo": 3.2
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-64",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.73,
+        "cns_mpo": 3.09
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.18,
+        "cns_mpo": 3.2
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-65",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.22,
+        "cns_mpo": 3.6
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.67,
+        "cns_mpo": 3.62
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-67",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 3.12,
+        "cns_mpo": 2.6
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.57,
+        "cns_mpo": 2.91
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-68",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.16,
+        "cns_mpo": 4.09
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.61,
+        "cns_mpo": 4.54
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-69",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.58,
+        "cns_mpo": 4.15
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.03,
+        "cns_mpo": 4.39
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-70",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.93,
+        "cns_mpo": 4.46
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.38,
+        "cns_mpo": 5.02
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-71",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 1.73,
+        "cns_mpo": 3.71
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 3.18,
+        "cns_mpo": 3.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-72",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.14,
+        "cns_mpo": 4.01
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.59,
+        "cns_mpo": 4.46
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-73",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 1.58,
+        "cns_mpo": 3.86
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 3.03,
+        "cns_mpo": 4.09
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-74",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 3.65,
+        "cns_mpo": 2.17
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 5.1,
+        "cns_mpo": 2.74
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-75",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.58,
+        "cns_mpo": 4.15
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.03,
+        "cns_mpo": 4.39
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-76",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.33,
+        "cns_mpo": 2.8
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.78,
+        "cns_mpo": 2.83
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-77",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.86,
+        "cns_mpo": 3.77
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.31,
+        "cns_mpo": 3.86
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-80",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 3.51,
+        "cns_mpo": 2.4
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.96,
+        "cns_mpo": 2.9
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-81",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 3.61,
+        "cns_mpo": 2.29
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 5.06,
+        "cns_mpo": 2.84
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-82",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.86,
+        "cns_mpo": 3.77
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.31,
+        "cns_mpo": 3.86
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-83",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": -0.26,
+        "cns_mpo": 4.03
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 1.19,
+        "cns_mpo": 4.78
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-84",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 1.41,
+        "cns_mpo": 3.72
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 2.86,
+        "cns_mpo": 4.04
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-85",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.82,
+        "cns_mpo": 4.25
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.27,
+        "cns_mpo": 4.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-86",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 2,
+        "logd": 0.24,
+        "cns_mpo": 4.36
+      },
+      "despues": {
+        "carga": 2,
+        "logd": 1.69,
+        "cns_mpo": 5.11
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-88",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.8,
+        "cns_mpo": 4.24
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.25,
+        "cns_mpo": 4.36
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-89",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.77,
+        "cns_mpo": 4.39
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.22,
+        "cns_mpo": 5.03
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-90",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.43,
+        "cns_mpo": 3.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.88,
+        "cns_mpo": 3.53
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-91",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.42,
+        "cns_mpo": 4.3
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.87,
+        "cns_mpo": 4.61
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-92",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.42,
+        "cns_mpo": 4.3
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.87,
+        "cns_mpo": 4.61
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-93",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.94,
+        "cns_mpo": 3.5
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.39,
+        "cns_mpo": 3.56
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-94",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 0,
+        "logd": 1.06,
+        "cns_mpo": 3.39
+      },
+      "despues": {
+        "carga": 0,
+        "logd": 2.51,
+        "cns_mpo": 3.89
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-114",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 0.77,
+        "cns_mpo": 4.39
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.22,
+        "cns_mpo": 5.03
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-115",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 3.12,
+        "cns_mpo": 2.78
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.57,
+        "cns_mpo": 3.09
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-116",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.46,
+        "cns_mpo": 3.24
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.91,
+        "cns_mpo": 3.26
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-117",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.77,
+        "cns_mpo": 2.97
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.22,
+        "cns_mpo": 3.1
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-119",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.19,
+        "cns_mpo": 3.85
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 3.64,
+        "cns_mpo": 3.87
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "4-120",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 2.73,
+        "cns_mpo": 3.07
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 4.18,
+        "cns_mpo": 3.19
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "5-1",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.02,
+        "cns_mpo": 4.72
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.47,
+        "cns_mpo": 5.24
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "5-2",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.02,
+        "cns_mpo": 4.72
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.47,
+        "cns_mpo": 5.24
+      },
+      "especie_cambia": false
+    },
+    {
+      "conjunto": "8T69",
+      "id": "5-3",
+      "brazo": "ajuste_por_clase",
+      "antes": {
+        "carga": 1,
+        "logd": 1.02,
+        "cns_mpo": 4.72
+      },
+      "despues": {
+        "carga": 1,
+        "logd": 2.47,
+        "cns_mpo": 5.24
+      },
+      "especie_cambia": false
+    }
+  ]
+}

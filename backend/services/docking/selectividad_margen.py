@@ -37,7 +37,7 @@ lo que la literatura de selectividad reporta.
 De ahí sale el factor de selectividad, que es lo que un químico médico quiere
 leer:
 
-    factor = 10^(ΔΔG / (ln(10)·R·T))   con ln(10)·R·T = 1.3633 kcal/mol a 298 K
+    factor = 10^(ΔΔG / (ln(10)·R·T))   con ln(10)·R·T ≈ 1.363 kcal/mol (≈ 298 K; ver KCAL_POR_DECADA)
 
 # Por qué el factor va como banda y no como número
 
@@ -68,7 +68,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-#: ln(10)·R·T a 298.15 K, en kcal/mol. Convierte ΔΔG en órdenes de magnitud.
+#: ln(10)·R·T a ≈ 298 K, en kcal/mol. Convierte ΔΔG en órdenes de magnitud.
+#: Aclaración de B-5 (2026-11-15): 1.3633 es el valor a 297.94 K; a 298.15 K son 1.3643 y a 298.00 K, 1.3636. La
+#: diferencia (0.07 %) es mucho menor que la dispersión del score de Vina (±2 kcal/mol) y no mueve ningún corte
+#: (2.73 y 1.36 kcal/mol están fijados en ΔΔG), así que no se corrige. Es la TEMPERATURA ESTÁNDAR de la conversión
+#: ΔΔG→décadas, distinta de los 310.15 K con los que el panel convierte un score en concentración
+#: (`RT_KCAL` en `ProSelectivityPanel.tsx`). `tests/test_constantes_termicas.py` fija cada constante a su temperatura.
 KCAL_POR_DECADA: float = 1.3633
 
 #: Dispersión típica del score de Vina frente a afinidad medida (kcal/mol).

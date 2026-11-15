@@ -522,9 +522,6 @@ ENGLISH_MESSAGES: dict[str, str] = {
                                                                                                                                                                     'would turn the preflight check into work done during the run.',
  'El inventario no permite confirmar todos los requisitos de preparación.': 'The inventory does not allow confirmation '
                                                                             'of all preparation requirements.',
- 'El inventario registra receptor preparado, grid y referencias estructurales.': 'The inventory records the prepared '
-                                                                                 'receptor, grid, and structural '
-                                                                                 'references.',
  'El modelo de plegamiento produjo una estructura, y la conversión de esa estructura a un ligando acoplable no se completó, así que Vina no llegó a ejecutarse y NO hay afinidad. No se sustituye por un valor derivado de la confianza del plegado: la confianza describe la estructura, no la unión. Ver docs/76_DECISION_TRANSFERENCIA_ESMFOLD_A_LIGANDO_V1.md.': 'The folding model produced a structure, and the conversion of that structure to a dockable ligand was not completed, so Vina never ran and there is NO affinity. It is not replaced by a value derived from the folding confidence: confidence describes the structure, not the binding. See docs/76_DECISION_TRANSFERENCIA_ESMFOLD_A_LIGANDO_V1.md.',
 
  'El motor que corrió no es el que se pidió. La pose no es comparable con la que habría producido el motor solicitado.': 'The '
@@ -3136,6 +3133,8 @@ ENGLISH_MESSAGES.update({
     """Se persistieron los pesos normalizados usados realmente en esta corrida.""": """The normalized weights actually used in this run were persisted.""",
     """Señal · warheads de zinc (UMS, SMARTS)""": """Zinc warhead signal (UMS, SMARTS)""",
     """No se calculó la señal de warheads.""": """The warhead signal was not calculated.""",
+    """<i>† Sitio no adjudicado: no se ha comprobado que la caja corresponda al sitio del mecanismo de ese riesgo, así que la lectura refleja sólo el score de Vina en esa caja.</i>""": """<i>† Site not adjudicated: it has not been verified that the box corresponds to the site of the mechanism behind that risk, so the reading reflects only the Vina score in that box.</i>""",
+    """0.0000 — el SMILES de entrada no casa con ninguno de los patrones SMARTS de la señal. Buscan la forma neutra o protonada: una sulfonamida, un hidroxamato o un tiol escritos como anión (N⁻, O⁻, S⁻) no se reconocen y también dan 0. Un 0 no descarta grupos que esos patrones no buscan.""": """0.0000 — the input SMILES matches none of the signal's SMARTS patterns. They look for the neutral or protonated form: a sulfonamide, hydroxamate or thiol written as an anion (N⁻, O⁻, S⁻) is not recognized and also gives 0. A 0 does not rule out groups these patterns do not look for.""",
     """Sin un perfil de M5-Zn no hay fórmula que aplicar. Las señales individuales sí están disponibles y se muestran por separado.""": """There is no formula to apply without an M5-Zn profile. Individual signals are available and shown separately.""",
     """No se resolvió el perfil.""": """The profile could not be resolved.""",
     """Fórmula del perfil""": """Profile formula""",
@@ -3793,7 +3792,7 @@ ENGLISH_MESSAGES.update({
     "Reproducibilidad técnica": "Technical reproducibility",
     "Validez física de poses": "Physical validity of poses",
     "Dominio del modelo": "Model applicability domain",
-    "DENTRO DEL DOMINIO DECLARADO": "WITHIN DECLARED DOMAIN",
+    "DENTRO DEL DOMINIO DEL MODELO USADO": "WITHIN THE DOMAIN OF THE MODEL USED",
     "FUERA DEL DOMINIO": "OUTSIDE DOMAIN",
     "Descriptores fisicoquímicos": "Physicochemical descriptors",
     "Evidencia de selectividad": "Selectivity evidence",
@@ -3806,9 +3805,6 @@ ENGLISH_MESSAGES.update({
     ),
     "No se atribuyen operaciones de preparación, protonación o minimización que la corrida no haya registrado.": (
         "No preparation, protonation, or minimization steps are attributed to the run unless it recorded them."
-    ),
-    "Preparación en condición desolvatada: se eliminaron todas las aguas cristalográficas del receptor. Si esta diana requiere aguas puente conservadas para el reconocimiento molecular, los contactos y las afinidades de esta corrida no las incluyen.": (
-        "Desolvated preparation: all crystallographic waters were removed from the receptor. If this target requires conserved bridging waters for molecular recognition, this run's contacts and affinities do not include them."
     ),
     # Un receptor propio (camino B o C) trae las aguas de su archivo (FEP-09, 2026-10-11).
     "Las aguas del receptor son las del archivo que se subió: MolDesign no las retiró ni decidió cuáles conservar, y Vina trata las que haya como parte rígida del receptor. Si esta diana requiere aguas puente, la corrida sólo las incluye si las traía ese archivo.": (
@@ -3833,14 +3829,14 @@ ENGLISH_MESSAGES.update({
     "Nombre": "Name",
     "<b>Nombre Asignado:</b>": "<b>Assigned name:</b>",
     "<b>Estructura SMILES:</b>": "<b>SMILES string:</b>",
-    "<font color='#d97706'><b>[SISTEMA: ARCHIVO DE USUARIO]</b> La estructura fue aportada por el usuario. No se infieren operaciones de protonación o minimización que no estén registradas.</font>": (
-        "<font color='#d97706'><b>[SYSTEM: USER-PROVIDED FILE]</b> The structure was provided by the user. Protonation or minimization steps are not inferred unless they were recorded.</font>"
+    "<font color='#b45309'><b>[SISTEMA: ARCHIVO DE USUARIO]</b> La estructura fue aportada por el usuario. No se infieren operaciones de protonación o minimización que no estén registradas.</font>": (
+        "<font color='#b45309'><b>[SYSTEM: USER-PROVIDED FILE]</b> The structure was provided by the user. Protonation or minimization steps are not inferred unless they were recorded.</font>"
     ),
     "<font color='#16a34a'><b>[SISTEMA: LISTO PARA EVALUAR]</b> El receptor está preparado y dispone de grid y referencias estructurales. Esto no implica validación experimental.</font>": (
         "<font color='#16a34a'><b>[SYSTEM: READY FOR EVALUATION]</b> The receptor is prepared and has a grid and structural references. This does not imply experimental validation.</font>"
     ),
-    "<font color='#d97706'><b>[SISTEMA: REVISAR PREPARACIÓN]</b> El inventario del receptor no permite afirmar que preparación, grid y hotspots estén completos.</font>": (
-        "<font color='#d97706'><b>[SYSTEM: REVIEW PREPARATION]</b> The receptor inventory does not support a claim that preparation, grid, and hotspots are complete.</font>"
+    "<font color='#b45309'><b>[SISTEMA: REVISAR PREPARACIÓN]</b> El inventario del receptor no permite afirmar que preparación, grid y hotspots estén completos.</font>": (
+        "<font color='#b45309'><b>[SYSTEM: REVIEW PREPARATION]</b> The receptor inventory does not support a claim that preparation, grid, and hotspots are complete.</font>"
     ),
     "<b>Nombre Común (PubChem):</b>": "<b>Common name (PubChem):</b>",
     "<b>Nombre Sistemático (IUPAC):</b>": "<b>Systematic name (IUPAC):</b>",
@@ -3922,11 +3918,29 @@ ENGLISH_MESSAGES.update({
     "Afinidad reportada por el pipeline": "Affinity reported by the pipeline",
     "Separación entre poses 1 y 2": "Separation between poses 1 and 2",
     "Eficiencia de Ligando (LE)": "Ligand efficiency (LE)",
-    "Eficiencia Lipofílica (LLE)": "Lipophilic ligand efficiency (LLE)",
+    "LLE aparente (proxy de Vina)": "Apparent LLE (Vina proxy)",
+    "LE = |afinidad| / átomos pesados; LLE = |afinidad| / {k} − logP. Las dos parten de la afinidad de Vina, no de una medida experimental.": "LE = |affinity| / heavy atoms; LLE = |affinity| / {k} − logP. Both start from the Vina affinity, not from an experimental measurement.",
+    "lista declarada: vacía (la corrida registró una lista vacía)": "declared list: empty (the run recorded an empty list)",
+    "lista declarada": "declared list",
+    "el receptor de la corrida conserva": "the run's receptor keeps",
+    "cofactor orgánico": "organic cofactor",
+    "ion metálico": "metal ion",
+    "No consultado (MolDesign no consulta PubChem)": "Not queried (MolDesign does not query PubChem)",
+    "ID del receptor": "Receptor ID",
+    "La preparación estándar retira todas las aguas cristalográficas del receptor (condición desolvatada); la cuenta de las que había en el sitio va aparte. Si esta diana requiere aguas puente conservadas para el reconocimiento molecular, los contactos y las afinidades de esta corrida no las incluyen.": "The standard preparation removes all crystallographic waters from the receptor (desolvated condition); the count of those that were in the site is given separately. If this target requires conserved bridging waters for molecular recognition, this run's contacts and affinities do not include them.",
+    "El inventario registra receptor preparado, grid y referencias estructurales. No incluye la auditoría de Preparación (metales, huecos y aguas).": "The inventory records the prepared receptor, grid and structural references. It does not include the Preparation audit (metals, gaps and waters).",
+    "hash del ligando (SMILES)": "ligand hash (SMILES)",
+    "referencia del receptor": "receptor reference",
+    "hash de la configuración": "configuration hash",
+    "hash de las poses": "poses hash",
+    "motor de acoplamiento": "docking engine",
+    "modelo de rescoring": "rescoring model",
+    "vocabulario de especies del sitio": "site species vocabulary",
+    "HBD: número de hidrógenos unidos a N u O; HBA: número de átomos de N y O (definición original de Lipinski).": "HBD: number of hydrogens bonded to N or O; HBA: number of N and O atoms (original Lipinski definition).",
+    "Contactos medidos sobre la estructura del receptor del caso, no sobre el PDBQT acoplado. Enlace de hidrógeno: donante y aceptor a ≤ 3.2 Å entre átomos pesados. Puente salino: cargas opuestas a ≤ 4.0 Å (la del ligando es la de la especie acoplada; la del receptor, la que corresponde al residuo). Sin ángulos. Distancia: la del par que define el tipo.": "Contacts measured on the case's receptor structure, not on the docked PDBQT. Hydrogen bond: donor and acceptor within 3.2 Å between heavy atoms. Salt bridge: opposite charges within 4.0 Å (the ligand's is that of the docked species; the receptor's is the one that belongs to the residue). No angles. Distance: that of the pair that defines the type.",
     "Parámetro de Reproducibilidad": "Reproducibility parameter",
     "estructura PDB del receptor": "receptor PDB structure",
     "Tipo de Interacción": "Interaction type",
-    "Distancia Mínima": "Minimum distance",
     "Panel computacional de anti-targets": "Computational anti-target panel",
     "sin clasificación": "not classified",
     "Margen computacional no evaluado: faltan afinidades comparables.": "Computational margin not evaluated: comparable affinities are missing.",
@@ -3943,10 +3957,19 @@ ENGLISH_MESSAGES.update({
     "La corrida no serializo absorcion intestinal. No se evaluo: eso no dice nada sobre la molecula.": (
         "The run did not serialize intestinal absorption. It was not evaluated; this says nothing about the molecule."
     ),
+    "Permeable (SNC+)": "Permeable (CNS+)",
     "No permeable (SNC-)": "Not permeable (CNS−)",
     "El target requiere acceso al SNC; la salida sigue siendo una predicción binaria.": "The target requires CNS access; the output is still a binary prediction.",
     "Predicción binaria; no determina exposición ni seguridad central.": "Binary prediction; it does not determine central exposure or safety.",
     "Salida no serializada.": "Output not serialized.",
+    "No concluyente": "Inconclusive",
+    (
+        "No hay predicción de permeabilidad: el modelo ADMET no estaba disponible en esta corrida y ninguna regla "
+        "estructural se pronuncia."
+    ): (
+        "No permeability prediction: the ADMET model was not available in this run and no structural rule "
+        "gives a verdict."
+    ),
     "Sin alertas CYP serializadas": "No CYP alerts were serialized",
     "Estimación del modelo; no sustituye una medición de solubilidad.": "Model estimate; it does not replace a solubility measurement.",
     "Unión a Proteínas (PPB)": "Plasma protein binding (PPB)",
@@ -3992,15 +4015,13 @@ ENGLISH_MESSAGES.update({
     ),
     " (escala histórica 0-100)": " (historical 0–100 scale)",
     "Índice compuesto heredado": "Legacy composite index",
-    "Índice de reglas heredado": "Legacy rules index",
     "Índice MPO heredado": "Legacy MPO index",
     "Salida GNN geométrica": "Geometric GNN output",
     "Salida cuántica": "Quantum output",
-    "ninguno conservado (la corrida registró una lista vacía)": "none kept (the run recorded an empty list)",
     "la corrida no registró la lista de cofactores": "the run did not record the cofactor list",
     "Limitaciones Cientificas del Analisis Computacional": "Scientific limitations of computational analysis",
-    "<font color='#94a3b8' size='7'><i>Generado localmente por MolDesign. Uso no comercial bajo PolyForm Noncommercial 1.0.0; uso comercial sujeto a licencia separada.<br/>Código y plataforma: https://github.com/srcacahuate619/moldesign-app</i></font>": (
-        "<font color='#94a3b8' size='7'><i>Generated locally by MolDesign. Noncommercial use under PolyForm Noncommercial 1.0.0; commercial use requires a separate license.<br/>Code and platform: https://github.com/srcacahuate619/moldesign-app</i></font>"
+    "<font color='#64748b' size='7'><i>Generado localmente por MolDesign. Uso no comercial bajo PolyForm Noncommercial 1.0.0; uso comercial sujeto a licencia separada.<br/>Código y plataforma: https://github.com/srcacahuate619/moldesign-app</i></font>": (
+        "<font color='#64748b' size='7'><i>Generated locally by MolDesign. Noncommercial use under PolyForm Noncommercial 1.0.0; commercial use requires a separate license.<br/>Code and platform: https://github.com/srcacahuate619/moldesign-app</i></font>"
     ),
     "Exendin-P5 (Péptido)": "Exendin-P5 (peptide)",
     "Inhibidor Alostérico 11a": "Allosteric inhibitor 11a",
@@ -4296,12 +4317,47 @@ ENGLISH_MESSAGES.update({
     'Verificado; el sello no describe esta corrida': 'Verified; the seal does not describe this run',
     'El receptor se acopló sin los iones del depósito (la preparación los retira); Vina no tiene término electrostático y la calibración se midió en esas condiciones.': 'The receptor was docked without the deposited ions (preparation removes them); Vina has no electrostatic term and the calibration was measured under these conditions.',
     'El panel es casi entero una serie de análogos: la ρ describe cómo ordena compuestos de esa serie, no ligandos de estructura diversa.': 'The panel is almost entirely one analogue series: ρ describes how it ranks compounds of that series, not structurally diverse ligands.',
+    'Los Ki del panel se midieron en plaquetas humanas con [3H]DTBZ como radioligando (patente US11718618B2).': 'The panel Ki values were measured in human platelets with [3H]DTBZ as the radioligand (patent US11718618B2).',
+    'Los Ki se normalizaron con una Kd del radioligando que cambia por lote (2,5 o 4,06 nM) y la fuente no dice qué lote corresponde a cada compuesto; por eso se mide también la correlación de la peor asignación de lotes.': 'The Ki values were normalized with a radioligand Kd that changes per batch (2.5 or 4.06 nM) and the source does not say which batch corresponds to each compound; this is why the correlation under the worst batch assignment is also measured.',
+    'En cola': 'Queued',
+    'Interrumpida': 'Interrupted',
+    'Pendiente': 'Pending',
+    'No evaluada': 'Not evaluated',
+    'Completada con excepciones': 'Completed with exceptions',
+    'Duplicada: se reutilizó el resultado': 'Duplicate: the result was reused',
+    'Catálogo': 'Catalog',
+    'Declarada por la cohorte': 'Declared by the cohort',
+    'Referencia': 'Reference',
+    'Positivo': 'Positive',
+    'Negativo': 'Negative',
+    'Ninguno': 'None',
+    'Cada escalón se cuenta sobre el archivo COMPLETO, no sobre el escalón anterior. Un veredicto físico sólo cuenta como evaluado si la etapa emitió uno: `not_evaluated` describe al validador, nunca a la molécula, y no es evidencia negativa.': 'Each step is counted over the COMPLETE file, not over the previous step. A physical verdict only counts as evaluated if the stage issued one: `not_evaluated` describes the validator, never the molecule, and is not negative evidence.',
+    'Pose (posición)': 'Pose (rank)',
+    'Rótulo: residuo (distancia al átomo marcado, en Å).': 'Label: residue (distance to the marked atom, in Å).',
+    'Afinidad Vina obs.': 'Observed Vina affinity',
+    'Ligando': 'Ligand',
+    'Explorar una hipótesis': 'Explore a hypothesis',
+    'Comparar una serie': 'Compare a series',
+    'Revisar una pose': 'Review a pose',
+    'Preparar evidencia para un cálculo posterior': 'Prepare evidence for a later calculation',
+    'Sin ejecutar': 'Not run',
+    'Enviada': 'Submitted',
+    'En curso': 'In progress',
+    'Seguimiento perdido: no se sabe cómo terminó': 'Tracking lost: how it ended is unknown',
+    'Completada': 'Completed',
+    'Fallida': 'Failed',
+    'Cancelada': 'Canceled',
+    'Docking con AutoDock Vina': 'Docking with AutoDock Vina',
     'Ensayo de desplazamiento de [3H]nisoxetina; el pH, la temperatura y la concentración del radioligando no constan en las fuentes consultadas, y la correlación es dentro de un único ensayo.': '[3H]nisoxetine displacement assay; pH, temperature and radioligand concentration are not documented in the sources consulted, and the correlation is within a single assay.',
     'Las cadenas del sitio anotado no están todas en la unidad biológica del depósito: el sitio podría ser un contacto del cristal. Pendiente de reanotar.': 'The chains of the annotated site are not all in the deposited biological assembly: the site could be a crystal contact. Pending re-annotation.',
 })
 
 # Especie acoplada: frases completas, también en revisión (2026-10-09).
 ENGLISH_MESSAGES.update({
+    'En revisión por dos centros básicos a 3 enlaces o menos (piperazina o diamina): la tabla da a cada uno el pKa de su clase por separado, pero protonar uno baja el del otro (ejemplo de la literatura, no esta molécula: la cetirizina, pKa 7,98, es zwitterión neutro y se acoplaba como catión).': "Under review because of two basic centers 3 bonds apart or fewer (piperazine or diamine): the table gives each one its class pKa separately, but protonating one lowers the other's (example from the literature, not this molecule: cetirizine, pKa 7.98, is a neutral zwitterion and was docked as a cation).",
+    'En revisión por N-sulfonil-piperazina: el sulfonilo baja el pKa del N distal muy por debajo del 9,8 de una amina alifática (ejemplo de la literatura, no esta molécula: el sildenafilo, pKa 6,78, es neutro a pH 7,4 y se acoplaba como catión).': 'Under review because of N-sulfonyl piperazine: the sulfonyl group lowers the pKa of the distal N far below the 9.8 of an aliphatic amine (example from the literature, not this molecule: sildenafil, pKa 6.78, is neutral at pH 7.4 and was docked as a cation).',
+    'En revisión por ácido enólico vinílogo (oxicam o 4-hidroxicumarina): la tabla de pKa no tiene esta clase y la especie a pH 7,4 no está establecida (ejemplo de la literatura, no esta molécula: el piroxicam, pKa ácido ≈5,3, con fuentes que discrepan).': 'Under review because of vinylogous enolic acid (oxicam or 4-hydroxycoumarin): the pKa table lacks this class and the species at pH 7.4 is not established (example from the literature, not this molecule: piroxicam, acidic pKa ≈5.3, with conflicting sources).',
+    'En revisión por amina protonada con un grupo atractor a uno o dos enlaces del N (CF3 o CHF2 en β, nitrilo en α o β): el grupo baja varias unidades el pKa que la tabla da a la clase (9,8; ejemplos de la literatura, no esta molécula: la 2,2,2-trifluoroetilamina tiene pKa ≈5,7 y el 3-aminopropionitrilo ≈7,8), así que la carga a pH 7,4 es una decisión abierta.': 'Under review because of protonated amine with an electron-withdrawing group one or two bonds from the N (CF3 or CHF2 at β, nitrile at α or β): the group lowers the class pKa the table assigns (9.8; examples from the literature, not this molecule: 2,2,2-trifluoroethylamine has pKa ≈5.7 and 3-aminopropionitrile ≈7.8) by several units, so the charge at pH 7.4 is an open decision.',
     'En revisión por dos centros básicos a 3 enlaces o menos (piperazina o diamina): la tabla da a cada uno el pKa de su clase por separado, pero protonar uno baja el del otro (cetirizina, pKa 7,98, es zwitterión neutro y se acoplaba como catión).': "Under review because of two basic centers 3 bonds apart or fewer (piperazine or diamine): the table gives each one its class pKa separately, but protonating one lowers the other's (cetirizine, pKa 7.98, is a neutral zwitterion and was docked as a cation).",
     'En revisión por N-sulfonil-piperazina: el sulfonilo baja el pKa del N distal muy por debajo del 9,8 de una amina alifática (sildenafilo 6,78: neutro a pH 7,4, se acoplaba como catión).': 'Under review because of N-sulfonyl piperazine: the sulfonyl group lowers the pKa of the distal N far below the 9.8 of an aliphatic amine (sildenafil 6.78: neutral at pH 7.4, was docked as a cation).',
     'En revisión por ácido enólico vinílogo (oxicam o 4-hidroxicumarina): la tabla de pKa no tiene esta clase y la especie a pH 7,4 no está establecida (piroxicam, pKa ácido ≈5,3, con fuentes que discrepan).': 'Under review because of vinylogous enolic acid (oxicam or 4-hydroxycoumarin): the pKa table lacks this class and the species at pH 7.4 is not established (piroxicam, acidic pKa ≈5.3, with conflicting sources).',

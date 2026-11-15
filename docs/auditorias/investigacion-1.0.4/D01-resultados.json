@@ -1,0 +1,415 @@
+{
+  "referencia_sha256": "0bfcf8d1390bd37a9086a8f4d32db04367d4f2377782795d6d8e4135b09e57b0",
+  "chai": [
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_0.cif",
+      "sha256": "e44bffe983c413cae2eed195571e6c14619ec7f88787ea96ede6b6408372dcad",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 9,
+      "media_bajo70": 21,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 12,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_1.cif",
+      "sha256": "e7741a7acbdfbb653bf702971083529307069fd0d9218bcc5d02754da26ea315",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 10,
+      "media_bajo70": 21,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 11,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_2.cif",
+      "sha256": "965a1b9b8d59a8fd228954ce789480f765f836a5a8267f8e3e4a22773dd27b7f",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 11,
+      "media_bajo70": 21,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 10,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_3.cif",
+      "sha256": "cc89e18f49f8f9822dace0121898a816046e5eb5ba480a0c8d94dd2df9f55f90",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 12,
+      "media_bajo70": 21,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 9,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_apo__mmcif",
+      "muestra": "pred.model_idx_4.cif",
+      "sha256": "4b711dbe4bd5d44fa2db9f65a1b874ba12412d54e2cbdae37f3251f4a4db795d",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 10,
+      "media_bajo70": 21,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 11,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_0.cif",
+      "sha256": "dfb9b82f6de2bbb4b8e0fd4ac24e171d2810b6b2c43166ae61cc76047842705b",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 3,
+      "media_bajo70": 9,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 6,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_1.cif",
+      "sha256": "c8eb91bf7419c89da1340c8e50a7d90127705cec24e68746d1e236297c7b2c66",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 3,
+      "media_bajo70": 8,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 5,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_2.cif",
+      "sha256": "17bcf9c8a8b1575843506a5f7cd56cb8803f8e9cc53bbdc30c3446e059fadb5f",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 3,
+      "media_bajo70": 9,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 6,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_3.cif",
+      "sha256": "d4ce787465ecae2c1f9704ebaf402ac654a0ed57570f5e8cd77c20d784588f81",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 3,
+      "media_bajo70": 8,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 5,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "cdk2_lig__mmcif",
+      "muestra": "pred.model_idx_4.cif",
+      "sha256": "18fcc64e19c71cfd2a18db94f5b793df0496fdfd87dfb2ff5ad7aacf97993286",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 298,
+      "local_bajo70": 3,
+      "media_bajo70": 9,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 6,
+      "solo_local_bajo70": 0
+    },
+    {
+      "caso": "net_apo__mmcif",
+      "muestra": "pred.model_idx_0.cif",
+      "sha256": "c0585a8f4dec7c974e853be224910b42f716c2a6d6a42fba4675a48077c11be4",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 617,
+      "local_bajo70": 72,
+      "media_bajo70": 76,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 4,
+      "solo_local_bajo70": 0,
+      "lddt_ca": {
+        "referencia_ca_resueltos": 548,
+        "prediccion_ca": 617,
+        "mapeados": 548,
+        "sitio_referencia_total": 25,
+        "cadena": {
+          "local": {
+            "n": 548,
+            "referencia_bajo70": 70,
+            "prediccion_bajo70": 7,
+            "tp": 6,
+            "tn": 477,
+            "lddt_mediano": 89.56876456876456,
+            "rho": 0.3056023591157981
+          },
+          "media": {
+            "n": 548,
+            "referencia_bajo70": 70,
+            "prediccion_bajo70": 11,
+            "tp": 8,
+            "tn": 475,
+            "lddt_mediano": 89.56876456876456,
+            "rho": 0.22833547530811252
+          }
+        },
+        "sitio": {
+          "local": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 83.33333333333333,
+            "rho": 0.4684615384615385
+          },
+          "media": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 83.33333333333333,
+            "rho": 0.27999999999999997
+          }
+        }
+      }
+    },
+    {
+      "caso": "net_apo__mmcif",
+      "muestra": "pred.model_idx_1.cif",
+      "sha256": "7cde1e0399fe18db198fb743ef4718ff0d291c61005dd147c06e8709ea76f1ab",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 617,
+      "local_bajo70": 72,
+      "media_bajo70": 76,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 4,
+      "solo_local_bajo70": 0,
+      "lddt_ca": {
+        "referencia_ca_resueltos": 548,
+        "prediccion_ca": 617,
+        "mapeados": 548,
+        "sitio_referencia_total": 25,
+        "cadena": {
+          "local": {
+            "n": 548,
+            "referencia_bajo70": 75,
+            "prediccion_bajo70": 7,
+            "tp": 7,
+            "tn": 473,
+            "lddt_mediano": 89.44272445820434,
+            "rho": 0.317835425588911
+          },
+          "media": {
+            "n": 548,
+            "referencia_bajo70": 75,
+            "prediccion_bajo70": 11,
+            "tp": 9,
+            "tn": 471,
+            "lddt_mediano": 89.44272445820434,
+            "rho": 0.2437666187725732
+          }
+        },
+        "sitio": {
+          "local": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 82.6923076923077,
+            "rho": 0.3243555453636279
+          },
+          "media": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 82.6923076923077,
+            "rho": 0.1650634981743729
+          }
+        }
+      }
+    },
+    {
+      "caso": "net_apo__mmcif",
+      "muestra": "pred.model_idx_2.cif",
+      "sha256": "eb67a8a9d345962525f1ac56ec2d57e59137aa2228f011843a758f6e368ae86d",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 617,
+      "local_bajo70": 71,
+      "media_bajo70": 76,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 5,
+      "solo_local_bajo70": 0,
+      "lddt_ca": {
+        "referencia_ca_resueltos": 548,
+        "prediccion_ca": 617,
+        "mapeados": 548,
+        "sitio_referencia_total": 25,
+        "cadena": {
+          "local": {
+            "n": 548,
+            "referencia_bajo70": 71,
+            "prediccion_bajo70": 6,
+            "tp": 6,
+            "tn": 477,
+            "lddt_mediano": 89.96527777777777,
+            "rho": 0.3127489588460421
+          },
+          "media": {
+            "n": 548,
+            "referencia_bajo70": 71,
+            "prediccion_bajo70": 11,
+            "tp": 9,
+            "tn": 475,
+            "lddt_mediano": 89.96527777777777,
+            "rho": 0.23807628864527078
+          }
+        },
+        "sitio": {
+          "local": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 83.9041095890411,
+            "rho": 0.3876923076923077
+          },
+          "media": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 83.9041095890411,
+            "rho": 0.22461538461538463
+          }
+        }
+      }
+    },
+    {
+      "caso": "net_apo__mmcif",
+      "muestra": "pred.model_idx_3.cif",
+      "sha256": "9d42be8603631612277f580f424042922533fc68c3ff09557cccb835601a6073",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 617,
+      "local_bajo70": 71,
+      "media_bajo70": 76,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 5,
+      "solo_local_bajo70": 0,
+      "lddt_ca": {
+        "referencia_ca_resueltos": 548,
+        "prediccion_ca": 617,
+        "mapeados": 548,
+        "sitio_referencia_total": 25,
+        "cadena": {
+          "local": {
+            "n": 548,
+            "referencia_bajo70": 71,
+            "prediccion_bajo70": 6,
+            "tp": 6,
+            "tn": 477,
+            "lddt_mediano": 89.40285204991088,
+            "rho": 0.33374027865442457
+          },
+          "media": {
+            "n": 548,
+            "referencia_bajo70": 71,
+            "prediccion_bajo70": 11,
+            "tp": 9,
+            "tn": 475,
+            "lddt_mediano": 89.40285204991088,
+            "rho": 0.24889729391194038
+          }
+        },
+        "sitio": {
+          "local": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 83.69565217391305,
+            "rho": 0.4053846153846154
+          },
+          "media": {
+            "n": 25,
+            "referencia_bajo70": 3,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 22,
+            "lddt_mediano": 83.69565217391305,
+            "rho": 0.22846153846153847
+          }
+        }
+      }
+    },
+    {
+      "caso": "net_apo__mmcif",
+      "muestra": "pred.model_idx_4.cif",
+      "sha256": "7febdd2e730bc0b6398fb4aad5568d81a356270ec5dd2cd583365b3ed2c11860",
+      "titulo": "'Chai-1 predicted structure'",
+      "residuos": 617,
+      "local_bajo70": 71,
+      "media_bajo70": 76,
+      "max_abs_local_ca": 0.0,
+      "solo_media_bajo70": 5,
+      "solo_local_bajo70": 0,
+      "lddt_ca": {
+        "referencia_ca_resueltos": 548,
+        "prediccion_ca": 617,
+        "mapeados": 548,
+        "sitio_referencia_total": 25,
+        "cadena": {
+          "local": {
+            "n": 548,
+            "referencia_bajo70": 64,
+            "prediccion_bajo70": 6,
+            "tp": 6,
+            "tn": 484,
+            "lddt_mediano": 89.85001485001484,
+            "rho": 0.3514433977605431
+          },
+          "media": {
+            "n": 548,
+            "referencia_bajo70": 64,
+            "prediccion_bajo70": 11,
+            "tp": 8,
+            "tn": 481,
+            "lddt_mediano": 89.85001485001484,
+            "rho": 0.2719224138149946
+          }
+        },
+        "sitio": {
+          "local": {
+            "n": 25,
+            "referencia_bajo70": 1,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 24,
+            "lddt_mediano": 82.6086956521739,
+            "rho": 0.3253846153846154
+          },
+          "media": {
+            "n": 25,
+            "referencia_bajo70": 1,
+            "prediccion_bajo70": 0,
+            "tp": 0,
+            "tn": 24,
+            "lddt_mediano": 82.6086956521739,
+            "rho": 0.11153846153846154
+          }
+        }
+      }
+    }
+  ]
+}

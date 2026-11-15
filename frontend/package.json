@@ -26,6 +26,8 @@
     "check:openbabel-fuente": "..\\python-embed\\python.exe ..\\scripts\\stage_openbabel_tool.py --check",
     "check:molcy-motor": "..\\python-embed\\python.exe ..\\scripts\\stage_molcy_motor.py --check",
     "smoke:prod": "node scripts/smoke-produccion.mjs",
+    "resistencia": "node scripts/resistencia.mjs",
+    "resistencia:autotest": "node scripts/resistencia.mjs --autotest",
     "smoke:molchat-csp": "node scripts/smoke-molchat-csp.mjs",
     "smoke:solana-devnet": "..\\python-embed\\python.exe ..\\scripts\\smoke_solana_devnet.py",
     "check:rescoring-manifest": "..\\python-embed\\python.exe ..\\rescoring\\scripts\\generate_model_manifest.py --check",

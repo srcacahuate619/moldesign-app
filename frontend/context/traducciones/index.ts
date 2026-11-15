@@ -40,6 +40,8 @@ import { pro } from "./pro";
 import { registro } from "./registro";
 import { resultados } from "./resultados";
 import { elevacion } from "./elevacion";
+import { xai } from "./xai";
+import { modelos } from "./modelos";
 
 /** Las dos columnas de un modulo. Mismas claves, distinto idioma. */
 export interface ModuloDeTraduccion {
@@ -50,7 +52,7 @@ export interface ModuloDeTraduccion {
 const MODULOS: readonly ModuloDeTraduccion[] = [
   comun, evaluacion, lote, moldex, molcy, casos, legal, certificacion, opciones,
   pro, paginas, ia, paneles, registro, cierre, generadas, remate, inicio, catalogo,
-  notificaciones, resultados, elevacion, caseErrors, caseSchema, proveedores,
+  notificaciones, resultados, elevacion, caseErrors, caseSchema, proveedores, xai, modelos,
 ];
 
 /**

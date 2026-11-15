@@ -88,8 +88,10 @@ function clasificar(renderer: string | null): Aceleracion | null {
  * da falsos positivos —una VM anuncia un navegador moderno y aun así no expone
  * aceleración— y ese es justo el caso que hay que detectar.
  *
- * El resultado se memoriza: la capacidad no cambia dentro de una sesión, y
- * crear contextos WebGL de prueba consume recursos de GPU de verdad.
+ * El resultado se memoriza: crear contextos WebGL de prueba consume recursos de
+ * GPU de verdad. La capacidad SÍ puede cambiar con la sesión abierta —si el
+ * proceso de GPU se cae varias veces, Chromium deja de dar contextos—, así que
+ * quien ve fallar un visor llama antes a `reiniciarComprobacionWebGL()`.
  */
 export function comprobarWebGL(): EstadoWebGL {
   if (cache) return cache;
@@ -98,6 +100,38 @@ export function comprobarWebGL(): EstadoWebGL {
     // pintar una advertencia que quizá no corresponde: el cliente lo corregirá.
     return { disponible: true, motivo: null, aceleracion: null, renderer: null };
   }
+  const estado = medirWebGL();
+  cache = estado;
+  anunciarModoDeDibujo(estado);
+  return estado;
+}
+
+/**
+ * Deja dicho en `<html data-dibujo>` si la pantalla la compone el procesador.
+ *
+ * PARA QUÉ. Sin tarjeta gráfica, cada fotograma de una animación CSS lo compone
+ * el procesador. Medido en el export sin GPU (2026-11-09), con una evaluación en
+ * marcha: la pantalla «evaluando» gastaba el 57 % de un núcleo con sus
+ * animaciones a 60 fotogramas por segundo, el 27 % con doce pasos por vuelta
+ * (lo que se aplica) y el 15 % sin ninguna. En una máquina virtual ese núcleo
+ * es de los pocos que tiene Vina. `globals.css` lee este atributo y da las
+ * animaciones por pasos. Cifras y condiciones en
+ * `docs/auditorias/evaluacion-visores-y-rendimiento-2026-11-09.md`.
+ *
+ * Sin contexto 3D la composición también es por software, así que cuenta igual.
+ * Si el equipo no dice cómo dibuja (`aceleracion: null`), no se toca nada.
+ */
+function anunciarModoDeDibujo(estado: EstadoWebGL): void {
+  try {
+    const porSoftware = !estado.disponible || estado.aceleracion === "software";
+    document.documentElement.dataset.dibujo = porSoftware ? "software" : "hardware";
+  } catch {
+    // Sólo es una optimización: si no se puede escribir el atributo, no pasa nada.
+  }
+}
+
+/** La medida, sin memoria: crea un contexto de prueba y mira quién lo dibuja. */
+function medirWebGL(): EstadoWebGL {
   try {
     const canvas = document.createElement("canvas");
     const contexto =
@@ -105,7 +139,7 @@ export function comprobarWebGL(): EstadoWebGL {
       canvas.getContext("webgl") ||
       canvas.getContext("experimental-webgl");
     if (!contexto) {
-      cache = {
+      return {
         disponible: false,
         aceleracion: null,
         renderer: null,
@@ -113,7 +147,6 @@ export function comprobarWebGL(): EstadoWebGL {
           String(frontendMessage("pr_webgl_no_hardware")),
         motivoMessage: frontendMessage("pr_webgl_no_hardware"),
       };
-      return cache;
     }
 
     const gl = contexto as WebGLRenderingContext;
@@ -136,26 +169,29 @@ export function comprobarWebGL(): EstadoWebGL {
     const perder = gl.getExtension("WEBGL_lose_context");
     perder?.loseContext();
 
-    cache = {
+    return {
       disponible: true,
       motivo: null,
       aceleracion: clasificar(renderer),
       renderer,
     };
-    return cache;
   } catch (error) {
-    cache = {
+    return {
       disponible: false,
       aceleracion: null,
       renderer: null,
       motivo: String(frontendMessage("pr_webgl_error", { detail: String(error).slice(0, 80) })),
       motivoMessage: frontendMessage("pr_webgl_error", { detail: String(error).slice(0, 80) }),
     };
-    return cache;
   }
 }
 
-/** Sólo para pruebas: olvida la comprobación memorizada. */
+/**
+ * Olvida la comprobación memorizada, para volver a medir.
+ *
+ * La usan las pruebas y quien ve fallar un visor a media sesión: lo que el equipo
+ * podía dibujar al abrir la pestaña puede no ser lo que puede dibujar ahora.
+ */
 export function reiniciarComprobacionWebGL(): void {
   cache = null;
 }

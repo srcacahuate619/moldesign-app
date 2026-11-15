@@ -101,6 +101,16 @@
   to { transform: translateX(400%); }
 }
 
+/* Sin tarjeta gráfica, las animaciones van por pasos.
+   Cada fotograma de una animación lo compone entonces el procesador, y a 60 por segundo eso es trabajo continuo. Medido en
+   el export sin GPU con una evaluación en marcha (2026-11-09): la pantalla «evaluando» gastaba el 57 % de un núcleo con las
+   animaciones fluidas y el 27 % con éstas, por pasos; en una máquina virtual, ese núcleo se lo quita a Vina. Doce pasos por
+   vuelta hacen que el anillo del orbe avance de punto en punto. El atributo lo pone `lib/webgl.ts` al medir el equipo.
+   Cifras y condiciones: docs/auditorias/evaluacion-visores-y-rendimiento-2026-11-09.md. */
+html[data-dibujo="software"] [class*="animate-"] {
+  animation-timing-function: steps(12, end) !important;
+}
+
 @keyframes destello {
   0%, 100% { opacity: 0; }
   50% { opacity: 0.5; }
@@ -606,4 +616,31 @@ html[data-zoom="150"] { zoom: 1.5; }
 
 .evaluation-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: color-mix(in srgb, var(--color-brand-400) 82%, transparent);
+}
+
+
+/* ── Scroll de MolDesign: regla global ───────────────────────────────
+ * TODO scroll de la interfaz es morado y redondeado, nunca el del sistema
+ * operativo o el navegador. Se aplica a cualquier elemento desplazable, así
+ * que un componente nuevo lo hereda sin añadir ninguna clase. Sólo las zonas
+ * que lo ocultan a propósito (p. ej. barras de Ketcher) lo anulan con más
+ * especificidad. */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-corner { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-brand-500) 62%, transparent);
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in srgb, var(--color-brand-400) 82%, transparent);
+}
+/* Motores sin ::-webkit-scrollbar (Firefox): el equivalente estándar. */
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--color-brand-500) 62%, transparent) transparent;
+  }
 }

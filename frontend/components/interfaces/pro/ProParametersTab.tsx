@@ -72,7 +72,7 @@ interface Props {
 
 export type EvaluationProperties = NonNullable<Props["result"]>;
 
-export function ProParametersTab({ result }: Props) {
+export function ProParametersTab({ result, abrirAdmet = 0 }: Props & { abrirAdmet?: number }) {
   const { t } = useLanguage();
   const reading=useResultReading();
   if (!result) {
@@ -135,7 +135,7 @@ export function ProParametersTab({ result }: Props) {
     { key: "affinity_threshold", label: t("auto_e5d485629017"), value: result.affinity_threshold != null ? `${result.affinity_threshold} kcal/mol` : "—" },
   ];
 
-  if(reading.enabled)return <ResultPropertiesPanel result={result} physicochemical={physicochemical} drugRules={drugRules} admetAbsent={admetAusente}/>;
+  if(reading.enabled)return <ResultPropertiesPanel result={result} physicochemical={physicochemical} drugRules={drugRules} admetAbsent={admetAusente} abrirAdmet={abrirAdmet}/>;
 
   return (
     <div className="space-y-5 animate-in fade-in duration-200 font-sans">

@@ -38,7 +38,9 @@ from typing import Any
 
 #: El mismo tope que la auditoría FEP-01 (`scripts/analisis_fep01_integridad.py`).
 MAX_TAUTOMEROS = 32
-VERSION = 1
+#: 2: conserva la E/Z de los dobles enlaces (la 1 la borraba, y la lista de candidatos de
+#: los dos isómeros de una olefina salía idéntica).
+VERSION = 2
 
 RESUELTO_UNICO = "RESUELTO_UNICO"
 MULTIESTADO_REQUERIDO = "MULTIESTADO_REQUERIDO"
@@ -53,6 +55,11 @@ def _enumerador():
     # estereoquímica sp3 implicada en el sistema tautomérico, y los dos
     # enantiómeros de la talidomida salían siendo la misma molécula.
     parametros.tautomerRemoveSp3Stereo = False
+    # Lo mismo con la E/Z: el valor por defecto (True) borra la configuración de todo
+    # doble enlace del sistema tautomérico, y los dos isómeros del resveratrol
+    # declaraban la misma lista de 25 candidatos. `chem/conformer.py` ya la conserva
+    # (QA-032); aquí faltaba (auditoría científica 1.0.4, S2-5).
+    parametros.tautomerRemoveBondStereo = False
     parametros.maxTautomers = MAX_TAUTOMEROS
     return rdMolStandardize.TautomerEnumerator(parametros)
 
@@ -67,7 +74,8 @@ def declarar_tautomeros(smiles: str) -> dict[str, Any]:
     from rdkit.Chem.MolStandardize import rdMolStandardize
 
     motor = (f"RDKit rdMolStandardize.TautomerEnumerator {rdkit.__version__} "
-             f"(tautomerRemoveSp3Stereo=False, maxTautomers={MAX_TAUTOMEROS})")
+             f"(tautomerRemoveSp3Stereo=False, tautomerRemoveBondStereo=False, "
+             f"maxTautomers={MAX_TAUTOMEROS})")
     base: dict[str, Any] = {
         "version": VERSION,
         "motor": motor,

@@ -71,6 +71,8 @@ def _evaluacion(*, indice=None, is_control=False):
 
 
 class _RepositorioFalso:
+    anexos: list[dict] = []
+
     def __init__(self, evaluacion, registro):
         self._evaluacion = evaluacion
         self._registro = registro
@@ -78,9 +80,13 @@ class _RepositorioFalso:
     async def get_evaluation_result(self, _molecule_id):
         return self._evaluacion
 
-    async def update_properties_for_task(self, molecule_id, task_id, properties):
+    async def guardar_admet_de_la_corrida(self, molecule_id, task_id, properties):
         self._registro.append({"molecule_id": molecule_id, "task_id": task_id, "properties": properties})
         return task_id == self._evaluacion.task_id
+
+    async def anexar_admet_existente(self, molecule_id, task_id, evaluacion):
+        self.anexos.append({"molecule_id": molecule_id, "task_id": task_id})
+        return True
 
 
 @pytest.fixture
@@ -175,6 +181,17 @@ def test_no_repite_un_calculo_caro(cliente):
     assert r.json()["estado"] == "ya_calculado"
     assert r.json()["blood_viability_score"] == 82.4
     assert registro == [], "recalculó teniendo el perfil guardado"
+
+
+def test_un_perfil_ya_guardado_se_anexa_a_su_corrida_sin_recalcular(cliente):
+    """Lo calculado antes del addendum debe aparecer también al reabrir la corrida."""
+    c, estado, registro = cliente
+    estado["evaluacion"] = _evaluacion(indice=82.4)
+    _RepositorioFalso.anexos = []
+
+    assert c.post(f"/pro/admet/{MOLECULE_ID}").status_code == 200
+    assert registro == []
+    assert [a["task_id"] for a in _RepositorioFalso.anexos] == ["admet-source"]
 
 
 def test_recalcular_fuerza_el_calculo(cliente):

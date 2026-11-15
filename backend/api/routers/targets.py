@@ -144,10 +144,30 @@ async def upload_custom_target(
     is_community: bool = Form(False),
     is_anti_target: bool = Form(False, description="Marcar como anti-target de seguridad"),
     anti_target_risk: str | None = Form(None, description="Descripcion del riesgo de inhibir este target"),
+    fuente_declarada: str | None = Form(
+        None, description=(
+            "De dónde viene una estructura que no lo dice (ni método ni marcas de predicción, como el PDB de "
+            "Boltz): experimental, boltz, otra o no_se. Sin ella, no consta. POST /targets/upload/inspeccion dice "
+            "si hace falta.")),
+    herramienta_declarada: str | None = Form(
+        None, description="Nombre de la herramienta de predicción, con fuente_declarada=otra"),
     current_user: UserORM = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
     from services.targets.ingestion_manager import ingest_custom_target
+    from services.targets.prediccion import FUENTES_DECLARABLES, normalizar_declaracion
+
+    try:
+        normalizar_declaracion(fuente_declarada, herramienta_declarada)
+    except ValueError:
+        return JSONResponse(status_code=422, content=ErrorDeSubida(
+            "FUENTE_DECLARADA_INVALIDA",
+            f"«{fuente_declarada}» no es una fuente que se pueda declarar. Usa una de: "
+            f"{', '.join(FUENTES_DECLARABLES)}.",
+            f"«{fuente_declarada}» is not a source that can be declared. Use one of: "
+            f"{', '.join(FUENTES_DECLARABLES)}.",
+            estado=422,
+        ).como_json(current_locale()))
 
     grid_center = None
     if grid_center_x is not None and grid_center_y is not None and grid_center_z is not None:
@@ -220,6 +240,8 @@ async def upload_custom_target(
             origen_content=origen_content,
             origen_filename=origen_filename,
             modo_preparacion=modo_preparacion,
+            fuente_declarada=fuente_declarada,
+            herramienta_declarada=herramienta_declarada,
         )
         return result
     except ErrorDeSubida as e:
@@ -232,6 +254,47 @@ async def upload_custom_target(
     except Exception as e:
         log.error("error_upload_target_api", error=str(e))
         raise HTTPException(status_code=500, detail="Error interno al procesar el target.")
+
+
+def _inspeccionar(nombre: str, contenido: bytes) -> dict:
+    from services.targets.entrada_receptor import leer_subida
+    from services.targets.prediccion import FUENTES_DECLARABLES, hay_que_preguntar_la_fuente
+
+    archivo = leer_subida(nombre, contenido)
+    return {"formato": archivo.formato, "pregunta_fuente": hay_que_preguntar_la_fuente(archivo.formato, archivo.texto),
+            "fuentes": list(FUENTES_DECLARABLES)}
+
+
+@router.post(
+    "/upload/inspeccion",
+    summary="¿Dice la estructura de dónde viene? (antes de subirla)",
+)
+async def inspect_custom_target(
+    file: UploadFile = File(...),
+    current_user: UserORM = Depends(get_current_user),
+):
+    """Lee el archivo como lo haría la subida, sin guardar nada, y dice si hay que preguntar de dónde viene.
+
+    ``pregunta_fuente`` es ``true`` cuando la estructura no declara su método ni trae marcas de predicción (el PDB de
+    Boltz no trae ninguna cabecera): entonces la subida necesita ``fuente_declarada`` para saber si leer su pLDDT. Es
+    la misma regla que usa la subida (``prediccion.hay_que_preguntar_la_fuente``). Un archivo que la subida
+    rechazaría sale con el mismo error.
+    """
+    MAX_SIZE = 31 * 1024 * 1024
+    contenido = await file.read(MAX_SIZE + 1)
+    if len(contenido) > MAX_SIZE:
+        return JSONResponse(status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, content=ErrorDeSubida(
+            "ARCHIVO_DEMASIADO_GRANDE",
+            "El archivo supera los 31 MiB. Recorta del archivo las cadenas que no vas a usar, o súbelo comprimido (.gz).",
+            "The file is larger than 31 MiB. Remove the chains you will not use, or upload it compressed (.gz).",
+            estado=413,
+        ).como_json(current_locale()))
+    try:
+        # gemmi y la descompresión son trabajo síncrono: fuera del bucle de eventos.
+        return await asyncio.to_thread(_inspeccionar, file.filename or "unknown", contenido)
+    except ErrorDeSubida as e:
+        return JSONResponse(status_code=e.estado, content=e.como_json(current_locale()))
+
 
 @router.get(
     "/",
@@ -708,10 +771,15 @@ async def create_target_variant(
         recipe = {**recipe, "mode": "respect_user_preparation", "protonation": "declared_by_user",
                   "waters": "kept_as_uploaded"}
         recipe.pop("cofactors_whitelist", None)
+    # La variante lee el PDB ya convertido del padre, sin su cabecera ni sus tablas ModelCIF: hereda su análisis de
+    # predicción (lo que decía el archivo original o declaró quien lo subió) en vez de releerlo.
+    heredada = ({"prediccion": perfil_padre["prediccion"], "plddt_residuos": perfil_padre.get("plddt_residuos"),
+                 "de": parent.pdb_id} if isinstance(perfil_padre.get("prediccion"), dict) else None)
     result = await ingest_custom_target(
         file_content=source_bytes,
         filename=f"{parent.pdb_id}.pdb",
         name=request.name,
+        prediccion_heredada=heredada,
         modo_preparacion=perfil_receptor.MODO_RESPETAR if respetando else None,
         is_curated=False,
         db=db,

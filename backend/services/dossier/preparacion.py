@@ -1513,6 +1513,24 @@ def _bloque_entorno(prep: Any, projection: CaseProjection,
         # una segunda molécula unida, y quien prepare el cálculo tiene que decidir si la conserva. Su distancia es al
         # cristal, como la de metales y cofactores (`especies_al_cristal`).
         copias_junto = [f for f in junto if f.get("site_ligand_copy")]
+        # Caza 1, A10: una especie sobre la pose (STI A:201 a 0,06 Å en 1IEP, el propio imatinib cocristalizado) no es un «aditivo de
+        # cristalización»: ocupa el lugar del ligando. Se dice por su geometría, la misma con la que se descuenta un agua que la pose
+        # desplaza (`UMBRAL_SOLAPAMIENTO_A`).
+        sobre_la_pose = [f for f in junto if not f.get("site_ligand_copy")
+                         and distancia(f) is not None and distancia(f) < UMBRAL_SOLAPAMIENTO_A]
+        otras_aparte = [f for f in junto if not f.get("site_ligand_copy") and f not in sobre_la_pose]
+        frases_de_razon = []
+        if sobre_la_pose:
+            nombres = ", ".join(_especie(f, originales, None) for f in sobre_la_pose)
+            frases_de_razon.append(
+                f"{nombres} ocupa el mismo lugar que la pose (a menos de {UMBRAL_SOLAPAMIENTO_A:g} Å del ligando acoplado): "
+                "puede ser el ligando que cocristalizó con la estructura, no un aditivo."
+                if len(sobre_la_pose) == 1 else
+                f"{nombres} ocupan el mismo lugar que la pose (a menos de {UMBRAL_SOLAPAMIENTO_A:g} Å del ligando acoplado): "
+                "pueden ser el ligando que cocristalizó con la estructura, no aditivos.")
+        if otras_aparte or not sobre_la_pose:
+            frases_de_razon.append("Pueden ser aditivos de cristalización o parte de la cavidad; la preparación "
+                                   "no lo distingue.")
         otras_medidas = Campo(
             "Otras especies junto al sitio",
             f"Retiradas a {UMBRAL_ESPECIE_A:g} Å o menos del ligando: "
@@ -1524,8 +1542,7 @@ def _bloque_entorno(prep: Any, projection: CaseProjection,
              + ". Puede ser una segunda molécula unida al sitio; la preparación la retira y un cálculo posterior "
                "tiene que decidir si la conserva.")
             if copias_junto else
-            "Pueden ser aditivos de cristalización o parte de la cavidad; la preparación "
-            "no lo distingue.",
+            " ".join(frases_de_razon),
             valor_es_clasificacion=True,
         ) if junto else Campo(
             "Otras especies junto al sitio",

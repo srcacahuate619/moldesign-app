@@ -55,12 +55,15 @@ async def ingestar_pdbqt(
     organism: str | None,
     resolution: float | None,
     preparation_provenance,
+    fuente_declarada: str | None = None,
+    herramienta_declarada: str | None = None,
 ) -> dict:
     """Camino C: el PDBQT se evalúa tal cual; con su estructura de origen, además, se audita.
 
     ``archivo`` es el PDBQT y ``origen`` (opcional) la estructura de la que salió, ambos ya leídos
     por ``entrada_receptor.leer_subida``. Con origen se comprueba, antes de guardar nada, que los dos
-    describen el mismo receptor: si no, se rechaza con la medida.
+    describen el mismo receptor: si no, se rechaza con la medida. ``fuente_declarada`` y ``herramienta_declarada``
+    son lo que dijo quien subió el origen, por si no dice de dónde viene (``prediccion.analizar``).
     """
     if not grid_center:
         raise ErrorDeSubida(
@@ -105,6 +108,7 @@ async def ingestar_pdbqt(
         prediccion, plddt = analizar_prediccion(
             origen.formato, origen.texto, texto_origen,
             {c["original"]: c["pdb"] for c in (declarado.get("conversion") or {}).get("cadenas", [])} or None,
+            fuente_declarada=fuente_declarada, herramienta_declarada=herramienta_declarada,
         )
 
     ruta_receptor = StoragePath.target_upload(pdb_id, "receptor.pdbqt")

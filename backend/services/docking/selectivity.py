@@ -111,6 +111,37 @@ def panel_bowes_2012() -> list[dict[str, Any]]:
     return list(datos.get("dianas") or [])
 
 
+#: Lo que se añade a una alerta cuya anti-diana no tiene el sitio adjudicado (D-09 de la investigación de 1.0.4).
+#: La alerta sigue saliendo igual y el margen no cambia: sólo se declara lo que la alerta mide.
+AVISO_SITIO_NO_ADJUDICADO = (
+    "Sitio no adjudicado: no se ha comprobado que la caja corresponda al sitio del mecanismo de ese riesgo, así que "
+    "la alerta refleja sólo el score de Vina en esa caja."
+)
+
+
+def sitio_adjudicado_de(pdb_id: str | None) -> bool | None:
+    """Si el panel de Bowes adjudica el sitio de esa anti-diana a su mecanismo (`sitio_adjudicado`).
+
+    ``None`` cuando no consta: una anti-diana del usuario, o una fila del panel sin el campo. Sólo un ``False``
+    explícito lleva el aviso; lo que no consta no se afirma en ningún sentido.
+    """
+    pid = str(pdb_id or "").strip().upper()
+    if not pid:
+        return None
+    for fila in panel_bowes_2012():
+        if str(fila.get("pdb_id") or "").upper() == pid:
+            valor = fila.get("sitio_adjudicado")
+            return valor if isinstance(valor, bool) else None
+    return None
+
+
+def texto_de_alerta(nombre: str, afinidad: float, umbral: float, riesgo: str,
+                    adjudicado: bool | None) -> str:
+    """La alerta de una anti-diana que rebasa su umbral. Un solo sitio para las dos rutas que la escriben."""
+    texto = f"ALERTA {nombre}: afinidad {afinidad:.1f} kcal/mol < umbral {umbral:.1f}. Riesgo: {riesgo}"
+    return f"{texto} — {AVISO_SITIO_NO_ADJUDICADO}" if adjudicado is False else texto
+
+
 def anti_dianas_seleccionables_de_bowes() -> dict[str, dict[str, Any]]:
     """Las del panel de Bowes que se pueden acoplar, por PDB ID."""
     return {
@@ -353,6 +384,8 @@ async def run_selectivity_panel(
         return_exceptions=True,
     )
     results = [r for r in results if isinstance(r, dict)]
+    for r in results:
+        r.setdefault("sitio_adjudicado", sitio_adjudicado_de(r.get("pdb_id")))
 
     # -- Compute selectivity metrics --------------------------------------------
     safety_flags = [
@@ -394,10 +427,8 @@ async def run_selectivity_panel(
         threshold = r.get("threshold", -7.0)
         if aff is not None:
             if aff < threshold:
-                safety_flags.append(
-                    f"ALERTA {r['name']}: afinidad {aff:.1f} kcal/mol < umbral {threshold:.1f}. "
-                    f"Riesgo: {r.get('risk', 'Desconocido')}"
-                )
+                safety_flags.append(texto_de_alerta(r["name"], aff, threshold, r.get("risk", "Desconocido"),
+                                                    r.get("sitio_adjudicado")))
             if worst_off_affinity is None or aff < worst_off_affinity:
                 worst_off_affinity = aff
                 peor_anti_diana = r.get("name") or r.get("pdb_id")

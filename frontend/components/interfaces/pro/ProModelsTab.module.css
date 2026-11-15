@@ -1,0 +1,14 @@
+/* «Modelos»: la regresión de XGBoost a la izquierda y, a su lado, el clasificador,
+ * CL-GNN y el selector apilados. En un contenedor estrecho todo pasa a una columna. */
+.tab { min-width: 0; container-type: inline-size; }
+.cuadricula { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; align-items: start; }
+.unaColumna { grid-template-columns: minmax(0, 1fr); }
+.columna { min-width: 0; }
+.hechos { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.etiquetaConAyuda { display: inline-flex; align-items: center; gap: 6px; }
+.huella { font-family: var(--font-mono); font-size: 13px; }
+@container (max-width: 860px) {
+  .cuadricula { grid-template-columns: minmax(0, 1fr); }
+  /* La primera ficha de cada columna no lleva filete (regla de `.section`); al apilarse hay que devolverlo. */
+  .columna + .columna > :first-child { padding-top: 20px; border-top: 1px solid var(--border); }
+}

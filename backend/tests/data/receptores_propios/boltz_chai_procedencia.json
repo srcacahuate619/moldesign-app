@@ -1,0 +1,17 @@
+{
+  "fuente": "Segunda ejecución del cuaderno de Colab (2026-11-15, NVIDIA L4): Boltz 2.2.1 y chai_lab 0.6.1",
+  "acta": "docs/auditorias/convencion-plddt-boltz-chai-2026-11-15/README.md",
+  "archivo": "F:\\Backups\\moldesign-evidencia\\2026-11-15-colab-plddt-boltz-chai",
+  "originales": {
+    "descarga-20261115T011719Z/moldesign_plddt_boltz_chai/resultados/boltz/cdk2_lig__pdb/boltz_results_cdk2_lig/predictions/cdk2_lig/cdk2_lig_model_0.pdb": "6279bc94429728705b9e3df1c1890b100a203a5be1ad7b728e3097e322d1c64f",
+    "descarga-20261115T011719Z/moldesign_plddt_boltz_chai/resultados/boltz/cdk2_apo__mmcif/boltz_results_cdk2_apo/predictions/cdk2_apo/cdk2_apo_model_0.cif": "bbe8d0c7c979e310d5d92a42913edd73a66fd26ce1cd96272bde3326fe7242e5",
+    "descarga-20261115T011719Z/moldesign_plddt_boltz_chai/resultados/chai/cdk2_apo__mmcif/pred.model_idx_0.cif": "e44bffe983c413cae2eed195571e6c14619ec7f88787ea96ede6b6408372dcad"
+  },
+  "recortes": {
+    "boltz_cdk2_lig_recortado.pdb": "1adb01ec94c19c1e25dd4f02ca013c7a201c0a632c42e0e40bab932b1cacdd88",
+    "boltz_cdk2_apo_recortado.cif": "ede57fea8ab98078918c86eb9a7b71884622f0fe295870f60e2ee7a3e81f6dfc",
+    "chai_cdk2_apo_recortado.cif": "a359cb5a8791b76fbef1e402ccd0162d09dbf39f91fe0c254e4a3deaf9f3e692"
+  },
+  "recorte": "residuos 1-90 de la cadena A: ATOM en el PDB; _atom_site y _ma_qa_metric_local en el mmCIF. La cabecera (o su ausencia), el ligando, los CONECT de átomos conservados y las demás tablas, tal cual",
+  "script": "scripts/colab_plddt/recortar_fixtures.py"
+}

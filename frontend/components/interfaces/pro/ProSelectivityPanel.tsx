@@ -7,6 +7,7 @@ import { createPortal } from "react-dom";
 import { ShieldCheck, Play, RefreshCw, AlertTriangle, CheckCircle2, ShieldAlert, Cpu, Activity, BookOpen, Sparkles, X, Info, Loader2 } from "lucide-react";
 import { dockSingleAntiTarget, saveSelectivityResults } from "../../../lib/proApi";
 import { getEvaluationResult } from "../../../lib/api";
+import { CustomReceptorModal } from "./CustomReceptorModal";
 import { antiDianasParaEnviar, antiDianasPorDefecto, useAntiDianas } from "../../../lib/antiDianas";
 import { AntiDianasSelector } from "./AntiDianasSelector";
 import {
@@ -45,6 +46,10 @@ interface ProSelectivityPanelProps {
   isActive?: boolean;
   onWorkStateChange?: (active: boolean) => void;
 }
+
+/** El mismo aviso que añade el backend (`selectivity.AVISO_SITIO_NO_ADJUDICADO`) al texto que se guarda. */
+const AVISO_SITIO_NO_ADJUDICADO =
+  " — Sitio no adjudicado: no se ha comprobado que la caja corresponda al sitio del mecanismo de ese riesgo, así que la alerta refleja sólo el score de Vina en esa caja.";
 
 /** Sin respuesta del API (no cargó o falló), el panel por defecto del backend: hERG y 5-HT2B. */
 const IDS_SIN_API = ["5VA1", "7SRQ"];
@@ -127,7 +132,12 @@ const ANTIDIANAS_CONOCIDAS: AntiTargetInfo[] = [
 // diciendo su nombre: un intervalo de órdenes de magnitud, etiquetado como
 // derivado del score, no como Ki medido.
 
-/** R·T a 310.15 K, en kcal/mol. */
+/**
+ * R·T a 310.15 K (temperatura fisiológica), en kcal/mol: pasa un score a concentración. Es R·T y no ln(10)·R·T, y a
+ * otra temperatura que `KCAL_POR_DECADA` (≈ 298 K, ΔΔG→décadas, en `lib/selectividadMargen.ts`): dos conversiones con
+ * significado distinto, no una deriva del mismo número (B-5 de 1.0.4). Su valor exacto a 310.15 K es 0.61633; la
+ * diferencia con 0.61626 (0.01 %) no cambia el redondeo de ninguna cifra que se muestra.
+ */
 const RT_KCAL = 0.61626;
 
 /** Concentración implícita por el score, en µM. No es una Ki medida. */
@@ -276,6 +286,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
   // Lo que YA tiene resultado se muestra siempre, esté elegido o no: lo
   // registrado no desaparece por desmarcar una casilla.
   const anti = useAntiDianas();
+  const [mostrarSubida, setMostrarSubida] = useState(false);
   const [seleccion, setSeleccion] = useState<string[] | null>(null);
   const idsElegidos = seleccion ?? (anti.targets ? antiDianasPorDefecto(anti.targets) : IDS_SIN_API);
   const panel: AntiTargetInfo[] = [...new Set([...idsElegidos, ...Object.keys(resultsMap)])].map((id) => {
@@ -449,9 +460,14 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
         const thresh = r.threshold ?? at.threshold;
         if (aff !== null && aff !== undefined && aff < 0) {
           evaluatedCount++;
-          if (aff <= thresh) {
-            safetyFlags.push(`ALERTA ${r.name || at.name}: Afinidad potente (${aff.toFixed(1)} kcal/mol) rebasó el umbral crítico (${thresh.toFixed(1)} kcal/mol). Riesgo: ${r.risk || at.risk}`);
-            safetyMessages.push(frontendMessage("pr_sel_alert", { name: r.name || at.name, affinity: aff.toFixed(1), threshold: thresh.toFixed(1),
+          // Estricto, como el backend (`selectivity.py`) y el PDF: antes el panel alertaba también en el empate exacto
+          // y el informe de la misma corrida decía «NO CRUZA UMBRAL».
+          if (aff < thresh) {
+            // D-09: la alerta sigue saliendo igual; si el panel declara el sitio sin adjudicar, se dice qué mide.
+            // Sólo con un `false` explícito: un resultado antiguo o una anti-diana propia no lo trae.
+            const sinAdjudicar = r.sitio_adjudicado === false;
+            safetyFlags.push(`ALERTA ${r.name || at.name}: Afinidad potente (${aff.toFixed(1)} kcal/mol) rebasó el umbral crítico (${thresh.toFixed(1)} kcal/mol). Riesgo: ${r.risk || at.risk}${sinAdjudicar ? AVISO_SITIO_NO_ADJUDICADO : ""}`);
+            safetyMessages.push(frontendMessage(sinAdjudicar ? "pr_sel_alert_sin_adjudicar" : "pr_sel_alert", { name: r.name || at.name, affinity: aff.toFixed(1), threshold: thresh.toFixed(1),
               risk: (r.risk || at.riskOrigin !== "frontend") ? (r.risk || at.risk) : antiTargetFieldMessage(at.pdb_id, "risk", at.risk) }));
           }
           if (aff < worstOffAffinity) {
@@ -860,6 +876,11 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                 {resultadosAnteriores > 0 && <span>{t("pn_anti_panel_anteriores", { n: resultadosAnteriores })}</span>}
               </div>
             </div>
+            <div className="flex flex-wrap items-center gap-2">
+            <button type="button" disabled={seleccionBloqueada} onClick={() => setMostrarSubida(true)} title={t("cat_anti_propias_texto")}
+              className="inline-flex min-h-11 items-center rounded-lg border border-zinc-600 px-3 py-2 text-sm font-semibold text-zinc-100 transition-colors hover:bg-zinc-800 active:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400">
+              {t("cat_anti_subir")}
+            </button>
             <button type="button" onClick={handleRunAll} disabled={!moleculeId || seleccionBloqueada || idsParaEvaluar.length === 0 || ampliacionNoDisponible !== null}
               className="inline-flex min-h-11 max-w-full items-center gap-2 rounded-lg bg-purple-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-purple-500 active:bg-purple-700 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-400"
               title={bgWaiting ? t("auto_225f4287b89f") : undefined}>
@@ -867,6 +888,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                 : isRunning ? <><RefreshCw size={16} className="shrink-0 animate-spin" aria-hidden="true" />{t("pr_sel_evaluating_progress", { completed: seleccionadasEvaluadas, total: idsParaEvaluar.length })}</>
                   : <><Play size={16} className="shrink-0 fill-current" aria-hidden="true" />{t("pn_anti_evaluar_seleccionadas", { n: idsParaEvaluar.length })}</>}
             </button>
+            </div>
           </div>
           <p className="text-base leading-6 text-zinc-300">{t("pn_anti_panel_ayuda")}</p>
 
@@ -884,7 +906,8 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
           const aff = res?.affinity;
           const thresh = res?.threshold ?? at.threshold;
           const hasAffinity = aff !== null && aff !== undefined;
-          const isDanger = hasAffinity && aff <= thresh;
+          // Estricto, como el backend (`selectivity.py`) y el PDF: el empate exacto con el umbral no cruza.
+          const isDanger = hasAffinity && aff < thresh;
 
           return (
             <div
@@ -964,6 +987,8 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
         </div>
         </section>
       </div>
+
+      {mostrarSubida && <CustomReceptorModal antiDiana onClose={() => setMostrarSubida(false)} onSuccess={() => { setMostrarSubida(false); anti.retry(); }} />}
 
       {/* Modal Educativo y de Optimización SAR t("pr_sel_saber_mas") */}
       {isActive && selectedDetail && typeof window !== "undefined" && createPortal(

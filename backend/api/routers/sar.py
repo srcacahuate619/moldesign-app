@@ -2,8 +2,8 @@
 api/routers/sar.py
 
 Structure-Activity Relationship (SAR) analysis.
-Dada una molecula base, retorna todos los analogos evaluados
-contra el mismo target, ordenados por score con delta vs baseline.
+Dada una molecula base, retorna las 50 comparaciones mas parecidas (mismo dueño y
+receptor, con afinidad medida) y la propia referencia, con delta vs baseline.
 """
 
 from __future__ import annotations
@@ -20,8 +20,10 @@ from starlette.concurrency import run_in_threadpool
 from core.database import get_db
 from core.models import MoleculeORM, UserORM
 from api.dependencies import get_current_user_optional
-from api.routers.evaluation_access import require_owned_molecule
+from api.routers.evaluation_access import dueno_de_la_peticion, require_owned_molecule
 from db.repository import Repository
+from services.sar.cambio_estructural import cambio_estructural
+from services.sar.seleccion import LIMITE_COMPARACIONES, Candidata, seleccionar
 from services.sar.comparabilidad import (
     Comparabilidad,
     comparar_corridas,
@@ -176,6 +178,7 @@ def _fila_sar(
     base_affinity: float | None,
     es_base: bool,
     comparacion: Comparabilidad,
+    cambio: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Fila de un análogo. La comparabilidad gobierna el delta; nada se fabrica.
 
@@ -209,6 +212,8 @@ def _fila_sar(
         "comparison_state": comparacion.estado,
         "comparison_reason": comparacion.motivo,
         "highlight": comparacion.resumen,
+        # Qué cambia en la estructura (núcleo común y fórmula); `None` si no se pudo medir.
+        "structural_change": cambio,
         "delta_score": None,
         "delta_affinity": (
             _difference(e.affinity_kcal, base_affinity, digits=2)
@@ -236,6 +241,189 @@ def _fila_sar(
     }
 
 
+def _huella_de_base(base_smiles: str | None) -> Any:
+    """La huella de la referencia, o `None` si su SMILES no se lee (un fallo no es similitud)."""
+    try:
+        from rdkit import Chem
+
+        base_mol = Chem.MolFromSmiles(base_smiles) if base_smiles else None
+        return _huella_morgan(base_mol) if base_mol else None
+    except Exception:
+        return None
+
+
+async def _filas_de_cohorte_explicita(
+    *,
+    repository: Repository,
+    db: AsyncSession,
+    current_user: UserORM | None,
+    cohorte_pedida: list[str],
+    target_pdb_id: str,
+    base_eval: Any,
+    base_smiles: str | None,
+    base_affinity: float | None,
+    task_id: str | None,
+    molecule_id: str,
+) -> list[dict[str, Any]]:
+    """Las corridas pedidas, de sus snapshots, ordenadas por índice: la cohorte que el usuario eligió.
+
+    No se reselecciona ni se corta: «explícita» es exactamente lo pedido (hasta `MAX_COHORTE_EXPLICITA`).
+    """
+    all_evals = []
+    for tarea in cohorte_pedida:
+        analogo = await _evaluacion_de_corrida(
+            repository=repository, db=db, task_id=tarea,
+            molecule_id=None, current_user=current_user,
+        )
+        receptor_del_analogo = getattr(analogo.molecule.target, "pdb_id", None)
+        if str(receptor_del_analogo or "").upper() != str(target_pdb_id).upper():
+            raise HTTPException(
+                status_code=409,
+                detail=(
+                    f"La corrida {tarea} es contra {receptor_del_analogo or 'un receptor no verificable'}, "
+                    f"no contra {target_pdb_id}: no entra en la misma tabla SAR."
+                ),
+            )
+        all_evals.append(analogo)
+
+    # ═════════════════════════════════════════════════════════════════
+    # Las huellas de RDKit, todas de una vez y fuera del bucle de eventos
+    # ═════════════════════════════════════════════════════════════════
+    #
+    # Auditoría de backend del 2026-09-04, §3.3. Este endpoint es `async def` y
+    # el bucle de abajo llamaba a `_tanimoto_similarity` por análogo: un
+    # `MolFromSmiles` más una huella Morgan cada vez, en el hilo del bucle de
+    # eventos. Una tabla SAR de una serie madura son decenas o cientos de
+    # filas, así que el coste no es el de una molécula sino el de todas — y
+    # mientras se calculan, FastAPI no atiende el sondeo de progreso del
+    # frontend.
+    #
+    # Se calculan en un solo salto al pool de hilos, sobre los SMILES ya
+    # extraídos del ORM. Nada de esto toca la sesión de base de datos, que es
+    # lo que haría inseguro moverlo de hilo.
+    evaluaciones = [e for e in all_evals if e.molecule is not None]
+    smiles_analogos = [e.molecule.smiles for e in evaluaciones]
+
+    def _similitudes() -> list[tuple[float | None, dict[str, Any] | None]]:
+        base_fp = _huella_de_base(base_smiles)
+        return [
+            (_tanimoto_similarity(base_fp, smiles), cambio_estructural(base_smiles, smiles))
+            for smiles in smiles_analogos
+        ]
+
+    similitudes = await run_in_threadpool(_similitudes)
+
+    results = []
+    for e, (similarity, cambio) in zip(evaluaciones, similitudes):
+        # SOL-04 / AMP-02: cada análogo se compara contra la base con las
+        # condiciones químicas y estructurales sobre la mesa — pH de
+        # protonación, tautómero, receptor, caja, semilla. La abstención del
+        # delta es una salida de primera clase y su motivo viaja en la fila.
+        comparacion = comparar_corridas(base_eval, e)
+        results.append(_fila_sar(
+            e,
+            similarity=similarity,
+            base_affinity=base_affinity,
+            es_base=(
+                str(getattr(e, "task_id", "")) == str(getattr(base_eval, "task_id", ""))
+                if task_id is not None
+                else str(e.molecule.id) == molecule_id
+            ),
+            comparacion=comparacion,
+            cambio=cambio,
+        ))
+
+    # Sort: best score first
+    results.sort(
+        key=lambda r: (
+            _finite_number(r["total_score"]) is not None,
+            _finite_number(r["total_score"]) or 0.0,
+        ),
+        reverse=True,
+    )
+    return results
+
+
+async def _filas_automaticas(
+    *,
+    repository: Repository,
+    current_user: UserORM | None,
+    target_pdb_id: str,
+    base_eval: Any,
+    base_smiles: str | None,
+    base_affinity: float | None,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """La selección automática (S1-3.3): las 50 comparaciones más parecidas a la referencia, y la referencia aparte.
+
+    La referencia sale de `base_eval` (la corrida pedida con `task_id`, o la última evaluación de la molécula) y NO
+    gasta plaza: va primera, con `is_base`. Detrás van las comparaciones, en el orden de selección (más parecida
+    primero), no por índice: el índice heredado no ordena mejor que Vina (SUP-02) y la selección ya no depende de él.
+
+    Admisión: mismo dueño y mismo receptor que la referencia, sin error registrado y con `affinity_kcal` finita.
+    Todo lo caro de RDKit corre fuera del bucle de eventos y sobre filas ligeras; la comparación completa y el núcleo
+    común máximo sólo se calculan para las elegidas.
+    """
+    # El dueño de la petición, no «quien tenga sesión»: sin sesión es el espacio anónimo
+    # (`dueno_de_la_peticion`), y la base ya pasó esa misma comprobación.
+    demo_user = await repository.get_or_create_test_user()
+    duenyo = dueno_de_la_peticion(current_user, demo_user.id)
+
+    filas = await repository.get_sar_candidatas(
+        target_pdb_id, duenyo, excluir_molecula_id=base_eval.molecule.id,
+    )
+    candidatas = [
+        Candidata(molecule_id=f[0], smiles=f[1], evaluated_at=f[2], affinity_kcal=f[3]) for f in filas
+    ]
+    seleccion = await run_in_threadpool(seleccionar, candidatas, base_smiles, _huella_morgan)
+
+    orden = [c.molecule_id for c, _tanimoto in seleccion.elegidas]
+    cargadas = {
+        e.molecule_id: e
+        for e in await repository.get_sar_evaluaciones(target_pdb_id, duenyo, orden)
+        if e.molecule is not None
+    }
+    # Una elegida que ya no cumple los filtros (cambió de dueño o de receptor entre las dos consultas) no se entrega.
+    elegidas = [(cargadas[c.molecule_id], t) for c, t in seleccion.elegidas if c.molecule_id in cargadas]
+
+    def _detalle() -> tuple[float | None, dict[str, Any] | None, list[dict[str, Any] | None]]:
+        base_fp = _huella_de_base(base_smiles)
+        return (
+            _tanimoto_similarity(base_fp, base_smiles),
+            cambio_estructural(base_smiles, base_smiles),
+            [cambio_estructural(base_smiles, e.molecule.smiles) for e, _t in elegidas],
+        )
+
+    similitud_base, cambio_base, cambios = await run_in_threadpool(_detalle)
+
+    results = [_fila_sar(
+        base_eval,
+        similarity=similitud_base,
+        base_affinity=base_affinity,
+        es_base=True,
+        comparacion=comparar_corridas(base_eval, base_eval),
+        cambio=cambio_base,
+    )]
+    for (e, tanimoto), cambio in zip(elegidas, cambios):
+        results.append(_fila_sar(
+            e,
+            similarity=round(tanimoto, 3),
+            base_affinity=base_affinity,
+            es_base=False,
+            comparacion=comparar_corridas(base_eval, e),
+            cambio=cambio,
+        ))
+
+    declarada = {
+        "criterion": "tanimoto_morgan_r2_1024",
+        "limit": LIMITE_COMPARACIONES,
+        "eligible": seleccion.admitidas,
+        "without_fingerprint": seleccion.sin_huella,
+        "selected": len(elegidas),
+        "reason": seleccion.motivo,
+    }
+    return results, declarada
+
+
 @router.get("/{molecule_id}")
 async def get_sar_table(
     molecule_id: str,
@@ -256,8 +444,13 @@ async def get_sar_table(
     """
     Structure-Activity Relationship table.
 
-    Returns all molecules evaluated against the SAME target,
-    sorted by score (best first). The affinity difference against the
+    Returns the molecules evaluated against the SAME target by the SAME owner
+    that are most structurally similar to the reference (Tanimoto, Morgan r=2,
+    1024 bits): up to 50 comparisons chosen BEFORE the cut, plus the reference
+    itself (`is_base`), which does not take a slot. Candidates need a registered
+    docking affinity and no registered error; the composite index plays no part
+    in admission or order. An explicit cohort (`cohort_task_ids`) is returned as
+    requested, sorted by score. The affinity difference against the
     baseline is ONLY computed when both runs share the same chemical
     preparation condition (pH, protonation, tautomer) and the same
     structural protocol (receptor, box, seed, effort). Otherwise the row
@@ -321,96 +514,34 @@ async def get_sar_table(
         )
     target_pdb_id = target.pdb_id
 
-    # Get ALL evaluations for this target from this user (or all if anonymous)
-    # Limit to 50 most recent
-    if cohorte_pedida:
-        all_evals = []
-        for tarea in cohorte_pedida:
-            analogo = await _evaluacion_de_corrida(
-                repository=repository, db=db, task_id=tarea,
-                molecule_id=None, current_user=current_user,
-            )
-            receptor_del_analogo = getattr(analogo.molecule.target, "pdb_id", None)
-            if str(receptor_del_analogo or "").upper() != str(target_pdb_id).upper():
-                raise HTTPException(
-                    status_code=409,
-                    detail=(
-                        f"La corrida {tarea} es contra {receptor_del_analogo or 'un receptor no verificable'}, "
-                        f"no contra {target_pdb_id}: no entra en la misma tabla SAR."
-                    ),
-                )
-            all_evals.append(analogo)
-    else:
-        all_evals = await repository.get_sar_analogs(
-            target_pdb_id=target_pdb_id,
-            user_id=current_user.id if current_user else None,
-            limit=50,
-        )
-
     # Base evaluation scores
     base_score = _finite_number(base_eval.total_score)
     base_affinity = _finite_number(base_eval.affinity_kcal)
-
-    # ═════════════════════════════════════════════════════════════════
-    # Las huellas de RDKit, todas de una vez y fuera del bucle de eventos
-    # ═════════════════════════════════════════════════════════════════
-    #
-    # Auditoría de backend del 2026-09-04, §3.3. Este endpoint es `async def` y
-    # el bucle de abajo llamaba a `_tanimoto_similarity` por análogo: un
-    # `MolFromSmiles` más una huella Morgan cada vez, en el hilo del bucle de
-    # eventos. Una tabla SAR de una serie madura son decenas o cientos de
-    # filas, así que el coste no es el de una molécula sino el de todas — y
-    # mientras se calculan, FastAPI no atiende el sondeo de progreso del
-    # frontend.
-    #
-    # Se calculan en un solo salto al pool de hilos, sobre los SMILES ya
-    # extraídos del ORM. Nada de esto toca la sesión de base de datos, que es
-    # lo que haría inseguro moverlo de hilo.
     base_smiles = base_eval.molecule.smiles
-    evaluaciones = [e for e in all_evals if e.molecule is not None]
-    smiles_analogos = [e.molecule.smiles for e in evaluaciones]
 
-    def _similitudes() -> list[float | None]:
-        base_fp = None
-        try:
-            from rdkit import Chem
-
-            base_mol = Chem.MolFromSmiles(base_smiles)
-            if base_mol:
-                base_fp = _huella_morgan(base_mol)
-        except Exception:
-            pass
-        return [_tanimoto_similarity(base_fp, smiles) for smiles in smiles_analogos]
-
-    similitudes = await run_in_threadpool(_similitudes)
-
-    results = []
-    for e, similarity in zip(evaluaciones, similitudes):
-        # SOL-04 / AMP-02: cada análogo se compara contra la base con las
-        # condiciones químicas y estructurales sobre la mesa — pH de
-        # protonación, tautómero, receptor, caja, semilla. La abstención del
-        # delta es una salida de primera clase y su motivo viaja en la fila.
-        comparacion = comparar_corridas(base_eval, e)
-        results.append(_fila_sar(
-            e,
-            similarity=similarity,
+    if cohorte_pedida:
+        results = await _filas_de_cohorte_explicita(
+            repository=repository,
+            db=db,
+            current_user=current_user,
+            cohorte_pedida=cohorte_pedida,
+            target_pdb_id=target_pdb_id,
+            base_eval=base_eval,
+            base_smiles=base_smiles,
             base_affinity=base_affinity,
-            es_base=(
-                str(getattr(e, "task_id", "")) == str(getattr(base_eval, "task_id", ""))
-                if cohorte_pedida and task_id is not None
-                else str(e.molecule.id) == molecule_id
-            ),
-            comparacion=comparacion,
-        ))
-
-    # Sort: best score first
-    results.sort(
-        key=lambda r: (
-            _finite_number(r["total_score"]) is not None,
-            _finite_number(r["total_score"]) or 0.0,
-        ),
-        reverse=True,
-    )
+            task_id=task_id,
+            molecule_id=molecule_id,
+        )
+        seleccion_declarada = None
+    else:
+        results, seleccion_declarada = await _filas_automaticas(
+            repository=repository,
+            current_user=current_user,
+            target_pdb_id=target_pdb_id,
+            base_eval=base_eval,
+            base_smiles=base_smiles,
+            base_affinity=base_affinity,
+        )
 
     # Compute best value per metric for highlighting
     best_of = {
@@ -440,4 +571,7 @@ async def get_sar_table(
             "base_task_id": getattr(base_eval, "task_id", None) if task_id is not None else None,
             "task_ids": cohorte_pedida or None,
         },
+        # S1-3.3: cómo se eligieron las comparaciones de la tabla automática (`None` en una cohorte explícita, que es
+        # exactamente la que se pidió). `eligible` son las candidatas con afinidad finita, antes de medir similitud.
+        "selection": seleccion_declarada,
     }

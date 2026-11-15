@@ -1,0 +1,16 @@
+{
+  "revision": "77aeb73775fd334a24bbe5e3e7382dd2d456379e",
+  "archivos": {
+    "backend/scoring/ums.py": "55f9e079cfbb76ade6b6e7b9e7a52886f15437a76a24a968325cec6f2fb8cdf7",
+    "backend/scoring/engine.py": "bf5049d17528537b1717858f5530cb140506e1f7c33c3877f3359f21e7273bc5",
+    "backend/services/pipeline/protocols/m5/zinc.py": "4e09bdc5b13d43df3377e280c362d9206306dd5d80fea06115eb2774fba5d4e9"
+  },
+  "sello_inicial": {
+    "failures.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "manifest.json": "1367d8f42db79f82381dd0e1937363d149a394d29a0f651b4a99dcca574b975e",
+    "metrics.json": "923e445b94d84a3b3623454474b0559944234fc5e0453d7d2e8ee2b77cf562be",
+    "per_complex.jsonl": "1d3ab7303833c1c971e285b8fbf1bc01cd8513e3d4afc25444e896881894739b",
+    "procedencia.json": "dc0e092c18d3681223167ab9d777fca687a1125abee9a6edf7cc8119f641c81c",
+    "README.md": "fd9568a5616def191b1febd924635392a5e281c06cc1a26b3ef6e3e5bb8ac8e8"
+  }
+}

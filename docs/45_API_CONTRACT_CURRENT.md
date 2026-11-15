@@ -6,10 +6,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 
 ## Identidad del snapshot
 
-- Paths: **140**
-- Operaciones HTTP: **148**
+- Paths: **144**
+- Operaciones HTTP: **152**
 - Versión declarada: `1.0.4`
-- SHA-256: `b25c09169d13165903eaf4b93071b9ae61815399ee55223fd2009d14bf45767b`
+- SHA-256: `cf92a06d6aac99faa27e431c761d8fa6b34ea6a5c93f28b42e5df12ccb3441db`
 - Schema completo: [api/openapi-current.json](api/openapi-current.json)
 - Regenerar: `python scripts/generate_openapi_contract.py --write`
 - Verificar en CI: `python scripts/generate_openapi_contract.py --check`
@@ -53,6 +53,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/chem/validate` | `validate_endpoint_chem_validate_post` | Valida un SMILES | Química computacional |
 | `POST` | `/evaluation/ai-report/{molecule_id}` | `generate_ai_report_endpoint_evaluation_ai_report__molecule_id__post` | Generar reporte IA bajo demanda para una molécula evaluada | Evaluación científica, Evaluación científica |
 | `GET` | `/evaluation/ai-report/{molecule_id}/stream` | `generate_ai_report_stream_endpoint_evaluation_ai_report__molecule_id__stream_get` | Generar reporte IA bajo demanda (Streaming SSE) | Evaluación científica, Evaluación científica |
+| `GET` | `/evaluation/analog-pose-comparison` | `get_analog_pose_comparison_evaluation_analog_pose_comparison_get` | Comparar las poses de dos ligandos distintos del mismo receptor | Evaluación científica |
 | `POST` | `/evaluation/batch` | `submit_batch_evaluation_batch_post` | Submit Batch | Batch Screening |
 | `GET` | `/evaluation/batch/{batch_id}` | `get_batch_status_evaluation_batch__batch_id__get` | Get Batch Status | Batch Screening |
 | `POST` | `/evaluation/batch/{batch_id}/cancel` | `cancel_batch_evaluation_batch__batch_id__cancel_post` | Cancel Batch | Batch Screening |
@@ -84,8 +85,10 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `GET` | `/evaluation/gnn-attention/{molecule_id}` | `get_gnn_attention_evaluation_gnn_attention__molecule_id__get` | Leer SVG de atención GNN on-demand (UI-7, fuera del polling) | Evaluación científica |
 | `GET` | `/evaluation/interactions/{molecule_id}` | `get_interactions_evaluation_interactions__molecule_id__get` | Get Interactions | Interaction Analysis |
 | `GET` | `/evaluation/pose-comparison/{task_id}` | `get_pose_comparison_evaluation_pose_comparison__task_id__get` | Comparar dos poses de una corrida con su evidencia estructural | Evaluación científica |
+| `GET` | `/evaluation/pose-matches` | `get_pose_matches_evaluation_pose_matches_get` | Cuál de las poses de otra evaluación se parece más a una pose dada | Evaluación científica |
 | `POST` | `/evaluation/preflight` | `evaluation_preflight_evaluation_preflight_post` | Comprobación previa factual de una corrida (no ejecuta docking) | Evaluación científica |
 | `GET` | `/evaluation/result/{molecule_id}` | `get_evaluation_result_evaluation_result__molecule_id__get` | Leer resultado persistido de una molécula | Evaluación científica |
+| `GET` | `/evaluation/run-pose-comparison` | `get_run_pose_comparison_evaluation_run_pose_comparison_get` | Comparar la pose de una molécula entre dos evaluaciones | Evaluación científica |
 | `GET` | `/evaluation/status/{task_id}` | `get_evaluation_status_evaluation_status__task_id__get` | Consultar estado de un job de evaluación | Evaluación científica |
 | `GET` | `/evaluation/stream/{task_id}` | `stream_pipeline_events_evaluation_stream__task_id__get` | Suscribirse al flujo de eventos del pipeline (SSE) | Evaluación científica |
 | `POST` | `/evaluation/submit` | `submit_evaluation_evaluation_submit_post` | Enviar evaluación molecular asíncrona | Evaluación científica |
@@ -164,6 +167,7 @@ Este mapa y el snapshot JSON se derivan de `backend/api/main.py`; no se editan m
 | `POST` | `/targets/ingest` | `ingest_target_targets_ingest_post` | Ingesta científica de una nueva proteína | Targets biológicos |
 | `POST` | `/targets/resolve-name` | `resolve_target_name_targets_resolve_name_post` | Buscar estructuras en RCSB PDB por nombre de proteína | Targets biológicos |
 | `POST` | `/targets/upload` | `upload_custom_target_targets_upload_post` | Subir y preparar un target personalizado | Targets biológicos |
+| `POST` | `/targets/upload/inspeccion` | `inspect_custom_target_targets_upload_inspeccion_post` | ¿Dice la estructura de dónde viene? (antes de subirla) | Targets biológicos |
 | `POST` | `/targets/{pdb_id}/variants` | `create_target_variant_targets__pdb_id__variants_post` | Crear una variante privada e inmutable de preparación | Targets biológicos |
 | `GET` | `/targets/{target_id_or_pdb}/pdb` | `get_target_pdb_targets__target_id_or_pdb__pdb_get` | Descargar archivo PDB de un target por ID o PDB ID | Targets biológicos |
 | `POST` | `/targets/{target_id}/share` | `share_target_with_community_targets__target_id__share_post` | Compartir un target privado con la comunidad | Targets biológicos |

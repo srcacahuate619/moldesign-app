@@ -75,7 +75,7 @@
     {
       "codigo": "SYSTEM",
       "estado": "REGISTRADO",
-      "observacion": "El inventario registra receptor preparado, grid y referencias estructurales.",
+      "observacion": "El inventario registra receptor preparado, grid y referencias estructurales. No incluye la auditoría de Preparación (metales, huecos y aguas).",
       "procedencia": "build_evidence_summary",
       "protocolo": null,
       "titulo": "Preparación del sistema"
@@ -827,7 +827,7 @@
     "Las afinidades se interpretan como señales de ranking dentro del protocolo, no como mediciones de energía libre experimental.",
     "La mejor pose cruda se identifica por el orden de afinidad serializado; ese orden no demuestra validez geométrica.",
     "No se atribuyen operaciones de preparación, protonación o minimización que la corrida no haya registrado.",
-    "Preparación en condición desolvatada: se eliminaron todas las aguas cristalográficas del receptor. Si esta diana requiere aguas puente conservadas para el reconocimiento molecular, los contactos y las afinidades de esta corrida no las incluyen.",
+    "La preparación estándar retira todas las aguas cristalográficas del receptor (condición desolvatada); la cuenta de las que había en el sitio va aparte. Si esta diana requiere aguas puente conservadas para el reconocimiento molecular, los contactos y las afinidades de esta corrida no las incluyen.",
     "Declarado por el caso: Se asume el receptor rígido y protonación estándar a pH 7.4."
   ],
   "validacion_fisica": {

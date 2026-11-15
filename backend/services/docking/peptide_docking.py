@@ -87,6 +87,31 @@ def poses_acopladas_y_sdf(poses_del_servicio: list, smiles: str) -> tuple[list, 
         partes.append(_mol_to_sdf_string(mol_pep, smiles))
         aceptadas.append(p)
     return aceptadas, "".join(partes), cuentas
+
+
+def procedencia_de_la_transferencia(
+    sdf_content: str,
+    grid_center: Any,
+    grid_size: Any,
+) -> dict[str, Any]:
+    """`execution_provenance` de una corrida peptídica con poses transferidas.
+
+    La caja que se le pasó al ejecutor es la que Vina usó para acoplar el péptido
+    plegado: el predictor la entrega tal cual a `_vina_dock`. Aquí se escribía
+    `None` en `box_center` y `box_size`, y Preparación y el dossier leen esa
+    procedencia (`services/dossier/model.py`, `preparacion.py`), así que la
+    geometría de búsqueda de la corrida peptídica no se podía recuperar. Hay dos
+    sitios que arman este resultado (esta ruta y `queue_handler`); los dos pasan
+    por aquí para que no vuelvan a divergir.
+    """
+    return {
+        "poses_sha256": hashlib.sha256(sdf_content.encode("utf-8")).hexdigest(),
+        "box_center": [float(v) for v in grid_center] if grid_center else None,
+        "box_size": [float(v) for v in grid_size] if grid_size else None,
+        "source": "peptide_transfer",
+    }
+
+
 settings = get_settings()
 
 
@@ -320,12 +345,9 @@ async def run_peptide_docking_helper(
                 best_affinity=best_affinity,
                 poses=poses,
                 poses_file_path=poses_path,
-                execution_provenance={
-                    "poses_sha256": hashlib.sha256(sdf_content.encode("utf-8")).hexdigest(),
-                    "box_center": None,
-                    "box_size": None,
-                    "source": "peptide_transfer",
-                },
+                execution_provenance=procedencia_de_la_transferencia(
+                    sdf_content, grid_center, grid_size,
+                ),
                 parsing_source="sdf",
                 engine_efectivo="esmfold",
                 vina_version=getattr(ml_res, "vina_version", None),

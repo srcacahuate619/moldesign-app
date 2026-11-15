@@ -34,6 +34,8 @@ from __future__ import annotations
 
 import hashlib
 import json
+
+from scoring.eficiencia import KCAL_POR_UNIDAD_LOG
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -42,6 +44,7 @@ from services.blockchain.evidence_summary import build_evidence_summary
 from services.dossier.schemas import CaseProjection
 from services.targets.calibracion import estado_de_calibracion
 from services.targets.seccion_catalogo import catalogo_de_la_corrida
+from services.targets.titulo_del_deposito import nombre_completo_del_receptor
 from services.dossier.taxonomy import ETIQUETA, GLOSARIO, Estado, estado_de_texto, estado_de_valor
 
 #: Versión del modelo canónico. Viaja al PDF, al manifiesto y al README.
@@ -340,6 +343,13 @@ _CONDICIONES_DEL_SELLO = {
     "SERIE_CONGENERICA": (
         "El panel es casi entero una serie de análogos: la ρ describe cómo ordena compuestos de "
         "esa serie, no ligandos de estructura diversa."
+    ),
+    "ENSAYO_DTBZ_PLAQUETAS": (
+        "Los Ki del panel se midieron en plaquetas humanas con [3H]DTBZ como radioligando (patente US11718618B2)."
+    ),
+    "KD_POR_LOTE_NO_ADJUDICADO": (
+        "Los Ki se normalizaron con una Kd del radioligando que cambia por lote (2,5 o 4,06 nM) y la fuente no dice qué lote "
+        "corresponde a cada compuesto; por eso se mide también la correlación de la peor asignación de lotes."
     ),
     "CONDICIONES_DEL_ENSAYO_NO_DOCUMENTADAS": (
         "Ensayo de desplazamiento de [3H]nisoxetina; el pH, la temperatura y la concentración "
@@ -962,9 +972,9 @@ def _campos_de_eficiencia(eval_result, resumen) -> list:
             "Eficiencia de ligando (LE)",
             f"{metricas.ligand_efficiency_vina:.3f} kcal/mol por átomo pesado "
             f"({metricas.heavy_atoms} átomos). Hopkins et al. 2004. Depende del "
-            "tamaño por construcción: medido sobre la cohorte de este proyecto "
-            "(17 431 moléculas), su correlación con el número de átomos es tan "
-            "fuerte como la del score crudo, con el signo cambiado.",
+            "tamaño por construcción: medido sobre la cohorte de acoplamiento de este proyecto "
+            "(8 dianas, 17 431 moléculas con score de Vina; informe EFICIENCIA_NORMALIZADA_COHORTE_2026-09-04), "
+            "su correlación con el número de átomos es tan fuerte como la del score crudo, con el signo cambiado.",
             "No calculable.",
         ),
         _campo_dato(
@@ -981,7 +991,7 @@ def _campos_de_eficiencia(eval_result, resumen) -> list:
             "(Reynolds, Tounge, Bembenek, J. Med. Chem. 51 (2008) 2432, ec. 1-2). "
             f"LE_scale usada: {metricas.le_scale_pki:.4f} en unidades de pKi. "
             "PROXY: la escala está ajustada contra Ki experimental, no contra "
-            f"scores de acoplamiento; la conversión usa {1.37} kcal/mol por "
+            f"scores de acoplamiento; la conversión usa {KCAL_POR_UNIDAD_LOG} kcal/mol por "
             "unidad logarítmica. FQ ≈ 1 significa proximidad a la envolvente "
             "eficiente del conjunto de Reynolds para ese tamaño — no es "
             f"probabilidad de unión ni calidad de pose.{sujetado}",
@@ -1256,8 +1266,13 @@ def build_case_dossier(
 
     # ── Identidad ────────────────────────────────────────────────────
     molecule_id = str(_v(molecule, "id", "") or "")
+    # Caza 1, A04: el nombre del catálogo es la primera línea del TITLE del depósito; si éste lo continúa, se completa. El nombre que la
+    # persona le puso a su receptor no se toca.
+    nombre_del_receptor = _texto(_v(target, "name"))
+    if nombre_del_receptor and not _v(target, "is_private"):
+        nombre_del_receptor = nombre_completo_del_receptor(nombre_del_receptor, None, _texto(_v(target, "pdb_id"))) or nombre_del_receptor
     target_label = " · ".join(
-        p for p in (_texto(_v(target, "pdb_id")), _texto(_v(target, "name"))) if p
+        p for p in (_texto(_v(target, "pdb_id")), nombre_del_receptor) if p
     ) or "Receptor no informado"
     task_declarado = projection.run.task_id if projection.run else None
     task_registrado = _v(eval_result, "celery_task_id") or _v(eval_result, "task_id")
@@ -1828,7 +1843,9 @@ def build_case_dossier(
         Control(
             codigo=d["id"].upper(),
             titulo=d["label"],
-            estado=_ESTADO_EVIDENCIA.get(d["status"], Estado.REVISAR),
+            # Caza 1, A12: la validez física es UNA comprobación; con otro vocabulario en cada sección salía «PASA» en la 10 y
+            # «REGISTRADO» en la 11. Manda el estado del control.
+            estado=estado_fisico if d["id"] == "physical" else _ESTADO_EVIDENCIA.get(d["status"], Estado.REVISAR),
             observacion=d["detail"],
             protocolo=None,
             procedencia="build_evidence_summary",

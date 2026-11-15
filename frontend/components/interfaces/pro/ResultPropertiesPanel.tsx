@@ -1,6 +1,6 @@
 "use client";
 /* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 · existing MolDesign tokens */
-import {useId} from "react";
+import {useEffect,useId,useRef} from "react";
 import { LiquidOrb } from "./LiquidOrb";
 import {useLanguage} from "@/context/LanguageContext";
 import {numeroOGuion} from "@/lib/formatoNumerico";
@@ -8,24 +8,28 @@ import {etiquetaPPB} from "@/lib/admetEtiquetas";
 import type {EvaluationProperties} from "./ProParametersTab";
 import styles from "./ResultPanels.module.css";
 
-export function ResultPropertiesPanel({result,physicochemical,drugRules,admetAbsent}:{
+export function ResultPropertiesPanel({result,physicochemical,drugRules,admetAbsent,abrirAdmet=0}:{
   result:EvaluationProperties;
   physicochemical:Array<{key?:string;label:string;value:string}>;
   drugRules:Array<{label:string;passed?:boolean|null;extra?:string;isNeutral?:boolean}>;
   admetAbsent:boolean;
+  /** Contador de peticiones «ve al ADMET»: >0 abre la sección y lleva la vista hasta ella. */
+  abrirAdmet?:number;
 }){
   const {t}=useLanguage();const uid=useId();
+  const admetRef=useRef<HTMLDetailsElement>(null);
+  useEffect(()=>{
+    const nodo=admetRef.current;
+    if(abrirAdmet<=0||!nodo)return;
+    nodo.open=true;
+    nodo.scrollIntoView?.({block:"start",behavior:"smooth"});
+  },[abrirAdmet]);
   const anyAdmet=!admetAbsent||result.blood_cns_mpo!=null||Boolean(result.blood_bbb_motivo)
     ||Boolean(result.blood_systemic_reactivity?.length)||result.blood_tabpfn_estado==="evaluado";
   const admetPartial=anyAdmet&&[
     result.blood_viability_score,result.blood_solubility_logs,result.blood_ppb_category,
     result.blood_hia_permeable,result.blood_bbb_permeable,
   ].some(value=>value==null);
-  const tabpfnState=result.blood_tabpfn_estado;
-  const tabpfnLabel=tabpfnState==null?t("c_no_registrado")
-    :tabpfnState==="evaluado"?t("ux_tabpfn_evaluated")
-    :tabpfnState==="fallo"?t("ux_tabpfn_failed")
-    :tabpfnState==="no_evaluado"?t("ux_checks_not_evaluated"):tabpfnState;
   const booleanValue=(value:boolean|null|undefined,yes:string,no:string)=>value==null?t("c_no_registrado"):value?yes:no;
   const admetRows=[
     {label:t("pr_param_ppb"),value:etiquetaPPB(result.blood_ppb_category, t)??t("c_no_registrado")},
@@ -80,7 +84,7 @@ export function ResultPropertiesPanel({result,physicochemical,drugRules,admetAbs
       </div>
     </details>
 
-    <details className={styles.section} aria-labelledby={`${uid}-admet`}>
+    <details ref={admetRef} className={styles.section} aria-labelledby={`${uid}-admet`} data-admet-section="true">
       <summary id={`${uid}-admet`} className={styles.sectionSummary}>
         <span className={styles.sectionTitle} role="heading" aria-level={4}>{t("ux_admet_title")}</span>
         <span className={`${styles.badge} ${styles.sectionStatus}`}>{t(admetPartial?"ux_admet_partial":anyAdmet?"ux_analysis_available":"ux_analysis_absent")}</span>
@@ -123,7 +127,6 @@ export function ResultPropertiesPanel({result,physicochemical,drugRules,admetAbs
               ?<ul className={styles.warning}>{result.blood_systemic_reactivity.map((message,index)=><li key={index}>{message}</li>)}</ul>
               :<p className={styles.note}>{t(result.blood_systemic_reactivity==null?"ux_reactivity_absent":"ux_reactivity_empty")}</p>}
             <p className={styles.note}>{t("pn_reactividad_tabpfn")}</p>
-            <dl className={styles.rows}><div className={styles.row}><dt>{t("ux_tabpfn_legacy_state")}</dt><dd>{tabpfnLabel}</dd></div></dl>
           </section>
         </div>
       </div>

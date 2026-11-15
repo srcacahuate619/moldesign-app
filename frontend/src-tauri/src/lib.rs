@@ -2,6 +2,7 @@ mod backend;
 mod cases;
 mod downloader;
 mod file_downloads;
+mod perfil_de_prueba;
 mod salidas;
 mod vigia_webview;
 
@@ -185,6 +186,9 @@ pub(crate) fn is_packaged_app() -> bool {
 /// Directorio de datos persistente y no-virtualizado de MolDesign, para estado
 /// que debe sobrevivir a desinstalar (índice de casos, modelos descargados).
 pub(crate) fn persistent_data_dir(app: &tauri::AppHandle) -> Option<PathBuf> {
+    if let Some(home) = perfil_de_prueba::home() {
+        return Some(home.join("MolDesign"));
+    }
     // El spike experimental nunca comparte registro de casos o modelos con producción.
     if app.config().identifier == "dev.moldesign.productaudit" {
         return app.path().app_data_dir().ok();
@@ -203,6 +207,10 @@ pub(crate) fn persistent_data_dir(app: &tauri::AppHandle) -> Option<PathBuf> {
 /// donde el centinela indique y se consume (borra el centinela). En operación
 /// normal no hay centinela y no hace nada.
 fn run_case_self_test(app: &tauri::AppHandle) {
+    // Con el perfil de prueba, el centinela del usuario no le concierne a esta instancia.
+    if perfil_de_prueba::activo() {
+        return;
+    }
     let Ok(home) = app.path().home_dir() else {
         return;
     };
@@ -393,6 +401,16 @@ fn permitir_webgl_por_software() {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    // Lo primero: si es una prueba con perfil propio, ni la traza de arranque debe caer en el perfil real.
+    if let Some(perfil) = perfil_de_prueba::iniciar() {
+        if let Some(logs) = perfil_de_prueba::carpeta("logs") {
+            std::env::set_var("MOLDESIGN_BOOT_LOG", logs.join("desktop-bootstrap.log"));
+        }
+        bootstrap_log(&format!(
+            "perfil_de_prueba:activo {} (datos, casos, logs y WebView2 dentro; sin instancia única)",
+            perfil.display()
+        ));
+    }
     bootstrap_log("run:start");
     std::panic::set_hook(Box::new(|info| {
         let msg = format!("PANIC IN MOLDESIGN: {}\n", info);
@@ -410,30 +428,37 @@ pub fn run() {
     // seguir registrada unos instantes; tratar la nueva como «segunda» hace
     // que `npx tauri dev` parezca cerrarse sin error. El instalador sí conserva
     // la protección de una sola instancia.
+    //
+    // Con el perfil de prueba tampoco: la prueba de resistencia tiene que poder correr con la aplicación del usuario
+    // abierta, y la instancia única le pasaría el control a ésa.
     #[cfg(not(debug_assertions))]
-    let builder = builder
-        // ── Una sola instancia ───────────────────────────────────
-        //
-        // Sin esto, un segundo doble clic en el icono abria OTRA ventana con
-        // SU PROPIO backend. Los dos convivian: puertos 8000 y 8001, dos
-        // juegos de modelos cientificos en memoria (~1 GB cada uno) y dos
-        // motores escribiendo la misma base. SQLite en WAL lo aguanta —los
-        // escritores se serializan con `busy_timeout`— asi que no corrompia
-        // datos, pero el usuario acababa con dos ventanas identicas sin saber
-        // cual estaba mirando.
-        //
-        // El segundo proceso NO abre ventana: enfoca la que ya existe y sale.
-        // Es lo que el usuario queria al hacer doble clic.
-        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            bootstrap_log("single_instance:segunda_instancia");
-            if let Some(window) = app.get_webview_window("main") {
-                // Si estaba minimizada, restaurar antes de enfocar: `set_focus`
-                // sobre una ventana minimizada no la trae de vuelta.
-                let _ = window.unminimize();
-                let _ = window.show();
-                let _ = window.set_focus();
-            }
-        }));
+    let builder = if perfil_de_prueba::activo() {
+        builder
+    } else {
+        builder
+            // ── Una sola instancia ───────────────────────────────────
+            //
+            // Sin esto, un segundo doble clic en el icono abria OTRA ventana con
+            // SU PROPIO backend. Los dos convivian: puertos 8000 y 8001, dos
+            // juegos de modelos cientificos en memoria (~1 GB cada uno) y dos
+            // motores escribiendo la misma base. SQLite en WAL lo aguanta —los
+            // escritores se serializan con `busy_timeout`— asi que no corrompia
+            // datos, pero el usuario acababa con dos ventanas identicas sin saber
+            // cual estaba mirando.
+            //
+            // El segundo proceso NO abre ventana: enfoca la que ya existe y sale.
+            // Es lo que el usuario queria al hacer doble clic.
+            .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+                bootstrap_log("single_instance:segunda_instancia");
+                if let Some(window) = app.get_webview_window("main") {
+                    // Si estaba minimizada, restaurar antes de enfocar: `set_focus`
+                    // sobre una ventana minimizada no la trae de vuelta.
+                    let _ = window.unminimize();
+                    let _ = window.show();
+                    let _ = window.set_focus();
+                }
+            }))
+    };
 
     builder
         .plugin(tauri_plugin_notification::init())
@@ -495,7 +520,10 @@ pub fn run() {
             // Los recursos instalados no son un directorio de datos. Publicar
             // la ruta writable de Tauri antes de arrancar el backend mantiene
             // logs y punteros de diagnóstico fuera del payload firmado.
-            if let Ok(log_dir) = app.path().app_log_dir() {
+            let carpeta_de_logs = perfil_de_prueba::carpeta("logs")
+                .map(Ok)
+                .unwrap_or_else(|| app.path().app_log_dir());
+            if let Ok(log_dir) = carpeta_de_logs {
                 let _ = std::fs::create_dir_all(&log_dir);
                 // Un override explícito se conserva: permite diagnosticar una
                 // máquina donde la carpeta estándar no sea legible. Sin
@@ -521,6 +549,13 @@ pub fn run() {
                 run_case_self_test(app.handle());
             }
 
+            let destino_de_logs = match perfil_de_prueba::carpeta("logs") {
+                Some(path) => tauri_plugin_log::TargetKind::Folder {
+                    path,
+                    file_name: None,
+                },
+                None => tauri_plugin_log::TargetKind::LogDir { file_name: None },
+            };
             if let Err(e) = app.handle().plugin(
                 tauri_plugin_log::Builder::default()
                     // `tauri-plugin-log` incluye stdout por defecto. En el
@@ -529,9 +564,7 @@ pub fn run() {
                     // informar el error por stderr y puede entrar en pánico.
                     // El archivo rotativo es el destino canónico del desktop.
                     .clear_targets()
-                    .target(tauri_plugin_log::Target::new(
-                        tauri_plugin_log::TargetKind::LogDir { file_name: None },
-                    ))
+                    .target(tauri_plugin_log::Target::new(destino_de_logs))
                     .level(log::LevelFilter::Info)
                     .build(),
             ) {
@@ -570,7 +603,12 @@ pub fn run() {
             if audit_probe_requested {
                 window_config.url = tauri::WebviewUrl::External("about:blank".parse()?);
             }
-            tauri::WebviewWindowBuilder::from_config(app, &window_config)?
+            let mut ventana = tauri::WebviewWindowBuilder::from_config(app, &window_config)?;
+            // El perfil de WebView2 (caché, almacenamiento local, IndexedDB) también va dentro del perfil de prueba.
+            if let Some(dir) = perfil_de_prueba::carpeta("webview") {
+                ventana = ventana.data_directory(dir);
+            }
+            ventana
                 .on_download(|webview, event| {
                     if let tauri::webview::DownloadEvent::Finished { url, path, success } = event {
                         let file_id = if success {

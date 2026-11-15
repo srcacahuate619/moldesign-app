@@ -77,23 +77,41 @@ _BASES_PROXIMAS = MotivoDeRevision(
     "bases_proximas",
     "En revisión por dos centros básicos a 3 enlaces o menos (piperazina o diamina): la tabla da a "
     "cada uno el pKa de su clase por separado, pero protonar uno baja el del otro "
-    "(cetirizina, pKa 7,98, es zwitterión neutro y se acoplaba como catión).",
+    "(ejemplo de la literatura, no esta molécula: la cetirizina, pKa 7,98, es zwitterión neutro y se acoplaba como catión).",
 )
 _SULFONIL_PIPERAZINA = MotivoDeRevision(
     "sulfonil_piperazina",
     "En revisión por N-sulfonil-piperazina: el sulfonilo baja el pKa del N distal muy por debajo del "
-    "9,8 de una amina alifática (sildenafilo 6,78: neutro a pH 7,4, se acoplaba como "
-    "catión).",
+    "9,8 de una amina alifática (ejemplo de la literatura, no esta molécula: el sildenafilo, pKa 6,78, es neutro a pH 7,4 y se "
+    "acoplaba como catión).",
 )
 _ACIDO_ENOLICO = MotivoDeRevision(
     "acido_enolico",
     "En revisión por ácido enólico vinílogo (oxicam o 4-hidroxicumarina): la tabla de pKa no tiene "
-    "esta clase y la especie a pH 7,4 no está establecida (piroxicam, pKa ácido "
+    "esta clase y la especie a pH 7,4 no está establecida (ejemplo de la literatura, no esta molécula: el piroxicam, pKa ácido "
     "≈5,3, con fuentes que discrepan).",
 )
 
 _AMINA_CON_ATRACTOR = MotivoDeRevision(
     "amina_con_atractor",
+    "En revisión por amina protonada con un grupo atractor a uno o dos enlaces del N (CF3 o CHF2 en β, "
+    "nitrilo en α o β): el grupo baja varias unidades el pKa que la tabla da a la clase "
+    "(9,8; ejemplos de la literatura, no esta molécula: la 2,2,2-trifluoroetilamina tiene pKa ≈5,7 y el 3-aminopropionitrilo "
+    "≈7,8), así que la carga a pH 7,4 es una decisión abierta.",
+)
+
+#: Los textos que escribieron las corridas anteriores a este cambio (sin decir que el ejemplo no era la molécula). Las corridas no se
+#: reescriben: se conservan aquí, cada uno entero, para que sigan traduciéndose.
+TEXTOS_ANTERIORES_DE_MOTIVOS = (
+    "En revisión por dos centros básicos a 3 enlaces o menos (piperazina o diamina): la tabla da a "
+    "cada uno el pKa de su clase por separado, pero protonar uno baja el del otro "
+    "(cetirizina, pKa 7,98, es zwitterión neutro y se acoplaba como catión).",
+    "En revisión por N-sulfonil-piperazina: el sulfonilo baja el pKa del N distal muy por debajo del "
+    "9,8 de una amina alifática (sildenafilo 6,78: neutro a pH 7,4, se acoplaba como "
+    "catión).",
+    "En revisión por ácido enólico vinílogo (oxicam o 4-hidroxicumarina): la tabla de pKa no tiene "
+    "esta clase y la especie a pH 7,4 no está establecida (piroxicam, pKa ácido "
+    "≈5,3, con fuentes que discrepan).",
     "En revisión por amina protonada con un grupo atractor a uno o dos enlaces del N (CF3 o CHF2 en β, "
     "nitrilo en α o β): el grupo baja varias unidades el pKa que la tabla da a la clase "
     "(9,8); la 2,2,2-trifluoroetilamina tiene pKa ≈5,7 y el 3-aminopropionitrilo ≈7,8, "

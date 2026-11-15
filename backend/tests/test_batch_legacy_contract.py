@@ -14,9 +14,10 @@ es un banco de acoplamiento— pero todo lo demás es el código real.
 
 # Lo que NO valida
 
-Que el cribado sea científicamente útil. `total_score` sigue siendo el orden
-principal del Batch y sigue siendo la razón por la que existe el trabajo de
-cohortes. Comprobar que el legado funciona no es aprobarlo.
+Que el cribado sea científicamente útil. Desde el 2026-11-15 la exportación ordena
+cada diana por el score de Vina y no por `total_score`, el índice compuesto heredado
+(SUP-02, NO_GO), que sigue saliendo en su columna. Comprobar que el legado funciona
+no es aprobarlo.
 """
 
 from __future__ import annotations
@@ -159,9 +160,11 @@ def test_exportar_en_csv_produce_la_tabla_rankeada(client):
     batch_id = _subir(client, csv).json()["batch_id"]
 
     batch_mod._batches[batch_id]["status"] = "completed"
+    # El índice heredado dice lo contrario que Vina a propósito: manda Vina.
     batch_mod._batches[batch_id]["results"] = [
-        {"name": "peor", "smiles": IBUPROFENO, "total_score": 41.0, "affinity_kcal": -6.1},
-        {"name": "mejor", "smiles": ASPIRINA, "total_score": 72.5, "affinity_kcal": -8.3},
+        {"name": "peor", "smiles": IBUPROFENO, "total_score": 72.5, "affinity_kcal": -6.1},
+        {"name": "mejor", "smiles": ASPIRINA, "total_score": 41.0, "affinity_kcal": -8.3},
+        {"name": "sin afinidad", "smiles": PARACETAMOL, "total_score": 99.0, "affinity_kcal": None},
     ]
 
     respuesta = client.get(f"/evaluation/batch/{batch_id}/csv")
@@ -170,10 +173,10 @@ def test_exportar_en_csv_produce_la_tabla_rankeada(client):
     assert respuesta.headers["content-type"].startswith("text/csv")
     lineas = respuesta.text.strip().splitlines()
     assert lineas[0].startswith("Rank,Name,SMILES,TotalScore")
-    # El orden del Batch histórico es `total_score` descendente. Sigue siéndolo:
-    # esta prueba lo constata, no lo aprueba.
+    # Por el score de Vina, el más negativo arriba; sin afinidad, al final aunque su índice sea el más alto.
     filas = list(csv_module.DictReader(io.StringIO(respuesta.text)))
-    assert [fila["Name"] for fila in filas] == ["mejor", "peor"]
+    assert [fila["Name"] for fila in filas] == ["mejor", "peor", "sin afinidad"]
+    assert [fila["TotalScore"] for fila in filas] == ["41.0", "72.5", "99.0"]   # la columna sigue
 
 
 def test_exportar_un_batch_en_curso_sigue_dando_400(client):

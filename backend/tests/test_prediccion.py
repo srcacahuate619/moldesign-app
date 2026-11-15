@@ -5,9 +5,11 @@ descargados del EBI el 2026-10-09: ``af_p23975_recortado.pdb`` y ``.cif`` conser
 ``_ma_qa_metric_local`` tal cual (hashes en ``alphafold_procedencia.json``).
 
 Lo que se verificó en esos archivos, y sólo eso: el factor B del PDB y ``B_iso_or_equiv`` del mmCIF son el pLDDT por
-residuo, escala 0–100, y coinciden con ``_ma_qa_metric_local``. De Boltz, Chai-1 y AlphaFold 3 no hay un archivo
-real de salida en sus repositorios oficiales: su convención NO está verificada y estas pruebas comprueban que no se
-afirma (``no_disponible``), no que se lea.
+residuo, escala 0–100, y coinciden con ``_ma_qa_metric_local``. Las pruebas de otras fuentes manipulan ese mismo
+archivo (otro ``_entry.id``, otra escala, otra cabecera): comprueban qué se afirma y qué no, no cómo escribe sus
+archivos cada herramienta. Lo que escriben Boltz 2.2.1 y Chai-1 0.6.1 se comprobó con archivos reales el
+2026-11-14/15 (``docs/auditorias/convencion-plddt-boltz-chai-2026-11-15/``); sus recortes y la fuente que declara
+quien sube un archivo sin cabecera se prueban en ``test_prediccion_fuente_declarada.py``.
 """
 
 from __future__ import annotations
@@ -126,7 +128,9 @@ class TestLoQueNoSeAfirma:
         assert info["no_disponible"] == P.ESCALA_AMBIGUA and mapa is None
 
     def test_un_pdb_teorico_que_no_es_alphafold_db_no_afirma_ninguna_convencion(self):
-        # La misma estructura sin la cabecera de AlphaFold DB y con el método de un modelo: Boltz, Chai y AF3 caen aquí.
+        # La misma estructura sin la cabecera de AlphaFold DB y con el método de un modelo (EXPDTA THEORETICAL MODEL).
+        # Un PDB de Boltz 2.2.1 no cae aquí: no trae ninguna cabecera, así que manda lo que declare quien lo sube
+        # (test_prediccion_fuente_declarada.py).
         otro = PDB_AF.replace("ALPHAFOLD MONOMER V2.0 PREDICTION FOR", "UN MODELO DE").replace(
             "TITLE", "EXPDTA    THEORETICAL MODEL\nTITLE", 1)
 

@@ -30,6 +30,14 @@ devolvió el modelo empaquetado para cada uno):
     con el modelo ya vivo         33/41 aciertos    8 falsos positivos  ← peor
     con este módulo               39/41 aciertos    2 falsos positivos
 
+El panel tiene hoy 47 filas (41 de difusión pasiva y 6 de transportador). Con la
+capa 2b como conflicto y no como veto: 38 aciertos, 2 errores y 1 abstención
+(domperidona) entre los 41 de difusión pasiva; 40 aciertos, 5 errores y 2
+abstenciones en las 47, es decir, 45 con veredicto. Los 5 errores son los mismos
+de antes. La tabla trae 47 filas desde su primer commit (868bbe9b); las cifras de
+esta cabecera que citan «46 fármacos» no coinciden con ella y no se pudo
+reconstruir de dónde salían. Se dejan como estaban: son una cita de la medición.
+
 Arreglar el truncamiento, sin tocar nada más, **empeoraba** el producto: el
 modelo entraba por una puerta que no comprobaba nada. Los cinco que se
 estropearon son atenolol, sulpirida, cimetidina, hidroclorotiazida y dopamina
@@ -42,14 +50,22 @@ LO QUE DECIDE, Y EN QUÉ ORDEN
     BLOQUEOS  (estructurales; ganan sobre cualquier señal positiva)
       0  carga permanente          amonio cuaternario, sulfonato, fosfonato
       1  anión a pH 7.4            fracción ionizada del ácido dominante >= 0.5
-      2a PPB > 99 %                atrapada por proteína plasmática
-      2b PPB > 92 % y >= 3 anillos aromáticos
 
     POSITIVAS (la primera que acierta decide)
       3  el modelo, con confianza  p >= 0.90 — anula las heurísticas
       4  el modelo, moderado       p >= 0.50 **y** ni demasiado polar ni P-gp
 
     Por defecto: no permeable.
+
+    CONFLICTO (sólo puede cambiar un POSITIVO a «no concluyente»)
+      2b PPB > 92 % y >= 3 anillos aromáticos, con el resto del consenso en positivo
+
+    La PPB sólo cuenta si es un porcentaje de 0 a 100 (`ppb_valida`): una salida
+    del modelo fuera de ese intervalo es un dato no disponible, no un veto. La
+    unión extrema (> 99 %, antes la capa 2a) ya no bloquea: se informa en
+    `blood_ppb_category`. La capa 2b ya no bloquea tampoco: un negativo
+    independiente conserva su motivo, y sin predicción del modelo se conserva
+    `sin_prediccion`.
 
 La forma es la que pedía el problema: **el modelo entrenado es la señal
 primaria, y las heurísticas sólo pueden recortar lo que el modelo permite.**
@@ -87,9 +103,10 @@ de curados fuera de él:
 
     levodopa, gabapentina, ácido valproico   entran por acarreador (LAT1, MCT)
                                              y aquí salen «no permeable»
-    loperamida                               la expulsa P-gp; aquí acierta,
-                                             pero por la regla de PPB, no por
-                                             el eflujo
+    loperamida                               la expulsa P-gp; aquí el consenso
+                                             se abstiene (PPB y anillos
+                                             aromáticos contradicen al modelo),
+                                             sin atribuirlo al eflujo
 
 Los dos falsos positivos que quedan entre los de difusión pasiva son ranitidina
 y sulpirida: bases polares cuyo pKa real está lejos del representativo de clase
@@ -100,6 +117,8 @@ calibrar, es ajustar a catorce letras de una tabla.
 
 from __future__ import annotations
 
+import math
+import numbers
 from dataclasses import dataclass, field
 
 from chem.ionizacion import analizar_ionizacion
@@ -129,14 +148,51 @@ UMBRAL_MODELO_ANULA_HEURISTICAS: float = 0.90
 #: el consenso declaraba permeable) por estar tres unidades por debajo.
 FRACCION_ANIONICA: float = 0.5
 
-#: Unión a proteína plasmática (%) por encima de la cual la molécula está
-#: secuestrada pase lo que pase.
-PPB_ATRAPAMIENTO_TOTAL: float = 99.0
+#: Antes había aquí `PPB_ATRAPAMIENTO_TOTAL = 99.0`, la capa 2a: una PPB válida
+#: mayor que 99 % vetaba pase lo que pase. Decisión del propietario, 2026-11-14:
+#: la unión extrema se INFORMA (`blood_ppb_category == "extreme"`) y deja de
+#: cambiar el veredicto. El panel de 47 no la ejerce nunca (su máximo es 94,96 %),
+#: y la evidencia en contra son fármacos de acción central con PPB predicha entre
+#: 99 y 100 (butaperazina, flupentixol) o por encima (aripiprazol).
 
-#: PPB alta que sólo bloquea acompañada de multiples anillos aromáticos: es el
-#: patrón del atrapamiento por albúmina de los lipofílicos poliaromáticos.
-PPB_ATRAPAMIENTO_AROMATICO: float = 92.0
-ANILLOS_AROMATICOS_ATRAPAMIENTO: int = 3
+#: PPB alta con varios anillos aromáticos. Ya no BLOQUEA: cuando el resto del
+#: consenso da un positivo, esta señal lo contradice y el resultado es «no
+#: concluyente» (`permeable = None`). Decisión del propietario, 2026-11-14.
+#:
+#: Por qué no es un veto. Sólo dos fármacos del panel de 47 caen aquí (domperidona,
+#: PPB 94,96 %, cuatro anillos; loperamida, 92,27 %, tres), y ambos son sustratos de
+#: P-gp en ensayos de transporte: el panel no distingue entre albúmina y eflujo, y
+#: esta regla no atribuye el resultado a ninguno de los dos. Con una PPB válida y
+#: tres anillos, un positivo del modelo es una predicción contradictoria, no una
+#: certeza en ninguno de los dos sentidos.
+PPB_CONFLICTO_AROMATICO: float = 92.0
+ANILLOS_AROMATICOS_CONFLICTO: int = 3
+
+
+def ppb_valida(valor: object) -> float | None:
+    """La PPB que puede entrar al consenso y a la categoría, o `None`.
+
+    `PPBR_AZ` es una regresión expresada en porcentaje de unión a proteína
+    plasmática. Su dominio físico es de 0 a 100, y el modelo no lo acota: el
+    ensamble de ADMET-AI promedia sus salidas tal cual. Sobre los 2440 fármacos
+    aprobados de DrugBank que distribuye ADMET-AI 2.0.1, 274 salen por encima de
+    100 y 59 por debajo de 0 (13,6 %), así que no es un borde raro.
+
+    Un número fuera de ese intervalo no es una medida de unión: es una salida
+    inválida. No vetaba con razón (antes, 274 predicciones vetaban por la capa 2a
+    con un valor imposible) y tampoco se corrige a 100, porque recortarlo
+    fabricaría un valor que activa las reglas de PPB. Se declara no disponible. `NaN`, infinitos,
+    booleanos y todo lo que no sea un número real también lo son.
+
+    El corte es una disponibilidad, no una biología: 100,0 es válido y 100,1 no.
+    El dato bruto se conserva en el diccionario de ADMET como diagnóstico.
+    """
+    if valor is None or isinstance(valor, bool) or not isinstance(valor, numbers.Real):
+        return None
+    numero = float(valor)
+    if not math.isfinite(numero) or numero < 0.0 or numero > 100.0:
+        return None
+    return numero
 
 
 @dataclass(frozen=True)
@@ -177,7 +233,52 @@ def decidir_bbb(
     `p_modelo` es P(BBB+) según ADMET-AI, en [0, 1]. `None` significa que el
     modelo no se pudo consultar — y entonces el resultado es `None`, no `False`,
     salvo que una regla estructural se pronuncie por su cuenta.
+
+    `ppb` entra sólo si es un porcentaje finito de 0 a 100 (`ppb_valida`); fuera de
+    ese intervalo se trata como no disponible y ninguna regla de PPB se activa.
+
+    El orden es: primero deciden las demás capas (`_decidir_sin_ppb`) y después la
+    señal de PPB con anillos aromáticos sólo puede cambiar un POSITIVO a «no
+    concluyente». Un negativo independiente (carga permanente, anión, el modelo o
+    sus filtros) conserva su salida y su motivo, y sin predicción del modelo se
+    conserva `sin_prediccion`.
     """
+    decision = _decidir_sin_ppb(
+        smiles, p_modelo=p_modelo, mw=mw, logp=logp, tpsa=tpsa, hbd=hbd, hba=hba,
+    )
+    if decision.permeable is not True:
+        return decision
+
+    ppb = ppb_valida(ppb)
+    n_aro = anillos_aromaticos or 0
+    if ppb is None or ppb <= PPB_CONFLICTO_AROMATICO or n_aro < ANILLOS_AROMATICOS_CONFLICTO:
+        return decision
+
+    return DecisionBBB(
+        permeable=None,
+        capa="2b_conflicto_ppb_aromatico",
+        motivo=(
+            f"No concluyente: el modelo de permeabilidad da p = {p_modelo:.3f}, "
+            f"un resultado positivo, pero la unión a proteína plasmática predicha "
+            f"es del {ppb:.1f} % en una molécula con {n_aro} anillos aromáticos. "
+            f"Las dos señales se contradicen y este consenso no las resuelve."
+        ),
+        p_modelo=p_modelo,
+        hallazgos=[f"capa_independiente={decision.capa}", f"ppb={ppb:.1f}", f"anillos_aromaticos={n_aro}"],
+    )
+
+
+def _decidir_sin_ppb(
+    smiles: str,
+    *,
+    p_modelo: float | None,
+    mw: float,
+    logp: float,
+    tpsa: float,
+    hbd: int,
+    hba: int,
+) -> DecisionBBB:
+    """Las capas que no miran la PPB: 0, 1, sin predicción, 3 y 4."""
     estado = analizar_ionizacion(smiles, logp)
 
     # ── 0. Carga permanente ──────────────────────────────────────────────
@@ -217,34 +318,6 @@ def decidir_bbb(
             ),
             p_modelo=p_modelo,
             hallazgos=acidos,
-        )
-
-    # ── 2. Secuestro por proteína plasmática ─────────────────────────────
-    if ppb is not None and ppb > PPB_ATRAPAMIENTO_TOTAL:
-        return DecisionBBB(
-            permeable=False,
-            capa="2a_ppb_total",
-            motivo=(
-                f"Unión a proteína plasmática del {ppb:.1f} %: prácticamente no "
-                f"queda fracción libre que pueda cruzar."
-            ),
-            p_modelo=p_modelo,
-        )
-
-    if (
-        ppb is not None
-        and ppb > PPB_ATRAPAMIENTO_AROMATICO
-        and (anillos_aromaticos or 0) >= ANILLOS_AROMATICOS_ATRAPAMIENTO
-    ):
-        return DecisionBBB(
-            permeable=False,
-            capa="2b_ppb_aromatico",
-            motivo=(
-                f"Unión a proteína plasmática del {ppb:.1f} % con "
-                f"{anillos_aromaticos} anillos aromáticos: el patrón del "
-                f"atrapamiento por albúmina de los lipofílicos poliaromáticos."
-            ),
-            p_modelo=p_modelo,
         )
 
     # ── Sin modelo no hay veredicto positivo posible ─────────────────────

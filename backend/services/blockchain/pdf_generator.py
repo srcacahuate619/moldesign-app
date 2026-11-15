@@ -11,7 +11,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch, cm
 from reportlab.lib.utils import ImageReader
 from reportlab.platypus import (
-    KeepTogether, SimpleDocTemplate, Paragraph as _ReportLabParagraph,
+    CondPageBreak, KeepTogether, SimpleDocTemplate, Paragraph as _ReportLabParagraph,
     Spacer, Table as _ReportLabTable, TableStyle,
 )
 from reportlab.pdfbase import pdfmetrics
@@ -19,12 +19,18 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from core.models import MoleculeORM, EvaluationResultORM
 from core.version import APP_VERSION
+from scoring.eficiencia import KCAL_POR_UNIDAD_LOG
+from services.pdf_glifos import sin_glifos_ausentes
+from services.dossier.pdf import _fuentes_de_texto, fuente_de_cursiva
 from services.blockchain.certificate_context import generate_physiological_context
 from services.blockchain.evidence_summary import build_evidence_summary
 from services.docking.selectividad_margen import (
     ESCALA_DE_MARGEN,
 )
+from services.blockchain.contactos_residuo import NOTA_DE_LOS_CONTACTOS, compute_residue_interactions, residuos_en_contacto
+from services.targets.titulo_del_deposito import nombre_completo_del_receptor
 from services.blockchain.certificate_figures import (
+    LEYENDA_DEL_DIAGRAMA,
     generate_2d_interaction_diagram,
     primera_pose,
     generate_energy_profile_plot,
@@ -41,7 +47,7 @@ BRAND      = colors.HexColor("#2563eb")   # azul MolDesign — acento de marca
 BRAND_DARK = colors.HexColor("#1e40af")   # azul profundo — títulos de sección
 INK        = colors.HexColor("#0f172a")   # casi negro — cuerpo principal
 SLATE      = colors.HexColor("#475569")   # gris pizarra — texto secundario
-SLATE_LT   = colors.HexColor("#94a3b8")   # gris claro — notas y footer
+SLATE_LT   = colors.HexColor("#64748b")   # gris medio — notas y footer (4,8:1 sobre blanco; el #94a3b8 anterior daba 2,6:1)
 LINE       = colors.HexColor("#e2e8f0")   # borde de tablas
 HEAD_BG    = colors.HexColor("#f1f5f9")   # fondo de cabecera de tabla
 GOOD       = colors.HexColor("#15803d")   # verde — PASA / SEGURO
@@ -99,8 +105,31 @@ def _ajustar_a_ancho(cabeza: str, resto: str, fuente: str, tamano: float, ancho:
     return cabeza[:corte].rstrip() + "…" + resto
 
 
+#: Cómo se nombra, en la nota de cofactores, cada categoría de especie que la preparación conserva junto al sitio.
+_CATEGORIA_CONSERVADA = {"organic_cofactor": "cofactor orgánico", "metal": "ion metálico"}
+
+
+def _especies_conservadas(preparacion: dict) -> list[str]:
+    """Metales y cofactores que el receptor de la corrida conserva junto al sitio, tal como los registró la preparación."""
+    from services.blockchain.evidence_summary import _value
+
+    diff = _value(preparacion, "species_diff")
+    cerca = _value(diff, "near_site") if isinstance(diff, dict) else None
+    conservadas = _value(cerca, "preserved") if isinstance(cerca, dict) else None
+    if not isinstance(conservadas, list):
+        return []
+    nombres = []
+    for especie in conservadas:
+        categoria = _CATEGORIA_CONSERVADA.get(str(_value(especie, "category")))
+        if categoria is None or not _value(especie, "name"):
+            continue
+        nombres.append(f"{_value(especie, 'name')} {_value(especie, 'chain')}:{_value(especie, 'residue_number')} "
+                       f"({translate_text(categoria)})")
+    return nombres
+
+
 def _nota_de_cofactores(eval_result, mol) -> str:
-    """Qué dice la metodología de los cofactores, sin confundir «vacía» con «ausente».
+    """Qué dice la metodología de los cofactores, sin confundir «vacía» con «ausente» ni la lista con lo que se conservó.
 
     Los cofactores son los que conservó la corrida, no los que declara la diana:
     hasta el arreglo de MET-01 (2026-10-11) la evaluación descartaba la lista de la
@@ -111,21 +140,35 @@ def _nota_de_cofactores(eval_result, mol) -> str:
     conservó ningún cofactor) y se imprimía «sin whitelist registrada», que es lo
     que se dice cuando la corrida no la registró. Y cuando la lista viene de la
     diana, no de la corrida, se dice de dónde sale.
+
+    Caza 1, A01: «ninguno conservado» era la lista declarada (`cofactors_whitelist`), no lo que el receptor conservó: en 4NY4 la
+    lista iba vacía y el receptor conservaba el hemo, que el dossier nombra y coordinado por el ligando. Ahora la nota dice las
+    dos cosas, cada una con su nombre.
     """
     from services.blockchain.evidence_summary import _value
 
     protocolo = getattr(eval_result, "docking_protocol", None) or {}
     preparacion = _value(_value(protocolo, "execution_provenance") or {}, "receptor_prep") or {}
+    conservadas = _especies_conservadas(preparacion)
+    # Los literales traducibles van en variables sueltas: dentro de una suma con partes dinámicas el auditor del catálogo los
+    # toma por fragmentos y da por muertas sus entradas.
+    receptor_conserva = translate_text("el receptor de la corrida conserva")
+    conservado = f"; {receptor_conserva}: {', '.join(conservadas)}" if conservadas else ""
     if isinstance(preparacion, dict) and "cofactors_whitelist" in preparacion:
         lista = list(preparacion.get("cofactors_whitelist") or [])
         if not lista:
-            return "ninguno conservado (la corrida registró una lista vacía)"
-        return ", ".join(str(item) for item in lista)
+            declarada = translate_text("lista declarada: vacía (la corrida registró una lista vacía)")
+        else:
+            etiqueta = translate_text("lista declarada")
+            declarada = f"{etiqueta}: {', '.join(str(item) for item in lista)}"
+        return declarada + conservado
     de_la_diana = list(getattr(getattr(mol, "target", None), "cofactors_whitelist", None) or [])
     if de_la_diana:
-        return ("lista de la diana (la corrida no registró la suya): "
-                + ", ".join(str(item) for item in de_la_diana))
-    return "la corrida no registró la lista de cofactores"
+        de_la_diana_texto = translate_text(
+            f"lista de la diana (la corrida no registró la suya): {', '.join(str(item) for item in de_la_diana)}")
+        return de_la_diana_texto + conservado
+    sin_lista = translate_text("la corrida no registró la lista de cofactores")
+    return sin_lista + conservado
 
 
 def _nota_de_validez_fisica(resumen: dict) -> str:
@@ -154,6 +197,14 @@ def _nota_de_validez_fisica(resumen: dict) -> str:
             "de preparacion, y «requiere revision» no es una pose aprobada.<br/><br/>"
         )
     )
+
+
+#: La nota al pie de la tabla de anti-dianas cuando alguna cruza el umbral con el sitio sin adjudicar en el panel
+#: (D-09 de la investigación de 1.0.4; el mismo aviso que `selectivity.AVISO_SITIO_NO_ADJUDICADO`).
+_NOTA_PDF_SITIO_NO_ADJUDICADO = (
+    "<i>† Sitio no adjudicado: no se ha comprobado que la caja corresponda al sitio del mecanismo de ese riesgo, "
+    "así que la lectura refleja sólo el score de Vina en esa caja.</i>"
+)
 
 
 #: Cada frase en su propio literal: el catálogo inglés traduce por frase, y
@@ -197,6 +248,9 @@ def _frase_de_validez_fisica_en_metodologia(resumen: dict) -> str:
 
 class NumberedCanvas(canvas.Canvas):
     def __init__(self, *args, **kwargs):
+        # La fuente inicial de cada página es la incrustada, no la Helvetica estándar (B6).
+        if not kwargs.get("initialFontName"):
+            kwargs["initialFontName"] = _fuentes_de_texto()[0]
         super().__init__(*args, **kwargs)
         self._saved_page_states = []
 
@@ -239,7 +293,7 @@ class NumberedCanvas(canvas.Canvas):
 
     def draw_page_number(self, page_count):
         self.saveState()
-        self.setFont("Helvetica", 7)
+        self.setFont(_fuentes_de_texto()[0], 7)
         self.setFillColor(colors.HexColor("#64748b"))
 
         # Read metadata parameters if we cached them
@@ -257,13 +311,13 @@ class NumberedCanvas(canvas.Canvas):
         # parte del receptor, que la primera página imprime completa.
         ancho_disponible = (
             (A4[0] - 3.0*cm)
-            - pdfmetrics.stringWidth(page_text, "Helvetica", 7)
+            - pdfmetrics.stringWidth(page_text, _fuentes_de_texto()[0], 7)
             - 0.6*cm
         )
         resto = f" | {affinity_info} | {score_info} | MolDesign"
         self.drawString(
             1.5*cm, 0.8*cm,
-            _ajustar_a_ancho(target_info, resto, "Helvetica", 7, ancho_disponible),
+            _ajustar_a_ancho(target_info, resto, _fuentes_de_texto()[0], 7, ancho_disponible),
         )
 
         # Thin divider line
@@ -311,121 +365,6 @@ def get_pubchem_names(smiles: str) -> tuple[str, str]:
     iupac_name = "N/A"
     return common_name, iupac_name
 
-def compute_residue_interactions(receptor_pdb: str | None, ligand_sdf: str | None) -> list[dict]:
-    if not receptor_pdb or not ligand_sdf:
-        return []
-    try:
-        receptor_atoms = []
-        for line in receptor_pdb.splitlines():
-            if line.startswith(("ATOM", "HETATM")):
-                try:
-                    atom_name = line[12:16].strip()
-                    res_name = line[17:20].strip()
-                    chain = line[21].strip()
-                    res_num = int(line[22:26].strip())
-                    x = float(line[30:38])
-                    y = float(line[38:46])
-                    z = float(line[46:54])
-                    element = line[76:78].strip() or atom_name[0]
-                    receptor_atoms.append({
-                        "atom_name": atom_name, "res_name": res_name, "chain": chain,
-                        "res_num": res_num, "x": x, "y": y, "z": z, "element": element.upper()
-                    })
-                except (ValueError, IndexError):
-                    continue
-
-        best_pose = primera_pose(ligand_sdf)
-        if best_pose is None:
-            return []
-
-        ligand_atoms = []
-        conf = best_pose.GetConformer()
-        for i, atom in enumerate(best_pose.GetAtoms()):
-            pos = conf.GetAtomPosition(i)
-            ligand_atoms.append({
-                "idx": i, "element": atom.GetSymbol().upper(),
-                "x": pos.x, "y": pos.y, "z": pos.z, "is_aromatic": atom.GetIsAromatic()
-            })
-
-        res_contacts = {}
-        # Umbral mínimo físico: dos átomos no pueden estar a <0.8 Å (radios
-        # covalentes ~0.7-1.5 Å). Si el SDF de poses y el PDB del receptor no
-        # están en el MISMO frame de coordenadas, el cálculo reporta distancias
-        # absurdas (0.3-0.4 Å) — descartarlas evita H-bonds físicamente
-        # imposibles en el reporte.
-        MIN_FEASIBLE_DIST = 0.8
-        for latom in ligand_atoms:
-            for ratom in receptor_atoms:
-                dx = latom["x"] - ratom["x"]
-                dy = latom["y"] - ratom["y"]
-                dz = latom["z"] - ratom["z"]
-                dist = (dx**2 + dy**2 + dz**2)**0.5
-                if dist < MIN_FEASIBLE_DIST:
-                    continue  # frame corrupto / coordenadas superpuestas
-                if dist < 4.5:
-                    res_key = (ratom["chain"], ratom["res_name"], ratom["res_num"])
-                    if res_key not in res_contacts:
-                        res_contacts[res_key] = []
-                    res_contacts[res_key].append((latom, ratom, dist))
-
-        classified = []
-        for (chain, res_name, res_num), contacts in res_contacts.items():
-            min_dist = min(c[2] for c in contacts)
-            int_types = set()
-
-            # Keep track of atoms to ensure mutual exclusivity
-            atoms_in_hb = set()
-            atoms_in_sb = set()
-
-            # 1. H-Bond (Distancia < 3.2A y polares)
-            for latom, ratom, dist in contacts:
-                if dist < 3.2 and latom["element"] in ("N", "O", "F") and ratom["element"] in ("N", "O", "F"):
-                    int_types.add("H-Bond")
-                    atoms_in_hb.add(latom["idx"])
-
-            # 2. Salt Bridge (Dist < 4.0A entre residuos ácidos/básicos y nitrógeno/oxígeno)
-            if not int_types:
-                for latom, ratom, dist in contacts:
-                    if dist < 4.0 and latom["element"] in ("N", "O") and ratom["element"] in ("N", "O") and res_name in ("ASP", "GLU", "ARG", "LYS"):
-                        int_types.add("Salt Bridge")
-                        atoms_in_sb.add(latom["idx"])
-
-            # 3. Pi-Stacking (Dist < 4.5A entre centroides de anillos aromáticos)
-            if not int_types:
-                for latom, ratom, dist in contacts:
-                    if dist < 4.5 and latom["is_aromatic"] and res_name in ("PHE", "TYR", "TRP", "HIS") and ratom["element"] == "C":
-                        int_types.add("Pi-Stacking")
-
-            # 4. Hydrophobic (Carbono-Carbono dist < 4.2A, libre de H-bond/Salt Bridge/Pi-Stacking)
-            if not int_types:
-                for latom, ratom, dist in contacts:
-                    if dist < 4.2 and latom["element"] == "C" and ratom["element"] == "C":
-                        if latom["idx"] not in atoms_in_hb and latom["idx"] not in atoms_in_sb:
-                            if res_name in ("ALA", "VAL", "LEU", "ILE", "PHE", "TYR", "TRP", "MET", "PRO"):
-                                int_types.add("Hydrophobic")
-
-            # Fallback simple
-            if not int_types and min_dist < 4.0:
-                if res_name in ("ALA", "VAL", "LEU", "ILE", "PHE", "TYR", "TRP", "MET", "PRO"):
-                    int_types.add("Hydrophobic Contact")
-                else:
-                    int_types.add("Van der Waals")
-
-            if int_types:
-                classified.append({
-                    "residue": f"{res_name}{res_num} ({chain})",
-                    "type": "/".join(sorted(list(int_types))),
-                    "distance": f"{min_dist:.2f} Å",
-                    "min_dist_val": min_dist,
-                    # SCI-A-057: los átomos de la pose que forman el contacto polar,
-                    # para que el diagrama rotule sólo ésos.
-                    "ligand_atoms": sorted(atoms_in_hb | atoms_in_sb),
-                })
-        classified.sort(key=lambda x: x["min_dist_val"])
-        return classified[:10]  # Top 10 interactions
-    except Exception:
-        return []
-
 # ── Marcadores que sobreviven a la extracción de texto ──────────────────────
 #
 # DOC 71, DEFECTO D2. El PDF usaba `·` (U+2022) como viñeta y se extraía como
@@ -459,6 +398,10 @@ def generate_certificate_pdf(
     pose_sdf_content: str | None = None,
     receptor_pdb_content: str | None = None
 ) -> io.BytesIO:
+    # Caza 1, A04: el nombre del catálogo es la primera línea del TITLE del depósito; si el depósito lo continúa, se completa. Un
+    # receptor subido lleva el nombre que le puso la persona y no se toca.
+    if getattr(mol, "target", None) and not (mol.target.pdb_id.upper().startswith("USR_") or mol.target.is_private):
+        target_name = nombre_completo_del_receptor(target_name, receptor_pdb_content, mol.target.pdb_id) or target_name
     protected_text = {str(target_name)}
     identity_fields = {
         "name", "pdb_id", "chain", "smiles", "canonical_smiles", "smiles_hash",
@@ -476,7 +419,9 @@ def generate_certificate_pdf(
 
     def _texto_de_presentacion(valor):
         if isinstance(valor, str):
-            return valor if valor in protected_text else translate_text(valor)
+            # Se traduce primero (el catálogo tiene las plantillas con su «⚠️») y se quita después lo que la fuente no
+            # dibuja: un aviso heredado salía con cuadros negros delante (B1).
+            return sin_glifos_ausentes(valor if valor in protected_text else translate_text(valor))
         if isinstance(valor, list):
             return [_texto_de_presentacion(item) for item in valor]
         if isinstance(valor, tuple):
@@ -487,7 +432,10 @@ def generate_certificate_pdf(
         return _ReportLabParagraph(_texto_de_presentacion(text), *args, **kwargs)
 
     def Table(data, *args, **kwargs):
-        return _ReportLabTable(_texto_de_presentacion(data), *args, **kwargs)
+        tabla = _ReportLabTable(_texto_de_presentacion(data), *args, **kwargs)
+        # La fuente de una celda sin estilo es la Helvetica estándar; los estilos que se añadan después van encima.
+        tabla.setStyle(TableStyle([("FONTNAME", (0, 0), (-1, -1), _fuentes_de_texto()[0])]))
+        return tabla
 
     buf = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -504,6 +452,16 @@ def generate_certificate_pdf(
     )
 
     styles = getSampleStyleSheet()
+    # Las fuentes del documento son las incrustadas (Arial o su equivalente), no Helvetica ni Symbol: un visor sin la
+    # métrica exacta dejaba huecos en ρ, ≤ y Å² (AMP-08; B6 medido en 14 de 14 informes). Arial tiene la misma métrica
+    # que Helvetica, así que no cambia ninguna caja. Si el equipo no tiene ninguna TrueType se conserva Helvetica.
+    _REGULAR, _NEGRITA = _fuentes_de_texto()
+    _SUSTITUTOS = {"Helvetica": _REGULAR, "Helvetica-Bold": _NEGRITA, "Helvetica-Oblique": fuente_de_cursiva(),
+                   "Helvetica-BoldOblique": _NEGRITA}
+    for _estilo in styles.byName.values():
+        for _atributo in ("fontName", "bulletFontName"):
+            if hasattr(_estilo, _atributo):  # `ListStyle` no es de texto y no los tiene
+                setattr(_estilo, _atributo, _SUSTITUTOS.get(getattr(_estilo, _atributo), getattr(_estilo, _atributo)))
 
     # DOC 71, DEFECTO E5. `allowWidows = 1` es el valor por defecto de ReportLab
     # y permite dejar la ULTIMA LINEA de un parrafo sola al principio de la
@@ -595,7 +553,10 @@ def generate_certificate_pdf(
         spaceAfter=8,
         borderPadding=(0,0,2,0),
         borderColor=BRAND,
-        borderWidth=1
+        borderWidth=1,
+        # `Heading2` no trae `keepWithNext` en esta versión de ReportLab: sin él, el título de una sección quedaba solo al pie
+        # de la página y su contenido abría la siguiente (B4, 14 de 14 informes).
+        keepWithNext=1,
     )
 
     xai_header_style = ParagraphStyle(
@@ -603,9 +564,10 @@ def generate_certificate_pdf(
         parent=styles['Normal'],
         fontSize=10,
         textColor=INK,
-        fontName='Helvetica-Bold',
+        fontName=_NEGRITA,
         spaceAfter=4,
-        alignment=0 # Left
+        alignment=0, # Left
+        keepWithNext=1,
     )
 
     normal_style = styles['Normal']
@@ -723,7 +685,7 @@ def generate_certificate_pdf(
     evidence_table.setStyle(TableStyle([
         ('GRID', (0, 0), (-1, -1), 0.5, LINE),
         ('BACKGROUND', (0, 0), (-1, 0), HEAD_BG),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTNAME', (0, 0), (-1, 0), _NEGRITA),
         ('BACKGROUND', (0, 1), (0, -1), colors.HexColor('#f8fafc')),
         ('VALIGN', (0, 0), (-1, -1), 'TOP'),
         ('PADDING', (0, 0), (-1, -1), 5),
@@ -786,8 +748,12 @@ def generate_certificate_pdf(
     else:
         ref_str = ""
 
+    # Caza 1, A08: el identificador de un receptor subido (USR_…) lo inventa la aplicación; llamarlo «PDB ID» lo hacía pasar por un
+    # código del Protein Data Bank.
+    _es_subido = bool(mol.target and (mol.target.pdb_id.upper().startswith("USR_") or mol.target.is_private))
     target_identity = Paragraph(
-        f"<b>PDB ID:</b> {mol.target.pdb_id.upper() if mol.target else 'N/A'} | "
+        f"<b>{translate_text('ID del receptor') if _es_subido else 'PDB ID'}:</b> "
+        f"{mol.target.pdb_id.upper() if mol.target else 'N/A'} | "
         f"<b>{translate_text('Nombre')}:</b> {target_name}{rho_val}{ref_str}",
         normal_style,
     )
@@ -796,7 +762,7 @@ def generate_certificate_pdf(
     is_custom = mol.target and (mol.target.pdb_id.upper().startswith("USR_") or mol.target.is_private)
     if is_custom:
         qa_banner = (
-            "<font color='#d97706'><b>[SISTEMA: ARCHIVO DE USUARIO]</b> "
+            "<font color='#b45309'><b>[SISTEMA: ARCHIVO DE USUARIO]</b> "
             "La estructura fue aportada por el usuario. No se infieren operaciones de protonación o minimización que no estén registradas.</font>"
         )
     elif evidence_summary["target_readiness"] == "listo":
@@ -806,7 +772,7 @@ def generate_certificate_pdf(
         )
     else:
         qa_banner = (
-            "<font color='#d97706'><b>[SISTEMA: REVISAR PREPARACIÓN]</b> "
+            "<font color='#b45309'><b>[SISTEMA: REVISAR PREPARACIÓN]</b> "
             "El inventario del receptor no permite afirmar que preparación, grid y hotspots estén completos.</font>"
         )
     # Flag de control: usa la ruta de penalización ADME ignorada (is_control).
@@ -851,6 +817,10 @@ def generate_certificate_pdf(
 
     # Fetch common and IUPAC name from PubChem
     common_name, iupac_name = get_pubchem_names(mol.smiles)
+    # Caza 1, A07: la aplicación no consulta PubChem (funciona sin red y no envía la molécula): «N/A» no decía por qué faltaba.
+    _NO_CONSULTADO = translate_text("No consultado (MolDesign no consulta PubChem)")
+    common_name = _NO_CONSULTADO if common_name == "N/A" else common_name
+    iupac_name = _NO_CONSULTADO if iupac_name == "N/A" else iupac_name
     protected_text.update(value for value in (common_name, iupac_name) if value)
 
     # IUPAC Truncation to avoid visual table overflow
@@ -858,7 +828,7 @@ def generate_certificate_pdf(
         iupac_name = iupac_name[:77] + "..."
 
     mol_info_data = [
-        [Paragraph("<b>Nombre Asignado:</b>", normal_style), Paragraph(mol.name or f"Ligando {mol.smiles_hash[:8]}", normal_style)],
+        [Paragraph("<b>Nombre Asignado:</b>", normal_style), Paragraph(mol.name or f"{translate_text('Ligando')} {mol.smiles_hash[:8]}", normal_style)],
         [Paragraph("<b>Nombre Común (PubChem):</b>", normal_style), Paragraph(common_name, normal_style)],
         [Paragraph("<b>Nombre Sistemático (IUPAC):</b>", normal_style), Paragraph(iupac_name, normal_style)],
         [Paragraph("<b>ID de Sistema:</b>", normal_style), Paragraph(str(mol.id), mono_style)],
@@ -866,16 +836,28 @@ def generate_certificate_pdf(
         [Paragraph("<b>Estructura SMILES:</b>", normal_style), Paragraph(mol.smiles, mono_style)]
     ]
 
-    mol_table = Table(mol_info_data, colWidths=[140, 350])
+    # La tabla de datos y la imagen 2D van lado a lado en 490 pt (el ancho útil menos el relleno de la tabla externa). La
+    # tabla anidada medía 140 + 350 = 490 pt dentro de una celda de 350: se desbordaba bajo la imagen, que es opaca y
+    # tapaba el hash y el SMILES (F1, 14 de 14 corridas), y la propia imagen sobresalía del margen derecho. Ahora la
+    # anidada ocupa lo que la celda le deja (rótulo + valor = 322 pt) y la imagen lo suyo (168 pt, con 6 pt de aire).
+    _ANCHO_DATOS, _ANCHO_IMAGEN = 322.0, 168.0
+    mol_table = Table(mol_info_data, colWidths=[104, _ANCHO_DATOS - 104])
     mol_table.setStyle(TableStyle([
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('LEFTPADDING', (0,0), (-1,-1), 0),
+        ('RIGHTPADDING', (0,0), (-1,-1), 4),
     ]))
 
-    img = get_2d_image(mol.smiles)
+    img = get_2d_image(mol.smiles, width=_ANCHO_IMAGEN - 8, height=_ANCHO_IMAGEN - 8)
     if img:
-        layout_table = Table([[mol_table, img]], colWidths=[350, 140])
-        layout_table.setStyle(TableStyle([('VALIGN', (0,0), (-1,-1), 'TOP')]))
+        layout_table = Table([[mol_table, img]], colWidths=[_ANCHO_DATOS, _ANCHO_IMAGEN])
+        layout_table.setStyle(TableStyle([
+            ('VALIGN', (0,0), (-1,-1), 'TOP'),
+            ('LEFTPADDING', (0,0), (0,0), 0),
+            ('RIGHTPADDING', (0,0), (0,0), 0),
+            ('ALIGN', (1,0), (1,0), 'RIGHT'),
+        ]))
         story.append(layout_table)
     else:
         story.append(mol_table)
@@ -890,14 +872,15 @@ def generate_certificate_pdf(
     # equiparar un score algorítmico con energía libre experimental.
     main_affinity = eval_result.affinity_kcal
 
-    le = None
-    if main_affinity is not None and eval_result.heavy_atom_count and eval_result.heavy_atom_count > 0:
-        le = main_affinity / eval_result.heavy_atom_count
+    # Una sola definición de la LE para los dos documentos: la magnitud por átomo pesado, que es la que calcula el dossier.
+    # Aquí se imprimía con el signo de Vina (−0,348) y el dossier decía 0,348 de la misma corrida (B2).
+    from scoring.eficiencia import calcular as _calcular_eficiencia
+    _eficiencia = _calcular_eficiencia(main_affinity, eval_result.heavy_atom_count)
+    le = _eficiencia.ligand_efficiency_vina if _eficiencia is not None else None
 
     lle = None
     if main_affinity is not None and eval_result.log_p is not None:
-        from scoring.eficiencia import KCAL_POR_UNIDAD_LOG
-        lle = (-main_affinity / KCAL_POR_UNIDAD_LOG) - eval_result.log_p
+        lle =(-main_affinity / KCAL_POR_UNIDAD_LOG) - eval_result.log_p
 
     pdb_upper = (mol.target.pdb_id.upper() if mol.target else "")
     top_pose = evidence_summary["top_pose_affinity"]
@@ -910,16 +893,16 @@ def generate_certificate_pdf(
         ["Separación entre poses 1 y 2", f"{pose_gap:.2f} kcal/mol" if pose_gap is not None else "N/A"],
         ["Poses serializadas", str(evidence_summary["pose_count"])],
         ["Eficiencia de Ligando (LE)", f"{le:.3f}" if le is not None else "N/A"],
-        ["Eficiencia Lipofílica (LLE)", f"{lle:.3f}" if lle is not None else "N/A"],
+        ["LLE aparente (proxy de Vina)", f"{lle:.3f}" if lle is not None else "N/A"],
     ]
 
     dock_table = Table(dock_data, colWidths=[245, 245], repeatRows=1)
     dock_table.setStyle(TableStyle([
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('FONTNAME', (0,0), (-1,0), _NEGRITA),
         ('BACKGROUND', (0,1), (0,-1), colors.HexColor('#f8fafc')),
-        ('FONTNAME', (0,1), (0,-1), 'Helvetica-Bold'),
+        ('FONTNAME', (0,1), (0,-1), _NEGRITA),
         ('PADDING', (0,0), (-1,-1), 4),
         ('ALIGN', (1,0), (-1,-1), 'CENTER')
     ]))
@@ -927,6 +910,12 @@ def generate_certificate_pdf(
     story.append(Paragraph(
         "La separación entre poses es una señal descriptiva no calibrada; no debe interpretarse como confianza estadística.",
         ParagraphStyle('PoseGapNote', parent=normal_style, fontSize=7.5, textColor=SLATE, spaceBefore=4),
+    ))
+    # B10: LE y LLE salen de la afinidad de Vina, no de una potencia medida; la LLE se define con pKi y aquí se deriva.
+    story.append(Paragraph(
+        translate_text("LE = |afinidad| / átomos pesados; LLE = |afinidad| / {k} − logP. Las dos parten de la afinidad de "
+                       "Vina, no de una medida experimental.").replace("{k}", f"{KCAL_POR_UNIDAD_LOG}"),
+        ParagraphStyle('EficienciaNote', parent=normal_style, fontSize=7.5, textColor=SLATE, spaceBefore=2),
     ))
 
     story.append(Spacer(1, 6))
@@ -948,9 +937,9 @@ def generate_certificate_pdf(
         repro_table.setStyle(TableStyle([
             ('GRID', (0,0), (-1,-1), 0.5, LINE),
             ('BACKGROUND', (0,0), (-1,0), HEAD_BG),
-            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('FONTNAME', (0,0), (-1,0), _NEGRITA),
             ('BACKGROUND', (0,1), (0,-1), colors.HexColor('#f8fafc')),
-            ('FONTNAME', (0,1), (0,-1), 'Helvetica-Bold'),
+            ('FONTNAME', (0,1), (0,-1), _NEGRITA),
             ('PADDING', (0,0), (-1,-1), 4),
             ('FONTSIZE', (0,0), (-1,-1), 8),
             ('ALIGN', (1,0), (-1,-1), 'CENTER')
@@ -988,50 +977,53 @@ def generate_certificate_pdf(
         ))
 
     # Residue-Ligand Interactions Sub-Section
-    contacts = compute_residue_interactions(receptor_pdb_content, pose_sdf_content)
+    todos_los_contactos = residuos_en_contacto(receptor_pdb_content, pose_sdf_content)
+    contacts = todos_los_contactos[:10]
     if contacts:
         story.append(Spacer(1, 10))
-        story.append(Paragraph("<b>Mapeo de Contactos de Sitio Activo (Residuo-Ligando)</b>", normal_style))
-        story.append(Spacer(1, 4))
+        titulo_contactos = [
+            Paragraph("<b>Mapeo de Contactos de Sitio Activo (Residuo-Ligando)</b>", normal_style),
+            Spacer(1, 4),
+        ]
 
         contact_rows = [["Residuo", "Tipo de Interacción", "Distancia"]]
         for c in contacts[:7]:  # Show top 7 in table to leave space
             contact_rows.append([c["residue"], c["type"], c["distance"]])
 
-        contact_table = Table(contact_rows, colWidths=[100, 140, 60]) # Narrower for side-by-side
+        contact_table = Table(contact_rows, colWidths=[150, 220, 120])
         contact_table.setStyle(TableStyle([
             ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
             ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('FONTNAME', (0,0), (-1,0), _NEGRITA),
             ('FONTSIZE', (0,0), (-1,-1), 8),
             ('PADDING', (0,0), (-1,-1), 3)
         ]))
 
-        # Draw 2D Interaction Diagram side-by-side
-        diag_img = generate_2d_interaction_diagram(mol.smiles, contacts, 180, 180,
+        # El diagrama va BAJO la tabla, centrado y a un tamaño en el que se lee (antes: 180 pt de ancho al lado de la tabla,
+        # con rótulos de ~4 pt y sin la unidad). El título, la tabla, la figura y su leyenda no se separan (F2, F4).
+        diag_img = generate_2d_interaction_diagram(mol.smiles, contacts, 310, 215,
                                                    pose_sdf=pose_sdf_content)
+        # Caza 1, B05: el mapa se mide sobre el PDB del receptor del caso, no sobre el PDBQT que Vina acopló, y con una regla
+        # geométrica sin ángulos. Se dice junto a la tabla para que la distancia y el tipo se lean con su condición.
+        # Caza 1, A05: la tabla enseña los siete más cercanos; se dice de cuántos.
+        cuantos = ""
+        if len(todos_los_contactos) > 7:
+            cuantos = translate_text(f"Se muestran los 7 residuos más cercanos al ligando de los {len(todos_los_contactos)} con contacto.") + " "
+        nota_contactos = Paragraph(
+            cuantos + translate_text(NOTA_DE_LOS_CONTACTOS),
+            ParagraphStyle('NotaContactos', parent=normal_style, fontSize=7.5, leading=10, textColor=SLATE, spaceBefore=3),
+        )
         if diag_img:
-            layout_table = Table([[contact_table, diag_img]], colWidths=[310, 180])
-            layout_table.setStyle(TableStyle([
-                ('VALIGN', (0,0), (-1,-1), 'TOP'),
-                ('LEFTPADDING', (1,0), (1,0), 10),
-                ('RIGHTPADDING', (0,0), (-1,-1), 0),
-                ('BOTTOMPADDING', (0,0), (-1,-1), 0)
-            ]))
-            story.append(layout_table)
+            diag_img.hAlign = 'CENTER'
+            leyenda = Paragraph(
+                LEYENDA_DEL_DIAGRAMA,
+                ParagraphStyle('LeyendaFigura', parent=normal_style, fontSize=7.5, leading=10, textColor=SLATE,
+                               alignment=1, spaceBefore=2),
+            )
+            story.append(KeepTogether([*titulo_contactos, contact_table, nota_contactos, Spacer(1, 6), diag_img, leyenda]))
         else:
-            # Fallback to full width if diagram failed
-            fallback_rows = [["Residuo", "Tipo de Interacción", "Distancia Mínima"]]
-            for c in contacts:
-                fallback_rows.append([c["residue"], c["type"], c["distance"]])
-            contact_table_full = Table(fallback_rows, colWidths=[150, 220, 120])
-            contact_table_full.setStyle(TableStyle([
-                ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
-                ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-                ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-                ('PADDING', (0,0), (-1,-1), 4)
-            ]))
-            story.append(contact_table_full)
+            # Fallback: sólo la tabla (el diagrama no se pudo dibujar)
+            story.append(KeepTogether([*titulo_contactos, contact_table, nota_contactos]))
 
     # ── ALERTAS CIENTÍFICAS DEL PIPELINE (scientific_warnings) ──────────
     #
@@ -1114,10 +1106,15 @@ def generate_certificate_pdf(
         # Anti-target results table
         anti_headers = ["Anti-target", "Afinidad (kcal/mol)", "Umbral operativo", "Lectura"]
         anti_data = [anti_headers]
+        hay_sin_adjudicar = False
         for r in anti_results:
             aff = r.get("affinity")
             status = r.get("status", "ok")
             thresh = r.get("threshold", -7.0)
+            # D-09: la que cruza el umbral con el sitio sin adjudicar en el panel lleva la marca de la nota al pie.
+            marca = ""
+            if status == "ok" and aff is not None and aff < thresh and r.get("sitio_adjudicado") is False:
+                marca, hay_sin_adjudicar = " †", True
 
             if status == "ok" and aff is not None:
                 aff_str = f"{aff:.2f}"
@@ -1146,7 +1143,7 @@ def generate_certificate_pdf(
                 state_color = "#b91c1c"
 
             anti_data.append([
-                r.get("name", r.get("pdb_id", "?")),
+                f"{r.get('name', r.get('pdb_id', '?'))}{marca}",
                 aff_str,
                 thresh_str,
                 Paragraph(f"<font color='{state_color}'><b>{state}</b></font>", normal_style),
@@ -1157,7 +1154,7 @@ def generate_certificate_pdf(
             ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
             ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#1e293b')),
             ('TEXTCOLOR', (0,0), (-1,0), colors.HexColor('#f8fafc')),
-            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('FONTNAME', (0,0), (-1,0), _NEGRITA),
             ('FONTSIZE', (0,0), (-1,-1), 7),
             ('PADDING', (0,0), (-1,-1), 4),
         ]))
@@ -1166,12 +1163,18 @@ def generate_certificate_pdf(
             "<i>Lectura relativa a un umbral del protocolo; no demuestra seguridad ni selectividad experimental.</i>",
             ParagraphStyle('AntiTargetEvidenceNote', parent=normal_style, fontSize=7.5, leading=9.5, textColor=SLATE),
         ))
+        if hay_sin_adjudicar:
+            anti_section.append(Paragraph(
+                _NOTA_PDF_SITIO_NO_ADJUDICADO,
+                ParagraphStyle('AntiTargetSitioNote', parent=normal_style, fontSize=7.5, leading=9.5,
+                               textColor=SLATE),
+            ))
 
         # Source note
         user_anti = [r for r in anti_results if r.get("category") == "Custom"]
         if user_anti:
             anti_section.append(Paragraph(
-                f"<font color='#94a3b8' size='6'>* {len(user_anti)} anti-target(s) subido(s) por el usuario incluido(s) en este panel.</font>",
+                f"<font color='#64748b' size='6'>* {len(user_anti)} anti-target(s) subido(s) por el usuario incluido(s) en este panel.</font>",
                 normal_style
             ))
         story.append(KeepTogether(anti_section))
@@ -1210,14 +1213,19 @@ def generate_certificate_pdf(
     adme_table.setStyle(TableStyle([
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('FONTNAME', (0,0), (-1,0), _NEGRITA),
         ('BACKGROUND', (0,1), (0,-1), colors.HexColor('#f8fafc')),
-        ('FONTNAME', (0,1), (0,-1), 'Helvetica-Bold'),
+        ('FONTNAME', (0,1), (0,-1), _NEGRITA),
         ('PADDING', (0,0), (-1,-1), 3),
         ('FONTSIZE', (0,0), (-1,-1), 8),
         ('ALIGN', (1,0), (-1,-1), 'CENTER')
     ]))
     story.append(adme_table)
+    # B14: definición con la que se cuentan HBD y HBA (Lipinski original, `chem/properties.py::_calc_hbd/_calc_hba`).
+    story.append(Paragraph(
+        translate_text("HBD: número de hidrógenos unidos a N u O; HBA: número de átomos de N y O (definición original de Lipinski)."),
+        ParagraphStyle('HbdHbaNote', parent=normal_style, fontSize=7.5, textColor=SLATE, spaceBefore=3),
+    ))
 
     story.append(Spacer(1, 10))
 
@@ -1262,6 +1270,11 @@ def generate_certificate_pdf(
     if eval_result.blood_bbb_permeable is not None:
         bbb_val = "Permeable (SNC+)" if eval_result.blood_bbb_permeable else "No permeable (SNC-)"
         bbb_context = "El target requiere acceso al SNC; la salida sigue siendo una predicción binaria." if requires_cns else "Predicción binaria; no determina exposición ni seguridad central."
+    elif eval_result.blood_bbb_motivo:
+        # Un veredicto nulo con motivo es una abstención registrada («no concluyente» por conflicto de PPB, o
+        # sin predicción del modelo), no una salida que no se serializó: el informe pone el motivo que guardó la corrida.
+        bbb_val = "No concluyente"
+        bbb_context = str(eval_result.blood_bbb_motivo)
     else:
         bbb_val = "N/A"
         bbb_context = "Salida no serializada."
@@ -1283,7 +1296,7 @@ def generate_certificate_pdf(
     tbl_cell_bold = ParagraphStyle(
         'TblCellBold',
         parent=tbl_cell_style,
-        fontName='Helvetica-Bold'
+        fontName=_NEGRITA
     )
     tbl_cell_center = ParagraphStyle(
         'TblCellCenter',
@@ -1328,6 +1341,7 @@ def generate_certificate_pdf(
         ('PADDING', (0,0), (-1,-1), 4),
         ('VALIGN', (0,0), (-1,-1), 'MIDDLE')
     ]))
+    story.append(CondPageBreak(110))  # la cabecera de la tabla no se queda sola al pie (B4)
     story.append(admet_table)
 
     story.append(Spacer(1, 10))
@@ -1376,8 +1390,8 @@ def generate_certificate_pdf(
         ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
         ('BACKGROUND', (0,0), (0,-1), colors.HexColor('#f8fafc')),
         ('BACKGROUND', (2,0), (2,-1), colors.HexColor('#f8fafc')),
-        ('FONTNAME', (0,0), (0,-1), 'Helvetica-Bold'),
-        ('FONTNAME', (2,0), (2,-1), 'Helvetica-Bold'),
+        ('FONTNAME', (0,0), (0,-1), _NEGRITA),
+        ('FONTNAME', (2,0), (2,-1), _NEGRITA),
         ('PADDING', (0,0), (-1,-1), 4),
         ('FONTSIZE', (0,0), (-1,-1), 8)
     ]))
@@ -1443,30 +1457,35 @@ def generate_certificate_pdf(
         for p in poses_subset:
             pose_rows.append([f"Pose {p['rank']}", f"{p['affinity']:.2f}" if p.get('affinity') is not None else "N/A", f"{p['rmsd_lb']:.2f}" if p.get('rmsd_lb') is not None else "N/A", f"{p['rmsd_ub']:.2f}" if p.get('rmsd_ub') is not None else "N/A"])
 
+        if len(eval_result.docking_poses) > len(poses_subset):
+            pose_note += " " + translate_text(
+                f"Se muestran las {len(poses_subset)} mejores poses de {len(eval_result.docking_poses)}.")
+            pose_note_paragraph = Paragraph(
+                f"<font color='#64748b' size='7.5'><i>{pose_note}</i></font>",
+                ParagraphStyle('PoseNote', parent=normal_style, spaceAfter=4)
+            )
         pose_table = Table(pose_rows, colWidths=[110, 140, 120, 120]) # Width exactly 490
         pose_table.setStyle(TableStyle([
             ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
             ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-            ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+            ('FONTNAME', (0,0), (-1,0), _NEGRITA),
             ('PADDING', (0,0), (-1,-1), 4)
         ]))
+        # La figura va con su título y su tabla: abrir una página con la gráfica sola, sin el título que la explica, era F4.
+        ep_plot = generate_energy_profile_plot(eval_result.docking_poses, 6.8*inch, 2.5*inch)
         story.append(KeepTogether([
             Paragraph("Perfiles de Energía por Pose", section_title_style),
             pose_note_paragraph,
             pose_table,
+            *([Spacer(1, 8), ep_plot] if ep_plot else []),
         ]))
-
-        ep_plot = generate_energy_profile_plot(eval_result.docking_poses, 6.8*inch, 2.5*inch)
-        if ep_plot:
-            story.append(Spacer(1, 8))
-            story.append(ep_plot)
 
     # ReportLab decide el salto según el contenido para mantener un dossier compacto.
 
     # EXPLAINABLE AI (XAI) SECTION
     has_xai = bool(eval_result.shap_values)
     if has_xai:
-        story.append(Paragraph("Explicabilidad Científica e IA de Caja Transparente", section_title_style))
+        titulo_xai = Paragraph("Explicabilidad Científica e IA de Caja Transparente", section_title_style)
 
         # Translation dict for internal feature names to friendly Spanish scientific terms
         feature_translation = {
@@ -1491,17 +1510,23 @@ def generate_certificate_pdf(
                 if shap_output == "delta_pKi" and shap_model_id:
                     heading = "SHAP del regresor Model A (residuo de pKi sobre Vina)"
                     provenance = f"SHA-256 del modelo: {shap_model_id}."
+                elif shap_output == "pKi" and shap_model_id:
+                    heading = "SHAP del regresor Model A (pKi)"
+                    provenance = f"SHA-256 del modelo: {shap_model_id}."
                 else:
                     heading = "SHAP histórico: modelo/objetivo no sellados"
                     provenance = "No se puede atribuir esta explicación a un modelo exacto."
-                story.append(Paragraph(heading, xai_header_style))
-                story.append(Paragraph(
-                    translate_text(provenance) + " " + translate_text(
-                        "Estas contribuciones no explican el total_score "
-                        "ni la probabilidad del clasificador que entra al ranking."),
-                    normal_style,
-                ))
-                story.append(shap_img)
+                story.append(KeepTogether([
+                    titulo_xai,
+                    Paragraph(heading, xai_header_style),
+                    Paragraph(
+                        translate_text(provenance) + " " + translate_text(
+                            "Estas contribuciones no explican el total_score "
+                            "ni la probabilidad del clasificador que entra al ranking."),
+                        normal_style,
+                    ),
+                    shap_img,
+                ]))
                 story.append(Spacer(1, 4))
 
                 # Tabular breakdown of the top SHAP values for the scientist
@@ -1517,12 +1542,16 @@ def generate_certificate_pdf(
                 shap_table.setStyle(TableStyle([
                     ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#e2e8f0')),
                     ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f1f5f9')),
-                    ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+                    ('FONTNAME', (0,0), (-1,0), _NEGRITA),
                     ('FONTSIZE', (0,0), (-1,-1), 8),
                     ('PADDING', (0,0), (-1,-1), 3)
                 ]))
                 story.append(KeepTogether([shap_table]))
                 story.append(Spacer(1, 10))
+            else:
+                story.append(titulo_xai)  # sin figura el título se imprime igual
+        else:
+            story.append(titulo_xai)
 
     # Appendix only: preserve legacy outputs for traceability without placing
     # them in the scientific narrative or decision surface.
@@ -1536,7 +1565,8 @@ def generate_certificate_pdf(
         ("Índice compuesto heredado", eval_result.total_score, " (escala histórica 0-100)"),
         ("Afinidad normalizada heredada", eval_result.affinity_score, " (escala histórica 0-100)"),
         ("Índice ADME heredado", eval_result.adme_score, " (escala histórica 0-100)"),
-        ("Índice de reglas heredado", eval_result.druglikeness_score, " (escala histórica 0-100)"),
+        # B12: es QED×100, como lo llama el dossier; antes «de reglas» y no mide ninguna regla.
+        ("Índice de similitud a fármaco heredado", eval_result.druglikeness_score, " (escala histórica 0-100)"),
         ("Índice MPO heredado", eval_result.blood_viability_score, " (escala histórica 0-100)"),
         ("Salida GNN geométrica", eval_result.gnn_score, ""),
         ("Salida CL-GNN", eval_result.clgnn_score, ""),
@@ -1554,7 +1584,7 @@ def generate_certificate_pdf(
         signal_table.setStyle(TableStyle([
             ('GRID', (0, 0), (-1, -1), 0.5, LINE),
             ('BACKGROUND', (0, 0), (-1, 0), HEAD_BG),
-            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTNAME', (0, 0), (-1, 0), _NEGRITA),
             ('PADDING', (0, 0), (-1, -1), 4),
             ('ALIGN', (1, 1), (1, -1), 'CENTER'),
         ]))
@@ -1640,7 +1670,7 @@ def generate_certificate_pdf(
     model_for_report = model_context["model"] or translate_text("no informado")
     methodology_text = (
         f"<b>Sistema de entrada:</b> receptor {pdb_upper or 'N/A'}, estado de preparación "
-        f"{({'listo': 'ready', 'revisar': 'review', 'sin_datos': 'no data'}.get(evidence_summary['target_readiness'], evidence_summary['target_readiness'].replace('_', ' ')) if current_locale() == 'en' else evidence_summary['target_readiness'].replace('_', ' '))}, cofactores: {translate_text(cofactor_note)}. "
+        f"{({'listo': 'ready', 'revisar': 'review', 'sin_datos': 'no data'}.get(evidence_summary['target_readiness'], evidence_summary['target_readiness'].replace('_', ' ')) if current_locale() == 'en' else evidence_summary['target_readiness'].replace('_', ' '))}, cofactores: {cofactor_note}. "
         "El informe no atribuye protonación, eliminación de aguas, minimización ni estados de carga cuando esas operaciones no fueron serializadas por la corrida.<br/>"
         f"<b>Exploración de poses:</b> el resultado registra {evidence_summary['pose_count']} poses, "
         f"motor {eval_result.vina_version or 'no informado'}, semilla "
@@ -1709,20 +1739,21 @@ def generate_certificate_pdf(
 
     caveat_style = ParagraphStyle(
         'Caveats',
+        fontName=_REGULAR,
         fontSize=6.5,
-        textColor=colors.HexColor('#94a3b8'),
+        textColor=colors.HexColor('#64748b'),
         leading=9,
         leftIndent=6,
         rightIndent=6,
     )
-    footer_text = "<font color='#94a3b8' size='7'><i>Generado localmente por MolDesign. Uso no comercial bajo PolyForm Noncommercial 1.0.0; uso comercial sujeto a licencia separada.<br/>Código y plataforma: https://github.com/srcacahuate619/moldesign-app</i></font>"
+    footer_text = "<font color='#64748b' size='7'><i>Generado localmente por MolDesign. Uso no comercial bajo PolyForm Noncommercial 1.0.0; uso comercial sujeto a licencia separada.<br/>Código y plataforma: https://github.com/srcacahuate619/moldesign-app</i></font>"
     story.append(KeepTogether([
         Spacer(1, 12),
         caveat_title,
         Spacer(1, 4),
         Paragraph(caveats, caveat_style),
         Spacer(1, 10),
-        Paragraph(footer_text, ParagraphStyle('Footer', alignment=1)),
+        Paragraph(footer_text, ParagraphStyle('Footer', fontName=_REGULAR, alignment=1)),
     ]))
 
     # Set canvas properties for NumberedCanvas before build

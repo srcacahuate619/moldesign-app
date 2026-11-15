@@ -33,6 +33,35 @@ function openAdmet() {
   return within(disclosure);
 }
 
+describe("ADMET · petición «ver resultados» desde el panel de Análisis", () => {
+  const seccion = () => screen.getByText("Predicciones ADMET · experimental").closest("details")!;
+  const conPeticion = (n?: number) => <ResultReadingPresentation><ProParametersTab result={populated} abrirAdmet={n}/></ResultReadingPresentation>;
+
+  it("V01 sin petición la sección sigue cerrada", () => {
+    render(conPeticion());
+    expect(seccion().open).toBe(false);
+  });
+
+  it("V02 con petición se abre sola y lleva la vista hasta ella; las demás secciones no se tocan", () => {
+    const scroll = vi.fn();
+    Element.prototype.scrollIntoView = scroll;
+    render(conPeticion(1));
+    expect(seccion().open).toBe(true);
+    expect(scroll).toHaveBeenCalledTimes(1);
+    expect(scroll.mock.contexts[0]).toBe(seccion());
+    const otras = [...document.querySelectorAll("details")].filter((d) => d !== seccion() && d.parentElement?.parentElement === seccion().parentElement);
+    expect(otras.every((d) => d.open === false)).toBe(true);
+  });
+
+  it("V03 una segunda petición con la sección cerrada a mano la vuelve a abrir", () => {
+    Element.prototype.scrollIntoView = vi.fn();
+    const { rerender } = render(conPeticion(1));
+    seccion().open = false;
+    rerender(conPeticion(2));
+    expect(seccion().open).toBe(true);
+  });
+});
+
 describe("ADMET en la presentación equilibrada · contrato anterior y procedencia", () => {
   it("conserva todos los valores, fuentes, motivo BBB y alertas guardadas", () => {
     render(view(populated));
@@ -43,7 +72,7 @@ describe("ADMET en la presentación equilibrada · contrato anterior y procedenc
     expect(panel.getByText("ADMET-AI · heurístico")).toBeVisible();
     expect(panel.getByText("ADMET-AI", { exact: true })).toBeVisible();
     expect(panel.getByText(/no equivalen a toxicidad clínica/)).toBeVisible();
-    expect(panel.queryByText("TabPFN · no_evaluado")).not.toBeInTheDocument();
+    expect(panel.queryByText("TabPFN · estado histórico")).not.toBeInTheDocument();
   });
 
   it("mantiene cero y false como resultados en lugar de tratarlos como ausencia", () => {
@@ -90,22 +119,22 @@ describe("ADMET en la presentación equilibrada · contrato anterior y procedenc
     expect(panel.queryByText("ADMET-AI no disponible")).not.toBeInTheDocument();
   });
 
-  it("no confunde una lista vacía de señales con el estado del clasificador histórico", () => {
+  it("explica una lista vacía sin mostrar el estado del clasificador histórico", () => {
     render(view({ ...populated, blood_systemic_reactivity: [] }));
     const panel = openAdmet();
     expect(panel.getByText(/No hay señales de reactividad guardadas/)).toBeVisible();
-    expect(panel.getByText("TabPFN · estado histórico").closest("div")).toHaveTextContent("Sin evaluar");
+    expect(panel.queryByText("TabPFN · estado histórico")).not.toBeInTheDocument();
     expect(panel.queryByText(/Sin señales CYP identificadas/)).not.toBeInTheDocument();
   });
 
-  it("conserva los estados históricos y distingue una lista sin registrar", () => {
+  it("distingue una lista sin registrar y conserva las señales históricas guardadas", () => {
     const { rerender } = render(view({ ...missing, blood_systemic_reactivity: null, blood_tabpfn_estado: "fallo" }));
     const panel = openAdmet();
     expect(panel.getByText(/No se guardó el detalle de reactividad sistémica/)).toBeVisible();
-    expect(panel.getByText("TabPFN · estado histórico").closest("div")).toHaveTextContent("Falló");
+    expect(panel.queryByText("TabPFN · estado histórico")).not.toBeInTheDocument();
     rerender(view({ ...populated, blood_tabpfn_estado: "evaluado" }));
     expect(panel.getByText("Inhibidor CYP2C9")).toBeVisible();
-    expect(panel.getByText("TabPFN · estado histórico").closest("div")).toHaveTextContent("Evaluado");
+    expect(panel.queryByText("TabPFN · estado histórico")).not.toBeInTheDocument();
   });
 
   it("actualiza la vista al recibir un perfil sin volver a cerrar el desplegable", () => {

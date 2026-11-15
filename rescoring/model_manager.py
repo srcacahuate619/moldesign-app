@@ -18,6 +18,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -34,6 +35,65 @@ settings = get_rescoring_settings()
 # artifacts/model_a.json de 176 features) es una violación de contrato y debe
 # rechazarse en carga, no en predicción.
 EXPECTED_MODEL_A_FEATURES = 167
+
+#: Cuántas contribuciones SHAP viajan al resultado, y desde qué magnitud.
+SHAP_TOP_K = 10
+SHAP_UMBRAL_ABS = 1e-4
+
+
+@dataclass(frozen=True)
+class ResumenShap:
+    """Lo que se muestra del SHAP de una predicción y lo que no.
+
+    `valores` son las `SHAP_TOP_K` contribuciones de mayor magnitud. No
+    reproducen la salida del modelo por sí solas: ésta es
+    `base + sum(valores) + omitido`. `base` es el valor esperado del modelo
+    (el sesgo de XGBoost) y `omitido` la suma de todo lo que no se muestra.
+    """
+
+    valores: dict[str, float]
+    base: float
+    omitido: float
+    n_omitidas: int
+
+
+def etiqueta_de_salida_shap(is_delta: bool) -> str:
+    """Qué magnitud explica el SHAP: el residuo sobre Vina o el pKi directo.
+
+    Un modelo de delta-learning predice `pKi - pKi_Vina`; el pKi de Vina se suma
+    FUERA del árbol, así que sus contribuciones SHAP explican sólo la corrección.
+    Antes la etiqueta era siempre `delta_pKi`, sin mirar el modelo.
+    """
+    return "delta_pKi" if is_delta else "pKi"
+
+
+def resumir_shap(
+    modelo: Any,
+    dmatrix: Any,
+    nombres: list[str],
+    k: int = SHAP_TOP_K,
+    umbral: float = SHAP_UMBRAL_ABS,
+) -> ResumenShap:
+    """SHAP nativo de XGBoost (`pred_contribs`) de una fila, con lo omitido declarado.
+
+    `pred_contribs` devuelve una columna por feature, en el orden del
+    DMatrix, más una última con el sesgo; se empareja por posición con
+    `nombres`, que es el mismo orden con el que se construyó el DMatrix.
+    """
+    contribs = np.asarray(modelo.predict(dmatrix, pred_contribs=True))[0]
+    if len(contribs) != len(nombres) + 1:
+        raise ValueError(
+            f"SHAP con {len(contribs)} columnas para {len(nombres)} features: "
+            "el orden no se puede emparejar."
+        )
+    base = float(contribs[-1])
+    phi = contribs[:-1]
+    candidatos = {n: float(v) for n, v in zip(nombres, phi) if abs(v) > umbral}
+    top = dict(sorted(candidatos.items(), key=lambda it: abs(it[1]), reverse=True)[:k])
+    omitido = float(phi.sum()) - float(sum(top.values()))
+    return ResumenShap(
+        valores=top, base=base, omitido=omitido, n_omitidas=len(nombres) - len(top),
+    )
 
 
 class FeatureContractViolation(Exception):
@@ -489,9 +549,11 @@ class ModelManager:
             stability = "ALTA"
         elif score_var > settings.pose_variance_high**2:
             stability = "BAJA"
+            # Antes se concluía sobre el modo de unión y la fiabilidad de la predicción. Un rango de afinidades no mide ni lo uno
+            # ni lo otro (y con energías casi idénticas la lectura sería la contraria): se dice lo medido y nada más.
             warnings.append(
-                f"Varianza alta entre poses ({score_range:.1f} kcal/mol). "
-                "El modo de unión no es único — la predicción es menos confiable."
+                f"Rango de afinidad entre poses: {score_range:.1f} kcal/mol "
+                "(la varianza de las afinidades supera el umbral del modelo)."
             )
         else:
             stability = "MEDIA"
@@ -813,13 +875,14 @@ class ModelManager:
         top_shap = None
         if features_a is not None and feature_names_a:
             try:
-                # SHAP nativo de XGBoost (pred_contribs=True) evita incompatibilidades entre librerías
-                shap_contribs = model_a_for_core.predict(dm_a, pred_contribs=True)[0]
-                shap_vals = shap_contribs[:-1]  # El último elemento es el bias (base_score)
-
-                shap_dict = {feat: float(val) for feat, val in zip(feature_names_a, shap_vals) if abs(val) > 0.0001}
-                # Top 10 features by absolute contribution
-                top_shap = dict(sorted(shap_dict.items(), key=lambda item: abs(item[1]), reverse=True)[:10])
+                resumen_shap = resumir_shap(model_a_for_core, dm_a, list(feature_names_a))
+                top_shap = resumen_shap.valores
+                log.debug(
+                    "shap_resumen",
+                    base=round(resumen_shap.base, 4),
+                    omitido=round(resumen_shap.omitido, 4),
+                    n_omitidas=resumen_shap.n_omitidas,
+                )
             except Exception as e:
                 import traceback
                 log.warning("shap_calculation_failed", error=str(e), traceback=traceback.format_exc())
@@ -883,7 +946,7 @@ class ModelManager:
             inference_time_ms=0.0,  # se sobreescribe en app.py
             warnings=warnings,
             shap_values=top_shap,
-            shap_output="delta_pKi" if top_shap else None,
+            shap_output=etiqueta_de_salida_shap(is_delta) if top_shap else None,
             shap_model_id=(self.family_model_sha256.get(target_family)
                            if model_used == "family" else self.model_a_sha256)
                           if top_shap else None,

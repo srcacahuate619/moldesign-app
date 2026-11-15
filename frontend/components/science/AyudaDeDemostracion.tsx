@@ -38,6 +38,7 @@ export function AyudaDeDemostracion({ etiqueta, texto }: { etiqueta: string; tex
   useEffect(() => { setMounted(true); return cancelHide; }, [cancelHide]);
   useLayoutEffect(() => {
     if (!open || !mounted) return;
+    let offset: { dx: number; dy: number } | null = null;
     function place() {
       if (!trigger.current || !tip.current) return;
       const anchor = trigger.current.getBoundingClientRect();
@@ -46,14 +47,22 @@ export function AyudaDeDemostracion({ etiqueta, texto }: { etiqueta: string; tex
       const left = Math.max(margin, Math.min(anchor.left, window.innerWidth - box.width - margin));
       const below = anchor.bottom + 8;
       const top = below + box.height <= window.innerHeight - margin ? below : Math.max(margin, anchor.top - box.height - 8);
+      offset = { dx: left - anchor.left, dy: top - anchor.top };
       setPosition({ left, top });
     }
     place();
-    window.addEventListener("resize", place);
-    document.addEventListener("scroll", place, true);
+    // Clavado al contenido: se coloca una vez al abrir y luego acompaña al
+    // disparador con esa distancia fija; no se reajusta con el tamaño de la ventana.
+    function follow(event: Event) {
+      const origin = event.target as Node | null;
+      if (origin && tip.current?.contains(origin)) return;
+      if (!trigger.current || !offset) return;
+      const anchor = trigger.current.getBoundingClientRect();
+      setPosition({ left: anchor.left + offset.dx, top: anchor.top + offset.dy });
+    }
+    document.addEventListener("scroll", follow, true);
     return () => {
-      window.removeEventListener("resize", place);
-      document.removeEventListener("scroll", place, true);
+      document.removeEventListener("scroll", follow, true);
     };
   }, [open, mounted, texto]);
   useEffect(() => {

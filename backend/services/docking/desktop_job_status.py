@@ -67,10 +67,16 @@ def _serialize_evaluation(evaluation: Any) -> EvaluationResultRead:
         result_payload.target_name = molecule.target.name
         result_payload.target_spearman_rho = molecule.target.spearman_rho
         # SC-9: el respaldo del receptor viaja con el resultado, para que la
-        # advertencia no dependa de que la pantalla vuelva a consultarlo.
-        result_payload.target_calibracion = estado_de_calibracion(
-            molecule.target
-        ).to_dict()
+        # advertencia no dependa de que la pantalla vuelva a consultarlo. Si la
+        # corrida lo congeló al terminar, ese es el que vale: el catálogo de hoy
+        # no sabe qué respaldo tenía el receptor entonces (un receptor promovido
+        # o degradado después no cambia lo que la corrida podía afirmar). Sólo una
+        # corrida anterior al congelado cae al cálculo de hoy, para no perder la
+        # advertencia.
+        if result_payload.target_calibracion is None:
+            result_payload.target_calibracion = estado_de_calibracion(
+                molecule.target
+            ).to_dict()
     return result_payload
 
 

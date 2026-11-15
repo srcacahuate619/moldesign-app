@@ -382,7 +382,7 @@ export function deriveEvaluationEvidence(
       status: targetReadiness === "listo" ? "available" : targetReadiness === "revisar" ? "review" : "missing",
       statusLabel: targetReadiness === "listo" ? "Documentada" : targetReadiness === "revisar" ? "Revisar" : "Insuficiente",
       detail: targetReadiness === "listo"
-        ? "El inventario registra receptor preparado, grid y referencias estructurales."
+        ? "El inventario registra receptor preparado, grid y referencias estructurales. No incluye la auditoría de Preparación (metales, huecos y aguas)."
         : "El inventario no permite confirmar todos los requisitos de preparación.",
     },
     {

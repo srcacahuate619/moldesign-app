@@ -13,7 +13,6 @@ from __future__ import annotations
 # propiedades. El gate no lo veia porque solo ejercitaba la ruta CON
 # `pipeline_config`, que retorna antes hacia `services/pipeline/runner.py`.
 import asyncio
-import hashlib
 import json
 import os
 import threading
@@ -609,6 +608,7 @@ async def _run_full_evaluation_async(
                     # el orden del resultado (`poses_acopladas_y_sdf`).
                     from services.docking.peptide_docking import (
                         peptide_poses_run_path, poses_acopladas_y_sdf,
+                        procedencia_de_la_transferencia,
                     )
                     _aceptadas, sdf_content, _cuentas = poses_acopladas_y_sdf(
                         ml_res.poses, peptide_smiles)
@@ -676,13 +676,9 @@ async def _run_full_evaluation_async(
                             best_affinity=poses[0].affinity,
                             poses=poses,
                             poses_file_path=poses_path,
-                            execution_provenance={
-                                "poses_sha256": hashlib.sha256(
-                                    sdf_content.encode("utf-8")).hexdigest(),
-                                "box_center": None,
-                                "box_size": None,
-                                "source": "peptide_transfer",
-                            },
+                            execution_provenance=procedencia_de_la_transferencia(
+                                sdf_content, box_center, box_size,
+                            ),
                             parsing_source="sdf",
                             engine_efectivo="esmfold",
                             vina_version=getattr(ml_res, "vina_version", None),

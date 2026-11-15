@@ -196,7 +196,7 @@ def test_el_resumen_traduce_solo_el_texto_visible_y_conserva_datos() -> None:
 
     sampling = next(item for item in summary["dimensions"] if item["id"] == "sampling")
     assert sampling["label"] == "Pose sampling"
-    assert summary["assumptions"][-1].startswith("Desolvated preparation:")
+    assert summary["assumptions"][-1].startswith("The standard preparation removes all crystallographic waters")
     assert summary["warnings"] == [
         "Desolvated preparation: the deposited structure had no crystallographic waters inside the docking box, so none were removed from the site during preparation."
     ]
