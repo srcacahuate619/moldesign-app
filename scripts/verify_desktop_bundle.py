@@ -128,6 +128,10 @@ _DLLS_DE_WINDOWS = {
     "rstrtmgr", "authz", "sechost", "win32u", "gdiplus", "shcore", "credui",
     "httpapi", "wldap32", "mpr", "msasn1", "cryptsp", "cryptnet", "xmllite",
     "winspool", "winspool.drv", "dhcpcsvc", "dsound", "winusb", "hid",
+    # La pide `av.libs/avdevice` (captura VfW), que viaja con la voz de MolChat. Es un componente del sistema (System32,
+    # firmada por Microsoft; 10.0.26100 en la máquina de build). No comprobado en una edición N ni en una VM limpia:
+    # si faltara, sólo dejaría de cargar `av` y se degradaría la transcripción, no el arranque.
+    "avicap32",
 }
 _PREFIJOS_DE_WINDOWS = ("api-ms-win-", "ext-ms-win-")
 

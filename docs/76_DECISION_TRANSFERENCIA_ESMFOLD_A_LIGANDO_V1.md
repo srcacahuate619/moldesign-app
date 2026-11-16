@@ -252,6 +252,22 @@ formulación correcta es “estructura peptídica generada; docking no evaluado�
 Esta abstención no bloquea las pruebas de dossier ni del runtime embebido: es un
 resultado científico válido y debe viajar correctamente por ambas superficies.
 
+### 8.1 Qué dice hoy el producto (1.0.4)
+
+La formulación de arriba describe el estado anterior a la frontera química V1. Con ella integrada (§9.1) el menú de
+«Parámetros de la evaluación» dice lo que hace el camino y su condición, en español y en inglés:
+
+- `pr_pep_experimental_aviso`: el camino es **experimental**; ESMFold predice la estructura, su calidad no está validada
+  en MolDesign y el acoplamiento lo hace después Vina.
+- `op_esm_desc`: pliega con ESMFold y acopla con Vina; si la geometría transferida no pasa las comprobaciones, la
+  transferencia **se abstiene y no da afinidad**; sin caja declarada, la corrida falla.
+
+La condición de release de este ADR vigila ese menú (`ProOptionsModal.tsx`), no un componente aparte: la guardia
+(`backend/tests/test_peptido_abstencion_negativa.py`) exige las dos salvedades en **todos** los idiomas y prohíbe
+«docking peptídico completado» y «validado». Hasta que exista el golden positivo y una cohorte que mida validez de
+poses, el estado científico sigue siendo `EXPERIMENTAL` y no se presenta como docking peptídico validado. `DockingEnginePanel`,
+que leía la guardia anterior y que nadie montaba, se retiró en 1.0.4 (revisión final, D-10 y B-6).
+
 ---
 
 ## 9. Gates de aceptación

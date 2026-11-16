@@ -235,6 +235,16 @@ verificador no podía distinguir un cambio real de dos exportaciones.
 
 `scripts/verify_dossier_package.py <archivo.zip> [--json]`
 
+**Dónde está.** El verificador **no viaja dentro del paquete**: uno que se verificara con su propio script no
+probaría nada, porque quien altera el paquete altera también su verificador. Vive en el repositorio público
+(`https://github.com/srcacahuate619/moldesign-app`) y se ejecuta desde la raíz de una copia completa, porque
+usa `backend/core` y `backend/services/dossier` de esa copia. Sólo requiere Python 3.11 o posterior y su
+biblioteca estándar (la prueba `test_verificador_sin_backend.py` lo comprueba con un bloqueo de imports). El README
+de cada paquete lo dice con las mismas palabras (`texto_donde_obtener_el_verificador`, B-8 de la revisión
+final 1.0.4). **No está medido** que corra solo, sin red y fuera de un checkout: hasta que se pruebe así, no se
+promete verificación autónoma. El paquete puede declarar el «Commit de código» que lo escribió; si no lo declara,
+se usa la revisión más reciente, y el verificador dice qué versiones de manifiesto soporta cuando no entiende el del paquete.
+
 **Nunca extrae ni ejecuta nada.** Lee la tabla del ZIP y hashea en memoria. Por
 eso el orden empieza por las rutas, antes de tocar contenido: un verificador que
 extrajera sería la vía de entrada obvia para un zip-slip.

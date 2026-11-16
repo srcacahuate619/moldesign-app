@@ -250,7 +250,8 @@ def test_panel_por_defecto_sin_cyp3a4_y_las_44_aparte():
     assert len({f["assay"] for f in panel}) == 44
     estados = {f["estado"] for f in panel}
     assert estados <= {"validada", "en_el_panel_por_defecto",
-                       "sin_estructura_preparable", "sin_estructura"}, estados
+                       "sin_estructura_preparable", "sin_estructura",
+                       "estructura_incompatible"}, estados
 
     seleccionables = anti_dianas_seleccionables_de_bowes()
     assert not por_defecto & set(seleccionables), "las de por defecto no se repiten"

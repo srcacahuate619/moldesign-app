@@ -375,8 +375,10 @@ def analizar(formato: str, texto_original: str, texto_pdb: str,
         # convención sigue sin verificar y la regla del 70 lee lo mismo que antes.
         # «Es el Cα» se dice sólo si este archivo lo cumple: la firma es un autorreporte y cualquiera puede escribirla
         # (contraejemplo del seguimiento de la réplica, 2026-11-15: un valor local cambiado a mano seguía rotulado Cα).
-        # Y sólo si el factor B varía dentro del residuo: con un mismo B en todos sus átomos, el Cα ES la media y
-        # decir «no es la media del residuo» no se habría mostrado (segunda opinión, 2026-11-15).
+        # Y sólo si el factor B varía dentro del residuo (se conserva la condición: no cambia ningún estado). El texto ya
+        # no afirma que el Cα «no es la media»: que el B varíe no lo prueba, porque valores por encima y por debajo
+        # pueden compensarse (revisión final, D-01, 2026-11-15). Dice sólo lo que se comprobó: el valor local coincide
+        # con el B de cada Cα.
         es_calfa = es_chai and lectura["local_es_el_calfa"] is True and lectura["factor_b_coincide"] is False
         base["fuente"] = FUENTE_ARCHIVO_CHAI1 if es_chai else "modelcif"
         base["convencion"] = {"plddt_en": donde, "escala": "0-100" if max(plddt.values()) > 1.0 else None,

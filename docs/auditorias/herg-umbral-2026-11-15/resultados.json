@@ -1,0 +1,771 @@
+{
+  "base_producto": "ffddd7e92d60d2ec0f8c9ecb8879c3388de3ffd5",
+  "registro_sha256": "17f68a496bc16370e723c0772c77214bdd4ba03c3714b3eae28ec3106efc4491",
+  "fuente_publicada_sha256": "9d0cd23c08c93071a69661f9538c3b001a4f41e1bd6bc4db382c522f5a0d537c",
+  "preparacion_5va1": {
+    "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+    "deposito_sha256": "31625f8009a9b9da2c80e01764be053393a8d4713dd2c6f159f37c91de0ba49d",
+    "recipe_hash": "debc881ab7e044eb866f8cf5afd616abce57158c0aec5304b360605e424b7759",
+    "receptor_recipe": 7,
+    "vina_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "centro": [
+      73.15,
+      73.15,
+      78.53
+    ],
+    "tamano": [
+      28.8,
+      28.8,
+      30.0
+    ],
+    "cadenas": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  "vina_instrumentado_sha256": "0e0125909e6db01f7a9ca54ff310409151bf9132c08239dcd1970e10e0aac386",
+  "externo": {
+    "n": 53,
+    "umbrales": {
+      "-7.0": {
+        "tp": 31,
+        "fn": 0,
+        "tn": 1,
+        "fp": 21,
+        "sensibilidad_ic95": [
+          0.889744604539564,
+          1.0
+        ],
+        "especificidad_ic95": [
+          0.008069427621263845,
+          0.21798045838657332
+        ]
+      },
+      "-7.5": {
+        "tp": 31,
+        "fn": 0,
+        "tn": 2,
+        "fp": 20,
+        "sensibilidad_ic95": [
+          0.889744604539564,
+          1.0
+        ],
+        "especificidad_ic95": [
+          0.025295428990995277,
+          0.27814946841605814
+        ]
+      }
+    },
+    "discordantes": [
+      {
+        "compound": "diltiazem",
+        "score": -7.381,
+        "tdp": 0,
+        "positivo": false
+      }
+    ]
+  },
+  "piloto": {
+    "hasta_10_um": {
+      "n": 16,
+      "umbrales": {
+        "-7.0": {
+          "tp": 7,
+          "fn": 3,
+          "tn": 3,
+          "fp": 3,
+          "sensibilidad_ic95": [
+            0.3967781474611453,
+            0.8922087325936988
+          ],
+          "especificidad_ic95": [
+            0.1876163064826506,
+            0.8123836935173494
+          ]
+        },
+        "-7.5": {
+          "tp": 3,
+          "fn": 7,
+          "tn": 4,
+          "fp": 2,
+          "sensibilidad_ic95": [
+            0.10779126740630099,
+            0.6032218525388546
+          ],
+          "especificidad_ic95": [
+            0.299993315138392,
+            0.9032285888942195
+          ]
+        }
+      },
+      "discordantes": [
+        {
+          "compound": "amoxicillin",
+          "cid": 33613,
+          "inchi_key": "LSQZJLSUYDQPKJ-NJBDSQKTSA-N",
+          "smiles": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)[C@@H](C3=CC=C(C=C3)O)N)C(=O)O)C",
+          "ic50_um": 50000,
+          "lower_bound": true,
+          "pubchem_sha256": "40a15e6130f73e67e0028649464be7cbb9ca30a590921644fab292a54b73b267",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.394,
+          "microstate": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+          "elapsed_s": 54.32800000000134,
+          "positivo": false
+        },
+        {
+          "compound": "cisapride",
+          "cid": 6917698,
+          "inchi_key": "DCSUBABJRXZOMT-IRLDBZIGSA-N",
+          "smiles": "CO[C@H]1CN(CC[C@H]1NC(=O)C2=CC(=C(C=C2OC)N)Cl)CCCOC3=CC=C(C=C3)F",
+          "ic50_um": 0.091,
+          "lower_bound": false,
+          "pubchem_sha256": "47ee56038087efa0d1e69cea029e45074c92fa850e65d571624217f261e85367",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.152,
+          "microstate": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "elapsed_s": 87.10899999999856,
+          "positivo": true
+        },
+        {
+          "compound": "haloperidol",
+          "cid": 3559,
+          "inchi_key": "LNEPOXFFQSENCJ-UHFFFAOYSA-N",
+          "smiles": "C1CN(CCC1(C2=CC=C(C=C2)Cl)O)CCCC(=O)C3=CC=C(C=C3)F",
+          "ic50_um": 0.015,
+          "lower_bound": false,
+          "pubchem_sha256": "2a0a343e1b96ac80b42190a634d2de92f835ab78a90a3ed86b8c29cec528603a",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.171,
+          "microstate": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "elapsed_s": 30.139999999999418,
+          "positivo": true
+        },
+        {
+          "compound": "tamoxifen",
+          "cid": 2733526,
+          "inchi_key": "NKANXQFJJICGDU-QPLCGJKRSA-N",
+          "smiles": "CC/C(=C(\\C1=CC=CC=C1)/C2=CC=C(C=C2)OCCN(C)C)/C3=CC=CC=C3",
+          "ic50_um": 0.777,
+          "lower_bound": false,
+          "pubchem_sha256": "28681999e2141039e1a48474aea1a48f9d6dfd1aa5a7ca1626cf3fc57a0d47bf",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.142,
+          "microstate": "CC/C(=C(\\c1ccccc1)c1ccc(OCC[NH+](C)C)cc1)c1ccccc1",
+          "elapsed_s": 49.5,
+          "positivo": true
+        },
+        {
+          "compound": "verapamil",
+          "cid": 2520,
+          "inchi_key": "SGTNSNPWRIOYBX-UHFFFAOYSA-N",
+          "smiles": "CC(C)C(CCCN(C)CCC1=CC(=C(C=C1)OC)OC)(C#N)C2=CC(=C(C=C2)OC)OC",
+          "ic50_um": 0.94,
+          "lower_bound": false,
+          "pubchem_sha256": "a1c91e9cd8b1af22720324336e71122f5678fd2b50d1a5c0f49dc93da498a3c1",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.196,
+          "microstate": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+          "elapsed_s": 105.92199999999866,
+          "positivo": true
+        }
+      ]
+    },
+    "hasta_1_um": {
+      "n": 16,
+      "umbrales": {
+        "-7.0": {
+          "tp": 7,
+          "fn": 1,
+          "tn": 5,
+          "fp": 3,
+          "sensibilidad_ic95": [
+            0.5291118177871466,
+            0.9775825085499433
+          ],
+          "especificidad_ic95": [
+            0.3057423946026273,
+            0.8631557141764027
+          ]
+        },
+        "-7.5": {
+          "tp": 3,
+          "fn": 5,
+          "tn": 6,
+          "fp": 2,
+          "sensibilidad_ic95": [
+            0.13684428582359737,
+            0.6942576053973727
+          ],
+          "especificidad_ic95": [
+            0.40927543031016894,
+            0.928520787247891
+          ]
+        }
+      },
+      "discordantes": [
+        {
+          "compound": "amoxicillin",
+          "cid": 33613,
+          "inchi_key": "LSQZJLSUYDQPKJ-NJBDSQKTSA-N",
+          "smiles": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)[C@@H](C3=CC=C(C=C3)O)N)C(=O)O)C",
+          "ic50_um": 50000,
+          "lower_bound": true,
+          "pubchem_sha256": "40a15e6130f73e67e0028649464be7cbb9ca30a590921644fab292a54b73b267",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.394,
+          "microstate": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+          "elapsed_s": 54.32800000000134,
+          "positivo": false
+        },
+        {
+          "compound": "cisapride",
+          "cid": 6917698,
+          "inchi_key": "DCSUBABJRXZOMT-IRLDBZIGSA-N",
+          "smiles": "CO[C@H]1CN(CC[C@H]1NC(=O)C2=CC(=C(C=C2OC)N)Cl)CCCOC3=CC=C(C=C3)F",
+          "ic50_um": 0.091,
+          "lower_bound": false,
+          "pubchem_sha256": "47ee56038087efa0d1e69cea029e45074c92fa850e65d571624217f261e85367",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.152,
+          "microstate": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "elapsed_s": 87.10899999999856,
+          "positivo": true
+        },
+        {
+          "compound": "haloperidol",
+          "cid": 3559,
+          "inchi_key": "LNEPOXFFQSENCJ-UHFFFAOYSA-N",
+          "smiles": "C1CN(CCC1(C2=CC=C(C=C2)Cl)O)CCCC(=O)C3=CC=C(C=C3)F",
+          "ic50_um": 0.015,
+          "lower_bound": false,
+          "pubchem_sha256": "2a0a343e1b96ac80b42190a634d2de92f835ab78a90a3ed86b8c29cec528603a",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.171,
+          "microstate": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "elapsed_s": 30.139999999999418,
+          "positivo": true
+        },
+        {
+          "compound": "tamoxifen",
+          "cid": 2733526,
+          "inchi_key": "NKANXQFJJICGDU-QPLCGJKRSA-N",
+          "smiles": "CC/C(=C(\\C1=CC=CC=C1)/C2=CC=C(C=C2)OCCN(C)C)/C3=CC=CC=C3",
+          "ic50_um": 0.777,
+          "lower_bound": false,
+          "pubchem_sha256": "28681999e2141039e1a48474aea1a48f9d6dfd1aa5a7ca1626cf3fc57a0d47bf",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.142,
+          "microstate": "CC/C(=C(\\c1ccccc1)c1ccc(OCC[NH+](C)C)cc1)c1ccccc1",
+          "elapsed_s": 49.5,
+          "positivo": true
+        },
+        {
+          "compound": "verapamil",
+          "cid": 2520,
+          "inchi_key": "SGTNSNPWRIOYBX-UHFFFAOYSA-N",
+          "smiles": "CC(C)C(CCCN(C)CCC1=CC(=C(C=C1)OC)OC)(C#N)C2=CC(=C(C=C2)OC)OC",
+          "ic50_um": 0.94,
+          "lower_bound": false,
+          "pubchem_sha256": "a1c91e9cd8b1af22720324336e71122f5678fd2b50d1a5c0f49dc93da498a3c1",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.196,
+          "microstate": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+          "elapsed_s": 105.92199999999866,
+          "positivo": true
+        }
+      ]
+    },
+    "hasta_10_um_sin_5_a_20_um": {
+      "n": 15,
+      "umbrales": {
+        "-7.0": {
+          "tp": 7,
+          "fn": 2,
+          "tn": 3,
+          "fp": 3,
+          "sensibilidad_ic95": [
+            0.45258896910698887,
+            0.9367748928821533
+          ],
+          "especificidad_ic95": [
+            0.1876163064826506,
+            0.8123836935173494
+          ]
+        },
+        "-7.5": {
+          "tp": 3,
+          "fn": 6,
+          "tn": 4,
+          "fp": 2,
+          "sensibilidad_ic95": [
+            0.1205838183869109,
+            0.6457978644196036
+          ],
+          "especificidad_ic95": [
+            0.299993315138392,
+            0.9032285888942195
+          ]
+        }
+      },
+      "discordantes": [
+        {
+          "compound": "amoxicillin",
+          "cid": 33613,
+          "inchi_key": "LSQZJLSUYDQPKJ-NJBDSQKTSA-N",
+          "smiles": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)[C@@H](C3=CC=C(C=C3)O)N)C(=O)O)C",
+          "ic50_um": 50000,
+          "lower_bound": true,
+          "pubchem_sha256": "40a15e6130f73e67e0028649464be7cbb9ca30a590921644fab292a54b73b267",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.394,
+          "microstate": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+          "elapsed_s": 54.32800000000134,
+          "positivo": false
+        },
+        {
+          "compound": "cisapride",
+          "cid": 6917698,
+          "inchi_key": "DCSUBABJRXZOMT-IRLDBZIGSA-N",
+          "smiles": "CO[C@H]1CN(CC[C@H]1NC(=O)C2=CC(=C(C=C2OC)N)Cl)CCCOC3=CC=C(C=C3)F",
+          "ic50_um": 0.091,
+          "lower_bound": false,
+          "pubchem_sha256": "47ee56038087efa0d1e69cea029e45074c92fa850e65d571624217f261e85367",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.152,
+          "microstate": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "elapsed_s": 87.10899999999856,
+          "positivo": true
+        },
+        {
+          "compound": "haloperidol",
+          "cid": 3559,
+          "inchi_key": "LNEPOXFFQSENCJ-UHFFFAOYSA-N",
+          "smiles": "C1CN(CCC1(C2=CC=C(C=C2)Cl)O)CCCC(=O)C3=CC=C(C=C3)F",
+          "ic50_um": 0.015,
+          "lower_bound": false,
+          "pubchem_sha256": "2a0a343e1b96ac80b42190a634d2de92f835ab78a90a3ed86b8c29cec528603a",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.171,
+          "microstate": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "elapsed_s": 30.139999999999418,
+          "positivo": true
+        },
+        {
+          "compound": "tamoxifen",
+          "cid": 2733526,
+          "inchi_key": "NKANXQFJJICGDU-QPLCGJKRSA-N",
+          "smiles": "CC/C(=C(\\C1=CC=CC=C1)/C2=CC=C(C=C2)OCCN(C)C)/C3=CC=CC=C3",
+          "ic50_um": 0.777,
+          "lower_bound": false,
+          "pubchem_sha256": "28681999e2141039e1a48474aea1a48f9d6dfd1aa5a7ca1626cf3fc57a0d47bf",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.142,
+          "microstate": "CC/C(=C(\\c1ccccc1)c1ccc(OCC[NH+](C)C)cc1)c1ccccc1",
+          "elapsed_s": 49.5,
+          "positivo": true
+        },
+        {
+          "compound": "verapamil",
+          "cid": 2520,
+          "inchi_key": "SGTNSNPWRIOYBX-UHFFFAOYSA-N",
+          "smiles": "CC(C)C(CCCN(C)CCC1=CC(=C(C=C1)OC)OC)(C#N)C2=CC(=C(C=C2)OC)OC",
+          "ic50_um": 0.94,
+          "lower_bound": false,
+          "pubchem_sha256": "a1c91e9cd8b1af22720324336e71122f5678fd2b50d1a5c0f49dc93da498a3c1",
+          "seed": 42,
+          "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+          "score": -7.196,
+          "microstate": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+          "elapsed_s": 105.92199999999866,
+          "positivo": true
+        }
+      ]
+    },
+    "spearman": {
+      "rho": 0.39010989010989006,
+      "p": 0.18757411613383787,
+      "n": 13
+    },
+    "semillas_y_fallos": [
+      {
+        "compound": "amiodarone",
+        "cid": 2157,
+        "inchi_key": "IYIKLHRQXLHMJQ-UHFFFAOYSA-N",
+        "smiles": "CCCCC1=C(C2=CC=CC=C2O1)C(=O)C3=CC(=C(C(=C3)I)OCCN(CC)CC)I",
+        "ic50_um": 0.546,
+        "lower_bound": false,
+        "pubchem_sha256": "6c5a93c1c1428c89e407c0c663798e2a79e8d0e8d27e11b1e19ec72e0f397665",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -6.834,
+        "microstate": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+        "elapsed_s": 157.29699999999866
+      },
+      {
+        "compound": "amiodarone",
+        "cid": 2157,
+        "inchi_key": "IYIKLHRQXLHMJQ-UHFFFAOYSA-N",
+        "smiles": "CCCCC1=C(C2=CC=CC=C2O1)C(=O)C3=CC(=C(C(=C3)I)OCCN(CC)CC)I",
+        "ic50_um": 0.546,
+        "lower_bound": false,
+        "pubchem_sha256": "6c5a93c1c1428c89e407c0c663798e2a79e8d0e8d27e11b1e19ec72e0f397665",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -6.294,
+        "microstate": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+        "elapsed_s": 61.92199999999866
+      },
+      {
+        "compound": "amoxicillin",
+        "cid": 33613,
+        "inchi_key": "LSQZJLSUYDQPKJ-NJBDSQKTSA-N",
+        "smiles": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)[C@@H](C3=CC=C(C=C3)O)N)C(=O)O)C",
+        "ic50_um": 50000,
+        "lower_bound": true,
+        "pubchem_sha256": "40a15e6130f73e67e0028649464be7cbb9ca30a590921644fab292a54b73b267",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.394,
+        "microstate": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+        "elapsed_s": 54.32800000000134
+      },
+      {
+        "compound": "amoxicillin",
+        "cid": 33613,
+        "inchi_key": "LSQZJLSUYDQPKJ-NJBDSQKTSA-N",
+        "smiles": "CC1([C@@H](N2[C@H](S1)[C@@H](C2=O)NC(=O)[C@@H](C3=CC=C(C=C3)O)N)C(=O)O)C",
+        "ic50_um": 50000,
+        "lower_bound": true,
+        "pubchem_sha256": "40a15e6130f73e67e0028649464be7cbb9ca30a590921644fab292a54b73b267",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.435,
+        "microstate": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+        "elapsed_s": 31.35899999999856
+      },
+      {
+        "compound": "aspirin",
+        "cid": 2244,
+        "inchi_key": "BSYNRYMUTXBXSQ-UHFFFAOYSA-N",
+        "smiles": "CC(=O)OC1=CC=CC=C1C(=O)O",
+        "ic50_um": 100000,
+        "lower_bound": true,
+        "pubchem_sha256": "290d63cf6f7c64eb7eadbc074e51767daccfd17162c4a16f58687122449fb862",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -5.081,
+        "microstate": "CC(=O)Oc1ccccc1C(=O)[O-]",
+        "elapsed_s": 30.110000000000582
+      },
+      {
+        "compound": "captopril",
+        "cid": 44093,
+        "inchi_key": "FAKRSMQSSFJEIM-RQJHMYQMSA-N",
+        "smiles": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)O",
+        "ic50_um": 3000,
+        "lower_bound": true,
+        "pubchem_sha256": "d5b9cdbe746b2f85d10a1ed5d951ce97e4f83b1a37afe26af646c319ece3b1da",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -4.706,
+        "microstate": "C[C@H](CS)C(=O)N1CCC[C@H]1C(=O)[O-]",
+        "elapsed_s": 35.23500000000058
+      },
+      {
+        "compound": "cisapride",
+        "cid": 6917698,
+        "inchi_key": "DCSUBABJRXZOMT-IRLDBZIGSA-N",
+        "smiles": "CO[C@H]1CN(CC[C@H]1NC(=O)C2=CC(=C(C=C2OC)N)Cl)CCCOC3=CC=C(C=C3)F",
+        "ic50_um": 0.091,
+        "lower_bound": false,
+        "pubchem_sha256": "47ee56038087efa0d1e69cea029e45074c92fa850e65d571624217f261e85367",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.152,
+        "microstate": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+        "elapsed_s": 87.10899999999856
+      },
+      {
+        "compound": "cisapride",
+        "cid": 6917698,
+        "inchi_key": "DCSUBABJRXZOMT-IRLDBZIGSA-N",
+        "smiles": "CO[C@H]1CN(CC[C@H]1NC(=O)C2=CC(=C(C=C2OC)N)Cl)CCCOC3=CC=C(C=C3)F",
+        "ic50_um": 0.091,
+        "lower_bound": false,
+        "pubchem_sha256": "47ee56038087efa0d1e69cea029e45074c92fa850e65d571624217f261e85367",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.226,
+        "microstate": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+        "elapsed_s": 729.094000000001
+      },
+      {
+        "compound": "droperidol",
+        "cid": 3168,
+        "inchi_key": "RMEDXOLNCUSCGS-UHFFFAOYSA-N",
+        "smiles": "C1CN(CC=C1N2C3=CC=CC=C3NC2=O)CCCC(=O)C4=CC=C(C=C4)F",
+        "ic50_um": 0.307,
+        "lower_bound": false,
+        "pubchem_sha256": "95ad2142703a6354f5776ab83e0747e37559ad9235ee7afb906ecf6b5cdfec2d",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.95,
+        "microstate": "O=C(CCCN1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+        "elapsed_s": 665.8589999999986
+      },
+      {
+        "compound": "haloperidol",
+        "cid": 3559,
+        "inchi_key": "LNEPOXFFQSENCJ-UHFFFAOYSA-N",
+        "smiles": "C1CN(CCC1(C2=CC=C(C=C2)Cl)O)CCCC(=O)C3=CC=C(C=C3)F",
+        "ic50_um": 0.015,
+        "lower_bound": false,
+        "pubchem_sha256": "2a0a343e1b96ac80b42190a634d2de92f835ab78a90a3ed86b8c29cec528603a",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.171,
+        "microstate": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+        "elapsed_s": 30.139999999999418
+      },
+      {
+        "compound": "haloperidol",
+        "cid": 3559,
+        "inchi_key": "LNEPOXFFQSENCJ-UHFFFAOYSA-N",
+        "smiles": "C1CN(CCC1(C2=CC=C(C=C2)Cl)O)CCCC(=O)C3=CC=C(C=C3)F",
+        "ic50_um": 0.015,
+        "lower_bound": false,
+        "pubchem_sha256": "2a0a343e1b96ac80b42190a634d2de92f835ab78a90a3ed86b8c29cec528603a",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.306,
+        "microstate": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+        "elapsed_s": 83.03100000000086
+      },
+      {
+        "compound": "moxifloxacin",
+        "cid": 152946,
+        "inchi_key": "FABPRXSRWADJSP-MEDUHNTESA-N",
+        "smiles": "COC1=C2C(=CC(=C1N3C[C@@H]4CCCN[C@@H]4C3)F)C(=O)C(=CN2C5CC5)C(=O)O",
+        "ic50_um": 235,
+        "lower_bound": false,
+        "pubchem_sha256": "f28abfbe5f84fc68bada478e1c23f8fc1affbda1425f978c440dd1bd7f2fe897",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -8.044,
+        "microstate": "COc1c(N2C[C@@H]3CCC[NH2+][C@@H]3C2)c(F)cc2c(=O)c(C(=O)[O-])cn(C3CC3)c12",
+        "elapsed_s": 35.65599999999904
+      },
+      {
+        "compound": "propranolol",
+        "cid": 4946,
+        "inchi_key": "AQHHHDLHHXJYJD-UHFFFAOYSA-N",
+        "smiles": "CC(C)NCC(COC1=CC=CC2=CC=CC=C21)O",
+        "ic50_um": 9.9,
+        "lower_bound": false,
+        "pubchem_sha256": "42abfc1bf9b887861ea6235859d439e5305340972bc2b94f10ccf1f048dad715",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -6.221,
+        "microstate": "CC(C)[NH2+]CC(O)COc1cccc2ccccc12",
+        "elapsed_s": 28.82800000000134
+      },
+      {
+        "compound": "quinidine",
+        "cid": 441074,
+        "inchi_key": "LOUPRKONTZGTKE-LHHVKLHASA-N",
+        "smiles": "COC1=CC2=C(C=CN=C2C=C1)[C@@H]([C@H]3C[C@@H]4CCN3C[C@@H]4C=C)O",
+        "ic50_um": 1.5,
+        "lower_bound": false,
+        "pubchem_sha256": "fa9224ff14a3f546c061862245dd5d2734f98acc3d2364f4cc0764c2b877a2e3",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -6.965,
+        "microstate": "C=C[C@H]1C[NH+]2CC[C@H]1C[C@@H]2[C@@H](O)c1ccnc2ccc(OC)cc12",
+        "elapsed_s": 61.70299999999952
+      },
+      {
+        "compound": "quinidine",
+        "cid": 441074,
+        "inchi_key": "LOUPRKONTZGTKE-LHHVKLHASA-N",
+        "smiles": "COC1=CC2=C(C=CN=C2C=C1)[C@@H]([C@H]3C[C@@H]4CCN3C[C@@H]4C=C)O",
+        "ic50_um": 1.5,
+        "lower_bound": false,
+        "pubchem_sha256": "fa9224ff14a3f546c061862245dd5d2734f98acc3d2364f4cc0764c2b877a2e3",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -6.97,
+        "microstate": "C=C[C@H]1C[NH+]2CC[C@H]1C[C@@H]2[C@@H](O)c1ccnc2ccc(OC)cc12",
+        "elapsed_s": 61.375
+      },
+      {
+        "compound": "sotalol",
+        "cid": 5253,
+        "inchi_key": "ZBMZVLHSJCTVON-UHFFFAOYSA-N",
+        "smiles": "CC(C)NCC(C1=CC=C(C=C1)NS(=O)(=O)C)O",
+        "ic50_um": 556,
+        "lower_bound": false,
+        "pubchem_sha256": "087693b7df2dec900591f1394cffcf5f4f2cdd63cc5f6e55a6e6ffcdb4b55d4f",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -5.57,
+        "microstate": "CC(C)[NH2+]CC(O)c1ccc(NS(C)(=O)=O)cc1",
+        "elapsed_s": 32.67200000000048
+      },
+      {
+        "compound": "sparfloxacin",
+        "cid": 60464,
+        "inchi_key": "DZZWHBIBMUVIIW-DTORHVGOSA-N",
+        "smiles": "C[C@@H]1CN(C[C@@H](N1)C)C2=C(C(=C3C(=C2F)N(C=C(C3=O)C(=O)O)C4CC4)N)F",
+        "ic50_um": 24,
+        "lower_bound": false,
+        "pubchem_sha256": "49876357ae39b3e544916e3a920456fad23682b37e7aaf2d05966caa59532202",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.621,
+        "microstate": "C[C@@H]1CN(c2c(F)c(N)c3c(=O)c(C(=O)[O-])cn(C4CC4)c3c2F)C[C@H](C)[NH2+]1",
+        "elapsed_s": 33.75
+      },
+      {
+        "compound": "sparfloxacin",
+        "cid": 60464,
+        "inchi_key": "DZZWHBIBMUVIIW-DTORHVGOSA-N",
+        "smiles": "C[C@@H]1CN(C[C@@H](N1)C)C2=C(C(=C3C(=C2F)N(C=C(C3=O)C(=O)O)C4CC4)N)F",
+        "ic50_um": 24,
+        "lower_bound": false,
+        "pubchem_sha256": "49876357ae39b3e544916e3a920456fad23682b37e7aaf2d05966caa59532202",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.623,
+        "microstate": "C[C@@H]1CN(c2c(F)c(N)c3c(=O)c(C(=O)[O-])cn(C4CC4)c3c2F)C[C@H](C)[NH2+]1",
+        "elapsed_s": 87.46899999999914
+      },
+      {
+        "compound": "tamoxifen",
+        "cid": 2733526,
+        "inchi_key": "NKANXQFJJICGDU-QPLCGJKRSA-N",
+        "smiles": "CC/C(=C(\\C1=CC=CC=C1)/C2=CC=C(C=C2)OCCN(C)C)/C3=CC=CC=C3",
+        "ic50_um": 0.777,
+        "lower_bound": false,
+        "pubchem_sha256": "28681999e2141039e1a48474aea1a48f9d6dfd1aa5a7ca1626cf3fc57a0d47bf",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.142,
+        "microstate": "CC/C(=C(\\c1ccccc1)c1ccc(OCC[NH+](C)C)cc1)c1ccccc1",
+        "elapsed_s": 49.5
+      },
+      {
+        "compound": "tamoxifen",
+        "cid": 2733526,
+        "inchi_key": "NKANXQFJJICGDU-QPLCGJKRSA-N",
+        "smiles": "CC/C(=C(\\C1=CC=CC=C1)/C2=CC=C(C=C2)OCCN(C)C)/C3=CC=CC=C3",
+        "ic50_um": 0.777,
+        "lower_bound": false,
+        "pubchem_sha256": "28681999e2141039e1a48474aea1a48f9d6dfd1aa5a7ca1626cf3fc57a0d47bf",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.004,
+        "microstate": "CC/C(=C(\\c1ccccc1)c1ccc(OCC[NH+](C)C)cc1)c1ccccc1",
+        "elapsed_s": 52.65600000000086
+      },
+      {
+        "compound": "terfenadine",
+        "cid": 5405,
+        "inchi_key": "GUGOEEXESWIERI-UHFFFAOYSA-N",
+        "smiles": "CC(C)(C)C1=CC=C(C=C1)C(CCCN2CCC(CC2)C(C3=CC=CC=C3)(C4=CC=CC=C4)O)O",
+        "ic50_um": 0.061,
+        "lower_bound": false,
+        "pubchem_sha256": "83885b9692d3b85140faa6d0a8a7a387a2877239cac57168cb9299305f0aabb1",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -8.092,
+        "microstate": "CC(C)(C)c1ccc(C(O)CCC[NH+]2CCC(C(O)(c3ccccc3)c3ccccc3)CC2)cc1",
+        "elapsed_s": 87.95300000000134
+      },
+      {
+        "compound": "verapamil",
+        "cid": 2520,
+        "inchi_key": "SGTNSNPWRIOYBX-UHFFFAOYSA-N",
+        "smiles": "CC(C)C(CCCN(C)CCC1=CC(=C(C=C1)OC)OC)(C#N)C2=CC(=C(C=C2)OC)OC",
+        "ic50_um": 0.94,
+        "lower_bound": false,
+        "pubchem_sha256": "a1c91e9cd8b1af22720324336e71122f5678fd2b50d1a5c0f49dc93da498a3c1",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -7.196,
+        "microstate": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+        "elapsed_s": 105.92199999999866
+      },
+      {
+        "compound": "verapamil",
+        "cid": 2520,
+        "inchi_key": "SGTNSNPWRIOYBX-UHFFFAOYSA-N",
+        "smiles": "CC(C)C(CCCN(C)CCC1=CC(=C(C=C1)OC)OC)(C#N)C2=CC(=C(C=C2)OC)OC",
+        "ic50_um": 0.94,
+        "lower_bound": false,
+        "pubchem_sha256": "a1c91e9cd8b1af22720324336e71122f5678fd2b50d1a5c0f49dc93da498a3c1",
+        "seed": 43,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -6.745,
+        "microstate": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+        "elapsed_s": 126.625
+      },
+      {
+        "compound": "ziprasidone",
+        "cid": 60854,
+        "inchi_key": "MVWVFYHBGMAFLY-UHFFFAOYSA-N",
+        "smiles": "C1CN(CCN1CCC2=C(C=C3C(=C2)CC(=O)N3)Cl)C4=NSC5=CC=CC=C54",
+        "ic50_um": 0.165,
+        "lower_bound": false,
+        "pubchem_sha256": "b6ab62a2bf31f091986856e5edda467096fb514ab4f39ed1dde629f9c1954dbf",
+        "seed": 42,
+        "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+        "score": -8.067,
+        "microstate": "O=C1Cc2cc(CC[NH+]3CCN(c4nsc5ccccc45)CC3)c(Cl)cc2N1",
+        "elapsed_s": 54.51599999999962
+      }
+    ],
+    "hashes_crudos": {
+      "amiodarone-42.json": "b300539dad5a70a2ba4de4d698bffa62404ce3debea603dd41b5c29666eb8073",
+      "amiodarone-43.json": "c03b771a642a695bff181a38e1bac46113cd6fdb95adc3d3982207acc43fefe7",
+      "amoxicillin-42.json": "aa46d55c333683f83c81b6a87b0772c17f0f97aa090b490879e8435e24e97782",
+      "amoxicillin-43.json": "d15edaebf6bb4f26246cff167151f5d2fc2b572f15f41dd8be4956a7dc884369",
+      "aspirin-42.json": "d54d6ab4501abf4934e96c052257fdb3bcd217863e8ca1328f1da82dfdf5a207",
+      "captopril-42.json": "b03425b596956a708fa54ecdc609a8a31b4b51e14382e43b167bd861770d62d4",
+      "cisapride-42.json": "0e74ea9a8cc83c7a627f1262363d7ebadd7e401bac784c1ceb059d08565c920c",
+      "cisapride-43.json": "6f9780396cc46ce7e4131b829e4737df0a4b80c0e7015042052ef26905287a9b",
+      "droperidol-42.json": "273d11ef22185265353d75f6f42e8845821619f4338bbe9039ade81667f043b9",
+      "haloperidol-42.json": "610a3d2016a4803f4d2e9e5fa58b9772da47bcdc90943a48da73a28a89c71f2d",
+      "haloperidol-43.json": "88b9aa1a449ed190635bf0ff150e70577698679b26d163349add7c895746d300",
+      "moxifloxacin-42.json": "cedadbd190f0c0a2a75de2a12bb639b8b99def8db7a1f8ca3a4f471cdc739952",
+      "propranolol-42.json": "c70d0f464ea5bfdc98e8e9e98527dcb82f87a1e77b4e88dc28e28d0b5ae6996c",
+      "quinidine-42.json": "bfd04832ee1c06a71d6b9fc68abfea95b446f3ba05aff924b3221ce22c960cec",
+      "quinidine-43.json": "3994bd90f4a04d22bfe9caaf8136872bc59181c94b3e81be42f3bbcbb008e3d0",
+      "sotalol-42.json": "7ade12370b9942020638956ebfb1e44e1a7165c1093b48bf333ce6b51f11a909",
+      "sparfloxacin-42.json": "25e7f83bebe06ddd2d38ae3d990dafde31fdfe9e012d1f48109beb02774e28c3",
+      "sparfloxacin-43.json": "c7b108b5de98c2ddc4fd73f19e07742a1de0742a6b64ccdaae9e270b571577d0",
+      "tamoxifen-42.json": "ab4023901316a64ade900a47743bf1ae20aff791a451249a88f04b896160fe4b",
+      "tamoxifen-43.json": "258e2f7d614f24e2f76d04e864abe50aa0c659df673789f122262514fdb50176",
+      "terfenadine-42.json": "d5ae2991ea75799aeb403f1a4223194c40480fa5b7da7120a0223d950bfd825a",
+      "verapamil-42.json": "dc001965eb95eed000ae5f1151fb56f4394457cd623f74fba0772773b49819eb",
+      "verapamil-43.json": "29dffced5ffcc45e982b23bc39757f6e3e27f0e6242eb14d025602ae335d233a",
+      "ziprasidone-42.json": "0a8799c53f89fec3dc9cde38a6440f1f60b552a8951ccaef0e2fe1b25cf60c8a"
+    }
+  }
+}

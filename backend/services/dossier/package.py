@@ -226,7 +226,9 @@ python scripts/verify_dossier_package.py <este-archivo>.zip
         veredicto=translate_text(
             "Si el resultado no es `VÁLIDO`, no reproduzcas nada: el paquete no describe lo\n"
             "que dice describir."
-        ),
+        )
+        + "\n\n"
+        + texto_donde_obtener_el_verificador(),
         repetir=translate_text("3. Repetir el acoplamiento"),
         con_moldesign=translate_text(
             "Con MolDesign: abre el caso, restaura los inputs de `case/case_snapshot.json`,\n"
@@ -307,6 +309,26 @@ python scripts/verify_dossier_package.py <este-archivo>.zip
     )
 
 
+def texto_donde_obtener_el_verificador() -> str:
+    """Dónde está el verificador, qué necesita y qué revisión usar (B-8, revisión final 1.0.4).
+
+    El paquete no lleva el script ni sus módulos: la receta decía `python scripts/verify_dossier_package.py`
+    sin decir de dónde sale `scripts/`. Un verificador dentro del propio paquete tampoco probaría nada
+    (quien altera el paquete altera su verificador). Este texto sólo dice dónde está y qué pide; que corra
+    solo, sin red y fuera de un checkout, es una afirmación que no se hace porque no se ha medido.
+    """
+    return translate_text(
+        "El verificador no viaja dentro de este paquete: un paquete que se verificara con su propio\n"
+        "script no probaría nada. Está en el repositorio público de MolDesign\n"
+        "(https://github.com/srcacahuate619/moldesign-app), en `scripts/verify_dossier_package.py`, y se\n"
+        "ejecuta desde la raíz de una copia completa del repositorio, porque usa `backend/core` y\n"
+        "`backend/services/dossier` de esa copia. Sólo necesita Python 3.11 o posterior y su biblioteca\n"
+        "estándar; no hay nada que instalar. Si la procedencia del dossier declara el «Commit de código»\n"
+        "que escribió este paquete, usa esa revisión; si no lo declara, usa la más reciente: cuando no puede\n"
+        "leer el manifiesto de un paquete, el verificador dice qué versiones de manifiesto soporta."
+    )
+
+
 def _readme(dossier: CaseDossier, entradas: list[EntradaManifiesto], raiz: str) -> str:
     ausentes = [e for e in entradas if e.estado != Estado.REGISTRADO.value]
     lineas_ausentes = (
@@ -336,6 +358,7 @@ def _readme(dossier: CaseDossier, entradas: list[EntradaManifiesto], raiz: str) 
         "que todos los archivos declarados existan, que sus SHA-256 y tamaños coincidan,\n"
         "que no haya duplicados y que no haya archivos no declarados."
     )
+    texto_verificador = texto_verificador + "\n\n" + texto_donde_obtener_el_verificador()
     exclusion_zip = translate_text(
         "1. **El ZIP no se contiene a sí mismo.** Un paquete que llevara su propia copia\n"
         "   no podría cerrarse: su hash cambiaría al incluirlo."

@@ -1,0 +1,1145 @@
+[
+  {
+    "nombre": "sildenafilo",
+    "smiles_ensayado": "CCCc1nn(C)c2c(=O)[nH]c(-c3cc(S(=O)(=O)N4CC[NH+](C)CC4)ccc3OCC)nc12",
+    "smiles_acoplado": "CCCc1nn(C)c2c(=O)[nH]c(-c3cc(S(=O)(=O)N4CC[NH+](C)CC4)ccc3OCC)nc12",
+    "esperadas": [],
+    "origen": "ERRORES_CONFIRMADOS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "cetirizina",
+    "smiles_ensayado": "O=C([O-])COCC[NH+]1CC[NH+](C(c2ccccc2)c2ccc(Cl)cc2)CC1",
+    "smiles_acoplado": "O=C([O-])COCC[NH+]1CC[NH+](C(c2ccccc2)c2ccc(Cl)cc2)CC1",
+    "esperadas": [],
+    "origen": "ERRORES_CONFIRMADOS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "albendazol",
+    "smiles_ensayado": "CCCSc1ccc2[nH]c(NC(=O)OC)nc2c1",
+    "smiles_acoplado": "CCCSc1ccc2[nH]c(NC(=O)OC)nc2c1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "clorfeniramina",
+    "smiles_ensayado": "C[NH+](C)CCC(c1ccc(Cl)cc1)c1ccccn1",
+    "smiles_acoplado": "C[NH+](C)CCC(c1ccc(Cl)cc1)c1ccccn1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "diclofenaco",
+    "smiles_ensayado": "O=C([O-])Cc1ccccc1Nc1c(Cl)cccc1Cl",
+    "smiles_acoplado": "O=C([O-])Cc1ccccc1Nc1c(Cl)cccc1Cl",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "diflunisal",
+    "smiles_ensayado": "O=C([O-])c1cc(-c2ccc(F)cc2F)ccc1O",
+    "smiles_acoplado": "O=C([O-])c1cc(-c2ccc(F)cc2F)ccc1O",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "furosemida",
+    "smiles_ensayado": "NS(=O)(=O)c1cc(C(=O)[O-])c(NCc2ccco2)cc1Cl",
+    "smiles_acoplado": "NS(=O)(=O)c1cc(C(=O)[O-])c(NCc2ccco2)cc1Cl",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "haloperidol",
+    "smiles_ensayado": "OC(CCC[NH+]1CCC(c2ccc(F)cc2)CC1)(c1ccccc1)c1ccc(Cl)cc1",
+    "smiles_acoplado": "OC(CCC[NH+]1CCC(c2ccc(F)cc2)CC1)(c1ccccc1)c1ccc(Cl)cc1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "hidroclorotiazida",
+    "smiles_ensayado": "NS(=O)(=O)c1cc2c(cc1Cl)NCNS2(=O)=O",
+    "smiles_acoplado": "NS(=O)(=O)c1cc2c(cc1Cl)NCNS2(=O)=O",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "ibuprofeno",
+    "smiles_ensayado": "CC(C)Cc1ccc(C(C)C(=O)[O-])cc1",
+    "smiles_acoplado": "CC(C)Cc1ccc(C(C)C(=O)[O-])cc1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "imipramina",
+    "smiles_ensayado": "C[NH+](C)CCCN1c2ccccc2CCc2ccccc21",
+    "smiles_acoplado": "C[NH+](C)CCCN1c2ccccc2CCc2ccccc21",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "ketoconazol",
+    "smiles_ensayado": "CC(=O)N1CCN(c2ccc(OCC3COC(Cn4ccnc4)(c4ccc(Cl)cc4Cl)O3)cc2)CC1",
+    "smiles_acoplado": "CC(=O)N1CCN(c2ccc(OCC3COC(Cn4ccnc4)(c4ccc(Cl)cc4Cl)O3)cc2)CC1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "ketoprofeno",
+    "smiles_ensayado": "CC(C(=O)[O-])c1cccc(C(=O)c2ccccc2)c1",
+    "smiles_acoplado": "CC(C(=O)[O-])c1cccc(C(=O)c2ccccc2)c1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "papaverina",
+    "smiles_ensayado": "COc1ccc(Cc2nccc3cc(OC)c(OC)cc23)cc1OC",
+    "smiles_acoplado": "COc1ccc(Cc2nccc3cc(OC)c(OC)cc23)cc1OC",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "propranolol",
+    "smiles_ensayado": "CC(C)[NH2+]CC(O)COc1cccc2ccccc12",
+    "smiles_acoplado": "CC(C)[NH2+]CC(O)COc1cccc2ccccc12",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "verapamilo",
+    "smiles_ensayado": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+    "smiles_acoplado": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "ciprofloxacino",
+    "smiles_ensayado": "O=C([O-])c1cn(C2CC2)c2cc(F)c(N3CC[NH2+]CC3)cc2c1=O",
+    "smiles_acoplado": "O=C([O-])c1cn(C2CC2)c2cc(F)c(N3CC[NH2+]CC3)cc2c1=O",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "celecoxib",
+    "smiles_ensayado": "Cc1ccc(-c2cc(C(F)(F)F)nn2-c2ccc(S(N)(=O)=O)cc2)cc1",
+    "smiles_acoplado": "Cc1ccc(-c2cc(C(F)(F)F)nn2-c2ccc(S(N)(=O)=O)cc2)cc1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "losartan",
+    "smiles_ensayado": "CCCCc1nc(Cl)c(CO)n1Cc1ccc(-c2ccccc2-c2nn[n-]n2)cc1",
+    "smiles_acoplado": "CCCCc1nc(Cl)c(CO)n1Cc1ccc(-c2ccccc2-c2nn[n-]n2)cc1",
+    "esperadas": [],
+    "origen": "CORRECTAS_VERIFICADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "CHEMBL1182011 (N-cianoetilo)",
+    "smiles_ensayado": "N#CCC[NH+](Cc1ccc(F)cc1C(F)(F)F)C1CC[NH2+]CC1",
+    "smiles_acoplado": "N#CCC[NH+](Cc1ccc(F)cc1C(F)(F)F)C1CC[NH2+]CC1",
+    "esperadas": [],
+    "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "CHEMBL1184968 (nitrilo en β, gem-dimetilo)",
+    "smiles_ensayado": "CC(C)(C#N)C[NH+](Cc1ccc(F)cc1C(F)(F)F)C1CC[NH2+]CC1",
+    "smiles_acoplado": "CC(C)(C#N)C[NH+](Cc1ccc(F)cc1C(F)(F)F)C1CC[NH2+]CC1",
+    "esperadas": [],
+    "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "CHEMBL1184991 (N-trifluoroetilo)",
+    "smiles_ensayado": "FC(F)(F)C[NH+](Cc1ccccc1C(F)(F)F)C1CC[NH2+]CC1",
+    "smiles_acoplado": "FC(F)(F)C[NH+](Cc1ccccc1C(F)(F)F)C1CC[NH2+]CC1",
+    "esperadas": [],
+    "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "aminoacetonitrilo protonado (nitrilo en α)",
+    "smiles_ensayado": "N#CC[NH3+]",
+    "smiles_acoplado": "N#CC[NH3+]",
+    "esperadas": [],
+    "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "3,3-difluoropiperidinio (CF2 en β, en anillo)",
+    "smiles_ensayado": "FC1(F)CCC[NH2+]C1",
+    "smiles_acoplado": "FC1(F)CCC[NH2+]C1",
+    "esperadas": [],
+    "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+    "observadas": [],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "cumarina",
+    "smiles_ensayado": "O=c1ccc2ccccc2o1",
+    "esperadas": [],
+    "origen": "test_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "umbeliferona: 7-OH, fenol, no vinílogo",
+    "smiles_ensayado": "O=c1ccc2ccc(O)cc2o1",
+    "esperadas": [],
+    "origen": "test_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "acetilacetona enol, acíclica",
+    "smiles_ensayado": "CC(O)=CC(C)=O",
+    "esperadas": [],
+    "origen": "test_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "1,3-propanodiamina: 4 enlaces",
+    "smiles_ensayado": "NCCCN",
+    "esperadas": [],
+    "origen": "test_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "N-metil-N'-arilpiperazina: un solo N básico",
+    "smiles_ensayado": "CN1CCN(c2ccccc2)CC1",
+    "esperadas": [],
+    "origen": "test_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "piperidina",
+    "smiles_ensayado": "C1CCNCC1",
+    "esperadas": [],
+    "origen": "test_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "N-trifluoroetilo acoplada NEUTRA: nada que revisar",
+    "smiles_ensayado": "FC(F)(F)CN(C)Cc1ccccc1",
+    "esperadas": [],
+    "origen": "test_amina_con_atractor_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "fluoxetina: CF3 en el arilo, lejos del N",
+    "smiles_ensayado": "C[NH2+]CCC(Oc1ccc(C(F)(F)F)cc1)c1ccccc1",
+    "esperadas": [],
+    "origen": "test_amina_con_atractor_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "2-fluoroetilamonio: un solo flúor (pKa ≈ 9)",
+    "smiles_ensayado": "[NH3+]CCF",
+    "esperadas": [],
+    "origen": "test_amina_con_atractor_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "4,4-difluoropiperidinio: CF2 en γ",
+    "smiles_ensayado": "FC1(F)CC[NH2+]CC1",
+    "esperadas": [],
+    "origen": "test_amina_con_atractor_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "verapamilo: nitrilo a cuatro enlaces del N",
+    "smiles_ensayado": "COc1ccc(CC[NH+](C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC",
+    "esperadas": [],
+    "origen": "test_amina_con_atractor_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "amonio cuaternario sin H",
+    "smiles_ensayado": "N#CCC[N+](C)(C)C",
+    "esperadas": [],
+    "origen": "test_amina_con_atractor_controles_negativos",
+    "observadas": []
+  },
+  {
+    "nombre": "metil α-aminoéster con amina primaria",
+    "smiles_ensayado": "COC(=O)C[NH3+]",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "β-aminoéster",
+    "smiles_ensayado": "CCOC(=O)CC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "α-aminoaldehído",
+    "smiles_ensayado": "O=CC[NH3+]",
+    "esperadas": [
+      "aminocetona"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "aminocetona"
+    ]
+  },
+  {
+    "nombre": "β-aminocetona",
+    "smiles_ensayado": "CC(=O)CC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "aminoamida, frontera del α-aminoéster",
+    "smiles_ensayado": "NC(=O)C[NH3+]",
+    "esperadas": [
+      "aminoamida"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "aminoamida"
+    ]
+  },
+  {
+    "nombre": "carbamato",
+    "smiles_ensayado": "COC(=O)NCC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "ácido protonado",
+    "smiles_ensayado": "O=C(O)C[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "zwitterión glicina",
+    "smiles_ensayado": "O=C([O-])C[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "zwitterión con motivo aminoéster",
+    "smiles_ensayado": "COC(=O)C(C(=O)[O-])[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "α-aminoéster neutro",
+    "smiles_ensayado": "COC(=O)CN",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "N-alquil morfolina",
+    "smiles_ensayado": "CCC[NH+]1CCOCC1",
+    "esperadas": [
+      "alquilmorfolina"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "alquilmorfolina"
+    ]
+  },
+  {
+    "nombre": "morfolina NH",
+    "smiles_ensayado": "[NH2+]1CCOCC1",
+    "esperadas": [
+      "morfolina_nh"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "morfolina_nh"
+    ]
+  },
+  {
+    "nombre": "N-arilmorfolinio",
+    "smiles_ensayado": "c1ccccc1[NH+]1CCOCC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "morfolina fusionada",
+    "smiles_ensayado": "C[NH+]1CC2OCC1CCC2",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "N-acilmorfolina",
+    "smiles_ensayado": "CC(=O)N1CCOCC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "oxazolidina",
+    "smiles_ensayado": "C[NH+]1CCOC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "oxazepano",
+    "smiles_ensayado": "C[NH+]1CCCOCC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "tiomorfolina",
+    "smiles_ensayado": "[NH2+]1CCSCC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "morfolinio cuaternario",
+    "smiles_ensayado": "C[N+]1(C)CCOCC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "N-propargilamina con alquino interno",
+    "smiles_ensayado": "CC#CC[NH3+]",
+    "esperadas": [
+      "propargilamina"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "propargilamina"
+    ]
+  },
+  {
+    "nombre": "amina con alquino a dos carbonos",
+    "smiles_ensayado": "C#CCC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "alquenilamina",
+    "smiles_ensayado": "C=CC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "amonio cuaternario propargílico",
+    "smiles_ensayado": "C#CC[N+](C)(C)C",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "N-propargilanilinio",
+    "smiles_ensayado": "C#CC[NH2+]c1ccccc1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "β-sulfona acíclica",
+    "smiles_ensayado": "CS(=O)(=O)CC[NH3+]",
+    "esperadas": [
+      "sulfona_beta"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "sulfona_beta"
+    ]
+  },
+  {
+    "nombre": "tiomorfolina 1,1-dióxido",
+    "smiles_ensayado": "[NH2+]1CCS(=O)(=O)CC1",
+    "esperadas": [
+      "sulfona_beta"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "sulfona_beta"
+    ]
+  },
+  {
+    "nombre": "sulfóxido en β",
+    "smiles_ensayado": "CS(=O)CC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "sulfonamida en β",
+    "smiles_ensayado": "NS(=O)(=O)CC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "sulfonato en β",
+    "smiles_ensayado": "[O-]S(=O)(=O)CC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "sulfona en α",
+    "smiles_ensayado": "CS(=O)(=O)C[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "sulfona en γ",
+    "smiles_ensayado": "CS(=O)(=O)CCC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "oxetan-3-ilamonio",
+    "smiles_ensayado": "[NH3+]C1COC1",
+    "esperadas": [
+      "oxetano_beta"
+    ],
+    "origen": "control estructural construido",
+    "observadas": [
+      "oxetano_beta"
+    ]
+  },
+  {
+    "nombre": "oxetan-2-ilamonio",
+    "smiles_ensayado": "[NH3+]C1CCO1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "oxetan-3-ilmetilamonio",
+    "smiles_ensayado": "[NH3+]CC1COC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "tetrahidrofuranilamonio",
+    "smiles_ensayado": "[NH3+]C1CCOC1",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "amina alifática ordinaria",
+    "smiles_ensayado": "CCCC[NH3+]",
+    "esperadas": [],
+    "origen": "control estructural construido",
+    "observadas": []
+  },
+  {
+    "nombre": "Glicina, éster etílico",
+    "smiles_ensayado": "CCOC(=O)C[NH3+]",
+    "smiles_acoplado": "CCOC(=O)C[NH3+]",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "Glicina, éster metílico",
+    "smiles_ensayado": "COC(=O)C[NH3+]",
+    "smiles_acoplado": "COC(=O)C[NH3+]",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Alanina, éster etílico",
+    "smiles_ensayado": "CCOC(=O)[C@@H]([NH3+])C",
+    "smiles_acoplado": "CCOC(=O)[C@H](C)[NH3+]",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Alanina, éster metílico",
+    "smiles_ensayado": "COC(=O)[C@@H]([NH3+])C",
+    "smiles_acoplado": "COC(=O)[C@H](C)[NH3+]",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Valina, éster etílico",
+    "smiles_ensayado": "CCOC(=O)[C@@H]([NH3+])C(C)C",
+    "smiles_acoplado": "CCOC(=O)[C@@H]([NH3+])C(C)C",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Valina, éster metílico",
+    "smiles_ensayado": "COC(=O)[C@@H]([NH3+])C(C)C",
+    "smiles_acoplado": "COC(=O)[C@@H]([NH3+])C(C)C",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Leucina, éster etílico",
+    "smiles_ensayado": "CCOC(=O)[C@@H]([NH3+])CC(C)C",
+    "smiles_acoplado": "CCOC(=O)[C@@H]([NH3+])CC(C)C",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Leucina, éster metílico",
+    "smiles_ensayado": "COC(=O)[C@@H]([NH3+])CC(C)C",
+    "smiles_acoplado": "COC(=O)[C@@H]([NH3+])CC(C)C",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Fenilalanina, éster etílico",
+    "smiles_ensayado": "CCOC(=O)[C@@H]([NH3+])Cc1ccccc1",
+    "smiles_acoplado": "CCOC(=O)[C@@H]([NH3+])Cc1ccccc1",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Fenilalanina, éster metílico",
+    "smiles_ensayado": "COC(=O)[C@@H]([NH3+])Cc1ccccc1",
+    "smiles_acoplado": "COC(=O)[C@@H]([NH3+])Cc1ccccc1",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Serina, éster etílico",
+    "smiles_ensayado": "CCOC(=O)[C@@H]([NH3+])CO",
+    "smiles_acoplado": "CCOC(=O)[C@@H]([NH3+])CO",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Serina, éster metílico",
+    "smiles_ensayado": "COC(=O)[C@@H]([NH3+])CO",
+    "smiles_acoplado": "COC(=O)[C@@H]([NH3+])CO",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Metionina, éster etílico",
+    "smiles_ensayado": "CCOC(=O)[C@@H]([NH3+])CCSC",
+    "smiles_acoplado": "CCOC(=O)[C@@H]([NH3+])CCSC",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "L-Metionina, éster metílico",
+    "smiles_ensayado": "COC(=O)[C@@H]([NH3+])CCSC",
+    "smiles_acoplado": "COC(=O)[C@@H]([NH3+])CCSC",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "4-Nitrofenil glicinato",
+    "smiles_ensayado": "[NH3+]CC(=O)Oc1ccc([N+](=O)[O-])cc1",
+    "smiles_acoplado": "NCC(=O)Oc1ccc([N+](=O)[O-])cc1",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": []
+  },
+  {
+    "nombre": "Clopidogrel",
+    "smiles_ensayado": "COC(=O)[C@H](c1ccccc1Cl)[NH+]1CCc2sccc2C1",
+    "smiles_acoplado": "COC(=O)[C@H](c1ccccc1Cl)[NH+]1CCc2sccc2C1",
+    "esperadas": [
+      "aminoester"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "C",
+    "observadas": [
+      "aminoester"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoester"
+    ]
+  },
+  {
+    "nombre": "Bupropión",
+    "smiles_ensayado": "CC([NH2+]C(C)(C)C)C(=O)c1cccc(Cl)c1",
+    "smiles_acoplado": "CC([NH2+]C(C)(C)C)C(=O)c1cccc(Cl)c1",
+    "esperadas": [
+      "aminocetona"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminocetona"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminocetona"
+    ]
+  },
+  {
+    "nombre": "Ketamina",
+    "smiles_ensayado": "C[NH2+]C1(c2ccccc2Cl)CCCCC1=O",
+    "smiles_acoplado": "C[NH2+]C1(c2ccccc2Cl)CCCCC1=O",
+    "esperadas": [
+      "aminocetona"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminocetona"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminocetona"
+    ]
+  },
+  {
+    "nombre": "Aminoacetona",
+    "smiles_ensayado": "CC(=O)C[NH3+]",
+    "smiles_acoplado": "CC(=O)C[NH3+]",
+    "esperadas": [
+      "aminocetona"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "aminocetona"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminocetona"
+    ]
+  },
+  {
+    "nombre": "N-Etilmorfolina",
+    "smiles_ensayado": "CC[NH+]1CCOCC1",
+    "smiles_acoplado": "CC[NH+]1CCOCC1",
+    "esperadas": [
+      "alquilmorfolina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "alquilmorfolina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "alquilmorfolina"
+    ]
+  },
+  {
+    "nombre": "N-Metilmorfolina",
+    "smiles_ensayado": "C[NH+]1CCOCC1",
+    "smiles_acoplado": "C[NH+]1CCOCC1",
+    "esperadas": [
+      "alquilmorfolina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "alquilmorfolina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "alquilmorfolina"
+    ]
+  },
+  {
+    "nombre": "MES",
+    "smiles_ensayado": "O=S(=O)([O-])CC[NH+]1CCOCC1",
+    "smiles_acoplado": "O=S(=O)([O-])CC[NH+]1CCOCC1",
+    "esperadas": [
+      "alquilmorfolina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "alquilmorfolina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "alquilmorfolina"
+    ]
+  },
+  {
+    "nombre": "MOPS",
+    "smiles_ensayado": "O=S(=O)([O-])CCC[NH+]1CCOCC1",
+    "smiles_acoplado": "O=S(=O)([O-])CCC[NH+]1CCOCC1",
+    "esperadas": [
+      "alquilmorfolina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "alquilmorfolina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "alquilmorfolina"
+    ]
+  },
+  {
+    "nombre": "MOPSO",
+    "smiles_ensayado": "O=S(=O)([O-])CC(O)C[NH+]1CCOCC1",
+    "smiles_acoplado": "O=S(=O)([O-])CC(O)C[NH+]1CCOCC1",
+    "esperadas": [
+      "alquilmorfolina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "alquilmorfolina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "alquilmorfolina"
+    ]
+  },
+  {
+    "nombre": "Morfolina",
+    "smiles_ensayado": "[NH2+]1CCOCC1",
+    "smiles_acoplado": "C1COCC[NH2+]1",
+    "esperadas": [
+      "morfolina_nh"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "morfolina_nh"
+    ],
+    "observadas_en_especie_acoplada": [
+      "morfolina_nh"
+    ]
+  },
+  {
+    "nombre": "Propargilamina",
+    "smiles_ensayado": "C#CC[NH3+]",
+    "smiles_acoplado": "ERROR: InvalidSMILES: SMILES inválido: 'C#CCN' — La molécula tiene solo 4 átomo(s) pesado(s). El mínimo para evaluación farmacológica es 5.",
+    "esperadas": [
+      "propargilamina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "propargilamina"
+    ]
+  },
+  {
+    "nombre": "Rasagilina",
+    "smiles_ensayado": "C#CC[NH2+][C@@H]1CCc2ccccc21",
+    "smiles_acoplado": "C#CC[NH2+][C@@H]1CCc2ccccc21",
+    "esperadas": [
+      "propargilamina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "propargilamina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "propargilamina"
+    ]
+  },
+  {
+    "nombre": "Selegilina",
+    "smiles_ensayado": "C#CC[NH+](C)[C@H](C)Cc1ccccc1",
+    "smiles_acoplado": "C#CC[NH+](C)[C@H](C)Cc1ccccc1",
+    "esperadas": [
+      "propargilamina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "propargilamina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "propargilamina"
+    ]
+  },
+  {
+    "nombre": "Pargilina",
+    "smiles_ensayado": "C#CC[NH+](C)Cc1ccccc1",
+    "smiles_acoplado": "C#CC[NH+](C)Cc1ccccc1",
+    "esperadas": [
+      "propargilamina"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "propargilamina"
+    ],
+    "observadas_en_especie_acoplada": [
+      "propargilamina"
+    ]
+  },
+  {
+    "nombre": "Tiomorfolina 1,1-dióxido",
+    "smiles_ensayado": "[NH2+]1CCS(=O)(=O)CC1",
+    "smiles_acoplado": "O=S1(=O)CC[NH2+]CC1",
+    "esperadas": [
+      "sulfona_beta"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "sulfona_beta"
+    ],
+    "observadas_en_especie_acoplada": [
+      "sulfona_beta"
+    ]
+  },
+  {
+    "nombre": "2-(Fenilsulfonil)etilamina",
+    "smiles_ensayado": "[NH3+]CCS(=O)(=O)c1ccccc1",
+    "smiles_acoplado": "[NH3+]CCS(=O)(=O)c1ccccc1",
+    "esperadas": [
+      "sulfona_beta"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "sulfona_beta"
+    ],
+    "observadas_en_especie_acoplada": [
+      "sulfona_beta"
+    ]
+  },
+  {
+    "nombre": "Lidocaína",
+    "smiles_ensayado": "CC[NH+](CC)CC(=O)Nc1c(C)cccc1C",
+    "smiles_acoplado": "CC[NH+](CC)CC(=O)Nc1c(C)cccc1C",
+    "esperadas": [
+      "aminoamida"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "A",
+    "observadas": [
+      "aminoamida"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoamida"
+    ]
+  },
+  {
+    "nombre": "Bupivacaína",
+    "smiles_ensayado": "CCCC[NH+]1CCCCC1C(=O)Nc1c(C)cccc1C",
+    "smiles_acoplado": "CCCC[NH+]1CCCCC1C(=O)Nc1c(C)cccc1C",
+    "esperadas": [
+      "aminoamida"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "aminoamida"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoamida"
+    ]
+  },
+  {
+    "nombre": "Glicinamida",
+    "smiles_ensayado": "NC(=O)C[NH3+]",
+    "smiles_acoplado": "NC(=O)C[NH3+]",
+    "esperadas": [
+      "aminoamida"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "aminoamida"
+    ],
+    "observadas_en_especie_acoplada": [
+      "aminoamida"
+    ]
+  },
+  {
+    "nombre": "Aminooxetano 4a, N-(3-ariloxetan-3-il)morfolina",
+    "smiles_ensayado": "COc1ccc(C2([NH+]3CCOCC3)COC2)cc1",
+    "smiles_acoplado": "COc1ccc(C2([NH+]3CCOCC3)COC2)cc1",
+    "esperadas": [
+      "oxetano_beta"
+    ],
+    "origen": "compuesto con fuente",
+    "nivel": "B",
+    "observadas": [
+      "oxetano_beta"
+    ],
+    "observadas_en_especie_acoplada": [
+      "oxetano_beta"
+    ]
+  }
+]

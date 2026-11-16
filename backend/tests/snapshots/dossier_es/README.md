@@ -51,6 +51,15 @@ escape del directorio raíz, que el manifiesto sea de una versión compatible,
 que todos los archivos declarados existan, que sus SHA-256 y tamaños coincidan,
 que no haya duplicados y que no haya archivos no declarados.
 
+El verificador no viaja dentro de este paquete: un paquete que se verificara con su propio
+script no probaría nada. Está en el repositorio público de MolDesign
+(https://github.com/srcacahuate619/moldesign-app), en `scripts/verify_dossier_package.py`, y se
+ejecuta desde la raíz de una copia completa del repositorio, porque usa `backend/core` y
+`backend/services/dossier` de esa copia. Sólo necesita Python 3.11 o posterior y su biblioteca
+estándar; no hay nada que instalar. Si la procedencia del dossier declara el «Commit de código»
+que escribió este paquete, usa esa revisión; si no lo declara, usa la más reciente: cuando no puede
+leer el manifiesto de un paquete, el verificador dice qué versiones de manifiesto soporta.
+
 ### Tres exclusiones deliberadas
 
 1. **El ZIP no se contiene a sí mismo.** Un paquete que llevara su propia copia

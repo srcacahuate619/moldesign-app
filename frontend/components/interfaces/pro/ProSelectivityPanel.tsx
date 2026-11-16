@@ -1,5 +1,6 @@
 import { frontendMessage, type FrontendMessage } from "../../../lib/frontendError";
 import { antiTargetFieldMessage, antiTargetFieldText } from "../../../lib/antiTargetPresentation";
+import { valorYCorte } from "../../../lib/decimalesDeAlerta";
 import { presentError } from "../../../lib/frontendError";
 import React, { useState, useEffect, useRef, useId } from "react";
 import { useLanguage } from "../../../context/LanguageContext";
@@ -12,7 +13,9 @@ import { antiDianasParaEnviar, antiDianasPorDefecto, useAntiDianas } from "../..
 import { AntiDianasSelector } from "./AntiDianasSelector";
 import {
   INCERTIDUMBRE_VINA_KCAL,
+  VEREDICTO_SIN_ALERTA,
   VEREDICTO_SIN_DATOS,
+  VEREDICTO_UMBRAL_REBASADO,
   claveDeVeredicto,
   colorDeMargen,
   margenDeSelectividad,
@@ -466,8 +469,10 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
             // D-09: la alerta sigue saliendo igual; si el panel declara el sitio sin adjudicar, se dice qué mide.
             // Sólo con un `false` explícito: un resultado antiguo o una anti-diana propia no lo trae.
             const sinAdjudicar = r.sitio_adjudicado === false;
-            safetyFlags.push(`ALERTA ${r.name || at.name}: Afinidad potente (${aff.toFixed(1)} kcal/mol) rebasó el umbral crítico (${thresh.toFixed(1)} kcal/mol). Riesgo: ${r.risk || at.risk}${sinAdjudicar ? AVISO_SITIO_NO_ADJUDICADO : ""}`);
-            safetyMessages.push(frontendMessage(sinAdjudicar ? "pr_sel_alert_sin_adjudicar" : "pr_sel_alert", { name: r.name || at.name, affinity: aff.toFixed(1), threshold: thresh.toFixed(1),
+            // Los decimales que distinguen el valor de su corte: con uno fijo, −7,04 frente a −7,0 se escribía «−7,0 … −7,0».
+            const escrito = valorYCorte(aff, thresh);
+            safetyFlags.push(`ALERTA ${r.name || at.name}: Afinidad potente (${escrito.valor} kcal/mol) rebasó el umbral crítico (${escrito.corte} kcal/mol). Riesgo: ${r.risk || at.risk}${sinAdjudicar ? AVISO_SITIO_NO_ADJUDICADO : ""}`);
+            safetyMessages.push(frontendMessage(sinAdjudicar ? "pr_sel_alert_sin_adjudicar" : "pr_sel_alert", { name: r.name || at.name, affinity: escrito.valor, threshold: escrito.corte,
               risk: (r.risk || at.riskOrigin !== "frontend") ? (r.risk || at.risk) : antiTargetFieldMessage(at.pdb_id, "risk", at.risk) }));
           }
           if (aff < worstOffAffinity) {
@@ -490,9 +495,9 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
       verdict = veredictoDeMargen(deltaDeltaG);
     } else if (evaluatedCount > 0) {
       if (safetyFlags.length > 0) {
-        verdict = "REVISAR — Se rebasó el umbral definido en anti-targets";
+        verdict = VEREDICTO_UMBRAL_REBASADO;
       } else {
-        verdict = "SIN ALERTA EN ESTE PANEL — Ningún anti-target rebasó el umbral definido";
+        verdict = VEREDICTO_SIN_ALERTA;
       }
     }
 
@@ -939,7 +944,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                 <p className="text-base text-zinc-300 font-sans leading-6">{at.riskOrigin === "frontend" ? antiTargetFieldText(at.pdb_id, "risk", at.risk, t) : at.risk}</p>
                 <div className="flex flex-wrap items-center gap-3 text-sm font-mono">
                   <span className="text-zinc-400">
-                    {t("pr_sel_umbral_minimo")} <strong className="text-zinc-200">{thresh.toFixed(1)} kcal/mol</strong>
+                    {t("pr_sel_umbral_minimo")} <strong className="text-zinc-200">{(hasAffinity ? valorYCorte(aff, thresh).corte : thresh.toFixed(1))} kcal/mol</strong>
                   </span>
                   <button
                     onClick={() => setSelectedDetail({ at, aff, isDanger, thresh })}
@@ -961,7 +966,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                     </span>
                   ) : hasAffinity ? (
                     <span className={`text-sm font-black ${isDanger ? "text-rose-400" : "text-emerald-400"}`}>
-                      {aff.toFixed(1)} kcal/mol
+                      {valorYCorte(aff, thresh).valor} kcal/mol
                     </span>
                   ) : (
                     <span className="text-zinc-400 text-sm font-bold">{t("pr_sel_sin_evaluar")}</span>
@@ -1026,7 +1031,7 @@ const ProSelectivitySession: React.FC<ProSelectivityPanelProps> = ({
                 <span className="text-zinc-400 block font-bold uppercase text-sm">{t("auto_a0e03dfc2c9a")}</span>
                 {selectedDetail.aff !== null && selectedDetail.aff !== undefined ? (
                   <span className={`text-sm font-black ${selectedDetail.isDanger ? "text-rose-400" : "text-emerald-400"}`}>
-                    {selectedDetail.aff.toFixed(1)} kcal/mol
+                    {valorYCorte(selectedDetail.aff, selectedDetail.thresh).valor} kcal/mol
                   </span>
                 ) : (
                   <span className="text-zinc-400 font-bold">{t("pr_sel_sin_evaluar")}</span>

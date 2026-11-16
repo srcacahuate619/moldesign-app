@@ -21,6 +21,7 @@ def test_fuente_vc_runtime_versionada_coincide_con_manifiesto():
     assert source == (ROOT / "tools" / "vc-runtime" / "x64").resolve()
     assert {p.name for p in source.glob("*.dll")} == {
         "msvcp140.dll",
+        "msvcp140_1.dll",
         "msvcp140_atomic_wait.dll",
         "vcomp140.dll",
         "vcruntime140.dll",

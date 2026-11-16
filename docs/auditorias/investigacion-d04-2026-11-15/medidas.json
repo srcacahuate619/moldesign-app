@@ -1,0 +1,137 @@
+{
+  "fuentes": {
+    "dogan01": {
+      "url": "https://arastirmax.com/en/system/files/dergiler/5672/makaleler/21/3/arastirmax-bazi-amino-asitlerin-etil-metil-esterlerinin-protonasyon-sabitlerinin-su-ortaminda-potansiyometrik-yontemle-tayini.pdf",
+      "T": 25, "I": "0.100 M NaCl", "metodo": "Potenciometría acuosa, constantes estequiométricas", "nivel": "A"
+    },
+    "edsall33_metil": {
+      "url": "https://doi.org/10.1021/ja01333a019",
+      "grupo": "edsall33", "T": 25, "I": "≈0.019 mol/kg en semineutralización, inferido desde HCl del éster 0.024 molal y NaOH; varía durante la titulación",
+      "metodo": "Titulación electrométrica acuosa con electrodo de hidrógeno", "nivel": "A"
+    },
+    "edsall33_etil": {
+      "url": "https://doi.org/10.1021/ja01333a019",
+      "grupo": "edsall33", "T": 25, "I": "≈0.014 mol/kg en semineutralización, inferido desde HCl del éster 0.018 molal y NaOH; varía durante la titulación",
+      "metodo": "Titulación electrométrica acuosa con electrodo de hidrógeno", "nivel": "A"
+    },
+    "haybasak86": {
+      "url": "https://doi.org/10.1039/DT9860000039",
+      "T": 25, "I": "0.1 M KNO3 declarada para la hidrólisis a 35 °C; sin cotejar para la constante a 25 °C",
+      "metodo": "Equilibrio de ionización descrito en el resumen; método de medida sin cotejar", "nivel": "B"
+    },
+    "takayanagi16": {
+      "url": "https://doi.org/10.15583/jpchrom.2016.009",
+      "T": 25, "I": "0.010 M ajustada con NaCl", "metodo": "Electroforesis capilar zonal, muestra fresca", "nivel": "A"
+    },
+    "volgyi07": {
+      "url": "https://doi.org/10.1016/j.aca.2006.10.015",
+      "T": 25, "I": "0.15 M KCl", "metodo": "Potenciometría en agua, sin cosolvente", "nivel": "A"
+    },
+    "dutra01": {
+      "url": "https://doi.org/10.1021/tx015526r",
+      "T": null, "I": "No indicada para el dato de pKa", "metodo": "Titulación con NaOH del hidrocloruro de aminoacetona", "nivel": "B"
+    },
+    "lanthano05": {
+      "url": "https://doi.org/10.5012/bkcs.2005.26.4.614",
+      "T": 25, "I": "0.1 M KNO3", "metodo": "Potenciometría acuosa, ligando libre sin La(III)", "nivel": "A"
+    },
+    "covington05": {
+      "url": "https://doi.org/10.1021/je0500983",
+      "T": 25, "I": "0.1 M NaCl", "metodo": "Potenciometría acuosa", "nivel": "A"
+    },
+    "heo94_morfo": {
+      "url": "https://citeseerx.ist.psu.edu/document?doi=0b89290ed946dde56cf946051d80bcba6f4a803d&repid=rep1&type=pdf",
+      "T": 25, "I": "0.1 M declarada para el ensayo cinético y en el pie de tabla", "metodo": "pKa tabulado para análisis de Brønsted; no se ha verificado el primario de esa constante", "nivel": "B"
+    },
+    "houston64_1": {
+      "url": "https://repository.gatech.edu/bitstreams/11072616-aa06-47a3-8911-6345c45f71ca/download",
+      "grupo": "houston64", "T": "25.5–27", "I": "≈0.006 M; (0.0182 M × 12.25 mL)/(25 + 12.25 mL)",
+      "metodo": "Titulación acuosa con HClO4, pH a mitad del volumen de equivalencia", "nivel": "A"
+    },
+    "houston64_2": {
+      "url": "https://repository.gatech.edu/bitstreams/11072616-aa06-47a3-8911-6345c45f71ca/download",
+      "grupo": "houston64", "T": "25.5–27", "I": "≈0.019 M; (0.180 M × 2.95 mL)/(25 + 2.95 mL)",
+      "metodo": "Titulación acuosa con HClO4, pH a mitad del volumen de equivalencia", "nivel": "A"
+    },
+    "goldberg02": {
+      "url": "https://www.nist.gov/system/files/documents/srd/jpcrd615.pdf",
+      "T": 25, "I": "I=0, valores recomendados tras correcciones", "metodo": "Evaluación crítica de estudios experimentales, con referencias", "nivel": "B"
+    },
+    "meloun10": {
+      "url": "https://doi.org/10.1021/je900972j",
+      "T": 25, "I": "I=0 por regresión de 0.01–0.4 mol/L", "metodo": "Titulación espectrofotométrica multiparamétrica en agua, rasagilina base", "nivel": "A"
+    },
+    "lassila10": {
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2841948/",
+      "T": null, "I": "No indicada para el pKa del compuesto", "metodo": "pKa tabulado para analizar cinética; no se adjudica el experimento de pKa", "nivel": "B"
+    },
+    "weli85": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/3924052/",
+      "T": null, "I": "No declarada en el resumen para el pKa", "metodo": "pKa citado en un trabajo primario de metabolismo; método de pKa sin cotejar", "nivel": "B"
+    },
+    "morgenthaler07": {
+      "url": "https://doi.org/10.1002/cmdc.200700059",
+      "T": null, "I": "Sin verificar para cada fila", "metodo": "Datos experimentales indicados en figuras; faltan las condiciones por fila", "nivel": "B"
+    },
+    "lidocaine85": {
+      "url": "https://pubmed.ncbi.nlm.nih.gov/3813059/",
+      "T": 26, "I": "0.165 M NaCl", "metodo": "Espectrofotometría corroborada por potenciometría", "nivel": "A"
+    },
+    "butterworth90": {
+      "url": "https://doi.org/10.1097/00000542-199004000-00022",
+      "T": 25, "I": "0.150 M NaCl + MES, MOPS y CHES 0.005 M cada uno; I aproximada 0.150–0.165 M según neutralización",
+      "metodo": "Espectrofotometría acuosa; datos atribuidos a Sanchez, Arthur y Strichartz", "nivel": "B"
+    },
+    "good66": {
+      "url": "https://doi.org/10.1021/bi00866a011",
+      "T": 20, "I": "0.1 M de compuesto nominal; no se adopta como fuerza iónica medida",
+      "metodo": "Titulación potenciométrica con electrodo de vidrio", "nivel": "B"
+    },
+    "bull26": {
+      "url": "https://doi.org/10.1021/acs.jmedchem.5c02614",
+      "T": null, "I": "No verificadas las condiciones de pKa en el suplemento",
+      "metodo": "pKaH experimental indicado en figura 6", "nivel": "B"
+    },
+    "fda_clopidogrel": {
+      "url": "https://www.accessdata.fda.gov/drugsatfda_docs/nda/2002/20-839S019_Clopidogrel%20Bisulfate_EAfonsi.pdf",
+      "T": 25, "I": "No declarada", "metodo": "Potenciometría, dato de patrocinador", "nivel": "C"
+    }
+  },
+  "compuestos": [
+    ["Glicina, éster etílico", "CCOC(=O)CN", "CCOC(=O)C[NH3+]", ["aminoester"], [["aminoester", "dogan01", 7.90, "Tabla 2, p. 129, log K 7,90 ± 0,01"]]],
+    ["Glicina, éster metílico", "COC(=O)CN", "COC(=O)C[NH3+]", ["aminoester"], [["aminoester", "dogan01", 7.67, "Tabla 2, p. 129; 7,67 ± 0,01"], ["aminoester", "edsall33_metil", 7.66, "Tabla III, p. 2342, fila a 25 °C y 0,0240 molal"]]],
+    ["L-Alanina, éster etílico", "CCOC(=O)[C@@H](N)C", "CCOC(=O)[C@@H]([NH3+])C", ["aminoester"], [["aminoester", "dogan01", 7.85, "Tabla 2, p. 129"], ["aminoester", "edsall33_etil", 7.80, "Tabla III, p. 2342, α-alanina éster etílico a 25 °C y 0,0180 molal; estereoquímica de esa medida sin indicar"]]],
+    ["L-Alanina, éster metílico", "COC(=O)[C@@H](N)C", "COC(=O)[C@@H]([NH3+])C", ["aminoester"], [["aminoester", "dogan01", 7.75, "Tabla 2, p. 129"]]],
+    ["L-Valina, éster etílico", "CCOC(=O)[C@@H](N)C(C)C", "CCOC(=O)[C@@H]([NH3+])C(C)C", ["aminoester"], [["aminoester", "dogan01", 7.65, "Tabla 2, p. 129"]]],
+    ["L-Valina, éster metílico", "COC(=O)[C@@H](N)C(C)C", "COC(=O)[C@@H]([NH3+])C(C)C", ["aminoester"], [["aminoester", "dogan01", 7.55, "Tabla 2, p. 129"]]],
+    ["L-Leucina, éster etílico", "CCOC(=O)[C@@H](N)CC(C)C", "CCOC(=O)[C@@H]([NH3+])CC(C)C", ["aminoester"], [["aminoester", "dogan01", 7.75, "Tabla 2, p. 129"]]],
+    ["L-Leucina, éster metílico", "COC(=O)[C@@H](N)CC(C)C", "COC(=O)[C@@H]([NH3+])CC(C)C", ["aminoester"], [["aminoester", "dogan01", 7.65, "Tabla 2, p. 129"]]],
+    ["L-Fenilalanina, éster etílico", "CCOC(=O)[C@@H](N)Cc1ccccc1", "CCOC(=O)[C@@H]([NH3+])Cc1ccccc1", ["aminoester"], [["aminoester", "dogan01", 7.15, "Tabla 2, p. 129"]]],
+    ["L-Fenilalanina, éster metílico", "COC(=O)[C@@H](N)Cc1ccccc1", "COC(=O)[C@@H]([NH3+])Cc1ccccc1", ["aminoester"], [["aminoester", "dogan01", 7.11, "Tabla 2, p. 129"]]],
+    ["L-Serina, éster etílico", "CCOC(=O)[C@@H](N)CO", "CCOC(=O)[C@@H]([NH3+])CO", ["aminoester"], [["aminoester", "dogan01", 7.24, "Tabla 2, p. 129"]]],
+    ["L-Serina, éster metílico", "COC(=O)[C@@H](N)CO", "COC(=O)[C@@H]([NH3+])CO", ["aminoester"], [["aminoester", "dogan01", 7.10, "Tabla 2, p. 129"]]],
+    ["L-Metionina, éster etílico", "CCOC(=O)[C@@H](N)CCSC", "CCOC(=O)[C@@H]([NH3+])CCSC", ["aminoester"], [["aminoester", "dogan01", 7.28, "Tabla 2, p. 129"]]],
+    ["L-Metionina, éster metílico", "COC(=O)[C@@H](N)CCSC", "COC(=O)[C@@H]([NH3+])CCSC", ["aminoester"], [["aminoester", "dogan01", 7.15, "Tabla 2, p. 129"]]],
+    ["4-Nitrofenil glicinato", "NCC(=O)Oc1ccc([N+](=O)[O-])cc1", "[NH3+]CC(=O)Oc1ccc([N+](=O)[O-])cc1", ["aminoester"], [["aminoester", "haybasak86", 7.1, "Resumen, equilibrio (i), aproximadamente 7,1"]]],
+    ["Clopidogrel", "COC(=O)[C@H](c1ccccc1Cl)N1CCc2sccc2C1", "COC(=O)[C@H](c1ccccc1Cl)[NH+]1CCc2sccc2C1", ["aminoester"], [["aminoester", "fda_clopidogrel", 4.55, "§4.1.6.1, página 9/21, pKa por potenciometría"]]],
+    ["Bupropión", "CC(NC(C)(C)C)C(=O)c1cccc(Cl)c1", "CC([NH2+]C(C)(C)C)C(=O)c1cccc(Cl)c1", ["aminocetona"], [["aminocetona", "takayanagi16", 8.75, "§3.1 y figura 3, 8,75 ± 0,02"]]],
+    ["Ketamina", "CNC1(c2ccccc2Cl)CCCCC1=O", "C[NH2+]C1(c2ccccc2Cl)CCCCC1=O", ["aminocetona"], [["aminocetona", "volgyi07", 7.49, "Tabla 3, columna Measured in aqueous medium, 7,49 ± 0,01"]]],
+    ["Aminoacetona", "CC(=O)CN", "CC(=O)C[NH3+]", ["aminocetona"], [["aminocetona", "dutra01", 6.8, "p. 1324, Aminoacetone Preparation and Product Analyses, pKa del grupo α-amonio"]]],
+    ["N-Etilmorfolina", "CCN1CCOCC1", "CC[NH+]1CCOCC1", ["alquilmorfolina"], [["alquilmorfolina", "lanthano05", 7.75, "Tabla 1, HL+ libre a 25 °C, ±0,01 (3 s)"], ["alquilmorfolina", "goldberg02", 7.77, "Tabla 7.29, valor seleccionado"]]],
+    ["N-Metilmorfolina", "CN1CCOCC1", "C[NH+]1CCOCC1", ["alquilmorfolina"], [["alquilmorfolina", "houston64_1", 7.45, "Tabla 9, p. 51, primera fila"], ["alquilmorfolina", "houston64_2", 7.44, "Tabla 9, p. 51, segunda fila"], ["alquilmorfolina", "heo94_morfo", 7.41, "Tabla 3, p. 2283, pKa de N-methylmorpholine"]]],
+    ["MES", "O=S(=O)(O)CCN1CCOCC1", "O=S(=O)([O-])CC[NH+]1CCOCC1", ["alquilmorfolina"], [["alquilmorfolina", "good66", 6.15, "Tabla 1 y sección Methods, pKa aparente a 20 °C"], ["alquilmorfolina", "goldberg02", 6.27, "Tabla 7.44, HL zwitterión → L−"]]],
+    ["MOPS", "O=S(=O)(O)CCCN1CCOCC1", "O=S(=O)([O-])CCC[NH+]1CCOCC1", ["alquilmorfolina"], [["alquilmorfolina", "covington05", 7.42, "Tabla 1, pKa2 del nitrógeno; pKa1 corresponde al grupo sulfónico"]]],
+    ["MOPSO", "O=S(=O)(O)CC(O)CN1CCOCC1", "O=S(=O)([O-])CC(O)C[NH+]1CCOCC1", ["alquilmorfolina"], [["alquilmorfolina", "goldberg02", 6.90, "Tabla 7.49, valor seleccionado para la reacción (2), HL zwitterión → L−"]]],
+    ["Morfolina", "N1CCOCC1", "[NH2+]1CCOCC1", ["morfolina_nh"], [["morfolina_nh", "covington05", 8.72, "Tabla 1, valor redeterminado"], ["morfolina_nh", "heo94_morfo", 8.36, "Tabla 2, p. 2282, pKa de morpholine"]]],
+    ["Propargilamina", "C#CCN", "C#CC[NH3+]", ["propargilamina"], [["propargilamina_primaria", "lassila10", 8.2, "Tabla 3, valor de pKa usado para el análisis de Brønsted"]]],
+    ["Rasagilina", "C#CCN[C@@H]1CCc2ccccc21", "C#CC[NH2+][C@@H]1CCc2ccccc21", ["propargilamina"], [["propargilamina_n_sustituida", "meloun10", 7.12, "Resumen y ajuste termodinámico, base libre ±0,01; (1R)"]]],
+    ["Selegilina", "C#CCN(C)[C@H](C)Cc1ccccc1", "C#CC[NH+](C)[C@H](C)Cc1ccccc1", ["propargilamina"], [["propargilamina_n_sustituida", "volgyi07", 7.44, "Tabla 3, columna acuosa, 7,44 ± 0,01; (2R)"]]],
+    ["Pargilina", "C#CCN(C)Cc1ccccc1", "C#CC[NH+](C)Cc1ccccc1", ["propargilamina"], [["propargilamina_n_sustituida", "weli85", 6.60, "Resumen, pKa de PARG"]]],
+    ["Tiomorfolina 1,1-dióxido", "N1CCS(=O)(=O)CC1", "[NH2+]1CCS(=O)(=O)CC1", ["sulfona_beta"], [["sulfona_beta_ciclica", "morgenthaler07", 5.4, "Figura 11b y tabla S2, columna experimental"]]],
+    ["2-(Fenilsulfonil)etilamina", "NCCS(=O)(=O)c1ccccc1", "[NH3+]CCS(=O)(=O)c1ccccc1", ["sulfona_beta"], [["sulfona_beta_aciclica", "morgenthaler07", 7.8, "Figura 11a y tabla S2, columna experimental, β"]]],
+    ["Lidocaína", "CCN(CC)CC(=O)Nc1c(C)cccc1C", "CC[NH+](CC)CC(=O)Nc1c(C)cccc1C", ["aminoamida"], [["aminoamida", "lidocaine85", 8.06, "Resumen, NaCl 0,165 M a 26 °C, 8,06 ± 0,02"], ["aminoamida", "volgyi07", 7.95, "Tabla 3, columna acuosa, 7,95 ± 0,01"]]],
+    ["Bupivacaína", "CCCCN1CCCCC1C(=O)Nc1c(C)cccc1C", "CCCC[NH+]1CCCCC1C(=O)Nc1c(C)cccc1C", ["aminoamida"], [["aminoamida", "butterworth90", 8.21, "Tabla 1, 25 °C; a 36 °C da 8,10"]]],
+    ["Glicinamida", "NC(=O)CN", "NC(=O)C[NH3+]", ["aminoamida"], [["aminoamida", "good66", 8.20, "p. 470, Glycinamide Hydrochloride, pKa aparente a 20 °C"], ["aminoamida", "goldberg02", 8.04, "Tabla 7.32, valor termodinámico recomendado"]]],
+    ["Aminooxetano 4a, N-(3-ariloxetan-3-il)morfolina", "COc1ccc(C2(N3CCOCC3)COC2)cc1", "COc1ccc(C2([NH+]3CCOCC3)COC2)cc1", ["oxetano_beta"], [["oxetano_beta", "bull26", 4.61, "Figura 6, valor experimental de 4a; el N de morfolina está unido a un carbono de oxetano"]]]
+  ]
+}

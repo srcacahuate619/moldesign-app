@@ -31,6 +31,7 @@ from services.docking.selectivity import (
     validar_protocolo_panel,
     seleccionar_anti_dianas,
     panel_bowes_2012,
+    discordancia_de_sitio_de,
     sitio_adjudicado_de,
     texto_de_alerta,
     ANTI_TARGET_PANEL,
@@ -71,7 +72,8 @@ def estructura_del_panel_por_defecto(pdb_id: str) -> dict | None:
             "pose_reproducida": redock.get("pose_reproducida"),
             "rmsd_pose1_A": redock.get("rmsd_pose1_A"),
             "truncadas_en_sitio": fila.get("truncadas_en_sitio"),
-            "sitio_adjudicado": fila.get("sitio_adjudicado", False)}
+            "sitio_adjudicado": fila.get("sitio_adjudicado", False),
+            "discordancia_de_sitio": fila.get("discordancia_de_sitio")}
 
 
 @router.get("/anti-targets")
@@ -125,6 +127,7 @@ async def list_anti_targets(
                 "pose_reproducida": redock.get("pose_reproducida"),
                 "rmsd_pose1_A": redock.get("rmsd_pose1_A"),
                 "sitio_adjudicado": fila.get("sitio_adjudicado", False),
+                "discordancia_de_sitio": fila.get("discordancia_de_sitio"),
             },
         })
 
@@ -469,7 +472,8 @@ async def run_selectivity_stream(
                 if aff < threshold:
                     safety_flags.append(texto_de_alerta(res["name"], aff, threshold,
                                                         res.get("risk", "Desconocido"),
-                                                        res.get("sitio_adjudicado")))
+                                                        res.get("sitio_adjudicado"),
+                                                        discordancia_de_sitio_de(pdb_id)))
                 if aff < worst_off_affinity:
                     worst_off_affinity = aff
                     peor_anti_diana = res.get("name") or res.get("pdb_id")

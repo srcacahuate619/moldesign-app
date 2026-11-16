@@ -80,3 +80,29 @@ def test_sin_rebasar_el_umbral_no_hay_alerta_aunque_el_sitio_no_este_adjudicado(
     resultado = _panel("7UL2", -6.5)
     assert not any(f.startswith("ALERTA") for f in resultado.safety_flags)
     assert not any(AVISO_SITIO_NO_ADJUDICADO in f for f in resultado.safety_flags)
+
+
+# ── hERG, revisión final de 1.0.4: la alerta se escribe con los decimales que dejan ver por qué se cumple ──────────
+
+
+@pytest.mark.parametrize("afinidad, esperado", [
+    (-7.004, "afinidad -7.004 kcal/mol < umbral -7.000"),     # el caso medido: antes «-7.0 < umbral -7.0»
+    (-7.04, "afinidad -7.04 kcal/mol < umbral -7.00"),
+    (-7.0499, "afinidad -7.05 kcal/mol < umbral -7.00"),
+    (-7.00004, "afinidad -7.00004 kcal/mol < umbral -7.00000"),
+    (-7.2, "afinidad -7.2 kcal/mol < umbral -7.0"),           # el caso normal no cambia
+    (-9.87, "afinidad -9.9 kcal/mol < umbral -7.0"),
+])
+def test_la_alerta_no_escribe_igual_el_valor_y_el_umbral(afinidad, esperado):
+    texto = texto_de_alerta("hERG", afinidad, -7.0, "arritmia", None)
+    assert esperado in texto
+    assert afinidad < -7.0                                    # la desigualdad estricta no se toca
+
+
+def test_en_el_corte_exacto_no_hay_alerta_y_los_decimales_no_se_inventan():
+    from services.docking.selectivity import decimales_para_distinguir
+
+    assert not (-7.0 < -7.0)
+    assert decimales_para_distinguir(-7.0, -7.0) == 6          # iguales: tope, no un bucle infinito
+    assert decimales_para_distinguir(-7.2, -7.0) == 1
+    assert decimales_para_distinguir(-7.5, -7.0, minimo=1) == 1

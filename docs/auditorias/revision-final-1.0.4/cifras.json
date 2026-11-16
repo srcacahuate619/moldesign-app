@@ -1,0 +1,111 @@
+{
+  "base": "4b8eaf3e229b89aa4032c8e6bbd6711cadf0b5aa",
+  "D03": {
+    "n": 21,
+    "familias": {
+      "HSP90": 11,
+      "BRD4": 10
+    },
+    "exitos": {
+      "SIN": 8,
+      "SELECTIVAS": 11,
+      "TODAS": 13
+    },
+    "discordancias": [
+      6,
+      3
+    ],
+    "p_exacto": 0.5078125
+  },
+  "D05": {
+    "positivos": 5,
+    "detectados": 3,
+    "negativos": 9,
+    "falsos_positivos": 0,
+    "tipo_negativos": {
+      "trasladado": 7,
+      "cristal": 2
+    }
+  },
+  "D06": {
+    "corridas": 243,
+    "brazos": {
+      "e16": {
+        "padres": 57,
+        "rho": 0.12259549174227088,
+        "mediana_s": 54.43799999999828
+      },
+      "e32": {
+        "padres": 57,
+        "rho": 0.1426071176911906,
+        "mediana_s": 72.68800000000192
+      },
+      "e8": {
+        "padres": 57,
+        "rho": 0.12928631647049077,
+        "mediana_s": 35.875
+      },
+      "e8s43": {
+        "padres": 57,
+        "rho": 0.11972515744346776,
+        "mediana_s": 53.67199999999866
+      }
+    },
+    "padres_con_microestado_distinto_entre_brazos": {},
+    "delta_rho_32_8": 0.01332080122069984
+  },
+  "D08": {
+    "antes": {
+      "positivos_reconocidos": 6,
+      "negativos_sin_familias_estudiadas": 12,
+      "negativos_sin_ninguna_familia": 11
+    },
+    "despues": {
+      "positivos_reconocidos": 12,
+      "negativos_sin_familias_estudiadas": 12,
+      "negativos_sin_ninguna_familia": 11
+    }
+  },
+  "D09": {
+    "n": 44,
+    "acuerdos": 38,
+    "dictamenes": {
+      "A/A": 25,
+      "B/B": 5,
+      "A/B": 4,
+      "B/A": 2,
+      "C/C": 4,
+      "U/U": 4
+    }
+  },
+  "hERG": {
+    "42": {
+      "-7": {
+        "positivos_alertados": 7,
+        "controles_alertados": 3
+      },
+      "-7.5": {
+        "positivos_alertados": 3,
+        "controles_alertados": 2
+      }
+    },
+    "43": {
+      "-7": {
+        "positivos_alertados": 6,
+        "controles_alertados": 3
+      },
+      "-7.5": {
+        "positivos_alertados": 3,
+        "controles_alertados": 2
+      }
+    },
+    "normalizador": {
+      "parametro_catalogo": -7.5,
+      "score_30_atomos_menos_6_8": {
+        "-7.5": 20.93,
+        "-7": 22.27
+      }
+    }
+  },
+  "script_sha256": "c37686d88fae681b6db1f0374063eab40ad0628181f39a827a33a11f85b4e498"
+}

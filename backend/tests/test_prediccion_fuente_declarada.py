@@ -334,8 +334,10 @@ class TestLaFirmaDeChai:
             estados.append((campo.estado, sitio["n_bajo_70"], accion))
             if texto is CIF_CHAI:
                 assert "Chai-1 (declarado por el archivo en _struct.title)" in campo.valor
-                assert "en este archivo coincide con el factor B del Cα de cada residuo" in campo.valor
-                assert "así lo escribe Chai-1 0.6.1; el archivo no declara su versión" in campo.valor
+                assert "los valores leídos coinciden con el factor B de los Cα correspondientes" in campo.valor
+                assert "El archivo declara Chai-1 y no acredita su versión" in campo.valor
+                # Un B que varía no demuestra que el Cα sea distinto de la media: no se afirma (revisión final, D-01).
+                assert "no es la media" not in campo.valor and "0.6.1" not in campo.valor
             else:
                 assert "Chai-1" not in campo.valor and "estructura predicha (ModelCIF)" in campo.valor
         assert estados[0] == estados[1]
@@ -354,7 +356,8 @@ class TestLaFirmaDeChai:
         en = traducir_dossier(auditoria, "en")["bloques"][0]["requisitos"][0]
 
         assert "structure predicted by Chai-1 (declared by the file in _struct.title)" in en["valor"]
-        assert "in this file it matches the B-factor of each residue's Cα" in en["valor"]
+        assert "the values read match the B-factor of the corresponding Cα atoms" in en["valor"]
+        assert "The file declares Chai-1 and does not establish its version" in en["valor"]
         for texto in filter(None, [en["valor"], en["razon"], en.get("accion_recomendada")]):
             assert not _parece_espanol(texto), texto
 

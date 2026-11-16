@@ -1,0 +1,922 @@
+{
+  "naturaleza": "Revisión post hoc de alcance; no calibración de pKa ni nueva preparación",
+  "patrones_acotados": {
+    "aminoester": "[NX4+;H3]-[CX4;H1,H2]-[CX3](=[OX1])-[OX2;H0]-[$([CH3]),$([CH2]-[CH3])]",
+    "alquilmorfolina": "[NX4+;H1;R1]1(-[CX4;!R;H2,H3])[CH2;R1][CH2;R1][OX2;H0;R1][CH2;R1][CH2;R1]1"
+  },
+  "padres_A_conservados": [
+    {
+      "nombre": "Glicina, éster etílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "Glicina, éster metílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Alanina, éster etílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Alanina, éster metílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Valina, éster etílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Valina, éster metílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Leucina, éster etílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Leucina, éster metílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Fenilalanina, éster etílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Fenilalanina, éster metílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Serina, éster etílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Serina, éster metílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Metionina, éster etílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Metionina, éster metílico",
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "N-Etilmorfolina",
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "N-Metilmorfolina",
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "MOPS",
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    }
+  ],
+  "correctas_versionadas": {
+    "n": 17,
+    "marcadas": 0
+  },
+  "controles_originales": [
+    {
+      "nombre": "sildenafilo",
+      "origen": "ERRORES_CONFIRMADOS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "cetirizina",
+      "origen": "ERRORES_CONFIRMADOS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "albendazol",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "clorfeniramina",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "diclofenaco",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "diflunisal",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "furosemida",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "haloperidol",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "hidroclorotiazida",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "ibuprofeno",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "imipramina",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "ketoconazol",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "ketoprofeno",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "papaverina",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "propranolol",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "verapamilo",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "ciprofloxacino",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "celecoxib",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "losartan",
+      "origen": "CORRECTAS_VERIFICADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "CHEMBL1182011 (N-cianoetilo)",
+      "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "CHEMBL1184968 (nitrilo en β, gem-dimetilo)",
+      "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "CHEMBL1184991 (N-trifluoroetilo)",
+      "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "aminoacetonitrilo protonado (nitrilo en α)",
+      "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "3,3-difluoropiperidinio (CF2 en β, en anillo)",
+      "origen": "AMINAS_CON_ATRACTOR_ACOPLADAS",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "cumarina",
+      "origen": "test_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "umbeliferona: 7-OH, fenol, no vinílogo",
+      "origen": "test_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "acetilacetona enol, acíclica",
+      "origen": "test_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "1,3-propanodiamina: 4 enlaces",
+      "origen": "test_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-metil-N'-arilpiperazina: un solo N básico",
+      "origen": "test_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "piperidina",
+      "origen": "test_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-trifluoroetilo acoplada NEUTRA: nada que revisar",
+      "origen": "test_amina_con_atractor_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "fluoxetina: CF3 en el arilo, lejos del N",
+      "origen": "test_amina_con_atractor_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "2-fluoroetilamonio: un solo flúor (pKa ≈ 9)",
+      "origen": "test_amina_con_atractor_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "4,4-difluoropiperidinio: CF2 en γ",
+      "origen": "test_amina_con_atractor_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "verapamilo: nitrilo a cuatro enlaces del N",
+      "origen": "test_amina_con_atractor_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "amonio cuaternario sin H",
+      "origen": "test_amina_con_atractor_controles_negativos",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "metil α-aminoéster con amina primaria",
+      "origen": "control estructural construido",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "β-aminoéster",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "α-aminoaldehído",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "β-aminocetona",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "aminoamida, frontera del α-aminoéster",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "carbamato",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "ácido protonado",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "zwitterión glicina",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "zwitterión con motivo aminoéster",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "α-aminoéster neutro",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-alquil morfolina",
+      "origen": "control estructural construido",
+      "original": [
+        "alquilmorfolina"
+      ],
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "morfolina NH",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-arilmorfolinio",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "morfolina fusionada",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-acilmorfolina",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "oxazolidina",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "oxazepano",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "tiomorfolina",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "morfolinio cuaternario",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-propargilamina con alquino interno",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "amina con alquino a dos carbonos",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "alquenilamina",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "amonio cuaternario propargílico",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-propargilanilinio",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "β-sulfona acíclica",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "tiomorfolina 1,1-dióxido",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "sulfóxido en β",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "sulfonamida en β",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "sulfonato en β",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "sulfona en α",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "sulfona en γ",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "oxetan-3-ilamonio",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "oxetan-2-ilamonio",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "oxetan-3-ilmetilamonio",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "tetrahidrofuranilamonio",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "amina alifática ordinaria",
+      "origen": "control estructural construido",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Glicina, éster etílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "Glicina, éster metílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Alanina, éster etílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Alanina, éster metílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Valina, éster etílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Valina, éster metílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Leucina, éster etílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Leucina, éster metílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Fenilalanina, éster etílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Fenilalanina, éster metílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Serina, éster etílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Serina, éster metílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Metionina, éster etílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "L-Metionina, éster metílico",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": [
+        "aminoester"
+      ]
+    },
+    {
+      "nombre": "4-Nitrofenil glicinato",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": []
+    },
+    {
+      "nombre": "Clopidogrel",
+      "origen": "compuesto con fuente",
+      "original": [
+        "aminoester"
+      ],
+      "acotado": []
+    },
+    {
+      "nombre": "Bupropión",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Ketamina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Aminoacetona",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "N-Etilmorfolina",
+      "origen": "compuesto con fuente",
+      "original": [
+        "alquilmorfolina"
+      ],
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "N-Metilmorfolina",
+      "origen": "compuesto con fuente",
+      "original": [
+        "alquilmorfolina"
+      ],
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "MES",
+      "origen": "compuesto con fuente",
+      "original": [
+        "alquilmorfolina"
+      ],
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "MOPS",
+      "origen": "compuesto con fuente",
+      "original": [
+        "alquilmorfolina"
+      ],
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "MOPSO",
+      "origen": "compuesto con fuente",
+      "original": [
+        "alquilmorfolina"
+      ],
+      "acotado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "Morfolina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Propargilamina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Rasagilina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Selegilina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Pargilina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Tiomorfolina 1,1-dióxido",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "2-(Fenilsulfonil)etilamina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Lidocaína",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Bupivacaína",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Glicinamida",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    },
+    {
+      "nombre": "Aminooxetano 4a, N-(3-ariloxetan-3-il)morfolina",
+      "origen": "compuesto con fuente",
+      "original": [],
+      "acotado": []
+    }
+  ],
+  "fronteras_adicionales": [
+    {
+      "nombre": "ester_secundario",
+      "smiles": "COC(=O)C[NH2+]C",
+      "esperado": [],
+      "observado": []
+    },
+    {
+      "nombre": "ester_terciario",
+      "smiles": "COC(=O)C[NH+](C)C",
+      "esperado": [],
+      "observado": []
+    },
+    {
+      "nombre": "ester_neutro",
+      "smiles": "COC(=O)CN",
+      "esperado": [],
+      "observado": []
+    },
+    {
+      "nombre": "ester_fenilico",
+      "smiles": "[NH3+]CC(=O)Oc1ccccc1",
+      "esperado": [],
+      "observado": []
+    },
+    {
+      "nombre": "ester_zwitterion",
+      "smiles": "COC(=O)[C@@H]([NH3+])CC(=O)[O-]",
+      "esperado": [],
+      "observado": []
+    },
+    {
+      "nombre": "morfolina_carbono_sustituido",
+      "smiles": "C[NH+]1C(C)COCC1",
+      "esperado": [],
+      "observado": []
+    },
+    {
+      "nombre": "morfolina_N_isopropilo",
+      "smiles": "CC(C)[NH+]1CCOCC1",
+      "esperado": [],
+      "observado": []
+    },
+    {
+      "nombre": "morfolina_N_metilo",
+      "smiles": "C[NH+]1CCOCC1",
+      "esperado": [
+        "alquilmorfolina"
+      ],
+      "observado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "MOPS_N_protonado",
+      "smiles": "O=S(=O)([O-])CCC[NH+]1CCOCC1",
+      "esperado": [
+        "alquilmorfolina"
+      ],
+      "observado": [
+        "alquilmorfolina"
+      ]
+    },
+    {
+      "nombre": "MOPS_N_neutro_molecula_anionica",
+      "smiles": "O=S(=O)([O-])CCCN1CCOCC1",
+      "esperado": [],
+      "observado": []
+    }
+  ],
+  "entradas_sha256": {
+    "medidas.json": "c878485bdd6de1caee29e054a32349241becfd32ece2eccacc59ea2ef4c2b4ad",
+    "controles.json": "ae766ed357a2e4c2a85770e0d1e67cb737e1ea05762030e0220e2e2df6a51051",
+    "resultados.json": "1f4da6a0b74c899c923d6309a669606fb8e162401d8d222162da03b1a5eff9f7"
+  }
+}

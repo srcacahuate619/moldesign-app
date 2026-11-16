@@ -31,6 +31,7 @@ a AutoDock Vina para el docking.
 
 
 import hashlib
+import threading
 
 import rdkit
 from rdkit import Chem
@@ -148,6 +149,34 @@ def _get_ring_size_info(mol: Mol) -> str:
 #: (`reproduccion_de_la_protonacion`): sin ellos no se puede repetir.
 PRECISION_DIMORPHITE = 1.0
 MAX_VARIANTES_DIMORPHITE = 128
+
+#: Carrera de arranque de dimorphite-dl 2.0.2 (revisión final de 1.0.4, hERG).
+#:
+#: `PKaData.__new__` publica `_instance` ANTES de cargar las reglas. Si dos hilos entran en frío, el segundo recibe la
+#: instancia con `_data == []`, `protonate_smiles` no encuentra ningún sitio y devuelve la molécula sin protonar, sin
+#: excepción. Medido el 2026-11-15 con cuatro hilos en un proceso nuevo: cisapride, droperidol y haloperidol salían
+#: con 1 candidato (2, 4 y 2 en serie) en 5 de 5 arranques. `_construir_conformero` corre en el pool de hilos, así que
+#: dos ligandos concurrentes de un lote lo alcanzan. El candado sólo cubre la primera construcción.
+_CANDADO_TABLA_PKA = threading.Lock()
+
+
+def preparar_dimorphite() -> int:
+    """Carga la tabla de reglas de dimorphite-dl una sola vez y devuelve cuántas reglas tiene.
+
+    Lanza `RuntimeError` si la tabla queda vacía: protonar con ella devolvería la forma sin protonar sin avisar, y
+    quien llama ya declara «dimorphite-dl falló; se acopla la forma neutra» en esa rama.
+    """
+    from dimorphite_dl.protonate.data import PKaData
+
+    with _CANDADO_TABLA_PKA:
+        if PKaData._instance is not None and not PKaData._data:
+            # Una carga anterior falló a medias y dejó la instancia publicada y vacía: se rehace.
+            PKaData._instance = None
+        PKaData()
+        reglas = len(PKaData._data)
+    if reglas == 0:
+        raise RuntimeError("la tabla de reglas de dimorphite-dl está vacía")
+    return reglas
 
 
 def reproduccion_de_la_protonacion(candidatos: list[str], ph: float,
@@ -489,6 +518,7 @@ def _construir_conformero(smiles: str, ph: float | None = None,
 
     try:
         import dimorphite_dl
+        preparar_dimorphite()  # tabla cargada y completa antes de enumerar: ver `_CANDADO_TABLA_PKA`
         # dimorphite_dl devuelve una lista de SMILES protonados
         protonated_list = dimorphite_dl.protonate_smiles(
             canonical,

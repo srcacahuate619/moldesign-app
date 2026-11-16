@@ -1,0 +1,556 @@
+{
+  "tipo": "Sondas dirigidas y análisis post hoc de la réplica hERG",
+  "protocolo_original_sha256": "17f68a496bc16370e723c0772c77214bdd4ba03c3714b3eae28ec3106efc4491",
+  "preparacion_5va1": {
+    "receptor_sha256": "7f29ccf5d319bae3c31378988cc3f5c1d9291f117f862b2f4103e5af36619ee7",
+    "deposito_sha256": "31625f8009a9b9da2c80e01764be053393a8d4713dd2c6f159f37c91de0ba49d",
+    "recipe_hash": "debc881ab7e044eb866f8cf5afd616abce57158c0aec5304b360605e424b7759",
+    "receptor_recipe": 7,
+    "vina_sha256": "e0c4b2715e0c1a74f6e92d0f3be0328ac97542eafbc111e6b1efad897a73cce5",
+    "centro": [
+      73.15,
+      73.15,
+      78.53
+    ],
+    "tamano": [
+      28.8,
+      28.8,
+      30.0
+    ],
+    "cadenas": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  },
+  "vina_instrumentado_sha256": "0e0125909e6db01f7a9ca54ff310409151bf9132c08239dcd1970e10e0aac386",
+  "primario_42": {
+    "-7.0": {
+      "positivos_alertados": 7,
+      "controles_alertados": 3
+    },
+    "-7.5": {
+      "positivos_alertados": 3,
+      "controles_alertados": 2
+    }
+  },
+  "sensibilidad_43_en_8": {
+    "-7.0": {
+      "positivos_alertados": 6,
+      "controles_alertados": 3
+    },
+    "-7.5": {
+      "positivos_alertados": 3,
+      "controles_alertados": 2
+    }
+  },
+  "mcnemar_exacto_bilateral": {
+    "positivos": 0.125,
+    "controles": 1,
+    "exactitud": 0.375
+  },
+  "acoplamientos_alternativos": {
+    "amoxicillin-anion-42": {
+      "original": -7.394,
+      "microestado_original": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+      "alternativo": -7.422,
+      "microestado_alternativo": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)[O-]",
+      "registro_sha256": "6e358ce5ea8bfe66fcac25792540b07acc3f7c012f81e0ede7672900c729e318",
+      "traza_vina_sha256": "927abea07482fbf327471535edee894f210e04247dd33bf3c67e61cb2f661c20",
+      "ligando_pdbqt_sha256": "b09e716166898300714beed62e2471f7b529c553893d7289e446cd4c54665f43"
+    },
+    "amoxicillin-anion-43": {
+      "original": -7.435,
+      "microestado_original": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+      "alternativo": -7.446,
+      "microestado_alternativo": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)[O-]",
+      "registro_sha256": "4a2aa19281eb3d7c642147c58bcbd031b4f4d48011a6c543f099688d482dc6e2",
+      "traza_vina_sha256": "fde9a64f7d1a3484337591a63aca6d650f537da02a8dbfc42f42b0c93006de9a",
+      "ligando_pdbqt_sha256": "b09e716166898300714beed62e2471f7b529c553893d7289e446cd4c54665f43"
+    },
+    "amoxicillin-zwitterion-42": {
+      "original": -7.394,
+      "microestado_original": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+      "alternativo": -7.507,
+      "microestado_alternativo": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H]([NH3+])c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)[O-]",
+      "registro_sha256": "a2ea053395994d59d301d7779ca530591cb99568ec6f5de698bcc2b95180f51a",
+      "traza_vina_sha256": "0308c09e9f715f0ca2a3e619c11929d001f54361c38eeca3a28fdfef92d8f260",
+      "ligando_pdbqt_sha256": "8736232d8d9cea4bef66020e113bbffcc5179e2830c7e86c0f13c36a7abd36d1"
+    },
+    "amoxicillin-zwitterion-43": {
+      "original": -7.435,
+      "microestado_original": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+      "alternativo": -7.526,
+      "microestado_alternativo": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H]([NH3+])c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)[O-]",
+      "registro_sha256": "4ffcd48b50b85b08f51bb5203daefd4190799a9908e2c7a323b532d83499af8d",
+      "traza_vina_sha256": "02a36ea4ba31557f737daa97bf4177a2d1b149ce1b1fa9e504021e2018fe2b64",
+      "ligando_pdbqt_sha256": "8736232d8d9cea4bef66020e113bbffcc5179e2830c7e86c0f13c36a7abd36d1"
+    },
+    "cisapride-cation_amina-42": {
+      "original": -7.152,
+      "microestado_original": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+      "alternativo": -6.669,
+      "microestado_alternativo": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+      "registro_sha256": "b4e2455e548838829dad27dd172ead85666cd153196140a1dcb20e39da2742c3",
+      "traza_vina_sha256": "85e154e090451ff17c4a2baae167399b9442b3197ae4d5f6758406ffee6bfd1c",
+      "ligando_pdbqt_sha256": "0b2c9444dc070b0b3aa64bc2d9aa4e7e6140972469a6b10029b2691fda7af4e9"
+    },
+    "cisapride-cation_amina-43": {
+      "original": -7.226,
+      "microestado_original": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+      "alternativo": -6.663,
+      "microestado_alternativo": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+      "registro_sha256": "9778e11d77e97e4d509552d9984bc7104418100bcce0549bc2ad4a0e84daa985",
+      "traza_vina_sha256": "5ecbf838574aeb3c56b0233d74386e2e68552d6d86edc85611bda43d14fe2af6",
+      "ligando_pdbqt_sha256": "0b2c9444dc070b0b3aa64bc2d9aa4e7e6140972469a6b10029b2691fda7af4e9"
+    },
+    "droperidol-cation_amina-42": {
+      "original": -7.95,
+      "microestado_original": "O=C(CCCN1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+      "alternativo": -7.845,
+      "microestado_alternativo": "O=C(CCC[NH+]1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+      "registro_sha256": "2473123d45db7cd9bb855eac2762e43892625099fba6df9feafa5f3517730b57",
+      "traza_vina_sha256": "b6fea25dcfa5d7fe9bbde7f81c2f41841f21511c65adcdf20cb8070eb8e77e8f",
+      "ligando_pdbqt_sha256": "fe43fc91315bac4ffcab72970a27cf87a926f42cde1a1af5a6e06e15bd07dc6a"
+    },
+    "haloperidol-cation_amina-42": {
+      "original": -7.171,
+      "microestado_original": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+      "alternativo": -6.874,
+      "microestado_alternativo": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+      "registro_sha256": "5305d174b91ab05a82c9cc5755d96e0e69006ddf7d9c369b10e9e75723a4bc1e",
+      "traza_vina_sha256": "f11441f9dd96434d7c40232d84e9f840b82cf4f2c2c1bd25ac8f74c7dee89775",
+      "ligando_pdbqt_sha256": "0ade60a395648a93e5c7d9c7f0fdc17516c2f2bc059bb6486fb02e9269a43f8b"
+    },
+    "haloperidol-cation_amina-43": {
+      "original": -7.306,
+      "microestado_original": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+      "alternativo": -6.853,
+      "microestado_alternativo": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+      "registro_sha256": "32e1a7390d27074cf16abe96f2306da3cb0d59a5794c613b46238183b247b07f",
+      "traza_vina_sha256": "27515132c60b8b5ea855fecd3b1bdb6bd9046fccc4c3f66316375e0a1550d203",
+      "ligando_pdbqt_sha256": "0ade60a395648a93e5c7d9c7f0fdc17516c2f2bc059bb6486fb02e9269a43f8b"
+    }
+  },
+  "primario_42_con_sustituciones": {
+    "anion": {
+      "-7.0": {
+        "positivos_alertados": 5,
+        "controles_alertados": 3
+      },
+      "-7.5": {
+        "positivos_alertados": 3,
+        "controles_alertados": 2
+      }
+    },
+    "zwitterion": {
+      "-7.0": {
+        "positivos_alertados": 5,
+        "controles_alertados": 3
+      },
+      "-7.5": {
+        "positivos_alertados": 3,
+        "controles_alertados": 3
+      }
+    }
+  },
+  "preparacion_amoxicilina": {
+    "amoxicillin-automatico": {
+      "entrada_al_enumerador": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)O",
+      "candidatos": [
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H]([NH3+])c3ccc([O-])cc3)C(=O)N2[C@H]1C(=O)[O-]",
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H]([NH3+])c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)[O-]",
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc([O-])cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H]([NH3+])c3ccc([O-])cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)N2[C@H]1C(=O)[O-]",
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H]([NH3+])c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+        "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc([O-])cc3)C(=O)N2[C@H]1C(=O)[O-]"
+      ],
+      "parametros": {
+        "ph_min": 7.4,
+        "ph_max": 7.4,
+        "precision": 1.0,
+        "max_variants": 128
+      },
+      "elegido": "CC1(C)S[C@@H]2[C@H](NC(=O)[C@H](N)c3ccc(O)cc3)C(=O)[NH+]2[C@H]1C(=O)[O-]",
+      "protonacion": {
+        "aplicada": true,
+        "motor": "dimorphite-dl",
+        "ph": 7.4,
+        "ph_solicitado": 7.4,
+        "aviso_de_ph": null,
+        "alternativas": 8,
+        "seleccion": {
+          "criterio": "cargas_esperadas_ph_7.4",
+          "ph": 7.4,
+          "cationes_esperados": 1,
+          "aniones_esperados": 1,
+          "desajuste": 0,
+          "clases_sin_pka": [],
+          "quimica_resuelta": false,
+          "revision_biguanida": false,
+          "empatados": 2,
+          "motivo": "Se comparan los recuentos de carga formal de cada microestado con los centros que Henderson-Hasselbalch predice ionizados a pH 7.4, usando los pKa por clase de este módulo. Los empates se rompen por orden alfabético del SMILES, no por el orden de dimorphite-dl, que no es reproducible entre corridas."
+        },
+        "motivo": null,
+        "version_motor": "2.0.2",
+        "parametros": {
+          "ph_min": 7.4,
+          "ph_max": 7.4,
+          "precision": 1.0,
+          "max_variants": 128
+        },
+        "candidatos_sha256": "48a450bb93ec3f400d8298994c3a1c067dc13868723c04e7a53c5c276031ad9d",
+        "recortado": false
+      },
+      "registro_sha256": "05a052017bbe4da5739694d44a54888d57020aeda51fd405ca8da9ccc0ea9043"
+    }
+  },
+  "arranque_protonacion": {
+    "arranque-paralelo-caliente-1": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCC[NH+]1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 4,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "9465323eaf2d5f62388411b52d7451b7db53da1f0b2f4f69777768ed4d3ee6d8"
+    },
+    "arranque-paralelo-caliente-2": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCC[NH+]1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 4,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "80b30f4bf9d97c9d2a29a581db333c579ed0649e67bca8c0f6e00a4be3cf9636"
+    },
+    "arranque-paralelo-caliente-3": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCC[NH+]1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 4,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "91e548ca9e3516afdbd21fe54e6f6b7439d9004a636b80af8969948e618b7867"
+    },
+    "arranque-paralelo-frio-1": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCCN1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "9f6512932724f40368d6bb470e80f6fd1d00e5e77485ba6bc52723c435b18f3b"
+    },
+    "arranque-paralelo-frio-2": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCCN1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "56a25b513327c07a4a7f28e32cd6c790b1e3cf359af2b61052b23e642af77f8e"
+    },
+    "arranque-paralelo-frio-3": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CCN(CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCCN1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCCN1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 1,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "c45113b7b75812444ded04ad9dd533b6aa007f23abe2f63e05053ccf6135a121"
+    },
+    "arranque-serie-1": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCC[NH+]1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 4,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "b5dd95e8599c8eb342677791a380ed8522f3fbf672c2de2676374480988f6ddf"
+    },
+    "arranque-serie-2": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCC[NH+]1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 4,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "0efe44136d35d368b031dc076e5fab0a3ee61641d6cf1d3abee387a48defe556"
+    },
+    "arranque-serie-3": {
+      "reglas_al_final": 41,
+      "moleculas": [
+        {
+          "compound": "amiodarone",
+          "elegido": "CCCCc1oc2ccccc2c1C(=O)c1cc(I)c(OCC[NH+](CC)CC)c(I)c1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "cisapride",
+          "elegido": "COc1cc(N)c(Cl)cc1C(=O)N[C@@H]1CC[NH+](CCCOc2ccc(F)cc2)C[C@@H]1OC",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "droperidol",
+          "elegido": "O=C(CCC[NH+]1CC=C(n2c(=O)[nH]c3ccccc32)CC1)c1ccc(F)cc1",
+          "alternativas": 4,
+          "version_motor": "2.0.2"
+        },
+        {
+          "compound": "haloperidol",
+          "elegido": "O=C(CCC[NH+]1CCC(O)(c2ccc(Cl)cc2)CC1)c1ccc(F)cc1",
+          "alternativas": 2,
+          "version_motor": "2.0.2"
+        }
+      ],
+      "registro_sha256": "8265db42c8a8b60fc6ac29107af745a246929e82b7835af9d02a0ea4d0aeab45"
+    }
+  },
+  "rouen": {
+    "csv_sha256": "9d0cd23c08c93071a69661f9538c3b001a4f41e1bd6bc4db382c522f5a0d537c",
+    "texto_completo_xml_sha256": "999f9841c793ab7a8fc6bea56f50f3f47dea7b621ffc3ed21af14a35feee8181",
+    "columnas": {
+      "vina": {
+        "receptor_modelado": "hERG_5VA2",
+        "n": 53,
+        "tdp": 31,
+        "sin_tdp": 22,
+        "recuentos": {
+          "-7.0": {
+            "positivos_alertados": 31,
+            "controles_alertados": 21
+          },
+          "-7.5": {
+            "positivos_alertados": 31,
+            "controles_alertados": 20
+          }
+        },
+        "auc_columna": 0.7052785923753666,
+        "discordantes": [
+          "diltiazem"
+        ],
+        "rouen_menos_local": {
+          "amiodarone": -2.339,
+          "cisapride": -3.129,
+          "droperidol": -3.943,
+          "haloperidol": -3.715,
+          "moxifloxacin": -1.255,
+          "quinidine": -2.918,
+          "sparfloxacin": -3.871,
+          "terfenadine": -4.127,
+          "verapamil": -2.542
+        },
+        "mediana_rouen_menos_local": -3.129
+      },
+      "cav_vina": {
+        "receptor_modelado": "Cav_6AGF",
+        "n": 53,
+        "tdp": 31,
+        "sin_tdp": 22,
+        "recuentos": {
+          "-7.0": {
+            "positivos_alertados": 14,
+            "controles_alertados": 8
+          },
+          "-7.5": {
+            "positivos_alertados": 11,
+            "controles_alertados": 7
+          }
+        },
+        "auc_columna": 0.6612903225806451,
+        "discordantes": [
+          "cilostazol",
+          "linezolid",
+          "moxifloxacin",
+          "sunitinib"
+        ],
+        "rouen_menos_local": {
+          "amiodarone": 0.556,
+          "cisapride": 0.169,
+          "droperidol": -0.051,
+          "haloperidol": -0.355,
+          "moxifloxacin": 0.929,
+          "quinidine": 0.373,
+          "sparfloxacin": -0.43,
+          "terfenadine": 1.458,
+          "verapamil": 1.893
+        },
+        "mediana_rouen_menos_local": 0.373
+      }
+    }
+  }
+}

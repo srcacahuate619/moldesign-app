@@ -313,7 +313,6 @@ describe("la interfaz no puede tener más castellano fijo que ayer", () => {
       "components/evaluation/EstimacionDeCorrida.tsx",
       "components/evaluation/PreparationPanel.tsx",
       "components/interfaces/pro/CustomReceptorModal.tsx",
-      "components/interfaces/pro/DockingEnginePanel.tsx",
       "components/interfaces/pro/ProAnalysisTabs.tsx",
       "components/interfaces/pro/ProEvaluation.tsx",
       "components/interfaces/pro/ProModelsTab.tsx",

@@ -1,0 +1,63 @@
+{
+  "fecha_local": "2026-11-15",
+  "base": "ffddd7e92d60d2ec0f8c9ecb8879c3388de3ffd5",
+  "toolchain": {
+    "python": "3.11.9",
+    "rdkit": "2025.09.6",
+    "dimorphite-dl": "2.0.2"
+  },
+  "protocolo_sha256": "00ec9d8cc64e3d3064c462a0aec6082223efb2061f72f6dea4eeea1f51801a8c",
+  "archivos_sha256": {
+    "censo-chembl.json": "0bb903cf3558639913bbd1609dc1d16a0a7f988c1ac295bf4c930ee83fc05b61",
+    "comprobar.py": "633d1baa19c6300747e063dbf0f68d0072782236a5d9fe484bca8b7c91665a26",
+    "controles.json": "ae766ed357a2e4c2a85770e0d1e67cb737e1ea05762030e0220e2e2df6a51051",
+    "fronteras.json": "bfbb55b3387dca5880ae70985cbe54fc70e50b969d238c036292137340f2150c",
+    "INFORME.md": "a19c7ffc2598f6c7ccfc9f31c9212e9b14e8ee9bb9e910134946e55074e4c48a",
+    "manifiesto.py": "b12f4f821662776bad2e0514e81544540b3e40b0863f87625e536c013947614b",
+    "medidas.json": "c878485bdd6de1caee29e054a32349241becfd32ece2eccacc59ea2ef4c2b4ad",
+    "NO-VERIFICADO.md": "36cb44811235e7c2832b93d251eb683053d3dfa8c64ff7b938529316ff2d41e1",
+    "patrones.md": "8732f2fe9b1f9887ef097210ad1ac9f9927a1992c5a962c734089579ce42e78d",
+    "pka-por-clase.csv": "ea1c4c10baa8450c02ad4f427488b254127efed9e4f67ae9f1d6193292eafe3c",
+    "PROTOCOLO.md": "00ec9d8cc64e3d3064c462a0aec6082223efb2061f72f6dea4eeea1f51801a8c",
+    "PROTOCOLO.sha256": "f25448b778bce6101a0e8055c0a807c055f8f2405db237535f564e0799d89ac3",
+    "resultados.json": "1f4da6a0b74c899c923d6309a669606fb8e162401d8d222162da03b1a5eff9f7",
+    "textos.md": "ffa18bcde69bb892d1225022045c1cf5718edfa45d44f910eb509e40f6b0db07"
+  },
+  "referencias_locales_sha256": {
+    "scripts/artifacts_science/DEC-104-D04-CHEMBL/per_complex.jsonl": "aa3d23be0aeee78c4518ba7dd496de71f0defc6805de750ef12579b040adab00",
+    "docs/auditorias/investigacion-1.0.4/medir_d04.py": "038bdf596ff59a601327b8ce729597e31fe4e297819d493325018e6c5650569f"
+  },
+  "referencias_locales_lf_sha256": {
+    "backend/tests/test_especie_en_revision.py": "9c1840d9c5700f3bf0a443c788896a0a40f980f39e9fec578dc69fe758377853"
+  },
+  "sdf_fuente": {
+    "url": "https://github.com/czodrowskilab/Machine-learning-meets-pKa",
+    "nombre": "chembl25.sdf",
+    "sha256": "d727e142e729b1f47b27bf5fc695b3accd98d3bdfb3335b330190139c1990ad6",
+    "licencia_declarada_por_el_derivado": "CC BY 4.0",
+    "licencia_del_ChEMBL_subyacente": "CC BY-SA 3.0"
+  },
+  "fuentes_de_pKa_consultadas": [
+    "https://arastirmax.com/en/system/files/dergiler/5672/makaleler/21/3/arastirmax-bazi-amino-asitlerin-etil-metil-esterlerinin-protonasyon-sabitlerinin-su-ortaminda-potansiyometrik-yontemle-tayini.pdf",
+    "https://citeseerx.ist.psu.edu/document?doi=0b89290ed946dde56cf946051d80bcba6f4a803d&repid=rep1&type=pdf",
+    "https://doi.org/10.1002/cmdc.200700059",
+    "https://doi.org/10.1016/j.aca.2006.10.015",
+    "https://doi.org/10.1021/acs.jmedchem.5c02614",
+    "https://doi.org/10.1021/bi00866a011",
+    "https://doi.org/10.1021/ja01333a019",
+    "https://doi.org/10.1021/je0500983",
+    "https://doi.org/10.1021/je900972j",
+    "https://doi.org/10.1021/tx015526r",
+    "https://doi.org/10.1039/DT9860000039",
+    "https://doi.org/10.1097/00000542-199004000-00022",
+    "https://doi.org/10.15583/jpchrom.2016.009",
+    "https://doi.org/10.5012/bkcs.2005.26.4.614",
+    "https://pmc.ncbi.nlm.nih.gov/articles/PMC2841948/",
+    "https://pubmed.ncbi.nlm.nih.gov/3813059/",
+    "https://pubmed.ncbi.nlm.nih.gov/3924052/",
+    "https://repository.gatech.edu/bitstreams/11072616-aa06-47a3-8911-6345c45f71ca/download",
+    "https://www.accessdata.fda.gov/drugsatfda_docs/nda/2002/20-839S019_Clopidogrel%20Bisulfate_EAfonsi.pdf",
+    "https://www.nist.gov/system/files/documents/srd/jpcrd615.pdf"
+  ],
+  "procedencia_de_literatura": "Consulta del 15 de noviembre de 2026, con DOI, URL y localizador en el CSV. Los textos fuente no se redistribuyen. El hash corresponde a la extracción local, no a la página."
+}

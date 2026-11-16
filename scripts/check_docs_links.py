@@ -54,11 +54,36 @@ def _retenidos() -> set[Path]:
             if linea.strip() and not linea.lstrip().startswith("#")}
 
 
+def lineas_en_bloques_de_codigo(lineas: list[str]) -> set[int]:
+    """Índices (desde 0) de las líneas dentro de un bloque cercado (``` o ~~~), vallas incluidas.
+
+    Un SMARTS como `[CX3](=[OX1])` o un SMILES como `C[C@H](CS)` dentro de un bloque no es un enlace Markdown, y la
+    expresión de enlace lo tomaba por uno (`patrones.md`, 2026-11-15: «=[OX1]» salía como enlace roto). Sólo cuentan los
+    bloques que se CIERRAN: una valla sin pareja no puede esconder el resto del archivo, que se sigue revisando.
+    """
+    dentro: set[int] = set()
+    abierta: tuple[int, str] | None = None
+    for i, linea in enumerate(lineas):
+        valla = linea.lstrip()[:3]
+        if valla not in ("```", "~~~"):
+            continue
+        if abierta is None:
+            abierta = (i, valla)
+        elif valla == abierta[1]:
+            dentro.update(range(abierta[0], i + 1))
+            abierta = None
+    return dentro
+
+
 def find_broken_links() -> list[tuple[Path, int, str]]:
     broken: list[tuple[Path, int, str]] = []
     retenidos = _retenidos()
     for source in sorted(DOCS.rglob("*.md")):
-        for line_number, line in enumerate(source.read_text(encoding="utf-8").splitlines(), start=1):
+        lineas = source.read_text(encoding="utf-8").splitlines()
+        en_codigo = lineas_en_bloques_de_codigo(lineas)
+        for line_number, line in enumerate(lineas, start=1):
+            if line_number - 1 in en_codigo:
+                continue
             # Un SMILES como ``C[C@H](CS)`` no es un enlace Markdown.
             prose = re.sub(r"`[^`]*`", "", line)
             for raw_target in LINK.findall(prose):

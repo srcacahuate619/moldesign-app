@@ -327,3 +327,54 @@ def _isolated_batch_checkpoints(monkeypatch):
     from api.routers import batch
     monkeypatch.setattr(batch, "_persist_batch", AsyncMock())
     monkeypatch.setattr(batch, "_load_batch", AsyncMock(return_value=None))
+
+
+# ── D-07 (revisión final de 1.0.4): la exportación dice qué es TotalScore y con qué se ordenó ──────────────────────
+
+
+def _batch_completado(client):
+    csv = "name,smiles\nuno,CC(=O)Oc1ccccc1C(=O)O\ndos,CC(C)Cc1ccc(C(C)C(=O)O)cc1\n"
+    batch_id = _subir(client, csv).json()["batch_id"]
+    batch_mod._batches[batch_id]["status"] = "completed"
+    batch_mod._batches[batch_id]["results"] = [
+        {"name": "uno", "smiles": ASPIRINA, "total_score": 41.0, "affinity_kcal": -8.3, "status": "success"},
+        {"name": "dos", "smiles": IBUPROFENO, "total_score": 72.5, "affinity_kcal": -6.1, "status": "success"},
+    ]
+    return batch_id
+
+
+def test_el_csv_conserva_el_encabezado_y_declara_la_politica_al_final(client):
+    batch_id = _batch_completado(client)
+    respuesta = client.get(f"/evaluation/batch/{batch_id}/csv")
+    filas = list(csv_module.DictReader(io.StringIO(respuesta.text)))
+    cabecera = respuesta.text.splitlines()[0].split(",")
+
+    # Compatibilidad: las 25 columnas de antes, en su sitio y con su nombre; lo nuevo, sólo al final.
+    assert cabecera[:4] == ["Rank", "Name", "SMILES", "TotalScore"] and cabecera[-2:] == ["RankingPolicy", "ScoreBasis"]
+    assert len(cabecera) == 27 and cabecera[24] == "Target"
+    assert {f["RankingPolicy"] for f in filas} == {"por_diana_y_afinidad_de_vina"}
+    assert {f["ScoreBasis"] for f in filas} == {"affinity_kcal"}
+
+
+def test_la_api_y_la_exportacion_dicen_lo_mismo():
+    from api.routers.batch import RANKING_POLICY, SCORE_BASIS
+
+    assert (RANKING_POLICY, SCORE_BASIS) == ("por_diana_y_afinidad_de_vina", "affinity_kcal")
+
+
+def test_el_excel_declara_que_totalscore_es_el_indice_heredado(client):
+    openpyxl = pytest.importorskip("openpyxl")
+    batch_id = _batch_completado(client)
+    respuesta = client.get(f"/evaluation/batch/{batch_id}/export")
+    assert respuesta.status_code == 200
+    libro = openpyxl.load_workbook(io.BytesIO(respuesta.content))
+
+    hoja = libro.worksheets[0]
+    cabecera = [c.value for c in hoja[1]]
+    assert cabecera[3] == "TotalScore" and cabecera[-2:] == ["RankingPolicy", "ScoreBasis"]
+    nota = hoja.cell(row=1, column=4).comment.text
+    assert "índice compuesto heredado" in nota and "SUP-02" in nota
+
+    lectura = {fila[0].value: fila[1].value for fila in libro["Lectura"].iter_rows()}
+    assert lectura["RankingPolicy"] == "por_diana_y_afinidad_de_vina" and lectura["ScoreBasis"] == "affinity_kcal"
+    assert "no una afinidad" in lectura["TotalScore"]

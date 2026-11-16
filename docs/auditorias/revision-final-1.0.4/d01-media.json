@@ -1,0 +1,15 @@
+{
+  "tipo": "Contraejemplo sintético sobre recorte real; no predicción nueva",
+  "fuente_sha256": "a359cb5a8791b76fbef1e402ccd0162d09dbf39f91fe0c254e4a3deaf9f3e692",
+  "residuos": 90,
+  "residuos_con_B_variable": 90,
+  "max_diferencia_local_media": 2.842170943040401e-14,
+  "convencion": {
+    "plddt_en": "ma_qa_metric_local",
+    "escala": "0-100",
+    "verificada": false,
+    "referencia": "chai_lab 0.6.1, ejecutado en Colab el 2026-11-14 (acta docs/auditorias/convencion-plddt-boltz-chai-2026-11-15): _ma_qa_metric_local guarda el pLDDT del Cα de cada residuo, no la media por residuo que da el modelo",
+    "lectura": "calfa"
+  },
+  "texto_observado": "estructura predicha por Chai-1 (declarado por el archivo en _struct.title) · pLDDT leído de _ma_qa_metric_local: en este archivo coincide con el factor B del Cα de cada residuo, que no es la media del residuo que da el modelo (así lo escribe Chai-1 0.6.1; el archivo no declara su versión) · pLDDT medio 89.24 en 90 residuos (5 por debajo de 70) · el pLDDT del sitio no se midió"
+}

@@ -39,6 +39,7 @@ from reportlab.platypus import KeepTogether, SimpleDocTemplate, Spacer, TableSty
 
 from core.i18n import current_locale, translate_text
 from services.dossier.package import (
+    texto_donde_obtener_el_verificador,
     ArchivoPaquete,
     _json_canonico,
     empaquetar,
@@ -501,6 +502,7 @@ def _readme_cohorte(evidencia: dict[str, Any], raiz: str) -> bytes:
         "Es el MISMO verificador que valida los paquetes de caso: un solo protocolo de\n"
         "manifiesto y checksums para todo el producto."
     )
+    mismo_verificador = mismo_verificador + "\n\n" + texto_donde_obtener_el_verificador()
     resultado_invalido = translate_text(
         "Si el resultado no es `VÁLIDO`, no uses el contenido: el paquete no describe lo\n"
         "que dice describir."

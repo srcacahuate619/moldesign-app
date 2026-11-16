@@ -11,6 +11,10 @@ Este documento no decide nada. Convierte cada decisión abierta en una pregunta 
 cuya respuesta se puede comprobar sin fiarse de quien la da. Cada ficha dice qué se decide, qué ya está medido (con su fuente),
 qué opciones hay, qué evidencia las separaría y qué debe entregar el investigador.
 
+La entrega de investigación de este encargo se consulta en [Investigación de las decisiones de 1.0.4](investigacion-1.0.4/README.md).
+El [estado del cierre](cierre-investigacion-1.0.4-2026-11-15.md) incorpora la ampliación de D-04, la contrarréplica de hERG y la comprobación de los requisitos de B-11.
+La [revisión final del 15 de noviembre](revision-final-1.0.4-2026-11-15.md) revisa individualmente las diez D, hERG y las doce B, y sustituye las recomendaciones anteriores donde las corrige. Incluye sondas reproducibles; no equivale a implementación ni aceptación del instalador.
+
 ## Cómo leerlo
 
 - **Parte 1.** Reglas que valen para todos los encargos.
@@ -203,7 +207,8 @@ en [`ionizacion.py`](../../backend/chem/ionizacion.py) (líneas 49 y 126); para 
   15 de 15 protonadas de nivel A, bien; réplica 17 de 17. Conjunto dirigido de 27, no una tasa del producto.
 - No hay un pKa experimental verificado del clopidogrel (SPARC 4,61, ChemAxon 4,8 a 5,1, un «4,55» sin fuente).
 - Hoy `chem/especie_en_revision.py` ya declara REVISAR para el nitrilo α. Propuesta A del informe: dos SMARTS más y un guardián, sin cambiar lo acoplado. B (cambiar la tabla): sin recomendar.
-- Aplazado a 1.0.5 por decisión del propietario (2026-10-26). Pide descargar una compilación pública de pKa; la nota interna del informe habla de la tabla de la IUPAC y deja pendiente el permiso del propietario para bajarla.
+- El propietario adelantó la opción A a 1.0.4 el 2026-11-15. La [investigación ampliada](investigacion-d04-2026-11-15/INFORME.md) prueba cuatro entornos y distingue las dos propuestas que pasan el criterio de las que quedan inconcluyentes. [Plan](plan-d04-especie-en-revision-2026-11-15.md)
+- La [revisión final de D-04](revision-final-1.0.4-2026-11-15.md#2-d-04--acotar-los-avisos-a-la-evidencia-y-corregir-el-estado-de-carga) acota los dos patrones admitidos a la evidencia y corrige «fracción neutra» por nitrógeno sin protonar. Para implementar o presentar, usar esta propuesta corregida; el informe y el manifiesto anteriores conservan su alcance histórico. Implementada el 2026-11-15 con esos patrones (`0097c15a`).
 
 **Opciones.** A. Declarar más clases como «especie en revisión» sin tocar la tabla. B. Sustituir el valor de las clases malas por medidos. C. Reemplazar la tabla por un predictor validado.
 

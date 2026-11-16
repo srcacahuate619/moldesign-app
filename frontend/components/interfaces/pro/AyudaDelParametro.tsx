@@ -19,8 +19,8 @@ export interface TemaDeAyuda {
 }
 
 // El signo no se traduce. No se usa `auto_5bab61eb5317`, que vale «?» en español pero en inglés
-// quedó con una letra de canción (traducción automática); sólo lo pinta `DockingEnginePanel`,
-// que no usa nadie.
+// quedó con una letra de canción (traducción automática); sólo lo pintaba `DockingEnginePanel`
+// (retirado en 1.0.4: nadie lo montaba).
 const SIGNO_DE_AYUDA = "?";
 
 export function BotonAyuda({

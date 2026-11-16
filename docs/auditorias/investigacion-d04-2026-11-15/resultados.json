@@ -1,0 +1,340 @@
+{
+  "patrones_SMARTS": {
+    "aminoester": [
+      "[NX4+;!H0;!$(N[a]);!$(N~[N,O,S,P]);!$(N-[C,S,P]=[O,N,S])]-[CX4]-[CX3](=[OX1])-[OX2;H0]-[#6]"
+    ],
+    "aminocetona": [
+      "[NX4+;!H0;!$(N[a]);!$(N~[N,O,S,P]);!$(N-[C,S,P]=[O,N,S])]-[CX4]-[CX3H0](=[OX1])-[#6]",
+      "[NX4+;!H0;!$(N[a]);!$(N~[N,O,S,P]);!$(N-[C,S,P]=[O,N,S])]-[CX4]-[CX3H1](=[OX1])"
+    ],
+    "alquilmorfolina": [
+      "[NX4+;H1;R1;!$(N[a])]1(-[CX4;!R])[CX4;R1][CX4;R1][OX2;H0;R1][CX4;R1][CX4;R1]1"
+    ],
+    "morfolina_nh": [
+      "[NX4+;H2;R1;!$(N[a])]1[CX4;R1][CX4;R1][OX2;H0;R1][CX4;R1][CX4;R1]1"
+    ],
+    "propargilamina": [
+      "[NX4+;!H0;!$(N[a]);!$(N~[N,O,S,P]);!$(N-[C,S,P]=[O,N,S])]-[CX4]-[CX2]#[CX2]"
+    ],
+    "sulfona_beta": [
+      "[NX4+;!H0;!$(N[a]);!$(N~[N,O,S,P]);!$(N-[C,S,P]=[O,N,S])]-[CX4]-[CX4]-[SX4](=[OX1])(=[OX1])-[#6]"
+    ],
+    "aminoamida": [
+      "[NX4+;!H0;!$(N[a]);!$(N~[N,O,S,P]);!$(N-[C,S,P]=[O,N,S])]-[CX4]-[CX3](=[OX1])-[#7]"
+    ],
+    "oxetano_beta": [
+      "[NX4+;!H0;!$(N[a]);!$(N~[N,O,S,P]);!$(N-[C,S,P]=[O,N,S])]-[CX4;R1]1[CX4;R1][OX2;H0;R1][CX4;R1]1"
+    ]
+  },
+  "controles": {
+    "aminoester": {
+      "vp": 17,
+      "vn": 90,
+      "fp": 0,
+      "fn": 0
+    },
+    "aminocetona": {
+      "vp": 4,
+      "vn": 103,
+      "fp": 0,
+      "fn": 0
+    },
+    "alquilmorfolina": {
+      "vp": 6,
+      "vn": 101,
+      "fp": 0,
+      "fn": 0
+    },
+    "morfolina_nh": {
+      "vp": 2,
+      "vn": 105,
+      "fp": 0,
+      "fn": 0
+    },
+    "propargilamina": {
+      "vp": 5,
+      "vn": 102,
+      "fp": 0,
+      "fn": 0
+    },
+    "sulfona_beta": {
+      "vp": 4,
+      "vn": 103,
+      "fp": 0,
+      "fn": 0
+    },
+    "aminoamida": {
+      "vp": 4,
+      "vn": 103,
+      "fp": 0,
+      "fn": 0
+    },
+    "oxetano_beta": {
+      "vp": 2,
+      "vn": 105,
+      "fp": 0,
+      "fn": 0
+    }
+  },
+  "primaria": {
+    "alquilmorfolina": {
+      "n": 3,
+      "fuentes_independientes": 3,
+      "banda": 3,
+      "hasta_8_9": 3,
+      "decision": "GO",
+      "rango": [
+        7.42,
+        7.75
+      ],
+      "mediana": 7.445,
+      "IC95_banda": [
+        0.2924017738212866,
+        1
+      ]
+    },
+    "aminoamida": {
+      "n": 1,
+      "fuentes_independientes": 2,
+      "banda": 1,
+      "hasta_8_9": 1,
+      "decision": "INCONCLUSIVE",
+      "rango": [
+        8.005,
+        8.005
+      ],
+      "mediana": 8.005,
+      "IC95_banda": [
+        0.025,
+        1
+      ]
+    },
+    "aminocetona": {
+      "n": 2,
+      "fuentes_independientes": 2,
+      "banda": 2,
+      "hasta_8_9": 2,
+      "decision": "INCONCLUSIVE",
+      "rango": [
+        7.49,
+        8.75
+      ],
+      "mediana": 8.120000000000001,
+      "IC95_banda": [
+        0.15811388300841897,
+        1
+      ]
+    },
+    "aminoester": {
+      "n": 14,
+      "fuentes_independientes": 2,
+      "banda": 14,
+      "hasta_8_9": 14,
+      "decision": "GO",
+      "rango": [
+        7.1,
+        7.9
+      ],
+      "mediana": 7.6,
+      "IC95_banda": [
+        0.7683642383498834,
+        1
+      ]
+    },
+    "morfolina_nh": {
+      "n": 1,
+      "fuentes_independientes": 1,
+      "banda": 1,
+      "hasta_8_9": 1,
+      "decision": "INCONCLUSIVE",
+      "rango": [
+        8.72,
+        8.72
+      ],
+      "mediana": 8.72,
+      "IC95_banda": [
+        0.025,
+        1
+      ]
+    },
+    "oxetano_beta": {
+      "n": 0,
+      "fuentes_independientes": 0,
+      "banda": 0,
+      "hasta_8_9": 0,
+      "decision": "INCONCLUSIVE"
+    },
+    "propargilamina": {
+      "n": 2,
+      "fuentes_independientes": 2,
+      "banda": 2,
+      "hasta_8_9": 2,
+      "decision": "INCONCLUSIVE",
+      "rango": [
+        7.12,
+        7.44
+      ],
+      "mediana": 7.28,
+      "IC95_banda": [
+        0.15811388300841897,
+        1
+      ]
+    },
+    "propargilamina_n_sustituida": {
+      "n": 2,
+      "fuentes_independientes": 2,
+      "banda": 2,
+      "hasta_8_9": 2,
+      "decision": "INCONCLUSIVE",
+      "rango": [
+        7.12,
+        7.44
+      ],
+      "mediana": 7.28,
+      "IC95_banda": [
+        0.15811388300841897,
+        1
+      ]
+    },
+    "propargilamina_primaria": {
+      "n": 0,
+      "fuentes_independientes": 0,
+      "banda": 0,
+      "hasta_8_9": 0,
+      "decision": "INCONCLUSIVE"
+    },
+    "sulfona_beta": {
+      "n": 0,
+      "fuentes_independientes": 0,
+      "banda": 0,
+      "hasta_8_9": 0,
+      "decision": "INCONCLUSIVE"
+    },
+    "sulfona_beta_aciclica": {
+      "n": 0,
+      "fuentes_independientes": 0,
+      "banda": 0,
+      "hasta_8_9": 0,
+      "decision": "INCONCLUSIVE"
+    },
+    "sulfona_beta_ciclica": {
+      "n": 0,
+      "fuentes_independientes": 0,
+      "banda": 0,
+      "hasta_8_9": 0,
+      "decision": "INCONCLUSIVE"
+    }
+  },
+  "centros_P4": {
+    "N-alquilmorfolina": {
+      "smiles": "CN1CCOCC1",
+      "centros": [
+        [
+          "amina_alifatica",
+          9.8,
+          "base"
+        ]
+      ]
+    },
+    "morfolina_NH": {
+      "smiles": "N1CCOCC1",
+      "centros": [
+        [
+          "amina_alifatica",
+          9.8,
+          "base"
+        ]
+      ]
+    },
+    "N-arilmorfolina": {
+      "smiles": "c1ccccc1N1CCOCC1",
+      "centros": []
+    },
+    "N-acilmorfolina": {
+      "smiles": "CC(=O)N1CCOCC1",
+      "centros": []
+    },
+    "morfolina_fusionada": {
+      "smiles": "CN1CC2OCC1CCC2",
+      "centros": [
+        [
+          "amina_alifatica",
+          9.8,
+          "base"
+        ]
+      ]
+    },
+    "tiomorfolina": {
+      "smiles": "N1CCSCC1",
+      "centros": [
+        [
+          "amina_alifatica",
+          9.8,
+          "base"
+        ]
+      ]
+    },
+    "oxetan-3-ilamina": {
+      "smiles": "NC1COC1",
+      "centros": [
+        [
+          "amina_alifatica",
+          9.8,
+          "base"
+        ]
+      ]
+    },
+    "oxazolidina": {
+      "smiles": "CN1CCOC1",
+      "centros": [
+        [
+          "amina_alifatica",
+          9.8,
+          "base"
+        ]
+      ]
+    }
+  },
+  "chembl25": {
+    "aminoester": {
+      "n": 1,
+      "hasta_8_9": 1,
+      "banda": 1
+    },
+    "aminocetona": {
+      "n": 8,
+      "hasta_8_9": 7,
+      "banda": 7
+    },
+    "alquilmorfolina": {
+      "n": 28,
+      "hasta_8_9": 28,
+      "banda": 20
+    },
+    "morfolina_nh": {
+      "n": 5,
+      "hasta_8_9": 5,
+      "banda": 5
+    },
+    "propargilamina": {
+      "n": 1,
+      "hasta_8_9": 1,
+      "banda": 0
+    },
+    "sulfona_beta": {
+      "n": 2,
+      "hasta_8_9": 2,
+      "banda": 1
+    },
+    "aminoamida": {
+      "n": 41,
+      "hasta_8_9": 40,
+      "banda": 30
+    },
+    "oxetano_beta": {
+      "n": 8,
+      "hasta_8_9": 8,
+      "banda": 2
+    }
+  }
+}

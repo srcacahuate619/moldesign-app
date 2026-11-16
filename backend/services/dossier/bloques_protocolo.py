@@ -32,6 +32,14 @@ from services.dossier.taxonomy import Estado
 NOTA_UMS_CERO = (
     "0.0000 — el SMILES de entrada no casa con ninguno de los patrones SMARTS de la señal. Buscan la forma neutra o "
     "protonada: una sulfonamida, un hidroxamato o un tiol escritos como anión (N⁻, O⁻, S⁻) no se reconocen y también "
+    "dan 0. Es la señal de grupos de unión a zinc, sin donantes ni MolChamb. Un 0 significa que no coincidió ningún "
+    "patrón cubierto: no descarta grupos que esos patrones no buscan ni descarta coordinación."
+)
+#: La nota que escribieron las corridas anteriores a la revisión final de 1.0.4. No decía que el cero se refiere sólo a
+#: la señal de grupos ni que no descarta coordinación. Se conserva entera para que los dossiers ya escritos se traduzcan.
+NOTA_UMS_CERO_ANTERIOR = (
+    "0.0000 — el SMILES de entrada no casa con ninguno de los patrones SMARTS de la señal. Buscan la forma neutra o "
+    "protonada: una sulfonamida, un hidroxamato o un tiol escritos como anión (N⁻, O⁻, S⁻) no se reconocen y también "
     "dan 0. Un 0 no descarta grupos que esos patrones no buscan."
 )
 

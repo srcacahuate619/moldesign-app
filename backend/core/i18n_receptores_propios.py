@@ -224,6 +224,8 @@ MENSAJES.update({
         "structure predicted by Chai-1 (declared by the file in _struct.title)",
     "pLDDT leído de _ma_qa_metric_local: en este archivo coincide con el factor B del Cα de cada residuo, que no es la media del residuo que da el modelo (así lo escribe Chai-1 0.6.1; el archivo no declara su versión)":
         "pLDDT read from _ma_qa_metric_local: in this file it matches the B-factor of each residue's Cα, which is not the per-residue mean the model gives (this is how Chai-1 0.6.1 writes it; the file does not declare its version)",
+    "pLDDT leído de _ma_qa_metric_local; los valores leídos coinciden con el factor B de los Cα correspondientes. El archivo declara Chai-1 y no acredita su versión":
+        "pLDDT read from _ma_qa_metric_local; the values read match the B-factor of the corresponding Cα atoms. The file declares Chai-1 and does not establish its version",
     "estructura predicha por AlphaFold DB": "structure predicted by AlphaFold DB",
     "estructura predicha (ModelCIF)": "predicted structure (ModelCIF)",
     "estructura predicha": "predicted structure",

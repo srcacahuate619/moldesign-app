@@ -87,6 +87,7 @@ distinción con la carga formal del SMILES es deliberada y está anotada sobre
 
 from __future__ import annotations
 
+import functools
 import math
 from dataclasses import dataclass, field
 
@@ -540,6 +541,29 @@ def _cargas_formales(smiles: str) -> tuple[int, int] | None:
     return positivos, negativos
 
 
+def _n_acilados_protonados(smiles: str) -> int:
+    """Cuántos N con carga + y enlace sencillo a un carbonilo (amida, lactama, imida) tiene un microestado.
+
+    Un N acilado no se protona a pH fisiológico; dimorphite-dl 2.0.2 ofrece esa especie para la β-lactama de la
+    amoxicilina. Es un criterio de plausibilidad para desempatar, no una predicción de pKa.
+    """
+    try:
+        from rdkit import Chem
+    except ImportError:
+        return 0
+    mol = Chem.MolFromSmiles(smiles) if smiles else None
+    if mol is None:
+        return 0
+    return len(mol.GetSubstructMatches(_patron_n_acilado_protonado()))
+
+
+@functools.lru_cache(maxsize=1)
+def _patron_n_acilado_protonado():
+    from rdkit import Chem
+
+    return Chem.MolFromSmarts("[NX4+;!H0]-[CX3]=[OX1]")
+
+
 def elegir_microestado(
     smiles_neutro: str,
     microestados: list[str],
@@ -625,13 +649,21 @@ def elegir_microestado(
     # posición: dos microestados que empatan en distancia se ordenan por su
     # cadena, que es una propiedad de la molécula y no de la corrida. El
     # resultado es reproducible aunque dimorphite baraje.
-    candidatos: list[tuple[int, str]] = []
+    # ── Dónde está la carga, no sólo cuántas hay ──────────────────────────
+    #
+    # Revisión final de 1.0.4 (hERG, amoxicilina). Con sólo el recuento, la amoxicilina empata en distancia 0 entre el
+    # zwitterión de manual (NH3+ y carboxilato) y una especie con el N de la β-lactama protonado y la amina neutra:
+    # las dos tienen 1 catión y 1 anión, y el orden alfabético elegía la segunda. Un N acilado (amida, lactama,
+    # imida) no se protona a pH fisiológico (pKa del ácido conjugado de una amida ≈ −0,5), así que esa especie no
+    # compite con una que no lo necesita. Sólo desempata: no cambia ninguna elección en la que las distancias
+    # difieren, y se declara cuántas alternativas descartó.
+    candidatos: list[tuple[int, int, str]] = []
     for candidato in canonicos:
         cargas = _cargas_formales(candidato)
         if cargas is None:
             continue
         distancia = abs(cargas[0] - pos_esperados) + abs(cargas[1] - neg_esperados)
-        candidatos.append((distancia, candidato))
+        candidatos.append((distancia, _n_acilados_protonados(candidato), candidato))
 
     if not candidatos:
         return smiles_neutro, {
@@ -641,7 +673,9 @@ def elegir_microestado(
             "motivo": "Ninguna alternativa pudo evaluarse con RDKit; se conserva la entrada.",
         }
 
-    mejor_distancia, elegido = min(candidatos)
+    mejor_distancia, mejor_acilados, elegido = min(candidatos)
+    empatados = sum(1 for d, a, _ in candidatos if (d, a) == (mejor_distancia, mejor_acilados))
+    desempatados_por_acilo = sum(1 for d, a, _ in candidatos if d == mejor_distancia and a > mejor_acilados)
 
     return elegido, {
         # El nombre del criterio lleva el pH REAL, no el fisiológico escrito a
@@ -653,11 +687,15 @@ def elegir_microestado(
         "aniones_esperados": neg_esperados,
         "desajuste": mejor_distancia,
         "clases_sin_pka": clases_sin_pka,
-        "quimica_resuelta": not clases_sin_pka and not biguanida_en_revision and mejor_distancia == 0 and sum(1 for d, _ in candidatos if d == mejor_distancia) == 1,
+        "quimica_resuelta": not clases_sin_pka and not biguanida_en_revision and mejor_distancia == 0 and empatados == 1,
         "revision_biguanida": biguanida_en_revision,
-        # Cuántos empataron en distancia. Si es > 1, el desempate lo hizo el
-        # orden alfabético y no la química: se declara para que se vea.
-        "empatados": sum(1 for d, _ in candidatos if d == mejor_distancia),
+        # Cuántos empataron tras el criterio de carga y el de N acilado. Si es
+        # > 1, el desempate lo hizo el orden alfabético y no la química: se
+        # declara para que se vea.
+        "empatados": empatados,
+        # Cuántas alternativas con la misma distancia de carga se descartaron
+        # por llevar un N acilado protonado (amida o lactama).
+        "descartadas_por_n_acilado_protonado": desempatados_por_acilo,
         "motivo": (
             "Se comparan los recuentos de carga formal de cada microestado con "
             f"los centros que Henderson-Hasselbalch predice ionizados a pH {ph:g}, "

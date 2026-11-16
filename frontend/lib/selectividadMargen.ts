@@ -61,6 +61,15 @@ export function margenDeSelectividad(
 }
 
 export const VEREDICTO_SIN_DATOS = "Sin datos suficientes";
+/**
+ * Los veredictos por umbral que se GUARDAN con la corrida (`selectivity_verdict`), y que el informe PDF imprime tal
+ * cual. Son el mismo texto que la pantalla muestra en castellano (`pr_sel_threshold_review` / `pr_sel_threshold_clear`):
+ * antes la pantalla ya decía que la ausencia de alerta no descarta un bloqueo y lo guardado seguía sin decirlo.
+ */
+export const VEREDICTO_UMBRAL_REBASADO = "REVISAR — Se rebasó el umbral definido en anti-targets";
+export const VEREDICTO_SIN_ALERTA =
+  "SIN ALERTA EN ESTE PANEL — Ningún anti-target evaluado rebasó el umbral definido. Esto no descarta que el " +
+  "compuesto bloquee una diana: sólo dice que ninguna de las evaluadas cruzó el umbral con Vina.";
 export const VEREDICTO_INVERTIDO =
   "MARGEN DE SCORE NEGATIVO — la molécula puntúa mejor contra una anti-diana que contra su diana";
 

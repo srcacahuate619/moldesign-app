@@ -16,6 +16,11 @@
       "file_version": "14.50.35719.0",
       "sha256": "def46aa6a8f72f27bafac0c43334419486a4d1dcdb6c479a8ef7034b3e1fa4cb"
     },
+    "msvcp140_1.dll": {
+      "bytes": 35488,
+      "file_version": "14.50.35719.0",
+      "sha256": "2dd670f874562fbdca5b022df1943d70a57ba91fde559280e3a1daebe4db2380"
+    },
     "msvcp140_atomic_wait.dll": {
       "bytes": 48800,
       "file_version": "14.50.35719.0",

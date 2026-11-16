@@ -135,11 +135,42 @@ def sitio_adjudicado_de(pdb_id: str | None) -> bool | None:
     return None
 
 
+def decimales_para_distinguir(valor: float, corte: float, minimo: int = 1, maximo: int = 6) -> int:
+    """Los decimales que hacen falta para que el valor y su corte no se escriban igual (revisión final, hERG).
+
+    La alerta usa una desigualdad estricta, y con un decimal fijo −7,004 frente a −7,0 salía «−7,0 < umbral −7,0».
+    La desigualdad no cambia: sólo se escribe con la precisión que deja ver por qué se cumple. Con un valor lejos del
+    corte (el caso normal) son los mismos decimales de siempre.
+    """
+    for decimales in range(minimo, maximo + 1):
+        if f"{valor:.{decimales}f}" != f"{corte:.{decimales}f}":
+            return decimales
+    return maximo
+
+
+def discordancia_de_sitio_de(pdb_id: str | None) -> str | None:
+    """Por qué la caja de esa anti-diana no equivale al sitio de su ensayo, si el panel lo declara (D-09, revisión final).
+
+    Sólo tres filas hoy (6LQA, 8Y72, 9GJ1). ``None`` cuando no consta: no se afirma nada de lo que el panel no dice.
+    """
+    pid = str(pdb_id or "").strip().upper()
+    if not pid:
+        return None
+    for fila in panel_bowes_2012():
+        if str(fila.get("pdb_id") or "").upper() == pid:
+            texto = fila.get("discordancia_de_sitio")
+            return texto if isinstance(texto, str) and texto.strip() else None
+    return None
+
+
 def texto_de_alerta(nombre: str, afinidad: float, umbral: float, riesgo: str,
-                    adjudicado: bool | None) -> str:
+                    adjudicado: bool | None, discordancia: str | None = None) -> str:
     """La alerta de una anti-diana que rebasa su umbral. Un solo sitio para las dos rutas que la escriben."""
-    texto = f"ALERTA {nombre}: afinidad {afinidad:.1f} kcal/mol < umbral {umbral:.1f}. Riesgo: {riesgo}"
-    return f"{texto} — {AVISO_SITIO_NO_ADJUDICADO}" if adjudicado is False else texto
+    d = decimales_para_distinguir(afinidad, umbral)
+    texto = f"ALERTA {nombre}: afinidad {afinidad:.{d}f} kcal/mol < umbral {umbral:.{d}f}. Riesgo: {riesgo}"
+    if adjudicado is not False:
+        return texto
+    return f"{texto} — {AVISO_SITIO_NO_ADJUDICADO}" + (f" {discordancia}" if discordancia else "")
 
 
 def anti_dianas_seleccionables_de_bowes() -> dict[str, dict[str, Any]]:
@@ -428,7 +459,8 @@ async def run_selectivity_panel(
         if aff is not None:
             if aff < threshold:
                 safety_flags.append(texto_de_alerta(r["name"], aff, threshold, r.get("risk", "Desconocido"),
-                                                    r.get("sitio_adjudicado")))
+                                                    r.get("sitio_adjudicado"),
+                                                    discordancia_de_sitio_de(r.get("pdb_id"))))
             if worst_off_affinity is None or aff < worst_off_affinity:
                 worst_off_affinity = aff
                 peor_anti_diana = r.get("name") or r.get("pdb_id")

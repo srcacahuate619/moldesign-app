@@ -1,0 +1,49 @@
+{
+  "deposito": "7UL2",
+  "sha256_pdb_gz": "3a60334a5c1b8e1ccafa4a1a4f366a949db727d44718bb46fad52ec652da3516",
+  "ligando": "Q6Q",
+  "atomos_ligando": 42,
+  "centro_calculado": [
+    154.1165714285714,
+    141.57423809523812,
+    122.21078571428576
+  ],
+  "centro_panel": [
+    154.117,
+    141.574,
+    122.211
+  ],
+  "desplazamiento_centro_A": 0.0005350525012865257,
+  "segmentos": [
+    {
+      "uniprot": "P30989",
+      "residuos_pdb": [
+        20,
+        255
+      ],
+      "atomos_modelados": 1361,
+      "distancia_minima_A": 3.6897276322243604,
+      "residuo_mas_cercano": "ILE R 237"
+    },
+    {
+      "uniprot": "P41145",
+      "residuos_pdb": [
+        256,
+        308
+      ],
+      "atomos_modelados": 259,
+      "distancia_minima_A": 22.891208028411263,
+      "residuo_mas_cercano": "VAL R 308"
+    },
+    {
+      "uniprot": "P30989",
+      "residuos_pdb": [
+        309,
+        418
+      ],
+      "atomos_modelados": 565,
+      "distancia_minima_A": 3.1044807939492833,
+      "residuo_mas_cercano": "ARG R 322"
+    }
+  ]
+}

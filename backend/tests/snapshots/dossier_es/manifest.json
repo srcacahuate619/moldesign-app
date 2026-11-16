@@ -15,8 +15,8 @@
       "path": "README.md",
       "razon": null,
       "rol": "lectura_humana",
-      "sha256": "b92d7e75e84c89b6e4b91c06a66018607b20c9778ed97261b623f00c937b0272",
-      "tamano": 4078
+      "sha256": "eee804c93673ea39fa0f892eb56593f7f96434ff3bdf6a5480253ed6726f216f",
+      "tamano": 4819
     },
     {
       "estado": "REGISTRADO",
@@ -75,8 +75,8 @@
       "path": "run/reproduce.md",
       "razon": null,
       "rol": "receta",
-      "sha256": "657efef1d8a8e2da7b5135cb7bc85a2effc886144a360130ef3126a3fb41955d",
-      "tamano": 4070
+      "sha256": "57d41c1f81bdb54a85e0af65088aa9072606399f586b900df85562a3e92f21fe",
+      "tamano": 4811
     }
   ],
   "generated_at": "2026-08-24T12:00:00+00:00",

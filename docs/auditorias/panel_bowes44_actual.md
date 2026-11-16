@@ -23,10 +23,11 @@ Referencia: Bowes et al. 2012, Nat Rev Drug Discov 11:909-922, tabla 1.
 
 | Estado | Dianas |
 |---|---:|
-| ofrecible (`validada`) | 38 |
+| ofrecible (`validada`) | 37 |
 | ya en el panel por defecto (`en_el_panel_por_defecto`) | 2 |
 | sin estructura humana (`sin_estructura`) | 2 |
 | sin sitio confirmado (`sin_estructura_preparable`) | 2 |
+| estructura de otra proteína (`estructura_incompatible`) | 1 |
 | **total** | **44** |
 
 ## Las 44
@@ -50,7 +51,7 @@ Referencia: Bowes et al. 2012, Nat Rev Drug Discov 11:909-922, tabla 1.
 | M2 | CHRM2 | GPCR | ofrecible | 5ZKC | 3C0 | 0.14 | 0.38 | sí |
 | M3 | CHRM3 | GPCR | ofrecible | 8EA0 | IXO | 0.22 | 0.81 | sí |
 | delta2 (DOP) | OPRD1 | GPCR | ofrecible | 4N6H | EJ4 | 0.19 | 0.29 | sí |
-| kappa (KOP) | OPRK1 | GPCR | ofrecible | 7UL2 | Q6Q | 0.33 | 0.82 | sí |
+| kappa (KOP) | OPRK1 | GPCR | estructura de otra proteína | 7UL2 | Q6Q | 0.33 | 0.82 |  |
 | mu (MOP) | OPRM1 | GPCR | ofrecible | 8Y72 | VV9 | 1.65 | 5.89 | no |
 | 5-HT1A | HTR1A | GPCR | ofrecible | 8PJK | ZL9 | 1.12 | 10.99 | no |
 | 5-HT1B | HTR1B | GPCR | ofrecible | 4IAR | ERM | 0.92 | 3.93 | no |
@@ -80,6 +81,7 @@ Referencia: Bowes et al. 2012, Nat Rev Drug Discov 11:909-922, tabla 1.
 
 ## Las que no entran, y por qué
 
+- **kappa (KOP)** (OPRK1): 7UL2 es el receptor de neurotensina NTSR1 (P30989) con un segmento de OPRK1 insertado, no el receptor opioide kappa. El ligando de la caja (Q6Q, SR48692) está a 3,10 Å de NTSR1 y a 22,89 Å del segmento kappa (medido sobre el depósito). Un score ahí no dice nada del sitio kappa. Queda abierto: elegir y validar otra estructura de OPRK1.
 - **N neuronal alpha4beta2** (CHRNA4): sin estructura X-RAY DIFFRACTION/ELECTRON MICROSCOPY ≤3.5 Å con ligando drug-like. Las estructuras de α4β2 son crio-EM por encima de 3,5 Å, el tope del filtro. Subir el tope es una decisión que hay que medir, no asumir.
 - **KV channel** (—): la ficha no identifica el subtipo; hay que fijarlo a mano. La tabla 1 de Bowes dice «KV channel» sin subtipo, y KCNQ1, KCNA5 o KCNH2 no comparten sitio. Fijar el subtipo es una decisión de quien use el panel.
 - **COX1** (PTGS1): Ninguna estructura pasó: su único ligando no es un fármaco (cofactor, lípido, detergente, tampón o análogo de nucleótido). El criterio es el centroide de la primera pose a ≤ 4.0 Å del ligando cristalizado. La única entrada humana del PDB con ligando bajo los filtros es 6Y3C (3,36 Å) y su único HETATM es citrato: la COX-1 cristalizada con inhibidor es casi siempre ovina, y sustituir de especie cambia el sitio. Queda abierto: fijar a mano una estructura y adjudicar el sitio.

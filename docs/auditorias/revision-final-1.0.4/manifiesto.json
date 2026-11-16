@@ -1,0 +1,49 @@
+{
+  "fecha": "2026-11-15",
+  "base_revisada": "4b8eaf3e229b89aa4032c8e6bbd6711cadf0b5aa",
+  "alcance": "Revisión posterior por un asistente LLM. Sondas, recuentos y dictamen; no validación independiente por laboratorio ni aceptación de release.",
+  "artefactos_sha256": {
+    "docs/auditorias/revision-final-1.0.4/b11-cobertura-guardia.json": "a8efbdbb5d6a2148e4658ad8ff29d112bf90a08a99c9bab8768e084190d17c10",
+    "docs/auditorias/revision-final-1.0.4/cifras.json": "3587117ab5af2540512c9d4e06a62811b8647dba9833c855a8e57b003b2d21bc",
+    "docs/auditorias/revision-final-1.0.4/comprobar_b11.py": "55c42483a0dfc0929c59e7de09e8cdbed88235b1688161d6dd55a48c58879586",
+    "docs/auditorias/revision-final-1.0.4/comprobar_cifras.py": "c37686d88fae681b6db1f0374063eab40ad0628181f39a827a33a11f85b4e498",
+    "docs/auditorias/revision-final-1.0.4/comprobar_d01.py": "5b782daec37e881d68e691a455c3c6667630623728c019d910e1cb295d7665bb",
+    "docs/auditorias/revision-final-1.0.4/comprobar_d04.py": "f0aa17dde3c669752b2e6fd727c75d1b06d1b1cf4344f015d13c71460744f6aa",
+    "docs/auditorias/revision-final-1.0.4/comprobar_d09.py": "53d8e12a54adbefef3270c62d7466208057e3393041223e4611fdd70b8e8078a",
+    "docs/auditorias/revision-final-1.0.4/d01-media.json": "8f231ea3742257015eed697bf286c4a057cddb8944631074fa7e76685177a5f8",
+    "docs/auditorias/revision-final-1.0.4/d04-alcance.json": "9c748755b4d15d403e65cb6d6c178b0dc097046087f114b68c5820c06f4fff67",
+    "docs/auditorias/revision-final-1.0.4/d09-geometria.json": "8104eea26529c486208c87ba74090f4716153ce903a1c24ad59ee5abd5286011",
+    "docs/auditorias/revision-final-1.0.4/manifiesto.py": "f3a68b0b89ab78b25e4ae0c5dd1e729a781bb194aca64c368400c56a530f0660",
+    "docs/auditorias/revision-final-1.0.4-2026-11-15.md": "f8170730541c0cfa4dedf6f80535769f556ee6e9067b1ae97099c8ed947cf09d"
+  },
+  "entradas_bytes_sha256": {
+    "docs/auditorias/investigacion-1.0.4/manifiesto.json": "89325c7ab2e8d36652362e7f86be09762af87ab8744901eabf4d180e015cb1de",
+    "docs/auditorias/investigacion-1.0.4/comprobar_seguimiento_replica.py": "383dd8d8f53e1f762845934520f68e0c40351c7bf93eaa543a1ee6ce1d0d4268",
+    "docs/auditorias/investigacion-1.0.4/D09-adjudicacion.json": "c39f23c79e422fa41c40d3be92f90aea282ab95691593f609dc5a5e8c600071d",
+    "docs/auditorias/investigacion-d04-2026-11-15/manifiesto.json": "d9cb4bc360793558d87a64b9499d1a8840ba547d2756f3337c3d6a0068f6d629",
+    "docs/auditorias/investigacion-d04-2026-11-15/controles.json": "ae766ed357a2e4c2a85770e0d1e67cb737e1ea05762030e0220e2e2df6a51051",
+    "docs/auditorias/investigacion-d04-2026-11-15/medidas.json": "c878485bdd6de1caee29e054a32349241becfd32ece2eccacc59ea2ef4c2b4ad",
+    "docs/auditorias/investigacion-d04-2026-11-15/resultados.json": "1f4da6a0b74c899c923d6309a669606fb8e162401d8d222162da03b1a5eff9f7",
+    "data/targets/7UL2.pdb.gz": "3a60334a5c1b8e1ccafa4a1a4f366a949db727d44718bb46fad52ec652da3516",
+    "backend/tests/data/receptores_propios/chai_cdk2_apo_recortado.cif": "a359cb5a8791b76fbef1e402ccd0162d09dbf39f91fe0c254e4a3deaf9f3e692",
+    "curated_targets.json": "f66cd263f2a20ac548bf2ee5492e17a28ba04a898c7b6f124bba86c4f24e4593",
+    "scripts/artifacts_science/DEC-104-D03-R1/per_complex.jsonl": "7ca78d77ee5838bc2b81565664a742f3a999ca15d3cd45047df24937d7da8455",
+    "scripts/artifacts_science/DEC-104-D05-PROLIF/per_complex.jsonl": "debec73a2c693095e9850c8d6bf6727f28264f8f38859ba80a6b913b68778f80",
+    "scripts/artifacts_science/DEC-104-D06-8HFI/per_complex.jsonl": "b124a7e1c9e59a83a7cb6c0c2c97fdc0181b7beb86094824574c3fd771d026c4",
+    "scripts/artifacts_science/DEC-104-D08-REPLAY/per_complex.jsonl": "1d3ab7303833c1c971e285b8fbf1bc01cd8513e3d4afc25444e896881894739b"
+  },
+  "entradas_lf_sha256": {
+    "docs/auditorias/herg-umbral-2026-11-15/resultados.json": "4fee3aae7664fc2c9893e7553f745e2c68c6bdbd910d8fd163f6fd16b7a5ab6a",
+    "docs/auditorias/herg-umbral-2026-11-15/contrarreplica-resultados.json": "20b2b4cdb9f718359a498ce211ef63657d0010405d19ba73f00af6f7376871f9",
+    "backend/services/targets/prediccion.py": "0bdc6ca42e5b1bbc5ef143441aba6b5e6f5b9e4c3b763d31fef883f8eb16a123",
+    "backend/services/targets/conversion_mmcif.py": "0954e4257d035d7e7b998e9e4584c05de2b50ca47ecf2906ad145089c31fc93c",
+    "backend/services/dossier/preparacion_confianza.py": "e017e21e2740f9a1ee5ffc6e9e424407058b3de04302ae51140167c8483d0d60",
+    "backend/scoring/normalizer.py": "b2ec0a21e6b1f7639ea3ecaed042419dc36deb374744a3049574e807b043b86f",
+    "backend/data/anti_dianas_bowes44.json": "94466213004e6dade204e08fea91669667433fd5d4ecc38c5e12ef5cd592e5be",
+    "scripts/check_release_pipeline.py": "18788fa5c5e1c1ae22bf35439cbad9e6e9127bd6789e98a65d86cf3afa228a0d",
+    "frontend/src-tauri/tauri.conf.json": "e1570de01df5fead62ade650b8ba38f9da8c4b2ba06482c5504261c79eb9b755",
+    "frontend/package.json": "6212c567c9a7b09b3f23505d6f086fd690b396c80ffb4658dcbf5df4e6063f33",
+    "msix/msix-config.json": "909839bd9677eab0a610c082e4990c7163241db2457b15dc91e8f9ae431c9ea6"
+  },
+  "normalizacion_lf": "Sólo CRLF a LF en entradas_lf_sha256; los demás hashes usan bytes exactos."
+}

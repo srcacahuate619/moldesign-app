@@ -26,6 +26,8 @@ CASTELLANO = (
     "tabla de pKa", "Revisa la especie", "candidatos", "carece", "monocatión",
     "Población", "Microestado", "alfabético", "corrida", "piperazina o diamina",
     "N-sulfonil-piperazina", "ácido enólico", "amina protonada", "decisión abierta", "se acoplaba",
+    # D-04 (1.0.4): α-aminoéster y N-alquilmorfolina.
+    "aminoéster", "N-alquilmorfolina", "se acopló", "proporción apreciable", "nitrógeno protonado",
 )
 
 #: Especies acopladas que disparan cada motivo, y una que no dispara ninguno.
@@ -35,6 +37,8 @@ SMILES = {
     "sulfonil_piperazina": "CCCc1nn(C)c2c(=O)[nH]c(-c3cc(S(=O)(=O)N4CC[NH+](C)CC4)ccc3OCC)nc12",
     "acido_enolico": "CN1C(C(=O)Nc2ccccn2)C(=O)c2ccccc2S1(=O)=O",
     "amina_con_atractor": "FC(F)(F)C[NH+](Cc1ccccc1C(F)(F)F)C1CC[NH2+]CC1",
+    "alfa_aminoester": "CCOC(=O)[C@@H]([NH3+])Cc1ccccc1",
+    "n_alquilmorfolina": "CC[NH+]1CCOCC1",
 }
 
 

@@ -1,0 +1,488 @@
+{
+  "aminoester": [
+    {
+      "id_anonimo": "2affd47afb90ae8d6b0c0d2645188c25993fc0c1024a7f44417c0b79bf419877",
+      "pka": 6.5,
+      "fila_sdf": 2837
+    }
+  ],
+  "aminocetona": [
+    {
+      "id_anonimo": "0ca374cc8625c248ab9d3f183ad1224464c2a0ac53ca0d2b1441ccb448a5c6dd",
+      "pka": 6.1,
+      "fila_sdf": 7059
+    },
+    {
+      "id_anonimo": "36a126fa83c2dbcdf4e50862598b33d4314c13eeb405c2a344c0cc307f9e2e4a",
+      "pka": 7.6,
+      "fila_sdf": 7064
+    },
+    {
+      "id_anonimo": "3fb3350bbcf09dea2f6d40f26e4cb66031e7e9f447384d4a0ff1c5f0af52bb67",
+      "pka": 6.3,
+      "fila_sdf": 2954
+    },
+    {
+      "id_anonimo": "729fbc4ffd3ef583a13cc875325335a2ecbf740f2de889a1fe76d3f0d2f65153",
+      "pka": 6.37,
+      "fila_sdf": 2305
+    },
+    {
+      "id_anonimo": "7492ef31a105dff5f02c1cec4e23355b81d6c1683683c23be471038c8e2abc4b",
+      "pka": 14.59,
+      "fila_sdf": 7140
+    },
+    {
+      "id_anonimo": "b73183c0d64d25f3b938c4ec18f905a4d2eafc21ad94d5e72c7fc250e771425a",
+      "pka": 6.7,
+      "fila_sdf": 2612
+    },
+    {
+      "id_anonimo": "e00d9f33df0e463ea39c5ccec9f85e0f1785bd2f96e4a467e21fb0b82d333adf",
+      "pka": 7.495,
+      "fila_sdf": 207
+    },
+    {
+      "id_anonimo": "f63398ccc331c2f231743227eb7c12abf8b204bdd0d5c471aef2d1e4cb61d94c",
+      "pka": 8.0,
+      "fila_sdf": 6704
+    }
+  ],
+  "alquilmorfolina": [
+    {
+      "id_anonimo": "00107a769988f182ec37be464e5503363538b39037d42afd56868c0025c89a2e",
+      "pka": 2.2,
+      "fila_sdf": 867
+    },
+    {
+      "id_anonimo": "043fbfb1493b955af628a8a924d0dea2e5f8c1326c153755213791c72195cfd6",
+      "pka": 6.81,
+      "fila_sdf": 2284
+    },
+    {
+      "id_anonimo": "0ca7525fa794c1dcc0431752e19dbff7eceb18b8aa423dec03bee98a0b305c9b",
+      "pka": 6.5,
+      "fila_sdf": 374
+    },
+    {
+      "id_anonimo": "14f85213eddff60f3ab024730439a097352a677e5b1cab3f0cf56091471e5455",
+      "pka": 7.5,
+      "fila_sdf": 3069
+    },
+    {
+      "id_anonimo": "21a5e7cbdf82178c0384c04b2e9aece35d622af830b2fcacd3891f7f1b28a1fc",
+      "pka": 7.4,
+      "fila_sdf": 8056
+    },
+    {
+      "id_anonimo": "23c3cf6a580a7fe4380daa5f75c96c074d13a153d66be743bc95f2296156c6d3",
+      "pka": 2.1,
+      "fila_sdf": 875
+    },
+    {
+      "id_anonimo": "2418a145d3d6540782af2de9f8fd8c5d7d79359a4c663b1d6a42d5ce0d07b248",
+      "pka": 5.75,
+      "fila_sdf": 2405
+    },
+    {
+      "id_anonimo": "252ab7bffabb5c72b1b454cc88b2d307a587d7c9a08a9f1908dc022adceb65fb",
+      "pka": 6.82,
+      "fila_sdf": 2286
+    },
+    {
+      "id_anonimo": "2c1b96863dc15b962e9ffc83b3349c9abbeb49e1cfa56e8d5db77efbf864ce4e",
+      "pka": 7.2,
+      "fila_sdf": 5008
+    },
+    {
+      "id_anonimo": "3114c876f0b6f7beaaddb76a2426f09724c268daf5301fa3497b9e50ada78962",
+      "pka": 6.5,
+      "fila_sdf": 3070
+    },
+    {
+      "id_anonimo": "3aed76b7d10accbc0725c0735d2513b2d5b968fc3eddd3825d39fdf90ed4a15f",
+      "pka": 5.7,
+      "fila_sdf": 5179
+    },
+    {
+      "id_anonimo": "40baad851a09a116454fec829f925ebd4a5b7596f2e9df37658913045e7ff91d",
+      "pka": 7.1,
+      "fila_sdf": 1621
+    },
+    {
+      "id_anonimo": "47574a4bcd4fe48f9a7308b369da92db2a89b37c44245dcefca8801d686f037a",
+      "pka": 5.08,
+      "fila_sdf": 4519
+    },
+    {
+      "id_anonimo": "47e68970da70f5ed30c38b9749425b6f340c8e2d07ae1dd6704378de0c761d68",
+      "pka": 8.36,
+      "fila_sdf": 6946
+    },
+    {
+      "id_anonimo": "5eabb2a691c98c05c7f7f19cf166b9c293755500a18f05882af509db8c7c5f0e",
+      "pka": 6.2,
+      "fila_sdf": 2617
+    },
+    {
+      "id_anonimo": "72ebcfce85063b15b378ea6237f5be7f80a737e7851200eaaeb9622dd054b58b",
+      "pka": 7.1,
+      "fila_sdf": 6293
+    },
+    {
+      "id_anonimo": "7a84f0c4d779e3a2fecb7699c8403481f9526c1994a9b52a652c563160760ab6",
+      "pka": 4.14,
+      "fila_sdf": 7423
+    },
+    {
+      "id_anonimo": "8ea1007d47278c3194f0002a576cf467583a36cd6a0eec1b4b1ab2fcea178f9d",
+      "pka": 6.81,
+      "fila_sdf": 2283
+    },
+    {
+      "id_anonimo": "9141520905c99085ab20e170c4fccc39a66a50729a8a10f1ef85e79f0ef60470",
+      "pka": 6.82,
+      "fila_sdf": 2285
+    },
+    {
+      "id_anonimo": "996850f713df23775b79d0214d4a7d1069c38d431f9356f0c323ece4ee06bc44",
+      "pka": 7.0,
+      "fila_sdf": 7069
+    },
+    {
+      "id_anonimo": "ab800bc3a5bd661e99fba06475869c441c712fa9cc7624d2dc22685042483d4d",
+      "pka": 5.2,
+      "fila_sdf": 5012
+    },
+    {
+      "id_anonimo": "aebbc464624ee481015a3bbaaac1e1fdc97063846cd4ad83ef00bc4c80690267",
+      "pka": 7.6,
+      "fila_sdf": 1805
+    },
+    {
+      "id_anonimo": "b1944568a04b6ea4aa2550f876dbbd9888010735f15cd74c797c9d4e256ea850",
+      "pka": 7.3,
+      "fila_sdf": 5007
+    },
+    {
+      "id_anonimo": "bafba6d689a049a2b49360a76c26d9ab36ce47260f20032e2559279c9d290403",
+      "pka": 6.4,
+      "fila_sdf": 2624
+    },
+    {
+      "id_anonimo": "c00e60f7c2dc6d3bfffebfbe83c2cee17036b297053234d6a16f05e7b7530c3b",
+      "pka": 2.2,
+      "fila_sdf": 871
+    },
+    {
+      "id_anonimo": "d8a586c94873dc88268c5211fc9b1f52bc3fe7271071d52d9a402bc3f4e9b634",
+      "pka": 7.8,
+      "fila_sdf": 2916
+    },
+    {
+      "id_anonimo": "e3c4cb05449409b5c3da33696e55ee2bd169aa9f8306d145b66984e53d57ad50",
+      "pka": 7.6,
+      "fila_sdf": 8057
+    },
+    {
+      "id_anonimo": "ef80a97c5af3bd714186cdd9e8f640c7dd5b9827d08af3f6dddcfbe6508bfc86",
+      "pka": 6.3,
+      "fila_sdf": 5011
+    }
+  ],
+  "morfolina_nh": [
+    {
+      "id_anonimo": "1cc1e2c73a157418ff96ec7c72c254c7e80fb801c3c9205bb5a635c149bc584b",
+      "pka": 7.8,
+      "fila_sdf": 5009
+    },
+    {
+      "id_anonimo": "68a71897879ca7e6e8a72e8636b01f70f130915355e7606738af2be6e02e15d9",
+      "pka": 7.7,
+      "fila_sdf": 1364
+    },
+    {
+      "id_anonimo": "c143da0e4903482e22ba54d0bdde0b10e6f44dd43dc917f77793ff80297097ab",
+      "pka": 7.4,
+      "fila_sdf": 117
+    },
+    {
+      "id_anonimo": "cd130ba17a57eb3871e32adbae72b965d49e4fc7a329810ab3ad9fecd29781a5",
+      "pka": 7.7,
+      "fila_sdf": 106
+    },
+    {
+      "id_anonimo": "f2e394232156ef1f934e3002919718229522a8c2e25eeb60f41d2cf3e0b394e5",
+      "pka": 8.4,
+      "fila_sdf": 6107
+    }
+  ],
+  "propargilamina": [
+    {
+      "id_anonimo": "eedabb763fc0dfb89063ebebccc5dea91df631fb63cc65fbff69efad0e3595e6",
+      "pka": 5.6,
+      "fila_sdf": 109
+    }
+  ],
+  "sulfona_beta": [
+    {
+      "id_anonimo": "b049469194f4e046667239444e55559bc57c5fa6a47ec1bbb7eafab375d620b5",
+      "pka": 5.8,
+      "fila_sdf": 802
+    },
+    {
+      "id_anonimo": "e04603510d9f861c9f5ea04b345829a38bb9a53ad91d1cf6d7365c20ada8c3f0",
+      "pka": 7.7,
+      "fila_sdf": 278
+    }
+  ],
+  "aminoamida": [
+    {
+      "id_anonimo": "03de5934644b19d2611a8bb821ed61b26e03bde6e8a12a77c6ed08ffe9203aad",
+      "pka": 5.8,
+      "fila_sdf": 1078
+    },
+    {
+      "id_anonimo": "0a58a47144875c307cbd2f8093edae9f70efa2a4726f09ac7e18d91328ed2118",
+      "pka": 6.4,
+      "fila_sdf": 364
+    },
+    {
+      "id_anonimo": "0bae32c5358ad3511d6693adf6952068d1eae5d9419d04ec40d18852dda24ad7",
+      "pka": 6.1,
+      "fila_sdf": 4074
+    },
+    {
+      "id_anonimo": "0ce23c92eaec715bb9f063c6230b1c3dd0f95b55dee8d36d5d6d62d6c7239cb2",
+      "pka": 7.94,
+      "fila_sdf": 548
+    },
+    {
+      "id_anonimo": "0e7e7acbe089111bf10c378fbd8fadfa66330a648ed95bc07d39724757e4cd6c",
+      "pka": 6.3,
+      "fila_sdf": 1080
+    },
+    {
+      "id_anonimo": "109197782400623695e2562952333bb1d99b79d3705e8316db3caedfcbf9ebdc",
+      "pka": 6.6,
+      "fila_sdf": 2282
+    },
+    {
+      "id_anonimo": "1cbd487bab080ca53c7a75e9b3a79e1f31702ecc935942509572b655dee9eb6e",
+      "pka": 7.6,
+      "fila_sdf": 6707
+    },
+    {
+      "id_anonimo": "35e26662f7cb6871bfd6b95087cc002f1379333f0ba341029f97a302f253deba",
+      "pka": 6.72,
+      "fila_sdf": 7198
+    },
+    {
+      "id_anonimo": "38b29f06793b58cf75a6c5827eae28654c05d7253c83ed4f5944ea13be9e6efd",
+      "pka": 5.8,
+      "fila_sdf": 4626
+    },
+    {
+      "id_anonimo": "41821c4fca58af3873530103c228a1f94a831b31a2df73dc0c82845a116d2f74",
+      "pka": 5.4,
+      "fila_sdf": 95
+    },
+    {
+      "id_anonimo": "423f55ce0383d3c8167d8420c87124dc50dc35b7294c78f16503f189683cf47c",
+      "pka": 7.85,
+      "fila_sdf": 607
+    },
+    {
+      "id_anonimo": "426899fe2c65c7fc8275e821aff163adec028f59aa26c999346ee66395ed9f25",
+      "pka": 7.1,
+      "fila_sdf": 1074
+    },
+    {
+      "id_anonimo": "4308de645876822ad3dcafc1e94c7d43fe8c4e7988e5cac1ad6b7d1577758579",
+      "pka": 6.45,
+      "fila_sdf": 7199
+    },
+    {
+      "id_anonimo": "44ad1229007f972b8433f68d2e351c3899348803dc5a27a1daf4f35408f6520f",
+      "pka": 6.07,
+      "fila_sdf": 6933
+    },
+    {
+      "id_anonimo": "54c3c898c91e596ae8e28aa7ec6f4de74bf2386c44e84e64b3cef27b3bfc6bc4",
+      "pka": 5.9,
+      "fila_sdf": 3056
+    },
+    {
+      "id_anonimo": "5f3ae8c53ea0f83a4916917341a2c02f4ebc627a05e28f02116fb4a9841ad2a8",
+      "pka": 5.8,
+      "fila_sdf": 2281
+    },
+    {
+      "id_anonimo": "66b110a13edbfa3b324063950d3cd353fd0019573f005a2d5eb55ee2b1077f97",
+      "pka": 8.4,
+      "fila_sdf": 1073
+    },
+    {
+      "id_anonimo": "6d3922eca9eccc24ca2c90e60ae03f91d8cf7e2ee94898f8e17fe76f4eed8351",
+      "pka": 8.024999999999999,
+      "fila_sdf": 1507
+    },
+    {
+      "id_anonimo": "6f3fb2ae4af8e7b4788119e750771e37d5dec3058533045a4aa0079ba9997a79",
+      "pka": 5.3,
+      "fila_sdf": 4625
+    },
+    {
+      "id_anonimo": "7946dde165e4e57d69626b81dc0bd68ecfa5de732c794a972e8c0afa11f06adf",
+      "pka": 7.67,
+      "fila_sdf": 2788
+    },
+    {
+      "id_anonimo": "7c4da1a96f7b0825ff40858de24a0c5df0fc43c20d8f60fda60aacc3ed69295f",
+      "pka": 5.3,
+      "fila_sdf": 4621
+    },
+    {
+      "id_anonimo": "7e84163563f9e9f8635ab13ade7c43d5d96802aac8631b4a1cc88df43a9b89f3",
+      "pka": 7.6,
+      "fila_sdf": 1075
+    },
+    {
+      "id_anonimo": "809f2e65c0c4982a3bd8a06d62b414552c4a71b007398ed4a01685049be13d73",
+      "pka": 6.0,
+      "fila_sdf": 316
+    },
+    {
+      "id_anonimo": "86043810cb932bdfeebebc41bc41fedeae84e7ee3953352250ecc15cd119f33e",
+      "pka": 8.9,
+      "fila_sdf": 4595
+    },
+    {
+      "id_anonimo": "907d2fb2deb2e1140ef1d6fe47cbbad3792d0613daaa2a95b66489d127778423",
+      "pka": 3.6,
+      "fila_sdf": 317
+    },
+    {
+      "id_anonimo": "960304790e2ff80170bc957f56da77bbfcc9d1a59aeada79c249c887e468510b",
+      "pka": 7.6,
+      "fila_sdf": 7187
+    },
+    {
+      "id_anonimo": "970717cbc05944b2837dd4e870681663dc9fd9e2786edc96af89fdedd460ff4c",
+      "pka": 7.33,
+      "fila_sdf": 5236
+    },
+    {
+      "id_anonimo": "a21568e234279b333966c44438fd3695aaa5eaab8ce6059007494810aa3dd605",
+      "pka": 7.65,
+      "fila_sdf": 559
+    },
+    {
+      "id_anonimo": "a65278f5ee4b160ea90df454a503a7d2acb8c52f8a5549bf36e75ca9cbf73d0d",
+      "pka": 7.9,
+      "fila_sdf": 3055
+    },
+    {
+      "id_anonimo": "a741422648685aefd9ea716b0dbf6af459ef3574b0cc83ceea0ff11cf4b24b58",
+      "pka": 7.1,
+      "fila_sdf": 1076
+    },
+    {
+      "id_anonimo": "aa751186427ad09018ec5bb8b8a446c01d3b36c383295b373de1716487034829",
+      "pka": 6.3,
+      "fila_sdf": 1079
+    },
+    {
+      "id_anonimo": "ab800bc3a5bd661e99fba06475869c441c712fa9cc7624d2dc22685042483d4d",
+      "pka": 5.2,
+      "fila_sdf": 5012
+    },
+    {
+      "id_anonimo": "bd95e25b0c27a4183271d3c5cc9b7ac3cddb4eda6bdabd1e7b0a41e670610d6b",
+      "pka": 2.7,
+      "fila_sdf": 137
+    },
+    {
+      "id_anonimo": "bf6d1c938147653eb87ebe7f700a43dea25b887a39bf72732da8c85a29ba5cc5",
+      "pka": 5.4,
+      "fila_sdf": 1077
+    },
+    {
+      "id_anonimo": "c9fcf8e01a23596e1ff7ee575c9c79d6bc73b89ada28b83a11354f8969af5f54",
+      "pka": 6.6,
+      "fila_sdf": 4624
+    },
+    {
+      "id_anonimo": "cbcec25d46c26539f7444590947e1016b68abf2b3f532e97b2fd9fcc7fa7c37a",
+      "pka": 7.42,
+      "fila_sdf": 5229
+    },
+    {
+      "id_anonimo": "d69d826ffdb84d0e860bfa710566f6b0b56270968c184d3271f7ec46617fe09b",
+      "pka": 8.16,
+      "fila_sdf": 763
+    },
+    {
+      "id_anonimo": "d821ff30f1f7e69b98cfd99b33bedca0c1277902e09cb7fe3891683f5e2c7363",
+      "pka": 8.1,
+      "fila_sdf": 4076
+    },
+    {
+      "id_anonimo": "eb62ab29e5acd8327205ec76b5b6a924a4d7cf9399093333c3aac79fd0dfd597",
+      "pka": 9.6,
+      "fila_sdf": 4596
+    },
+    {
+      "id_anonimo": "ef592dcb727c3fdb63382b022ba93b2f183051fd9368e7bfd221c69928bd3602",
+      "pka": 8.0,
+      "fila_sdf": 4075
+    },
+    {
+      "id_anonimo": "f18ffd6530aed7937996686a049950a8ee763c28eb016afa5280cad6d48be599",
+      "pka": 8.07,
+      "fila_sdf": 792
+    }
+  ],
+  "oxetano_beta": [
+    {
+      "id_anonimo": "0be0002abe104cd1cb730637a1e91adcf4a6396af2293c739bb63fda6df9c769",
+      "pka": 4.6,
+      "fila_sdf": 1365
+    },
+    {
+      "id_anonimo": "372d7b46e528bafa762b99962815632199bb80f070f8834672eba28f4725ea14",
+      "pka": 6.4,
+      "fila_sdf": 5046
+    },
+    {
+      "id_anonimo": "3a9be05525ea2aa87edf77149d687d4569fd12ccb17611a85b1ba4408db8daf9",
+      "pka": 7.2,
+      "fila_sdf": 6733
+    },
+    {
+      "id_anonimo": "4082282523957b041ee69e91316e2da94009c3a2cfc929ad6c75848df0a8e29d",
+      "pka": 5.0,
+      "fila_sdf": 320
+    },
+    {
+      "id_anonimo": "425216f9eee8c940bf73027702f11ffcb901be90b7447ca0219fbb461a824a9f",
+      "pka": 5.0,
+      "fila_sdf": 119
+    },
+    {
+      "id_anonimo": "6acb494cc08bde7f8b69855ff8ea736593ba8ec031966fce650ac7d012e2a56f",
+      "pka": 5.2,
+      "fila_sdf": 5014
+    },
+    {
+      "id_anonimo": "a254b706ee0777b3e4942c14944525baf65e0279b1a50600c52516603a1a5946",
+      "pka": 5.1,
+      "fila_sdf": 5006
+    },
+    {
+      "id_anonimo": "f90599e63830fcfc87c4aec66a792c5a6a61dd59f6e1a0490b875603620c823b",
+      "pka": 5.11,
+      "fila_sdf": 321
+    }
+  ]
+}

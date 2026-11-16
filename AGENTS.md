@@ -578,7 +578,7 @@ tools/            programas de terceros invocados por subproceso
                           commit con stage_molcy_motor.py, no se edita a mano (ver doc 95)
   molchat/                asistente (obra propia, GPL-3.0-or-later), en proceso aparte; vendorizado desde el
                           commit de backend/data/molchat_fijacion.json (ver doc 100_ADR_MOLCHAT_EXTERNO)
-  vc-runtime/             cinco DLL MSVC x64 firmadas + manifiesto y hashes
+  vc-runtime/             seis DLL MSVC x64 firmadas + manifiesto y hashes
 docs/             programa experimental, gates de release, auditorías
 ```
 
@@ -747,7 +747,7 @@ por JSON-RPC estándar. No reintroduzcas `solana-py`, `solders`, `jsonalias` ni
 una clave institucional. El modo escritorio usa una identidad efímera y SOL de
 prueba; ninguna salida constituye certificación ni validez científica. Ver
 `docs/83_ADR_SOLANA_DEVNET_POC.md`.
-El runtime incluye además cinco DLL x64 de Microsoft Visual C++ 14.50.35719
+El runtime incluye además seis DLL x64 de Microsoft Visual C++ 14.50.35719
 como despliegue app-local; no están cubiertas por la licencia de MolDesign y su procedencia y hashes viven en
 `tools/vc-runtime/`, que viaja también entero en el bundle. **El Blender que se descarga después también las
 necesita** (VM-MOLCY-01, 2026-10-12): su `python.exe` auxiliar, el que lanza el gestor de extensiones, no hereda
@@ -883,7 +883,25 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
 
 ## Estado y honestidad
 
-- Backend: **5413** pruebas recolectadas con el intérprete que se distribuye
+- **Cierre del backend y de la ciencia de 1.0.4, medido el 2026-11-15 (nada construido: ni frontend, ni instalador, ni MSIX).**
+  Sobre `c2cdebfb`, con python-embed: backend **5907 pasan, 102 saltadas, 2 xfail y 0 fallos** (11 min). Son 6011 resultados de
+  6008 pruebas recolectadas: `--collect-only` da 3 menos que la ejecución, igual que sobre `09346758` (5906 + 102 + 2 frente a
+  6007), y la diferencia no se ha investigado. `scripts/tests` 320 pasan y 2 saltadas; `rescoring/tests` 392 pasan y 9 saltadas;
+  frontend 2719 en 280 archivos con `tsc` limpio (vitest entero en un clon limpio del repositorio público).
+  Pasan los `--check` de `ci.yml` (OpenAPI, sellos, inventario, pesos, pipeline, frontera de Open Babel, licencias de modelos,
+  lockfile, SBOM, manifiesto de rescoring, enlaces, registro científico, panel de Bowes, disponibilidad del catálogo) y `ruff`.
+  Sellos: 194 sellados y uno sin sellar a propósito, `FEP-06-HUM`, cuya ronda sigue abierta (192 en un clon del público, que no
+  trae FEP-06-PRE ni PRE-2). Del build, medido sobre `09346758`, pasan las puertas 1 a 8
+  (con las ocho corridas doradas idénticas) y, sobre el runtime preparado con `stage:desktop`, `check:openbabel`,
+  `check:dossier-embebido` y `check:evaluation-runtime` (dos evaluaciones reales con Vina desde el bundle).
+  **La puerta 11, `verify:desktop-runtime`, fallaba y se arregló el mismo día.** Desde `ef7fcef5` (2026-10-31, «añade la voz al
+  runtime») el runtime lleva `onnxruntime` y `av`, y dos binarios pedían DLL que una máquina limpia no tiene: `msvcp140_1.dll` (de
+  `onnxruntime`) y `avicap32.dll` (de `av`). La primera se empaqueta ahora en `tools/vc-runtime/` (extraída del mismo
+  `VC_redist.x64.exe` 14.50.35719 que cita el manifiesto, contrastado por SHA-256 y firma; las otras cinco salen bit a bit iguales
+  de ese instalador) y la segunda, que es del sistema, entra en la lista de DLL de Windows de la guarda. Con eso `verify:desktop-runtime`
+  da 839 binarios, 0 sin resolver, `onnxruntime`, `av` y `faster_whisper` cargan desde el Python empaquetado y `check:evaluation-runtime`
+  pasa. **No medido:** una máquina Windows limpia sin el redistribuible (ni una edición N); sólo el análisis de las tablas de importación.
+- Backend (medida anterior): **5413** pruebas recolectadas con el intérprete que se distribuye
   (`python-embed`, 3.11.9; `docs/api/test-counts.json` cuenta 5411 con su propio criterio), medidas el 2026-10-24 al cerrar 1.0.4
   sin construir: **5385 pasan, 26 saltadas, 2 xfail y 0 fallos** (9,6 min). Además `scripts/tests` 262, `rescoring/tests` 321,
   frontend 2105 en 229 archivos, `tsc` limpio, `cargo check --locked` limpio y todos los `--check` de `ci.yml` en verde (más

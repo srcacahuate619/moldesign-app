@@ -71,6 +71,7 @@ from services.pipeline.protocols.m5.zinc import (
     calcular,
     contar_warheads,
     perfil_para,
+    smiles_legible,
     ums_warhead_score,
 )
 
@@ -137,8 +138,8 @@ def ums_autorizado(smiles: str | None) -> float | None:
     correspondiente es 0.0—; no poder leer el SMILES no lo es. Por eso lo
     segundo devuelve `None` y lo primero un número.
     """
-    if not smiles:
-        return None
+    if not smiles_legible(smiles):
+        return None            # ilegible: `detect_warheads` daría todo falso, y eso sería un cero fabricado
     try:
         return ums_warhead_score(contar_warheads(smiles))
     except Exception:

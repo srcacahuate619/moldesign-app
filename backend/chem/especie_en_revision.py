@@ -37,6 +37,17 @@ en vez de aparecer como REGISTRADA.
   esa amina protonada. Sólo se marca si la especie ACOPLADA la protonó: si el
   producto ya la dejó neutra, no hay nada que revisar.
 
+- **α-aminoéster y N-alquilmorfolina con el N protonado** (D-04 de 1.0.4, opción A, con el alcance de la revisión final
+  del 2026-11-15, §2). Los 14 padres A del α-aminoéster son ésteres metílicos o etílicos con amina PRIMARIA, de siete
+  aminoácidos; los tres de la morfolina son N-metilo, N-etilo y MOPS. Por eso el patrón se acota a eso: `NH3+`, carbono
+  α CH o CH2, éster de metilo o etilo; y morfolina de cuatro CH2 sin fusión con un CH3 o CH2 en el N. Lo demás (aminas
+  secundarias o terciarias, otros ésteres, clopidogrel) queda fuera hasta que haya medida. La molécula con un carboxilato
+  se excluye entera (zwitteriones fuera de alcance). Es una declaración de revisión, no una predicción de pKa: dice que
+  la tabla da el pKa de la clase y que en compuestos publicados con un entorno semejante a pH 7,4 puede haber una
+  proporción apreciable con ese N sin protonar. Evidencia: `docs/auditorias/investigacion-d04-2026-11-15/` y
+  `docs/auditorias/revision-final-1.0.4/comprobar_d04.py` (17 padres A marcados, 0 de 17 especies correctas marcadas,
+  107 controles y 10 fronteras releídos).
+
 Medido contra el panel de 45 moléculas de la auditoría de GPT 6 Sol
 (`D:\\moldesign-audits\\qa-sol\\repro\\t3_microstates.jsonl`): ver
 `tests/test_especie_en_revision.py`, que fija los aciertos y las falsas alarmas.
@@ -100,6 +111,23 @@ _AMINA_CON_ATRACTOR = MotivoDeRevision(
     "≈7,8), así que la carga a pH 7,4 es una decisión abierta.",
 )
 
+_ALFA_AMINOESTER = MotivoDeRevision(
+    "alfa_aminoester",
+    "En revisión por amina primaria protonada junto a un éster metílico o etílico en α (α-aminoéster): se acopló "
+    "ese nitrógeno protonado, y en compuestos publicados con un entorno semejante, a pH 7,4 puede coexistir una "
+    "proporción apreciable con ese nitrógeno sin protonar. La tabla de pKa por clases no resuelve cómo se distribuye "
+    "en esta molécula (ejemplo de la literatura, no esta molécula: el éster etílico de glicina tiene pKa 7,90 a 25 °C "
+    "en NaCl 0,10 M).",
+)
+_N_ALQUILMORFOLINA = MotivoDeRevision(
+    "n_alquilmorfolina",
+    "En revisión por el nitrógeno protonado de una N-alquilmorfolina (anillo de morfolina sin sustituir y un metilo "
+    "o metileno en el N): se acopló ese nitrógeno protonado, y en compuestos publicados con un entorno semejante, a "
+    "pH 7,4 puede coexistir una proporción apreciable con ese nitrógeno sin protonar. La tabla de pKa por clases no "
+    "resuelve cómo se distribuye en esta molécula (ejemplo de la literatura, no esta molécula: la N-etilmorfolina "
+    "dio pKa 7,75 a 25 °C en KNO₃ 0,10 M).",
+)
+
 #: Los textos que escribieron las corridas anteriores a este cambio (sin decir que el ejemplo no era la molécula). Las corridas no se
 #: reescriben: se conservan aquí, cada uno entero, para que sigan traduciéndose.
 TEXTOS_ANTERIORES_DE_MOTIVOS = (
@@ -124,6 +152,22 @@ _SMARTS_AMINA_CON_ATRACTOR = (
     "[NX4+;!H0;!$(N[a])]-[CX4]-C#N",               # nitrilo en α
     "[NX4+;!H0;!$(N[a])]-[CX4]-[CX4]-C#N",         # nitrilo en β
 )
+
+#: D-04 (alcance de la revisión final de 1.0.4). Sobre la especie ACOPLADA: el N debe llegar protonado. La molécula con un
+#: carboxilato queda fuera entera: los zwitteriones carboxílicos no son el caso medido.
+_SMARTS_CARBOXILATO = "[CX3](=O)[OX1-]"
+_SMARTS_ALFA_AMINOESTER = "[NX4+;H3]-[CX4;H1,H2]-[CX3](=[OX1])-[OX2;H0]-[$([CH3]),$([CH2]-[CH3])]"
+_SMARTS_N_ALQUILMORFOLINA = "[NX4+;H1;R1]1(-[CX4;!R;H2,H3])[CH2;R1][CH2;R1][OX2;H0;R1][CH2;R1][CH2;R1]1"
+
+
+@lru_cache(maxsize=1)
+def _patrones_d04():
+    return (
+        Chem.MolFromSmarts(_SMARTS_CARBOXILATO),
+        Chem.MolFromSmarts(_SMARTS_ALFA_AMINOESTER),
+        Chem.MolFromSmarts(_SMARTS_N_ALQUILMORFOLINA),
+    )
+
 
 #: Bases cuyo pKa de clase supera el pH fisiológico: las que la tabla protona.
 _BASES = tuple(c for c in CENTROS if c.caracter == "base" and c.pka > PH_FISIOLOGICO)
@@ -227,4 +271,11 @@ def revisiones_en_mol(acoplada) -> list[tuple[MotivoDeRevision, list[int]]]:
     atractor = {i for p in _patrones_de_atractor() for m in acoplada.GetSubstructMatches(p) for i in m}
     if atractor:
         motivos.append((_AMINA_CON_ATRACTOR, sorted(atractor)))
+    # D-04: también sobre la especie tal como se acopló (el N protonado es lo que se declara).
+    carboxilato, aminoester, morfolina = _patrones_d04()
+    if not acoplada.HasSubstructMatch(carboxilato):
+        for motivo, patron in ((_ALFA_AMINOESTER, aminoester), (_N_ALQUILMORFOLINA, morfolina)):
+            atomos = {i for m in acoplada.GetSubstructMatches(patron) for i in m}
+            if atomos:
+                motivos.append((motivo, sorted(atomos)))
     return motivos

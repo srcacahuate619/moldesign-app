@@ -84,3 +84,43 @@ def test_la_nota_pasa_al_ingles_sin_dejar_castellano():
 
     assert en["valor"].startswith("0.0000 — the input SMILES matches none of the signal's SMARTS patterns")
     assert not _parece_espanol(en["valor"]), en["valor"]
+
+
+# ── Revisión final de 1.0.4 (D-08): un cero es una observación sólo si el SMILES se leyó ─────────────────────────────
+
+
+@pytest.mark.parametrize("ilegible", ["esto no es un smiles", "C1CC", "c1ccc(", "[Zn+9"])
+def test_un_smiles_ilegible_no_se_registra_como_un_cero_calculado(ilegible):
+    """`detect_warheads` devuelve todo falso ante un SMILES que RDKit no lee, y eso daba un 0.0 «calculado»."""
+    assert ums_autorizado(ilegible) is None
+
+
+def test_un_smiles_legible_sin_grupos_sigue_dando_cero_y_con_grupos_no():
+    assert ums_autorizado("CCO") == 0.0
+    assert ums_autorizado("CS(=O)(=O)N") > 0
+
+
+def test_el_score_m5_no_cuenta_un_smiles_ilegible_como_cero_warheads():
+    from services.pipeline.protocols.m5.zinc import calcular, smiles_legible
+
+    assert smiles_legible("CCO") and not smiles_legible("esto no es un smiles") and not smiles_legible(None)
+    resultado = calcular(pdb_id="3DC3", smiles="esto no es un smiles", vina_kcal_mol=-7.0, xgb_prob=0.5,
+                         hay_zinc_confirmado=True, familia_normalizada="metalloenzyme")
+    # Sin la señal de warheads el score no se calcula: no se rellena con un cero.
+    assert resultado.m5_score is None
+
+
+def test_la_nota_del_cero_dice_que_no_descarta_coordinacion_y_que_no_es_el_ums_combinado():
+    assert "ni descarta coordinación" in NOTA_UMS_CERO
+    assert "sin donantes ni MolChamb" in NOTA_UMS_CERO
+
+
+def test_la_nota_anterior_se_sigue_traduciendo_para_los_dossiers_ya_escritos():
+    from services.dossier.bloques_protocolo import NOTA_UMS_CERO_ANTERIOR
+    from tests.test_dossier_en_ingles_completo import _parece_espanol
+
+    for nota in (NOTA_UMS_CERO, NOTA_UMS_CERO_ANTERIOR):
+        en = traducir_dossier({"bloques": [{"id": "protocolo", "requisitos": [
+            {"etiqueta": ETIQUETA, "valor": nota, "estado": "REGISTRADO", "clave": "protocolo.ums"}]}]},
+            "en")["bloques"][0]["requisitos"][0]
+        assert not _parece_espanol(en["valor"]), en["valor"]

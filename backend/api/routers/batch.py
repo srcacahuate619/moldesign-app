@@ -397,7 +397,7 @@ async def get_batch_status(
         "has_active_labels": batch.get("has_labels", False),
         "ef_metrics": batch.get("ef_metrics"),
         # El orden es por diana y por afinidad de Vina (`_orden_exportado`); el nombre viejo describía el orden por índice.
-        "ranking_policy": "por_diana_y_afinidad_de_vina",
+        "ranking_policy": RANKING_POLICY,
         # Ya no gobierna el orden. Se conserva: dice si las filas mezclan pesos de apilado, que es lo que vuelve
         # incomparable entre ellas la columna `total_score` (índice compuesto heredado).
         "ranking_mixto": len({r.get("stacking_degraded") for r in results
@@ -428,11 +428,25 @@ async def cancel_batch(
         request_desktop_job_cancellation(active_task_id)
     return {"batch_id": batch_id, "status": "cancelling", "cancelled": True}
 
+#: Con qué se ordena una exportación y qué es cada columna de score (D-07 de la investigación de 1.0.4, revisión final).
+#: El orden es por diana y por la afinidad de Vina. `TotalScore` es el índice compuesto heredado: SUP-02 (NO_GO) midió
+#: que no ordena una serie mejor que Vina (ρ 0,397 frente a 0,392 en 8T69; 0,03 frente a 0,13 en 8HFI). Se conserva
+#: por compatibilidad con quien ya lo lee, y por eso el encabezado NO se renombra: se declara su semántica al lado.
+RANKING_POLICY = "por_diana_y_afinidad_de_vina"
+SCORE_BASIS = "affinity_kcal"
+NOTA_TOTAL_SCORE = (
+    "TotalScore es el índice compuesto heredado (0-100), no una afinidad ni una probabilidad: no ordena una serie "
+    "mejor que el score de Vina (SUP-02). Las filas se ordenan por diana y por Affinity_kcal (Vina, kcal/mol; más "
+    "negativo, mejor). El índice no es comparable entre filas con distinto apilado."
+)
+
 _EXPORT_HEADERS = [
     "Rank", "Name", "SMILES", "TotalScore", "Affinity_kcal", "MW",
     "LogP", "TPSA", "HBD", "HBA", "Lipinski", "Veber", "Ghose",
     "Egan", "Muegge", "Fsp3", "QED", "SAScore", "PAINS",
     "ADME_Score", "BBB", "hERG_Alerts", "Status", "Error", "Target",
+    # Al final y constantes: quien lee por nombre o por posición las anteriores no nota nada.
+    "RankingPolicy", "ScoreBasis",
 ]
 
 
@@ -489,6 +503,7 @@ def _fila_exportada(rango: int, resultado: dict) -> list[Any]:
         _numero_exportado(resultado.get("adme_score"), 1),
         _regla_exportada(resultado.get("bbb_permeable"), "YES", "NO"),
         alertas, resultado.get("status"), resultado.get("error"), resultado.get("target"),
+        RANKING_POLICY, SCORE_BASIS,
     ]
 
 
@@ -510,6 +525,7 @@ async def export_batch_excel(
     try:
         import openpyxl
         from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+        from openpyxl.comments import Comment
         from openpyxl.utils import get_column_letter
 
         wb = openpyxl.Workbook()
@@ -535,6 +551,8 @@ async def export_batch_excel(
             cell.fill = header_fill
             cell.alignment = Alignment(horizontal="center", wrap_text=True)
             cell.border = thin_border
+            if header == "TotalScore":
+                cell.comment = Comment(NOTA_TOTAL_SCORE, "MolDesign")
 
         # Data rows
         for i, r in enumerate(results):
@@ -554,12 +572,22 @@ async def export_batch_excel(
 
         # Column widths
         widths = [6, 22, 35, 11, 14, 9, 8, 8, 6, 6, 10, 10, 10,
-                  10, 10, 9, 9, 9, 8, 11, 6, 18, 12, 35, 12]
+                  10, 10, 9, 9, 9, 8, 11, 6, 18, 12, 35, 12, 28, 14]
         for i, w in enumerate(widths):
             ws.column_dimensions[get_column_letter(i + 1)].width = w
 
         # Freeze header
         ws.freeze_panes = "A2"
+
+        # Cómo leer las columnas de score: sin esto, `TotalScore` se lee como el score de la molécula.
+        lectura = wb.create_sheet("Lectura")
+        for fila_lectura in (("RankingPolicy", RANKING_POLICY), ("ScoreBasis", SCORE_BASIS),
+                             ("TotalScore", NOTA_TOTAL_SCORE)):
+            lectura.append(fila_lectura)
+        lectura.column_dimensions["A"].width = 16
+        lectura.column_dimensions["B"].width = 110
+        for fila_lectura in lectura.iter_rows():
+            fila_lectura[1].alignment = Alignment(wrap_text=True, vertical="top")
 
         # Auto-filter
         ws.auto_filter.ref = f"A1:{get_column_letter(len(headers))}{len(results) + 1}"

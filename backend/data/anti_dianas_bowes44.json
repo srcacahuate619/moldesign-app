@@ -762,16 +762,16 @@
    "uniprot": "P41145",
    "nombre_proteina": "Kappa-type opioid receptor",
    "riesgo": "Receptor opioide kappa: disforia y sedación.",
-   "estado": "validada",
+   "estado": "estructura_incompatible",
    "pdb_id": "7UL2",
    "metodo": "ELECTRON MICROSCOPY",
    "resolucion_A": 2.4,
    "titulo": "CryoEM Structure of Inactive NTSR1 Bound to SR48692 and Nb6",
+   "site_ligand": "Q6Q",
    "chain": "R",
    "site_chains": [
     "R"
    ],
-   "site_ligand": "Q6Q",
    "center": [
     154.117,
     141.574,
@@ -782,22 +782,13 @@
     19.4,
     19.4
    ],
-   "affinity_threshold": -7.0,
    "redock": {
     "distancia_centroides_A": 0.33,
-    "pose_reproducida": true,
     "rmsd_pose1_A": 0.82,
-    "rmsd_mejor_A": 0.77,
-    "afinidad_kcal": -10.787,
-    "ligando": "Q6Q",
-    "vina": {
-     "exhaustiveness": 16,
-     "seed": 42
-    }
+    "ligando": "Q6Q"
    },
-   "receptor_sha256": "dac4e418e378104db4895b5bd77c1e188ffe08f71989dcb628fe05d41e06066f",
    "sitio_adjudicado": false,
-   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+   "motivo": "7UL2 es el receptor de neurotensina NTSR1 (P30989) con un segmento de OPRK1 insertado, no el receptor opioide kappa. El ligando de la caja (Q6Q, SR48692) está a 3,10 Å de NTSR1 y a 22,89 Å del segmento kappa (medido sobre el depósito). Un score ahí no dice nada del sitio kappa. Queda abierto: elegir y validar otra estructura de OPRK1."
   },
   {
    "assay": "mu (MOP)",
@@ -841,7 +832,8 @@
    },
    "receptor_sha256": "e9c918df83815bad064fa2db5cdcfd574318632466025c7e42210472affb4dd1",
    "sitio_adjudicado": false,
-   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante",
+   "discordancia_de_sitio": "La caja es la del modulador alostérico positivo BMS-986122, no la del bolsillo ortostérico: un score allí no determina agonismo ni depresión respiratoria."
   },
   {
    "assay": "5-HT1A",
@@ -1376,7 +1368,8 @@
    },
    "receptor_sha256": "7206725f125ff8a30067aba266c7c7fc11fd35da18c97eef708cd7d917d20774",
    "sitio_adjudicado": false,
-   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante",
+   "discordancia_de_sitio": "La estructura es NaV1.5 con quinidina (bloqueo del poro); el ensayo del panel es el «site 2» de la batracotoxina. No se ha comprobado que la caja corresponda a ese sitio."
   },
   {
    "assay": "AR",
@@ -1685,7 +1678,8 @@
    },
    "receptor_sha256": "abb1c8eaedb3c3204164a66cd0a8e1715c1f03cb78ad0cb23242a126c442a437",
    "sitio_adjudicado": false,
-   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante"
+   "procedencia_sitio": "caja derivada del ligando cocristalizado; el redocking confirma ese sitio, no que sea el farmacológicamente relevante",
+   "discordancia_de_sitio": "La estructura es GluN1 y su caja es la del sitio de la glicina; el ensayo del panel es competitivo en el sitio del glutamato. No se ha resuelto la diferencia entre los dos sitios del receptor NMDA."
   },
   {
    "assay": "Ca2+ channel (L, dihydropyridine site)",

@@ -121,6 +121,18 @@ def ums_warhead_score(n_warheads: int) -> float:
     return 0.85 + 0.10 * min(n_warheads / 3.0, 1.0)
 
 
+def smiles_legible(smiles: str | None) -> bool:
+    """Si RDKit lee el SMILES. `detect_warheads` devuelve todo falso ante uno ilegible: un cero que no es una observación."""
+    if not smiles:
+        return False
+    try:
+        from rdkit import Chem
+
+        return Chem.MolFromSmiles(smiles) is not None
+    except Exception:  # noqa: BLE001 — sin RDKit no se puede decir que se evaluó
+        return False
+
+
 def contar_warheads(smiles: str) -> int:
     """Cuántos GRUPOS de unión a zinc distintos hay. Ver `scoring/ums.py`.
 
@@ -400,7 +412,8 @@ def calcular(
         "vina_kcal_mol": vina_kcal_mol,
         "xgb_prob": xgb_prob,
         "gnn_d_prob": gnn_d_prob,
-        "n_warheads": contar_warheads(smiles) if smiles else None,
+        # Un SMILES que RDKit no lee no es una observación de «cero grupos»: la señal queda ausente, como sin SMILES.
+        "n_warheads": contar_warheads(smiles) if smiles_legible(smiles) else None,
     }
     if señales["n_warheads"] is not None:
         señales["ums_warhead"] = ums_warhead_score(señales["n_warheads"])

@@ -14,6 +14,9 @@ Bowes et al. 2012, cada una con su estado:
 - `sin_estructura_preparable`: hay estructura, pero la preparación o el
   redocking no pasan. Se ofrece en la lista y no se puede seleccionar.
 - `sin_estructura`: no hay estructura humana que cumpla los filtros.
+- `estructura_incompatible`: superó el redocking, pero el depósito no es la proteína
+  del ensayo (hoy, 7UL2: NTSR1 con un segmento de OPRK1). No se ofrece; su caja histórica se
+  conserva sólo como registro.
 
 El redocking demuestra que la caja describe el sitio de ESE ligando. **No
 demuestra que ese sitio sea el farmacológicamente relevante**: con hERG, las
@@ -97,6 +100,31 @@ ADOPCION_5HT2B = RAIZ / "docs" / "catalog_versions" / "anti-diana-5ht2b-2026-10-
 SITIO_MAX_A = 4.0
 RMSD_MAX_A = 2.0
 
+#: Filas validadas cuyo sitio, aun reproducido por el redocking, NO es el del ensayo que motiva la anti-diana (D-09 de la
+#: revisión final de 1.0.4). La fila sigue acoplándose y conserva su score; lo que cambia es que la alerta dice por qué esa caja no
+#: equivale al sitio del ensayo. No sustituye una adjudicación: es lo que se sabe de la discordancia.
+DISCORDANCIA_DE_SITIO: dict[str, str] = {
+    "6LQA": ("La estructura es NaV1.5 con quinidina (bloqueo del poro); el ensayo del panel es el «site 2» de la "
+             "batracotoxina. No se ha comprobado que la caja corresponda a ese sitio."),
+    "8Y72": ("La caja es la del modulador alostérico positivo BMS-986122, no la del bolsillo ortostérico: un score "
+             "allí no determina agonismo ni depresión respiratoria."),
+    "9GJ1": ("La estructura es GluN1 y su caja es la del sitio de la glicina; el ensayo del panel es competitivo en el "
+             "sitio del glutamato. No se ha resuelto la diferencia entre los dos sitios del receptor NMDA."),
+}
+
+#: Estructuras que superaron el redocking pero que NO son la proteína del ensayo (D-09 de 1.0.4, revisión final §10).
+#: El redocking sólo prueba que la caja describe la cavidad de ese ligando; no prueba que la cavidad sea de esa
+#: diana. Una fila así no se ofrece: conservarla bajo la identidad equivocada engaña aunque lleve un aviso.
+#: Se conserva la evidencia (PDB, título, redocking y la caja, sólo como registro) y `sitio_adjudicado: false`, para
+#: que las corridas históricas que la usaron sigan declarando su límite. Sustituirla exige otra estructura, no quitar
+#: esta entrada.
+ESTRUCTURA_INCOMPATIBLE: dict[str, str] = {
+    "7UL2": ("7UL2 es el receptor de neurotensina NTSR1 (P30989) con un segmento de OPRK1 insertado, no el "
+             "receptor opioide kappa. El ligando de la caja (Q6Q, SR48692) está a 3,10 Å de NTSR1 y a 22,89 Å "
+             "del segmento kappa (medido sobre el depósito). Un score ahí no dice nada del sitio kappa. "
+             "Queda abierto: elegir y validar otra estructura de OPRK1."),
+}
+
 
 def construir() -> dict:
     datos = json.loads(VALIDACION.read_text(encoding="utf-8"))
@@ -151,6 +179,27 @@ def construir() -> dict:
             continue
         if buenas:
             mejor = min(buenas, key=lambda e: e.get("distancia_centroides_A") or 99)
+            if mejor["pdb_id"] in ESTRUCTURA_INCOMPATIBLE:
+                # No se ofrece: sólo las `validada` son seleccionables, aunque la fila conserve su caja como registro.
+                entrada.update({
+                    "estado": "estructura_incompatible",
+                    "pdb_id": mejor["pdb_id"], "metodo": mejor.get("metodo"),
+                    "resolucion_A": mejor.get("resolucion_A"), "titulo": mejor.get("titulo"),
+                    "site_ligand": mejor.get("site_ligand"),
+                    # La caja con la que se acoplaron las corridas anteriores, conservada como registro: es la evidencia
+                    # de la incompatibilidad (la geometría la mide a partir de ella) y no la convierte en acoplable, porque
+                    # sólo las `validada` se ofrecen (`anti_dianas_seleccionables_de_bowes`).
+                    "chain": (mejor.get("site_chains") or ["A"])[0],
+                    "site_chains": mejor.get("site_chains"),
+                    "center": mejor["caja"]["centro"], "size": mejor["caja"]["tamano"],
+                    "redock": {"distancia_centroides_A": mejor.get("distancia_centroides_A"),
+                               "rmsd_pose1_A": mejor.get("rmsd_pose1_A"),
+                               "ligando": (mejor.get("ligando") or {}).get("comp_id")},
+                    "sitio_adjudicado": False,
+                    "motivo": ESTRUCTURA_INCOMPATIBLE[mejor["pdb_id"]],
+                })
+                dianas.append(entrada)
+                continue
             entrada.update({
                 "estado": "validada",
                 "pdb_id": mejor["pdb_id"], "metodo": mejor.get("metodo"),
@@ -172,6 +221,8 @@ def construir() -> dict:
                 "procedencia_sitio": ("caja derivada del ligando cocristalizado; el redocking "
                                       "confirma ese sitio, no que sea el farmacológicamente relevante"),
             })
+            if mejor["pdb_id"] in DISCORDANCIA_DE_SITIO:
+                entrada["discordancia_de_sitio"] = DISCORDANCIA_DE_SITIO[mejor["pdb_id"]]
         elif fila["estructuras"]:
             estados = sorted({e.get("estado") for e in fila["estructuras"] if e.get("estado")})
             entrada.update({
@@ -250,6 +301,7 @@ _LEYENDA = {
     "en_el_panel_por_defecto": "ya en el panel por defecto",
     "sin_estructura_preparable": "sin sitio confirmado",
     "sin_estructura": "sin estructura humana",
+    "estructura_incompatible": "estructura de otra proteína",
 }
 
 
@@ -314,7 +366,7 @@ def markdown(datos: dict) -> str:
             f"| {'—' if pose is None else f'{pose:.2f}'} "
             f"| {'' if ok is None else ('sí' if ok else 'no')} |")
     sin = [d for d in datos["dianas"]
-           if d["estado"] in ("sin_estructura", "sin_estructura_preparable")]
+           if d["estado"] in ("sin_estructura", "sin_estructura_preparable", "estructura_incompatible")]
     if sin:
         lineas += ["", "## Las que no entran, y por qué", ""]
         for d in sin:

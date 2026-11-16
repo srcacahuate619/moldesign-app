@@ -216,9 +216,15 @@ def test_el_dossier_detecta_la_abstencion_por_los_hechos():
 # componente usa, en TODOS los idiomas, y miran el texto que el usuario lee.
 
 _CLAVE_EN_USO = re.compile(r"""\bt\(\s*["']([A-Za-z_][A-Za-z0-9_.]*)["']""")
+
+#: `clave: "texto"` o la misma entrada partida en dos líneas: prettier parte las entradas largas y
+#: `pr_pep_experimental_aviso`, la que dice que el camino peptídico es experimental, estaba así y el lector anterior
+#: no la veía.
 _ENTRADA_TRADUCIDA = re.compile(
-    r"""^\s*(?:["']?)([A-Za-z_][A-Za-z0-9_.]*)(?:["']?)\s*:\s*["'](.*)["'],?\s*$"""
+    r"""^[ \t]*["']?([A-Za-z_][A-Za-z0-9_.]*)["']?[ \t]*:[ \t]*\n?[ \t]*"((?:[^"\\\n]|\\.)*)"[ \t]*,?[ \t]*$""",
+    re.MULTILINE,
 )
+
 
 TRADUCCIONES = RAIZ / "frontend" / "context" / "traducciones"
 
@@ -232,11 +238,8 @@ def _diccionario() -> dict[str, list[str]]:
     """
     resuelto: dict[str, list[str]] = {}
     for archivo in sorted(TRADUCCIONES.glob("*.ts")):
-        for linea in archivo.read_text(encoding="utf-8").splitlines():
-            encontrado = _ENTRADA_TRADUCIDA.match(linea)
-            if encontrado:
-                clave, texto = encontrado.groups()
-                resuelto.setdefault(clave, []).append(texto)
+        for clave, texto in _ENTRADA_TRADUCIDA.findall(archivo.read_text(encoding="utf-8")):
+            resuelto.setdefault(clave, []).append(texto)
     return resuelto
 
 
@@ -266,10 +269,12 @@ AFIRMACIONES_PROHIBIDAS = (
     "y acopla con Vina",
     "acopla el resultado con AutoDock Vina",
     "docking peptídico completado",
+    # El estado científico del camino es EXPERIMENTAL (ADR 76 §9.1): no se presenta como validado.
+    "docking peptídico validado",
+    "validated peptide docking",
 )
 
 VISTAS_DEL_MOTOR = (
-    RAIZ / "frontend" / "components" / "interfaces" / "pro" / "DockingEnginePanel.tsx",
     RAIZ / "frontend" / "components" / "interfaces" / "pro" / "ProOptionsModal.tsx",
     RAIZ / "backend" / "services" / "motores" / "catalogo.py",
 )
@@ -288,32 +293,59 @@ def test_la_interfaz_no_afirma_que_esmfold_completa_el_acoplamiento():
             )
 
 
+MENU_DE_OPCIONES = RAIZ / "frontend" / "components" / "interfaces" / "pro" / "ProOptionsModal.tsx"
+
+#: Las dos frases del menú vivo que dicen en qué estado está el camino peptídico, y lo que cada una tiene que decir
+#: en TODOS los idiomas. La primera, que es experimental; la segunda, que la transferencia puede abstenerse y entonces
+#: no hay afinidad. Antes esta exigencia se leía en `DockingEnginePanel`, un componente que nadie montaba: la guardia
+#: estaba verde mientras el menú real decía otra cosa (revisión final de 1.0.4, D-10 y B-6).
+EXIGENCIAS_DEL_MENU = {
+    "pr_pep_experimental_aviso": (("xperimental",), "dice que es experimental"),
+    "op_esm_desc": (("se abstiene", "abstains"), "dice que la transferencia puede abstenerse"),
+}
+
+
+def _incumplimientos_del_menu(fuente: str, catalogo: dict[str, list[str]]) -> list[str]:
+    """Qué le falta al menú para decir el estado real. Pura, para poder atacarla con muestras."""
+    usadas = set(_CLAVE_EN_USO.findall(fuente))
+    faltas = []
+    for clave, (marcas, que) in EXIGENCIAS_DEL_MENU.items():
+        if clave not in usadas:
+            faltas.append(f"el menú ya no usa `{clave}`")
+            continue
+        textos = catalogo.get(clave, [])
+        if len(textos) < 2:
+            faltas.append(f"`{clave}` no está en los dos idiomas ({len(textos)})")
+        faltas += [f"`{clave}` no {que} en: {t[:60]}…" for t in textos if not any(m in t for m in marcas)]
+    return faltas
+
+
 def test_la_interfaz_dice_lo_que_si_hace():
-    """No basta con quitar la afirmación: hay que decir el estado real.
+    """No basta con quitar la afirmación: el menú que ve el usuario tiene que decir el estado real.
 
-    El texto vive hoy en `t("auto_14578be07d4d")` y se muestra en español e
-    inglés. Se exige en LOS DOS: una traducción que pierda la salvedad diría al
-    usuario inglés que el acoplamiento se evaluó.
+    El camino es EXPERIMENTAL (ADR 76 §9.1): la transferencia está implementada, no hay golden positivo ni cohorte que
+    valide poses. El menú lo dice y dice que, si la geometría transferida no pasa, se abstiene y no da afinidad. Se
+    exige en LOS DOS idiomas: una traducción que pierda la salvedad diría al usuario inglés que el acoplamiento se evaluó.
     """
-    ruta = RAIZ / "frontend" / "components" / "interfaces" / "pro" / "DockingEnginePanel.tsx"
-    fuente = ruta.read_text(encoding="utf-8")
-    catalogo = _diccionario()
+    faltas = _incumplimientos_del_menu(MENU_DE_OPCIONES.read_text(encoding="utf-8"), _diccionario())
+    assert not faltas, faltas
 
-    claves = [c for c in _CLAVE_EN_USO.findall(fuente) if c in catalogo]
-    textos = [t for c in claves for t in catalogo[c]] + [fuente]
 
-    def dice_que_pliega(texto: str) -> bool:
-        return "plegamiento" in texto or "folding" in texto.lower()
+def test_el_guardian_del_menu_demuestra_que_ve():
+    """Una muestra honesta pasa; una que pierde la salvedad, en un idioma o en los dos, falla."""
+    uso = 't("pr_pep_experimental_aviso") t("op_esm_desc")'
+    honesto = {"pr_pep_experimental_aviso": ["Experimental: ESMFold predice…", "Experimental: ESMFold predicts…"],
+               "op_esm_desc": ["…se abstiene y no da afinidad.", "…the transfer abstains and gives no affinity."]}
+    assert _incumplimientos_del_menu(uso, honesto) == []
 
-    def dice_que_no_acopla(texto: str) -> bool:
-        return "no soportada" in texto or "not yet supported" in texto.lower()
-
-    honestos = [t for t in textos if dice_que_pliega(t) and dice_que_no_acopla(t)]
-    assert len(honestos) >= 2, (
-        "se quitó la afirmación pero no se puso el estado real en su lugar, o "
-        "sólo se puso en un idioma: el panel tiene que decir que ESMFold pliega "
-        f"y que la conversión no está soportada. Encontrados: {len(honestos)}"
-    )
+    sin_salvedad_en_ingles = {**honesto, "op_esm_desc": ["…se abstiene…", "Folds the peptide and docks it with Vina."]}
+    assert _incumplimientos_del_menu(uso, sin_salvedad_en_ingles)
+    un_solo_idioma = {**honesto, "pr_pep_experimental_aviso": ["Experimental: ESMFold predice…"]}
+    assert _incumplimientos_del_menu(uso, un_solo_idioma)
+    sin_clave = 't("op_esm_desc")'
+    assert _incumplimientos_del_menu(sin_clave, honesto)
+    # El menú real no está vacío de claves: si el lector de traducciones dejara de cargar, esto cae.
+    assert len(_diccionario().get("op_esm_desc", [])) >= 2
 
 
 def test_el_guardian_de_la_interfaz_demuestra_que_ve():
@@ -327,8 +359,8 @@ def test_el_guardian_de_la_interfaz_demuestra_que_ve():
 
     # 1. Ve a través de la indirección: la clave del panel resuelve, y en más
     #    de un idioma. Si el diccionario dejara de cargarse, esto cae.
-    assert len(catalogo.get("auto_14578be07d4d", [])) >= 2, (
-        "el diccionario dejó de resolver la clave del panel de motores: el "
+    assert len(catalogo.get("op_esm_desc", [])) >= 2, (
+        "el diccionario dejó de resolver la clave del menú de motores: el "
         "guardián estaría mirando un componente vacío de texto"
     )
 

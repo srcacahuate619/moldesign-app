@@ -105,7 +105,7 @@ export const pro: ModuloDeTraduccion = {
     pr_signal_no_output: "sin salida serializada",
     pr_stage_error: "Error en la etapa",
     pr_sel_threshold_review: "REVISAR — Se rebasó el umbral definido en anti-targets",
-    pr_sel_threshold_clear: "SIN ALERTA EN ESTE PANEL — Ningún anti-target rebasó el umbral definido",
+    pr_sel_threshold_clear: "SIN ALERTA EN ESTE PANEL — Ningún anti-target evaluado rebasó el umbral definido. Esto no descarta que el compuesto bloquee una diana: sólo dice que ninguna de las evaluadas cruzó el umbral con Vina.",
     pr_pipeline_sub_this_run: "de esta corrida",
     // ── Preparación previa de la corrida ──────────────────────────
     pr_preflight_state_blocking: "Bloquea",
@@ -851,7 +851,7 @@ export const pro: ModuloDeTraduccion = {
     pr_signal_no_output: "no serialized output",
     pr_stage_error: "Stage error",
     pr_sel_threshold_review: "REVIEW — The threshold defined for anti-targets was exceeded",
-    pr_sel_threshold_clear: "NO ALERT IN THIS PANEL — No anti-target exceeded the defined threshold",
+    pr_sel_threshold_clear: "NO ALERT IN THIS PANEL — No evaluated anti-target exceeded the defined threshold. This does not rule out that the compound blocks a target: it only says that none of the evaluated ones crossed the threshold with Vina.",
     pr_pipeline_sub_this_run: "from this run",
     // ── Run pre-flight ────────────────────────────────────────────
     pr_preflight_state_blocking: "Blocks",

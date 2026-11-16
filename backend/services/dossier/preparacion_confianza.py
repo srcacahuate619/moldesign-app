@@ -103,10 +103,18 @@ _LEIDO_POR_FUENTE = {
 #: residuo, se dice que es el Cα; con la firma sola, no (el texto genérico de ``_LEIDO`` lo deja sin verificar).
 _LEIDO_POR_LECTURA = {
     "calfa": (
-        "pLDDT leído de _ma_qa_metric_local: en este archivo coincide con el factor B del Cα de cada residuo, que no "
-        "es la media del residuo que da el modelo (así lo escribe Chai-1 0.6.1; el archivo no declara su versión)"
+        "pLDDT leído de _ma_qa_metric_local; los valores leídos coinciden con el factor B de los Cα correspondientes. "
+        "El archivo declara Chai-1 y no acredita su versión"
     ),
 }
+#: El texto que escribieron las corridas anteriores a la revisión final de 1.0.4. Decía «que no es la media del residuo»,
+#: y un factor B que varía dentro del residuo no lo demuestra: valores por encima y por debajo pueden compensarse y dar
+#: la misma media (contraejemplo de 90 residuos, `docs/auditorias/revision-final-1.0.4/comprobar_d01.py`). Los dossiers
+#: ya escritos no se reescriben: el texto se conserva entero para que siga traduciéndose.
+TEXTO_ANTERIOR_DE_LECTURA_CALFA = (
+    "pLDDT leído de _ma_qa_metric_local: en este archivo coincide con el factor B del Cα de cada residuo, que no "
+    "es la media del residuo que da el modelo (así lo escribe Chai-1 0.6.1; el archivo no declara su versión)"
+)
 #: Cómo se leyó el pLDDT, según dónde estaba y si la convención de esa fuente está verificada. Frases enteras, para
 #: que cada una tenga su inglés exacto (`core/i18n_receptores_propios.py`).
 _LEIDO = {

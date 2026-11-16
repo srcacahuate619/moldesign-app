@@ -1,0 +1,71 @@
+{
+  "tipo": "Controles negativos del guardián estático; no ejecuta las puertas ni modifica Tauri",
+  "base_sin_mutar_pasa": true,
+  "puertas_declaradas": 16,
+  "controles": [
+    {
+      "comando_retirado_en_memoria": "npm run check:runtime-arbol",
+      "omision_detectada": false
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:csp",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:rescoring-manifest",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:m5-manifest",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:goldens",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:pesos-stacking",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:openbabel-fuente",
+      "omision_detectada": false
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:molcy-motor",
+      "omision_detectada": false
+    },
+    {
+      "comando_retirado_en_memoria": "npm run stage:desktop",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:openbabel",
+      "omision_detectada": false
+    },
+    {
+      "comando_retirado_en_memoria": "npm run verify:desktop-runtime",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:evaluation-runtime",
+      "omision_detectada": false
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:dossier-embebido",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run build:desktop",
+      "omision_detectada": true
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:exported-api-url",
+      "omision_detectada": false
+    },
+    {
+      "comando_retirado_en_memoria": "npm run check:no-remote-assets",
+      "omision_detectada": false
+    }
+  ]
+}

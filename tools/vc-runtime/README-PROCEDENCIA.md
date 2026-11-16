@@ -8,6 +8,7 @@ Este directorio conserva el conjunto **app-local** mínimo que necesitan los bin
 - Instalador oficial contrastado: `https://aka.ms/vs/18/release/14.50.35719/VC_redist.x64.exe`.
 - Firma Authenticode comprobada: Microsoft Corporation, válida.
 - Hashes y tamaño: `vc-runtime-manifest.json`.
+- `msvcp140_1.dll` se añadió el 2026-11-15, porque `onnxruntime` (la voz de MolChat) la pide y una máquina limpia no la tiene. Se extrajo del propio `VC_redist.x64.exe` citado arriba, descargado de `source_url` y contrastado con el SHA-256 y el tamaño del manifiesto, y no de `System32` (que trae otra versión, 14.51). Las otras cinco DLL salen bit a bit iguales del mismo instalador, lo que prueba que es la misma fuente. Versión de archivo 14.50.35719.0, firma Authenticode de Microsoft válida.
 
 Se versionan porque el instalador usa despliegue app-local y debe ser reconstruible sin depender de que la máquina de build conserve una instalación concreta de Visual Studio. `scripts/vc_runtime_source.py` verifica los bytes antes de que `bundle_helper.py` o `stage_openbabel_tool.py` puedan copiarlos. No se copian desde `System32`.
 
