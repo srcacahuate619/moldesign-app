@@ -1036,8 +1036,17 @@ párrafo contra el SBOM. Ver `docs/69_GATE_DE_RELEASE.md`.
     ninguna en PDBbind, INCONCLUSIVE; la receta del catálogo retira todas y eso no está medido) y los pKa medidos (pide
     descargar un conjunto público).
 - Arranque medido en entorno de producción: **~6 s**.
-- **Cero usuarios externos** todavía. El propio roadmap identifica esto como el
-  riesgo de muerte real del proyecto, por encima del científico.
+- **Adopción: 38 instalaciones desde la Microsoft Store, en varios países** (métricas de Partner Center que aporta el propietario,
+  2026-11-15; no consta qué versión ni qué ventana de fechas cubren, ni se nombran los países). Es lo único que se mide. Lo que no dice:
+  - **no es uso.** MolDesign no tiene analítica propia ni informes remotos de fallos (`PRIVACY.md`) y funciona sin red, así que
+    no hay datos de si alguien abrió la aplicación, completó una evaluación o volvió a ella; el contador de la Store es la única señal;
+  - **no consta si descuenta instalaciones del propio equipo** (la VM de pruebas, otras máquinas);
+  - **no es valor.** Ninguna medida dice todavía si el paquete reduce iteraciones o rechazos tardíos para alguien (`FEP-06`), y no hay
+    un usuario externo con nombre (H3 de `docs/50_ROADMAP.md`).
+
+  El riesgo de muerte real del proyecto, por encima del científico, sigue siendo el de la validación externa: el cambio es que ya no se
+  puede decir «nadie lo ha instalado», y todavía no se puede decir «alguien lo usa y le sirve». La línea «cero usuarios» del
+  roadmap es del 2026-09-22 y se conserva como lo que era entonces.
 - La ciencia de ESMFold **no está validada**: está probado que carga y sirve
   poses, no que las poses sean buenas.
 
